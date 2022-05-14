@@ -3,7 +3,7 @@ import type { IAudioMetadata } from 'music-metadata/lib';
 import Cover from './Cover';
 
 export default function Hello() {
-  const [songs, setSongs] = useState<IAudioMetadata[]>([]);
+  const [songs, setSongs] = useState<(IAudioMetadata & { path: string })[]>([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -23,6 +23,7 @@ export default function Hello() {
           <Cover
             key={song.common.title}
             image={song.common.picture[0].data.buffer}
+            path={song.path}
           />
         ) : (
           <h1>Cannot load cover...</h1>

@@ -1,7 +1,7 @@
 import { ipcMain } from 'electron';
 import MusicParser from './music-parser';
 
-const LIBRARY_PATH = 'C:/Users/Geoxor/Documents/GitHub/amethyst/music';
+const LIBRARY_PATH = 'F:/Programming/projects/collaboration/amethyst/music';
 
 ipcMain.handle('load-library', () => MusicParser.loadMusic(LIBRARY_PATH));
 
