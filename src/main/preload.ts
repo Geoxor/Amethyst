@@ -1,10 +1,13 @@
 import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
 
-export type Channels = 'ipc-example';
+export type Channels = 'ipc-example' | 'some-name';
 
 contextBridge.exposeInMainWorld('electron', {
   ipcRenderer: {
-    sendMessage(channel: Channels, args: unknown[]) {
+    invoke(channel: Channels, args?: string[]) {
+      return ipcRenderer.invoke(channel, args);
+    },
+    send(channel: Channels, args: unknown[]) {
       ipcRenderer.send(channel, args);
     },
     on(channel: Channels, func: (...args: unknown[]) => void) {
