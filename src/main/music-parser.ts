@@ -15,10 +15,14 @@ export default class MusicParser {
   public static async loadMusic(dir: string): Promise<IAudioMetadata[]> {
     const files = await this.readDirectory(dir);
     const music = await Promise.all(
-      files.map(async (file) => {
-        const path = `${dir}/${file}`;
-        return mm.parseBuffer(fs.readFileSync(path));
-      })
+      files
+        .filter((file) => file.endsWith('.flac'))
+        .map(async (file) => {
+          const path = `${dir}/${file}`;
+          console.log(path);
+
+          return mm.parseBuffer(fs.readFileSync(path));
+        })
     );
     return music;
   }

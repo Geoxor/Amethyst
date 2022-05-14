@@ -18,18 +18,16 @@ export default function Hello() {
 
   return (
     <div className="p-4 flex flex-wrap gap-4">
-      {songs.map((song) => {
-        if (song.common.picture) {
-          return (
-            <Cover
-              key={song.common.title}
-              image={song.common.picture[0].data.buffer}
-            />
-          );
-        }
-
-        return <h1>Cannot load cover...</h1>;
-      })}
+      {songs.map((song) =>
+        song.common.picture ? (
+          <Cover
+            key={song.common.title}
+            image={song.common.picture[0].data.buffer}
+          />
+        ) : (
+          <h1>Cannot load cover...</h1>
+        )
+      )}
     </div>
   );
 }
