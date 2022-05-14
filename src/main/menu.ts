@@ -200,6 +200,9 @@ export default class MenuBuilder {
           {
             label: '&Open',
             accelerator: 'Ctrl+O',
+            click: () => {
+              this.mainWindow.webContents.send('open-file');
+            },
           },
           {
             label: '&Close',

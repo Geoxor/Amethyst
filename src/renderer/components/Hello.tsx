@@ -1,38 +1,35 @@
-import icon from '../../../assets/icon.svg';
+import { useEffect, useState } from 'react';
+import type { IAudioMetadata } from 'music-metadata/lib';
+import Cover from './Cover';
 
 export default function Hello() {
+  const [songs, setSongs] = useState<IAudioMetadata[]>([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      window.electron.ipcRenderer
+        .invoke('load-library')
+        .then((data: any) => setSongs(data))
+        .catch(() => console.log('Failed to fetch songs..'));
+    }
+
+    fetchData();
+  }, []);
+
   return (
-    <div>
-      <div className="Hello">
-        <img width="200px" alt="icon" src={icon} />
-      </div>
-      <h1>electron-react-boilerplate</h1>
-      <div className="Hello">
-        <a
-          href="https://electron-react-boilerplate.js.org/"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <button type="button">
-            <span role="img" aria-label="books">
-              📚
-            </span>
-            Read our docs
-          </button>
-        </a>
-        <a
-          href="https://github.com/sponsors/electron-react-boilerplate"
-          target="_blank"
-          rel="noreferrer"
-        >
-          <button type="button">
-            <span role="img" aria-label="books">
-              🙏
-            </span>
-            Donate
-          </button>
-        </a>
-      </div>
+    <div className="p-4 flex flex-wrap gap-4">
+      {songs.map((song) => {
+        if (song.common.picture) {
+          return (
+            <Cover
+              key={song.common.title}
+              image={song.common.picture[0].data.buffer}
+            />
+          );
+        }
+
+        return <h1>Cannot load cover...</h1>;
+      })}
     </div>
   );
 }

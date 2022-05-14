@@ -4,6 +4,7 @@ logs
 
 # Runtime data
 pids
+music
 *.pid
 *.seed
 

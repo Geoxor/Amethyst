@@ -34,13 +34,9 @@
     ".eslintcache",
     ".eslintignore",
     ".gitattributes",
-    ".gitignore",
     "tsconfig.json",
     "assets/entitlements.mac.plist",
-    "assets/assets.d.ts",
-    "tailwind.config.js",
     "postcss.config.js",
-    ".erb",
     "assets/icon.icns",
     ".vscode",
     ".eslintrc.js",
@@ -50,7 +46,10 @@
     "package-lock.json",
     "package.json",
     "src/renderer/index.ejs",
-    "assets/icons"
+    "assets/icons",
+    ".gitignore",
+    ".erb",
+    "tailwind.config.js"
   ],
   "files.exclude": {
     "**/.git": true,
@@ -71,13 +70,9 @@
     ".eslintcache": true,
     ".eslintignore": true,
     ".gitattributes": true,
-    ".gitignore": true,
     "tsconfig.json": true,
     "assets/entitlements.mac.plist": true,
-    "assets/assets.d.ts": true,
-    "tailwind.config.js": true,
     "postcss.config.js": true,
-    ".erb": true,
     "assets/icon.icns": true,
     ".vscode": true,
     ".eslintrc.js": true,
@@ -87,6 +82,9 @@
     "package-lock.json": true,
     "package.json": true,
     "src/renderer/index.ejs": true,
-    "assets/icons": true
+    "assets/icons": true,
+    ".gitignore": true,
+    ".erb": true,
+    "tailwind.config.js": true
   }
 }
