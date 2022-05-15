@@ -1,11 +1,12 @@
 import Player from '../player';
 
-interface Props {
+export default function Cover({
+  image,
+  path,
+}: {
   image: ArrayBufferLike;
   path: string;
-}
-
-export default function Cover({ image, path }: Props) {
+}) {
   return (
     <button type="button" onClick={() => Player.playAudio(path)}>
       <img

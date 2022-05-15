@@ -32,8 +32,8 @@
     ]
   },
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.erb.ElectronReact",
+    "productName": "Amethyst",
+    "appId": "org.erb.Amethyst",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "files": [
