@@ -1,7 +1,7 @@
 {
   "name": "amethyst",
   "productName": "Amethyst",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "main": "./release/dist/main/main.js",
   "description": "A music box made of amethyst.",
   "scripts": {
