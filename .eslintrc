@@ -1,0 +1,14 @@
+{
+  "extends": ["@antfu"],
+  "rules": {
+    "no-tabs": "off",
+    "indent": "off",
+    "@typescript-eslint/indent": ["error", "tab"],
+    "quotes": ["warn", "double"],
+    "@typescript-eslint/quotes": ["warn", "double"],
+    "semi": ["warn", "always"],
+    "@typescript-eslint/semi": ["warn", "always"],
+    "no-console": "warn",
+    "@typescript-eslint/no-var-requires": "off"
+  }
+}

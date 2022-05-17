@@ -1,13 +1,13 @@
-import { Howl } from 'howler';
+import { Howl } from "howler";
 
 export default class Player {
-  static playAudio(path: string) {
-    const sound = new Howl({
-      src: [path],
-      html5: true,
-      format: ['mp3'],
-    });
+	static playAudio(path: string) {
+		const sound = new Howl({
+			src: [path],
+			html5: true,
+			format: ["mp3"],
+		});
 
-    sound.play();
-  }
+		sound.play();
+	}
 }
