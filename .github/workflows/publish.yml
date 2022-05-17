@@ -24,7 +24,7 @@ jobs:
       - name: Install Node and NPM
         uses: actions/setup-node@v1
         with:
-          node-version: 16
+          node-version: 18
           cache: npm
 
       - name: Install dependencies
@@ -41,6 +41,4 @@ jobs:
           # This is used for uploading release assets to github
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npm run postinstall
           npm run build
-          npm exec electron-builder -- --publish always --win --mac --linux
