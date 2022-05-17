@@ -23,8 +23,8 @@ if (process.env.NODE_ENV === "production")
 const isDebug
   = process.env.NODE_ENV === "development" || process.env.DEBUG_PROD === "true";
 
-if (isDebug)
-	import("electron-debug").then(electronDebug => electronDebug());
+// if (isDebug)
+// import("electron-debug").then(electronDebug => electronDebug());
 
 const installExtensions = async () => {
 	import("electron-devtools-installer")

@@ -33,7 +33,7 @@ export default defineConfig({
 	},
 	build: {
 		sourcemap: true,
-		outDir: "dist",
+		outDir: "../../release/dist/renderer",
 		assetsDir: ".",
 		emptyOutDir: true,
 		brotliSize: false,
