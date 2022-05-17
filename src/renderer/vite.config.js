@@ -2,6 +2,7 @@ import { join } from "path";
 import vue from "@vitejs/plugin-vue";
 import { defineConfig } from "vite";
 import WindiCSS from "vite-plugin-windicss";
+import Components from "unplugin-vue-components/vite";
 
 const PACKAGE_ROOT = __dirname;
 
@@ -17,12 +18,17 @@ export default defineConfig({
 			"@/": `${join(PACKAGE_ROOT, "./")}/`,
 		},
 	},
-	plugins: [WindiCSS({
-		scan: {
-			dirs: ["."], // all files in the cwd
-			fileExtensions: ["vue", "js", "ts"], // also enabled scanning for js/ts
-		},
-	}), vue()],
+	plugins: [
+		Components({
+		}),
+		WindiCSS({
+			scan: {
+				dirs: ["."], // all files in the cwd
+				fileExtensions: ["vue", "js", "ts"], // also enabled scanning for js/ts
+			},
+		}),
+		vue(),
+	],
 	base: "",
 	server: {
 		fs: {

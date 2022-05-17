@@ -197,6 +197,7 @@
     "ts-loader": "^9.2.8",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.3",
+    "unplugin-vue-components": "^0.19.5",
     "url-loader": "^4.1.1",
     "vue-tsc": "^0.34.15"
   },

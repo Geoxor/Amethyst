@@ -1,5 +1,8 @@
 {
   "compilerOptions": {
+    "typeRoots": [
+      "node_modules/@types"
+    ],
     "target": "es2021",
     "module": "commonjs",
     "lib": ["dom", "es2021"],
@@ -21,5 +24,5 @@
     "allowJs": true,
     "outDir": "release/app/dist"
   },
-  "exclude": ["test", "release/build", "release/app/dist"]
+  "exclude": ["test", "release"]
 }
