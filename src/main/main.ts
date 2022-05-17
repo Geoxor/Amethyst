@@ -17,28 +17,25 @@ import "./handles";
 
 let mainWindow: BrowserWindow | null = null;
 
-if (process.env.NODE_ENV === "production") {
-	const sourceMapSupport = require("source-map-support");
-	sourceMapSupport.install();
-}
+if (process.env.NODE_ENV === "production")
+	import("source-map-support").then(smc => smc.install());
 
 const isDebug
   = process.env.NODE_ENV === "development" || process.env.DEBUG_PROD === "true";
 
 if (isDebug)
-	require("electron-debug")();
+	import("electron-debug").then(electronDebug => electronDebug());
 
 const installExtensions = async () => {
-	const installer = require("electron-devtools-installer");
-	const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
-	const extensions = ["REACT_DEVELOPER_TOOLS"];
-
-	return installer
-		.default(
-			extensions.map(name => installer[name]),
-			forceDownload,
+	import("electron-devtools-installer")
+		.then(({ default: installExtension, VUEJS3_DEVTOOLS }) =>
+			installExtension(VUEJS3_DEVTOOLS, {
+				loadExtensionOptions: {
+					allowFileAccess: true,
+				},
+			}),
 		)
-		.catch(console.log);
+		.catch(e => console.error("Failed install extension:", e));
 };
 
 const createWindow = async () => {
@@ -59,9 +56,7 @@ const createWindow = async () => {
 		height: 728,
 		icon: getAssetPath("icon.png"),
 		webPreferences: {
-			preload: app.isPackaged
-				? path.join(__dirname, "preload.js")
-				: path.join(__dirname, "../../.erb/dll/preload.js"),
+			preload: path.join(__dirname, "preload.js"),
 			webSecurity: false,
 		},
 	});

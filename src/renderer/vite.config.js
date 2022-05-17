@@ -29,6 +29,7 @@ export default defineConfig({
 			strict: true,
 		},
 		host: true,
+		port: process.env.PORT | 1212,
 	},
 	build: {
 		sourcemap: true,

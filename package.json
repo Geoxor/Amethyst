@@ -3,7 +3,11 @@
   "productName": "Amethyst",
   "description": "A music box made of amethyst.",
   "scripts": {
-    "dev": "vite dev --config ./src/renderer/vite.config.js"
+    "dev": "concurrently \"npm run start:main\" \"npm run start:renderer\"",
+    "build": "concurrently \"npm run build:main\" \"npm run build:renderer\"",
+    "build:main": "tsc ./src/main/preload.ts",
+    "start:main": "npm run build:main && cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only ./src/main/main.ts",
+    "start:renderer": "vite dev --config ./src/renderer/vite.config.js"
   },
   "old-scripts": {
     "build": "concurrently \"npm run build:main\" \"npm run build:renderer\"",
