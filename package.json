@@ -13,39 +13,6 @@
     "start:renderer": "vite dev --config ./src/renderer/vite.config.js",
     "package": "npm run build && electron-builder build --config .electron-builder.config.js --dir"
   },
-  "old-scripts": {
-    "build": "concurrently \"npm run build:main\" \"npm run build:renderer\"",
-    "build:main": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.main.prod.ts",
-    "build:renderer": "cross-env NODE_ENV=production TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.prod.ts",
-    "rebuild": "electron-rebuild --parallel --types prod,dev,optional --module-dir release/app",
-    "lint": "cross-env NODE_ENV=development eslint . --ext .js,.vue,.ts",
-    "package": "ts-node ./.erb/scripts/clean.js dist && npm run build && electron-builder build --publish never",
-    "postinstall": "ts-node .erb/scripts/check-native-dep.js && electron-builder install-app-deps && cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.renderer.dev.dll.ts && opencollective-postinstall",
-    "dev": "ts-node ./.erb/scripts/check-port-in-use.js && npm run start:renderer",
-    "start:main": "cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only ./src/main/main.ts",
-    "start:preload": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack --config ./.erb/configs/webpack.config.preload.dev.ts",
-    "start:renderer": "cross-env NODE_ENV=development TS_NODE_TRANSPILE_ONLY=true webpack serve --config ./.erb/configs/webpack.config.renderer.dev.ts",
-    "test": "jest",
-    "prepare": "husky install"
-  },
-  "xornet-scripts": {
-    "postinstall": "npm i -g nodemon typescript ts-node",
-    "build": "node scripts/build.js",
-    "precompile": "cross-env MODE=production npm run build",
-    "compile": "electron-builder build --config .electron-builder.config.js --dir --config.asar=false",
-    "pretest": "npm run build",
-    "test": "npx vitest --config vitest.config.ts",
-    "dev": "npm run dev-staged",
-    "dev-staged": "cross-env MODE=development-staged node scripts/watch.js",
-    "dev-local": "cross-env MODE=development-local node scripts/watch.js",
-    "lint": "eslint \"**/*.{vue,ts,js}\"",
-    "typecheck-electron": "tsc --noEmit -p packages/electron/tsconfig.json",
-    "typecheck-preload": "tsc --noEmit -p packages/preload/tsconfig.json",
-    "typecheck-vue": "vue-tsc --noEmit -p packages/vue/tsconfig.json",
-    "typecheck": "npm run typecheck-electron && npm run typecheck-preload && npm run typecheck-vue",
-    "pretypecheck-vue": "dts-cb -i packages/preload/src/**/*.ts -o packages/preload/exposedInMainWorld.d.ts",
-    "prettify": "eslint --fix \"**/*.{vue,ts,js}\""
-  },
   "lint-staged": {
     "*.{js,vue,ts}": [
       "cross-env NODE_ENV=development eslint --cache"
