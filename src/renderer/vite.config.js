@@ -17,7 +17,12 @@ export default defineConfig({
 			"@/": `${join(PACKAGE_ROOT, "./")}/`,
 		},
 	},
-	plugins: [WindiCSS(), vue()],
+	plugins: [WindiCSS({
+		scan: {
+			dirs: ["."], // all files in the cwd
+			fileExtensions: ["vue", "js", "ts"], // also enabled scanning for js/ts
+		},
+	}), vue()],
 	base: "",
 	server: {
 		fs: {

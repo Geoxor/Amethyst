@@ -24,9 +24,6 @@ export default class MusicParser {
 				)
 				.map(async (file) => {
 					const path = `${dir}/${file}`;
-
-					console.log(path);
-
 					return {
 						...(await mm.parseBuffer(fs.readFileSync(path))),
 						path,

@@ -12,7 +12,6 @@ import path from "path";
 import { BrowserWindow, app, shell } from "electron";
 import { autoUpdater } from "electron-updater";
 import log from "electron-log";
-import MenuBuilder from "./menu";
 import { resolveHtmlPath } from "./util";
 import "./handles";
 
@@ -83,9 +82,6 @@ const createWindow = async () => {
 	mainWindow.on("closed", () => {
 		mainWindow = null;
 	});
-
-	const menuBuilder = new MenuBuilder(mainWindow);
-	menuBuilder.buildMenu();
 
 	// Open urls in the user's browser
 	mainWindow.webContents.setWindowOpenHandler((edata) => {
