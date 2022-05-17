@@ -18,45 +18,5 @@
     "test/**/__snapshots__": true,
     "package-lock.json": true,
     "*.{css,sass,scss}.d.ts": true
-  },
-  "files.exclude": {
-    "**/.git": true,
-    "**/.svn": true,
-    "**/.hg": true,
-    "**/CVS": true,
-    "**/.DS_Store": true,
-    "**/Thumbs.db": true,
-    "**/.classpath": true,
-    "**/.project": true,
-    "**/.settings": true,
-    "**/.factorypath": true,
-    ".gitattributes": true,
-    ".eslintignore": true,
-    ".eslintrc": true,
-    "package-lock.json": true,
-    ".gitignore": true,
-    ".electron-builder.config.js": true,
-    "node_modules": true,
-    ".husky": true,
-    "release/dist": true,
-    "release/build/builder-effective-config.yaml": true,
-    "release/build/builder-debug.yml": true,
-    "src/renderer/windi.config.ts": true,
-    "src/main/tsconfig.json": true
-  },
-  "hide-files.files": [
-    ".gitattributes",
-    ".eslintignore",
-    ".eslintrc",
-    "package-lock.json",
-    ".gitignore",
-    ".electron-builder.config.js",
-    "node_modules",
-    ".husky",
-    "release/dist",
-    "release/build/builder-effective-config.yaml",
-    "release/build/builder-debug.yml",
-    "src/renderer/windi.config.ts",
-    "src/main/tsconfig.json"
-  ]
+  }
 }
