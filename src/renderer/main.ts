@@ -9,6 +9,7 @@ createApp(App).use(router).mount("#app");
 
 const state = reactive({
 	openedFile: "",
+	repeat: false,
 });
 
 export const useState = () => state;

@@ -1,18 +1,29 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useState } from "../../renderer/main";
 const state = useState();
+const sound = ref<HTMLAudioElement>();
+const volume = computed(() => sound.value?.volume);
 onMounted(() => {
-	const sound = new Audio(state.openedFile);
-	sound.play();
+	sound.value = new Audio(state.openedFile);
+	sound.value.play();
 });
 </script>
 
 <template>
-  <h1>
-    Hello
+  <div v-if="sound">
     Opened File: {{ state.openedFile }}
-  </h1>
+    <br>
+    Volume: <input v-model="sound.volume" min="0" max="1" step="0.01" type="range"> {{ volume }}
+    <br>
+    <button @click="sound!.play()">
+      play
+    </button>
+    <br>
+    <button @click="sound!.pause()">
+      pause
+    </button>
+  </div>
 </template>
 
 <style lang="postcss" scoped>

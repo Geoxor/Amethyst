@@ -2,7 +2,7 @@
   "name": "amethyst",
   "author": "Geoxor",
   "productName": "Amethyst",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "main": "./release/dist/main/main.js",
   "description": "A music box made of amethyst.",
   "scripts": {
@@ -46,6 +46,10 @@
       },
       {
         "ext": "flac",
+        "icon": "./assets/icons/audio-file.png"
+      },
+      {
+        "ext": "ogg",
         "icon": "./assets/icons/audio-file.png"
       }
     ],
