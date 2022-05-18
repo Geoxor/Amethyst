@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { IAudioMetadata } from "music-metadata";
 import type { Ref } from "vue";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import DbMeter from "../../renderer/components/DbMeter.vue";
 import { useState } from "../../renderer/main";
 const state = useState();
@@ -19,20 +19,27 @@ const cover = computed(() => {
 	const blob = new Blob([buffer], { type: metadata.value.common.picture[0].format });
 	return URL.createObjectURL(blob);
 });
-onMounted(() => {
-	sound.value = new Audio(state.openedFile);
+
+function loadSound(path: string) {
+	sound.value && sound.value.pause();
+	sound.value = new Audio(path);
 	sound.value.play();
 	sound.value.onended = () => {
 		sound.value.play();
 	};
 
-	window.electron.ipcRenderer.invoke<IAudioMetadata>("get-metadata", [state.openedFile]).then(
+	window.electron.ipcRenderer.invoke<IAudioMetadata>("get-metadata", [path]).then(
 		(data) => {
 			metadata.value = data;
 		});
 
 	source.value = ctx.value.createMediaElementSource(sound.value);
 	source.value.connect(ctx.value.destination);
+}
+
+onMounted(() => {
+	loadSound(state.openedFile);
+	watch(() => state.openedFile, () => loadSound(state.openedFile));
 });
 </script>
 
@@ -51,7 +58,7 @@ onMounted(() => {
       pause
     </button>
     <img class="w-64" :src="cover">
-    <DbMeter :node="source" />
+    <DbMeter :key="state.openedFile" :node="source" />
   </div>
 </template>
 

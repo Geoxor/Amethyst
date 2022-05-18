@@ -11,7 +11,6 @@ const state = reactive({
 	// openedFile: "C:/Users/Geoxor/Desktop/ephemeral but without vocal chops.mp3",
 	// openedFile: "X:/Backup/New Geoxor Projects/Electro House - Ether/Electro House - Ether v1.mp3",
 	openedFile: "",
-	repeat: false,
 });
 
 export const useState = () => state;

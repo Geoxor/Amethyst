@@ -26,6 +26,23 @@ const isDebug
 // if (isDebug)
 // import("electron-debug").then(electronDebug => electronDebug());
 
+const isSingleInstance = app.requestSingleInstanceLock();
+
+if (!isSingleInstance) {
+	app.quit();
+	process.exit(0);
+}
+
+app.on("second-instance", (_event, argv) => {
+	// Someone tried to run a second instance, we should focus our window.
+	if (mainWindow) {
+		if (mainWindow.isMinimized())
+			mainWindow.restore();
+		mainWindow!.webContents.send("open-file", argv[2] || "No file opened");
+		mainWindow.focus();
+	}
+});
+
 const installExtensions = async () => {
 	import("electron-devtools-installer")
 		.then(({ default: installExtension, VUEJS3_DEVTOOLS }) =>
@@ -117,12 +134,3 @@ app
 		});
 	})
 	.catch(console.log);
-
-// dont allow second instance
-app.on("second-instance", () => {
-	if (mainWindow) {
-		if (mainWindow.isMinimized())
-			mainWindow.restore();
-		mainWindow.focus();
-	}
-});
