@@ -1,17 +1,20 @@
 {
   "name": "amethyst",
+  "author": "Geoxor",
   "productName": "Amethyst",
-  "version": "0.2.1",
+  "version": "0.2.3",
   "main": "./release/dist/main/main.js",
   "description": "A music box made of amethyst.",
   "scripts": {
     "dev": "concurrently \"npm run start:main\" \"npm run start:renderer\"",
     "build": "concurrently \"npm run build:main\" \"npm run build:renderer\"",
-    "build:main": "tsc -p ./src/main/tsconfig.json",
+    "build:main": "concurrently \"tsc ./src/main/preload.ts\" \"tsc -p ./src/main/tsconfig.json\" ",
     "build:renderer": "vite build --config ./src/renderer/vite.config.js",
     "start:main": "npm run build:main && cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only ./src/main/main.ts",
     "start:renderer": "vite dev --config ./src/renderer/vite.config.js",
-    "package": "npm run build && electron-builder build --config .electron-builder.config.js --dir"
+    "package": "npm run build && electron-builder build",
+    "package:asarless": "npm run build && electron-builder build --config.asar=false",
+    "postinstall": "electron-builder install-app-deps"
   },
   "lint-staged": {
     "*.{js,vue,ts}": [
@@ -34,21 +37,19 @@
     "asarUnpack": "**\\*.{node,dll}",
     "fileAssociations": [
       {
-        "ext": "mp3"
+        "ext": "mp3",
+        "icon": "./assets/icons/audio-file.png"
       },
       {
-        "ext": "wav"
+        "ext": "wav",
+        "icon": "./assets/icons/audio-file.png"
       },
       {
-        "ext": "flac"
+        "ext": "flac",
+        "icon": "./assets/icons/audio-file.png"
       }
     ],
-    "files": [
-      "dist",
-      "node_modules",
-      "package.json"
-    ],
-    "afterSign": ".erb/scripts/notarize.js",
+    "files": ["./release/dist/**/*"],
     "mac": {
       "target": {
         "target": "default",
@@ -89,16 +90,15 @@
       "category": "Development"
     },
     "directories": {
-      "app": "release/app",
-      "buildResources": "assets",
-      "output": "release/build"
+      "output": "release/build",
+      "buildResources": "assets"
     },
     "extraResources": [
       "./assets/**"
     ],
     "publish": {
       "provider": "github",
-      "owner": "amethyst",
+      "owner": "Geoxor",
       "repo": "amethyst"
     }
   },
@@ -179,7 +179,6 @@
     "electron-builder": "^23.0.3",
     "electron-devtools-installer": "^3.2.0",
     "electron-notarize": "^1.2.1",
-    "electron-rebuild": "^3.2.7",
     "electronmon": "^2.0.2",
     "eslint": "^8.12.0",
     "file-loader": "^6.2.0",

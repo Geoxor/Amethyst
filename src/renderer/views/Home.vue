@@ -1,9 +1,17 @@
 <script setup lang="ts">
+import { onMounted } from "vue";
+import { useState } from "../../renderer/main";
+const state = useState();
+onMounted(() => {
+	const sound = new Audio(state.openedFile);
+	sound.play();
+});
 </script>
 
 <template>
-  <h1 class="text-red-400">
+  <h1>
     Hello
+    Opened File: {{ state.openedFile }}
   </h1>
 </template>
 

@@ -78,6 +78,10 @@ const createWindow = async () => {
 		mainWindow = null;
 	});
 
+	mainWindow.webContents.on("dom-ready", () => {
+		mainWindow!.webContents.send("open-file", process.argv[1] || "No file opened");
+	});
+
 	// Open urls in the user's browser
 	mainWindow.webContents.setWindowOpenHandler((edata) => {
 		shell.openExternal(edata.url);

@@ -8,5 +8,5 @@
     "outDir": "../../release/dist/main"
   },
   "files": ["main.ts"],
-  "include": ["../../types/**/*.d.ts"]
+  "include": ["../../types/**/*.d.ts", "preload.ts"]
 }
