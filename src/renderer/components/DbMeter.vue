@@ -76,9 +76,9 @@ onMounted(() => {
         <div id="left-0db" class="absolute top-0 left-0 bg-gray-300 w-1.5 h-10/100" />
         <div id="right-0db" class="absolute top-0 left-1.75 bg-gray-300 w-1.5 h-10/100" />
 
-        <div id="left-inst" class="absolute bottom-0 left-0 bg-green-500 w-1.5" :style="`height: ${(1 + leftChannel / RANGE) * 90}%`" />
+        <div id="left-inst" class="transition-all duration-100 absolute bottom-0 left-0 bg-green-500 w-1.5" :style="`height: ${(1 + leftChannel / RANGE) * 90}%`" />
         <div id="left-avg" class="absolute bottom-0 left-0 bg-green-400 w-1.5" :style="`height: ${(1 + leftChannelAverage / RANGE) * 90}%`" />
-        <div id="right-inst" class="absolute bottom-0 left-1.75 bg-green-500 w-1.5" :style="`height: ${(1 + rightChannel / RANGE) * 90}%`" />
+        <div id="right-inst" class="transition-all duration-100 absolute bottom-0 left-1.75 bg-green-500 w-1.5" :style="`height: ${(1 + rightChannel / RANGE) * 90}%`" />
         <div id="right-avg" class="absolute bottom-0 left-1.75 bg-green-400 w-1.5" :style="`height: ${(1 + rightChannelAverage / RANGE) * 90}%`" />
       </div>
     </div>
