@@ -2,9 +2,12 @@
 import type { IAudioMetadata } from "music-metadata";
 import type { Ref } from "vue";
 import { computed, onMounted, ref } from "vue";
+import DbMeter from "../../renderer/components/DbMeter.vue";
 import { useState } from "../../renderer/main";
 const state = useState();
 const sound = ref() as Ref<HTMLAudioElement>;
+const ctx = ref(new window.AudioContext()) as Ref<AudioContext>;
+const source = ref() as Ref<MediaElementAudioSourceNode>;
 const volume = computed(() => sound.value.volume);
 const metadata = ref<IAudioMetadata>();
 const duration = computed(() => sound.value.duration);
@@ -27,6 +30,9 @@ onMounted(() => {
 		(data) => {
 			metadata.value = data;
 		});
+
+	source.value = ctx.value.createMediaElementSource(sound.value);
+	source.value.connect(ctx.value.destination);
 });
 </script>
 
@@ -45,6 +51,7 @@ onMounted(() => {
       pause
     </button>
     <img class="w-64" :src="cover">
+    <DbMeter :node="source" />
   </div>
 </template>
 

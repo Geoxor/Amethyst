@@ -8,6 +8,7 @@ import router from "./router";
 createApp(App).use(router).mount("#app");
 
 const state = reactive({
+	// openedFile: "C:/Users/Geoxor/Desktop/ephemeral but without vocal chops.mp3",
 	openedFile: "",
 	repeat: false,
 });
