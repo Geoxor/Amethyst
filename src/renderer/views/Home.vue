@@ -1,13 +1,32 @@
 <script setup lang="ts">
+import type { IAudioMetadata } from "music-metadata";
+import type { Ref } from "vue";
 import { computed, onMounted, ref } from "vue";
 import { useState } from "../../renderer/main";
 const state = useState();
-const sound = ref<HTMLAudioElement>();
-const volume = computed(() => sound.value?.volume);
-const duration = computed(() => sound.value?.duration);
+const sound = ref() as Ref<HTMLAudioElement>;
+const volume = computed(() => sound.value.volume);
+const metadata = ref<IAudioMetadata>();
+const duration = computed(() => sound.value.duration);
+const cover = computed(() => {
+	if (!metadata?.value?.common?.picture?.[0])
+		return;
+
+	const buffer = metadata.value.common.picture[0].data;
+	const blob = new Blob([buffer], { type: metadata.value.common.picture[0].format });
+	return URL.createObjectURL(blob);
+});
 onMounted(() => {
 	sound.value = new Audio(state.openedFile);
 	sound.value.play();
+	sound.value.onended = () => {
+		sound.value.play();
+	};
+
+	window.electron.ipcRenderer.invoke<IAudioMetadata>("get-metadata", [state.openedFile]).then(
+		(data) => {
+			metadata.value = data;
+		});
 });
 </script>
 
@@ -18,13 +37,14 @@ onMounted(() => {
     Volume: <input v-model="sound.volume" min="0" max="1" step="0.01" type="range"> {{ volume }}
     Seek: <input v-model="sound.currentTime" min="0" :max="duration" step="0.01" type="range">
     <br>
-    <button @click="sound!.play()">
+    <button @click="sound.play()">
       play
     </button>
     <br>
-    <button @click="sound!.pause()">
+    <button @click="sound.pause()">
       pause
     </button>
+    <img class="w-64" :src="cover">
   </div>
 </template>
 
