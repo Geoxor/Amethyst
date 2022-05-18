@@ -38,19 +38,19 @@
     "fileAssociations": [
       {
         "ext": "mp3",
-        "icon": "./assets/icons/audio-file-mp3.png"
+        "icon": "./assets/icon.ico"
       },
       {
         "ext": "wav",
-        "icon": "./assets/icons/audio-file-wav.png"
+        "icon": "./assets/icon.ico"
       },
       {
         "ext": "flac",
-        "icon": "./assets/icons/audio-file-flac.png"
+        "icon": "./assets/icon.ico"
       },
       {
         "ext": "ogg",
-        "icon": "./assets/icons/audio-file-ogg.png"
+        "icon": "./assets/icon.ico"
       }
     ],
     "files": ["./release/dist/**/*"],
