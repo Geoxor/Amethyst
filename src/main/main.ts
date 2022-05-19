@@ -142,7 +142,12 @@ ipcMain.handle("minimize", () => mainWindow?.minimize());
 ipcMain.handle("maximize", () => mainWindow?.maximize());
 ipcMain.handle("close", () => mainWindow?.close());
 ipcMain.handle("open-file-dialog", async () => {
-	const response = await dialog.showOpenDialog({ properties: ["openFile"] });
+	const response = await dialog.showOpenDialog({
+		properties: ["openFile"],
+		filters: [
+			{ name: "Audio", extensions: ["ogg", "wav", "flac", "wav", "opus", "aac", "aiff"] },
+		],
+	});
 	!response.canceled && mainWindow!.webContents.send("play-file", response.filePaths[0]);
 });
 
