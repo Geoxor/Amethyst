@@ -21,12 +21,22 @@ const cover = computed(() => {
 const currentTime = ref(0);
 const timer = ref();
 
-function loadSound(path: string) {
-	sound.value && sound.value.pause();
-	sound.value = new Audio(path);
+function play() {
 	sound.value.play();
+	state.isPlaying = true;
+}
+
+function pause() {
+	sound.value.pause();
+	state.isPlaying = false;
+}
+
+function loadSound(path: string) {
+	sound.value && pause();
+	sound.value = new Audio(path);
+	play();
 	sound.value.onended = () => {
-		sound.value.play();
+		play();
 	};
 
 	timer.value && clearInterval(timer.value);
@@ -57,6 +67,12 @@ onMounted(() => {
 <template>
   <div v-if="sound && metadata">
     <div class="flex p-1 gap-2 items-center">
+      <button v-if="state.isPlaying" @click="pause()">
+        Pause
+      </button>
+      <button v-else @click="play()">
+        Play
+      </button>
       {{ currentTime.toFixed() }}
       <input v-model="sound.currentTime" class="w-full" min="0" :max="metadata.format.duration" step="0.01" type="range">
       <input v-model="sound.volume" min="0" max="1" step="0.01" type="range">
