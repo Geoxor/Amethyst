@@ -10,7 +10,8 @@ createApp(App).use(router).mount("#app");
 const state = reactive({
 	// openedFile: "C:/Users/Geoxor/Desktop/ephemeral but without vocal chops.mp3",
 	// openedFile: "X:/Backup/New Geoxor Projects/Electro House - Ether/Electro House - Ether v1.mp3",
-	openedFile: "",
+	openedFile: "C:/Users/cimok_ft1srpf/Downloads/Geoxor_-_Heal_Her.mp3",
+	isPlaying: false,
 });
 
 export const useState = () => state;

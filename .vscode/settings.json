@@ -30,5 +30,6 @@
     "**/.project": true,
     "**/.settings": true,
     "**/.factorypath": true
-  }
+  },
+  "hide-files.files": []
 }
