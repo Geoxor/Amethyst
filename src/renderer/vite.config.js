@@ -3,6 +3,9 @@ import vue from "@vitejs/plugin-vue";
 import { defineConfig } from "vite";
 import WindiCSS from "vite-plugin-windicss";
 import Components from "unplugin-vue-components/vite";
+import IconsResolver from "unplugin-icons/resolver";
+import { FileSystemIconLoader } from "unplugin-icons/loaders";
+import Icons from "unplugin-icons/vite";
 
 const PACKAGE_ROOT = __dirname;
 
@@ -20,6 +23,16 @@ export default defineConfig({
 	},
 	plugins: [
 		Components({
+			resolvers: [
+				IconsResolver({
+					customCollections: ["icon"],
+				}),
+				Icons({
+					customCollections: {
+						icon: FileSystemIconLoader("./assets/app-icons"),
+					},
+				}),
+			],
 		}),
 		WindiCSS({
 			scan: {
