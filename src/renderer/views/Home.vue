@@ -5,6 +5,7 @@ import { computed, onMounted, ref, watch } from "vue";
 import DbMeter from "../../renderer/components/DbMeter.vue";
 import { useState } from "../../renderer/main";
 import Spectrum from "../components/Spectrum.vue";
+
 const state = useState();
 const sound = ref() as Ref<HTMLAudioElement>;
 const ctx = ref(new window.AudioContext()) as Ref<AudioContext>;
@@ -21,6 +22,17 @@ const cover = computed(() => {
 
 const currentTime = ref(0);
 const timer = ref();
+
+const handleVolumeMouseScroll = (e: WheelEvent) => {
+	const delta = Math.sign(e.deltaY);
+	delta > 0 ? sound.value.volume -= 0.1 : sound.value.volume += 0.1;
+};
+
+const handleSeekMouseScroll = (e: WheelEvent) => {
+	const delta = Math.sign(e.deltaY);
+	const step = metadata.value!.format.duration! / 10;
+	delta < 0 ? sound.value.currentTime = currentTime.value + step : sound.value.currentTime = currentTime.value - step;
+};
 
 function play() {
 	sound.value.play();
@@ -65,14 +77,16 @@ onMounted(() => {
   <div v-if="sound && metadata">
     <div class="flex p-1 gap-2 items-center">
       {{ currentTime.toFixed() }}
-      <input v-model="sound.currentTime" class="w-full" min="0" :max="metadata.format.duration" step="0.01" type="range">
+      <input v-model="sound.currentTime" class="w-full" min="0" :max="metadata.format.duration" step="0.01" type="range" @wheel="handleSeekMouseScroll">
       <button v-if="state.isPlaying" class="flex items-center" @click="pause()">
         <i-fluency-pause class="w-5 h-5" />
       </button>
       <button v-else class="flex items-center" @click="play()">
         <i-fluency-play class="w-5 h-5" />
       </button>
-      <input v-model="sound.volume" min="0" max="1" step="0.01" type="range">
+      <input
+        id="volume" v-model="sound.volume" min="0" max="1" step="0.01" type="range" @wheel="handleVolumeMouseScroll"
+      >
       <DbMeter :key="state.openedFile" :node="source" />
     </div>
 
