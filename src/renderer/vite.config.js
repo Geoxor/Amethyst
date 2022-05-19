@@ -22,15 +22,15 @@ export default defineConfig({
 		},
 	},
 	plugins: [
+		Icons({
+			customCollections: {
+				fluency: FileSystemIconLoader("./assets/icons/app-icons"),
+			},
+		}),
 		Components({
 			resolvers: [
 				IconsResolver({
-					customCollections: ["icon"],
-				}),
-				Icons({
-					customCollections: {
-						icon: FileSystemIconLoader("./assets/app-icons"),
-					},
+					customCollections: ["fluency"],
 				}),
 			],
 		}),

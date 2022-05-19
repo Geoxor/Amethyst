@@ -40,11 +40,7 @@ function loadSound(path: string) {
 	};
 
 	timer.value && clearInterval(timer.value);
-
-	timer.value = setInterval(() => {
-		console.log(sound.value.currentTime);
-		currentTime.value = sound.value.currentTime;
-	}, 10);
+	timer.value = setInterval(() => currentTime.value = sound.value.currentTime, 10);
 
 	// set the html title to the song name
 	document.title = state.openedFile || "Amethyst";
@@ -67,14 +63,14 @@ onMounted(() => {
 <template>
   <div v-if="sound && metadata">
     <div class="flex p-1 gap-2 items-center">
-      <button v-if="state.isPlaying" @click="pause()">
-        Pause
-      </button>
-      <button v-else @click="play()">
-        Play
-      </button>
       {{ currentTime.toFixed() }}
       <input v-model="sound.currentTime" class="w-full" min="0" :max="metadata.format.duration" step="0.01" type="range">
+      <button v-if="state.isPlaying" class="flex items-center" @click="pause()">
+        <i-fluency-pause class="w-5 h-5" />
+      </button>
+      <button v-else class="flex items-center" @click="play()">
+        <i-fluency-play class="w-5 h-5" />
+      </button>
       <input v-model="sound.volume" min="0" max="1" step="0.01" type="range">
       <DbMeter :key="state.openedFile" :node="source" />
     </div>
