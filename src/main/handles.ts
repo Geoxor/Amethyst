@@ -12,10 +12,31 @@ ipcMain.handle("get-metadata", async (_event, args) => {
 	return await mm.parseBuffer(fs.readFileSync(args[0]));
 });
 
-ipcMain.handle("open-folder", (_event, args) => {
-	return fs.readdirSync(args[0]).map(file =>
-		path.join(args[0], file),
-	);
+const loadFolder = async (inputPath: string) => {
+	return new Promise((resolve, reject) => {
+		fs.readdir(inputPath, (error, files) => {
+			if (error) {
+				reject(error);
+			}
+			else {
+				Promise.all(
+					files.map(async (file) => {
+						const filePath = path.join(inputPath, file);
+						const stats = await fs.promises.stat(filePath);
+						if (stats.isDirectory())
+							return loadFolder(filePath);
+
+						else if (stats.isFile())
+							return filePath;
+					}),
+				).then(resolve);
+			}
+		});
+	});
+};
+
+ipcMain.handle("open-folder", async (_event, args) => {
+	return await loadFolder(args[0]);
 });
 
 // ipcMain.on('ipc-example', async (event, arg) => {
