@@ -6,7 +6,7 @@ const allFiles = ref([]);
 
 onMounted(() => {
 	const loadFolder = async () => {
-		srcFolder.value = "F:/MusicPlaylistFlac";
+		srcFolder.value = "D:/Music";
 		allFiles.value = await window.electron.ipcRenderer.invoke("open-folder", [srcFolder.value]);
 	};
 	loadFolder();

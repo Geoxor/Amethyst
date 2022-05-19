@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import Menu from "./Menu.vue";
 import MenuOption from "./MenuOption.vue";
-import MenuSplitter from "./MenuSplitter.vue";
+// import MenuSplitter from "./MenuSplitter.vue";
 import ControlButtons from "./ControlButtons.vue";
 const invoke = window.electron.ipcRenderer.invoke;
 </script>
@@ -9,7 +9,7 @@ const invoke = window.electron.ipcRenderer.invoke;
 <template>
   <div class="bg-gray-200  drag  text-xs flex justify-between items-center">
     <div class="flex h-full items-center">
-      <!-- <img src="../assets/horizontal_logo.svg" class="ml-2 h-4" alt=""> -->
+      <img src="../icon.png" class="ml-1 h-4" alt="">
 
       <Menu title="File">
         <MenuOption

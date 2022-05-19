@@ -33,12 +33,14 @@ if (!isSingleInstance) {
 	process.exit(0);
 }
 
+const playAudio = (path: string) => mainWindow!.webContents.send("play-file", path);
+
 app.on("second-instance", (_event, argv) => {
 	// Someone tried to run a second instance, we should focus our window.
 	if (mainWindow) {
 		if (mainWindow.isMinimized())
 			mainWindow.restore();
-		mainWindow!.webContents.send("open-file", argv[2] || "No file opened");
+		playAudio(argv[2]);
 		mainWindow.focus();
 	}
 });
@@ -91,7 +93,8 @@ const createWindow = async () => {
 		else
 			mainWindow.show();
 
-		mainWindow?.webContents.openDevTools();
+		if (isDebug)
+			mainWindow?.webContents.openDevTools();
 	});
 
 	mainWindow.on("closed", () => {
@@ -99,7 +102,7 @@ const createWindow = async () => {
 	});
 
 	mainWindow.webContents.on("dom-ready", () => {
-		mainWindow!.webContents.send("play-file", process.argv[1] || "No file opened");
+		playAudio(process.argv[1] || "No file opened");
 	});
 
 	// Open urls in the user's browser
@@ -145,9 +148,9 @@ ipcMain.handle("open-file-dialog", async () => {
 	const response = await dialog.showOpenDialog({
 		properties: ["openFile"],
 		filters: [
-			{ name: "Audio", extensions: ["ogg", "wav", "flac", "wav", "opus", "aac", "aiff"] },
+			{ name: "Audio", extensions: ["ogg", "wav", "flac", "wav", "opus", "aac", "aiff", "mp3"] },
 		],
 	});
-	!response.canceled && mainWindow!.webContents.send("play-file", response.filePaths[0]);
+	!response.canceled && playAudio(response.filePaths[0]);
 });
 

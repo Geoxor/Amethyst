@@ -10,10 +10,10 @@ onKeyStroke("Escape", () => (isShowing.value = false));
 
 <template>
   <div class="menu relative h-full no-drag">
-    <button class="hover:text-blue-400  px-2 h-full" @click.stop="isShowing = !isShowing">
+    <div class="hover:text-blue-400 cursor-default  px-2 h-full" @click.stop="isShowing = !isShowing">
       {{ title }}
-    </button>
-    <div v-if="isShowing" class="absolute z-20 flex items-center bg-gray-500 text-white py-2 flex-col w-72" @click="isShowing = false">
+    </div>
+    <div v-if="isShowing" class="absolute z-20 flex items-center bg-gray-700 text-white py-2 flex-col w-72" @click="isShowing = false">
       <slot />
     </div>
   </div>

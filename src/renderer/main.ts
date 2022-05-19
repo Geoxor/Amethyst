@@ -8,7 +8,7 @@ import router from "./router";
 createApp(App).use(router).mount("#app");
 
 const state = reactive({
-	openedFile: "F:/MusicPlaylistFlac/Belong (2019)/Vacant - Flashbacks.flac",
+	openedFile: "",
 	isPlaying: false,
 });
 

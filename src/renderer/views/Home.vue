@@ -76,7 +76,7 @@ onMounted(() => {
 
 <template>
   <div v-if="sound && metadata">
-    <Explorer />
+    <!-- <Explorer /> -->
     <div class="flex p-1 gap-2 items-center">
       {{ currentTime.toFixed() }}
       <input v-model="sound.currentTime" class="w-full" min="0" :max="metadata.format.duration" step="0.01" type="range" @wheel="handleSeekMouseScroll">
