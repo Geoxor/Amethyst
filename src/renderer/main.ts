@@ -9,7 +9,7 @@ createApp(App).use(router).mount("#app");
 
 const state = reactive({
 	// openedFile: "X:/Backup/New Geoxor Projects/Electro House - Ether/Electro House - Ether v1.mp3",
-	openedFile: "",
+	openedFile: "C:/Users/cimok_ft1srpf/Downloads/Noisia_-_Tentacles.flac",
 	isPlaying: false,
 });
 

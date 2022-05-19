@@ -4,6 +4,7 @@ import type { Ref } from "vue";
 import { computed, onMounted, ref, watch } from "vue";
 import DbMeter from "../../renderer/components/DbMeter.vue";
 import { useState } from "../../renderer/main";
+import Spectrum from "../components/Spectrum.vue";
 const state = useState();
 const sound = ref() as Ref<HTMLAudioElement>;
 const ctx = ref(new window.AudioContext()) as Ref<AudioContext>;
@@ -75,7 +76,10 @@ onMounted(() => {
       <DbMeter :key="state.openedFile" :node="source" />
     </div>
 
-    <img class="w-64" :src="cover">
+    <div class="flex">
+      <img class="w-64" :src="cover">
+      <Spectrum :node="source" />
+    </div>
   </div>
 </template>
 
