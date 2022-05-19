@@ -1,8 +1,8 @@
 {
   "name": "amethyst",
-  "author": "Geoxor",
+  "author": "Geoxor <geoxor123@outlook.com>",
   "productName": "Amethyst",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "main": "./release/dist/main/main.js",
   "description": "A music box made of amethyst.",
   "scripts": {
@@ -12,10 +12,10 @@
     "build:renderer": "vite build --config ./src/renderer/vite.config.js",
     "start:main": "npm run build:main && cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only ./src/main/main.ts",
     "start:renderer": "vite dev --config ./src/renderer/vite.config.js",
-    "package": "npm run build && electron-builder build",
+    "package": "npm run build && electron-builder build --publish never",
     "package:asarless": "npm run build && electron-builder build --config.asar=false",
     "postinstall": "electron-builder install-app-deps",
-    "lint": "eslint --fix"
+    "lint": "eslint --ext .ts,.js,.vue"
   },
   "lint-staged": {
     "*.{js,vue,ts}": [
