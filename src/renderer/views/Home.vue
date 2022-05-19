@@ -78,7 +78,7 @@ onMounted(() => {
 
     <div class="flex">
       <img class="w-64" :src="cover">
-      <Spectrum :node="source" />
+      <Spectrum :key="state.openedFile" :node="source" />
     </div>
   </div>
 </template>
