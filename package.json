@@ -14,7 +14,8 @@
     "start:renderer": "vite dev --config ./src/renderer/vite.config.js",
     "package": "npm run build && electron-builder build",
     "package:asarless": "npm run build && electron-builder build --config.asar=false",
-    "postinstall": "electron-builder install-app-deps"
+    "postinstall": "electron-builder install-app-deps",
+    "lint": "eslint --fix"
   },
   "lint-staged": {
     "*.{js,vue,ts}": [
@@ -32,7 +33,7 @@
   },
   "build": {
     "productName": "Amethyst",
-    "appId": "org.erb.Amethyst",
+    "appId": "org.Amethyst",
     "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "fileAssociations": [
