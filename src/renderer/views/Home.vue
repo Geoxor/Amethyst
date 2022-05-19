@@ -8,9 +8,7 @@ const state = useState();
 const sound = ref() as Ref<HTMLAudioElement>;
 const ctx = ref(new window.AudioContext()) as Ref<AudioContext>;
 const source = ref() as Ref<MediaElementAudioSourceNode>;
-const volume = computed(() => sound.value.volume);
 const metadata = ref<IAudioMetadata>();
-const duration = computed(() => sound.value.duration);
 const cover = computed(() => {
 	if (!metadata?.value?.common?.picture?.[0])
 		return;
@@ -20,6 +18,9 @@ const cover = computed(() => {
 	return URL.createObjectURL(blob);
 });
 
+const currentTime = ref(0);
+const timer = ref();
+
 function loadSound(path: string) {
 	sound.value && sound.value.pause();
 	sound.value = new Audio(path);
@@ -27,6 +28,16 @@ function loadSound(path: string) {
 	sound.value.onended = () => {
 		sound.value.play();
 	};
+
+	timer.value && clearInterval(timer.value);
+
+	timer.value = setInterval(() => {
+		console.log(sound.value.currentTime);
+		currentTime.value = sound.value.currentTime;
+	}, 10);
+
+	// set the html title to the song name
+	document.title = state.openedFile || "Amethyst";
 
 	window.electron.ipcRenderer.invoke<IAudioMetadata>("get-metadata", [path]).then(
 		(data) => {
@@ -44,21 +55,15 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="sound">
-    Opened File: {{ state.openedFile }}
-    <br>
-    Volume: <input v-model="sound.volume" min="0" max="1" step="0.01" type="range"> {{ volume }}
-    Seek: <input v-model="sound.currentTime" min="0" :max="duration" step="0.01" type="range">
-    <br>
-    <button @click="sound.play()">
-      play
-    </button>
-    <br>
-    <button @click="sound.pause()">
-      pause
-    </button>
+  <div v-if="sound && metadata">
+    <div class="flex p-1 gap-2 items-center">
+      {{ currentTime.toFixed() }}
+      <input v-model="sound.currentTime" class="w-full" min="0" :max="metadata.format.duration" step="0.01" type="range">
+      <input v-model="sound.volume" min="0" max="1" step="0.01" type="range">
+      <DbMeter :key="state.openedFile" :node="source" />
+    </div>
+
     <img class="w-64" :src="cover">
-    <DbMeter :key="state.openedFile" :node="source" />
   </div>
 </template>
 
