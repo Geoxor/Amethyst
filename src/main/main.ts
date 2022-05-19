@@ -9,7 +9,7 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from "path";
-import { BrowserWindow, app, shell } from "electron";
+import { BrowserWindow, app, dialog, ipcMain, shell } from "electron";
 import { autoUpdater } from "electron-updater";
 import log from "electron-log";
 import { resolveHtmlPath } from "./util";
@@ -24,7 +24,7 @@ const isDebug
   = process.env.NODE_ENV === "development" || process.env.DEBUG_PROD === "true";
 
 // if (isDebug)
-// import("electron-debug").then(electronDebug => electronDebug());
+// import("electron-debug").then(electronDebug => electronDebug ());
 
 const isSingleInstance = app.requestSingleInstanceLock();
 
@@ -72,14 +72,12 @@ const createWindow = async () => {
 		width: 1024,
 		height: 728,
 		icon: getAssetPath("icon.png"),
-		// frame: false,
+		frame: false,
 		webPreferences: {
 			preload: path.join(__dirname, "preload.js"),
 			webSecurity: false,
 		},
 	});
-
-	mainWindow.setMenu(null);
 
 	mainWindow.loadURL(resolveHtmlPath("index.html"));
 
@@ -92,6 +90,8 @@ const createWindow = async () => {
 
 		else
 			mainWindow.show();
+
+		mainWindow?.webContents.openDevTools();
 	});
 
 	mainWindow.on("closed", () => {
@@ -99,7 +99,7 @@ const createWindow = async () => {
 	});
 
 	mainWindow.webContents.on("dom-ready", () => {
-		mainWindow!.webContents.send("open-file", process.argv[1] || "No file opened");
+		mainWindow!.webContents.send("play-file", process.argv[1] || "No file opened");
 	});
 
 	// Open urls in the user's browser
@@ -137,3 +137,12 @@ app
 		});
 	})
 	.catch(console.log);
+
+ipcMain.handle("minimize", () => mainWindow?.minimize());
+ipcMain.handle("maximize", () => mainWindow?.maximize());
+ipcMain.handle("close", () => mainWindow?.close());
+ipcMain.handle("open-file-dialog", async () => {
+	const response = await dialog.showOpenDialog({ properties: ["openFile"] });
+	!response.canceled && mainWindow!.webContents.send("play-file", response.filePaths[0]);
+});
+

@@ -5,8 +5,12 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
+    IFluencyFullscreen: typeof import('~icons/fluency/fullscreen')['default']
+    IFluencyMaximize: typeof import('~icons/fluency/maximize')['default']
+    IFluencyMinimize: typeof import('~icons/fluency/minimize')['default']
     IFluencyPause: typeof import('~icons/fluency/pause')['default']
     IFluencyPlay: typeof import('~icons/fluency/play')['default']
+    IFluencyX: typeof import('~icons/fluency/x')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }

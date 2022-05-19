@@ -17,4 +17,7 @@ const withOpacityValue = (cssVariable: string) => ({ opacityVariable, opacityVal
 export default defineConfig({
 	darkMode: "class",
 	plugins: [typography()],
+	alias: {
+		fullscreen: "absolute top-0 left-0 w-full h-full",
+	},
 });

@@ -8,14 +8,14 @@ import router from "./router";
 createApp(App).use(router).mount("#app");
 
 const state = reactive({
-	// openedFile: "X:/Backup/New Geoxor Projects/Electro House - Ether/Electro House - Ether v1.mp3",
 	openedFile: "",
 	isPlaying: false,
 });
 
 export const useState = () => state;
+export const useInvoke = () => window.electron.ipcRenderer.invoke;
 
-window.electron.ipcRenderer.on("open-file", (file) => {
+window.electron.ipcRenderer.on("play-file", (file) => {
 	state.openedFile = file as string;
 });
 
