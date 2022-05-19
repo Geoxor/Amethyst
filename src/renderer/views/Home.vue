@@ -2,6 +2,7 @@
 import type { IAudioMetadata } from "music-metadata";
 import type { Ref } from "vue";
 import { computed, onMounted, ref, watch } from "vue";
+import Explorer from "../components/Explorer.vue";
 import DbMeter from "../../renderer/components/DbMeter.vue";
 import { useState } from "../../renderer/main";
 import Spectrum from "../components/Spectrum.vue";
@@ -63,6 +64,7 @@ onMounted(() => {
 
 <template>
   <div v-if="sound && metadata">
+    <Explorer />
     <div class="flex p-1 gap-2 items-center">
       {{ currentTime.toFixed() }}
       <input v-model="sound.currentTime" class="w-full" min="0" :max="metadata.format.duration" step="0.01" type="range">
