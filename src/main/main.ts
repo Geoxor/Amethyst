@@ -14,8 +14,11 @@ import { autoUpdater } from "electron-updater";
 import log from "electron-log";
 import { resolveHtmlPath } from "./util";
 import "./handles";
+import Discord from "./discord";
 
 let mainWindow: BrowserWindow | null = null;
+
+const discord = new Discord();
 
 if (process.env.NODE_ENV === "production")
 	import("source-map-support").then(smc => smc.install());
@@ -155,5 +158,5 @@ ipcMain.handle("minimize", () => mainWindow?.minimize());
 ipcMain.handle("maximize", () => mainWindow?.maximize());
 ipcMain.handle("close", () => mainWindow?.close());
 ipcMain.handle("open-file-dialog", async () => openFile());
-ipcMain.handle("show-item", (_event, [fullPath]) => shell.showItemInFolder(path.normalize(fullPath)));
-
+ipcMain.handle("show-item", (_, [fullPath]) => shell.showItemInFolder(path.normalize(fullPath)));
+ipcMain.handle("update-rich-presence", (_, [title, duration, seek]) => discord.updateCurrentSong(title, duration, seek));

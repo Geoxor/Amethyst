@@ -33,6 +33,7 @@ const secondsHuman = (time: number) => {
 
 const currentTime = ref(0);
 const timer = ref();
+const richPresenceTimer = ref();
 
 const handleVolumeMouseScroll = (e: WheelEvent) => {
 	const delta = Math.sign(e.deltaY);
@@ -64,8 +65,20 @@ function loadSound(path: string) {
 		play();
 	};
 
+  // This is the timer for the current duration ont he UI
+  // because for some reason it doesnt wanna update on its own
 	timer.value && clearInterval(timer.value);
 	timer.value = setInterval(() => currentTime.value = sound.value.currentTime, 10);
+
+  // Discord rich presence timer that updates discord every second
+	richPresenceTimer.value && clearInterval(richPresenceTimer.value);
+	richPresenceTimer.value = setInterval(() => {
+		metadata.value && invoke("update-rich-presence", [
+  	`${metadata.value.common.albumartist!} - ${metadata.value.common.title}` || state.openedFile,
+  	secondsHuman(metadata.value.format.duration!),
+  	secondsHuman(currentTime.value!),
+		]);
+	}, 1000);
 
 	// set the html title to the song name
 	document.title = state.openedFile || "Amethyst";
