@@ -7,7 +7,7 @@ const invoke = window.electron.ipcRenderer.invoke;
 </script>
 
 <template>
-  <div class="bg-gray-200 font-fredoka drag text-xs flex justify-between items-center">
+  <div class="bg-gray-200 font-cozette-vector drag text-xs flex justify-between items-center">
     <div class="flex h-full items-center">
       <img src="../icon.png" class="ml-1 h-4" alt="">
 

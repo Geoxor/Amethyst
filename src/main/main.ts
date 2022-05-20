@@ -145,7 +145,7 @@ async function openFile() {
 	const response = await dialog.showOpenDialog({
 		properties: ["openFile"],
 		filters: [
-			{ name: "Audio", extensions: ["ogg", "wav", "flac", "wav", "opus", "aac", "aiff", "mp3"] },
+			{ name: "Audio", extensions: ["ogg", "flac", "wav", "opus", "aac", "aiff", "mp3", "m4a"] },
 		],
 	});
 	!response.canceled && playAudio(response.filePaths[0]);

@@ -10,6 +10,7 @@ createApp(App).use(router).mount("#app");
 
 const state = reactive({
 	openedFile: "",
+	volume: 1,
 	isPlaying: false,
 });
 

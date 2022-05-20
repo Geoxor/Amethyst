@@ -3,7 +3,7 @@ import type { IAudioMetadata } from "music-metadata";
 import type { Ref } from "vue";
 import { computed, onMounted, ref, watch } from "vue";
 import Tag from "../components/Tag.vue";
-import Explorer from "../components/Explorer.vue";
+// import Explorer from "../components/Explorer.vue";
 import DbMeter from "../../renderer/components/DbMeter.vue";
 import { useState } from "../../renderer/main";
 import Spectrum from "../components/Spectrum.vue";
@@ -58,6 +58,7 @@ function pause() {
 function loadSound(path: string) {
 	sound.value && pause();
 	sound.value = new Audio(path);
+	sound.value.volume = state.volume;
 	play();
 	sound.value.onended = () => {
 		play();
@@ -100,7 +101,7 @@ onMounted(() => {
         <i-fluency-play class="w-5 h-5" />
       </button>
       <input
-        id="volume" v-model="sound.volume" class="max-w-32" min="0" max="1" step="0.01" type="range" @wheel="handleVolumeMouseScroll"
+        id="volume" v-model="sound.volume" class="max-w-32" min="0" max="1" step="0.01" type="range" @input="state.volume = sound.volume" @wheel="handleVolumeMouseScroll"
       >
       <DbMeter :key="state.openedFile" :node="source" />
     </div>
@@ -118,10 +119,10 @@ onMounted(() => {
         <div class="flex gap-8">
           <img class="w-48 h-48 cover" :src="cover">
           <div class="flex flex-col gap-2">
-            <h1 class="font-fredoka text-[32px] hover:underline cursor-pointer " @click="invoke('show-item', [state.openedFile])">
+            <h1 class="font-cozette-vector text-[32px] hover:underline cursor-pointer " @click="invoke('show-item', [state.openedFile])">
               {{ metadata.common.title || state.openedFile.substring(state.openedFile.lastIndexOf("\\") + 1) }}
             </h1>
-            <h2 class="font-fredoka text-black text-opacity-75 text-[16px] ">
+            <h2 class="font-cozette-vector text-black text-opacity-75 text-[16px] ">
               {{ metadata.common.albumartist }}
             </h2>
 
