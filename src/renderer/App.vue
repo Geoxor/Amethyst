@@ -5,7 +5,7 @@ import MenuBar from "./components/MenuBar.vue";
 </script>
 
 <template>
-  <div>
+  <div class="flex flex-col">
     <menu-bar />
     <router-view />
   </div>
@@ -15,8 +15,8 @@ import MenuBar from "./components/MenuBar.vue";
 * {
   @apply !outline-none;
 }
-html {
-  @apply h-full w-full;
+html, body, #app, #app > div {
+  @apply h-full w-full ;
 }
 
 .fullscreen {

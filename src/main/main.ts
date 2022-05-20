@@ -141,10 +141,7 @@ app
 	})
 	.catch(console.log);
 
-ipcMain.handle("minimize", () => mainWindow?.minimize());
-ipcMain.handle("maximize", () => mainWindow?.maximize());
-ipcMain.handle("close", () => mainWindow?.close());
-ipcMain.handle("open-file-dialog", async () => {
+async function openFile() {
 	const response = await dialog.showOpenDialog({
 		properties: ["openFile"],
 		filters: [
@@ -152,5 +149,11 @@ ipcMain.handle("open-file-dialog", async () => {
 		],
 	});
 	!response.canceled && playAudio(response.filePaths[0]);
-});
+}
+
+ipcMain.handle("minimize", () => mainWindow?.minimize());
+ipcMain.handle("maximize", () => mainWindow?.maximize());
+ipcMain.handle("close", () => mainWindow?.close());
+ipcMain.handle("open-file-dialog", async () => openFile());
+ipcMain.handle("show-item", (_event, [fullPath]) => shell.showItemInFolder(path.normalize(fullPath)));
 

@@ -2,11 +2,13 @@
 import type { IAudioMetadata } from "music-metadata";
 import type { Ref } from "vue";
 import { computed, onMounted, ref, watch } from "vue";
+import Tag from "../components/Tag.vue";
 import Explorer from "../components/Explorer.vue";
 import DbMeter from "../../renderer/components/DbMeter.vue";
 import { useState } from "../../renderer/main";
 import Spectrum from "../components/Spectrum.vue";
 
+const invoke = window.electron.ipcRenderer.invoke;
 const state = useState();
 const sound = ref() as Ref<HTMLAudioElement>;
 const ctx = ref(new window.AudioContext()) as Ref<AudioContext>;
@@ -20,6 +22,14 @@ const cover = computed(() => {
 	const blob = new Blob([buffer], { type: metadata.value.common.picture[0].format });
 	return URL.createObjectURL(blob);
 });
+
+// Turns seconds from 80 to 1:20
+const secondsHuman = (time: number) => {
+	const seconds = Math.floor(time);
+	const minutes = Math.floor(seconds / 60);
+	const secondsLeft = seconds % 60;
+	return `${minutes}:${secondsLeft < 10 ? "0" : ""}${secondsLeft}`;
+};
 
 const currentTime = ref(0);
 const timer = ref();
@@ -75,11 +85,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-if="sound && metadata">
+  <div v-if="sound && metadata" class="h-full flex flex-col">
     <!-- <Explorer /> -->
     <div class="flex p-1 gap-2 items-center">
-      {{ currentTime.toFixed() }}
-      <input v-model="sound.currentTime" class="w-full" min="0" :max="metadata.format.duration" step="0.01" type="range" @wheel="handleSeekMouseScroll">
+      <input v-model="sound.currentTime" class="w-full " min="0" :max="metadata.format.duration" step="0.01" type="range" @wheel="handleSeekMouseScroll">
+
+      <h1 class="font-cozette-vector whitespace-nowrap text-sm">
+        {{ secondsHuman(currentTime) }} / {{ secondsHuman(metadata.format.duration!) }}
+      </h1>
       <button v-if="state.isPlaying" class="flex items-center" @click="pause()">
         <i-fluency-pause class="w-5 h-5" />
       </button>
@@ -87,14 +100,43 @@ onMounted(() => {
         <i-fluency-play class="w-5 h-5" />
       </button>
       <input
-        id="volume" v-model="sound.volume" min="0" max="1" step="0.01" type="range" @wheel="handleVolumeMouseScroll"
+        id="volume" v-model="sound.volume" class="max-w-32" min="0" max="1" step="0.01" type="range" @wheel="handleVolumeMouseScroll"
       >
       <DbMeter :key="state.openedFile" :node="source" />
     </div>
 
-    <div class="flex">
-      <img class="w-64" :src="cover">
-      <Spectrum :key="state.openedFile" :node="source" />
+    <!-- <div class="flex bg-black w-full h-1/3" /> -->
+    <!-- <div class="flex bg-gray-400 w-full h-1/3" /> -->
+    <!-- <div class="flex bg-black w-full h-1/3" /> -->
+
+    <div class="flex relative h-full bg-white overflow-hidden">
+      <!-- <div class="absolute w-full h-full bg-black transform scale-150 ">
+        <div class="w-full h-full bg-center bg-no-repeat bg-cover opacity-50 filter blur-[64px]" :style="`background-image: url(${cover})`" />
+      </div> -->
+
+      <div class="z-10 px-24 flex w-full flex-col justify-center">
+        <div class="flex gap-8">
+          <img class="w-48 h-48 cover" :src="cover">
+          <div class="flex flex-col gap-2">
+            <h1 class="font-fredoka text-[32px] hover:underline cursor-pointer " @click="invoke('show-item', [state.openedFile])">
+              {{ metadata.common.title || state.openedFile.substring(state.openedFile.lastIndexOf("\\") + 1) }}
+            </h1>
+            <h2 class="font-fredoka text-black text-opacity-75 text-[16px] ">
+              {{ metadata.common.albumartist }}
+            </h2>
+
+            <div class="flex gap-2 items-center">
+              <tag v-if="metadata.format.container" :text="metadata.format.container" />
+              <tag v-if="metadata.format.bitrate" :text="`${~~(metadata.format.bitrate / 1024)}Kbps`" />
+              <tag v-if="metadata.format.sampleRate" :text="`${(metadata.format.sampleRate / 1000)}KHz`" />
+              <tag v-if="metadata.format.bitsPerSample" :text="`${metadata.format.bitsPerSample}bit`" />
+              <tag v-if="metadata.format.numberOfChannels" :text="`${metadata.format.numberOfChannels}ch`" />
+            </div>
+          </div>
+        </div>
+
+        <spectrum :key="state.openedFile" :node="source" />
+      </div>
     </div>
   </div>
 </template>
@@ -102,5 +144,8 @@ onMounted(() => {
 <style lang="postcss" scoped>
 a {
   @apply text-[#42b983];
+}
+.cover {
+	filter: drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.25));
 }
 </style>

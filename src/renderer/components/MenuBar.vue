@@ -7,12 +7,12 @@ const invoke = window.electron.ipcRenderer.invoke;
 </script>
 
 <template>
-  <div class="bg-gray-200  drag  text-xs flex justify-between items-center">
+  <div class="bg-gray-200 font-fredoka drag text-xs flex justify-between items-center">
     <div class="flex h-full items-center">
       <img src="../icon.png" class="ml-1 h-4" alt="">
 
       <Menu title="File">
-        <MenuOption
+        <menu-option
           hint="Open an audio file"
           :shortcuts="['CTRL', 'O']"
           title="Open..."
@@ -21,7 +21,7 @@ const invoke = window.electron.ipcRenderer.invoke;
       </Menu>
 
       <Menu title="Settings">
-        <MenuOption
+        <menu-option
           hint="Opens the settings menu"
           :shortcuts="['CTRL', ',']"
           title="Preferences..."
@@ -29,11 +29,11 @@ const invoke = window.electron.ipcRenderer.invoke;
       </Menu>
 
       <Menu title="Help">
-        <MenuOption hint="Opens the Amethyst documentation on the internet" title="Documentation..." @click="() => { }" />
+        <menu-option hint="Opens the Amethyst documentation on the internet" title="Documentation..." @click="() => { }" />
       </Menu>
     </div>
 
-    <ControlButtons />
+    <control-buttons />
   </div>
 </template>
 

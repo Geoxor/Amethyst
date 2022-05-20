@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "roboto-mono";
+  src: url("../../assets/fonts/roboto-mono.ttf");
+}
+
+.font-roboto-mono {
+  font-family: "roboto-mono";
+}
+
+@font-face {
+  font-family: "fredoka";
+  src: url("../../assets/fonts/fredoka.ttf");
+}
+
+.font-cozette-vector {
+  font-family: "fredoka";
+}
+
+@font-face {
+  font-family: "cozette-vector";
+  src: url("../../assets/fonts/cozette-vector.ttf");
+}
+
+.font-cozette-vector {
+  font-family: "cozette-vector";
+}
