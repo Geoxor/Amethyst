@@ -9,12 +9,19 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import path from "path";
+import fs from "fs";
 import { BrowserWindow, app, dialog, ipcMain, shell } from "electron";
 import { autoUpdater } from "electron-updater";
 import log from "electron-log";
 import { resolveHtmlPath } from "./util";
 import "./handles";
 import Discord from "./discord";
+
+const RESOURCES_PATH = app.isPackaged
+  ? path.join(process.resourcesPath, "assets")
+  : path.join(__dirname, "../../assets");
+
+const DEFAULT_COVER = fs.readFileSync(`${RESOURCES_PATH}/images/default-cover.png`);
 
 let mainWindow: BrowserWindow | null = null;
 
@@ -64,10 +71,6 @@ const createWindow = async () => {
 	if (isDebug)
 		await installExtensions();
 
-	const RESOURCES_PATH = app.isPackaged
-		? path.join(process.resourcesPath, "assets")
-		: path.join(__dirname, "../../assets");
-
 	const getAssetPath = (...paths: string[]): string => {
 		return path.join(RESOURCES_PATH, ...paths);
 	};
@@ -106,6 +109,7 @@ const createWindow = async () => {
 
 	mainWindow.webContents.on("dom-ready", () => {
 		playAudio(process.argv[1] || "No file opened");
+		mainWindow!.webContents.send("default-cover", DEFAULT_COVER);
 	});
 
 	// Open urls in the user's browser
@@ -156,7 +160,13 @@ async function openFile() {
 
 ipcMain.handle("minimize", () => mainWindow?.minimize());
 ipcMain.handle("maximize", () => mainWindow?.maximize());
+ipcMain.handle("unmaximize", () => mainWindow?.unmaximize());
 ipcMain.handle("close", () => mainWindow?.close());
 ipcMain.handle("open-file-dialog", async () => openFile());
 ipcMain.handle("show-item", (_, [fullPath]) => shell.showItemInFolder(path.normalize(fullPath)));
-ipcMain.handle("update-rich-presence", (_, [title, duration, seek]) => discord.updateCurrentSong(title, duration, seek));
+ipcMain.handle("update-rich-presence", (_, [title, duration, seek, status]) => discord.updateCurrentSong(title, duration, seek, status));
+ipcMain.handle("sync-window-state", () => ({
+	isMinimized: mainWindow?.isMinimized(),
+	isMaximized: mainWindow?.isMaximized(),
+}));
+

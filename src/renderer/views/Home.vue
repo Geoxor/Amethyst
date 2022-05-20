@@ -5,7 +5,7 @@ import { computed, onMounted, ref, watch } from "vue";
 import Tag from "../components/Tag.vue";
 // import Explorer from "../components/Explorer.vue";
 import DbMeter from "../../renderer/components/DbMeter.vue";
-import { useState } from "../../renderer/main";
+import { defaultCover, useState } from "../../renderer/state";
 import Spectrum from "../components/Spectrum.vue";
 
 const invoke = window.electron.ipcRenderer.invoke;
@@ -14,9 +14,10 @@ const sound = ref() as Ref<HTMLAudioElement>;
 const ctx = ref(new window.AudioContext()) as Ref<AudioContext>;
 const source = ref() as Ref<MediaElementAudioSourceNode>;
 const metadata = ref<IAudioMetadata>();
+
 const cover = computed(() => {
 	if (!metadata?.value?.common?.picture?.[0])
-		return;
+		return defaultCover.value;
 
 	const buffer = metadata.value.common.picture[0].data;
 	const blob = new Blob([buffer], { type: metadata.value.common.picture[0].format });
@@ -74,9 +75,10 @@ function loadSound(path: string) {
 	richPresenceTimer.value && clearInterval(richPresenceTimer.value);
 	richPresenceTimer.value = setInterval(() => {
 		metadata.value && invoke("update-rich-presence", [
-  	`${metadata.value.common.albumartist!} - ${metadata.value.common.title}` || state.openedFile,
-  	secondsHuman(metadata.value.format.duration!),
-  	secondsHuman(currentTime.value!),
+      metadata.value.common.albumartist ? `${metadata.value.common.albumartist!} - ${metadata.value.common.title}` : state.openedFile.substring(state.openedFile.lastIndexOf("\\") + 1),
+      secondsHuman(metadata.value.format.duration!),
+      secondsHuman(currentTime.value!),
+      state.isPlaying.toString(),
 		]);
 	}, 1000);
 

@@ -2,7 +2,7 @@
   "name": "amethyst",
   "author": "Geoxor <geoxor123@outlook.com>",
   "productName": "Amethyst",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "main": "./release/dist/main/main.js",
   "description": "A music box made of amethyst.",
   "scripts": {

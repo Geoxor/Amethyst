@@ -24,13 +24,13 @@ export default class Discord {
 		this.client.setActivity(args);
 	}
 
-	public updateCurrentSong(title: string, duration: string, seek: string) {
+	public updateCurrentSong(title: string, duration: string, seek: string, status: string) {
 		this.updateRichPresence({
 			state: `${seek} - ${duration}`,
 			details: title,
 			largeImageKey: "logo",
 			largeImageText: "Amethyst",
-			smallImageKey: "logo",
+			smallImageKey: status === "true" ? "play" : "pause",
 			smallImageText: `Amethyst v${app.getVersion()}`,
 			buttons: [
 				{
