@@ -8,6 +8,7 @@ import Tag from "../components/Tag.vue";
 import DbMeter from "../../renderer/components/DbMeter.vue";
 import { defaultCover, useState } from "../../renderer/state";
 import Spectrum from "../components/Spectrum.vue";
+import Player from "../player";
 
 const invoke = window.electron.ipcRenderer.invoke;
 const state = useState();
@@ -112,31 +113,35 @@ watch(() => state.currentlyPlaying, () => openFile.value = state.queue[state.cur
 
 onMounted(() => {
 	loadSound(state.queue[0]);
+
+  // Watch the currently set file and load it if it changes
 	watch(() => openFile.value, () => loadSound(openFile.value));
 });
 </script>
 
 <template>
-  <div class="flex h-[calc(100%-24px)]">
+  <div class="flex h-[calc(100%-24px)] main">
     <explorer />
     <div v-if="sound && metadata" class="h-full flex w-full flex-col">
-      <div class="flex p-1 gap-2 items-center">
+      <div class="flex p-1 gap-2 items-center font-cozette">
         <input v-model="sound.currentTime" class="w-full " min="0" :max="metadata.format.duration" step="0.01" type="range" @wheel="handleSeekMouseScroll">
-
         <h1 class="font-cozette whitespace-nowrap text-sm">
           {{ secondsHuman(currentTime) }} / {{ secondsHuman(metadata.format.duration!) }}
         </h1>
-        <button class="flex items-center" @click="previous()">
-          <i-fluency-previous class="w-5 h-5" />
+        <button class="flex items-center text-xl hover:text-blue-300" @click="state.queue = Player.fisherYatesShuffle(state.queue)">
+          ⮀
         </button>
-        <button v-if="state.isPlaying" class="flex items-center" @click="pause()">
-          <i-fluency-pause class="w-5 h-5" />
+        <button class="flex items-center text-xl hover:text-blue-300" @click="previous()">
+          {{ '\u{0F049}' }} <!--  -->
         </button>
-        <button v-else class="flex items-center" @click="play()">
-          <i-fluency-play class="w-5 h-5" />
+        <button v-if="state.isPlaying" class="flex items-center text-xl hover:text-blue-300" @click="pause()">
+          ⏸
         </button>
-        <button class="flex items-center" @click="next()">
-          <i-fluency-next class="w-5 h-5" />
+        <button v-else class="flex items-center text-xl hover:text-blue-300" @click="play()">
+          ⏵
+        </button>
+        <button class="flex items-center text-xl hover:text-blue-300" @click="next()">
+          {{ '\u{0F050}' }} <!--  -->
         </button>
         <input
           id="volume" v-model="sound.volume" class="max-w-32" min="0" max="1" step="0.01" type="range" @input="state.volume = sound.volume" @wheel="handleVolumeMouseScroll"

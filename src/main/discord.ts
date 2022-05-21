@@ -2,8 +2,15 @@ import type { Presence } from "discord-rpc";
 import { Client } from "discord-rpc";
 import { app } from "electron";
 
+const isDebug
+  = process.env.NODE_ENV === "development" || process.env.DEBUG_PROD === "true";
+
+const DEV_CLIENT_ID = "977664616568078408";
+const PROD_CLIENT_ID = "976036303156162570";
+
+// 539098687517095936
 export default class Discord {
-	public CLIENT_ID = "976036303156162570";
+	public clientId = isDebug ? DEV_CLIENT_ID : PROD_CLIENT_ID;
 	public client = new Client({ transport: "ipc" });
 	constructor() {
 		this.client.on("ready", () => {
@@ -13,7 +20,7 @@ export default class Discord {
 	}
 
 	public connect() {
-		this.client.login({ clientId: this.CLIENT_ID }).catch(() => this.connect());
+		this.client.login({ clientId: this.clientId }).catch(() => this.connect());
 	}
 
 	public clearRichPresesnce() {
@@ -29,9 +36,9 @@ export default class Discord {
 			state: `${seek} - ${duration}`,
 			details: title,
 			largeImageKey: "logo",
-			largeImageText: "Amethyst",
+			largeImageText: `Amethyst v${app.getVersion()}`,
 			smallImageKey: status === "true" ? "play" : "pause",
-			smallImageText: `Amethyst v${app.getVersion()}`,
+			smallImageText: status === "true" ? "Playing" : "Paused",
 			buttons: [
 				{
 					label: "Find Song",

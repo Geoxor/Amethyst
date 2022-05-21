@@ -12,7 +12,6 @@
     "build:renderer": "vite build --config ./src/renderer/vite.config.js",
     "start:main": "npm run build:main && cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only ./src/main/main.ts",
     "start:renderer": "vite dev --config ./src/renderer/vite.config.js",
-    "publish": "npm run build && electron-builder build --publish always",
     "package": "npm run build && electron-builder build --publish never && explorer .",
     "package:asarless": "npm run build && electron-builder build --config.asar=false",
     "postinstall": "electron-builder install-app-deps",

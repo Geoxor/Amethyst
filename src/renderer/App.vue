@@ -14,7 +14,9 @@ import MenuBar from "./components/MenuBar.vue";
 <style lang="postcss">
 * {
   @apply !outline-none;
+  cursor: url("./cursors/default.png"), auto !important;
 }
+
 html, body, #app, #app > div {
   @apply h-full w-full ;
 }

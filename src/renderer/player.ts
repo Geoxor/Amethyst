@@ -1,13 +1,13 @@
-import { Howl } from "howler";
-
 export default class Player {
-	static playAudio(path: string) {
-		const sound = new Howl({
-			src: [path],
-			html5: true,
-			format: ["mp3"],
-		});
+	public static fisherYatesShuffle<T>(array: T[]) {
+		let m = array.length; let t; let i;
+		while (m) {
+			i = ~~(Math.random() * m--);
 
-		sound.play();
+			t = array[m];
+			array[m] = array[i];
+			array[i] = t;
+		}
+		return array;
 	}
 }
