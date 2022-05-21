@@ -72,7 +72,7 @@ jobs:
       - name: Prepare release notes
         env:
           RELEASE_NOTE: ${{ needs.draft.outputs.release-note }}
-        run: echo "$RELEASE_NOTE" >> ./resources/release-notes.md
+        run: echo "$RELEASE_NOTE" >> ./release/build/release-notes.md
       - name: Compile & release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         env:
