@@ -14,9 +14,12 @@ import { BrowserWindow, app, dialog, ipcMain, shell } from "electron";
 import { autoUpdater } from "electron-updater";
 import log from "electron-log";
 import * as mm from "music-metadata/lib/core";
+import sharp from "sharp";
 import { resolveHtmlPath } from "./util";
 import { ALLOWED_EXTENSIONS, loadFolder } from "./handles";
 import Discord from "./discord";
+
+const getDevVersion = () => JSON.parse(fs.readFileSync(path.join(__dirname, "../../package.json"), "utf8")).version;
 
 const RESOURCES_PATH = app.isPackaged
   ? path.join(process.resourcesPath, "assets")
@@ -114,7 +117,7 @@ const createWindow = async () => {
 	mainWindow.webContents.on("dom-ready", () => {
 		playAudio(process.argv[1] || "No file opened");
 		mainWindow!.webContents.send("default-cover", DEFAULT_COVER);
-		mainWindow!.webContents.send("version", app.getVersion());
+		mainWindow!.webContents.send("version", isDebug ? `${getDevVersion()} DEV-BUILD` : app.getVersion());
 		mainWindow!.webContents.send("acceptable-extensions", ALLOWED_EXTENSIONS);
 	});
 
@@ -170,24 +173,32 @@ async function openFolder() {
 	});
 
 	if (response.canceled)
-return;
-
+		return;
 	const folder = await loadFolder(response.filePaths[0]);
-
 	mainWindow!.webContents.send("play-folder", folder);
 }
 
-ipcMain.handle("minimize", () => mainWindow?.minimize());
+async function getCover(path: string) {
+	const file = await fs.promises.readFile(path);
+	const meta = await mm.parseBuffer(file);
+	const cover = meta.common?.picture?.[0].data;
+	if (!cover)
+		return;
+	return (await sharp(cover).resize(12, 12).toBuffer()).toString("base64");
+}
 
-ipcMain.handle("maximize", () => mainWindow?.maximize());
-ipcMain.handle("unmaximize", () => mainWindow?.unmaximize());
-ipcMain.handle("close", () => mainWindow?.close());
-ipcMain.handle("open-file-dialog", async () => openFile());
-ipcMain.handle("open-folder-dialog", async () => openFolder());
-ipcMain.handle("get-metadata", (_event, args) => mm.parseBuffer(fs.readFileSync(args[0])));
+ipcMain.handle("minimize", () => mainWindow!.minimize());
+ipcMain.handle("maximize", () => mainWindow!.maximize());
+ipcMain.handle("unmaximize", () => mainWindow!.unmaximize());
+ipcMain.handle("close", () => mainWindow!.close());
+ipcMain.handle("open-file-dialog", () => openFile());
+ipcMain.handle("open-folder-dialog", () => openFolder());
+ipcMain.handle("get-cover", (_, [path]) => getCover(path));
+ipcMain.handle("get-metadata", async (_, [path]) => mm.parseBuffer(await fs.promises.readFile(path)));
 ipcMain.handle("show-item", (_, [fullPath]) => shell.showItemInFolder(path.normalize(fullPath)));
 ipcMain.handle("update-rich-presence", (_, [title, duration, seek, status]) => discord.updateCurrentSong(title, duration, seek, status));
 ipcMain.handle("sync-window-state", () => ({
-	isMinimized: mainWindow?.isMinimized(),
-	isMaximized: mainWindow?.isMaximized(),
+	isMinimized: mainWindow!.isMinimized(),
+	isMaximized: mainWindow!.isMaximized(),
 }));
+

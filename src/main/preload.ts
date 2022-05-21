@@ -1,7 +1,18 @@
 import type { IpcRendererEvent } from "electron";
 import { contextBridge, ipcRenderer } from "electron";
 
-export type Channels = "ipc-example" | "load-library" | "get-metadata";
+export type Channels =
+	"minimize" |
+	"maximize" |
+	"unmaximize" |
+	"close" |
+	"open-file-dialog" |
+	"open-folder-dialog" |
+	"get-cover" |
+	"get-metadata" |
+	"show-item" |
+	"update-rich-presence" |
+	"sync-window-state";
 
 contextBridge.exposeInMainWorld("electron", {
 	ipcRenderer: {

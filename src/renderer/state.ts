@@ -1,4 +1,7 @@
+import type { Ref } from "vue";
 import { reactive, ref } from "vue";
+
+const COVERART_RENDERING_CONCURRENCY = 10;
 
 const electron = window.electron.ipcRenderer;
 
@@ -11,6 +14,7 @@ const state = reactive({
 	isPlaying: false,
 	isMinimized: false,
 	isMaximized: false,
+	processQueue: 0,
 });
 
 export const useState = () => state;
@@ -46,3 +50,19 @@ function spreadArray(array: string[]): string[] {
 			return acc.concat(item);
 	}, [] as string[]);
 }
+
+export const getCoverArt = async (path: string, ref: Ref<string>) => {
+  if (state.processQueue < COVERART_RENDERING_CONCURRENCY) {
+    state.processQueue++;
+    try {
+      ref.value = await window.electron.ipcRenderer.invoke<string>("get-cover", [path]);
+    }
+    catch (error) { }
+    state.processQueue--;
+  }
+  else {
+    setTimeout(async () =>
+      getCoverArt(path, ref), 100,
+    );
+  }
+};

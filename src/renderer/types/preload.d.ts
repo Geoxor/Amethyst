@@ -1,4 +1,4 @@
-import type { Channels } from "renderer/main/preload";
+import type { Channels } from "../../main/preload";
 
 // Preload
 declare global {
