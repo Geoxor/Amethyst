@@ -1,21 +1,45 @@
 <script setup lang="ts">
 import { computed } from "@vue/reactivity";
-import { onMounted } from "vue";
+import { onMounted, onUnmounted } from "vue";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
 const SPECTRUM_WIDTH = 400;
 const SPECTRUM_HEIGHT = 125;
 
+let shouldFuckOff = false;
+
+const getLogIndex = (value: number, min: number, max: number) => {
+		const exp = value / min / (max - min);
+		return min * (max / min) ** exp;
+	};
+
+const transformLogarithmic = (array: Uint8Array): Uint8Array => {
+	const logArray = [];
+
+	for (let i = 1; i < array.length; i++) {
+		const idx = getLogIndex(i, 1, array.length - 1);
+		const low = ~~idx;
+		const high = Math.ceil(idx);
+		const lv = array[low];
+		const hv = array[high];
+		const w = (idx - low) / (high - low);
+		const v = lv + (hv - lv) * w;
+		logArray.push(v);
+	}
+
+	return new Uint8Array(logArray);
+};
+
 onMounted(() => {
 	const context = props.node.context;
-	const gain1 = context.createGain();
+	const gain = context.createGain();
 	const analyser = context.createAnalyser();
 	analyser.fftSize = 8192;
 	analyser.smoothingTimeConstant = 0.2;
 	analyser.maxDecibels = 30;
 	analyser.minDecibels = -120;
 
-	props.node.connect(gain1);
-	gain1.connect(analyser);
+	props.node.connect(gain);
+	gain.connect(analyser);
 
 	const spectrum = document.querySelector("#spectrum") as HTMLCanvasElement;
 	const canvasCtx = computed(() => {
@@ -27,28 +51,6 @@ onMounted(() => {
 		}
 		return canvas;
 	});
-
-	const getLogIndex = (value: number, min: number, max: number) => {
-		const exp = value / min / (max - min);
-		return min * (max / min) ** exp;
-	};
-
-	const transformLogarithmic = (array: Uint8Array): Uint8Array => {
-		const logArray = [];
-
-		for (let i = 1; i < array.length; i++) {
-			const idx = getLogIndex(i, 1, array.length - 1);
-			const low = ~~idx;
-			const high = Math.ceil(idx);
-			const lv = array[low];
-			const hv = array[high];
-			const w = (idx - low) / (high - low);
-			const v = lv + (hv - lv) * w;
-			logArray.push(v);
-		}
-
-		return new Uint8Array(logArray);
-	};
 
 	function draw() {
 		const bufferLength = analyser.frequencyBinCount;
@@ -65,11 +67,13 @@ onMounted(() => {
 
 			canvasCtx.value?.fillRect(0 + i * barWidth, SPECTRUM_HEIGHT - barHeight, 1, barHeight);
 		}
-		requestAnimationFrame(draw);
+		!shouldFuckOff && requestAnimationFrame(draw);
 	}
 
 	draw();
 });
+
+onUnmounted(() => shouldFuckOff = true);
 </script>
 
 <template>

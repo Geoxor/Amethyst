@@ -15,7 +15,7 @@ import { autoUpdater } from "electron-updater";
 import log from "electron-log";
 import * as mm from "music-metadata/lib/core";
 import { resolveHtmlPath } from "./util";
-import { loadFolder } from "./handles";
+import { ALLOWED_EXTENSIONS, loadFolder } from "./handles";
 import Discord from "./discord";
 
 const RESOURCES_PATH = app.isPackaged
@@ -114,6 +114,8 @@ const createWindow = async () => {
 	mainWindow.webContents.on("dom-ready", () => {
 		playAudio(process.argv[1] || "No file opened");
 		mainWindow!.webContents.send("default-cover", DEFAULT_COVER);
+		mainWindow!.webContents.send("version", app.getVersion());
+		mainWindow!.webContents.send("acceptable-extensions", ALLOWED_EXTENSIONS);
 	});
 
 	// Open urls in the user's browser
@@ -176,6 +178,7 @@ return;
 }
 
 ipcMain.handle("minimize", () => mainWindow?.minimize());
+
 ipcMain.handle("maximize", () => mainWindow?.maximize());
 ipcMain.handle("unmaximize", () => mainWindow?.unmaximize());
 ipcMain.handle("close", () => mainWindow?.close());

@@ -1,6 +1,8 @@
 import fs from "fs";
 import path from "path";
 
+export const ALLOWED_EXTENSIONS = ["ogg", "flac", "wav", "opus", "aac", "aiff", "mp3", "m4a"];
+
 export const loadFolder = async (inputPath: string) => {
 	return new Promise((resolve, reject) => {
 		fs.readdir(inputPath, (error, files) => {
@@ -15,10 +17,10 @@ export const loadFolder = async (inputPath: string) => {
 						if (stats.isDirectory())
 							return loadFolder(filePath);
 
-						else if (stats.isFile())
+						else if (stats.isFile() && ALLOWED_EXTENSIONS.includes(path.extname(filePath).slice(1)))
 							return filePath;
 					}),
-				).then(resolve);
+				).then(files => resolve(files.filter(file => !!file)));
 			}
 		});
 	});

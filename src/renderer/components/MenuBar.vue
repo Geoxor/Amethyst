@@ -1,9 +1,11 @@
 <script lang="ts" setup>
+import { useState } from "../state";
 import Menu from "./Menu.vue";
 import MenuOption from "./MenuOption.vue";
 // import MenuSplitter from "./MenuSplitter.vue";
 import ControlButtons from "./ControlButtons.vue";
 const invoke = window.electron.ipcRenderer.invoke;
+const state = useState();
 </script>
 
 <template>
@@ -38,6 +40,8 @@ const invoke = window.electron.ipcRenderer.invoke;
         <menu-option hint="Opens the Amethyst documentation on the internet" title="Documentation..." @click="() => { }" />
       </Menu>
     </div>
+
+    Amethyst v{{ state.version }}
 
     <control-buttons />
   </div>

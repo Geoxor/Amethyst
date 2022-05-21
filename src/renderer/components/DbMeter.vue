@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
 
 const leftChannel = ref(-60);
@@ -8,6 +8,8 @@ const leftChannelAverage = ref(-60);
 const rightChannelAverage = ref(-60);
 
 const RANGE = 30;
+
+let shouldFuckOff = false;
 
 onMounted(() => {
 	const context = props.node.context;
@@ -31,7 +33,7 @@ onMounted(() => {
 	const sampleBuffer = new Float32Array(analyser.fftSize);
 	const CHANNELS = 2;
 
-	function loop() {
+	function draw() {
 		analyser.getFloatTimeDomainData(sampleBuffer);
 
 		// Compute peak instantaneous power over the interval.
@@ -57,10 +59,12 @@ onMounted(() => {
 		leftChannelAverage.value = 10 * Math.log10(sumOfSquaresLeft / (sampleBuffer.length / CHANNELS));
 		rightChannelAverage.value = 10 * Math.log10(sumOfSquaresRight / (sampleBuffer.length / CHANNELS));
 
-		requestAnimationFrame(loop);
+		!shouldFuckOff && requestAnimationFrame(draw);
 	}
-	loop();
+	draw();
 });
+
+onUnmounted(() => shouldFuckOff = true);
 </script>
 
 <template>
