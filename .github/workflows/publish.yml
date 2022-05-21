@@ -69,10 +69,11 @@ jobs:
           node-version: 16.6
       - name: Install dependencies
         run: npm i
+      
       - name: Prepare release notes
         env:
           RELEASE_NOTE: ${{ needs.draft.outputs.release-note }}
-        run: echo "$RELEASE_NOTE" >> ./release/build/release-notes.md
+        run: mkdir release/build && echo "$RELEASE_NOTE" >> ./release/build/release-notes.md
       - name: Compile & release Electron app
         uses: samuelmeuli/action-electron-builder@v1
         env:
