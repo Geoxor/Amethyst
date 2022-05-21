@@ -7,8 +7,10 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     IFluencyMaximize: typeof import('~icons/fluency/maximize')['default']
     IFluencyMinimize: typeof import('~icons/fluency/minimize')['default']
+    IFluencyNext: typeof import('~icons/fluency/next')['default']
     IFluencyPause: typeof import('~icons/fluency/pause')['default']
     IFluencyPlay: typeof import('~icons/fluency/play')['default']
+    IFluencyPrevious: typeof import('~icons/fluency/previous')['default']
     IFluencyShrink: typeof import('~icons/fluency/shrink')['default']
     IFluencyX: typeof import('~icons/fluency/x')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

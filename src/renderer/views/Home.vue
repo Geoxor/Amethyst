@@ -58,6 +58,16 @@ function pause() {
 	state.isPlaying = false;
 }
 
+function next() {
+  if ((state.currentlyPlaying + 1) < (state.queue.length - 1))
+    state.currentlyPlaying++;
+}
+
+function previous() {
+  if ((state.currentlyPlaying - 1) > 0)
+    state.currentlyPlaying--;
+}
+
 const openFile = ref("");
 
 watch(() => state.currentlyPlaying, () => {
@@ -71,7 +81,7 @@ function loadSound(path: string) {
 	sound.value.volume = state.volume;
 	play();
 	sound.value.onended = () => {
-		play();
+		next();
 	};
 
   // This is the timer for the current duration ont he UI
@@ -118,11 +128,17 @@ onMounted(() => {
         <h1 class="font-cozette whitespace-nowrap text-sm">
           {{ secondsHuman(currentTime) }} / {{ secondsHuman(metadata.format.duration!) }}
         </h1>
+        <button class="flex items-center" @click="previous()">
+          <i-fluency-previous class="w-5 h-5" />
+        </button>
         <button v-if="state.isPlaying" class="flex items-center" @click="pause()">
           <i-fluency-pause class="w-5 h-5" />
         </button>
         <button v-else class="flex items-center" @click="play()">
           <i-fluency-play class="w-5 h-5" />
+        </button>
+        <button class="flex items-center" @click="next()">
+          <i-fluency-next class="w-5 h-5" />
         </button>
         <input
           id="volume" v-model="sound.volume" class="max-w-32" min="0" max="1" step="0.01" type="range" @input="state.volume = sound.volume" @wheel="handleVolumeMouseScroll"
