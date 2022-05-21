@@ -1,8 +1,8 @@
 <script lang="ts" setup>
-import { useState } from "../state";
+import { isDev, useState } from "../state";
 import Menu from "./Menu.vue";
 import MenuOption from "./MenuOption.vue";
-// import MenuSplitter from "./MenuSplitter.vue";
+import MenuSplitter from "./MenuSplitter.vue";
 import ControlButtons from "./ControlButtons.vue";
 const invoke = window.electron.ipcRenderer.invoke;
 const state = useState();
@@ -11,26 +11,30 @@ const state = useState();
 <template>
   <div class="bg-gray-200 font-cozette drag text-xs flex justify-between items-center">
     <div class="flex h-full items-center">
-      <img src="../icon.png" class="ml-1 h-4" alt="">
+      <img v-if="isDev" src="../icon-dev.png" class="ml-1 h-4" alt="">
+      <img v-else src="../icon.png" class="ml-1 h-4" alt="">
 
       <Menu title="File">
         <menu-option
-          hint="Open an audio file"
           :shortcuts="['CTRL', 'O']"
           title="Open audio..."
           @click="() => invoke('open-file-dialog')"
         />
         <menu-option
-          hint="Open a folder"
           :shortcuts="['CTRL', 'SHIFT', 'O']"
           title="Open folder..."
           @click="() => invoke('open-folder-dialog')"
+        />
+        <menu-splitter />
+        <menu-option
+          :shortcuts="['CTRL', 'SHIFT', 'X']"
+          title="Clear Queue"
+          @click="state.queue = []"
         />
       </Menu>
 
       <Menu title="Settings">
         <menu-option
-          hint="Opens the settings menu"
           :shortcuts="['CTRL', ',']"
           title="Preferences..."
         />

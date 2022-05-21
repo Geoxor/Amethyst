@@ -5,6 +5,20 @@ import Cover from "./Cover.vue";
 const state = useState();
 const isHoldingControl = useKeyModifier("Control");
 const invoke = window.electron.ipcRenderer.invoke;
+
+const parseTitles = (path: string, trim: number) => {
+  // Get everything after the last \
+  const fileName = path.substring(path.lastIndexOf("\\") + 1);
+
+  // Trim the text and remove ending space
+  const trimmed = fileName.substring(0, trim).trimEnd();
+
+  // Check if the length of the title exceeds the given space
+  const isFileNameLessThanTrimmed = fileName.length < trim + 1;
+
+  // Add dots if it exceeds
+  return isFileNameLessThanTrimmed ? fileName : `${trimmed}..`;
+};
 </script>
 
 <template>
@@ -21,13 +35,13 @@ const invoke = window.electron.ipcRenderer.invoke;
       </Transition>
 
       <li
-        v-for="(song, i) of state.queue" :key="song" :class="isHoldingControl && 'control-hover'" class="h-3 mb-0.25 hover:text-blue-300"
+        v-for="(song, i) of state.queue" :key="song" :class="[isHoldingControl && 'control-hover', i === state.currentlyPlaying && 'text-blue-500']" class="h-3 mb-0.25 hover:text-blue-300"
         @click="isHoldingControl ? invoke('show-item', [state.queue[i]]) : state.currentlyPlaying = i"
       >
         <cover class="inline align-top w-3 h-3" :song-path="song" />
 
-        <p class=" inline align-top text-[11px] ml-2 max-w-40 overflow-hidden overflow-ellipsis " :class="isHoldingControl ? 'cursor-pointer' : 'cursor-default'">
-          {{ song.substring(song.lastIndexOf("\\") + 1).substring(0, 25) }}{{ song.substring(song.lastIndexOf("\\") + 1).length > 25 ? '..' : '' }}
+        <p class=" inline align-top text-[11px] ml-2 max-w-40 overflow-hidden overflow-ellipsis " :class="[isHoldingControl ? 'cursor-pointer' : 'cursor-default']">
+          {{ i === state.currentlyPlaying ? "⏵ " : "" }}{{ parseTitles(song, i === state.currentlyPlaying ? 23 : 25) }}
         </p>
       </li>
     </ul>

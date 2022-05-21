@@ -74,7 +74,6 @@ function loadSound(path: string) {
 	sound.value && pause();
 	sound.value = new Audio(path);
 	sound.value.volume = state.volume;
-  console.log(path);
 	play();
 	sound.value.onended = () => {
 		next();
@@ -108,10 +107,11 @@ function loadSound(path: string) {
 	source.value.connect(ctx.value.destination);
 }
 
+watch(() => state.queue.length, () => openFile.value = state.queue[state.currentlyPlaying]);
 watch(() => state.currentlyPlaying, () => openFile.value = state.queue[state.currentlyPlaying]);
 
 onMounted(() => {
-	loadSound(openFile.value || state.queue[0]);
+	loadSound(state.queue[0]);
 	watch(() => openFile.value, () => loadSound(openFile.value));
 });
 </script>
@@ -155,7 +155,7 @@ onMounted(() => {
 
         <div class="z-10 px-24 flex w-full flex-col justify-center">
           <div class="flex gap-8">
-            <img class="w-48 h-48 cover" :src="cover">
+            <img class="w-48 h-48 cover transform transition duration-201 active:-translate-y-0 hover:-translate-y-1 cursor-pointer" :src="cover">
             <div class="flex flex-col gap-2">
               <h1 class="font-cozette text-[32px] hover:underline cursor-pointer " @click="invoke('show-item', [openFile])">
                 {{ metadata.common.title || openFile.substring(openFile.lastIndexOf("\\") + 1) }}
@@ -185,7 +185,7 @@ onMounted(() => {
 a {
   @apply text-[#42b983];
 }
-.cover {
+.cover:hover {
 	filter: drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.25));
 }
 </style>

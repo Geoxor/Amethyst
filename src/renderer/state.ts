@@ -1,5 +1,5 @@
 import type { Ref } from "vue";
-import { reactive, ref } from "vue";
+import { computed, reactive, ref } from "vue";
 
 const COVERART_RENDERING_CONCURRENCY = 10;
 
@@ -8,7 +8,7 @@ const electron = window.electron.ipcRenderer;
 const state = reactive({
 	allowedExtensions: [] as string[],
 	queue: [] as string[],
-	currentlyPlaying: 0,
+	currentlyPlaying: -1,
 	volume: 1,
 	version: "",
 	isPlaying: false,
@@ -17,6 +17,7 @@ const state = reactive({
 	processQueue: 0,
 });
 
+export const isDev = computed(() => state.version.includes("DEV"));
 export const useState = () => state;
 export const useInvoke = () => electron.invoke;
 export const defaultCover = ref();
@@ -27,19 +28,20 @@ export const syncWindowState = async () => {
 	state.isMaximized = windowState.isMaximized;
 };
 
-electron.on("play-file", file => state.queue.push(file as string));
-electron.on<(string)[]>("play-folder", (files) => {
-	state.queue = spreadArray(files);
+electron.on<string>("play-file", (file) => {
+	if (file === "--require")
+return;
+	state.queue.unshift(file);
+	state.currentlyPlaying = 0;
 });
+electron.on<(string)[]>("play-folder", files => state.queue = spreadArray(files));
 electron.on("maximize", () => state.isMaximized = true);
 electron.on("unmaximize", () => state.isMaximized = false);
 
 // These are constant state syncs that get emitted on startup from the main process
 electron.on<string>("version", version => state.version = version);
 electron.on<string[]>("allowed-extensions", allowedExtensions => state.allowedExtensions = allowedExtensions);
-electron.on("default-cover", (image) => {
-	defaultCover.value = URL.createObjectURL(new Blob([image as Buffer], { type: "image/png" }));
-});
+electron.on<Buffer>("default-cover", image => defaultCover.value = URL.createObjectURL(new Blob([image], { type: "image/png" })));
 
 // recursively goes through every file in the folder and flattens it
 function spreadArray(array: string[]): string[] {

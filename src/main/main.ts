@@ -83,7 +83,7 @@ const createWindow = async () => {
 		show: false,
 		width: 1024,
 		height: 728,
-		icon: getAssetPath("icon.png"),
+		icon: isDebug ? getAssetPath("icon-dev.png") : getAssetPath("icon.png"),
 		frame: false,
 		webPreferences: {
 			preload: path.join(__dirname, "preload.js"),
@@ -184,7 +184,7 @@ async function getCover(path: string) {
 	const cover = meta.common?.picture?.[0].data;
 	if (!cover)
 		return;
-	return (await sharp(cover).resize(12, 12).toBuffer()).toString("base64");
+	return (await sharp(cover).resize(12, 12).jpeg().toBuffer()).toString("base64");
 }
 
 ipcMain.handle("minimize", () => mainWindow!.minimize());
