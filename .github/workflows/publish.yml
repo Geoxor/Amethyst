@@ -81,6 +81,8 @@ jobs:
         with:
           build_script_name: build
           github_token: ${{ secrets.github_token }}
+          # If the commit is tagged with a version (e.g. "v1.0.0"),
+          # release the app after building
           release: true
           max_attempts: 3
 
