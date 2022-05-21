@@ -117,7 +117,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex h-full ">
+  <div class="flex h-[calc(100%-24px)]">
     <explorer />
     <div v-if="sound && metadata" class="h-full flex w-full flex-col">
       <div class="flex p-1 gap-2 items-center">
