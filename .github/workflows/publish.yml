@@ -10,7 +10,7 @@ jobs:
 
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [windows-latest]
 
     steps:
       - name: Checkout git repo
@@ -19,7 +19,7 @@ jobs:
       - name: Install Node and NPM
         uses: actions/setup-node@v1
         with:
-          node-version: 18
+          node-version: 16.6
           cache: npm
 
       - name: Install dependencies
@@ -36,4 +36,4 @@ jobs:
           # This is used for uploading release assets to github
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npm run package
+          npm run publish
