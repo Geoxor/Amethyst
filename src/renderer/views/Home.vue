@@ -74,6 +74,7 @@ function loadSound(path: string) {
 	sound.value && pause();
 	sound.value = new Audio(path);
 	sound.value.volume = state.volume;
+  console.log(path);
 	play();
 	sound.value.onended = () => {
 		next();
@@ -110,7 +111,7 @@ function loadSound(path: string) {
 watch(() => state.currentlyPlaying, () => openFile.value = state.queue[state.currentlyPlaying]);
 
 onMounted(() => {
-	loadSound(openFile.value);
+	loadSound(openFile.value || state.queue[0]);
 	watch(() => openFile.value, () => loadSound(openFile.value));
 });
 </script>

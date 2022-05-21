@@ -3,8 +3,8 @@ import { reactive, ref } from "vue";
 const electron = window.electron.ipcRenderer;
 
 const state = reactive({
-	queue: [] as string[],
-	currentlyPlaying: 0,
+	queue: ["F:/MusicPlaylistFlac/Aether (2021)/Geoxor - Aether.flac"] as string[],
+	currentlyPlaying: -1,
 	volume: 1,
 	isPlaying: false,
 	isMinimized: false,
@@ -21,7 +21,10 @@ export const syncWindowState = async () => {
 	state.isMaximized = windowState.isMaximized;
 };
 
-electron.on("play-file", file => state.queue.push(file as string));
+electron.on("play-file", (file) => {
+	state.queue.push(file as string);
+	state.currentlyPlaying = 0;
+});
 electron.on<(string | string[])[]>("play-folder", (files) => {
 	// recursively go through every file in the folder
 	// and puse it into the queue
