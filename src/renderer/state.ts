@@ -24,19 +24,8 @@ export const syncWindowState = async () => {
 };
 
 electron.on("play-file", file => state.queue.push(file as string));
-electron.on<(string | string[])[]>("play-folder", (files) => {
-	// recursively go through every file in the folder
-	// and puse it into the queue
-	const queue = files.reduce((acc, file) => {
-		if (file instanceof Array)
-			return [...acc, ...file];
- 		else
-			return [...acc, file];
-	}, []) as string[];
-
-		console.log(queue);
-
-	state.queue = queue;
+electron.on<(string)[]>("play-folder", (files) => {
+	state.queue = spreadArray(files);
 });
 electron.on("maximize", () => state.isMaximized = true);
 electron.on("unmaximize", () => state.isMaximized = false);
@@ -47,3 +36,13 @@ electron.on<string[]>("allowed-extensions", allowedExtensions => state.allowedEx
 electron.on("default-cover", (image) => {
 	defaultCover.value = URL.createObjectURL(new Blob([image as Buffer], { type: "image/png" }));
 });
+
+// recursively goes through every file in the folder and flattens it
+function spreadArray(array: string[]): string[] {
+	return array.reduce((acc, item) => {
+		if (Array.isArray(item))
+			return acc.concat(spreadArray(item));
+		else
+			return acc.concat(item);
+	}, [] as string[]);
+}
