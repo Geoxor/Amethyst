@@ -71,6 +71,30 @@ function previous() {
 
 const openFile = ref("");
 
+function calculateScore(metadata: IAudioMetadata) {
+  const sampleRate = (metadata.format.sampleRate! / 1000);
+  const bitRate = ~~(metadata.format.bitrate! / 1024);
+  const bits = metadata.format.bitsPerSample || 16;
+  const score = (sampleRate * bitRate * bits) / 100;
+
+  return ~~score;
+}
+
+function calculateStars(metadata: IAudioMetadata) {
+  let stars = 0;
+
+  if (calculateScore(metadata) > 5000)
+stars++;
+  if (metadata.format.lossless)
+stars++;
+  if (metadata.format.bitsPerSample === 24)
+stars++;
+  if (metadata.format.bitsPerSample === 32)
+stars++;
+
+  return stars;
+}
+
 function loadSound(path: string) {
 	sound.value && pause();
 	sound.value = new Audio(path);
@@ -120,12 +144,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex h-[calc(100%-24px)] main">
+  <div class="flex h-[calc(100%-24px)] font-cozette main">
     <explorer />
     <div v-if="sound && metadata" class="h-full flex w-full flex-col">
-      <div class="flex p-1 gap-2 items-center font-cozette">
+      <div class="flex p-1 gap-2 items-center ">
         <input v-model="sound.currentTime" class="w-full " min="0" :max="metadata.format.duration" step="0.01" type="range" @wheel="handleSeekMouseScroll">
-        <h1 class="font-cozette whitespace-nowrap text-sm">
+        <h1 class=" whitespace-nowrap text-sm">
           {{ secondsHuman(currentTime) }} / {{ secondsHuman(metadata.format.duration!) }}
         </h1>
         <button class="flex items-center text-xl hover:text-blue-300" @click="state.queue = Player.fisherYatesShuffle(state.queue)">
@@ -161,13 +185,18 @@ onMounted(() => {
         <div class="z-10 px-24 flex w-full flex-col justify-center">
           <div class="flex gap-8">
             <img class="w-48 h-48 cover transform transition duration-201 active:-translate-y-0 hover:-translate-y-1 cursor-pointer" :src="cover">
-            <div class="flex flex-col gap-2">
-              <h1 class="font-cozette text-[32px] hover:underline cursor-pointer " @click="invoke('show-item', [openFile])">
-                {{ metadata.common.title || openFile.substring(openFile.lastIndexOf("\\") + 1) }}
-              </h1>
-              <h2 class="font-cozette text-black text-opacity-75 text-[16px] ">
-                {{ metadata.common.albumartist }}
-              </h2>
+            <div class="flex justify-between flex-col gap-1">
+              <div class="flex flex-col gap-2">
+                <h1 class=" text-[32px] hover:underline cursor-pointer " @click="invoke('show-item', [openFile])">
+                  {{ metadata.common.title || openFile.substring(openFile.lastIndexOf("\\") + 1) }}
+                </h1>
+                <h2 class=" text-black text-opacity-75 text-[16px] ">
+                  {{ metadata.common.albumartist }}
+                </h2>
+                <h1 v-if="metadata" class="whitespace-nowrap" :class="calculateStars(metadata) > 0 && 'text-yellow-500'">
+                  {{ '\u{0272e}'.repeat(calculateStars(metadata)) }} {{ calculateScore(metadata) }}pts
+                </h1>
+              </div>
 
               <div class="flex gap-2 items-center">
                 <tag v-if="metadata.format.container" :text="metadata.format.container" />

@@ -22,7 +22,7 @@ const parseTitles = (path: string, trim: number) => {
 </script>
 
 <template>
-  <div class="min-w-48 max-w-48 p-2 pb-4 flex h-full font-cozette overflow-hidden overflow-y-auto ">
+  <div class="min-w-64 max-w-64 p-2 pb-4 flex h-full font-cozette overflow-hidden overflow-y-auto ">
     <ul class="w-full">
       <Transition name="slide-fade">
         <div v-if="state.processQueue > 0" class="flex w-full flex-col">
@@ -35,13 +35,13 @@ const parseTitles = (path: string, trim: number) => {
       </Transition>
 
       <li
-        v-for="(song, i) of state.queue" :key="song" :class="[isHoldingControl && 'control-hover', i === state.currentlyPlaying && 'text-blue-500']" class="h-3 mb-0.25 hover:text-blue-300"
+        v-for="(song, i) of state.queue" :key="song" :class="[isHoldingControl && 'control-hover', i === state.currentlyPlaying && 'text-blue-500']" class="h-3 mb-0.5 hover:text-blue-300"
         @click="isHoldingControl ? invoke('show-item', [state.queue[i]]) : state.currentlyPlaying = i"
       >
         <cover class="inline align-top w-3 h-3" :song-path="song" />
 
-        <p class=" inline align-top text-[11px] ml-2 max-w-40 overflow-hidden overflow-ellipsis " :class="[isHoldingControl ? 'cursor-pointer' : 'cursor-default']">
-          {{ i === state.currentlyPlaying ? "⏵ " : "" }}{{ parseTitles(song, i === state.currentlyPlaying ? 23 : 25) }}
+        <p class=" inline align-top text-xs ml-2 max-w-40 overflow-hidden overflow-ellipsis " :class="[isHoldingControl ? 'cursor-pointer' : 'cursor-default']">
+          {{ i === state.currentlyPlaying ? "⏵ " : "" }}{{ parseTitles(song, i === state.currentlyPlaying ? 30 : 32) }}
         </p>
       </li>
     </ul>
