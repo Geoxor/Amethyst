@@ -70,11 +70,6 @@ function previous() {
 
 const openFile = ref("");
 
-watch(() => state.currentlyPlaying, () => {
-  openFile.value = state.queue[state.currentlyPlaying];
-  loadSound(openFile.value);
-});
-
 function loadSound(path: string) {
 	sound.value && pause();
 	sound.value = new Audio(path);
@@ -111,6 +106,8 @@ function loadSound(path: string) {
 	source.value = ctx.value.createMediaElementSource(sound.value);
 	source.value.connect(ctx.value.destination);
 }
+
+watch(() => state.currentlyPlaying, () => openFile.value = state.queue[state.currentlyPlaying]);
 
 onMounted(() => {
 	loadSound(openFile.value);
