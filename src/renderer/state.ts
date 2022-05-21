@@ -21,6 +21,8 @@ export const syncWindowState = async () => {
 };
 
 electron.on("play-file", file => state.openedFile = file as string);
+electron.on("maximize", () => state.isMaximized = true);
+electron.on("unmaximize", () => state.isMaximized = false);
 electron.on("default-cover", (image) => {
 	defaultCover.value = URL.createObjectURL(new Blob([image as Buffer], { type: "image/png" }));
 });

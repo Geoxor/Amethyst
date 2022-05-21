@@ -107,6 +107,9 @@ const createWindow = async () => {
 		mainWindow = null;
 	});
 
+	mainWindow.on("unmaximize", () => mainWindow!.webContents.send("unmaximize"));
+	mainWindow.on("maximize", () => mainWindow!.webContents.send("maximize"));
+
 	mainWindow.webContents.on("dom-ready", () => {
 		playAudio(process.argv[1] || "No file opened");
 		mainWindow!.webContents.send("default-cover", DEFAULT_COVER);
@@ -169,4 +172,3 @@ ipcMain.handle("sync-window-state", () => ({
 	isMinimized: mainWindow?.isMinimized(),
 	isMaximized: mainWindow?.isMaximized(),
 }));
-

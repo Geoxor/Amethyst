@@ -10,7 +10,6 @@ declare module '@vue/runtime-core' {
     IFluencyPause: typeof import('~icons/fluency/pause')['default']
     IFluencyPlay: typeof import('~icons/fluency/play')['default']
     IFluencyShrink: typeof import('~icons/fluency/shrink')['default']
-    IFluencyUnmaximize: typeof import('~icons/fluency/unmaximize')['default']
     IFluencyX: typeof import('~icons/fluency/x')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
