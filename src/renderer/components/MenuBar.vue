@@ -7,7 +7,7 @@ const invoke = window.electron.ipcRenderer.invoke;
 </script>
 
 <template>
-  <div class="bg-gray-200 font-cozette-vector drag text-xs flex justify-between items-center">
+  <div class="bg-gray-200 font-cozette drag text-xs flex justify-between items-center">
     <div class="flex h-full items-center">
       <img src="../icon.png" class="ml-1 h-4" alt="">
 
@@ -15,8 +15,14 @@ const invoke = window.electron.ipcRenderer.invoke;
         <menu-option
           hint="Open an audio file"
           :shortcuts="['CTRL', 'O']"
-          title="Open..."
+          title="Open audio..."
           @click="() => invoke('open-file-dialog')"
+        />
+        <menu-option
+          hint="Open a folder"
+          :shortcuts="['CTRL', 'SHIFT', 'O']"
+          title="Open folder..."
+          @click="() => invoke('open-folder-dialog')"
         />
       </Menu>
 

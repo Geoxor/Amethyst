@@ -7,9 +7,9 @@ declare global {
 			ipcRenderer: {
 				invoke<T>(channel: Channels, args?: string[]): Promise<T>
 				send(channel: Channels, args: unknown[]): void
-				on(
+				on<T>(
 					channel: string,
-					func: (...args: unknown[]) => void
+					func: (...args: T[]) => void
 				): (() => void) | undefined
 				once(channel: string, func: (...args: unknown[]) => void): void
 			}

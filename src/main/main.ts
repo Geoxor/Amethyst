@@ -13,8 +13,9 @@ import fs from "fs";
 import { BrowserWindow, app, dialog, ipcMain, shell } from "electron";
 import { autoUpdater } from "electron-updater";
 import log from "electron-log";
+import * as mm from "music-metadata/lib/core";
 import { resolveHtmlPath } from "./util";
-import "./handles";
+import { loadFolder } from "./handles";
 import Discord from "./discord";
 
 const RESOURCES_PATH = app.isPackaged
@@ -161,11 +162,26 @@ async function openFile() {
 	!response.canceled && playAudio(response.filePaths[0]);
 }
 
+async function openFolder() {
+	const response = await dialog.showOpenDialog({
+		properties: ["openDirectory"],
+	});
+
+	if (response.canceled)
+return;
+
+	const folder = await loadFolder(response.filePaths[0]);
+
+	mainWindow!.webContents.send("play-folder", folder);
+}
+
 ipcMain.handle("minimize", () => mainWindow?.minimize());
 ipcMain.handle("maximize", () => mainWindow?.maximize());
 ipcMain.handle("unmaximize", () => mainWindow?.unmaximize());
 ipcMain.handle("close", () => mainWindow?.close());
 ipcMain.handle("open-file-dialog", async () => openFile());
+ipcMain.handle("open-folder-dialog", async () => openFolder());
+ipcMain.handle("get-metadata", (_event, args) => mm.parseBuffer(fs.readFileSync(args[0])));
 ipcMain.handle("show-item", (_, [fullPath]) => shell.showItemInFolder(path.normalize(fullPath)));
 ipcMain.handle("update-rich-presence", (_, [title, duration, seek, status]) => discord.updateCurrentSong(title, duration, seek, status));
 ipcMain.handle("sync-window-state", () => ({
