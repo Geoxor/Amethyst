@@ -83,7 +83,7 @@ function calculateScore(metadata: IAudioMetadata) {
 function calculateStars(metadata: IAudioMetadata) {
   let stars = 0;
 
-  if (calculateScore(metadata) > 5000)
+  if (calculateScore(metadata) > 4000)
 stars++;
   if (metadata.format.lossless)
 stars++;
