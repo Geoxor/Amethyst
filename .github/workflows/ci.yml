@@ -19,6 +19,12 @@ jobs:
       - name: Build Amethyst
         run: npm run package
 
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Amethyst Linux
+          path: release/build/Amethyst-*
+
   build-linux:
     name: Build Linux
     runs-on: ubuntu-latest
@@ -34,3 +40,9 @@ jobs:
 
       - name: Build Amethyst
         run: npm run package
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Amethyst Linux
+          path: release/build/Amethyst-*
