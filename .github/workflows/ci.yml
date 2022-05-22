@@ -1,29 +1,6 @@
-name: Artifact Generation
+name: Build Amethyst
 
-
-on:
-  push:
-    branches:
-      - main
-    paths:
-      - '**.ts'
-      - '**.vue'
-      - '**.png'
-      - '**.flac'
-      - '**/tsconfig.json'
-      - 'package-lock.json'
-      - 'package.json'
-      - '**.yml'
-  pull_request:
-    paths:
-      - '**.ts'
-      - '**.vue'
-      - '**.png'
-      - '**.flac'
-      - '**/tsconfig.json'
-      - 'package-lock.json'
-      - 'package.json'
-      - '**.yml'
+on: [push, workflow_dispatch, pull_request]
 
 jobs:
   build-windows:
