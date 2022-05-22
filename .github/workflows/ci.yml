@@ -38,14 +38,13 @@ jobs:
           node-version: 16.6
 
       - name: Install gcc dependencies
-        run: sudo apt install gcc-multilib g++-multilib
+        run: sudo apt install gcc-multilib g++-multilib libvips
 
       - name: Install dependencies
         run: npm i
 
       - name: Build Amethyst
         run: npm run package
-
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
