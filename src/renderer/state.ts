@@ -8,7 +8,7 @@ const electron = window.electron.ipcRenderer;
 
 const state = reactive({
 	allowedExtensions: [] as string[],
-	queue: [] as string[],
+	queue: useLocalStorage("queue", []) as RemovableRef<string[]>,
 	currentlyPlaying: -1,
 	volume: 1,
 	version: "",

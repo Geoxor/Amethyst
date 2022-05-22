@@ -149,33 +149,13 @@ onMounted(() => {
 });
 
 // Key presses for media keys
-onKeyStroke("MediaPlayPause", () => {
-  state.isPlaying ? pause() : play();
-});
-
-onKeyStroke(" ", () => {
-  state.isPlaying ? pause() : play();
-});
-
-onKeyStroke("MediaPlay", () => {
-  play();
-});
-
-onKeyStroke("MediaPause", () => {
-  pause();
-});
-
-onKeyStroke("MediaTrackNext", () => {
-  next();
-});
-
-onKeyStroke("ArrowUp", () => {
-  sound.value.volume = Math.min(1, sound.value.volume + 0.1);
-});
-
-onKeyStroke("ArrowDown", () => {
-  sound.value.volume = Math.min(1, sound.value.volume - 0.1);
-});
+onKeyStroke("MediaPlayPause", () => state.isPlaying ? pause() : play());
+onKeyStroke(" ", () => state.isPlaying ? pause() : play());
+onKeyStroke("MediaPlay", () => play());
+onKeyStroke("MediaPause", () => pause());
+onKeyStroke("MediaTrackNext", () => next());
+onKeyStroke("ArrowUp", () => sound.value.volume = Math.min(1, sound.value.volume + 0.1));
+onKeyStroke("ArrowDown", () => sound.value.volume = Math.min(1, sound.value.volume - 0.1));
 </script>
 
 <template>
