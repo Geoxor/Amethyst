@@ -4,6 +4,16 @@
   "productName": "Amethyst",
   "version": "1.1.8",
   "main": "./release/dist/main/main.js",
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://raw.githubusercontent.com/Geoxor/amethyst/master/LICENSE"
+    },
+    {
+      "type": "MIT",
+      "url": "https://raw.githubusercontent.com/slavfox/Cozette/master/LICENSE"
+    }
+  ],
   "description": "A music box made of amethyst.",
   "scripts": {
     "dev": "concurrently \"npm run start:main\" \"npm run start:renderer\"",
