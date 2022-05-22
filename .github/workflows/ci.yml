@@ -1,0 +1,73 @@
+name: Artifact Generation
+
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '**.ts'
+      - '**.vue'
+      - '**.png'
+      - '**.flac'
+      - '**/tsconfig.json'
+      - 'package-lock.json'
+      - 'package.json'
+  pull_request:
+    paths:
+      - '**.ts'
+      - '**.vue'
+      - '**.png'
+      - '**.flac'
+      - '**/tsconfig.json'
+      - 'package-lock.json'
+      - 'package.json'
+
+jobs:
+  build-windows:
+    name: Build Windows
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.6
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Run unit tests
+        run: npm run package
+
+  build-linux:
+    name: Build Linux
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.6
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Run unit tests
+        run: npm run package
+
+  macos-linux:
+    name: Build MacOS
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.6
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Run unit tests
+        run: npm run package

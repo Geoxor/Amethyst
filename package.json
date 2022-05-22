@@ -75,20 +75,7 @@
       "./release/dist/**/*",
       "!**/*.d.ts"
     ],
-    "mac": {
-      "target": {
-        "target": "default",
-        "arch": [
-          "arm64",
-          "x64"
-        ]
-      },
-      "type": "distribution",
-      "hardenedRuntime": true,
-      "entitlements": "assets/entitlements.mac.plist",
-      "entitlementsInherit": "assets/entitlements.mac.plist",
-      "gatekeeperAssess": false
-    },
+    
     "dmg": {
       "contents": [
         {
@@ -105,14 +92,42 @@
     },
     "win": {
       "target": [
-        "nsis"
+        {
+          "target": "nsis",
+          "arch": ["ia32", "x64", "arm64"]
+        }
       ]
     },
     "linux": {
-      "target": [
-        "AppImage"
+      "target":[
+        {
+          "target": "deb",
+          "arch": ["ia32", "x64", "arm64"]
+        },
+        {
+          "target": "rpm",
+          "arch": ["ia32", "x64", "arm64"]
+        },
+        {
+          "target": "AppImage",
+          "arch": ["ia32", "x64", "arm64"]
+        }
       ],
-      "category": "Development"
+      "category": "Music"
+    },
+    "mac": {
+      "target": {
+        "target": "default",
+        "arch": [
+          "arm64",
+          "x64"
+        ]
+      },
+      "type": "distribution",
+      "hardenedRuntime": true,
+      "entitlements": "assets/entitlements.mac.plist",
+      "entitlementsInherit": "assets/entitlements.mac.plist",
+      "gatekeeperAssess": false
     },
     "directories": {
       "output": "release/build",
