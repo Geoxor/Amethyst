@@ -32,12 +32,16 @@
     "assets/assets.d.ts": true,
     ".eslintignore": true,
     ".gitattributes": true,
-    "package-lock.json": true
+    "package-lock.json": true,
+    ".husky": true,
+    "node_modules": true
   },
   "hide-files.files": [
     "assets/assets.d.ts",
     ".eslintignore",
     ".gitattributes",
-    "package-lock.json"
+    "package-lock.json",
+    ".husky",
+    "node_modules"
   ]
 }
