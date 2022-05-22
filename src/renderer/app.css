@@ -17,10 +17,10 @@
 
 .cursor-pointer,
 .cursor-pointer * {
-  cursor: url("./cursors/pointer.png"), auto !important;
+  cursor: url("./cursors/pointer.png") 4 0, auto !important;
 }
 
 .cursor-heart-pointer,
 .cursor-heart-pointer * {
-  cursor: url("./cursors/heart-pointer.png"), auto !important;
+  cursor: url("./cursors/heart-pointer.png") 4 0, auto !important;
 }
