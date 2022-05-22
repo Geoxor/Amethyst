@@ -104,6 +104,11 @@ function loadSound(path: string) {
 		next();
 	};
 
+  // Pixelated covers
+  // invoke<Buffer>("get-cover-pixelized", [path]).then((cover) => {
+  //   currentCover.value = `data:image/png;base64,${cover}`;
+  // });
+
   // This is the timer for the current duration ont he UI
   // because for some reason it doesnt wanna update on its own
 	timer.value && clearInterval(timer.value);
@@ -187,7 +192,7 @@ onMounted(() => {
             <img class="w-48 h-48 cover transform transition duration-201 active:-translate-y-0 hover:-translate-y-1 cursor-pointer" :src="cover">
             <div class="flex justify-between flex-col gap-1">
               <div class="flex flex-col gap-2">
-                <h1 class=" text-[32px] hover:underline cursor-pointer " @click="invoke('show-item', [openFile])">
+                <h1 class=" text-[32px] hover:underline cursor-external-pointer " @click="invoke('show-item', [openFile])">
                   {{ metadata.common.title || openFile.substring(openFile.lastIndexOf("\\") + 1) }}
                 </h1>
                 <h2 class=" text-black text-opacity-75 text-[16px] ">

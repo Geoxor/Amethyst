@@ -35,12 +35,12 @@ const parseTitles = (path: string, trim: number) => {
       </Transition>
 
       <li
-        v-for="(song, i) of state.queue" :key="song" :class="[isHoldingControl && 'control-hover', i === state.currentlyPlaying && 'text-blue-500']" class="h-3 mb-0.5 hover:text-blue-300"
+        v-for="(song, i) of state.queue" :key="song" :class="[isHoldingControl && 'control-hover', i === state.currentlyPlaying && 'text-blue-500']" class=" h-3 mb-0.5 hover:text-blue-300"
         @click="isHoldingControl ? invoke('show-item', [state.queue[i]]) : state.currentlyPlaying = i"
       >
         <cover class="inline align-top w-3 h-3" :song-path="song" />
 
-        <p class=" inline align-top text-xs ml-2 max-w-40 overflow-hidden overflow-ellipsis " :class="[isHoldingControl ? 'cursor-pointer' : 'cursor-default']">
+        <p class=" inline align-top text-xs ml-2 max-w-40 overflow-hidden overflow-ellipsis " :class="[isHoldingControl ? 'cursor-external-pointer' : 'cursor-default']">
           {{ i === state.currentlyPlaying ? "⏵ " : "" }}{{ parseTitles(song, i === state.currentlyPlaying ? 30 : 32) }}
         </p>
       </li>
@@ -50,7 +50,7 @@ const parseTitles = (path: string, trim: number) => {
 
 <style lang="postcss" scoped>
 .control-hover:hover {
-  @apply cursor-pointer underline;
+  @apply underline;
 }
 
 .slide-fade-enter-active,

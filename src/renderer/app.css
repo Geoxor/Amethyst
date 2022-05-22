@@ -24,3 +24,8 @@
 .cursor-heart-pointer * {
   cursor: url("./cursors/heart-pointer.png") 4 0, auto !important;
 }
+
+.cursor-external-pointer,
+.cursor-external-pointer * {
+  cursor: url("./cursors/external-pointer.png") 4 0, auto !important;
+}

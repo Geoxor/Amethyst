@@ -182,9 +182,25 @@ async function getCover(path: string) {
 	const file = await fs.promises.readFile(path);
 	const meta = await mm.parseBuffer(file);
 	const cover = meta.common?.picture?.[0].data;
+	return cover;
+}
+
+async function getCoverPixelized(path: string) {
+	const coverBuffer = await getCover(path);
+	if (!coverBuffer)
+		return;
+
+	const downscaled = await sharp(coverBuffer).resize(128, 128, { kernel: "nearest" }).png().toBuffer();
+	const stretched = await sharp(downscaled).resize(256, 256, { kernel: "nearest" }).png().toBuffer();
+
+	return stretched.toString("base64");
+}
+
+async function getCoverDownscaled(path: string, resizeTo = 12) {
+	const cover = await getCover(path);
 	if (!cover)
 		return;
-	return (await sharp(cover).resize(12, 12).jpeg().toBuffer()).toString("base64");
+	return (await sharp(cover).resize(resizeTo, resizeTo).png().toBuffer()).toString("base64");
 }
 
 ipcMain.handle("minimize", () => mainWindow!.minimize());
@@ -193,8 +209,9 @@ ipcMain.handle("unmaximize", () => mainWindow!.unmaximize());
 ipcMain.handle("close", () => mainWindow!.close());
 ipcMain.handle("open-file-dialog", () => openFile());
 ipcMain.handle("open-folder-dialog", () => openFolder());
-ipcMain.handle("get-cover", (_, [path]) => getCover(path));
-ipcMain.handle("get-metadata", async (_, [path]) => mm.parseBuffer(await fs.promises.readFile(path)));
+ipcMain.handle("get-cover-pixelized", (_, [path]) => getCoverPixelized(path));
+ipcMain.handle("get-cover", (_, [path]) => getCoverDownscaled(path));
+ipcMain.handle("get-metadata", async (_, [path]) => path && mm.parseBuffer(await fs.promises.readFile(path)));
 ipcMain.handle("show-item", (_, [fullPath]) => shell.showItemInFolder(path.normalize(fullPath)));
 ipcMain.handle("update-rich-presence", (_, [title, duration, seek, status]) => discord.updateCurrentSong(title, duration, seek, status));
 ipcMain.handle("sync-window-state", () => ({

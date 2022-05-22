@@ -6,6 +6,7 @@ export type Channels =
 	"maximize" |
 	"unmaximize" |
 	"close" |
+	"get-cover-pixelized" |
 	"open-file-dialog" |
 	"open-folder-dialog" |
 	"get-cover" |
