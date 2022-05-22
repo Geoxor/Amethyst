@@ -75,7 +75,6 @@
       "./release/dist/**/*",
       "!**/*.d.ts"
     ],
-    
     "dmg": {
       "contents": [
         {
@@ -94,23 +93,127 @@
       "target": [
         {
           "target": "nsis",
-          "arch": ["ia32", "x64", "arm64"]
+          "arch": [
+            "ia32",
+            "x64",
+            "arm64"
+          ]
         }
       ]
     },
     "linux": {
-      "target":[
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "ia32",
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "snap",
+          "arch": [
+            "ia32",
+            "x64",
+            "arm64"
+          ]
+        },
         {
           "target": "deb",
-          "arch": ["ia32", "x64", "arm64"]
+          "arch": [
+            "ia32",
+            "x64",
+            "arm64"
+          ]
         },
         {
           "target": "rpm",
-          "arch": ["ia32", "x64", "arm64"]
+          "arch": [
+            "ia32",
+            "x64",
+            "arm64"
+          ]
         },
         {
-          "target": "AppImage",
-          "arch": ["ia32", "x64", "arm64"]
+          "target": "freebsd",
+          "arch": [
+            "ia32",
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "pacman",
+          "arch": [
+            "ia32",
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "p5p",
+          "arch": [
+            "ia32",
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "apk",
+          "arch": [
+            "ia32",
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "7z",
+          "arch": [
+            "ia32",
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "zip",
+          "arch": [
+            "ia32",
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "tar.xz",
+          "arch": [
+            "ia32",
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "tar.lz",
+          "arch": [
+            "ia32",
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "tar.gz",
+          "arch": [
+            "ia32",
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "tar.bz2",
+          "arch": [
+            "ia32",
+            "x64",
+            "arm64"
+          ]
         }
       ],
       "category": "Music"

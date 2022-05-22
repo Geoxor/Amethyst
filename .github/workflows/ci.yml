@@ -16,7 +16,7 @@ jobs:
       - name: Install dependencies
         run: npm i
 
-      - name: Run unit tests
+      - name: Build Amethyst
         run: npm run package
 
   build-linux:
@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         run: npm i
 
-      - name: Run unit tests
+      - name: Build Amethyst
         run: npm run package
 
   macos-linux:
@@ -48,5 +48,5 @@ jobs:
       - name: Install dependencies
         run: npm i
 
-      - name: Run unit tests
+      - name: Build Amethyst
         run: npm run package

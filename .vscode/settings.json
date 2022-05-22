@@ -30,22 +30,12 @@
     "**/.settings": true,
     "**/.factorypath": true,
     "assets/assets.d.ts": true,
-    "assets/entitlements.mac.plist": true,
-    "node_modules": true,
-    "assets/icon.icns": true,
-    ".husky": true,
-    ".gitignore": true,
     ".eslintignore": true,
     ".gitattributes": true,
     "package-lock.json": true
   },
   "hide-files.files": [
     "assets/assets.d.ts",
-    "assets/entitlements.mac.plist",
-    "node_modules",
-    "assets/icon.icns",
-    ".husky",
-    ".gitignore",
     ".eslintignore",
     ".gitattributes",
     "package-lock.json"
