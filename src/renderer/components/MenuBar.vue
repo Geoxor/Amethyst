@@ -9,6 +9,7 @@ const state = useState();
 const playPop = () => {
   new Audio("./sounds/pop.flac").play();
 };
+const localstorage = localStorage;
 </script>
 
 <template>
@@ -40,6 +41,11 @@ const playPop = () => {
         <menu-option
           :shortcuts="['CTRL', ',']"
           title="Preferences..."
+        />
+        <menu-option
+          :shortcuts="['CTRL', 'D', '+', 'X']"
+          title="Clear cover art cache"
+          @click="localstorage.clear()"
         />
       </Menu>
 
