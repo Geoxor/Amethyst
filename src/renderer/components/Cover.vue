@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { onMounted } from "vue";
-import { useLocalStorage } from "@vueuse/core";
-import { defaultCover, getCoverArt } from "../state";
+import { computed, onMounted } from "vue";
+import { defaultCover, getCoverArt, useState } from "../state";
 const props = defineProps<{ songPath: string }>();
-const coverArt = useLocalStorage(props.songPath, "");
+const state = useState();
+const coverArt = computed(() => state.coverCache[props.songPath]);
 
 onMounted(async () => {
   if (!coverArt.value)
-    getCoverArt(props.songPath, coverArt);
+    getCoverArt(props.songPath);
 });
 </script>
 

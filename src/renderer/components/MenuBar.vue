@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { isDev, useState } from "../state";
+import { bytesToHuman, isDev, totalLocalStorageSize, useState } from "../state";
 import Menu from "./Menu.vue";
 import MenuOption from "./MenuOption.vue";
 import MenuSplitter from "./MenuSplitter.vue";
@@ -9,7 +9,6 @@ const state = useState();
 const playPop = () => {
   new Audio("./sounds/pop.flac").play();
 };
-const localstorage = localStorage;
 </script>
 
 <template>
@@ -45,8 +44,8 @@ const localstorage = localStorage;
         <menu-splitter />
         <menu-option
           :shortcuts="['CTRL', 'D', '+', 'X']"
-          title="Clear cover art cache"
-          @click="localstorage.clear()"
+          :title="`Clear cover art cache (${bytesToHuman(totalLocalStorageSize)})`"
+          @click="state.coverCache = {}"
         />
       </Menu>
 

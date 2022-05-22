@@ -1,7 +1,8 @@
-import type { Ref } from "vue";
+import type { RemovableRef } from "@vueuse/core";
+import { useLocalStorage } from "@vueuse/core";
 import { computed, reactive, ref } from "vue";
 
-export const COVERART_RENDERING_CONCURRENCY = 4;
+export const COVERART_RENDERING_CONCURRENCY = 10;
 
 const electron = window.electron.ipcRenderer;
 
@@ -15,7 +16,10 @@ const state = reactive({
 	isMinimized: false,
 	isMaximized: false,
 	processQueue: 0,
+	coverCache: useLocalStorage("cover-cache", {}) as RemovableRef<Record<string, string>>,
 });
+
+export const totalLocalStorageSize = computed(() => JSON.stringify(state.coverCache).length);
 
 export const isDev = computed(() => state.version.includes("DEV"));
 export const useState = () => state;
@@ -53,18 +57,26 @@ function spreadArray(array: string[]): string[] {
 	}, [] as string[]);
 }
 
-export const getCoverArt = async (path: string, ref: Ref<string>) => {
+export function bytesToHuman(bytes: number): string {
+	const sizes = ["B", "KB", "MB", "GB", "TB"];
+	if (bytes === 0)
+		return "0 B";
+	const i = ~~(Math.log(bytes) / Math.log(1024));
+	return `${parseFloat((bytes / Math.pow(1024, i)).toFixed(2))} ${sizes[i]}`;
+}
+
+export const getCoverArt = async (path: string) => {
   if (state.processQueue < COVERART_RENDERING_CONCURRENCY) {
     state.processQueue++;
     try {
-      ref.value = await window.electron.ipcRenderer.invoke<string>("get-cover", [path]);
+      state.coverCache[path] = await window.electron.ipcRenderer.invoke<string>("get-cover", [path]);
     }
     catch (error) { }
     state.processQueue--;
   }
   else {
     setTimeout(async () =>
-      getCoverArt(path, ref), 100,
+      getCoverArt(path), 100,
     );
   }
 };
