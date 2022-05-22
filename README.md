@@ -3,13 +3,17 @@
 # Amethyst
 An electron-based audio player with a pixel-art aesthetic
 
-## Installation
 ```powershell
 winget install amethyst
 ```
 
 <br>
 <br>
+
+## Contributing
+- Use `Node.js 1.16`
+- Use the `recommended extensions`
+- Have `GCC` installed
 
 ## Features
 - Custom cursors
