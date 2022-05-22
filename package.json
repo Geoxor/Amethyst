@@ -1,6 +1,6 @@
 {
   "name": "amethyst",
-  "author": "Geoxor <geoxor123@outlook.com>",
+  "author": "amethyst <geoxor123@outlook.com>",
   "productName": "Amethyst",
   "version": "1.1.6",
   "main": "./release/dist/main/main.js",
@@ -12,9 +12,10 @@
     "build:renderer": "vite build --config ./src/renderer/vite.config.js",
     "start:main": "npm run build:main && cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only ./src/main/main.ts",
     "start:renderer": "vite dev --config ./src/renderer/vite.config.js",
-    "package": "npm run build && electron-builder build --publish never && explorer .",
+    "package": "npm run clean:node-modules && npm run build && electron-builder build --publish never && explorer .",
     "package:asarless": "npm run build && electron-builder build --config.asar=false",
-    "postinstall": "electron-builder install-app-deps",
+    "postinstall": "electron-builder install-app-deps && npm run clean:node-modules",
+    "clean:node-modules": "modclean -r",
     "lint": "eslint --ext .ts,.js,.vue"
   },
   "lint-staged": {
@@ -71,7 +72,8 @@
       }
     ],
     "files": [
-      "./release/dist/**/*"
+      "./release/dist/**/*",
+      "!**/*.d.ts"
     ],
     "mac": {
       "target": {
@@ -117,7 +119,8 @@
       "buildResources": "assets"
     },
     "extraResources": [
-      "./assets/**"
+      "assets/**/*",
+      "!assets/**/*.aseprite"
     ],
     "publish": {
       "provider": "github",
@@ -177,6 +180,7 @@
     "identity-obj-proxy": "^3.0.0",
     "lint-staged": "^12.3.7",
     "mini-css-extract-plugin": "^2.6.0",
+    "modclean": "^3.0.0-beta.1",
     "opencollective-postinstall": "^2.0.3",
     "postcss": "^8.4.13",
     "prettier": "^2.6.2",
