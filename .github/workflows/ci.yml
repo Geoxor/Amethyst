@@ -29,15 +29,6 @@ jobs:
         with:
           node-version: 16.6
 
-      - name: Install Snap
-        run: sudo apt install snapd
-
-      - name: Install Snap Core
-        run: sudo snap install core
-
-      - name: Install snapcraft
-        run: sudo snap install snapcraft --classic
-
       - name: Install dependencies
         run: npm i
 
