@@ -23,7 +23,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Amethyst Build Windows
-          path: release/build/**
+          path: | 
+            release/build/*.yml
+            release/build/*.exe*
 
   build-linux:
     name: Build Linux
@@ -45,4 +47,6 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: Amethyst Build Linux
-          path: release/build/**
+          path: | 
+            release/build/*.yml
+            release/build/*.AppImage*
