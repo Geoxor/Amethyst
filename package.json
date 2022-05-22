@@ -12,7 +12,7 @@
     "build:renderer": "vite build --config ./src/renderer/vite.config.js",
     "start:main": "npm run build:main && cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only ./src/main/main.ts",
     "start:renderer": "vite dev --config ./src/renderer/vite.config.js",
-    "package": "npm run build && electron-builder build --publish never",
+    "package": "rimraf ./release && npm run build && electron-builder build --publish never",
     "package:asarless": "npm run build && electron-builder build --config.asar=false",
     "postinstall": "electron-builder install-app-deps",
     "lint": "eslint --ext .ts,.js,.vue"

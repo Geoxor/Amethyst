@@ -3,6 +3,11 @@
 # Amethyst
 An electron-based audio player with a pixel-art aesthetic
 
+## Installation
+```powershell
+winget install amethyst
+```
+
 <br>
 <br>
 
@@ -10,7 +15,6 @@ An electron-based audio player with a pixel-art aesthetic
 - Custom cursors
 - Animated GIF cover arts
 - Quality-based scoring system
-
 
 ## Screenshots
 ![Amethyst](https://cdn.discordapp.com/attachments/845328432715923487/977813861535215616/unknown.png)
