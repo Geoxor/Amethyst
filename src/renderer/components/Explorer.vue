@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useKeyModifier } from "@vueuse/core";
-import { useState } from "../state";
+import { COVERART_RENDERING_CONCURRENCY, useState } from "../state";
 import Cover from "./Cover.vue";
 const state = useState();
 const isHoldingControl = useKeyModifier("Control");
@@ -27,7 +27,7 @@ const parseTitles = (path: string, trim: number) => {
       <Transition name="slide-fade">
         <div v-if="state.processQueue > 0" class="flex w-full flex-col">
           <p class="text-xs text-blue-400">
-            Processing Covers {{ state.processQueue }} / 10
+            Processing Covers {{ state.processQueue }} / {{ COVERART_RENDERING_CONCURRENCY }}
           </p>
 
           <div class="mb-2 mt-0.5 w-full h-1px bg-gray-200" />

@@ -1,7 +1,7 @@
 import type { Ref } from "vue";
 import { computed, reactive, ref } from "vue";
 
-const COVERART_RENDERING_CONCURRENCY = 10;
+export const COVERART_RENDERING_CONCURRENCY = 3;
 
 const electron = window.electron.ipcRenderer;
 
