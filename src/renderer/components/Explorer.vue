@@ -22,7 +22,7 @@ const parseTitles = (path: string, trim: number) => {
 </script>
 
 <template>
-  <div class="min-w-64 max-w-64 p-2 pb-4 flex h-full font-cozette overflow-hidden overflow-y-auto ">
+  <div class="min-w-64 max-w-64 p-2 pb-4 flex h-full font-cozette overflow-hidden overflow-y-auto " @keypress.prevent>
     <ul class="w-full">
       <Transition name="slide-fade">
         <div v-if="state.processQueue > 0" class="flex w-full flex-col">

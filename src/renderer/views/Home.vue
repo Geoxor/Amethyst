@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {onKeyStroke} from "@vueuse/core";
+import { onKeyStroke } from "@vueuse/core";
 import type { IAudioMetadata } from "music-metadata";
 import type { Ref } from "vue";
 import { computed, onMounted, ref, watch } from "vue";
@@ -148,9 +148,12 @@ onMounted(() => {
 	watch(() => openFile.value, () => loadSound(openFile.value));
 });
 
-
 // Key presses for media keys
 onKeyStroke("MediaPlayPause", () => {
+  state.isPlaying ? pause() : play();
+});
+
+onKeyStroke(" ", () => {
   state.isPlaying ? pause() : play();
 });
 
