@@ -42,6 +42,7 @@ const localstorage = localStorage;
           :shortcuts="['CTRL', ',']"
           title="Preferences..."
         />
+        <menu-splitter />
         <menu-option
           :shortcuts="['CTRL', 'D', '+', 'X']"
           title="Clear cover art cache"
