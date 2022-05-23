@@ -119,7 +119,7 @@ onMounted(() => {
                   {{ metadata.common.title || player.state.currentlyPlayingFilePath.substring(player.state.currentlyPlayingFilePath.lastIndexOf("\\") + 1) }}
                 </h1>
                 <h2 class=" text-black text-opacity-75 text-[16px] ">
-                  {{ metadata.common.albumartist }}
+                  {{ metadata.common.artists?.join(" & ") }}
                 </h2>
                 <h1 v-if="metadata" class="whitespace-nowrap" :class="calculateStars(metadata) > 0 && 'text-yellow-500'">
                   {{ '\u{0272e}'.repeat(calculateStars(metadata)) }} {{ calculateScore(metadata) }}pts
