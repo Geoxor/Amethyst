@@ -12,6 +12,10 @@
     {
       "type": "MIT",
       "url": "https://raw.githubusercontent.com/slavfox/Cozette/master/LICENSE"
+    },
+    {
+      "type": "MIT",
+      "url": "https://raw.githubusercontent.com/chrisguttandin/web-audio-beat-detector/master/LICENSE"
     }
   ],
   "description": "A music box made of amethyst.",
