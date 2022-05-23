@@ -10,17 +10,19 @@ const isHoldingControl = useKeyModifier("Control");
 const isHoldingAlt = useKeyModifier("Alt");
 const invoke = window.electron.ipcRenderer.invoke;
 
-const MAX_CHARS = 34;
+const MAX_CHARS = 36;
 
 const trimString = (string: string, trim: number) => {
-  // Trim the text and remove ending space
-  const trimmed = string.substring(0, trim).trimEnd();
+  if (string.length > trim) {
+    const trimmed = string.substring(0, trim - 2);
 
-  // Check if the length of the title exceeds the given space
-  const isFileNameLessThanTrimmed = string.length < trim + 1;
+    // check if the trimmed ends with a space
+    if (trimmed[trimmed.length - 1] === " ")
+      return `${trimmed.trimEnd()}...`;
 
-  // Add dots if it exceeds
-  return isFileNameLessThanTrimmed ? string : `${trimmed}..`;
+    return `${trimmed}..`;
+  }
+  return string;
 };
 
 const parseTitle = (path: string) => {
@@ -29,7 +31,7 @@ const parseTitle = (path: string) => {
 </script>
 
 <template>
-  <div class="min-w-64 max-w-64 p-2 pb-4 flex h-full font-cozette overflow-hidden overflow-y-auto " @keypress.prevent>
+  <div class="min-w-64 max-w-64 p-2 pb-4 flex h-full  font-cozette overflow-hidden overflow-y-auto " @keypress.prevent>
     <ul class="w-full">
       <Transition name="slide-fade">
         <div v-if="state.state.processQueue > 0" class="flex w-full flex-col">
@@ -48,7 +50,7 @@ const parseTitle = (path: string) => {
         <cover class="inline align-top w-3 h-3" :song-path="song" />
 
         <p class=" inline align-top text-xs ml-2 max-w-40 overflow-hidden overflow-ellipsis ">
-          {{ i === player.getCurrentlyPlayingIndex() ? "⏵ " : "" }}{{ trimString(isHoldingAlt ? `${song.substring(0, (MAX_CHARS - 2) / 2)}...${song.substring(song.length - (MAX_CHARS - 2) / 2)}` : parseTitle(song), i === player.getCurrentlyPlayingIndex() ? MAX_CHARS - 2 : MAX_CHARS) }}
+          {{ i === player.getCurrentlyPlayingIndex() ? "⏵ " : "" }}{{ trimString(isHoldingAlt ? `${song.substring(0, (MAX_CHARS - 3) / 2)}...${song.substring(song.length - (MAX_CHARS - 3) / 2)}` : parseTitle(song), i === player.getCurrentlyPlayingIndex() ? MAX_CHARS - 2 : MAX_CHARS) }}
         </p>
       </li>
     </ul>
