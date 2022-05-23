@@ -1,35 +1,24 @@
 <script lang="ts" setup>
-import { syncWindowState, useState } from "../state";
+import { useState } from "../state";
 
-const invoke = window.electron.ipcRenderer.invoke;
 const state = useState();
-
-const maximize = () => {
-  invoke("maximize");
-  syncWindowState();
-};
-
-const unmaximize = () => {
-  invoke("unmaximize");
-  syncWindowState();
-};
 </script>
 
 <template>
   <div class="flex text-black no-drag">
-    <button class="controlButton cursor-pointer hover:bg-gray-300 active:bg-blue-500" @click="invoke('minimize')">
+    <button class="controlButton cursor-pointer hover:bg-gray-300 active:bg-blue-500" @click="state.electronEventManager.minimize()">
       <i-fluency-minimize />
     </button>
 
-    <button v-if="!state.isMaximized" class="controlButton cursor-pointer hover:bg-gray-300 active:bg-blue-500" @click="maximize()">
+    <button v-if="!state.state.isMaximized" class="controlButton cursor-pointer hover:bg-gray-300 active:bg-blue-500" @click="state.electronEventManager.maximize()">
       <i-fluency-maximize />
     </button>
 
-    <button v-if="state.isMaximized" class="controlButton cursor-pointer hover:bg-gray-300 active:bg-blue-500" @click="unmaximize()">
+    <button v-if="state.state.isMaximized" class="controlButton cursor-pointer hover:bg-gray-300 active:bg-blue-500" @click="state.electronEventManager.unmaximize()">
       <i-fluency-shrink />
     </button>
 
-    <button class="controlButton cursor-pointer hover:bg-red-500 active:text-white hover:text-white fill-current active:bg-red-400" @click="invoke('close')">
+    <button class="controlButton cursor-pointer hover:bg-red-500 active:text-white hover:text-white fill-current active:bg-red-400" @click="state.electronEventManager.close()">
       <i-fluency-x />
     </button>
   </div>

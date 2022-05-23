@@ -1,61 +1,48 @@
 import type { RemovableRef } from "@vueuse/core";
 import { useLocalStorage } from "@vueuse/core";
-import { computed, reactive, ref } from "vue";
+import { computed, reactive } from "vue";
+import ElectronEventManager from "./electronEventManager";
+import Player from "./player";
 
 export const COVERART_RENDERING_CONCURRENCY = 10;
 
-const electron = window.electron.ipcRenderer;
+export default class AppState {
+	public electronEventManager: ElectronEventManager = new ElectronEventManager(this);
+	public state = reactive({
+		allowedExtensions: [] as string[],
+		version: "",
+		isMinimized: false,
+		isMaximized: false,
+		processQueue: 0,
+		coverCache: useLocalStorage("cover-cache", {}) as RemovableRef<Record<string, string>>,
+		defaultCover: "",
+		player: new Player(this.electronEventManager),
+	});
 
-const state = reactive({
-	allowedExtensions: [] as string[],
-	queue: useLocalStorage("queue", []) as RemovableRef<string[]>,
-	currentlyPlaying: -1,
-	volume: 1,
-	version: "",
-	isPlaying: false,
-	isMinimized: false,
-	isMaximized: false,
-	processQueue: 0,
-	coverCache: useLocalStorage("cover-cache", {}) as RemovableRef<Record<string, string>>,
-});
+	totalLocalStorageSize = computed(() => JSON.stringify(this.state.coverCache).length);
+	isDev = computed(() => this.state.version.includes("DEV"));
 
-export const totalLocalStorageSize = computed(() => JSON.stringify(state.coverCache).length);
+	getCoverArt = async (path: string) => {
+		if (this.state.processQueue < COVERART_RENDERING_CONCURRENCY) {
+			this.state.processQueue++;
+			try {
+				this.state.coverCache[path] = await window.electron.ipcRenderer.invoke<string>("get-cover", [path]);
+			}
+			catch (error) { }
+			this.state.processQueue--;
+		}
+		else {
+			setTimeout(async () =>
+				this.getCoverArt(path), 100,
+			);
+		}
+	};
+}
 
-export const isDev = computed(() => state.version.includes("DEV"));
+const state = new AppState();
 export const useState = () => state;
-export const useInvoke = () => electron.invoke;
-export const defaultCover = ref();
-
-export const syncWindowState = async () => {
-	const windowState = await electron.invoke<{ isMinimized: boolean; isMaximized: boolean }>("sync-window-state");
-	state.isMinimized = windowState.isMinimized;
-	state.isMaximized = windowState.isMaximized;
-};
-
-electron.on<string>("play-file", (file) => {
-	if (file === "--require")
-return;
-	state.queue.unshift(file);
-	state.currentlyPlaying = 0;
-});
-electron.on<(string)[]>("play-folder", files => state.queue = spreadArray(files));
-electron.on("maximize", () => state.isMaximized = true);
-electron.on("unmaximize", () => state.isMaximized = false);
-
-// These are constant state syncs that get emitted on startup from the main process
-electron.on<string>("version", version => state.version = version);
-electron.on<string[]>("allowed-extensions", allowedExtensions => state.allowedExtensions = allowedExtensions);
-electron.on<Buffer>("default-cover", image => defaultCover.value = URL.createObjectURL(new Blob([image], { type: "image/png" })));
 
 // recursively goes through every file in the folder and flattens it
-function spreadArray(array: string[]): string[] {
-	return array.reduce((acc, item) => {
-		if (Array.isArray(item))
-			return acc.concat(spreadArray(item));
-		else
-			return acc.concat(item);
-	}, [] as string[]);
-}
 
 export function bytesToHuman(bytes: number): string {
 	const sizes = ["B", "KB", "MB", "GB", "TB"];
@@ -64,19 +51,3 @@ export function bytesToHuman(bytes: number): string {
 	const i = ~~(Math.log(bytes) / Math.log(1024));
 	return `${parseFloat((bytes / Math.pow(1024, i)).toFixed(2))} ${sizes[i]}`;
 }
-
-export const getCoverArt = async (path: string) => {
-  if (state.processQueue < COVERART_RENDERING_CONCURRENCY) {
-    state.processQueue++;
-    try {
-      state.coverCache[path] = await window.electron.ipcRenderer.invoke<string>("get-cover", [path]);
-    }
-    catch (error) { }
-    state.processQueue--;
-  }
-  else {
-    setTimeout(async () =>
-      getCoverArt(path), 100,
-    );
-  }
-};
