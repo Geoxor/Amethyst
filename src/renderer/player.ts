@@ -1,8 +1,9 @@
-import type { RemovableRef } from "@vueuse/core";
 import { useLocalStorage } from "@vueuse/core";
 import type { IAudioMetadata } from "music-metadata";
 import { reactive, watch } from "vue";
 import type ElectronEventManager from "./electronEventManager";
+import type AppState from "./state";
+import { COVERART_RENDERING_CONCURRENCY } from "./state";
 
 // Turns seconds from 80 to 1:20
 export const secondsHuman = (time: number) => {
@@ -19,27 +20,57 @@ export default class Player {
 		ctx: new window.AudioContext(),
 		source: null as null | MediaElementAudioSourceNode,
 		currentlyPlayingMetadata: null as null | IAudioMetadata,
-		currentlyPlayingFilePath: "",
-		queue: useLocalStorage("queue", []) as RemovableRef<string[]>,
+		currentlyPlayingFilePath: useLocalStorage<string>("currentlyPlayingFilePath", ""),
+		queue: useLocalStorage<string[]>("queue", []),
 		currentlyPlayingIndex: -1,
-		volume: useLocalStorage("volume", 1) as RemovableRef<number>,
+		volume: useLocalStorage<number>("volume", 1),
 		isPlaying: false,
 	});
 
-	constructor(public electron: ElectronEventManager) {
+	constructor(public appState: AppState, public electron: ElectronEventManager) {
+    this.electron.electron.on<string>("play-file", (file) => {
+      if (file === "--require")
+      return;
+      this.addToQueueAndPlay(file);
+    });
+    this.electron.electron.on<(string)[]>("play-folder", files => this.setQueue(files));
+
 		// When the queue changes updated the current playing file path
-		watch(() => this.state.queue.length, () => this.updateCurrentlyPlayingFilePath());
+		watch(() => this.state.queue.length, () => {
+			this.updateCurrentlyPlayingFilePath();
+		});
 
 		// When the playing index changes update the current playing file path
-		watch(() => this.state.currentlyPlayingIndex, () => this.updateCurrentlyPlayingFilePath());
+		watch(() => this.state.currentlyPlayingIndex, () => {
+			this.updateCurrentlyPlayingFilePath();
+		});
 
 		// When the currently playing file path changes play the new file
-		watch(() => this.state.currentlyPlayingFilePath, () => this.loadSoundAndPlay(this.state.currentlyPlayingFilePath));
+		watch(() => this.state.currentlyPlayingFilePath, () => {
+			this.loadSoundAndPlay(this.state.currentlyPlayingFilePath);
+		});
 	}
+
+	getCoverArt = async (path: string) => {
+		if (this.appState.state.processQueue < COVERART_RENDERING_CONCURRENCY) {
+			this.appState.state.processQueue++;
+			try {
+				this.appState.state.coverCache[path] = await this.electron.invoke<string>("get-cover", [path]);
+			}
+			catch (error) { }
+			this.appState.state.processQueue--;
+		}
+		else {
+			setTimeout(async () =>
+				this.getCoverArt(path), 100,
+			);
+		}
+	};
 
 	loadSoundAndPlay(path: string) {
 		this.state.sound && this.pause();
 		this.state.sound = new Audio(path);
+
 		this.state.sound.volume = this.state.volume;
 		this.play();
 		this.state.sound.onended = () => {

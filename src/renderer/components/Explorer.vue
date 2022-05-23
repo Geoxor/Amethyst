@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { useKeyModifier } from "@vueuse/core";
-import { COVERART_RENDERING_CONCURRENCY, useState } from "../state";
+import { usePlayer, useState } from "../amethyst";
+import { COVERART_RENDERING_CONCURRENCY } from "../state";
+
 import Cover from "./Cover.vue";
 const state = useState();
+const player = usePlayer();
 const isHoldingControl = useKeyModifier("Control");
 const invoke = window.electron.ipcRenderer.invoke;
 
@@ -35,13 +38,13 @@ const parseTitle = (path: string, trim: number) => {
       </Transition>
 
       <li
-        v-for="(song, i) of state.state.player.getQueue()" :key="song" :class="[isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', i === state.state.player.getCurrentlyPlayingIndex() && 'text-blue-500']" class=" h-3 mb-0.5 hover:text-blue-300"
-        @click="isHoldingControl ? invoke('show-item', [state.state.player.getQueue()[i]]) : state.state.player.setCurrentlyPlayingIndex(i)"
+        v-for="(song, i) of player.getQueue()" :key="song" :class="[isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', i === player.getCurrentlyPlayingIndex() && 'text-blue-500']" class=" h-3 mb-0.5 hover:text-blue-300"
+        @click="isHoldingControl ? invoke('show-item', [player.getQueue()[i]]) : player.setCurrentlyPlayingIndex(i)"
       >
         <cover class="inline align-top w-3 h-3" :song-path="song" />
 
         <p class=" inline align-top text-xs ml-2 max-w-40 overflow-hidden overflow-ellipsis ">
-          {{ i === state.state.player.getCurrentlyPlayingIndex() ? "⏵ " : "" }}{{ parseTitle(song, i === state.state.player.getCurrentlyPlayingIndex() ? 30 : 32) }}
+          {{ i === player.getCurrentlyPlayingIndex() ? "⏵ " : "" }}{{ parseTitle(song, i === player.getCurrentlyPlayingIndex() ? 30 : 32) }}
         </p>
       </li>
     </ul>

@@ -11,12 +11,7 @@ export default class ElectronEventManager {
     this.electron.on<Buffer>("default-cover", image => state.state.defaultCover = URL.createObjectURL(new Blob([image], { type: "image/png" })));
 
     // These are state syncs that get emitted on every state change
-    this.electron.on<string>("play-file", (file) => {
-      if (file === "--require")
-      return;
-      this.state.state.player.addToQueueAndPlay(file);
-    });
-    this.electron.on<(string)[]>("play-folder", files => this.state.state.player.setQueue(files));
+
     this.electron.on("maximize", () => state.state.isMaximized = true);
     this.electron.on("unmaximize", () => state.state.isMaximized = false);
   }

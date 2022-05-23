@@ -11,7 +11,7 @@ declare global {
 					channel: string,
 					func: (...args: T[]) => void
 				): (() => void) | undefined
-				once(channel: string, func: (...args: unknown[]) => void): void
+				once<T>(channel: string, func: (...args: T[]) => void): void
 			}
 		}
 	}

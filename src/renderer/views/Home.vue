@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import type { IAudioMetadata } from "music-metadata";
 import { computed, onMounted, ref } from "vue";
+import { usePlayer, useState } from "../amethyst";
 import Explorer from "../components/Explorer.vue";
 import Tag from "../components/Tag.vue";
 // import Explorer from "../components/Explorer.vue";
 import DbMeter from "../../renderer/components/DbMeter.vue";
-import { useState } from "../../renderer/state";
 import Spectrum from "../components/Spectrum.vue";
 
 const timer = ref();
 
 const invoke = window.electron.ipcRenderer.invoke;
 const state = useState();
-const player = state.state.player;
+const player = usePlayer();
 const metadata = computed(() => player.state.currentlyPlayingMetadata);
 
 const cover = computed(() => {
@@ -62,7 +62,7 @@ function calculateStars(metadata: IAudioMetadata) {
 }
 
 onMounted(() => {
-	player.loadSoundAndPlay(player.getQueue()[0]);
+	player.loadSoundAndPlay(player.state.currentlyPlayingFilePath);
 
   timer.value && clearInterval(timer.value);
   timer.value = setInterval(() => {

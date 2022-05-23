@@ -1,5 +1,5 @@
 import { onKeyStroke, useLocalStorage } from "@vueuse/core";
-import { useState } from "./state";
+import type Player from "./player";
 
 export type ShortcutBindings = Record<string, [string[], () => void]>;
 export type CustomShortcutBindings = Record<string, string[]>;
@@ -20,8 +20,7 @@ export default class Shortcuts {
   public bindings = this.DEFAULT_BINDINGS;
   public customBindings = useLocalStorage<CustomShortcutBindings>("customShortcuts", {}).value;
 
-  public player = useState().state.player;
-  constructor() {
+  constructor(public player: Player) {
     this.registerShortcuts();
   }
 

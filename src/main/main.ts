@@ -175,6 +175,7 @@ async function openFolder() {
 	if (response.canceled)
 		return;
 	const folder = await loadFolder(response.filePaths[0]);
+
 	mainWindow!.webContents.send("play-folder", folder);
 }
 

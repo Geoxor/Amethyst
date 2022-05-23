@@ -13,13 +13,14 @@ onKeyStroke("Escape", () => (isShowing.value = false));
     <div class="hover:text-blue-400 cursor-default flex items-center mt-0.25 px-2 h-full" @click.stop="isShowing = !isShowing">
       {{ title }}
     </div>
-    <div v-if="isShowing" class="absolute z-20 flex items-center bg-gray-800 text-white py-2 flex-col w-96" @click="isShowing = false">
+    <div v-if="isShowing" class="absolute z-30 flex items-center bg-gray-800 text-white py-2 flex-col w-96" @click="isShowing = false">
       <slot />
     </div>
   </div>
   <div
+    v-if="isShowing"
     :class="isShowing && 'pointer-events-auto'"
-    class="pointer-events-none z-10 opacity-50 absolute  w-full h-full"
+    class="pointer-events-none z-20 top-0 left-0 absolute w-full h-full"
     @click="isShowing = false"
   />
 </template>

@@ -5,14 +5,5 @@ import "virtual:windi-devtools";
 import { createApp } from "vue";
 import App from "./App.vue";
 import router from "./router";
-import AppState from "./state";
-import Shortcuts from "./shortcuts";
-
+import "./amethyst";
 createApp(App).use(router).mount("#app");
-
-class Amethyst {
-  public appState: AppState = new AppState();
-  public shortcuts: Shortcuts = new Shortcuts();
-}
-
-const app = new Amethyst();
