@@ -132,6 +132,7 @@ onMounted(() => {
                 <tag v-if="metadata.format.sampleRate" :text="`${(metadata.format.sampleRate / 1000)}KHz`" />
                 <tag v-if="metadata.format.bitsPerSample" :text="`${metadata.format.bitsPerSample}bit`" />
                 <tag v-if="metadata.format.numberOfChannels" :text="`${metadata.format.numberOfChannels}ch`" />
+                <tag v-if="state.state.bpmCache[player.getCurrentlyPlayingFilePath()]" :text="`${state.state.bpmCache[player.getCurrentlyPlayingFilePath()]}BPM`" />
               </div>
             </div>
           </div>

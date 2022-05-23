@@ -46,8 +46,13 @@ const playPop = () => {
         <menu-splitter />
         <menu-option
           :shortcuts="['CTRL', 'D', '+', 'X']"
-          :title="`Clear cover art cache (${bytesToHuman(state.totalLocalStorageSize.value)})`"
+          :title="`Clear cover art cache (${bytesToHuman(state.coverArtCacheSize.value)})`"
           @click="state.state.coverCache = {}"
+        />
+        <menu-option
+          :shortcuts="['CTRL', 'D', '+', 'F']"
+          :title="`Clear BPM cache (${bytesToHuman(state.bpmCacheSize.value)})`"
+          @click="state.state.bpmCache = {}"
         />
       </Menu>
 

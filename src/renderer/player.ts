@@ -1,9 +1,23 @@
 import { useLocalStorage } from "@vueuse/core";
 import type { IAudioMetadata } from "music-metadata";
 import { reactive, watch } from "vue";
+import { analyze } from "web-audio-beat-detector";
+import { useElectron } from "./amethyst";
 import type ElectronEventManager from "./electronEventManager";
 import type AppState from "./state";
-import { COVERART_RENDERING_CONCURRENCY } from "./state";
+import { BPM_COMPUTATION_CONCURRENCY, COVERART_RENDERING_CONCURRENCY } from "./state";
+
+async function analyzeBpm(path: string) {
+	// get an AudioBuffer from the file
+	const uint: Uint8Array = await useElectron().invoke("read-file", [path]);
+	const audioContext = new AudioContext();
+	const audioBuffer = await audioContext.decodeAudioData(uint.buffer);
+
+	// analyze the audio buffer
+	const bpm = Math.round (await analyze(audioBuffer));
+
+	return bpm;
+}
 
 // Turns seconds from 80 to 1:20
 export const secondsHuman = (time: number) => {
@@ -38,6 +52,7 @@ export default class Player {
 		// When the queue changes updated the current playing file path
 		watch(() => this.state.queue.length, () => {
 			this.updateCurrentlyPlayingFilePath();
+			this.analyzeQueueForBpm();
 		});
 
 		// When the playing index changes update the current playing file path
@@ -49,16 +64,18 @@ export default class Player {
 		watch(() => this.state.currentlyPlayingFilePath, () => {
 			this.loadSoundAndPlay(this.state.currentlyPlayingFilePath);
 		});
+
+		this.analyzeQueueForBpm();
 	}
 
-	getCoverArt = async (path: string) => {
-		if (this.appState.state.processQueue < COVERART_RENDERING_CONCURRENCY) {
-			this.appState.state.processQueue++;
+	public getCoverArt = async (path: string) => {
+		if (this.appState.state.coverProcessQueue < COVERART_RENDERING_CONCURRENCY) {
+			this.appState.state.coverProcessQueue++;
 			try {
 				this.appState.state.coverCache[path] = await this.electron.invoke<string>("get-cover", [path]);
 			}
 			catch (error) { }
-			this.appState.state.processQueue--;
+			this.appState.state.coverProcessQueue--;
 		}
 		else {
 			setTimeout(async () =>
@@ -67,10 +84,33 @@ export default class Player {
 		}
 	};
 
+	public getBpm = async (path: string) => {
+		if (this.appState.state.bpmProcessQueue < BPM_COMPUTATION_CONCURRENCY) {
+			this.appState.state.bpmProcessQueue++;
+			try {
+				this.appState.state.bpmCache[path] = await analyzeBpm(path);
+			}
+			catch (error) { }
+			this.appState.state.bpmProcessQueue--;
+		}
+		else {
+			setTimeout(async () =>
+				this.getBpm(path), 100,
+			);
+		}
+	};
+
+	public analyzeQueueForBpm() {
+		for (let i = 0; i < this.getQueue().length; i++) {
+			const path = this.getQueue()[i];
+			if (path && !this.appState.state.bpmCache[path])
+				this.getBpm(path);
+		}
+	}
+
 	loadSoundAndPlay(path: string) {
 		this.state.sound && this.pause();
 		this.state.sound = new Audio(path);
-
 		this.state.sound.volume = this.state.volume;
 		this.play();
 		this.state.sound.onended = () => {

@@ -1,8 +1,9 @@
-import type { RemovableRef } from "@vueuse/core";
 import { useLocalStorage } from "@vueuse/core";
 import { computed, reactive } from "vue";
 
-export const COVERART_RENDERING_CONCURRENCY = 10;
+export const OVERALL_CONCURRENCY = 6;
+export const COVERART_RENDERING_CONCURRENCY = OVERALL_CONCURRENCY / 2;
+export const BPM_COMPUTATION_CONCURRENCY = OVERALL_CONCURRENCY / 2;
 
 export default class AppState {
 	public state = reactive({
@@ -10,12 +11,15 @@ export default class AppState {
 		version: "",
 		isMinimized: false,
 		isMaximized: false,
-		processQueue: 0,
-		coverCache: useLocalStorage("cover-cache", {}) as RemovableRef<Record<string, string>>,
+		coverProcessQueue: 0,
+		bpmProcessQueue: 0,
+		coverCache: useLocalStorage<Record<string, string>>("cover-cache", {}),
+		bpmCache: useLocalStorage<Record<string, number>>("bpm-cache", {}),
 		defaultCover: "",
 	});
 
-	public totalLocalStorageSize = computed(() => JSON.stringify(this.state.coverCache).length);
+	public coverArtCacheSize = computed(() => JSON.stringify(this.state.coverCache).length);
+	public bpmCacheSize = computed(() => JSON.stringify(this.state.bpmCache).length);
 	public isDev = computed(() => this.state.version.includes("DEV"));
 }
 

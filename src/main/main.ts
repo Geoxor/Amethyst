@@ -205,6 +205,7 @@ async function getCoverDownscaled(path: string, resizeTo = 12) {
 }
 
 ipcMain.handle("minimize", () => mainWindow!.minimize());
+ipcMain.handle("read-file", (_, [path]) => fs.promises.readFile(path));
 ipcMain.handle("maximize", () => mainWindow!.maximize());
 ipcMain.handle("unmaximize", () => mainWindow!.unmaximize());
 ipcMain.handle("close", () => mainWindow!.close());

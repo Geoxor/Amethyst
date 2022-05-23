@@ -225,6 +225,7 @@
     "vite-plugin-windicss": "^1.8.4",
     "vue": "^3.2.33",
     "vue-router": "^4.0.13",
+    "web-audio-beat-detector": "^8.1.31",
     "windicss": "^3.5.3"
   },
   "devEngines": {
