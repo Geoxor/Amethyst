@@ -36,10 +36,8 @@ export default class Shortcuts {
       const keys = customKeys || defaultKeys;
 
       // Register the event for each key
-      for (let j = 0; j < keys.length; j++) {
-        console.log(`Registering shortcut for ${actionName}: ${keys[j]}`);
+      for (let j = 0; j < keys.length; j++)
         onKeyStroke(keys[j], action);
-      }
     }
   }
 }

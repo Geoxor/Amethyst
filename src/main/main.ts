@@ -115,7 +115,7 @@ const createWindow = async () => {
 	mainWindow.on("maximize", () => mainWindow!.webContents.send("maximize"));
 
 	mainWindow.webContents.on("dom-ready", () => {
-		playAudio(process.argv[1] || "No file opened");
+		process.argv[1] && playAudio(process.argv[1]);
 		mainWindow!.webContents.send("default-cover", DEFAULT_COVER);
 		mainWindow!.webContents.send("version", isDebug ? `${getDevVersion()} DEV-BUILD` : app.getVersion());
 		mainWindow!.webContents.send("acceptable-extensions", ALLOWED_EXTENSIONS);
