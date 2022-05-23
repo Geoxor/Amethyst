@@ -67,7 +67,7 @@ onMounted(() => {
   timer.value && clearInterval(timer.value);
   timer.value = setInterval(() => {
     currentTime.value = `${player.currentTimeFormatted()} / ${player.currentDurationFormatted()}`;
-  }, 10);
+  }, 500);
 });
 </script>
 
