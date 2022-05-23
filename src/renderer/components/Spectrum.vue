@@ -8,9 +8,9 @@ const SPECTRUM_HEIGHT = 125;
 let shouldFuckOff = false;
 
 const getLogIndex = (value: number, min: number, max: number) => {
-		const exp = value / min / (max - min);
-		return min * (max / min) ** exp;
-	};
+	const exp = value / min / (max - min);
+	return min * (max / min) ** exp;
+};
 
 const transformLogarithmic = (array: Uint8Array): Uint8Array => {
 	const logArray = [];
@@ -34,11 +34,13 @@ onMounted(() => {
 	const gain = context.createGain();
 	const analyser = context.createAnalyser();
 	analyser.fftSize = 8192;
-	analyser.smoothingTimeConstant = 0.2;
+	analyser.smoothingTimeConstant = 0;
 	analyser.maxDecibels = 30;
 	analyser.minDecibels = -120;
 
 	props.node.connect(gain);
+	// Raising the gain into the analyzer to compensate for the tilt bottom end loss
+	gain.gain.value = 8;
 	gain.connect(analyser);
 
 	const spectrum = document.querySelector("#spectrum") as HTMLCanvasElement;
@@ -60,11 +62,11 @@ onMounted(() => {
 		analyser.getByteFrequencyData(dataArray);
 
 		const logArray = transformLogarithmic(dataArray);
-
 		const barWidth = SPECTRUM_WIDTH / logArray.length;
-		for (let i = 0; i < logArray.length; i++) {
-			const barHeight = logArray[i] / 1.6;
+		const tiltOffset = 0.01 * logArray.length;
 
+		for (let i = 0; i < logArray.length; i++) {
+			const barHeight = logArray[i] * 0.6 + (i * 0.005) - tiltOffset;
 			canvasCtx.value?.fillRect(0 + i * barWidth, SPECTRUM_HEIGHT - barHeight, 1, barHeight);
 		}
 		!shouldFuckOff && requestAnimationFrame(draw);
