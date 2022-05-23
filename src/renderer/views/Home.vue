@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { onKeyStroke } from "@vueuse/core";
 import type { IAudioMetadata } from "music-metadata";
 import { computed, onMounted, ref } from "vue";
 import Explorer from "../components/Explorer.vue";
@@ -25,7 +24,7 @@ const cover = computed(() => {
 	return URL.createObjectURL(blob);
 });
 
-const currentTime = ref(0);
+const currentTime = ref("0");
 
 const handleVolumeMouseScroll = (e: WheelEvent) => {
 	const delta = Math.sign(e.deltaY);
@@ -34,7 +33,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
 
 const handleSeekMouseScroll = (e: WheelEvent) => {
 	const delta = Math.sign(e.deltaY);
-	const step = metadata!.format.duration! / 10;
+	const step = metadata.value!.format.duration! / 10;
 	delta < 0 ? player.seekForward(step) : player.seekBackward(step);
 };
 
@@ -67,18 +66,9 @@ onMounted(() => {
 
   timer.value && clearInterval(timer.value);
   timer.value = setInterval(() => {
-    currentTime.value = `${player.currentTimeFormatted() || "0:00"} / ${player.currentDurationFormatted() || "0:00"}`;
+    currentTime.value = `${player.currentTimeFormatted()} / ${player.currentDurationFormatted()}`;
   }, 10);
 });
-
-// Key presses for media keys
-onKeyStroke("MediaPlayPause", () => player.isPlaying() ? player.pause() : player.play());
-onKeyStroke(" ", () => player.isPlaying() ? player.pause() : player.play());
-onKeyStroke("MediaPlay", () => player.play());
-onKeyStroke("MediaPause", () => player.pause());
-onKeyStroke("MediaTrackNext", () => player.next());
-onKeyStroke("ArrowUp", () => player.volumeUp());
-onKeyStroke("ArrowDown", () => player.volumeDown());
 </script>
 
 <template>

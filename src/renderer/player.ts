@@ -6,10 +6,10 @@ import type ElectronEventManager from "./electronEventManager";
 
 // Turns seconds from 80 to 1:20
 export const secondsHuman = (time: number) => {
-	const seconds = Math.floor(time);
-	const minutes = Math.floor(seconds / 60);
+	const seconds = ~~time;
+	const minutes = ~~(seconds / 60);
 	const secondsLeft = seconds % 60;
-	return `${minutes}:${secondsLeft < 10 ? "0" : ""}${secondsLeft}`;
+	return `${minutes || 0}:${secondsLeft < 10 ? "0" : ""}${secondsLeft || 0}`;
 };
 
 export default class Player {
@@ -27,8 +27,13 @@ export default class Player {
 	});
 
 	constructor(public electron: ElectronEventManager) {
+		// When the queue changes updated the current playing file path
 		watch(() => this.state.queue.length, () => this.updateCurrentlyPlayingFilePath());
+
+		// When the playing index changes update the current playing file path
 		watch(() => this.state.currentlyPlayingIndex, () => this.updateCurrentlyPlayingFilePath());
+
+		// When the currently playing file path changes play the new file
 		watch(() => this.state.currentlyPlayingFilePath, () => this.loadSoundAndPlay(this.state.currentlyPlayingFilePath));
 	}
 
@@ -147,11 +152,11 @@ export default class Player {
 		return this.state.sound.currentTime;
 	}
 
-	public seekForward(step: number) {
+	public seekForward(step = 5) {
 		this.state.sound.currentTime += step;
 	}
 
-	public seekBackward(step: number) {
+	public seekBackward(step = 5) {
 		this.state.sound.currentTime -= step;
 	}
 
