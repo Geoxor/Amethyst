@@ -4,7 +4,6 @@ import Menu from "./Menu.vue";
 import MenuOption from "./MenuOption.vue";
 import MenuSplitter from "./MenuSplitter.vue";
 import ControlButtons from "./ControlButtons.vue";
-const invoke = window.electron.ipcRenderer.invoke;
 const state = useState();
 const playPop = () => {
   new Audio("./sounds/pop.flac").play();
@@ -21,12 +20,12 @@ const playPop = () => {
         <menu-option
           :shortcuts="['CTRL', 'O']"
           title="Open audio..."
-          @click="() => invoke('open-file-dialog')"
+          @click="() => state.electron.openFileDialog()"
         />
         <menu-option
           :shortcuts="['CTRL', 'SHIFT', 'O']"
           title="Open folder..."
-          @click="() => invoke('open-folder-dialog')"
+          @click="() => state.electron.openFolderDialog()"
         />
         <menu-splitter />
         <menu-option

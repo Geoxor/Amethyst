@@ -21,7 +21,7 @@ export default class ElectronEventManager {
     this.electron.on("unmaximize", () => state.state.isMaximized = false);
   }
 
-  syncWindowState = async () => {
+  public syncWindowState = async () => {
 		const windowState = await this.electron.invoke<{ isMinimized: boolean; isMaximized: boolean }>("sync-window-state");
 		this.state.state.isMinimized = windowState.isMinimized;
 		this.state.state.isMaximized = windowState.isMaximized;
@@ -46,4 +46,12 @@ export default class ElectronEventManager {
     this.invoke("close");
     this.syncWindowState();
   };
+
+   public openFileDialog() {
+    this.invoke("open-file-dialog");
+    }
+
+ public openFolderDialog() {
+  this.invoke("open-folder-dialog");
+  }
 }

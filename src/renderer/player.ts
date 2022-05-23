@@ -22,7 +22,7 @@ export default class Player {
 		currentlyPlayingFilePath: "",
 		queue: useLocalStorage("queue", []) as RemovableRef<string[]>,
 		currentlyPlayingIndex: -1,
-		volume: 1,
+		volume: useLocalStorage("volume", 1) as RemovableRef<number>,
 		isPlaying: false,
 	});
 

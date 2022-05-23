@@ -7,7 +7,7 @@ import Player from "./player";
 export const COVERART_RENDERING_CONCURRENCY = 10;
 
 export default class AppState {
-	public electronEventManager: ElectronEventManager = new ElectronEventManager(this);
+	public electron: ElectronEventManager = new ElectronEventManager(this);
 	public state = reactive({
 		allowedExtensions: [] as string[],
 		version: "",
@@ -16,7 +16,7 @@ export default class AppState {
 		processQueue: 0,
 		coverCache: useLocalStorage("cover-cache", {}) as RemovableRef<Record<string, string>>,
 		defaultCover: "",
-		player: new Player(this.electronEventManager),
+		player: new Player(this.electron),
 	});
 
 	totalLocalStorageSize = computed(() => JSON.stringify(this.state.coverCache).length);
@@ -26,7 +26,7 @@ export default class AppState {
 		if (this.state.processQueue < COVERART_RENDERING_CONCURRENCY) {
 			this.state.processQueue++;
 			try {
-				this.state.coverCache[path] = await window.electron.ipcRenderer.invoke<string>("get-cover", [path]);
+				this.state.coverCache[path] = await this.electron.invoke<string>("get-cover", [path]);
 			}
 			catch (error) { }
 			this.state.processQueue--;

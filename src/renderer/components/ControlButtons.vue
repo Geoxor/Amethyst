@@ -6,19 +6,19 @@ const state = useState();
 
 <template>
   <div class="flex text-black no-drag">
-    <button class="controlButton cursor-pointer hover:bg-gray-300 active:bg-blue-500" @click="state.electronEventManager.minimize()">
+    <button class="controlButton cursor-pointer hover:bg-gray-300 active:bg-blue-500" @click="state.electron.minimize()">
       <i-fluency-minimize />
     </button>
 
-    <button v-if="!state.state.isMaximized" class="controlButton cursor-pointer hover:bg-gray-300 active:bg-blue-500" @click="state.electronEventManager.maximize()">
+    <button v-if="!state.state.isMaximized" class="controlButton cursor-pointer hover:bg-gray-300 active:bg-blue-500" @click="state.electron.maximize()">
       <i-fluency-maximize />
     </button>
 
-    <button v-if="state.state.isMaximized" class="controlButton cursor-pointer hover:bg-gray-300 active:bg-blue-500" @click="state.electronEventManager.unmaximize()">
+    <button v-if="state.state.isMaximized" class="controlButton cursor-pointer hover:bg-gray-300 active:bg-blue-500" @click="state.electron.unmaximize()">
       <i-fluency-shrink />
     </button>
 
-    <button class="controlButton cursor-pointer hover:bg-red-500 active:text-white hover:text-white fill-current active:bg-red-400" @click="state.electronEventManager.close()">
+    <button class="controlButton cursor-pointer hover:bg-red-500 active:text-white hover:text-white fill-current active:bg-red-400" @click="state.electron.close()">
       <i-fluency-x />
     </button>
   </div>
