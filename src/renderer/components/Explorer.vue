@@ -25,9 +25,9 @@ const parseTitles = (path: string, trim: number) => {
   <div class="min-w-64 max-w-64 p-2 pb-4 flex h-full font-cozette overflow-hidden overflow-y-auto " @keypress.prevent>
     <ul class="w-full">
       <Transition name="slide-fade">
-        <div v-if="state.processQueue > 0" class="flex w-full flex-col">
+        <div v-if="state.state.processQueue > 0" class="flex w-full flex-col">
           <p class="text-xs text-blue-400">
-            Processing Covers {{ state.processQueue }} / {{ COVERART_RENDERING_CONCURRENCY }}
+            Processing Covers {{ state.state.processQueue }} / {{ COVERART_RENDERING_CONCURRENCY }}
           </p>
 
           <div class="mb-2 mt-0.5 w-full h-1px bg-gray-200" />
@@ -35,13 +35,13 @@ const parseTitles = (path: string, trim: number) => {
       </Transition>
 
       <li
-        v-for="(song, i) of state.queue" :key="song" :class="[isHoldingControl && 'control-hover', i === state.currentlyPlaying && 'text-blue-500']" class=" h-3 mb-0.5 hover:text-blue-300"
-        @click="isHoldingControl ? invoke('show-item', [state.queue[i]]) : state.currentlyPlaying = i"
+        v-for="(song, i) of state.state.player.getQueue()" :key="song" :class="[isHoldingControl && 'control-hover', i === state.state.player.getCurrentlyPlayingIndex() && 'text-blue-500']" class=" h-3 mb-0.5 hover:text-blue-300"
+        @click="isHoldingControl ? invoke('show-item', [state.state.player.getQueue()[i]]) : state.state.player.setCurrentlyPlayingIndex(i)"
       >
         <cover class="inline align-top w-3 h-3" :song-path="song" />
 
         <p class=" inline align-top text-xs ml-2 max-w-40 overflow-hidden overflow-ellipsis " :class="[isHoldingControl ? 'cursor-external-pointer' : 'cursor-default']">
-          {{ i === state.currentlyPlaying ? "⏵ " : "" }}{{ parseTitles(song, i === state.currentlyPlaying ? 30 : 32) }}
+          {{ i === state.state.player.getCurrentlyPlayingIndex() ? "⏵ " : "" }}{{ parseTitles(song, i === state.state.player.getCurrentlyPlayingIndex() ? 30 : 32) }}
         </p>
       </li>
     </ul>

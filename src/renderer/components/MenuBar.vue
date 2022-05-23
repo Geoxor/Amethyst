@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { bytesToHuman, isDev, totalLocalStorageSize, useState } from "../state";
+import { bytesToHuman, useState } from "../state";
 import Menu from "./Menu.vue";
 import MenuOption from "./MenuOption.vue";
 import MenuSplitter from "./MenuSplitter.vue";
@@ -14,7 +14,7 @@ const playPop = () => {
 <template>
   <div class="bg-gray-200 font-cozette drag text-xs flex justify-between items-center">
     <div class="flex no-drag h-full items-center">
-      <img v-if="isDev" src="../icon-dev.png" class="transform active:rotate-360  active:scale-50 transition duration-200 cursor-heart-pointer ml-1 h-4" alt="" @click="playPop">
+      <img v-if="state.isDev" src="../icon-dev.png" class="transform active:rotate-360  active:scale-50 transition duration-200 cursor-heart-pointer ml-1 h-4" alt="" @click="playPop">
       <img v-else src="../icon.png" class="transform  active:rotate-360 active:scale-50 transition duration-200 cursor-heart-pointer ml-1 h-4" alt="" @click="playPop">
 
       <Menu title="File">
@@ -32,7 +32,7 @@ const playPop = () => {
         <menu-option
           :shortcuts="['CTRL', 'SHIFT', 'X']"
           title="Clear Queue"
-          @click="state.queue = []"
+          @click="state.state.player.clearQueue()"
         />
       </Menu>
 
@@ -44,8 +44,8 @@ const playPop = () => {
         <menu-splitter />
         <menu-option
           :shortcuts="['CTRL', 'D', '+', 'X']"
-          :title="`Clear cover art cache (${bytesToHuman(totalLocalStorageSize)})`"
-          @click="state.coverCache = {}"
+          :title="`Clear cover art cache (${bytesToHuman(state.totalLocalStorageSize.value)})`"
+          @click="state.state.coverCache = {}"
         />
       </Menu>
 
@@ -54,7 +54,7 @@ const playPop = () => {
       </Menu>
     </div>
 
-    Amethyst v{{ state.version }}
+    Amethyst v{{ state.state.version }}
 
     <control-buttons />
   </div>

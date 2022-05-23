@@ -2,7 +2,7 @@
   "name": "amethyst",
   "author": "amethyst <geoxor123@outlook.com>",
   "productName": "Amethyst",
-  "version": "1.1.9",
+  "version": "1.2.0",
   "main": "./release/dist/main/main.js",
   "licenses": [
     {
@@ -215,6 +215,7 @@
     "electron-debug": "^3.2.0",
     "electron-log": "^4.4.6",
     "electron-updater": "^4.6.5",
+    "events": "^3.3.0",
     "history": "^5.3.0",
     "howler": "^2.2.3",
     "music-metadata": "^7.12.3",
