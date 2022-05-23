@@ -13,14 +13,16 @@ const invoke = window.electron.ipcRenderer.invoke;
 const MAX_CHARS = 36;
 
 const trimString = (string: string, trim: number) => {
+  const NUMBER_OF_DOTS = 2;
+
   if (string.length > trim) {
-    const trimmed = string.substring(0, trim - 2);
+    const trimmed = string.substring(0, trim - NUMBER_OF_DOTS);
 
     // check if the trimmed ends with a space
     if (trimmed[trimmed.length - 1] === " ")
-      return `${trimmed.trimEnd()}...`;
+      return `${trimmed.trimEnd()}${".".repeat(NUMBER_OF_DOTS + 1)}`;
 
-    return `${trimmed}..`;
+    return `${trimmed}${".".repeat(NUMBER_OF_DOTS)}`;
   }
   return string;
 };
