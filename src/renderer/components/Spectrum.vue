@@ -4,6 +4,7 @@ import { onMounted, onUnmounted } from "vue";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
 const SPECTRUM_WIDTH = 400;
 const SPECTRUM_HEIGHT = 125;
+const TILT_MULTIPLIER = 0.005; // 3dB/octave
 
 let shouldFuckOff = false;
 
@@ -40,7 +41,7 @@ onMounted(() => {
 
 	props.node.connect(gain);
 	// Raising the gain into the analyzer to compensate for the tilt bottom end loss
-	gain.gain.value = 8;
+	gain.gain.value = 6;
 	gain.connect(analyser);
 
 	const spectrum = document.querySelector("#spectrum") as HTMLCanvasElement;
@@ -63,10 +64,11 @@ onMounted(() => {
 
 		const logArray = transformLogarithmic(dataArray);
 		const barWidth = SPECTRUM_WIDTH / logArray.length;
-		const tiltOffset = 0.01 * logArray.length;
+
+		const tiltOffset = TILT_MULTIPLIER * logArray.length;
 
 		for (let i = 0; i < logArray.length; i++) {
-			const barHeight = logArray[i] * 0.6 + (i * 0.005) - tiltOffset;
+			const barHeight = logArray[i] * 0.6 + (i * TILT_MULTIPLIER) - tiltOffset;
 			canvasCtx.value?.fillRect(0 + i * barWidth, SPECTRUM_HEIGHT - barHeight, 1, barHeight);
 		}
 		!shouldFuckOff && requestAnimationFrame(draw);
