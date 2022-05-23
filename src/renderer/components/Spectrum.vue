@@ -2,9 +2,11 @@
 import { computed } from "@vue/reactivity";
 import { onMounted, onUnmounted } from "vue";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
-const SPECTRUM_WIDTH = 400;
-const SPECTRUM_HEIGHT = 125;
+const SPECTRUM_WIDTH = 500;
+const SPECTRUM_HEIGHT = 150;
 const TILT_MULTIPLIER = 0.005; // 3dB/octave
+const FFT_SIZE = 8192;
+const VERTICAL_ZOOM_FACTOR = 1.5;
 
 let shouldFuckOff = false;
 
@@ -34,14 +36,13 @@ onMounted(() => {
 	const context = props.node.context;
 	const gain = context.createGain();
 	const analyser = context.createAnalyser();
-	analyser.fftSize = 8192;
-	analyser.smoothingTimeConstant = 0;
+	analyser.fftSize = FFT_SIZE;
+	analyser.smoothingTimeConstant = 0.5;
 	analyser.maxDecibels = 30;
 	analyser.minDecibels = -120;
 
 	props.node.connect(gain);
 	// Raising the gain into the analyzer to compensate for the tilt bottom end loss
-	gain.gain.value = 6;
 	gain.connect(analyser);
 
 	const spectrum = document.querySelector("#spectrum") as HTMLCanvasElement;
@@ -49,7 +50,7 @@ onMounted(() => {
 		const canvas = spectrum.getContext("2d");
 
 		if (canvas) {
-			canvas.fillStyle = "#DDDDDD";
+			canvas.fillStyle = "#000";
 			return canvas;
 		}
 		return canvas;
@@ -64,13 +65,15 @@ onMounted(() => {
 
 		const logArray = transformLogarithmic(dataArray);
 		const barWidth = SPECTRUM_WIDTH / logArray.length;
-
 		const tiltOffset = TILT_MULTIPLIER * logArray.length;
 
 		for (let i = 0; i < logArray.length; i++) {
-			const barHeight = logArray[i] * 0.6 + (i * TILT_MULTIPLIER) - tiltOffset;
-			canvasCtx.value?.fillRect(0 + i * barWidth, SPECTRUM_HEIGHT - barHeight, 1, barHeight);
+			const tilt = (i * TILT_MULTIPLIER) - tiltOffset;
+			const x = logArray[i] * VERTICAL_ZOOM_FACTOR;
+			const barHeight = ((x + tilt) / 255 * SPECTRUM_HEIGHT);
+			canvasCtx.value?.fillRect(i * barWidth, SPECTRUM_HEIGHT - barHeight, 1, barHeight);
 		}
+
 		!shouldFuckOff && requestAnimationFrame(draw);
 	}
 
@@ -81,7 +84,7 @@ onUnmounted(() => shouldFuckOff = true);
 </script>
 
 <template>
-  <div class="w-min flex flex-col">
+  <div class="w-min flex  flex-col">
     <canvas
       id="spectrum"
       ref="spectrum"

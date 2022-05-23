@@ -110,10 +110,10 @@ onMounted(() => {
         <div class="w-full h-full bg-center bg-no-repeat bg-cover opacity-50 filter blur-[64px]" :style="`background-image: url(${cover})`" />
       </div> -->
 
-        <div class="z-10 px-24 flex w-full flex-col justify-center">
-          <div class="flex gap-8">
+        <div class="z-10 p-8 flex w-full flex-col">
+          <div class="flex gap-8 items-end">
             <img class="w-48 h-48 cover transform transition duration-201 active:-translate-y-0 hover:-translate-y-1 cursor-pointer" :src="cover">
-            <div class="flex justify-between flex-col gap-1">
+            <div class="flex justify-between flex-col h-full gap-1">
               <div class="flex flex-col gap-2">
                 <h1 class=" text-[32px] hover:underline cursor-external-pointer " @click="invoke('show-item', [player.state.currentlyPlayingFilePath])">
                   {{ metadata.common.title || player.state.currentlyPlayingFilePath.substring(player.state.currentlyPlayingFilePath.lastIndexOf("\\") + 1) }}
@@ -136,8 +136,7 @@ onMounted(() => {
               </div>
             </div>
           </div>
-
-          <spectrum :key="player.state.currentlyPlayingFilePath" :node="player.state.source!" />
+          <spectrum :key="player.state.currentlyPlayingFilePath" class="mt-8" :node="player.state.source!" />
         </div>
       </div>
     </div>
