@@ -7,20 +7,24 @@ import Cover from "./Cover.vue";
 const state = useState();
 const player = usePlayer();
 const isHoldingControl = useKeyModifier("Control");
+const isHoldingAlt = useKeyModifier("Alt");
 const invoke = window.electron.ipcRenderer.invoke;
 
-const parseTitle = (path: string, trim: number) => {
-  // Get everything after the last \
-  const fileName = path.substring(Math.max(path.lastIndexOf("\\"), path.lastIndexOf("/")) + 1);
+const MAX_CHARS = 34;
 
+const trimString = (string: string, trim: number) => {
   // Trim the text and remove ending space
-  const trimmed = fileName.substring(0, trim).trimEnd();
+  const trimmed = string.substring(0, trim).trimEnd();
 
   // Check if the length of the title exceeds the given space
-  const isFileNameLessThanTrimmed = fileName.length < trim + 1;
+  const isFileNameLessThanTrimmed = string.length < trim + 1;
 
   // Add dots if it exceeds
-  return isFileNameLessThanTrimmed ? fileName : `${trimmed}..`;
+  return isFileNameLessThanTrimmed ? string : `${trimmed}..`;
+};
+
+const parseTitle = (path: string) => {
+  return path.substring(Math.max(path.lastIndexOf("\\"), path.lastIndexOf("/")) + 1);
 };
 </script>
 
@@ -38,13 +42,13 @@ const parseTitle = (path: string, trim: number) => {
       </Transition>
 
       <li
-        v-for="(song, i) of player.getQueue()" :key="song" :class="[isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', i === player.getCurrentlyPlayingIndex() && 'text-blue-500']" class=" h-3 mb-0.5 hover:text-blue-300"
+        v-for="(song, i) of player.getQueue()" :key="song" :class="[isHoldingControl && 'control-hover', isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', i === player.getCurrentlyPlayingIndex() && 'text-blue-500']" class=" h-3 mb-0.5 hover:text-blue-300"
         @click="isHoldingControl ? invoke('show-item', [player.getQueue()[i]]) : player.setCurrentlyPlayingIndex(i)"
       >
         <cover class="inline align-top w-3 h-3" :song-path="song" />
 
         <p class=" inline align-top text-xs ml-2 max-w-40 overflow-hidden overflow-ellipsis ">
-          {{ i === player.getCurrentlyPlayingIndex() ? "⏵ " : "" }}{{ parseTitle(song, i === player.getCurrentlyPlayingIndex() ? 30 : 32) }}
+          {{ i === player.getCurrentlyPlayingIndex() ? "⏵ " : "" }}{{ trimString(isHoldingAlt ? `${song.substring(0, (MAX_CHARS - 2) / 2)}...${song.substring(song.length - (MAX_CHARS - 2) / 2)}` : parseTitle(song), i === player.getCurrentlyPlayingIndex() ? MAX_CHARS - 2 : MAX_CHARS) }}
         </p>
       </li>
     </ul>
