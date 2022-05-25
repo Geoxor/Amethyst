@@ -7,19 +7,19 @@ const state = useState();
 
 <template>
   <div class="flex no-drag">
-    <button class="controlButton text-control-minimize-icon cursor-pointer hover:bg-control-minimize-background-hover active:bg-primary" @click="electron.minimize()">
+    <button class="controlButton text-control-minimize-icon cursor-pointer hover:bg-control-minimize-background-hover" @click="electron.minimize()">
       <i-fluency-minimize />
     </button>
 
-    <button v-if="!state.state.isMaximized" class="controlButton text-control-maximize-icon cursor-pointer hover:bg-control-maximize-background-hover active:bg-primary" @click="electron.maximize()">
+    <button v-if="!state.state.isMaximized" class="controlButton text-control-maximize-icon cursor-pointer hover:bg-control-maximize-background-hover" @click="electron.maximize()">
       <i-fluency-maximize />
     </button>
 
-    <button v-if="state.state.isMaximized" class="controlButton text-control-maximize-icon cursor-pointer hover:bg-control-maximize-background-hover active:bg-primary" @click="electron.unmaximize()">
+    <button v-if="state.state.isMaximized" class="controlButton text-control-maximize-icon cursor-pointer hover:bg-control-maximize-background-hover" @click="electron.unmaximize()">
       <i-fluency-shrink />
     </button>
 
-    <button class="controlButton text-control-close-icon cursor-pointer hover:bg-control-close-background-hover active:text-control-close-icon-hover hover:text-control-close-icon-hover active:bg-primary" @click="electron.close()">
+    <button class="controlButton text-control-close-icon cursor-pointer hover:bg-control-close-background-hover active:text-control-close-icon-hover hover:text-control-close-icon-hover active:bg-secondary" @click="electron.close()">
       <i-fluency-x />
     </button>
   </div>
