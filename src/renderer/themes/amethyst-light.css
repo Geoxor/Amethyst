@@ -1,28 +1,54 @@
 .theme-amethyst-light {
-  --primary-color: rgb(130, 137, 255);
-  --secondary-color: rgb(224, 145, 255);
+  --color-primary: rgb(130, 137, 255);
+  --color-secondary: rgb(224, 145, 255);
 
+
+
+  --color-menu-bar: rgb(255, 255, 255);
   --color-menu-text: rgb(255, 255, 255);
-  --color-menu-text-hover: var(--primary-color);
+  --color-menu-text-hover: var(--color-primary);
   --color-menu-background: rgb(8, 9, 29);
   --color-menu-option-hover: rgba(96, 104, 254, 0.25);
-  --color-menu-option-text: var(--primary-color);
-  --color-menu-option-text-hover: var(--secondary-color);
+  --color-menu-option-text: var(--color-primary);
+  --color-menu-option-text-hover: var(--color-secondary);
   --color-menu-splitter: rgba(96, 104, 254, 0.50);
+
+
+
+  --color-control-minimize-icon: rgb(0, 0, 0);
+  --color-control-minimize-icon-hover: rgb(0, 0, 0);
+  --color-control-minimize-background-hover: rgb(0, 0, 0, 0.10);
+
+  --color-control-maximize-icon: var(--color-control-minimize-icon);
+  --color-control-maximize-icon-hover: var(--color-control-minimize-icon-hover);
+  --color-control-maximize-background-hover: var(--color-control-minimize-background-hover);
+  
+  --color-control-close-icon: var(--color-control-minimize-icon);
+  --color-control-close-icon-hover: rgb(255, 255, 255);
+  --color-control-close-background-hover: var(--color-primary);
+
+
 
   --color-explorer-background: rgb(255, 255, 255);
   --color-explorer-text: rgb(0, 0, 0);
-  --color-explorer-text-hover: var(--primary-color);
+  --color-explorer-text-active: var(--color-secondary);
+  --color-explorer-text-hover: var(--color-primary);
+
+
 
   --color-meter-background: rgb(229, 231, 235);
   --color-meter-background-clipping: rgb(209, 213, 219);
-  --color-meter-instantaneous: var(--secondary-color);
-  --color-meter-average: var(--primary-color);
+  --color-meter-instantaneous: var(--color-secondary);
+  --color-meter-average: var(--color-primary);
   --color-meter-instantaneous-clipping: rgb(239, 68, 68);
   --color-meter-average-clipping: rgb(248, 113, 113);
 
+
+
   --color-spectrum-background: rgb(255, 255, 255);
-  --color-spectrum-peaks: var(--primary-color);
+  --color-spectrum-peaks: var(--color-primary);
+
+
 
   --color-tag-background: rgb(0, 0, 0);
   --color-tag-text: rgb(255, 255, 255);

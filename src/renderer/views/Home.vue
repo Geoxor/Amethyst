@@ -72,7 +72,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex h-[calc(100%-24px)] font-cozette main">
+  <div class="flex h-[calc(100%-24px)] text-explorer-text bg-explorer-background font-cozette main">
     <explorer />
     <div v-if="metadata" class="h-full flex w-full flex-col">
       <div class="flex p-1 gap-2 items-center ">
@@ -105,7 +105,7 @@ onMounted(() => {
       <!-- <div class="flex bg-gray-400 w-full h-1/3" /> -->
       <!-- <div class="flex bg-black w-full h-1/3" /> -->
 
-      <div class="flex relative h-full bg-white overflow-hidden">
+      <div class="flex relative h-full  overflow-hidden">
         <!-- <div class="absolute w-full h-full bg-black transform scale-150 ">
         <div class="w-full h-full bg-center bg-no-repeat bg-cover opacity-50 filter blur-[64px]" :style="`background-image: url(${cover})`" />
       </div> -->

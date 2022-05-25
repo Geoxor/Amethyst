@@ -59,7 +59,7 @@ const parseTitle = (path: string) => {
 
       <li
         v-for="([song, i]) of player.getQueue().map((song, i) => song.toLowerCase().includes(filterText.toLowerCase()) ? [song, i] : undefined).filter(song => !!song) as [string, number][]"
-        :key="song" :class="[isHoldingControl && 'control-hover', isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', i === player.getCurrentlyPlayingIndex() && 'text-blue-500']" class=" h-3 mb-0.5 hover:text-explorer-text-hover select-none" @keypress.prevent
+        :key="song" :class="[isHoldingControl && 'control-hover', isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', i === player.getCurrentlyPlayingIndex() && 'text-explorer-text-active']" class=" h-3 mb-0.5 hover:text-explorer-text-hover select-none" @keypress.prevent
         @click="isHoldingControl ? invoke('show-item', [player.getQueue()[i]]) : player.setCurrentlyPlayingIndex(i)"
       >
         <cover class="inline align-top w-3 h-3" :song-path="song" />

@@ -4,6 +4,9 @@ import typography from "windicss/plugin/typography";
 const cssVariable = (cssVariable: string) => `var(--color-${cssVariable})`;
 
 const COLORS = [
+	"primary",
+	"secondary",
+	"menu-bar",
 	"menu-text",
 	"menu-text-hover",
 	"menu-background",
@@ -11,8 +14,18 @@ const COLORS = [
 	"menu-option-text",
 	"menu-option-text-hover",
 	"menu-splitter",
+	"control-minimize-icon",
+	"control-minimize-icon-hover",
+	"control-minimize-background-hover",
+	"control-maximize-icon",
+	"control-maximize-icon-hover",
+	"control-maximize-background-hover",
+	"control-close-icon",
+	"control-close-icon-hover",
+	"control-close-background-hover",
 	"explorer-background",
 	"explorer-text",
+	"explorer-text-active",
 	"explorer-text-hover",
 	"meter-background",
 	"meter-background-clipping",

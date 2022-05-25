@@ -7,19 +7,19 @@ const state = useState();
 
 <template>
   <div class="flex no-drag">
-    <button class="controlButton cursor-pointer hover:bg-gray-300 active:bg-blue-500" @click="electron.minimize()">
+    <button class="controlButton text-control-minimize-icon cursor-pointer hover:bg-control-minimize-background-hover active:bg-primary" @click="electron.minimize()">
       <i-fluency-minimize />
     </button>
 
-    <button v-if="!state.state.isMaximized" class="controlButton cursor-pointer hover:bg-gray-300 active:bg-blue-500" @click="electron.maximize()">
+    <button v-if="!state.state.isMaximized" class="controlButton text-control-maximize-icon cursor-pointer hover:bg-control-maximize-background-hover active:bg-primary" @click="electron.maximize()">
       <i-fluency-maximize />
     </button>
 
-    <button v-if="state.state.isMaximized" class="controlButton cursor-pointer hover:bg-gray-300 active:bg-blue-500" @click="electron.unmaximize()">
+    <button v-if="state.state.isMaximized" class="controlButton text-control-maximize-icon cursor-pointer hover:bg-control-maximize-background-hover active:bg-primary" @click="electron.unmaximize()">
       <i-fluency-shrink />
     </button>
 
-    <button class="controlButton cursor-pointer hover:bg-red-500 active:text-white hover:text-white fill-current active:bg-red-400" @click="electron.close()">
+    <button class="controlButton text-control-close-icon cursor-pointer hover:bg-control-close-background-hover active:text-control-close-icon-hover hover:text-control-close-icon-hover active:bg-primary" @click="electron.close()">
       <i-fluency-x />
     </button>
   </div>
@@ -27,7 +27,7 @@ const state = useState();
 
 <style scoped lang="postcss">
 .controlButton {
-  @apply hover:text-white h-full  flex items-center justify-center py-1.5 px-4 text-sm;
+  @apply h-full fill-current flex items-center justify-center py-1.5 px-4 text-sm;
 
   svg {
     @apply w-3 h-3;
