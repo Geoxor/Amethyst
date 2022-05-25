@@ -4,8 +4,7 @@ import { computed, onMounted, ref } from "vue";
 import { usePlayer, useState } from "../amethyst";
 import Explorer from "../components/Explorer.vue";
 import Tag from "../components/Tag.vue";
-// import Explorer from "../components/Explorer.vue";
-import DbMeter from "../../renderer/components/Dbmeter.vue";
+import DbMeter from "../components/Dbmeter.vue";
 import Spectrum from "../components/spectrum.vue";
 
 const timer = ref();
@@ -98,7 +97,7 @@ onMounted(() => {
         <input
           id="volume" key="volume" v-model="player.state.volume" class="max-w-32" min="0" max="1" step="0.01" type="range" @input="player.setVolume(player.state.volume)" @wheel="handleVolumeMouseScroll"
         >
-        <DbMeter :key="player.getCurrentlyPlayingFilePath()" :node="player.state.source!" />
+        <db-meter :key="player.getCurrentlyPlayingFilePath()" :node="player.state.source!" />
       </div>
 
       <!-- <div class="flex bg-black w-full h-1/3" /> -->
