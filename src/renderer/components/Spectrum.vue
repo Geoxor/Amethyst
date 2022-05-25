@@ -50,7 +50,7 @@ onMounted(() => {
 		const canvas = spectrum.getContext("2d");
 
 		if (canvas) {
-			canvas.fillStyle = "#000";
+			canvas.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--color-spectrum-peaks");
 			return canvas;
 		}
 		return canvas;
@@ -84,7 +84,7 @@ onUnmounted(() => shouldFuckOff = true);
 </script>
 
 <template>
-  <div class="w-min flex  flex-col">
+  <div class="w-min flex bg-spectrum-background flex-col">
     <canvas
       id="spectrum"
       ref="spectrum"

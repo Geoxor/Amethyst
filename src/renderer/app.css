@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url(themes/amethyst-light.css);
 
 @font-face {
   font-family: "cozette-vector";

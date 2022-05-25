@@ -16,11 +16,21 @@ export default class AppState {
 		coverCache: useLocalStorage<Record<string, string>>("cover-cache", {}),
 		bpmCache: useLocalStorage<Record<string, number>>("bpm-cache", {}),
 		defaultCover: "",
+		theme: useLocalStorage<string>("theme", "amethyst-light"),
 	});
 
 	public coverArtCacheSize = computed(() => JSON.stringify(this.state.coverCache).length);
 	public bpmCacheSize = computed(() => JSON.stringify(this.state.bpmCache).length);
 	public isDev = computed(() => this.state.version.includes("DEV"));
+
+	public applyCurrentTheme = () => {
+		const dom = document.querySelector("html");
+		dom!.className = `theme-${this.state.theme}`;
+	};
+
+	constructor() {
+		this.applyCurrentTheme();
+	}
 }
 
 // recursively goes through every file in the folder and flattens it

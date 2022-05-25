@@ -33,7 +33,7 @@ const parseTitle = (path: string) => {
 </script>
 
 <template>
-  <div class="min-w-64 max-w-64 p-2 pb-4 flex h-full  font-cozette overflow-hidden overflow-y-auto " @keypress.prevent>
+  <div class="min-w-64 max-w-64 p-2 pb-4 flex h-full text-explorer-text bg-explorer-background  font-cozette overflow-hidden overflow-y-auto " @keypress.prevent>
     <ul class="w-full">
       <Transition name="slide-fade">
         <div v-if="state.state.coverProcessQueue > 0" class="flex w-full flex-col">
@@ -55,7 +55,7 @@ const parseTitle = (path: string) => {
       </Transition>
 
       <li
-        v-for="(song, i) of player.getQueue()" :key="song" :class="[isHoldingControl && 'control-hover', isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', i === player.getCurrentlyPlayingIndex() && 'text-blue-500']" class=" h-3 mb-0.5 hover:text-blue-300"
+        v-for="(song, i) of player.getQueue()" :key="song" :class="[isHoldingControl && 'control-hover', isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', i === player.getCurrentlyPlayingIndex() && 'text-blue-500']" class=" h-3 mb-0.5 hover:text-explorer-text-hover"
         @click="isHoldingControl ? invoke('show-item', [player.getQueue()[i]]) : player.setCurrentlyPlayingIndex(i)"
       >
         <cover class="inline align-top w-3 h-3" :song-path="song" />

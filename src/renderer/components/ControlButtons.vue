@@ -6,7 +6,7 @@ const state = useState();
 </script>
 
 <template>
-  <div class="flex text-black no-drag">
+  <div class="flex no-drag">
     <button class="controlButton cursor-pointer hover:bg-gray-300 active:bg-blue-500" @click="electron.minimize()">
       <i-fluency-minimize />
     </button>

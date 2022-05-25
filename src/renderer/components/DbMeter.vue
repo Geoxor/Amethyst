@@ -68,16 +68,16 @@ onUnmounted(() => shouldFuckOff = true);
 </script>
 
 <template>
-  <div class="relative min-w-40 transform -translate-y-1.75">
-    <div id="left-bg" class="absolute top-0 bg-gray-200 h-1.5 w-full" />
-    <div id="right-bg" class="absolute top-2 bg-gray-200 h-1.5 w-full" />
-    <div id="left-0db" class="absolute top-0 right-0 bg-gray-300 h-1.5 w-10/100" />
-    <div id="right-0db" class="absolute top-2 right-0  bg-gray-300 h-1.5 w-10/100" />
+  <div class="relative bg-meter-instantaneous min-w-40 transform -translate-y-1.75">
+    <div id="left-bg" class="absolute top-0 bg-meter-background h-1.5 w-full" />
+    <div id="right-bg" class="absolute top-2 bg-meter-background h-1.5 w-full" />
+    <div id="left-clipping" class="absolute top-0 right-0 bg-meter-background-clipping h-1.5 w-10/100" />
+    <div id="right-clipping" class="absolute top-2 right-0  bg-meter-background-clipping h-1.5 w-10/100" />
 
-    <div id="left-inst" :class="leftChannel > 0 ? 'bg-red-500' : 'bg-green-500'" class="transition-all duration-100 absolute top-0  h-1.5" :style="`width: ${(1 + leftChannel / RANGE) * 90}%`" />
-    <div id="left-avg" :class="leftChannel > 0 ? 'bg-red-400' : 'bg-green-400'" class="absolute top-0  h-1.5" :style="`width: ${(1 + leftChannelAverage / RANGE) * 90}%`" />
-    <div id="right-inst" :class="rightChannel > 0 ? 'bg-red-500' : 'bg-green-500'" class="transition-all duration-100 absolute top-2  h-1.5" :style="`width: ${(1 + rightChannel / RANGE) * 90}%`" />
-    <div id="right-avg" :class="leftChannel > 0 ? 'bg-red-400' : 'bg-green-400'" class="absolute top-2  h-1.5" :style="`width: ${(1 + rightChannelAverage / RANGE) * 90}%`" />
+    <div id="left-inst" :class="leftChannel > 0 ? 'bg-meter-instantaneous-clipping' : 'bg-meter-instantaneous'" class="transition-all duration-100 absolute top-0  h-1.5" :style="`width: ${(1 + leftChannel / RANGE) * 90}%`" />
+    <div id="left-avg" :class="leftChannel > 0 ? 'bg-meter-average-clipping' : 'bg-meter-average'" class="absolute top-0  h-1.5" :style="`width: ${(1 + leftChannelAverage / RANGE) * 90}%`" />
+    <div id="right-inst" :class="rightChannel > 0 ? 'bg-meter-instantaneous-clipping' : 'bg-meter-instantaneous'" class="transition-all duration-100 absolute top-2  h-1.5" :style="`width: ${(1 + rightChannel / RANGE) * 90}%`" />
+    <div id="right-avg" :class="leftChannel > 0 ? 'bg-meter-average-clipping' : 'bg-meter-average'" class="absolute top-2  h-1.5" :style="`width: ${(1 + rightChannelAverage / RANGE) * 90}%`" />
   </div>
 </template>
 
