@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useKeyModifier } from "@vueuse/core";
+import { ref } from "vue";
 import { usePlayer, useState } from "../amethyst";
 import { BPM_COMPUTATION_CONCURRENCY, COVERART_RENDERING_CONCURRENCY } from "../state";
 
@@ -8,8 +9,8 @@ const state = useState();
 const player = usePlayer();
 const isHoldingControl = useKeyModifier("Control");
 const isHoldingAlt = useKeyModifier("Alt");
+const filterText = ref("");
 const invoke = window.electron.ipcRenderer.invoke;
-
 const MAX_CHARS = 36;
 
 const trimString = (string: string, trim: number) => {
@@ -33,7 +34,7 @@ const parseTitle = (path: string) => {
 </script>
 
 <template>
-  <div class="min-w-64 max-w-64 p-2 pb-4 flex h-full text-explorer-text bg-explorer-background  font-cozette overflow-hidden overflow-y-auto " @keypress.prevent>
+  <div class="min-w-64 max-w-64 p-2 pb-4 flex h-full text-explorer-text bg-explorer-background  font-cozette overflow-hidden overflow-y-auto ">
     <ul class="w-full">
       <Transition name="slide-fade">
         <div v-if="state.state.coverProcessQueue > 0" class="flex w-full flex-col">
@@ -54,8 +55,11 @@ const parseTitle = (path: string) => {
         </div>
       </Transition>
 
+      <input v-model="filterText" type="text" class="border-2 border-gray-400 indent-xs text-xs w-full mb-2" placeholder="artists, title & format...">
+
       <li
-        v-for="(song, i) of player.getQueue()" :key="song" :class="[isHoldingControl && 'control-hover', isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', i === player.getCurrentlyPlayingIndex() && 'text-blue-500']" class=" h-3 mb-0.5 hover:text-explorer-text-hover"
+        v-for="([song, i]) of player.getQueue().map((song, i) => song.toLowerCase().includes(filterText.toLowerCase()) ? [song, i] : undefined).filter(song => !!song) as [string, number][]"
+        :key="song" :class="[isHoldingControl && 'control-hover', isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', i === player.getCurrentlyPlayingIndex() && 'text-blue-500']" class=" h-3 mb-0.5 hover:text-explorer-text-hover select-none" @keypress.prevent
         @click="isHoldingControl ? invoke('show-item', [player.getQueue()[i]]) : player.setCurrentlyPlayingIndex(i)"
       >
         <cover class="inline align-top w-3 h-3" :song-path="song" />
