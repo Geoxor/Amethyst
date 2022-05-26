@@ -4,8 +4,8 @@ import { computed, onMounted, ref } from "vue";
 import { usePlayer, useState } from "../amethyst";
 import Explorer from "../components/Explorer.vue";
 import Tag from "../components/Tag.vue";
-import DbMeter from "../components/Dbmeter.vue";
-import Spectrum from "../components/spectrum.vue";
+import DbMeter from "../components/DbMeter.vue";
+import Spectrum from "../components/Spectrum.vue";
 
 const timer = ref();
 
