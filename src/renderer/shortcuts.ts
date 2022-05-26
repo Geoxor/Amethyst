@@ -9,12 +9,12 @@ export default class Shortcuts {
     "audio.play.pause": [["MediaPlayPause", " "], () => this.player.isPlaying() ? this.player.pause() : this.player.play()],
     "audio.play": [["MediaPlay"], () => this.player.play()],
     "audio.pause": [["MediaPause"], () => this.player.pause()],
-    "audio.next": [["MediaTrackNext"], () => this.player.next()],
-    "audio.previous": [["MediaTrackPrevious"], () => this.player.previous()],
+    "audio.next": [["MediaTrackNext", "ArrowDown"], () => this.player.next()],
+    "audio.previous": [["MediaTrackPrevious", "ArrowUp"], () => this.player.previous()],
     "audio.seek.forward": [["ArrowRight"], () => this.player.seekForward()],
     "audio.seek.backward": [["ArrowLeft"], () => this.player.seekBackward()],
-    "audio.volume.up": [["PageUp", "ArrowUp"], () => this.player.volumeUp()],
-    "audio.volume.down": [["PageDown", "ArrowDown"], () => this.player.volumeDown()],
+    "audio.volume.up": [["PageUp"], () => this.player.volumeUp()],
+    "audio.volume.down": [["PageDown"], () => this.player.volumeDown()],
   };
 
   public bindings = this.DEFAULT_BINDINGS;

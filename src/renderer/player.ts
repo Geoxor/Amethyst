@@ -65,7 +65,7 @@ export default class Player {
 			this.loadSoundAndPlay(this.state.currentlyPlayingFilePath);
 		});
 
-		this.analyzeQueueForBpm();
+		// this.analyzeQueueForBpm();
 	}
 
 	public getCoverArt = async (path: string) => {
@@ -179,13 +179,13 @@ export default class Player {
 		this.state.isPlaying = false;
 	}
 
-	public next() {
-		if ((this.state.currentlyPlayingIndex + 1) < (this.state.queue.length - 1))
+	public next(skip = 1) {
+		if ((this.state.currentlyPlayingIndex + skip) < (this.state.queue.length - skip))
 		this.state.currentlyPlayingIndex++;
 	}
 
-	public previous() {
-		if ((this.state.currentlyPlayingIndex - 1) > 0)
+	public previous(skip = 1) {
+		if ((this.state.currentlyPlayingIndex - skip) > 0)
 		this.state.currentlyPlayingIndex--;
 	}
 
