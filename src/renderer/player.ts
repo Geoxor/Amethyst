@@ -7,6 +7,8 @@ import type ElectronEventManager from "./electronEventManager";
 import type AppState from "./state";
 import { BPM_COMPUTATION_CONCURRENCY, COVERART_RENDERING_CONCURRENCY } from "./state";
 
+export const ALLOWED_EXTENSIONS = ["ogg", "flac", "wav", "opus", "aac", "aiff", "mp3", "m4a"];
+
 async function analyzeBpm(path: string) {
 	// get an AudioBuffer from the file
 	const uint: Uint8Array = await useElectron().invoke("read-file", [path]);
@@ -48,6 +50,7 @@ export default class Player {
       this.addToQueueAndPlay(file);
     });
     this.electron.electron.on<(string)[]>("play-folder", files => this.setQueue(files));
+    this.electron.electron.on<(string)[]>("load-folder", files => this.setQueue([...files, ...this.getQueue()]));
 
 		// When the queue changes updated the current playing file path
 		watch(() => this.state.queue.length, () => {
@@ -160,7 +163,7 @@ export default class Player {
 		return array;
 	}
 
-	spreadArray(array: string[]): string[] {
+	public spreadArray(array: string[]): string[] {
 		return array.reduce((acc, item) => {
 			if (Array.isArray(item))
 				return acc.concat(this.spreadArray(item));
@@ -203,8 +206,10 @@ export default class Player {
 	}
 
 	public addToQueueAndPlay(file: string) {
-		this.state.queue.unshift(file);
-		this.state.currentlyPlayingIndex = 0;
+		if (ALLOWED_EXTENSIONS.includes(file.substring(file.lastIndexOf(".") + 1).toLowerCase())) {
+			this.state.queue.unshift(file);
+			this.state.currentlyPlayingIndex = 0;
+		}
 	}
 
 	public getQueue() {

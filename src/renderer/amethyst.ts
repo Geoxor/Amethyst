@@ -8,6 +8,33 @@ export class Amethyst {
 	public electron: ElectronEventManager = new ElectronEventManager(this.appState);
   public player: Player = new Player(this.appState, this.electron);
   public shortcuts: Shortcuts = new Shortcuts(this.player);
+
+  constructor() {
+    document.addEventListener("drop", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      // for (const f of Array.from(event.dataTransfer!.files)) {
+      //     console.log("File Path of dragged files: ", f);
+      //     this.player.addToQueueAndPlay(f.path);
+      // }
+
+      this.electron.invoke("drop-file", [Array.from(event.dataTransfer!.files).map(f => f.path)]);
+    });
+
+    document.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+    });
+
+    // document.addEventListener("dragenter", (event) => {
+    //   console.log("File is in the Drop Space");
+    // });
+
+    // document.addEventListener("dragleave", (event) => {
+    //   console.log("File has left the Drop Space");
+    // });
+  }
 }
 
 const amethyst = new Amethyst();

@@ -14,7 +14,8 @@ export type Channels =
 	"get-metadata" |
 	"show-item" |
 	"update-rich-presence" |
-	"sync-window-state";
+	"sync-window-state" |
+	"drop-file";
 
 contextBridge.exposeInMainWorld("electron", {
 	ipcRenderer: {

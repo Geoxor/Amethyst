@@ -220,4 +220,14 @@ ipcMain.handle("sync-window-state", () => ({
 	isMinimized: mainWindow!.isMinimized(),
 	isMaximized: mainWindow!.isMaximized(),
 }));
+ipcMain.handle("drop-file", async (_, [paths]) => {
+	paths.forEach(async (path: string) => {
+		const stats = await fs.promises.lstat(path);
+		if (stats.isDirectory()) {
+			const folder = await loadFolder(path);
+			mainWindow!.webContents.send("load-folder", folder);
+		}
+		else { playAudio(path); }
+	});
+});
 
