@@ -2,7 +2,7 @@
   "name": "amethyst",
   "author": "amethyst <geoxor123@outlook.com>",
   "productName": "Amethyst",
-  "version": "1.2.9",
+  "version": "1.2.10",
   "main": "./release/dist/main/main.js",
   "licenses": [
     {
@@ -184,6 +184,7 @@
     "@types/howler": "^2.2.7",
     "@types/node": "17.0.23",
     "@types/source-map-support": "^0.5.4",
+    "@types/sharp": "^0.30.2",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
     "chalk": "^4.1.2",
@@ -211,7 +212,6 @@
   },
   "dependencies": {
     "@antfu/eslint-config": "^0.23.1",
-    "@types/sharp": "^0.30.2",
     "@vitejs/plugin-vue": "^2.3.3",
     "@vueuse/core": "^8.5.0",
     "buffer": "^6.0.3",
