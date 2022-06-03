@@ -132,7 +132,7 @@ export default class Player {
 		this.state.richPresenceTimer && clearInterval(this.state.richPresenceTimer);
 		this.state.richPresenceTimer = setInterval(() => {
 			this.state.currentlyPlayingMetadata && this.electron.invoke("update-rich-presence", [
-				this.state.currentlyPlayingMetadata.common.albumartist ? `${this.state.currentlyPlayingMetadata.common.albumartist!} - ${this.state.currentlyPlayingMetadata.common.title}` : this.state.currentlyPlayingFilePath.substring(this.state.currentlyPlayingFilePath.lastIndexOf("\\") + 1),
+				this.state.currentlyPlayingMetadata.common.artist ? `${this.state.currentlyPlayingMetadata.common.artist || "Unkown Artist"} - ${this.state.currentlyPlayingMetadata.common.title}` : this.state.currentlyPlayingFilePath.substring(this.state.currentlyPlayingFilePath.lastIndexOf("\\") + 1),
 				secondsHuman(this.state.currentlyPlayingMetadata.format.duration!),
 				secondsHuman(this.getCurrentTime()),
 				this.state.isPlaying.toString(),
