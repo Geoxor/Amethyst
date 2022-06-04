@@ -2,11 +2,7 @@
   "name": "amethyst",
   "author": "amethyst <geoxor123@outlook.com>",
   "productName": "Amethyst",
-<<<<<<< HEAD
   "version": "1.2.14",
-=======
-  "version": "1.2.10",
->>>>>>> 76b036bf855d119ad5b01fbae23cc47f445a8ca2
   "main": "./release/dist/main/main.js",
   "licenses": [
     {
