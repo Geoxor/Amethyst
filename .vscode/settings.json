@@ -1,5 +1,7 @@
 {
-  "css.customData": [".vscode/css.json"],
+  "css.customData": [
+    ".vscode/css.json"
+  ],
   "prettier.enable": false,
   "editor.formatOnSave": false,
   "editor.codeActionsOnSave": {
@@ -28,20 +30,7 @@
     "**/.classpath": true,
     "**/.project": true,
     "**/.settings": true,
-    "**/.factorypath": true,
-    "assets/assets.d.ts": true,
-    ".eslintignore": true,
-    ".gitattributes": true,
-    "package-lock.json": true,
-    ".husky": true,
-    "node_modules": true
+    "**/.factorypath": true
   },
-  "hide-files.files": [
-    "assets/assets.d.ts",
-    ".eslintignore",
-    ".gitattributes",
-    "package-lock.json",
-    ".husky",
-    "node_modules"
-  ]
+  "hide-files.files": []
 }

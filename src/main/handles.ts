@@ -2,24 +2,21 @@ import fs from "fs";
 import path from "path";
 import { ALLOWED_EXTENSIONS } from "./main";
 
-export async function loadFolder(inputPath: string) {
-	return new Promise((resolve, reject) => {
-		fs.readdir(inputPath, (error, files) => {
-			if (error) {
-				reject(error);
-			}
-			else {
-				Promise.all(
-					files.map(async (file) => {
-						const filePath = path.join(inputPath, file);
-						const stats = await fs.promises.stat(filePath);
-						if (stats.isDirectory())
-							return loadFolder(filePath);
-						else if (stats.isFile() && ALLOWED_EXTENSIONS.includes(path.extname(filePath).slice(1)))
-							return filePath;
-					}),
-				).then(files => resolve(files.filter(file => !!file)));
-			}
-		});
-	});
+export type FileTree = (string | string[])[];
+
+export async function loadFolder(inputPath: string): Promise<FileTree> {
+	const firstFolder = await fs.promises.readdir(inputPath);
+
+	const files = await Promise.all(
+		firstFolder.map(async (file) => {
+			const filePath = path.join(inputPath, file);
+			const stats = await fs.promises.stat(filePath);
+			if (stats.isDirectory())
+				return loadFolder(filePath);
+			else if (stats.isFile() && ALLOWED_EXTENSIONS.includes(path.extname(filePath).slice(1)))
+				return filePath;
+		}),
+	);
+
+	return files.filter(file => !!file) as FileTree;
 }

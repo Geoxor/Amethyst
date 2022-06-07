@@ -64,6 +64,12 @@ onMounted(() => {
 	draw();
 });
 
+const computedWidth = (value: number): number => {
+	const width = (1 + value / RANGE) * 90;
+	// this fixes the animation jump from 0 to the first value
+	return Math.max(0.01, width);
+};
+
 onUnmounted(() => shouldFuckOff = true);
 </script>
 
@@ -74,10 +80,10 @@ onUnmounted(() => shouldFuckOff = true);
     <div id="left-clipping" class="absolute top-0 right-0 bg-meter-background-clipping h-1.5 w-10/100" />
     <div id="right-clipping" class="absolute top-2 right-0  bg-meter-background-clipping h-1.5 w-10/100" />
 
-    <div id="left-inst" :class="leftChannel > 0 ? 'bg-meter-instantaneous-clipping' : 'bg-meter-instantaneous'" class="transition-all duration-100 absolute top-0  h-1.5" :style="`width: ${(1 + leftChannel / RANGE) * 90}%`" />
-    <div id="left-avg" :class="leftChannel > 0 ? 'bg-meter-average-clipping' : 'bg-meter-average'" class="absolute top-0  h-1.5" :style="`width: ${(1 + leftChannelAverage / RANGE) * 90}%`" />
-    <div id="right-inst" :class="rightChannel > 0 ? 'bg-meter-instantaneous-clipping' : 'bg-meter-instantaneous'" class="transition-all duration-100 absolute top-2  h-1.5" :style="`width: ${(1 + rightChannel / RANGE) * 90}%`" />
-    <div id="right-avg" :class="leftChannel > 0 ? 'bg-meter-average-clipping' : 'bg-meter-average'" class="absolute top-2  h-1.5" :style="`width: ${(1 + rightChannelAverage / RANGE) * 90}%`" />
+    <div id="left-inst" :class="leftChannel > 0 ? 'bg-meter-instantaneous-clipping' : 'bg-meter-instantaneous'" class="transition-all duration-100 absolute top-0  h-1.5" :style="`width: ${computedWidth(leftChannel)}%`" />
+    <div id="left-avg" :class="leftChannel > 0 ? 'bg-meter-average-clipping' : 'bg-meter-average'" class="absolute top-0  h-1.5" :style="`width: ${computedWidth(leftChannelAverage)}%`" />
+    <div id="right-inst" :class="rightChannel > 0 ? 'bg-meter-instantaneous-clipping' : 'bg-meter-instantaneous'" class="transition-all duration-100 absolute top-2  h-1.5" :style="`width: ${computedWidth(rightChannel)}%`" />
+    <div id="right-avg" :class="leftChannel > 0 ? 'bg-meter-average-clipping' : 'bg-meter-average'" class="absolute top-2  h-1.5" :style="`width: ${computedWidth(rightChannelAverage)}%`" />
   </div>
 </template>
 

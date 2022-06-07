@@ -16,7 +16,7 @@ async function analyzeBpm(path: string) {
 	const audioBuffer = await audioContext.decodeAudioData(uint.buffer);
 
 	// analyze the audio buffer
-	const bpm = Math.round (await analyze(audioBuffer));
+	const bpm = Math.round(await analyze(audioBuffer));
 
 	return bpm;
 }
@@ -44,18 +44,18 @@ export default class Player {
 	});
 
 	constructor(public appState: AppState, public electron: ElectronEventManager) {
-    this.electron.electron.on<string>("play-file", (file) => {
-      if (file === "--require")
-      return;
-      this.addToQueueAndPlay(file);
-    });
-    this.electron.electron.on<(string)[]>("play-folder", files => this.setQueue(files));
-    this.electron.electron.on<(string)[]>("load-folder", files => this.setQueue([...files, ...this.getQueue()]));
+		this.electron.electron.on<string>("play-file", (file) => {
+			if (file === "--require")
+				return;
+			this.addToQueueAndPlay(file);
+		});
+		this.electron.electron.on<(string)[]>("play-folder", files => this.setQueue(files));
+		this.electron.electron.on<(string)[]>("load-folder", files => this.setQueue([...files, ...this.getQueue()]));
 
 		// When the queue changes updated the current playing file path
 		watch(() => this.state.queue.length, () => {
 			this.updateCurrentlyPlayingFilePath();
-			this.analyzeQueueForBpm();
+			// this.analyzeQueueForBpm();
 		});
 
 		// When the playing index changes update the current playing file path
@@ -184,12 +184,12 @@ export default class Player {
 
 	public next(skip = 1) {
 		if ((this.state.currentlyPlayingIndex + skip) < (this.state.queue.length - skip))
-		this.state.currentlyPlayingIndex++;
+			this.state.currentlyPlayingIndex++;
 	}
 
 	public previous(skip = 1) {
 		if ((this.state.currentlyPlayingIndex - skip) > 0)
-		this.state.currentlyPlayingIndex--;
+			this.state.currentlyPlayingIndex--;
 	}
 
 	public setVolume(volume: number) {

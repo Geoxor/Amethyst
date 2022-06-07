@@ -31,46 +31,47 @@ if (!app.requestSingleInstanceLock()) {
 	process.exit(0);
 }
 else {
-    app.whenReady().then(() => {
-        const mainWindow = new MainWindow();
+	app.whenReady().then(() => {
+		const mainWindow = new MainWindow();
 
-        // Autoupdates
-        // Remove this if your app does not use auto updates
-        log.transports.file.level = "info";
-        autoUpdater.logger = log;
+		// Autoupdates
+		// Remove this if your app does not use auto updates
+		log.transports.file.level = "info";
+		autoUpdater.logger = log;
 
-        app.on("window-all-closed", () => {
-            console.log("close");
-            // Respect the OSX convention of having the application in memory even
-            // after all windows have been closed
-            if (process.platform !== "darwin")
-                app.quit();
-        });
+		app.on("window-all-closed", () => {
+			console.log("close");
+			// Respect the OSX convention of having the application in memory even
+			// after all windows have been closed
+			if (process.platform !== "darwin")
+				app.quit();
+		});
 
-        app.on("second-instance", (_event, argv) => {
-            console.log("second");
-            // Someone tried to run a second instance, we should focus our window.
-            if (mainWindow.window.isMinimized())
-                mainWindow.window.restore();
+		app.on("second-instance", (_event, argv) => {
+			console.log("second");
+			// Someone tried to run a second instance, we should focus our window.
+			if (mainWindow.window.isMinimized())
+				mainWindow.window.restore();
 
-            mainWindow.playAudio(argv[2]);
-            mainWindow.window.focus();
-        });
+			mainWindow.playAudio(argv[2]);
+			mainWindow.window.focus();
+		});
 
-        if (IS_DEBUG) {
-            import("electron-devtools-installer").then(({
-                default: installExtension,
-                VUEJS3_DEVTOOLS,
-            }) => installExtension(VUEJS3_DEVTOOLS, {
-                loadExtensionOptions: {
-                    allowFileAccess: true,
-                },
-            })).catch(error => console.error("Failed install extension:", error));
-        }
+		if (IS_DEBUG) {
+			import("electron-devtools-installer").then(({
+				default: installExtension,
+				VUEJS3_DEVTOOLS,
+			}) => installExtension(VUEJS3_DEVTOOLS, {
+				loadExtensionOptions: {
+					allowFileAccess: true,
+				},
+			})).catch(error => console.error("Failed install extension:", error));
+		}
 
-        mainWindow.show();
+		mainWindow.show();
 
-        if (app.isPackaged)
-            autoUpdater.checkForUpdatesAndNotify();
-    }).catch(console.error);
+		if (app.isPackaged)
+			autoUpdater.checkForUpdatesAndNotify();
+	}).catch(console.error);
 }
+
