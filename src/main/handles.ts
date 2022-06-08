@@ -15,6 +15,7 @@ export async function loadFolder(inputPath: string): Promise<FileTree> {
 				return loadFolder(filePath);
 			else if (stats.isFile() && ALLOWED_EXTENSIONS.includes(path.extname(filePath).slice(1)))
 				return filePath;
+			else return undefined;
 		}),
 	);
 
