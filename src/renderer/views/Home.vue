@@ -2,7 +2,7 @@
 import type { IAudioMetadata } from "music-metadata";
 import { computed } from "vue";
 import { usePlayer, useState } from "../amethyst";
-import Explorer from "../components/Explorer.vue";
+import Queue from "../components/Queue.vue";
 import Tag from "../components/Tag.vue";
 import Spectrum from "../components/Spectrum.vue";
 import PlayerControls from "../components/PlayerControls.vue";
@@ -48,7 +48,7 @@ function calculateStars(metadata: IAudioMetadata) {
 
 <template>
   <div class="flex h-[calc(100%-24px)] text-explorer-text bg-explorer-background font-cozette main">
-    <explorer />
+    <queue />
     <div v-if="metadata" class="h-full flex w-full flex-col">
       <player-controls :duration="metadata.format.duration || 0" />
 

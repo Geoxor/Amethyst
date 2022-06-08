@@ -44,11 +44,7 @@ export default class Player {
 	});
 
 	constructor(public appState: AppState, public electron: ElectronEventManager) {
-		this.electron.electron.on<string>("play-file", (file) => {
-			if (file === "--require")
-				return;
-			this.addToQueueAndPlay(file);
-		});
+		this.electron.electron.on<string>("play-file", file => file !== "--require" && this.addToQueueAndPlay(file));
 
 		this.electron.electron.on<(string)[]>("play-folder", files => this.setQueue(files));
 
@@ -66,6 +62,18 @@ export default class Player {
 
 		// When the currently playing file path changes play the new file
 		watch(() => this.state.currentlyPlayingFilePath, () => this.loadSoundAndPlay(this.state.currentlyPlayingFilePath));
+	}
+
+	public static fisherYatesShuffle<T>(array: T[]) {
+		let m = array.length; let t; let i;
+		while (m) {
+			i = ~~(Math.random() * m--);
+
+			t = array[m];
+			array[m] = array[i];
+			array[i] = t;
+		}
+		return array;
 	}
 
 	public getCoverArt = async (path: string) => {
@@ -108,7 +116,7 @@ export default class Player {
 		}
 	}
 
-	loadSoundAndPlay(path: string) {
+	public loadSoundAndPlay(path: string) {
 		this.state.sound && this.pause();
 		this.state.sound = new Audio(path);
 		this.state.sound.volume = this.state.volume;
@@ -121,9 +129,6 @@ export default class Player {
 		// invoke<Buffer>("get-cover-pixelized", [path]).then((cover) => {
 		//   currentCover.value = `data:image/png;base64,${cover}`;
 		// });
-
-		// This is the timer for the current duration ont he UI
-		// because for some reason it doesnt wanna update on its own
 
 		// Discord rich presence timer that updates discord every second
 		this.state.richPresenceTimer && clearInterval(this.state.richPresenceTimer);
@@ -146,18 +151,6 @@ export default class Player {
 
 		this.state.source = this.state.ctx.createMediaElementSource(this.state.sound);
 		this.state.source.connect(this.state.ctx.destination);
-	}
-
-	public static fisherYatesShuffle<T>(array: T[]) {
-		let m = array.length; let t; let i;
-		while (m) {
-			i = ~~(Math.random() * m--);
-
-			t = array[m];
-			array[m] = array[i];
-			array[i] = t;
-		}
-		return array;
 	}
 
 	public spreadArray(array: string[]): string[] {
