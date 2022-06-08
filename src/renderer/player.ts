@@ -37,7 +37,7 @@ export default class Player {
 		source: null as null | MediaElementAudioSourceNode,
 		currentlyPlayingMetadata: null as null | IAudioMetadata,
 		currentlyPlayingFilePath: useLocalStorage<string>("currentlyPlayingFilePath", ""),
-		queue: useLocalStorage<string[]>("queue", []),
+		queue: useLocalStorage<Set<string>>("queue", new Set()),
 		currentlyPlayingIndex: -1,
 		volume: useLocalStorage<number>("volume", 1),
 		isPlaying: false,
@@ -49,26 +49,23 @@ export default class Player {
 				return;
 			this.addToQueueAndPlay(file);
 		});
+
 		this.electron.electron.on<(string)[]>("play-folder", files => this.setQueue(files));
+
 		this.electron.electron.on<(string)[]>("load-folder", files => this.setQueue([...files, ...this.getQueue()]));
 
 		// When the queue changes updated the current playing file path
-		watch(() => this.state.queue.length, () => {
-			this.updateCurrentlyPlayingFilePath();
-			// this.analyzeQueueForBpm();
-		});
+		watch(() => this.state.queue.size, () => this.updateCurrentlyPlayingFilePath());
 
 		// When the playing index changes update the current playing file path
-		watch(() => this.state.currentlyPlayingIndex, () => {
-			this.updateCurrentlyPlayingFilePath();
-		});
+		watch(() => this.state.currentlyPlayingIndex, () => this.updateCurrentlyPlayingFilePath());
+
+		// Play again if the first element in the queue changes
+		// (when the user dropped a file that already is in the queue but not at position 0)
+		watch(() => this.getQueue()[0], () => this.updateCurrentlyPlayingFilePath());
 
 		// When the currently playing file path changes play the new file
-		watch(() => this.state.currentlyPlayingFilePath, () => {
-			this.loadSoundAndPlay(this.state.currentlyPlayingFilePath);
-		});
-
-		// this.analyzeQueueForBpm();
+		watch(() => this.state.currentlyPlayingFilePath, () => this.loadSoundAndPlay(this.state.currentlyPlayingFilePath));
 	}
 
 	public getCoverArt = async (path: string) => {
@@ -183,7 +180,7 @@ export default class Player {
 	}
 
 	public next(skip = 1) {
-		if ((this.state.currentlyPlayingIndex + skip) < (this.state.queue.length - skip))
+		if ((this.state.currentlyPlayingIndex + skip) < (this.state.queue.size - skip))
 			this.state.currentlyPlayingIndex++;
 	}
 
@@ -207,21 +204,21 @@ export default class Player {
 
 	public addToQueueAndPlay(file: string) {
 		if (ALLOWED_EXTENSIONS.includes(file.substring(file.lastIndexOf(".") + 1).toLowerCase())) {
-			this.state.queue.unshift(file);
+			this.state.queue = new Set([file, ...this.getQueue()]);
 			this.state.currentlyPlayingIndex = 0;
 		}
 	}
 
 	public getQueue() {
-		return this.state.queue;
+		return Array.from(this.state.queue.values());
 	}
 
 	public setQueue(files: string[]) {
-		this.state.queue = this.spreadArray(files);
+		this.state.queue = new Set(this.spreadArray(files));
 	}
 
 	public clearQueue() {
-		this.state.queue = [];
+		this.state.queue.clear();
 	}
 
 	public getCurrentTime() {
@@ -241,7 +238,7 @@ export default class Player {
 	}
 
 	public shuffle() {
-		this.state.queue = Player.fisherYatesShuffle(this.state.queue);
+		this.state.queue = new Set(Player.fisherYatesShuffle(this.getQueue()));
 	}
 
 	public getCurrentlyPlayingIndex() {
@@ -253,7 +250,7 @@ export default class Player {
 	}
 
 	public getCurrentlyPlayingFilePath() {
-		return this.state.queue[this.state.currentlyPlayingIndex];
+		return this.getQueue()[this.state.currentlyPlayingIndex];
 	}
 
 	public updateCurrentlyPlayingFilePath() {

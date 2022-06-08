@@ -1,9 +1,9 @@
 import { useLocalStorage } from "@vueuse/core";
 import { computed, reactive } from "vue";
 
-export const OVERALL_CONCURRENCY = 6;
-export const COVERART_RENDERING_CONCURRENCY = OVERALL_CONCURRENCY / 2;
-export const BPM_COMPUTATION_CONCURRENCY = OVERALL_CONCURRENCY / 2;
+export const OVERALL_CONCURRENCY = 3;
+export const COVERART_RENDERING_CONCURRENCY = ~~(OVERALL_CONCURRENCY / 2);
+export const BPM_COMPUTATION_CONCURRENCY = ~~(OVERALL_CONCURRENCY / 2);
 
 export default class AppState {
 	public state = reactive({
