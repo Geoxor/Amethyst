@@ -6,10 +6,10 @@ const player = usePlayer();
 const state = useState();
 const coverArt = computed(() => state.state.coverCache[props.songPath]);
 
-onMounted(async () => {
-  if (!coverArt.value)
-    player.getCoverArt(props.songPath);
-});
+// onMounted(async () => {
+//   if (!coverArt.value)
+//     player.getCoverArt(props.songPath);
+// });
 </script>
 
 <template>

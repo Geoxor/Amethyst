@@ -15,6 +15,7 @@ export default class Shortcuts {
     "audio.seek.backward": [["ArrowLeft"], () => this.player.seekBackward()],
     "audio.volume.up": [["PageUp"], () => this.player.volumeUp()],
     "audio.volume.down": [["PageDown"], () => this.player.volumeDown()],
+    "queue.remove.item": [["Delete"], () => this.player.removeCurrentItemFromQueue()],
   };
 
   public bindings = this.DEFAULT_BINDINGS;

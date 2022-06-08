@@ -221,6 +221,14 @@ export default class Player {
 		this.state.queue.clear();
 	}
 
+	public removeCurrentItemFromQueue() {
+		this.removeItemFromQueue(this.getCurrentlyPlayingIndex());
+	}
+
+	public removeItemFromQueue(idx: number) {
+		this.state.queue.delete(this.getQueue()[idx]);
+	}
+
 	public getCurrentTime() {
 		return this.state.sound.currentTime;
 	}
