@@ -44,6 +44,7 @@ export default class Player {
 	});
 
 	constructor(public appState: AppState, public electron: ElectronEventManager) {
+		// Ignore the --ignore arg we get in dev mode so we don't end up with "--require" as a path in the queue
 		this.electron.electron.on<string>("play-file", file => file !== "--require" && this.addToQueueAndPlay(file));
 
 		this.electron.electron.on<(string)[]>("play-folder", files => this.setQueue(files));
