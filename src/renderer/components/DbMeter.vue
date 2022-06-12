@@ -24,10 +24,6 @@ onMounted(() => {
 	splitter.connect(leftAnalyser, 0, 0);
 	splitter.connect(rightAnalyser, 1, 0);
 
-	// Reduce output level to not hurt your ears.
-	const gain2 = context.createGain();
-	gain2.gain.value = 0.01;
-
 	// Time domain samples are always provided with the count of
 	// fftSize even though there is no FFT involved.
 	// (Note that fftSize can only have particular values, not an
