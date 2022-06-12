@@ -41,7 +41,7 @@ onMounted(() => {
 		let peakRight = 0;
 		let sumOfSquaresLeft = 0;
 		let sumOfSquaresRight = 0;
-		for (let i = 0; i < leftSampleBuffer.length; i += CHANNELS) {
+		for (let i = 0; i < leftSampleBuffer.length; i++) {
 			// Insta
 			const powerLeft = leftSampleBuffer[i] ** 2;
 			const powerRight = rightSampleBuffer[i] ** 2;
