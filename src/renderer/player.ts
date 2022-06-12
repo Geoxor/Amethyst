@@ -45,11 +45,9 @@ export default class Player {
 
 	constructor(public appState: AppState, public electron: ElectronEventManager) {
 		// Ignore the --require arg we get in dev mode so we don't end up with "--require" as a path in the queue
-		this.electron.electron.on<string>("play-file", file => file !== "--require" && this.addToQueueAndPlay(file));
-
-		this.electron.electron.on<(string)[]>("play-folder", files => this.setQueue(files));
-
-		this.electron.electron.on<(string)[]>("load-folder", files => this.setQueue([...files, ...this.getQueue()]));
+		electron.electron.on<string>("play-file", file => file !== "--require" && this.addToQueueAndPlay(file));
+		electron.electron.on<(string)[]>("play-folder", files => this.setQueue(files));
+		electron.electron.on<(string)[]>("load-folder", files => this.setQueue([...files, ...this.getQueue()]));
 
 		// When the queue changes updated the current playing file path
 		watch(() => this.state.queue.size, () => this.updateCurrentlyPlayingFilePath());
@@ -119,7 +117,7 @@ export default class Player {
 
 	public loadSoundAndPlay(path: string) {
 		this.state.sound && this.pause();
-		this.state.sound = new Audio(path);
+		this.state.sound = new Audio(`file://${path}`);
 		this.state.sound.volume = this.state.volume;
 		this.play();
 		this.state.sound.onended = () => {
