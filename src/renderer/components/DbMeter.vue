@@ -13,38 +13,42 @@ let shouldFuckOff = false;
 
 onMounted(() => {
 	const context = props.node.context;
-	const gain1 = context.createGain();
-	const analyser = context.createAnalyser();
+
+	const splitter = context.createChannelSplitter();
+	const leftAnalyser = context.createAnalyser();
+	const rightAnalyser = context.createAnalyser();
+	leftAnalyser.fftSize = 2048 * 2;
+	rightAnalyser.fftSize = 2048 * 2;
+
+	props.node.connect(splitter);
+	splitter.connect(leftAnalyser, 0, 0);
+	splitter.connect(rightAnalyser, 1, 0);
 
 	// Reduce output level to not hurt your ears.
 	const gain2 = context.createGain();
 	gain2.gain.value = 0.01;
 
-	props.node.connect(gain1);
-	gain1.connect(analyser);
-	analyser.connect(gain2);
-	gain2.connect(context.destination);
-
 	// Time domain samples are always provided with the count of
 	// fftSize even though there is no FFT involved.
 	// (Note that fftSize can only have particular values, not an
 	// arbitrary integer.)
-	analyser.fftSize = 2048 * 2;
-	const sampleBuffer = new Float32Array(analyser.fftSize);
+	const leftSampleBuffer = new Float32Array(leftAnalyser.fftSize);
+	const rightSampleBuffer = new Float32Array(rightAnalyser.fftSize);
 	const CHANNELS = 2;
 
 	function draw() {
-		analyser.getFloatTimeDomainData(sampleBuffer);
+		leftAnalyser.getFloatTimeDomainData(leftSampleBuffer);
+		rightAnalyser.getFloatTimeDomainData(rightSampleBuffer);
 
 		// Compute peak instantaneous power over the interval.
 		let peakLeft = 0;
 		let peakRight = 0;
 		let sumOfSquaresLeft = 0;
 		let sumOfSquaresRight = 0;
-		for (let i = 0; i < sampleBuffer.length; i += CHANNELS) {
+		for (let i = 0; i < leftSampleBuffer.length; i += CHANNELS) {
 			// Insta
-			const powerLeft = sampleBuffer[i] ** 2;
-			const powerRight = sampleBuffer[i + 1] ** 2;
+			const powerLeft = leftSampleBuffer[i] ** 2;
+			const powerRight = rightSampleBuffer[i] ** 2;
 
 			// Average
 			sumOfSquaresLeft += powerLeft;
@@ -56,8 +60,8 @@ onMounted(() => {
 
 		leftChannel.value = 10 * Math.log10(peakLeft);
 		rightChannel.value = 10 * Math.log10(peakRight);
-		leftChannelAverage.value = 10 * Math.log10(sumOfSquaresLeft / (sampleBuffer.length / CHANNELS));
-		rightChannelAverage.value = 10 * Math.log10(sumOfSquaresRight / (sampleBuffer.length / CHANNELS));
+		leftChannelAverage.value = 10 * Math.log10(sumOfSquaresLeft / (leftSampleBuffer.length / CHANNELS));
+		rightChannelAverage.value = 10 * Math.log10(sumOfSquaresRight / (rightSampleBuffer.length / CHANNELS));
 
 		!shouldFuckOff && requestAnimationFrame(draw);
 	}
