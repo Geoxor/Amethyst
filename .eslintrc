@@ -1,5 +1,4 @@
 {
-  "extends": ["@antfu"],
   "rules": {
     "no-tabs": "off",
     "indent": "off",
