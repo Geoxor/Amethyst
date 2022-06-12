@@ -22,31 +22,20 @@ export default class ElectronEventManager {
 		this.state.state.isMaximized = windowState.isMaximized;
 	};
 
-  public maximize = () => {
-    this.invoke("maximize");
+  private requestWindowStateChange = (state: "minimize" | "maximize" | "unmaximize" | "close") => {
+    this.invoke(state);
     this.syncWindowState();
-  };
-
-  public unmaximize = () => {
-    this.invoke("unmaximize");
-    this.syncWindowState();
-  };
-
-  public minimize = () => {
-    this.invoke("minimize");
-    this.syncWindowState();
-  };
-
-  public close = () => {
-    this.invoke("close");
-    this.syncWindowState();
-  };
-
-   public openFileDialog() {
-    this.invoke("open-file-dialog");
-    }
-
- public openFolderDialog() {
-  this.invoke("open-folder-dialog");
   }
+
+  public maximize = () => this.requestWindowStateChange("maximize");
+
+  public unmaximize = () => this.requestWindowStateChange("unmaximize");
+
+  public minimize = () => this.requestWindowStateChange("minimize");
+
+  public close = () => this.requestWindowStateChange("close");
+
+  public openFileDialog = () => this.invoke("open-file-dialog");
+
+  public openFolderDialog = () => this.invoke("open-folder-dialog");
 }
