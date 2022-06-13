@@ -199,6 +199,7 @@ export default class Player {
 	public setVolume(volume: number) {
 		this.state.sound.volume = volume;
 		this.state.volume = volume;
+		this.emit("setVolume", volume);
 	}
 
 	public volumeUp(amount = 0.1) {
