@@ -9,7 +9,7 @@ import MenuBar from "./components/MenuBar.vue";
     <menu-bar />
     <router-view /> 
   </div>
-</template>
+</template> 
 
 <style lang="postcss">
 * {
@@ -22,8 +22,8 @@ html, body, #app, #app > div {
 }
 
 *::-webkit-scrollbar {
-  width: 6px;
-  height:6px;
+  width: 4px;
+  height:4px;
 }
 *:hover::-webkit-scrollbar {
   overflow-y: overlay;
