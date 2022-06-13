@@ -23,10 +23,13 @@ const COLORS = [
 	"control-close-icon",
 	"control-close-icon-hover",
 	"control-close-background-hover",
-	"explorer-background",
-	"explorer-text",
-	"explorer-text-active",
-	"explorer-text-hover",
+	"social-background",
+	"social-text",
+	"social-text-hover",
+	"queue-background",
+	"queue-text",
+	"queue-text-active",
+	"queue-text-hover",
 	"meter-background",
 	"meter-background-clipping",
 	"meter-instantaneous",
@@ -55,6 +58,7 @@ export default defineConfig({
 	theme: {
 		extend: {
 			colors: {
+				
  				...windiColors,
 			},
 		},

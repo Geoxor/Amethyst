@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { onMounted, ref, computed } from 'vue';
 import { usePlayer } from "../amethyst";
 import DbMeter from "./DbMeter.vue";
-
-const props = defineProps<{
-  duration: number
-}>();
 
 const player = usePlayer();
 const currentTime = ref("0");
 const timer = ref();
+const metadata = computed(() => player.state.currentlyPlayingMetadata );
+const duration = computed(() => metadata.value?.format.duration || 0);
 
 const handleVolumeMouseScroll = (e: WheelEvent) => {
   const delta = Math.sign(e.deltaY);
@@ -18,12 +16,12 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
 
 const handleSeekMouseScroll = (e: WheelEvent) => {
   const delta = Math.sign(e.deltaY);
-  const step = props.duration / 10;
+  const step = duration.value / 10;
   delta < 0 ? player.seekForward(step) : player.seekBackward(step);
 };
 
 onMounted(() => {
-  player.loadSoundAndPlay(player.state.currentlyPlayingFilePath);
+  // player.loadSoundAndPlay(player.state.currentlyPlayingFilePath);
 
   timer.value && clearInterval(timer.value);
   timer.value = setInterval(() => {
@@ -33,9 +31,9 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex p-1 gap-2 items-center ">
+  <div class="flex p-1 gap-2 items-center">
     <input
-      v-model="player.state.sound.currentTime" class="w-full " min="0" :max="props.duration" step="0.01"
+      v-model="player.state.sound.currentTime" class="w-full " min="0" :max="duration" step="0.01"
       type="range" @wheel="handleSeekMouseScroll"
     >
     <h1 class=" whitespace-nowrap text-sm">
@@ -62,7 +60,7 @@ onMounted(() => {
       id="volume" key="volume" v-model="player.state.volume" class="max-w-32" min="0" max="1" step="0.01"
       type="range" @input="player.setVolume(player.state.volume)" @wheel="handleVolumeMouseScroll"
     >
-    <db-meter :key="player.getCurrentlyPlayingFilePath()" :node="player.state.source!" />
+    <db-meter v-if="player.state.source" :key="player.getCurrentlyPlayingFilePath()" :node="player.state.source" />
   </div>
 </template>
 

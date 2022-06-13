@@ -34,7 +34,6 @@ const parseTitle = (path: string) => {
 </script>
 
 <template>
-  <div class="min-w-64 max-w-64 p-2 pb-4 flex h-full text-explorer-text bg-explorer-background  font-cozette overflow-hidden overflow-y-auto ">
     <ul class="w-full">
       <Transition name="slide-fade">
         <div v-if="state.state.coverProcessQueue > 0" class="flex w-full flex-col">
@@ -59,7 +58,7 @@ const parseTitle = (path: string) => {
 
       <li
         v-for="([song, i]) of player.getQueue().map((song, i) => song.toLowerCase().includes(filterText.toLowerCase()) ? [song, i] : undefined).filter(song => !!song) as [string, number][]"
-        :key="song" :class="[isHoldingControl && 'control-hover', isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', i === player.getCurrentlyPlayingIndex() && 'text-explorer-text-active']" class=" h-3 mb-0.5 hover:text-explorer-text-hover select-none" @keypress.prevent
+        :key="song" :class="[isHoldingControl && 'control-hover', isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', i === player.getCurrentlyPlayingIndex() && 'text-queue-text-active']" class=" h-3 mb-0.5 hover:text-queue-text-hover select-none" @keypress.prevent
         @click="isHoldingControl ? invoke('show-item', [player.getQueue()[i]]) : player.setCurrentlyPlayingIndex(i)"
       >
         <cover class="inline align-top w-3 h-3" :song-path="song" />
@@ -69,7 +68,6 @@ const parseTitle = (path: string) => {
         </p>
       </li>
     </ul>
-  </div>
 </template>
 
 <style lang="postcss" scoped>

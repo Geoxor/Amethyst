@@ -2,11 +2,13 @@ import ElectronEventManager from "./electronEventManager";
 import Player from "./player";
 import Shortcuts from "./shortcuts";
 import AppState from "./state";
+import { Sync } from "./sync";
 
 export class Amethyst {
   public appState: AppState = new AppState();
 	public electron: ElectronEventManager = new ElectronEventManager(this.appState);
   public player: Player = new Player(this.appState, this.electron);
+  public sync: Sync = new Sync(this.player);
   public shortcuts: Shortcuts = new Shortcuts(this.player);
 
   constructor() {
@@ -40,6 +42,7 @@ export class Amethyst {
 const amethyst = new Amethyst();
 
 export const useState = () => amethyst.appState;
+export const useSync = () => amethyst.sync;
 export const useElectron = () => amethyst.electron;
 export const useShortcuts = () => amethyst.shortcuts;
 export const usePlayer = () => amethyst.player;

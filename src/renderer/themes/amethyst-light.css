@@ -21,10 +21,14 @@
   --color-control-close-icon-hover: rgb(255, 255, 255);
   --color-control-close-background-hover: var(--color-primary);
 
-  --color-explorer-background: rgb(255, 255, 255);
-  --color-explorer-text: rgb(0, 0, 0);
-  --color-explorer-text-active: var(--color-secondary);
-  --color-explorer-text-hover: var(--color-primary);
+  --color-queue-background: rgb(240, 240, 240);
+  --color-queue-text: rgb(0, 0, 0);
+  --color-queue-text-active: var(--color-secondary);
+  --color-queue-text-hover: var(--color-primary);
+
+  --color-social-background: var(--color-menu-background);
+  --color-social-text: var(--color-menu-option-text);
+  --color-social-text-hover: var(--color-menu-option-text-hover);
 
   --color-meter-background: rgb(229, 231, 235);
   --color-meter-background-clipping: rgb(209, 213, 219);
