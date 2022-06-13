@@ -17,13 +17,13 @@ export default class AppState {
 		bpmCache: useLocalStorage<Record<string, number>>("bpm-cache", {}),
 		defaultCover: "",
 		theme: useLocalStorage<string>("theme", "amethyst-light"),
-		roomId: undefined as string | undefined,
+		lobbyId: undefined as string | undefined,
 	});
 
 	public coverArtCacheSize = computed(() => JSON.stringify(this.state.coverCache).length);
 	public bpmCacheSize = computed(() => JSON.stringify(this.state.bpmCache).length);
 	public isDev = computed(() => this.state.version.includes("DEV"));
-	public roomSocket: WebSocket | undefined;
+	public lobbySocket: WebSocket | undefined;
 
 	public applyCurrentTheme = () => {
 		const dom = document.querySelector("html");

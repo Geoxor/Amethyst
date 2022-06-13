@@ -34,8 +34,8 @@ export const secondsHuman = (time: number) => {
 export const Events = Object.freeze({
 	"play": undefined,
 	"pause": undefined,
-	"setVolume": 0,
-	"seekTo": 0,
+	"setVolume": 0 as number,
+	"seekTo": 0 as number,
 })
 
 export default class Player {
