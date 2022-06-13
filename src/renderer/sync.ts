@@ -37,10 +37,10 @@ export class Sync {
           this.player.pause();
           break;
         case "seekTo":
-          this.player.seekTo(args);
+          this.player.seekTo(args[0]);
           break;
         case "setVolume":
-          this.player.setVolume(args);
+          this.player.setVolume(args[0]);
           break;
       }
     }
