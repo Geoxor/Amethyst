@@ -19,10 +19,10 @@ export class Sync {
     });
   }
   
-  public joinRoom(roomId: string) {
-    this.socket = new WebSocket(encodeURI(`ws://localhost:7270/socket/${roomId}`));
+  public joinLobby(lobbyId: string) {
+    this.socket = new WebSocket(encodeURI(`ws://localhost:7270/socket/${lobbyId}`));
     this.socket.onopen = () => {
-      console.log(`Connected to room ${roomId}`);
+      console.log(`Connected to lobby ${lobbyId}`);
       this.bindToPlayer();
     }
     this.socket.onmessage = (msg) => {
@@ -46,7 +46,7 @@ export class Sync {
     }
   }
 
-  public leaveRoom() {
+  public leaveLobby() {
     this.socket?.close();
     this.socket = undefined;
   }
