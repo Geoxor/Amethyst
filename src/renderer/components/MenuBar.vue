@@ -11,6 +11,9 @@ const player = usePlayer();
 const playPop = () => {
   new Audio("./sounds/pop.flac").play();
 };
+const openPreferences = () => {
+  electron.invoke("open-preferences");
+}
 </script>
 
 <template>
@@ -42,6 +45,7 @@ const playPop = () => {
         <menu-option
           :shortcuts="['CTRL', ',']"
           title="Preferences..."
+          @click="openPreferences()"
         />
         <menu-splitter />
         <menu-option

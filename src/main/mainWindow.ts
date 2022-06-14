@@ -12,21 +12,24 @@ import { Discord } from "./discord";
 
 export class MainWindow {
 	public readonly window: BrowserWindow;
+	
+	private readonly windowOptions = {
+		show: false,
+		width: 1024,
+		height: 728,
+		icon: path.join(RESOURCES_PATH, `icon${IS_DEBUG ? "-dev" : ""}.png`),
+		frame: false,
+		webPreferences: {
+			preload: path.join(__dirname, "preload.js"),
+			webSecurity: false,
+		},
+	}
 
 	private readonly discord: Discord;
 
+
 	constructor() {
-		this.window = new BrowserWindow({
-			show: false,
-			width: 1024,
-			height: 728,
-			icon: path.join(RESOURCES_PATH, `icon${IS_DEBUG ? "-dev" : ""}.png`),
-			frame: false,
-			webPreferences: {
-				preload: path.join(__dirname, "preload.js"),
-				webSecurity: false,
-			},
-		});
+		this.window = new BrowserWindow(this.windowOptions);
 		this.discord = new Discord();
 
 		this.setIpcEvents();
@@ -136,6 +139,13 @@ export class MainWindow {
 				seek,
 				status,
 			]: string[]) => this.discord.updateCurrentSong(title, duration, seek, status === "true"),
+			"open-preferences": () => {
+				const child = new BrowserWindow({	...this.windowOptions, parent: this.window, modal: true, show: false })
+					child.loadURL(resolveHTMLPath("index.html") + "/preferences");
+					child.once('ready-to-show', () => {
+						child.show()
+					})
+				}
 		}).forEach(([channel, handler]) => ipcMain.handle(channel, handler));
 	}
 
