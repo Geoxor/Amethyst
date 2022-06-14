@@ -31,6 +31,9 @@
     "postinstall": "electron-builder install-app-deps",
     "lint": "eslint --ext .ts,.js,.vue"
   },
+  "electronmon": {
+      "patterns": ["!src/renderer/**"]
+  },
   "lint-staged": {
     "*.{js,vue,ts}": [
       "cross-env NODE_ENV=development eslint --cache"
