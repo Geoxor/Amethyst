@@ -105,7 +105,7 @@ function calculateStars(metadata: IAudioMetadata) {
         </div>
       </div>
     </div>
-    <social-bar />
+    <!-- <social-bar /> -->
   </div>
 </template>
 
