@@ -32,7 +32,12 @@
     "lint": "eslint --ext .ts,.js,.vue"
   },
   "electronmon": {
-      "patterns": ["!src/renderer/**"]
+    "patterns": [
+      "!src/__tests__/**",
+      "!release/**",
+      "!src/renderer/**"
+    ],
+    "logLevel": "quiet"
   },
   "lint-staged": {
     "*.{js,vue,ts}": [
@@ -253,12 +258,5 @@
       }
     ],
     "singleQuote": true
-  },
-  "electronmon": {
-    "patterns": [
-      "!src/__tests__/**",
-      "!release/**"
-    ],
-    "logLevel": "quiet"
   }
 }
