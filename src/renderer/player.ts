@@ -133,9 +133,7 @@ export default class Player {
 		this.state.sound = new Audio(`file://${path}`);
 		this.state.sound.volume = this.state.volume;
 		this.play();
-		this.state.sound.onended = () => {
-			this.next();
-		};
+		this.state.sound.onended = () => this.next();
 
 		// Pixelated covers
 		// invoke<Buffer>("get-cover-pixelized", [path]).then((cover) => {
