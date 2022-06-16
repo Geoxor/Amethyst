@@ -71,6 +71,9 @@ if (!IS_DEV) {
 	app 
 		.whenReady()
 		.then(() => import("electron-updater"))
-		.then(({ autoUpdater }) => autoUpdater.checkForUpdatesAndNotify())
+		.then(({ autoUpdater }) => {
+			autoUpdater.checkForUpdates();
+			autoUpdater.on("update-downloaded", () => autoUpdater.quitAndInstall(true, true));
+		})
 		.catch(e => console.error("Failed check updates:", e));
 }
