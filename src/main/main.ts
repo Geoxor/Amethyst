@@ -72,7 +72,10 @@ if (!IS_DEV) {
 		.whenReady()
 		.then(() => import("electron-updater"))
 		.then(({ autoUpdater }) => {
-			autoUpdater.checkForUpdates();
+			autoUpdater.checkForUpdatesAndNotify({
+				title: "Update Available",
+				body: "The application will restart once the update is complete.",
+			});
 			autoUpdater.on("update-downloaded", () => autoUpdater.quitAndInstall(true, true));
 		})
 		.catch(e => console.error("Failed check updates:", e));
