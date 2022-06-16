@@ -67,10 +67,8 @@ else {
 	}).catch(console.error);
 }
 
-if (!IS_DEV) {
-	app 
-		.whenReady()
-		.then(() => import("electron-updater"))
+async function checkForUpdatesAndInstall() {
+	return import("electron-updater")
 		.then(({ autoUpdater }) => {
 			autoUpdater.checkForUpdatesAndNotify({
 				title: "Update Available",
@@ -79,4 +77,11 @@ if (!IS_DEV) {
 			autoUpdater.on("update-downloaded", () => autoUpdater.quitAndInstall(true, true));
 		})
 		.catch(e => console.error("Failed check updates:", e));
+}
+
+if (!IS_DEV) {
+	app 
+		.whenReady()
+		.then(checkForUpdatesAndInstall)
+		.then(() => console.log("Updates installed"));
 }
