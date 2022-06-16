@@ -71,7 +71,7 @@ async function checkForUpdatesAndInstall() {
 	return import("electron-updater")
 		.then(({ autoUpdater }) => {
 			autoUpdater.checkForUpdatesAndNotify({
-				title: "Update Available",
+				title: "Update Installing",
 				body: "The application will restart once the update is complete.",
 			});
 			autoUpdater.on("update-downloaded", () => autoUpdater.quitAndInstall(true, true));
