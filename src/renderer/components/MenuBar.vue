@@ -58,6 +58,10 @@ const openPreferences = () => {
           :title="`Clear BPM cache (${bytesToHuman(state.bpmCacheSize.value)})`"
           @click="state.state.bpmCache = {}"
         />
+        <menu-option
+          :title="`Check for updates`"
+          @click="electron.invoke('check-for-updates')"
+        />
       </Menu>
 
       <Menu title="Help">

@@ -145,7 +145,13 @@ export class MainWindow {
 					child.once('ready-to-show', () => {
 						child.show()
 					})
-				}
+				},
+			"check-for-updates": () => {
+				if (IS_DEV)
+					return;
+
+				checkForUpdatesAndInstall();
+			}
 		}).forEach(([channel, handler]) => ipcMain.handle(channel, handler));
 	}
 
@@ -163,4 +169,16 @@ export class MainWindow {
 			await sharp(cover).resize(resizeTo, resizeTo).png().toBuffer()
 		).toString("base64");
 	}
+}
+
+export async function checkForUpdatesAndInstall() {
+	return import("electron-updater")
+		.then(({ autoUpdater }) => {
+			autoUpdater.checkForUpdatesAndNotify({
+				title: "Update Installing",
+				body: "The application will restart once the update is complete.",
+			});
+			autoUpdater.on("update-downloaded", () => autoUpdater.quitAndInstall(true, true));
+		})
+		.catch(e => console.error("Failed check updates:", e));
 }

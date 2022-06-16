@@ -16,7 +16,8 @@ export type Channels =
 	"update-rich-presence" |
 	"sync-window-state" |
 	"drop-file" |
-	"open-preferences";
+	"open-preferences" |
+	"check-for-updates";
 
 contextBridge.exposeInMainWorld("electron", {
 	ipcRenderer: {

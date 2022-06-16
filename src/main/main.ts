@@ -11,7 +11,7 @@
 import path from "path";
 import { app } from "electron";
 
-import { MainWindow } from "./mainWindow";
+import { checkForUpdatesAndInstall, MainWindow } from "./mainWindow";
 
 export const IS_DEV = process.env.NODE_ENV === "development" || process.env.DEBUG_PROD === "true";
 export const RESOURCES_PATH = path.join(__dirname, "../".repeat(+app.isPackaged * 2 + 2), "assets");
@@ -67,17 +67,7 @@ else {
 	}).catch(console.error);
 }
 
-async function checkForUpdatesAndInstall() {
-	return import("electron-updater")
-		.then(({ autoUpdater }) => {
-			autoUpdater.checkForUpdatesAndNotify({
-				title: "Update Installing",
-				body: "The application will restart once the update is complete.",
-			});
-			autoUpdater.on("update-downloaded", () => autoUpdater.quitAndInstall(true, true));
-		})
-		.catch(e => console.error("Failed check updates:", e));
-}
+
 
 if (!IS_DEV) {
 	app 
