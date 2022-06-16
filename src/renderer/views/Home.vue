@@ -6,7 +6,7 @@ import Queue from "../components/Queue.vue";
 import Tag from "../components/Tag.vue";
 import Spectrum from "../components/Spectrum.vue";
 import PlayerControls from "../components/PlayerControls.vue";
-import SocialBar from "../components/SocialBar.vue";
+// import SocialBar from "../components/SocialBar.vue";
 
 const invoke = window.electron.ipcRenderer.invoke;
 const state = useState();

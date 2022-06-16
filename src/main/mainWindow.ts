@@ -4,7 +4,7 @@ import * as mm from "music-metadata/lib/core";
 import type { Event } from "electron";
 import { BrowserWindow, dialog, ipcMain, shell } from "electron";
 import sharp from "sharp";
-import { ALLOWED_EXTENSIONS, APP_VERSION, IS_DEBUG, RESOURCES_PATH } from "./main";
+import { ALLOWED_EXTENSIONS, APP_VERSION, IS_DEV, RESOURCES_PATH } from "./main";
 
 import { resolveHTMLPath } from "./util";
 import { loadFolder } from "./handles";
@@ -17,7 +17,7 @@ export class MainWindow {
 		show: false,
 		width: 1024,
 		height: 728,
-		icon: path.join(RESOURCES_PATH, `icon${IS_DEBUG ? "-dev" : ""}.png`),
+		icon: path.join(RESOURCES_PATH, `icon${IS_DEV ? "-dev" : ""}.png`),
 		frame: false,
 		webPreferences: {
 			preload: path.join(__dirname, "preload.js"),
@@ -68,7 +68,7 @@ export class MainWindow {
 			));
 			this.window.webContents.send(
 				"version",
-				APP_VERSION + (IS_DEBUG ? " DEV-BUILD" : ""),
+				APP_VERSION + (IS_DEV ? " DEV-BUILD" : ""),
 			);
 			this.window.webContents.send("acceptable-extensions", ALLOWED_EXTENSIONS);
 		});

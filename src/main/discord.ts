@@ -1,6 +1,6 @@
 import type { Presence } from "discord-rpc";
 import { Client } from "discord-rpc";
-import { APP_VERSION, IS_DEBUG } from "./main";
+import { APP_VERSION, IS_DEV } from "./main";
 
 const DEV_CLIENT_ID = "977664616568078408";
 const PROD_CLIENT_ID = "976036303156162570";
@@ -27,7 +27,7 @@ export class Discord {
 		return new Promise((resolve) => {
 			// The app will crash with status 3489660927 if the RPC won't connect unless rate limited
 			this.client.login({
-				clientId: IS_DEBUG ? DEV_CLIENT_ID : PROD_CLIENT_ID,
+				clientId: IS_DEV ? DEV_CLIENT_ID : PROD_CLIENT_ID,
 			}).then(() => resolve(true)).catch(() => resolve(false));
 		});
 	}

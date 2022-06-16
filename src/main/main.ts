@@ -10,12 +10,10 @@
  */
 import path from "path";
 import { app } from "electron";
-import { autoUpdater } from "electron-updater";
-import log from "electron-log";
 
 import { MainWindow } from "./mainWindow";
 
-export const IS_DEBUG = process.env.NODE_ENV === "development" || process.env.DEBUG_PROD === "true";
+export const IS_DEV = process.env.NODE_ENV === "development" || process.env.DEBUG_PROD === "true";
 export const RESOURCES_PATH = path.join(__dirname, "../".repeat(+app.isPackaged * 2 + 2), "assets");
 export const ALLOWED_EXTENSIONS = ["ogg", "flac", "wav", "opus", "aac", "aiff", "mp3", "m4a"];
 export const APP_VERSION = app.isPackaged ? app.getVersion() : process.env.npm_package_version ?? "0.0.0";
@@ -31,13 +29,9 @@ if (!app.requestSingleInstanceLock()) {
 	process.exit(0);
 }
 else {
-	app.whenReady().then(() => {
+	app.whenReady()
+	.then(() => {
 		const mainWindow = new MainWindow();
-
-		// Autoupdates
-		// Remove this if your app does not use auto updates
-		log.transports.file.level = "info";
-		autoUpdater.logger = log;
 
 		app.on("window-all-closed", () => {
 			console.log("close");
@@ -57,7 +51,7 @@ else {
 			mainWindow.window.focus();
 		});
 
-		if (IS_DEBUG) {
+		if (IS_DEV) {
 			import("electron-devtools-installer").then(({
 				default: installExtension,
 				VUEJS3_DEVTOOLS,
@@ -70,8 +64,13 @@ else {
 
 		mainWindow.show();
 
-		if (app.isPackaged)
-			autoUpdater.checkForUpdatesAndNotify();
 	}).catch(console.error);
 }
 
+if (!IS_DEV) {
+	app 
+		.whenReady()
+		.then(() => import("electron-updater"))
+		.then(({ autoUpdater }) => autoUpdater.checkForUpdatesAndNotify())
+		.catch(e => console.error("Failed check updates:", e));
+}
