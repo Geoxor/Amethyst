@@ -10,8 +10,10 @@ import { resolveHTMLPath } from "./util";
 import { loadFolder } from "./handles";
 import { Discord } from "./discord";
 
+ 
 export class MainWindow {
 	public readonly window: BrowserWindow;
+	public preferencesWindow: BrowserWindow | undefined = undefined;
 	
 	private readonly windowOptions = {
 		show: false,
@@ -37,7 +39,7 @@ export class MainWindow {
 	}
 
 	public show(): void {
-		this.window.loadURL(resolveHTMLPath("index.html"));
+		this.window.loadURL(resolveHTMLPath("index"));
 
 		this.window.on("ready-to-show", () => {
 			if (process.env.START_MINIMIZED)
@@ -82,11 +84,17 @@ export class MainWindow {
 
 	private setIpcEvents(): void {
 		Object.entries({
-			"minimize": () => this.window.minimize(),
-			"maximize": () => this.window.maximize(),
-			"unmaximize": () => this.window.unmaximize(),
-			"close": () => this.window.close(),
+			// Temporary fix
+			"minimize": (_: Event, [window]: string[]) => window === "preferences" ? this.preferencesWindow?.minimize() : this.window.minimize(),
+			// Temporary fix
+			"maximize": (_: Event, [window]: string[]) => window === "preferences" ? this.preferencesWindow?.maximize() : this.window.maximize(),
+			// Temporary fix
+			"unmaximize": (_: Event, [window]: string[]) => window === "preferences" ? this.preferencesWindow?.unmaximize() : this.window.unmaximize(),
+			// Temporary fix
+			"close": (_: Event, [window]: string[]) => window === "preferences" ? this.preferencesWindow?.close() : this.window.close(),
+
 			"read-file": (_: Event, [path]: string[]) => fs.promises.readFile(path),
+			
 			"open-file-dialog": async () => {
 				const response = await dialog.showOpenDialog({
 					properties: ["openFile"],
@@ -98,6 +106,7 @@ export class MainWindow {
 				if (!response.canceled)
 					this.playAudio(response.filePaths[0]);
 			},
+
 			"open-folder-dialog": async () => {
 				const response = await dialog.showOpenDialog({
 					properties: ["openDirectory"],
@@ -106,7 +115,9 @@ export class MainWindow {
 				if (!response.canceled)
 					this.window.webContents.send("play-folder", await loadFolder(response.filePaths[0]));
 			},
+
 			"get-cover": async (_: Event, [path]: string[]) => this.getResizedCover(path),
+
 			"get-cover-pixelized": async (_: Event, [path]: string[]) => {
 				const coverBuffer = await this.getCover(path);
 
@@ -120,7 +131,9 @@ export class MainWindow {
 				}).png().toBuffer()).toString("base64");
 			},
 			"get-metadata": (_: Event, [path]: string[]) => path && mm.parseBuffer(fs.readFileSync(path)),
+
 			"show-item": (_: Event, [fullPath]: string[]) => shell.showItemInFolder(path.normalize(fullPath)),
+
 			"drop-file": async (_: Event, [paths]: string[][]) => {
 				paths.forEach(async (path) => {
 					if (fs.lstatSync(path).isDirectory())
@@ -129,21 +142,24 @@ export class MainWindow {
 						this.playAudio(path);
 				});
 			},
-			"sync-window-state": () => ({
+
+			"sync-window-state": () => ({  
 				isMinimized: this.window.isMinimized(),
 				isMaximized: this.window.isMaximized(),
 			}),
-			"update-rich-presence": (_: Event, [
-				title,
+
+			"update-rich-presence": (_: Event, [  
+				title, 
 				duration,
 				seek,
 				status,
 			]: string[]) => this.discord.updateCurrentSong(title, duration, seek, status === "true"),
+
 			"open-preferences": () => {
-				const child = new BrowserWindow({	...this.windowOptions, parent: this.window, modal: true, show: false })
-					child.loadURL(resolveHTMLPath("index.html") + "/preferences");
-					child.once('ready-to-show', () => {
-						child.show()
+				this.preferencesWindow = new BrowserWindow({	...this.windowOptions, show: true, width: 600, height: 800 });
+					this.preferencesWindow.loadURL( resolveHTMLPath("index") + "/#preferences");
+					this.preferencesWindow.once('ready-to-show', () => {
+						this.preferencesWindow!.show();
 					})
 				}
 		}).forEach(([channel, handler]) => ipcMain.handle(channel, handler));
