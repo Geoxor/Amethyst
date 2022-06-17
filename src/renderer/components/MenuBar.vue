@@ -44,7 +44,6 @@ const openPreferences = () => {
           />
         </Menu>
 
-<<<<<<< HEAD
         <Menu title="Settings">
           <menu-option
             :shortcuts="['CTRL', ',']"
@@ -62,31 +61,11 @@ const openPreferences = () => {
             :title="`Clear BPM cache (${bytesToHuman(state.bpmCacheSize.value)})`"
             @click="state.state.bpmCache = {}"
           />
+          <menu-option
+            :title="`Check for updates`"
+            @click="electron.invoke('check-for-updates')"
+          />
         </Menu>
-=======
-      <Menu title="Settings">
-        <menu-option
-          :shortcuts="['CTRL', ',']"
-          title="Preferences..."
-          @click="openPreferences()"
-        />
-        <menu-splitter />
-        <menu-option
-          :shortcuts="['CTRL', 'D', '+', 'X']"
-          :title="`Clear cover art cache (${bytesToHuman(state.coverArtCacheSize.value)})`"
-          @click="state.state.coverCache = {}"
-        />
-        <menu-option
-          :shortcuts="['CTRL', 'D', '+', 'F']"
-          :title="`Clear BPM cache (${bytesToHuman(state.bpmCacheSize.value)})`"
-          @click="state.state.bpmCache = {}"
-        />
-        <menu-option
-          :title="`Check for updates`"
-          @click="electron.invoke('check-for-updates')"
-        />
-      </Menu>
->>>>>>> 6b66dd1c71364f43572d08a69351e71e993c8824
 
         <Menu title="Help">
           <menu-option hint="Opens the Amethyst documentation on the internet" title="Documentation..." @click="() => { }" />
