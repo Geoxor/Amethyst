@@ -4,6 +4,7 @@ import { onMounted, onUnmounted } from "vue";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
 const SPECTRUM_WIDTH = 500;
 const SPECTRUM_HEIGHT = 150;
+const DOWNSCALE_FAC = 7;
 const TILT_MULTIPLIER = 0.005; // 3dB/octave
 const FFT_SIZE = 8192;
 const VERTICAL_ZOOM_FACTOR = 1.5;
@@ -51,6 +52,7 @@ onMounted(() => {
 
 		if (canvas) {
 			canvas.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--color-spectrum-peaks");
+			canvas.imageSmoothingEnabled = false;
 			return canvas;
 		}
 		return canvas;
@@ -74,6 +76,12 @@ onMounted(() => {
 			canvasCtx.value?.fillRect(i * barWidth, SPECTRUM_HEIGHT - barHeight, 1, barHeight);
 		}
 
+		canvasCtx.value?.drawImage(spectrum, 0, 0, SPECTRUM_WIDTH / DOWNSCALE_FAC, SPECTRUM_HEIGHT / DOWNSCALE_FAC);
+		canvasCtx.value?.clearRect(0, SPECTRUM_HEIGHT / DOWNSCALE_FAC, SPECTRUM_WIDTH, SPECTRUM_HEIGHT - (SPECTRUM_HEIGHT / DOWNSCALE_FAC))
+		canvasCtx.value?.clearRect(SPECTRUM_WIDTH / DOWNSCALE_FAC, 0, SPECTRUM_WIDTH, SPECTRUM_HEIGHT / DOWNSCALE_FAC);
+		canvasCtx.value?.drawImage(spectrum, 0, 0, SPECTRUM_WIDTH / DOWNSCALE_FAC, SPECTRUM_HEIGHT / DOWNSCALE_FAC, 0, 0, SPECTRUM_WIDTH, SPECTRUM_HEIGHT);
+		canvasCtx.value?.clearRect(0, 0, SPECTRUM_WIDTH / DOWNSCALE_FAC, SPECTRUM_HEIGHT / DOWNSCALE_FAC);
+
 		!shouldFuckOff && requestAnimationFrame(draw);
 	}
 
@@ -86,6 +94,7 @@ onUnmounted(() => shouldFuckOff = true);
 <template>
   <div class="w-min flex bg-spectrum-background flex-col">
     <canvas
+	  style="image-rendering: pixelated;"
       id="spectrum"
       ref="spectrum"
       :width="SPECTRUM_WIDTH"
