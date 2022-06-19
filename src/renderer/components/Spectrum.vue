@@ -94,7 +94,6 @@ onUnmounted(() => shouldFuckOff = true);
 <template>
   <div class="w-min flex bg-spectrum-background flex-col">
     <canvas
-	  style="image-rendering: pixelated;"
       id="spectrum"
       ref="spectrum"
       :width="SPECTRUM_WIDTH"
