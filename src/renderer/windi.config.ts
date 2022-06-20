@@ -37,7 +37,6 @@ const COLORS = [
 	"meter-average",
 	"meter-average-clipping",
 	"spectrum-background",
-	"spectrum-peaks",
 	"tag-background",
 	"tag-text",
 ];

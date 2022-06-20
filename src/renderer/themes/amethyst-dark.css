@@ -24,7 +24,6 @@
   --color-meter-average-clipping: rgb(248, 113, 113);
 
   --color-spectrum-background: rgba(255, 255, 255, 0);
-  --color-spectrum-peaks: var(--primary-color);
 
   --color-tag-background: rgb(0, 0, 0);
   --color-tag-text: rgb(255, 255, 255);
