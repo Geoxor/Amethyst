@@ -53,7 +53,10 @@ onMounted(() => {
 		const canvas = spectrum.getContext("2d");
 
 		if (canvas) {
-			canvas.fillStyle = getComputedStyle(document.documentElement).getPropertyValue("--color-spectrum-peaks");
+			const gradient = canvas.createLinearGradient(0, SPECTRUM_HEIGHT, 0, 0);
+			gradient.addColorStop(0, getComputedStyle(document.documentElement).getPropertyValue("--primary-color"));
+			gradient.addColorStop(1, getComputedStyle(document.documentElement).getPropertyValue("--secondary-color"));
+			canvas.fillStyle = gradient;
 			canvas.imageSmoothingEnabled = false;
 			return canvas;
 		}
