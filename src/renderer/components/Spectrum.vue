@@ -1,13 +1,15 @@
 <script setup lang="ts">
-import { computed } from "@vue/reactivity";
+import { computed, ComputedRef } from "@vue/reactivity";
 import { onMounted, onUnmounted } from "vue";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
-const SPECTRUM_WIDTH = 500;
-const SPECTRUM_HEIGHT = 150;
-const DOWNSCALE_FAC = 7;
+const SPECTRUM_WIDTH = 600;
+const SPECTRUM_HEIGHT = 300;
+const DOWNSCALE_FACTOR = 7;
 const TILT_MULTIPLIER = 0.005; // 3dB/octave
 const FFT_SIZE = 8192;
 const VERTICAL_ZOOM_FACTOR = 1.5;
+const DOWNSCALED_WIDTH =  SPECTRUM_WIDTH / DOWNSCALE_FACTOR;
+const DOWNSCALED_HEIGHT = SPECTRUM_HEIGHT / DOWNSCALE_FACTOR;
 
 let shouldFuckOff = false;
 
@@ -47,7 +49,7 @@ onMounted(() => {
 	gain.connect(analyser);
 
 	const spectrum = document.querySelector("#spectrum") as HTMLCanvasElement;
-	const canvasCtx = computed(() => {
+	const canvasCtx = <ComputedRef<CanvasRenderingContext2D>>computed(() => {
 		const canvas = spectrum.getContext("2d");
 
 		if (canvas) {
@@ -73,14 +75,20 @@ onMounted(() => {
 			const tilt = (i * TILT_MULTIPLIER) - tiltOffset;
 			const x = logArray[i] * VERTICAL_ZOOM_FACTOR;
 			const barHeight = ((x + tilt) / 255 * SPECTRUM_HEIGHT);
-			canvasCtx.value?.fillRect(i * barWidth, SPECTRUM_HEIGHT - barHeight, 1, barHeight);
+			canvasCtx.value.fillRect(i * barWidth, SPECTRUM_HEIGHT - barHeight, 1, barHeight);
 		}
 
-		canvasCtx.value?.drawImage(spectrum, 0, 0, SPECTRUM_WIDTH / DOWNSCALE_FAC, SPECTRUM_HEIGHT / DOWNSCALE_FAC);
-		canvasCtx.value?.clearRect(0, SPECTRUM_HEIGHT / DOWNSCALE_FAC, SPECTRUM_WIDTH, SPECTRUM_HEIGHT - (SPECTRUM_HEIGHT / DOWNSCALE_FAC))
-		canvasCtx.value?.clearRect(SPECTRUM_WIDTH / DOWNSCALE_FAC, 0, SPECTRUM_WIDTH, SPECTRUM_HEIGHT / DOWNSCALE_FAC);
-		canvasCtx.value?.drawImage(spectrum, 0, 0, SPECTRUM_WIDTH / DOWNSCALE_FAC, SPECTRUM_HEIGHT / DOWNSCALE_FAC, 0, 0, SPECTRUM_WIDTH, SPECTRUM_HEIGHT);
-		canvasCtx.value?.clearRect(0, 0, SPECTRUM_WIDTH / DOWNSCALE_FAC, SPECTRUM_HEIGHT / DOWNSCALE_FAC);
+		// Downscale the canvas to pixelize so it fits with the aesthetic of the app 
+		canvasCtx.value.drawImage(spectrum, 0, 0, DOWNSCALED_WIDTH, DOWNSCALED_HEIGHT);
+		canvasCtx.value.clearRect(0, DOWNSCALED_HEIGHT, SPECTRUM_WIDTH, SPECTRUM_HEIGHT - (DOWNSCALED_HEIGHT))
+		canvasCtx.value.clearRect(DOWNSCALED_WIDTH, 0, SPECTRUM_WIDTH, DOWNSCALED_HEIGHT);
+		canvasCtx.value.drawImage(spectrum, 0, 0, DOWNSCALED_WIDTH, DOWNSCALED_HEIGHT, 0, 0, SPECTRUM_WIDTH, SPECTRUM_HEIGHT);
+		// this line clears the downscaled image thats drawn at the 
+		// top left of the canvas by drawing a white rectangle over it
+		// its kinda trollface but it works i guess
+		// TODO: refactor this later because some low freq values get clipped under it
+		canvasCtx.value.clearRect(0, 0, DOWNSCALED_WIDTH, DOWNSCALED_HEIGHT); 
+
 
 		!shouldFuckOff && requestAnimationFrame(draw);
 	}
