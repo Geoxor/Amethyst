@@ -2,8 +2,8 @@
 import { computed, ComputedRef } from "@vue/reactivity";
 import { onMounted, onUnmounted } from "vue";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
-const SPECTRUM_WIDTH = 600;
-const SPECTRUM_HEIGHT = 300;
+const SPECTRUM_WIDTH = 500;
+const SPECTRUM_HEIGHT = 150;
 const DOWNSCALE_FACTOR = 7;
 const TILT_MULTIPLIER = 0.005; // 3dB/octave
 const FFT_SIZE = 8192;
