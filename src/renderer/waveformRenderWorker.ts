@@ -8,14 +8,14 @@ function render(canvas: HTMLCanvasElement, audioData: Float32Array): ImageBitmap
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-  gradient.addColorStop(0, '#e08eff')
-  gradient.addColorStop(0.5, '#868aff')
-  gradient.addColorStop(1, '#e08eff')
+  gradient.addColorStop(0, '#e08eff');
+  gradient.addColorStop(0.5, '#868aff');
+  gradient.addColorStop(1, '#e08eff');
 
   ctx.strokeStyle = gradient;
   ctx.lineWidth = 1;
-  ctx.beginPath()
-  ctx.moveTo(0, canvas.height / 2)
+  ctx.beginPath();
+  ctx.moveTo(0, canvas.height / 2);
 
   let x = 0;
   let y = 0;
@@ -32,8 +32,8 @@ function render(canvas: HTMLCanvasElement, audioData: Float32Array): ImageBitmap
   // Need to create an image from the OffscreenCanvas to send it back to the main process.
   // https://developer.mozilla.org/en-US/docs/Web/API/OffScreenCanvas/transferToImageBitmap
   // @ts-ignore
-  const img: ImageBitmap = canvas.transferToImageBitmap()
-  return img
+  const img: ImageBitmap = canvas.transferToImageBitmap();
+  return img;
 }
 
 onmessage = function(e: MessageEvent<{ canvas: HTMLCanvasElement, audioData: Float32Array, stop: boolean }>) {
@@ -43,9 +43,9 @@ onmessage = function(e: MessageEvent<{ canvas: HTMLCanvasElement, audioData: Flo
 
   if (stopRender) return;
 
-  const img = render(canvas, audioData)
+  const img = render(canvas, audioData);
 
   if (img) {
-    this.postMessage(img)
+    this.postMessage(img);
   }
 };

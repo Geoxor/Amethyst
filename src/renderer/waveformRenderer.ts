@@ -94,10 +94,10 @@ export class WaveformRenderer {
   };
 
   private renderWaveform = () => {
-    this.setCanvasSize()
-    const ctx = this.canvas.getContext('2d')
-    ctx?.clearRect(0, 0, this.canvas.width, this.canvas.height)
-    const backCanvas = document.createElement('canvas')
+    this.setCanvasSize();
+    const ctx = this.canvas.getContext('2d');
+    ctx?.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    const backCanvas = document.createElement('canvas');
     backCanvas.width = this.canvas.width;
     backCanvas.height = this.canvas.height;
 
@@ -111,19 +111,19 @@ export class WaveformRenderer {
     
     if (this.audioBuffer === null) return;
 
-    const audioData = this.audioBuffer.getChannelData(0)
+    const audioData = this.audioBuffer.getChannelData(0);
 
     if (this.currentWorker !== null) {
-      this.currentWorker.postMessage({ stop: true })
-      this.currentWorker.terminate()
+      this.currentWorker.postMessage({ stop: true });
+      this.currentWorker.terminate();
     }
 
     this.currentWorker = new Worker("waveformRenderWorker.ts");
     this.currentWorker.onmessage = (msg) => {
-      ctx?.clearRect(0, 0, this.canvas.width, this.canvas.height)
-      ctx?.drawImage(msg.data, 0, 0)
-      this.currentWorker = null
-    }
+      ctx?.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      ctx?.drawImage(msg.data, 0, 0);
+      this.currentWorker = null;
+    };
     this.currentWorker.postMessage({ canvas: offscreen, audioData }, [offscreen]);
   };
 
