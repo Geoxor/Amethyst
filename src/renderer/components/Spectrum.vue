@@ -54,8 +54,8 @@ onMounted(() => {
 
 		if (canvas) {
 			const gradient = canvas.createLinearGradient(0, SPECTRUM_HEIGHT, 0, 0);
-			gradient.addColorStop(0, getComputedStyle(document.documentElement).getPropertyValue("--primary-color"));
-			gradient.addColorStop(1, getComputedStyle(document.documentElement).getPropertyValue("--secondary-color"));
+			gradient.addColorStop(0, getComputedStyle(document.documentElement).getPropertyValue("--color-primary"));
+			gradient.addColorStop(1, getComputedStyle(document.documentElement).getPropertyValue("--color-secondary"));
 			canvas.fillStyle = gradient;
 			canvas.imageSmoothingEnabled = false;
 			return canvas;
@@ -66,7 +66,7 @@ onMounted(() => {
 	function draw() {
 		const bufferLength = analyser.frequencyBinCount;
 		const dataArray = new Uint8Array(bufferLength);
-
+ 
 		canvasCtx.value?.clearRect(0, 0, screen.width, screen.height);
 		analyser.getByteFrequencyData(dataArray);
 
@@ -81,16 +81,16 @@ onMounted(() => {
 			canvasCtx.value.fillRect(i * barWidth, SPECTRUM_HEIGHT - barHeight, 1, barHeight);
 		}
 
-		// Downscale the canvas to pixelize so it fits with the aesthetic of the app 
-		canvasCtx.value.drawImage(spectrum, 0, 0, DOWNSCALED_WIDTH, DOWNSCALED_HEIGHT);
-		canvasCtx.value.clearRect(0, DOWNSCALED_HEIGHT, SPECTRUM_WIDTH, SPECTRUM_HEIGHT - (DOWNSCALED_HEIGHT))
-		canvasCtx.value.clearRect(DOWNSCALED_WIDTH, 0, SPECTRUM_WIDTH, DOWNSCALED_HEIGHT);
-		canvasCtx.value.drawImage(spectrum, 0, 0, DOWNSCALED_WIDTH, DOWNSCALED_HEIGHT, 0, 0, SPECTRUM_WIDTH, SPECTRUM_HEIGHT);
-		// this line clears the downscaled image thats drawn at the 
-		// top left of the canvas by drawing a white rectangle over it
-		// its kinda trollface but it works i guess
-		// TODO: refactor this later because some low freq values get clipped under it
-		canvasCtx.value.clearRect(0, 0, DOWNSCALED_WIDTH, DOWNSCALED_HEIGHT); 
+		// // Downscale the canvas to pixelize so it fits with the aesthetic of the app 
+		// canvasCtx.value.drawImage(spectrum, 0, 0, DOWNSCALED_WIDTH, DOWNSCALED_HEIGHT);
+		// canvasCtx.value.clearRect(0, DOWNSCALED_HEIGHT, SPECTRUM_WIDTH, SPECTRUM_HEIGHT - (DOWNSCALED_HEIGHT))
+		// canvasCtx.value.clearRect(DOWNSCALED_WIDTH, 0, SPECTRUM_WIDTH, DOWNSCALED_HEIGHT);
+		// canvasCtx.value.drawImage(spectrum, 0, 0, DOWNSCALED_WIDTH, DOWNSCALED_HEIGHT, 0, 0, SPECTRUM_WIDTH, SPECTRUM_HEIGHT);
+		// // this line clears the downscaled image thats drawn at the 
+		// // top left of the canvas by drawing a white rectangle over it
+		// // its kinda trollface but it works i guess
+		// // TODO: refactor this later because some low freq values get clipped under it
+		// canvasCtx.value.clearRect(0, 0, DOWNSCALED_WIDTH, DOWNSCALED_HEIGHT); 
 
 
 		!shouldFuckOff && requestAnimationFrame(draw);

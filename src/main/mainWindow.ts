@@ -61,11 +61,11 @@ export class MainWindow {
 		this.window.on("minimize", () => this.window.webContents.send("minimize"));
 		this.window.on("maximize", () => this.window.webContents.send("maximize"));
 		this.window.on("closed", () => this.destroy());
-		this.window.webContents.on("dom-ready", () => {
+		this.window.webContents.on("dom-ready", async () => {
 			if (process.argv[1])
 				this.playAudio(process.argv[1]);
 
-			this.window.webContents.send("default-cover", fs.readFileSync(
+			this.window.webContents.send("default-cover",  await fs.promises.readFile(
 				path.join(RESOURCES_PATH, "/images/default-cover.png"),
 			));
 			this.window.webContents.send(
@@ -130,13 +130,14 @@ export class MainWindow {
 					kernel: "nearest",
 				}).png().toBuffer()).toString("base64");
 			},
-			"get-metadata": (_: Event, [path]: string[]) => path && mm.parseBuffer(fs.readFileSync(path)),
+			"get-metadata": async (_: Event, [path]: string[]) => path && mm.parseBuffer(await fs.promises.readFile(path)),
 
 			"show-item": (_: Event, [fullPath]: string[]) => shell.showItemInFolder(path.normalize(fullPath)),
 
 			"drop-file": async (_: Event, [paths]: string[][]) => {
 				paths.forEach(async (path) => {
-					if (fs.lstatSync(path).isDirectory())
+					const stat = await fs.promises.stat(path);
+					if (stat.isDirectory())
 						this.window.webContents.send("load-folder", await loadFolder(path));
 					else
 						this.playAudio(path);
@@ -172,7 +173,12 @@ export class MainWindow {
 	}
 
 	private async getCover(path: string): Promise<Buffer | undefined> {
-		return (await mm.parseBuffer(fs.readFileSync(path))).common.picture?.[0].data;
+		const file = await fs.promises.readFile(path);
+		const meta = await mm.parseBuffer(file);
+
+		console.log(meta.common.picture);
+
+		return meta.common.picture?.[0].data;
 	}
 
 	private async getResizedCover(path: string, resizeTo = 12): Promise<string | undefined> {
