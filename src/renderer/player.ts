@@ -42,6 +42,7 @@ export default class Player {
 	private events = mitt<typeof Events>();
 	private emit = this.events.emit;
 	public on = this.events.on;
+	public off = this.events.off;
 
 	public state = reactive({
 		sound: new Audio(),

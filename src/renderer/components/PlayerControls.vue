@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { onMounted, ref, computed } from 'vue';
+import { WaveformRenderer } from '../waveformRenderer';
+import { onMounted, ref, computed, onUnmounted } from 'vue';
 import { usePlayer } from "../amethyst";
 import DbMeter from "./DbMeter.vue";
 
@@ -8,6 +9,7 @@ const currentTime = ref("0");
 const timer = ref();
 const metadata = computed(() => player.state.currentlyPlayingMetadata );
 const duration = computed(() => metadata.value?.format.duration || 0);
+let waveformRenderer: WaveformRenderer
 
 const handleVolumeMouseScroll = (e: WheelEvent) => {
   const delta = Math.sign(e.deltaY);
@@ -27,15 +29,25 @@ onMounted(() => {
   timer.value = setInterval(() => {
     currentTime.value = `${player.currentTimeFormatted()} / ${player.currentDurationFormatted()}`;
   }, 500);
+
+  waveformRenderer = new WaveformRenderer(player, '#waveformCanvas');
 });
+
+onUnmounted(() => {
+  waveformRenderer.clean();
+});
+
 </script>
 
 <template>
   <div class="flex p-1 gap-2 items-center">
-    <input
-      v-model="player.state.sound.currentTime" class="w-full " min="0" :max="duration" step="0.01"
-      type="range" @wheel="handleSeekMouseScroll"
-    >
+    <div class="w-full h-full relative flex">
+      <canvas id="waveformCanvas" class="w-full h-full absolute"></canvas>
+      <input
+        v-model="player.state.sound.currentTime" class="w-full z-10 opacity-50" min="0" :max="duration" step="0.01"
+        type="range" @wheel="handleSeekMouseScroll"
+      >
+    </div>
     <h1 class=" whitespace-nowrap text-sm">
       {{ currentTime }}
     </h1>

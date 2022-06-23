@@ -10,6 +10,7 @@ const FFT_SIZE = 8192;
 const VERTICAL_ZOOM_FACTOR = 1.5;
 const DOWNSCALED_WIDTH =  SPECTRUM_WIDTH / DOWNSCALE_FACTOR;
 const DOWNSCALED_HEIGHT = SPECTRUM_HEIGHT / DOWNSCALE_FACTOR;
+const defaultSpectrumColor = "#868aff";
 
 let shouldFuckOff = false;
 
@@ -54,8 +55,10 @@ onMounted(() => {
 
 		if (canvas) {
 			const gradient = canvas.createLinearGradient(0, SPECTRUM_HEIGHT, 0, 0);
-			gradient.addColorStop(0, getComputedStyle(document.documentElement).getPropertyValue("--color-primary"));
-			gradient.addColorStop(1, getComputedStyle(document.documentElement).getPropertyValue("--color-secondary"));
+			const primaryColor = getComputedStyle(document.documentElement).getPropertyValue("--color-primary") || defaultSpectrumColor;
+			const secondaryColor = getComputedStyle(document.documentElement).getPropertyValue("--color-secondary") || defaultSpectrumColor;
+			gradient.addColorStop(0, primaryColor);
+			gradient.addColorStop(1, secondaryColor);
 			canvas.fillStyle = gradient;
 			canvas.imageSmoothingEnabled = false;
 			return canvas;
