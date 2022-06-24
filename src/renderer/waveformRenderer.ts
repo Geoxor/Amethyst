@@ -119,9 +119,10 @@ export class WaveformRenderer {
     }
 
     this.currentWorker = new Worker("waveformRenderWorker.ts");
-    this.currentWorker.onmessage = (msg) => {
+    // TODO: cache the analysis FFT data
+    this.currentWorker.onmessage = ({data}) => {
       ctx?.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      ctx?.drawImage(msg.data, 0, 0);
+      ctx?.drawImage(data, 0, 0);
       this.currentWorker = null;
     };
     this.currentWorker.postMessage({ canvas: offscreen, audioData }, [offscreen]);
