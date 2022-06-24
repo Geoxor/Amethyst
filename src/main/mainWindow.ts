@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import * as mm from "music-metadata/lib/core";
 import type { Event } from "electron";
-import { BrowserWindow, dialog, ipcMain, shell } from "electron";
+import { BrowserWindow, dialog, ipcMain, shell, Notification } from "electron";
 import sharp from "sharp";
 import { ALLOWED_EXTENSIONS, APP_VERSION, IS_DEV, RESOURCES_PATH } from "./main";
 
@@ -10,16 +10,33 @@ import { resolveHTMLPath } from "./util";
 import { loadFolder } from "./handles";
 import { Discord } from "./discord";
 
- 
+const icon = () => path.join(RESOURCES_PATH, `icon${IS_DEV ? "-dev" : ""}.png`)
+
+const notifications = {
+	showUpdateInstallingNotification: () =>
+		new Notification({
+			icon: icon(),
+			title: "Update Installing",
+			body: "The application will restart once the update is complete.",
+		}).show(),
+
+	showUpdateAvailableNotification: () => 
+		new Notification({
+			icon: icon(),
+			title: "Amethyst Update Available",
+			body: "Amethyst is downloading an update and will restart when complete"
+		}).show(),
+}
+
 export class MainWindow {
 	public readonly window: BrowserWindow;
 	public preferencesWindow: BrowserWindow | undefined = undefined;
-	
+
 	private readonly windowOptions = {
 		show: false,
 		width: 1024,
 		height: 728,
-		icon: path.join(RESOURCES_PATH, `icon${IS_DEV ? "-dev" : ""}.png`),
+		icon: icon(),
 		frame: false,
 		webPreferences: {
 			preload: path.join(__dirname, "preload.js"),
@@ -65,7 +82,9 @@ export class MainWindow {
 			if (process.argv[1])
 				this.playAudio(process.argv[1]);
 
-			this.window.webContents.send("default-cover",  await fs.promises.readFile(
+
+
+			this.window.webContents.send("default-cover", await fs.promises.readFile(
 				path.join(RESOURCES_PATH, "/images/default-cover.png"),
 			));
 			this.window.webContents.send(
@@ -84,6 +103,7 @@ export class MainWindow {
 
 	private setIpcEvents(): void {
 		Object.entries({
+			"test-notification": (_: Event, [notification]: string) => (notifications as {[key: string]: any})[notification](),
 			// Temporary fix
 			"minimize": (_: Event, [window]: string[]) => window === "preferences" ? this.preferencesWindow?.minimize() : this.window.minimize(),
 			// Temporary fix
@@ -94,7 +114,7 @@ export class MainWindow {
 			"close": (_: Event, [window]: string[]) => window === "preferences" ? this.preferencesWindow?.close() : this.window.close(),
 
 			"read-file": (_: Event, [path]: string[]) => fs.promises.readFile(path),
-			
+
 			"open-file-dialog": async () => {
 				const response = await dialog.showOpenDialog({
 					properties: ["openFile"],
@@ -144,25 +164,25 @@ export class MainWindow {
 				});
 			},
 
-			"sync-window-state": () => ({  
+			"sync-window-state": () => ({
 				isMinimized: this.window.isMinimized(),
 				isMaximized: this.window.isMaximized(),
 			}),
 
-			"update-rich-presence": (_: Event, [  
-				title, 
+			"update-rich-presence": (_: Event, [
+				title,
 				duration,
 				seek,
 				status,
 			]: string[]) => this.discord.updateCurrentSong(title, duration, seek, status === "true"),
 
 			"open-preferences": () => {
-				this.preferencesWindow = new BrowserWindow({	...this.windowOptions, show: true, width: 600, height: 800 });
-					this.preferencesWindow.loadURL( resolveHTMLPath("index") + "/#preferences");
-					this.preferencesWindow.once('ready-to-show', () => {
-						this.preferencesWindow!.show();
-					})
-				},
+				this.preferencesWindow = new BrowserWindow({ ...this.windowOptions, show: true, width: 600, height: 800 });
+				this.preferencesWindow.loadURL(resolveHTMLPath("index") + "/#preferences");
+				this.preferencesWindow.once('ready-to-show', () => {
+					this.preferencesWindow!.show();
+				})
+			},
 			"check-for-updates": () => {
 				if (IS_DEV)
 					return;
@@ -196,10 +216,8 @@ export class MainWindow {
 export async function checkForUpdatesAndInstall() {
 	return import("electron-updater")
 		.then(({ autoUpdater }) => {
-			autoUpdater.checkForUpdatesAndNotify({
-				title: "Update Installing",
-				body: "The application will restart once the update is complete.",
-			});
+			autoUpdater.on("before-quit-for-update", () => notifications.showUpdateInstallingNotification());
+			autoUpdater.on("update-available", () => notifications.showUpdateAvailableNotification())
 			autoUpdater.on("update-downloaded", () => autoUpdater.quitAndInstall(true, true));
 		})
 		.catch(e => console.error("Failed check updates:", e));

@@ -36,6 +36,7 @@ function render(canvas: HTMLCanvasElement, audioData: Float32Array): ImageBitmap
   return img;
 }
 
+// TODO: make this transfer an array buffer instead of using postMessage, it's way faster to share pointers
 onmessage = function(e: MessageEvent<{ canvas: HTMLCanvasElement, audioData: Float32Array, stop: boolean }>) {
   const canvas = e.data.canvas;
   const audioData = e.data.audioData;

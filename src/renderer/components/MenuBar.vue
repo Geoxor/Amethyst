@@ -70,6 +70,17 @@ const openPreferences = () => {
         <Menu title="Help">
           <menu-option hint="Opens the Amethyst documentation on the internet" title="Documentation..." @click="() => { }" />
         </Menu>
+
+        <Menu title="Debug" v-if="state.isDev.value">
+          <menu-option
+            title="Test 'UpdateInstallingNotification'"
+            @click="electron.invoke('test-notification' , ['showUpdateInstallingNotification'])"
+          />
+          <menu-option
+            title="Test 'UpdateAvailableNotification'"
+            @click="electron.invoke('test-notification' , ['showUpdateAvailableNotification'])"
+          />
+        </Menu>
       </template>
     </div>
 

@@ -17,6 +17,7 @@ export type Channels =
 	"sync-window-state" |
 	"drop-file" |
 	"open-preferences" |
+	"test-notification" |
 	"check-for-updates";
 
 contextBridge.exposeInMainWorld("electron", {
