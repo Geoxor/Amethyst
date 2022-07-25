@@ -3,8 +3,6 @@ import { useKeyModifier } from "@vueuse/core";
 import { ref } from "vue";
 import { usePlayer, useState } from "../amethyst";
 import { BPM_COMPUTATION_CONCURRENCY, COVERART_RENDERING_CONCURRENCY } from "../state";
-
-import Cover from "./Cover.vue";
 const state = useState();
 const player = usePlayer();
 const isHoldingControl = useKeyModifier("Control");
@@ -56,14 +54,16 @@ const parseTitle = (path: string) => {
 
       <input v-model="filterText" type="text" class="border-2 border-gray-400 indent-xs text-xs w-full mb-2" placeholder="artists, title & format...">
 
+      <!-- TODO: refactor this mess into a component -->
       <li
         v-for="([song, i]) of player.getQueue().map((song, i) => song.toLowerCase().includes(filterText.toLowerCase()) ? [song, i] : undefined).filter(song => !!song) as [string, number][]"
-        :key="song" :class="[isHoldingControl && 'control-hover', isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', i === player.getCurrentlyPlayingIndex() && 'text-queue-text-active']" class=" h-3 mb-0.5 hover:text-queue-text-hover select-none" @keypress.prevent
+        :key="song" :class="[isHoldingControl && 'control-hover', isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', i === player.getCurrentlyPlayingIndex() && 'text-queue-text-active']" class=" h-3 mb-0.5 hover:text-queue-text-hover relative select-none" @keypress.prevent
         @click="isHoldingControl ? invoke('show-item', [player.getQueue()[i]]) : player.setCurrentlyPlayingIndex(i)"
       >
-        <cover class="inline align-top w-3 h-3" :song-path="song" />
+        <!-- <cover class="inline align-top w-3 h-3" :song-path="song" /> -->
+        <img v-if="state.state.processQueue.has(song)" src="../spinners/spinner.gif" alt="" class="w-4 h-4 absolute -top-0.25 -left-0.5">
 
-        <p class=" inline align-top text-xs ml-2 max-w-40 overflow-hidden overflow-ellipsis ">
+        <p :class="[state.state.processQueue.has(song) && 'ml-5']" class=" inline align-top text-xs max-w-40 overflow-hidden overflow-ellipsis ">
           {{ i === player.getCurrentlyPlayingIndex() ? "⏵ " : "" }}{{ trimString(isHoldingAlt ? `${song.substring(0, (MAX_CHARS - 3) / 2)}...${song.substring(song.length - (MAX_CHARS - 3) / 2)}` : parseTitle(song), i === player.getCurrentlyPlayingIndex() ? MAX_CHARS - 2 : MAX_CHARS) }}
         </p>
       </li>

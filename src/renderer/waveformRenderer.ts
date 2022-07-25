@@ -1,4 +1,6 @@
+import { useState } from "./amethyst";
 import Player from "./player";
+
 
 export class WaveformRenderer {
   public canvas: HTMLCanvasElement;
@@ -14,8 +16,20 @@ export class WaveformRenderer {
     this.audioCtx = new AudioContext();
     this.audioBuffer = null;
     this.currentWorker = null;
+    const state = useState();
 
-    this.player.on('play', this.handlePlayAudio);
+    this.player.on('play', async (filePath) => {
+      // TODO: refactor this system so amethyst automatically determines when processing has finished from child plugins
+      state.state.processQueue.add(filePath);
+  
+      try {
+        await this.handlePlayAudio()
+      } catch (error) {
+        console.log(`Failed to render waveform for audio: ${filePath}`);
+      } 
+
+      state.state.processQueue.delete(filePath);
+    });
   }
 
   private handlePlayAudio = async () => {
@@ -36,11 +50,10 @@ export class WaveformRenderer {
 
     
     const tempBuffer = await this.fetchAudioBuffer(this.player.state.sound.src, offlineAudioCtx);
-
     if (currentSound != this.player.state.sound) return;
 
     this.audioBuffer = tempBuffer;
-    this.renderWaveform();
+    await this.renderWaveform();
   };
 
   private setCanvasSize = () => {
@@ -93,39 +106,44 @@ export class WaveformRenderer {
     })
   };
 
-  private renderWaveform = () => {
-    this.setCanvasSize();
-    const ctx = this.canvas.getContext('2d');
-    ctx?.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    const backCanvas = document.createElement('canvas');
-    backCanvas.width = this.canvas.width;
-    backCanvas.height = this.canvas.height;
-
-    // Electron 18.0.3 is using Chrome 100.0.4896.75
-    // https://www.electronjs.org/releases/stable?version=18&page=2#18.0.3
-    //
-    // transferControlToOffscreen has been available since Chrome 69
-    // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/transferControlToOffscreen#browser_compatibility
-    // @ts-ignore
-    const offscreen: OffscreenCanvas = backCanvas.transferControlToOffscreen();
-    
-    if (this.audioBuffer === null) return;
-
-    const audioData = this.audioBuffer.getChannelData(0);
-
-    if (this.currentWorker !== null) {
-      this.currentWorker.postMessage({ stop: true });
-      this.currentWorker.terminate();
-    }
-
-    this.currentWorker = new Worker("waveformRenderWorker.ts");
-    // TODO: cache the analysis FFT data
-    this.currentWorker.onmessage = ({data}) => {
+  private renderWaveform = async () => {
+    return new Promise<void>((resolve, reject) => {
+      this.setCanvasSize();
+      const ctx = this.canvas.getContext('2d');
       ctx?.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      ctx?.drawImage(data, 0, 0);
-      this.currentWorker = null;
-    };
-    this.currentWorker.postMessage({ canvas: offscreen, audioData }, [offscreen]);
+      const backCanvas = document.createElement('canvas');
+      backCanvas.width = this.canvas.width;
+      backCanvas.height = this.canvas.height;
+  
+      // Electron 18.0.3 is using Chrome 100.0.4896.75
+      // https://www.electronjs.org/releases/stable?version=18&page=2#18.0.3
+      //
+      // transferControlToOffscreen has been available since Chrome 69
+      // https://developer.mozilla.org/en-US/docs/Web/API/HTMLCanvasElement/transferControlToOffscreen#browser_compatibility
+      // @ts-ignore
+      const offscreen: OffscreenCanvas = backCanvas.transferControlToOffscreen();
+      
+      if (this.audioBuffer === null) return reject();
+  
+      const audioData = this.audioBuffer.getChannelData(0);
+  
+      if (this.currentWorker !== null) {
+        this.currentWorker.postMessage({ stop: true });
+        this.currentWorker.terminate();
+        reject();
+      }
+  
+      this.currentWorker = new Worker("waveformRenderWorker.ts");
+      this.currentWorker.postMessage({ canvas: offscreen, audioData }, [offscreen])
+
+      // TODO: cache the analysis FFT data
+      this.currentWorker.onmessage = ({data}) => {
+        ctx?.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        ctx?.drawImage(data, 0, 0);
+        this.currentWorker = null;
+        resolve();
+      };
+    })
   };
 
   public clean = () => {

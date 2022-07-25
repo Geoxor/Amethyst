@@ -29,11 +29,15 @@ function render(canvas: HTMLCanvasElement, audioData: Float32Array): ImageBitmap
 
   ctx.stroke();
 
-  // Need to create an image from the OffscreenCanvas to send it back to the main process.
-  // https://developer.mozilla.org/en-US/docs/Web/API/OffScreenCanvas/transferToImageBitmap
-  // @ts-ignore
-  const img: ImageBitmap = canvas.transferToImageBitmap();
-  return img;
+  try {
+    // Need to create an image from the OffscreenCanvas to send it back to the main process.
+    // https://developer.mozilla.org/en-US/docs/Web/API/OffScreenCanvas/transferToImageBitmap
+    // @ts-ignore
+    const img: ImageBitmap = canvas.transferToImageBitmap();
+    return img;
+  } catch (error) {
+    return undefined
+  }
 }
 
 // TODO: make this transfer an array buffer instead of using postMessage, it's way faster to share pointers

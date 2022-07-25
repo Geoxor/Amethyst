@@ -4,12 +4,12 @@ import { onMounted, onUnmounted } from "vue";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
 const SPECTRUM_WIDTH = 500;
 const SPECTRUM_HEIGHT = 150;
-const DOWNSCALE_FACTOR = 7;
+// const DOWNSCALE_FACTOR = 7;
 const TILT_MULTIPLIER = 0.005; // 3dB/octave
 const FFT_SIZE = 8192;
 const VERTICAL_ZOOM_FACTOR = 1.5;
-const DOWNSCALED_WIDTH =  SPECTRUM_WIDTH / DOWNSCALE_FACTOR;
-const DOWNSCALED_HEIGHT = SPECTRUM_HEIGHT / DOWNSCALE_FACTOR;
+// const DOWNSCALED_WIDTH =  SPECTRUM_WIDTH / DOWNSCALE_FACTOR;
+// const DOWNSCALED_HEIGHT = SPECTRUM_HEIGHT / DOWNSCALE_FACTOR;
 const defaultSpectrumColor = "#868aff";
 
 let shouldFuckOff = false;
