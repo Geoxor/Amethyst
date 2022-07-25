@@ -7,3 +7,4 @@ defineProps<{ text: string }>();
     {{ text }}
   </div>
 </template>
+  

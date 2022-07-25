@@ -24,6 +24,8 @@ if (process.env.NODE_ENV === "production")
 // if (isDebug)
 // import("electron-debug").then(electronDebug => electronDebug ());
 
+app.setAppUserModelId("Amethyst")
+
 if (!app.requestSingleInstanceLock()) {
 	app.quit();
 	process.exit(0);

@@ -61,9 +61,9 @@ const parseTitle = (path: string) => {
         @click="isHoldingControl ? invoke('show-item', [player.getQueue()[i]]) : player.setCurrentlyPlayingIndex(i)"
       >
         <!-- <cover class="inline align-top w-3 h-3" :song-path="song" /> -->
-        <img v-if="state.state.processQueue.has(song)" src="../spinners/spinner.gif" alt="" class="w-4 h-4 absolute -top-0.25 -left-0.5">
+        <img v-if="state.state.processQueue.has(song)" src="../spinners/spinner.gif" alt="" class="w-3 h-3 absolute top-0.25 -left-0.25">
 
-        <p :class="[state.state.processQueue.has(song) && 'ml-5']" class=" inline align-top text-xs max-w-40 overflow-hidden overflow-ellipsis ">
+        <p :class="[state.state.processQueue.has(song) && 'ml-4']" class=" inline align-top text-xs max-w-40 overflow-hidden overflow-ellipsis ">
           {{ i === player.getCurrentlyPlayingIndex() ? "⏵ " : "" }}{{ trimString(isHoldingAlt ? `${song.substring(0, (MAX_CHARS - 3) / 2)}...${song.substring(song.length - (MAX_CHARS - 3) / 2)}` : parseTitle(song), i === player.getCurrentlyPlayingIndex() ? MAX_CHARS - 2 : MAX_CHARS) }}
         </p>
       </li>

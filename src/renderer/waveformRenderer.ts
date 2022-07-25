@@ -50,6 +50,10 @@ export class WaveformRenderer {
 
     
     const tempBuffer = await this.fetchAudioBuffer(this.player.state.sound.src, offlineAudioCtx);
+    if (!tempBuffer) {
+      Promise.reject();
+      return;
+    }
     if (currentSound != this.player.state.sound) return;
 
     this.audioBuffer = tempBuffer;
