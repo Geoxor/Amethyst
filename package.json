@@ -131,6 +131,9 @@
           ]
         }
       ],
+      "asarUnpack": [
+        "**/node_modules/sharp/**"
+      ],
       "category": "Music"
     },
     "mac": {
