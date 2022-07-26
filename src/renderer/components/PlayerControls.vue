@@ -30,11 +30,11 @@ onMounted(() => {
     currentTime.value = `${player.currentTimeFormatted()} / ${player.currentDurationFormatted()}`;
   }, 500);
 
-  // waveformRenderer = new WaveformRenderer(player, '#waveformCanvas');
+  waveformRenderer = new WaveformRenderer(player, '#waveformCanvas');
 });
 
 onUnmounted(() => {
-  // waveformRenderer.clean();
+  waveformRenderer.clean();
 });
 
 </script>

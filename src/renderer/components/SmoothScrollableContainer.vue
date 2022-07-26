@@ -12,7 +12,7 @@ const smoothScrollableContainer = ref() as Ref<HTMLDivElement>;
 let sy = 0;
 let dy = sy;
 
-const DAMPING = 0.1;
+const DAMPING = 0.15;
 
 function render() {
   //We calculate our container position by linear interpolation method
