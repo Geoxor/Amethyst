@@ -16,6 +16,7 @@ export default class AppState {
 		bpmProcessQueue: 0,
 		coverCache: useLocalStorage<Record<string, string>>("cover-cache", {}),
 		bpmCache: useLocalStorage<Record<string, number>>("bpm-cache", {}),
+		waveformCache: useLocalStorage<Record<string, ImageBitmap>>("waveform-cache", {}),
 		defaultCover: "",
 		theme: useLocalStorage<string>("theme", "amethyst-light"),
 		lobbyId: undefined as string | undefined,
@@ -23,6 +24,7 @@ export default class AppState {
 
 	public coverArtCacheSize = computed(() => JSON.stringify(this.state.coverCache).length);
 	public bpmCacheSize = computed(() => JSON.stringify(this.state.bpmCache).length);
+	public waveformCacheSize = computed(() => JSON.stringify(this.state.waveformCache).length);
 	public isDev = computed(() => this.state.version.includes("DEV"));
 	public lobbySocket: WebSocket | undefined;
 

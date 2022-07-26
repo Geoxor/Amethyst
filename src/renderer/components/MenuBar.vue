@@ -58,8 +58,8 @@ const openPreferences = () => {
           />
           <menu-option
             :shortcuts="['CTRL', 'D', '+', 'F']"
-            :title="`Clear BPM cache (${bytesToHuman(state.bpmCacheSize.value)})`"
-            @click="state.state.bpmCache = {}"
+            :title="`Clear Waveform cache (${bytesToHuman(state.waveformCacheSize.value)})`"
+            @click="state.state.waveformCache = {}"
           />
           <menu-option
             :title="`Check for updates`"

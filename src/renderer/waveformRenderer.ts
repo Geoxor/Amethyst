@@ -24,7 +24,10 @@ export class WaveformRenderer {
     });
   }
 
-  private handlePlayAudio = async (metadata: IAudioMetadata) => {
+  private handlePlayAudio = async (metadata: { file: string } & IAudioMetadata) => {
+    const existingRender = this.player.appState.state.waveformCache[metadata.file];
+    if (existingRender) return this.drawImage(existingRender);
+
     const currentSound = this.player.state.sound;
     if (currentSound != this.player.state.sound) return;
     
@@ -47,36 +50,18 @@ export class WaveformRenderer {
     if (currentSound != this.player.state.sound) return;
 
     this.audioBuffer = tempBuffer;
-    await this.renderWaveform();
+    await this.renderWaveform(metadata.file);
   };
 
   private setCanvasSize = () => {
-    const parent = this.canvas.parentElement;
-    if (parent) {
-      const { width, height } = parent.getBoundingClientRect();
-      this.canvas.width = width * 3;
-      this.canvas.height = height * 3;
-    }
-  };
-
-  private waitForLoadedData = async (audio: HTMLAudioElement) => {
-    const loaded = new Promise<void>((resolve) => {
-      const resolver = () => {
-        audio.removeEventListener('loadeddata', resolver);
-        resolve();
-      }
-      audio.addEventListener('loadeddata', resolver);
-    });
-
-    await loaded;
+    this.canvas.width = 3840;
+    this.canvas.height = 128;
   };
 
   private fetchAudioBuffer = (src: string, offlineAudioCtx: OfflineAudioContext): Promise<AudioBuffer> => {
     const source = offlineAudioCtx.createBufferSource();
     const request = new XMLHttpRequest();
-
     request.open('GET', src, true);
-
     request.responseType = 'arraybuffer';
 
     return new Promise<AudioBuffer>((resolve, reject) => {
@@ -100,11 +85,9 @@ export class WaveformRenderer {
     })
   };
 
-  private renderWaveform = async () => {
+  private renderWaveform = async (filePath: string) => {
     return new Promise<void>((resolve, reject) => {
       this.setCanvasSize();
-      const ctx = this.canvas.getContext('2d');
-      ctx?.clearRect(0, 0, this.canvas.width, this.canvas.height);
       const backCanvas = document.createElement('canvas');
       backCanvas.width = this.canvas.width;
       backCanvas.height = this.canvas.height;
@@ -127,13 +110,11 @@ export class WaveformRenderer {
         reject();
       }
       
-      this.currentWorker = new Worker("waveformRenderWorker.ts");
+      this.currentWorker = new Worker("./workers/waveformRenderWorker.ts");
       this.currentWorker.postMessage({ canvas: offscreen, audioData }, [offscreen])
-
-      // TODO: cache the analysis FFT data
       this.currentWorker.onmessage = ({data}) => {
-        ctx?.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        ctx?.drawImage(data, 0, 0);
+        this.drawImage(data);
+        this.player.appState.state.waveformCache[filePath] = data;
         this.currentWorker = null;
         resolve();
       };
@@ -143,4 +124,10 @@ export class WaveformRenderer {
   public clean = () => {
     this.player.off('metadata');
   };
+
+  public drawImage = (data: ImageBitmap) => {
+    const ctx = this.canvas.getContext('2d')!;
+    ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    ctx.drawImage(data, 0, 0);
+  }
 }
