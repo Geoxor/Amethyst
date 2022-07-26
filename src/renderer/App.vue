@@ -2,10 +2,13 @@
 import MenuBar from "./components/MenuBar.vue";
 // This starter template is using Vue 3 <script setup> SFCs
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
+
+// Disable stupid scroll when hitting space
+window.addEventListener('keydown',  (e) => e.key === " " && e.target == document.body && e.preventDefault());
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex fixed flex-col">
     <menu-bar />
     <router-view /> 
   </div>
@@ -19,6 +22,10 @@ import MenuBar from "./components/MenuBar.vue";
 
 html, body, #app, #app > div {
   @apply h-full w-full ;
+}
+
+body::-webkit-scrollbar {
+  display: none;
 }
 
 *::-webkit-scrollbar {

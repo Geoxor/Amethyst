@@ -2,14 +2,15 @@
 import { useKeyModifier } from "@vueuse/core";
 import { ref } from "vue";
 import { usePlayer, useState } from "../amethyst";
-import { BPM_COMPUTATION_CONCURRENCY, COVERART_RENDERING_CONCURRENCY } from "../state";
+import SmoothScrollableContainer from "./SmoothScrollableContainer.vue";
+
 const state = useState();
 const player = usePlayer();
 const isHoldingControl = useKeyModifier("Control");
 const isHoldingAlt = useKeyModifier("Alt");
 const filterText = ref("");
 const invoke = window.electron.ipcRenderer.invoke;
-const MAX_CHARS = 36;
+const MAX_CHARS = 37;
 
 const trimString = (string: string, trim: number) => {
   const NUMBER_OF_DOTS = 2;
@@ -26,48 +27,44 @@ const trimString = (string: string, trim: number) => {
   return string;
 };
 
+
 const parseTitle = (path: string) => {
   return path.substring(Math.max(path.lastIndexOf("\\"), path.lastIndexOf("/")) + 1);
 };
+
+
+
+
 </script>
 
 <template>
-    <ul class="w-full">
-      <Transition name="slide-fade">
-        <div v-if="state.state.coverProcessQueue > 0" class="flex w-full flex-col">
-          <p class="text-xs text-blue-400">
-            Processing Covers {{ state.state.coverProcessQueue }} / {{ COVERART_RENDERING_CONCURRENCY }}
-          </p>
+  <div class="flex-col p-2 items-center flex w-64">
+    <input v-model="filterText" type="text" class="border-2 z-30 w-full border-gray-400 indent-xs text-xs mb-2" placeholder="artists, title & format...">
 
-          <div class="mb-2 mt-0.5 w-full h-1px bg-gray-200" />
-        </div>
-      </Transition>
-      <Transition name="slide-fade">
-        <div v-if="state.state.bpmProcessQueue > 0" class="flex w-full flex-col">
-          <p class="text-xs text-yellow-400">
-            Analyzing BPM {{ state.state.bpmProcessQueue }} / {{ BPM_COMPUTATION_CONCURRENCY }}
-          </p>
-
-          <div class="mb-2 mt-0.5 w-full h-1px bg-gray-200" />
-        </div>
-      </Transition>
-
-      <input v-model="filterText" type="text" class="border-2 border-gray-400 indent-xs text-xs w-full mb-2" placeholder="artists, title & format...">
-
+    <smooth-scrollable-container class="fixed top-14">
       <!-- TODO: refactor this mess into a component -->
       <li
         v-for="([song, i]) of player.getQueue().map((song, i) => song.toLowerCase().includes(filterText.toLowerCase()) ? [song, i] : undefined).filter(song => !!song) as [string, number][]"
-        :key="song" :class="[isHoldingControl && 'control-hover', isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', i === player.getCurrentlyPlayingIndex() && 'text-queue-text-active']" class=" h-3 mb-0.5 hover:text-queue-text-hover relative select-none" @keypress.prevent
-        @click="isHoldingControl ? invoke('show-item', [player.getQueue()[i]]) : player.setCurrentlyPlayingIndex(i)"
-      >
+        :key="song"
+        :class="[isHoldingControl && 'control-hover', isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', i === player.getCurrentlyPlayingIndex() && 'text-queue-text-active']"
+        class="h-3 -ml-3 mb-0.5 max-w-56 hover:text-queue-text-hover list-none relative select-none" 
+        @keypress.prevent
+        @mousedown="isHoldingControl ? invoke('show-item', [player.getQueue()[i]]) : player.setCurrentlyPlayingIndex(i)">
         <!-- <cover class="inline align-top w-3 h-3" :song-path="song" /> -->
-        <img v-if="state.state.processQueue.has(song)" src="../spinners/spinner.gif" alt="" class="w-3 h-3 absolute top-0.25 -left-0.25">
+        <img v-if="state.state.processQueue.has(song)" src="../spinners/spinner.gif" alt=""
+          class="w-3 h-3 absolute top-0.25 -left-0.25">
 
-        <p :class="[state.state.processQueue.has(song) && 'ml-4']" class=" inline align-top text-xs max-w-40 overflow-hidden overflow-ellipsis ">
-          {{ i === player.getCurrentlyPlayingIndex() ? "⏵ " : "" }}{{ trimString(isHoldingAlt ? `${song.substring(0, (MAX_CHARS - 3) / 2)}...${song.substring(song.length - (MAX_CHARS - 3) / 2)}` : parseTitle(song), i === player.getCurrentlyPlayingIndex() ? MAX_CHARS - 2 : MAX_CHARS) }}
+        <p :class="[state.state.processQueue.has(song) && 'ml-4']"
+          class=" inline align-top text-xs max-w-40 overflow-hidden overflow-ellipsis ">
+          {{ i === player.getCurrentlyPlayingIndex() ? "⏵ " : "" }}{{ trimString(isHoldingAlt ? `${song.substring(0,
+              (MAX_CHARS - 3) / 2)}...${song.substring(song.length - (MAX_CHARS - 3) / 2)}` : parseTitle(song), i ===
+                player.getCurrentlyPlayingIndex() || state.state.processQueue.has(song) ? MAX_CHARS - 4 : MAX_CHARS)
+          }}
         </p>
       </li>
-    </ul>
+    </smooth-scrollable-container>
+  </div>
+
 </template>
 
 <style lang="postcss" scoped>
@@ -85,5 +82,6 @@ const parseTitle = (path: string) => {
   transform: translateY(-20px);
   opacity: 0;
 }
+
 </style>
 

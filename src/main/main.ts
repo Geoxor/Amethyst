@@ -21,10 +21,12 @@ export const APP_VERSION = app.isPackaged ? app.getVersion() : process.env.npm_p
 if (process.env.NODE_ENV === "production")
 	import("source-map-support").then(smc => smc.install());
 
-// if (isDebug)
+// if (isDebug) 
 // import("electron-debug").then(electronDebug => electronDebug ());
 
 app.setAppUserModelId("Amethyst")
+app.commandLine.appendSwitch('high-dpi-support', "1");
+app.commandLine.appendSwitch('force-device-scale-factor', "1");
 
 if (!app.requestSingleInstanceLock()) {
 	app.quit();

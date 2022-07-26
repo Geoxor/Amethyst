@@ -6,6 +6,7 @@ import Queue from "../components/Queue.vue";
 import Tag from "../components/Tag.vue";
 import Spectrum from "../components/Spectrum.vue";
 import PlayerControls from "../components/PlayerControls.vue";
+// import SmoothScrollableContainer from "../components/SmoothScrollableContainer.vue";
 // import SocialBar from "../components/SocialBar.vue";
 
 const invoke = window.electron.ipcRenderer.invoke;
@@ -48,11 +49,8 @@ function calculateStars(metadata: IAudioMetadata) {
 </script>
 
 <template>
-  <div class="flex h-[calc(100%-24px)] text-queue-text bg-queue-background font-cozette main">
-    <div
-      class="min-w-64 max-w-64 p-2 pb-4 flex flex-col h-full text-queue-text bg-queue-background font-cozette overflow-hidden overflow-y-auto">
-      <queue />
-    </div>
+  <div class="flex  h-[calc(100%-24px)] text-queue-text bg-queue-background font-cozette main">
+    <queue />
     <div class="h-full flex w-full bg-white flex-col overflow-x-auto flex-1">
       <player-controls />
 

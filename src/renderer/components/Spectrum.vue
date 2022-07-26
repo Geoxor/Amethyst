@@ -12,7 +12,7 @@ const VERTICAL_ZOOM_FACTOR = 1.5;
 // const DOWNSCALED_HEIGHT = SPECTRUM_HEIGHT / DOWNSCALE_FACTOR;
 const defaultSpectrumColor = "#868aff";
 
-let shouldFuckOff = false;
+let shouldStopRendering = false;
 
 const getLogIndex = (value: number, min: number, max: number) => {
 	const exp = value / min / (max - min);
@@ -97,13 +97,13 @@ onMounted(() => {
 		// canvasCtx.value.clearRect(0, 0, DOWNSCALED_WIDTH, DOWNSCALED_HEIGHT); 
 
 
-		!shouldFuckOff && requestAnimationFrame(draw);
+		!shouldStopRendering && requestAnimationFrame(draw);
 	}
 
 	draw();
 });
 
-onUnmounted(() => shouldFuckOff = true);
+onUnmounted(() => shouldStopRendering = true);
 </script>
 
 <template>
