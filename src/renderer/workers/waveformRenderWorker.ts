@@ -19,6 +19,7 @@ function render(canvas: HTMLCanvasElement, audioData: Float32Array): ImageBitmap
 
   let x = 0;
   let y = 0;
+  // TODO: cache these vectors as tuples [[x, y], [x, y], [x, y]] to turn them to SVGs
   for (let i = 0; (i < audioData.length || stopRender); i++) {
     y = (audioData[i] * (canvas.height / 2)) + (canvas.height / 2);
     x = (i / audioData.length) * canvas.width;
