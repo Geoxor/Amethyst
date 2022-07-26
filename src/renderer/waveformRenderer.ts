@@ -1,6 +1,5 @@
-import { useState } from "./amethyst";
+import { IAudioMetadata } from "music-metadata";
 import Player from "./player";
-
 
 export class WaveformRenderer {
   public canvas: HTMLCanvasElement;
@@ -16,31 +15,23 @@ export class WaveformRenderer {
     this.audioCtx = new AudioContext();
     this.audioBuffer = null;
     this.currentWorker = null;
-    const state = useState();
 
-    this.player.on('play', async (filePath) => {
+    this.player.on('metadata', async (metadata) => {
+      this.player.appState.state.processQueue.add(metadata.file);
       // TODO: refactor this system so amethyst automatically determines when processing has finished from child plugins
-      state.state.processQueue.add(filePath);
-  
-      try {
-        await this.handlePlayAudio()
-      } catch (error) {
-        console.log(`Failed to render waveform for audio: ${filePath}`);
-      } 
-
-      state.state.processQueue.delete(filePath);
+      await this.handlePlayAudio(metadata);
+      this.player.appState.state.processQueue.delete(metadata.file);
     });
   }
 
-  private handlePlayAudio = async () => {
+  private handlePlayAudio = async (metadata: IAudioMetadata) => {
     const currentSound = this.player.state.sound;
-    await this.waitForLoadedData(currentSound);
-
     if (currentSound != this.player.state.sound) return;
     
-    const channels = this.player.state.source?.channelCount ?? 1;
-    const duration = this.player.state.currentlyPlayingMetadata?.format.duration ?? 1;
-    const sampleRate = this.player.state.currentlyPlayingMetadata?.format.sampleRate ?? 1;
+    const channels = metadata.format.numberOfChannels ?? 2;
+    const duration = metadata.format.duration ?? 1;
+    const sampleRate = this.player.state.source?.context.sampleRate ?? 44100;
+
 
     const offlineAudioCtx = new OfflineAudioContext({
       numberOfChannels: channels,
@@ -48,7 +39,6 @@ export class WaveformRenderer {
       sampleRate
     });
 
-    
     const tempBuffer = await this.fetchAudioBuffer(this.player.state.sound.src, offlineAudioCtx);
     if (!tempBuffer) {
       Promise.reject();
@@ -64,8 +54,8 @@ export class WaveformRenderer {
     const parent = this.canvas.parentElement;
     if (parent) {
       const { width, height } = parent.getBoundingClientRect();
-      this.canvas.width = width;
-      this.canvas.height = height;
+      this.canvas.width = width * 3;
+      this.canvas.height = height * 3;
     }
   };
 
@@ -136,7 +126,7 @@ export class WaveformRenderer {
         this.currentWorker.terminate();
         reject();
       }
-  
+      
       this.currentWorker = new Worker("waveformRenderWorker.ts");
       this.currentWorker.postMessage({ canvas: offscreen, audioData }, [offscreen])
 
@@ -151,6 +141,6 @@ export class WaveformRenderer {
   };
 
   public clean = () => {
-    this.player.off('play', this.handlePlayAudio);
+    this.player.off('metadata');
   };
 }

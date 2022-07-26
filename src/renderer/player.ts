@@ -17,6 +17,7 @@ export const secondsHuman = (time: number) => {
 
 export const Events = Object.freeze({
 	"play": "" as string,
+	"metadata": {} as { file: string } & IAudioMetadata,
 	"pause": undefined,
 	"setVolume": 0 as number,
 	"seekTo": 0 as number,
@@ -35,6 +36,7 @@ export default class Player {
 		source: null as null | MediaElementAudioSourceNode,
 		currentlyPlayingMetadata: null as null | IAudioMetadata,
 		currentlyPlayingFilePath: useLocalStorage<string>("currentlyPlayingFilePath", ""),
+
 		queue: useLocalStorage<Set<string>>("queue", new Set()),
 		currentlyPlayingIndex: -1,
 		volume: useLocalStorage<number>("volume", 1),
@@ -97,6 +99,7 @@ export default class Player {
 		this.electron.invoke<IAudioMetadata>("get-metadata", [path]).then(
 			(data) => {
 				this.state.currentlyPlayingMetadata = data;
+				this.emit("metadata", {file: path, ...data});
 			});
 
 		this.state.source = this.state.ctx.createMediaElementSource(this.state.sound);
