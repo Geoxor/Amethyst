@@ -8,31 +8,31 @@ const route = useRoute();
 </script>
   
 <template>
-  <div class="flex no-drag">
-    <button class="controlButton text-control-minimize-icon cursor-pointer hover:bg-control-minimize-background-hover" @click="electron.minimize(route.name as string)">
+  <div class="flex no-drag cursor-pointer">
+    <button @click="electron.minimize(route.name as string)">
       <i-fluency-minimize />
     </button>
 
-    <button v-if="!state.state.isMaximized" class="controlButton text-control-maximize-icon cursor-pointer hover:bg-control-maximize-background-hover" @click="electron.maximize(route.name as string)">
+    <button v-if="!state.state.isMaximized" @click="electron.maximize(route.name as string)">
       <i-fluency-maximize />
     </button>
 
-    <button v-if="state.state.isMaximized" class="controlButton text-control-maximize-icon cursor-pointer hover:bg-control-maximize-background-hover" @click="electron.unmaximize(route.name as string)">
+    <button v-if="state.state.isMaximized" @click="electron.unmaximize(route.name as string)">
       <i-fluency-shrink />
     </button>
 
-    <button class="controlButton text-control-close-icon cursor-pointer hover:bg-control-close-background-hover active:text-control-close-icon-hover hover:text-control-close-icon-hover active:bg-secondary" @click="electron.close(route.name as string)">
+    <button @click="electron.close(route.name as string)">
       <i-fluency-x />
     </button>
   </div>
 </template>
 
 <style scoped lang="postcss">
-.controlButton {
-  @apply h-full fill-current flex items-center justify-center py-1.5 px-4 text-sm;
+button {
+  @apply h-full fill-current flex items-center justify-center py-1.5 px-4 text-white hover:bg-primary active:bg-secondary;
 
   svg {
-    @apply w-3 h-3;
+    @apply w-4 h-4;
   }
 }
 </style>

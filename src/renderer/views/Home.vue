@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import type { IAudioMetadata } from "music-metadata";
-import { computed } from "vue";
+import { computed, ref } from "vue";
 import { usePlayer, useState } from "../amethyst";
 import Queue from "../components/Queue.vue";
 import Tag from "../components/Tag.vue";
 import Spectrum from "../components/Spectrum.vue";
 import PlayerControls from "../components/PlayerControls.vue";
+import NavigationBar from "../components/NavigationBar.vue";
+import NavigationButton from "../components/NavigationButton.vue";
+import SettingsIcon from "../icons/Settings.vue";
+import Settings from "../components/Settings.vue";
 // import SmoothScrollableContainer from "../components/SmoothScrollableContainer.vue";
 // import SocialBar from "../components/SocialBar.vue";
 
@@ -13,6 +17,8 @@ const invoke = window.electron.ipcRenderer.invoke;
 const state = useState();
 const player = usePlayer();
 const metadata = computed(() => player.state.currentlyPlayingMetadata);
+
+const isShowingSettings = ref(false);
 
 const cover = computed(() => {
   if (!metadata.value?.common?.picture?.[0])
@@ -49,9 +55,15 @@ function calculateStars(metadata: IAudioMetadata) {
 </script>
 
 <template>
-  <div class="flex  h-[calc(100%-24px)] text-queue-text bg-queue-background font-cozette main">
+  <div class="flex  h-[calc(100%-24px)] text-white bg-[#0D0D0D] font-cozette main">
+    <navigation-bar>
+      <navigation-button :icon="SettingsIcon" :active="isShowingSettings" @click="isShowingSettings = !isShowingSettings" />
+    </navigation-bar>
+    <transition>
+      <settings v-if="isShowingSettings"/>
+    </transition>
     <queue />
-    <div class="h-full flex w-full bg-white flex-col overflow-x-auto flex-1">
+    <div class="h-full flex w-full flex-col overflow-x-auto flex-1">
       <player-controls />
 
       <!-- <div class="flex bg-black w-full h-1/3" /> -->
@@ -110,6 +122,17 @@ function calculateStars(metadata: IAudioMetadata) {
 <style lang="postcss" scoped>
 a {
   @apply text-[#42b983];
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: 300ms ease;
+  @apply w-64;
+}
+
+.v-enter-from,
+.v-leave-to {
+  @apply w-0;
 }
 
 .cover:hover {

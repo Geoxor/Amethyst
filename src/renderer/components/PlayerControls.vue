@@ -45,7 +45,7 @@ onUnmounted(() => {
       <canvas id="waveformCanvas" class="w-full h-full absolute"></canvas>
       <input
         v-model="player.state.sound.currentTime" class="w-full z-10 opacity-50" min="0" :max="duration" step="0.01"
-        type="range" @wheel="handleSeekMouseScroll"
+        type="range" @wheel.stop="handleSeekMouseScroll"
       >
     </div>
     <h1 class=" whitespace-nowrap text-sm">

@@ -12,7 +12,7 @@ const smoothScrollableContainer = ref() as Ref<HTMLDivElement>;
 let sy = 0;
 let dy = sy;
 
-const DAMPING = 0.15;
+const DAMPING = 0.075;
 
 function render() {
   //We calculate our container position by linear interpolation method
@@ -29,8 +29,8 @@ function li(a: number, b: number, n: number) {
   return (1 - n) * a + n * b;
 }
 
-function easeScroll() {
-  sy = window.pageYOffset;
+function easeScroll(e: WheelEvent) {
+  sy = sy + (e.deltaY / 2);
 }
 
 onMounted(() => {
@@ -41,7 +41,7 @@ onMounted(() => {
   body.style.height = smoothScrollableContainer.value.clientHeight + 'px';
 
   // Bind a scroll function
-  window.addEventListener('scroll', easeScroll);
+  window.addEventListener('wheel', easeScroll);
   window.requestAnimationFrame(render);
 })
 

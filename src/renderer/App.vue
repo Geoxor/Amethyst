@@ -50,6 +50,10 @@ body::-webkit-scrollbar {
   @apply fixed top-0 left-0 z-0 w-full h-full;
 }
 
+.borderRight {
+  @apply border-1 border-r-[#202020] border-t-transparent border-b-transparent border-l-transparent;
+}
+
 .drag {
   -webkit-app-region: drag;
 }

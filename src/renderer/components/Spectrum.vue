@@ -107,7 +107,7 @@ onUnmounted(() => shouldStopRendering = true);
 </script>
 
 <template>
-  <div class="w-min flex bg-spectrum-background flex-col">
+  <div class="w-min flex flex-col">
     <canvas
       id="spectrum"
       ref="spectrum"
