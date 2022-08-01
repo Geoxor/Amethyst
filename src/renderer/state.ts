@@ -22,6 +22,12 @@ export default class AppState {
 		lobbyId: undefined as string | undefined,
 	});
 
+	public settings = useLocalStorage("settings", {
+		useLogarithmicSpectrum: true,
+		showInstantDecibelValues: false,
+		showAverageDecibelValues: false,
+	}).value;
+
 	public coverArtCacheSize = computed(() => JSON.stringify(this.state.coverCache).length);
 	public bpmCacheSize = computed(() => JSON.stringify(this.state.bpmCache).length);
 	public waveformCacheSize = computed(() => JSON.stringify(this.state.waveformCache).length);

@@ -54,7 +54,7 @@ export class WaveformRenderer {
   };
 
   private setCanvasSize = () => {
-    this.canvas.width = 3840;
+    this.canvas.width = 3840 / 2;
     this.canvas.height = 128;
   };
 

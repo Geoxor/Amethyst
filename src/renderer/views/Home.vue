@@ -90,7 +90,7 @@ function calculateStars(metadata: IAudioMetadata) {
                         + 1)
                   }}
                 </h1>
-                <h2 class=" text-black text-opacity-75 text-[16px] ">
+                <h2 class=" text-white text-opacity-75 text-[16px] ">
                   {{ metadata?.common.artists?.join(" & ") }}
                 </h2>
                 <h1 v-if="metadata" class="whitespace-nowrap"

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, ComputedRef } from "@vue/reactivity";
+import { useState } from "../amethyst";
 import { onMounted, onUnmounted } from "vue";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
 const SPECTRUM_WIDTH = 500;
@@ -11,7 +12,7 @@ const VERTICAL_ZOOM_FACTOR = 1.5;
 // const DOWNSCALED_WIDTH =  SPECTRUM_WIDTH / DOWNSCALE_FACTOR;
 // const DOWNSCALED_HEIGHT = SPECTRUM_HEIGHT / DOWNSCALE_FACTOR;
 const defaultSpectrumColor = "#868aff";
-
+const state = useState();
 let shouldStopRendering = false;
 
 const getLogIndex = (value: number, min: number, max: number) => {
@@ -69,17 +70,17 @@ onMounted(() => {
 	function draw() {
 		const bufferLength = analyser.frequencyBinCount;
 		const dataArray = new Uint8Array(bufferLength);
- 
+
 		canvasCtx.value?.clearRect(0, 0, screen.width, screen.height);
 		analyser.getByteFrequencyData(dataArray);
 
-		const logArray = transformLogarithmic(dataArray);
-		const barWidth = SPECTRUM_WIDTH / logArray.length;
-		const tiltOffset = TILT_MULTIPLIER * logArray.length;
+		const points = state.settings.useLogarithmicSpectrum ? transformLogarithmic(dataArray) : dataArray;
+		const barWidth = SPECTRUM_WIDTH / points.length;
+		const tiltOffset = TILT_MULTIPLIER * points.length;
 
-		for (let i = 0; i < logArray.length; i++) {
+		for (let i = 0; i < points.length; i++) {
 			const tilt = (i * TILT_MULTIPLIER) - tiltOffset;
-			const x = logArray[i] * VERTICAL_ZOOM_FACTOR;
+			const x = points[i] * VERTICAL_ZOOM_FACTOR;
 			const barHeight = ((x + tilt) / 255 * SPECTRUM_HEIGHT);
 			canvasCtx.value.fillRect(i * barWidth, SPECTRUM_HEIGHT - barHeight, 1, barHeight);
 		}
@@ -107,13 +108,8 @@ onUnmounted(() => shouldStopRendering = true);
 </script>
 
 <template>
-  <div class="w-min flex flex-col">
-    <canvas
-      id="spectrum"
-      ref="spectrum"
-      :width="SPECTRUM_WIDTH"
-      :height="SPECTRUM_HEIGHT"
-    />
-  </div>
+	<div class="w-min flex flex-col">
+		<canvas id="spectrum" ref="spectrum" :width="SPECTRUM_WIDTH" :height="SPECTRUM_HEIGHT" />
+	</div>
 </template>
 

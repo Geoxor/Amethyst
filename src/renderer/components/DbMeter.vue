@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { usePlayer } from "../amethyst";
+import { usePlayer, useState } from "../amethyst";
 import { onMounted, onUnmounted, ref, computed } from "vue";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
-
+const state = useState();
 const FLOOR = -60;
 const RANGE = 30;
 const FFT_SIZE = 2048 * 2;
@@ -58,7 +58,7 @@ onMounted(() => {
 				// Average
 				sumOfSquares[k] += powers[k];
 				// Instantenious
-				peaks [k] = Math.max(peaks[k], powers[k]);
+				peaks[k] = Math.max(peaks[k], powers[k]);
 			}
 		}
 
@@ -82,15 +82,25 @@ onUnmounted(() => shouldFuckOff = true);
 </script>
 
 <template>
-  <div class="relative bg-meter-instantaneous min-w-40 transform -translate-y-1.75">
-		<div v-for="i of metadata?.format.numberOfChannels" :key="i" class="text-xs absolute h-1.5 w-full" :style="`top: ${8 * i - 8}px;`">
-		<!-- {{channel[1].value}} -->
-		  <div class="bg absolute  top-0 bg-meter-background h-1.5 w-full" />
-			<div class="clipping absolute  top-0 right-0 bg-meter-background-clipping h-1.5 w-10/100" />
+	<div class="relative bg-meter-instantaneous min-w-40 transform -translate-y-1.75">
+		<div v-for="i of metadata?.format.numberOfChannels" :key="i" class="text-xs absolute h-1.5 w-full"
+			:style="`top: ${8 * i - 8}px;`">
+			<div class="bg absolute  top-0 bg-[#202020] h-1.5 w-full" />
+			<div class="clipping absolute  top-0 right-0 bg-[#202020]-clipping h-1.5 w-10/100" />
 
-			<div :class="channels[i - 1][0].value > 0 ? 'bg-meter-instantaneous-clipping' : 'bg-meter-instantaneous'" class="transition-all duration-100 absolute top-0  h-1.5" :style="`width: ${computedWidth(channels[i - 1][0].value)}%`" />
-			<div :class="channels[i - 1][1].value > 0 ? 'bg-meter-average-clipping' : 'bg-meter-average'" class="absolute top-0  h-1.5" :style="`width: ${computedWidth(channels[i - 1][1].value)}%`" />
+			<div class="font-aseprite text-7px z-30 absolute flex gap-1">
+				<p v-if="state.settings.showAverageDecibelValues">{{ channels[i - 1][1].value.toFixed(2) }} dB
+				</p>
+				<p v-if="state.settings.showInstantDecibelValues">{{ channels[i - 1][0].value.toFixed(2) }} dB
+				</p>
+			</div>
+
+			<div :class="channels[i - 1][0].value > 0 ? 'bg-meter-instantaneous-clipping' : 'bg-meter-instantaneous'"
+				class="transition-all duration-100 absolute top-0  h-1.5"
+				:style="`width: ${computedWidth(channels[i - 1][0].value)}%`" />
+			<div :class="channels[i - 1][1].value > 0 ? 'bg-meter-average-clipping' : 'bg-meter-average'"
+				class="absolute top-0  h-1.5" :style="`width: ${computedWidth(channels[i - 1][1].value)}%`" />
 		</div>
-  </div>
+	</div>
 </template>
 

@@ -32,7 +32,7 @@ button {
   @apply h-full fill-current flex items-center justify-center py-1.5 px-4 text-white hover:bg-primary active:bg-secondary;
 
   svg {
-    @apply w-4 h-4;
+    @apply w-3 h-3;
   }
 }
 </style>

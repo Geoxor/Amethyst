@@ -3,8 +3,8 @@ defineProps<{ text: string }>();
 </script>
 
 <template>
-  <div class="bg-tag-background text-[12px] font-cozette rounded-4px px-2 py-1 text-tag-text">
-    {{ text }}
+  <div class="bg-white text-black text-12px px-2 py-1">
+    <p>{{ text }}</p>
   </div>
 </template>
   

@@ -6,8 +6,17 @@
   src: url("../../assets/fonts/cozette-vector.ttf");
 }
 
+@font-face {
+  font-family: "aseprite";
+  src: url("../../assets/fonts/aseprite-remix.ttf");
+}
+
 .font-cozette {
   font-family: "cozette-vector";
+}
+
+.font-aseprite {
+  font-family: "aseprite";
 }
 
 * {
