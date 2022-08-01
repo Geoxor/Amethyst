@@ -2,7 +2,7 @@
   "name": "amethyst",
   "author": "amethyst <geoxor123@outlook.com>",
   "productName": "Amethyst",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "main": "./release/dist/main/main.js",
   "licenses": [
     {
@@ -202,8 +202,8 @@
     "chalk": "^4.1.2",
     "concurrently": "^7.1.0",
     "cross-env": "^7.0.3",
-    "electron": "^18.0.1",
-    "electron-builder": "^23.0.3",
+    "electron": "^19.0.10",
+    "electron-builder": "^5.5.0",
     "electron-devtools-installer": "^3.2.0",
     "electron-notarize": "^1.2.1",
     "electron-rebuild": "^3.2.7",
