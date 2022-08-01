@@ -21,4 +21,4 @@ winget install amethyst
 - Quality-based scoring system
 
 ## Screenshots
-![Amethyst](https://cdn.discordapp.com/attachments/845328432715923487/977813861535215616/unknown.png)
+![Amethyst](https://cdn.discordapp.com/attachments/755597803102928966/1003459286959140994/unknown.png)
