@@ -30,7 +30,7 @@ function li(a: number, b: number, n: number) {
 }
 
 function easeScroll(e: WheelEvent) {
-  sy = sy + (e.deltaY / 2);
+  sy = Math.max(0, sy + (e.deltaY / 2));
 }
 
 onMounted(() => {
@@ -50,8 +50,6 @@ onMounted(() => {
 </script>
 
 <style scoped lang="postcss">
-
-
 ::-webkit-scrollbar {
   width: 0 !important;
 }
