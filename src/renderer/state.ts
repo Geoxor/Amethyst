@@ -26,6 +26,9 @@ export default class AppState {
 		useLogarithmicSpectrum: true,
 		showInstantDecibelValues: false,
 		showAverageDecibelValues: false,
+		spectrumVerticalZoom: 1.5,
+		spectrumFftSize: 8192,
+		spectrumSmoothing: 0.5,
 	}).value;
 
 	public coverArtCacheSize = computed(() => JSON.stringify(this.state.coverCache).length);

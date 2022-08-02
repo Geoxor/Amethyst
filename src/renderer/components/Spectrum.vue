@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { computed, ComputedRef } from "@vue/reactivity";
 import { useState } from "../amethyst";
-import { onMounted, onUnmounted } from "vue";
+import { onMounted, onUnmounted, watch } from "vue";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
 const SPECTRUM_WIDTH = 500;
 const SPECTRUM_HEIGHT = 150;
 // const DOWNSCALE_FACTOR = 7;
 const TILT_MULTIPLIER = 0.005; // 3dB/octave
-const FFT_SIZE = 8192;
-const VERTICAL_ZOOM_FACTOR = 1.5;
+
 // const DOWNSCALED_WIDTH =  SPECTRUM_WIDTH / DOWNSCALE_FACTOR;
 // const DOWNSCALED_HEIGHT = SPECTRUM_HEIGHT / DOWNSCALE_FACTOR;
 const defaultSpectrumColor = "#868aff";
@@ -41,10 +40,16 @@ onMounted(() => {
 	const context = props.node.context;
 	const gain = context.createGain();
 	const analyser = context.createAnalyser();
-	analyser.fftSize = FFT_SIZE;
-	analyser.smoothingTimeConstant = 0.5;
+	analyser.fftSize = state.settings.spectrumFftSize;
+	analyser.smoothingTimeConstant = state.settings.spectrumSmoothing;
+
+	// Don't change these
 	analyser.maxDecibels = 30;
 	analyser.minDecibels = -120;
+
+	// Updates the FFT size whenever it changes in the settings in real time
+	watch(() => state.settings.spectrumFftSize, () => analyser.fftSize = state.settings.spectrumFftSize)
+	watch(() => state.settings.spectrumSmoothing, () => analyser.smoothingTimeConstant = state.settings.spectrumSmoothing)
 
 	props.node.connect(gain);
 	// Raising the gain into the analyzer to compensate for the tilt bottom end loss
@@ -80,7 +85,7 @@ onMounted(() => {
 
 		for (let i = 0; i < points.length; i++) {
 			const tilt = (i * TILT_MULTIPLIER) - tiltOffset;
-			const x = points[i] * VERTICAL_ZOOM_FACTOR;
+			const x = points[i] * state.settings.spectrumVerticalZoom;
 			const barHeight = ((x + tilt) / 255 * SPECTRUM_HEIGHT);
 			canvasCtx.value.fillRect(i * barWidth, SPECTRUM_HEIGHT - barHeight, 1, barHeight);
 		}

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center gap-2 text-[#505050] whitespace-nowrap">
+  <div class="flex items-center gap-2 text-[#505050]">
     <p>{{ text }}</p>
     <div class="h-1px w-full bg-current"></div>
     <component v-if="icon" :is="icon" class="min-w-4" />
