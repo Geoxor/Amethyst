@@ -88,7 +88,7 @@ onUnmounted(() => shouldFuckOff = true);
 			<div class="bg absolute  top-0 bg-[#202020] h-1.5 w-full" />
 			<div class="clipping absolute  top-0 right-0 bg-[#202020]-clipping h-1.5 w-10/100" />
 
-			<div class="font-aseprite text-7px z-30 absolute flex gap-1">
+			<div class="font-small text-7px z-30 absolute flex gap-1">
 				<p v-if="state.settings.showAverageDecibelValues">{{ channels[i - 1][1].value.toFixed(2) }} dB
 				</p>
 				<p v-if="state.settings.showInstantDecibelValues">{{ channels[i - 1][0].value.toFixed(2) }} dB

@@ -29,6 +29,9 @@ export default class AppState {
 		spectrumVerticalZoom: 1.5,
 		spectrumFftSize: 8192,
 		spectrumSmoothing: 0.5,
+		smoothScrollSpeed: 0.075,
+	}, {
+		writeDefaults: true,
 	}).value;
 
 	public coverArtCacheSize = computed(() => JSON.stringify(this.state.coverCache).length);

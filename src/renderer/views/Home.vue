@@ -55,12 +55,13 @@ function calculateStars(metadata: IAudioMetadata) {
 </script>
 
 <template>
-  <div class="flex  h-[calc(100%-24px)] text-white bg-[#0D0D0D] font-cozette main">
+  <div class="flex  h-[calc(100%-24px)] text-white bg-[#0D0D0D] font-main main">
     <navigation-bar>
-      <navigation-button :icon="SettingsIcon" :active="isShowingSettings" @click="isShowingSettings = !isShowingSettings" />
+      <navigation-button :icon="SettingsIcon" :active="isShowingSettings"
+        @click="isShowingSettings = !isShowingSettings" />
     </navigation-bar>
     <transition>
-      <settings v-if="isShowingSettings"/>
+      <settings v-if="isShowingSettings" />
     </transition>
     <queue />
     <div class="h-full flex w-full flex-col overflow-x-auto flex-1">

@@ -15,7 +15,7 @@ const playPop = () => {
 
 <template>
   <div
-    class="bg-[#0D0D0D] borderBottom z-100 font-cozette drag text-12px select-none flex text-white justify-between items-center">
+    class="bg-[#0D0D0D] borderBottom z-100 font-main drag text-12px select-none flex text-white justify-between items-center">
     <div class="flex no-drag h-full items-center">
       <div class="logo px-3 cursor-heart-pointer" @click="playPop">
         <img v-if="state.isDev.value" src="../icon-dev.png">

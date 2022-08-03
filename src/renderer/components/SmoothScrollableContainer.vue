@@ -5,18 +5,18 @@
 </template>
 
 <script setup lang="ts">
+import { useState } from '../amethyst.js';
 import { onMounted, Ref, ref } from 'vue';
 const body = document.body;
 const smoothScrollableContainer = ref() as Ref<HTMLDivElement>;
+const state = useState();
 
 let sy = 0;
 let dy = sy;
 
-const DAMPING = 0.075;
-
 function render() {
   //We calculate our container position by linear interpolation method
-  dy = li(dy, sy, DAMPING);
+  dy = li(dy, sy, state.settings.smoothScrollSpeed);
 
   dy = ~~(dy * 100) / 100;
 

@@ -39,7 +39,8 @@ const parseTitle = (path: string) => {
 
 <template>
   <div class="flex-col p-2 items-center flex w-64 borderRight">
-    <input v-model="filterText" type="text" class="border-2 z-30 w-full border-gray-400 indent-xs text-xs mb-2" placeholder="artists, title & format...">
+    <input v-model="filterText" type="text" class="border-2 z-30 w-full border-gray-400 indent-xs text-xs mb-2"
+      placeholder="artists, title & format...">
 
     <smooth-scrollable-container class="fixed top-14">
       <!-- TODO: refactor this mess into a component -->
@@ -47,12 +48,10 @@ const parseTitle = (path: string) => {
         v-for="([song, i]) of player.getQueue().map((song, i) => song.toLowerCase().includes(filterText.toLowerCase()) ? [song, i] : undefined).filter(song => !!song) as [string, number][]"
         :key="song"
         :class="[isHoldingControl && 'control-hover', isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', i === player.getCurrentlyPlayingIndex() && 'text-queue-text-active']"
-        class="h-3 -ml-3 mb-1 max-w-56 hover:text-queue-text-hover list-none relative select-none" 
-        @keypress.prevent
+        class="h-3 -ml-3 mb-1 max-w-56 hover:text-queue-text-hover list-none relative select-none" @keypress.prevent
         @mousedown="isHoldingControl ? invoke('show-item', [player.getQueue()[i]]) : player.setCurrentlyPlayingIndex(i)">
 
-        <p 
-          class=" inline align-top text-12px max-w-40 overflow-hidden overflow-ellipsis ">
+        <p class="align-top text-12px overflow-hidden overflow-ellipsis whitespace-nowrap">
           {{ i === player.getCurrentlyPlayingIndex() ? "⏵ " : "" }}{{ trimString(isHoldingAlt ? `${song.substring(0,
               (MAX_CHARS - 3) / 2)}...${song.substring(song.length - (MAX_CHARS - 3) / 2)}` : parseTitle(song), i ===
                 player.getCurrentlyPlayingIndex() || state.state.processQueue.has(song) ? MAX_CHARS - 4 : MAX_CHARS)
@@ -79,6 +78,5 @@ const parseTitle = (path: string) => {
   transform: translateY(-20px);
   opacity: 0;
 }
-
 </style>
-
+ 

@@ -2,8 +2,18 @@
 @import url(themes/amethyst-dark.css);
 
 @font-face {
+  font-family: "roboto-mono";
+  src: url("../../assets/fonts/roboto-mono.ttf");
+}
+
+@font-face {
   font-family: "cozette-vector";
   src: url("../../assets/fonts/cozette-vector.ttf");
+}
+
+@font-face {
+  font-family: "ark-pixel";
+  src: url("../../assets/fonts/ark-pixel-10px-latin.ttf");
 }
 
 @font-face {
@@ -11,11 +21,11 @@
   src: url("../../assets/fonts/aseprite-remix.ttf");
 }
 
-.font-cozette {
-  font-family: "cozette-vector";
+.font-main {
+  font-family: "cozette-vector", "ark-pixel", "aseprite";
 }
 
-.font-aseprite {
+.font-small {
   font-family: "aseprite";
 }
 
