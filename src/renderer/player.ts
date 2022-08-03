@@ -4,6 +4,8 @@ import { reactive, watch } from "vue";
 import type ElectronEventManager from "./electronEventManager";
 import type AppState from "./state";
 import mitt from 'mitt';
+import { COVERART_RENDERING_CONCURRENCY } from "./state";
+import { AmetyhstNotification } from "./notification";
 
 export const ALLOWED_EXTENSIONS = ["ogg", "flac", "wav", "opus", "aac", "aiff", "mp3", "m4a"];
 
@@ -61,6 +63,8 @@ export default class Player {
 
 		// When the currently playing file path changes play the new file
 		watch(() => this.state.currentlyPlayingFilePath, () => this.loadSoundAndPlay(this.state.currentlyPlayingFilePath));
+
+		this.getCovers(Array.from(this.state.queue));
 	}
 
 	public static fisherYatesShuffle<T>(array: T[]) {
@@ -99,7 +103,7 @@ export default class Player {
 		this.electron.invoke<IAudioMetadata>("get-metadata", [path]).then(
 			(data) => {
 				this.state.currentlyPlayingMetadata = data;
-				this.emit("metadata", {file: path, ...data});
+				this.emit("metadata", { file: path, ...data });
 			});
 
 		this.state.source = this.state.ctx.createMediaElementSource(this.state.sound);
@@ -114,6 +118,21 @@ export default class Player {
 				return acc.concat(item);
 		}, [] as string[]);
 	}
+
+	public async getCovers(files: string[]): Promise<void> {
+		for (const file of files) {
+			if (this.appState.state.coverCache[file]) continue;
+			await this.getCoverArt(file);
+		}
+	}
+
+	public getCoverArt = async (path: string) => {
+		this.appState.state.coverCache[path] = await this.electron.invoke<string>("get-cover", [path]);
+		return new AmetyhstNotification({
+			title: "Cover Art Loaded",
+			body: `Cover art for ${path} has finished rendering`
+		})
+	};
 
 	public play() {
 		this.state.sound.play();
@@ -164,6 +183,7 @@ export default class Player {
 
 	public setQueue(files: string[]) {
 		this.state.queue = new Set(this.spreadArray(files));
+		this.getCovers(files);
 	}
 
 	public clearQueue() {

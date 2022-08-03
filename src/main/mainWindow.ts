@@ -20,7 +20,7 @@ const notifications = {
 			body: "The application will restart once the update is complete.",
 		}).show(),
 
-	showUpdateAvailableNotification: () => 
+	showUpdateAvailableNotification: () =>
 		new Notification({
 			icon: icon(),
 			title: "Amethyst Update Available",
@@ -103,7 +103,7 @@ export class MainWindow {
 
 	private setIpcEvents(): void {
 		Object.entries({
-			"test-notification": (_: Event, [notification]: string) => (notifications as {[key: string]: any})[notification](),
+			"test-notification": (_: Event, [notification]: string) => (notifications as { [key: string]: any })[notification](),
 			// Temporary fix
 			"minimize": (_: Event, [window]: string[]) => window === "preferences" ? this.preferencesWindow?.minimize() : this.window.minimize(),
 			// Temporary fix
@@ -195,8 +195,6 @@ export class MainWindow {
 	private async getCover(path: string): Promise<Buffer | undefined> {
 		const file = await fs.promises.readFile(path);
 		const meta = await mm.parseBuffer(file);
-
-		console.log(meta.common.picture);
 
 		return meta.common.picture?.[0].data;
 	}

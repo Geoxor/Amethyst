@@ -34,47 +34,45 @@ if (!app.requestSingleInstanceLock()) {
 }
 else {
 	app.whenReady()
-	.then(() => {
-		const mainWindow = new MainWindow();
+		.then(() => {
+			const mainWindow = new MainWindow();
 
-		app.on("window-all-closed", () => {
-			console.log("close");
-			// Respect the OSX convention of having the application in memory even
-			// after all windows have been closed
-			if (process.platform !== "darwin")
-				app.quit();
-		});
+			app.on("window-all-closed", () => {
+				// Respect the OSX convention of having the application in memory even
+				// after all windows have been closed
+				if (process.platform !== "darwin")
+					app.quit();
+			});
 
-		app.on("second-instance", (_event, argv) => {
-			console.log("second");
-			// Someone tried to run a second instance, we should focus our window.
-			if (mainWindow.window.isMinimized())
-				mainWindow.window.restore();
+			app.on("second-instance", (_event, argv) => {
+				// Someone tried to run a second instance, we should focus our window.
+				if (mainWindow.window.isMinimized())
+					mainWindow.window.restore();
 
-			mainWindow.playAudio(argv[2]);
-			mainWindow.window.focus();
-		});
+				mainWindow.playAudio(argv[2]);
+				mainWindow.window.focus();
+			});
 
-		if (IS_DEV) {
-			import("electron-devtools-installer").then(({
-				default: installExtension,
-				VUEJS3_DEVTOOLS,
-			}) => installExtension(VUEJS3_DEVTOOLS, {
-				loadExtensionOptions: {
-					allowFileAccess: true,
-				},
-			})).catch(error => console.error("Failed install extension:", error));
-		}
+			if (IS_DEV) {
+				import("electron-devtools-installer").then(({
+					default: installExtension,
+					VUEJS3_DEVTOOLS,
+				}) => installExtension(VUEJS3_DEVTOOLS, {
+					loadExtensionOptions: {
+						allowFileAccess: true,
+					},
+				})).catch(error => console.error("Failed install extension:", error));
+			}
 
-		mainWindow.show();
+			mainWindow.show();
 
-	}).catch(console.error);
+		}).catch(console.error);
 }
 
 
 
 if (!IS_DEV) {
-	app 
+	app
 		.whenReady()
 		.then(checkForUpdatesAndInstall)
 		.then(() => console.log("Updates installed"));

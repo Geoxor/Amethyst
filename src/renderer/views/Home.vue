@@ -8,18 +8,21 @@ import Spectrum from "../components/Spectrum.vue";
 import PlayerControls from "../components/PlayerControls.vue";
 import NavigationBar from "../components/NavigationBar.vue";
 import NavigationButton from "../components/NavigationButton.vue";
-import SettingsIcon from "../icons/Settings.vue";
-import Settings from "../components/Settings.vue";
+import SettingsIcon from "../icons/SettingsIcon.vue";
+import SettingsBar from "../components/SettingsBar.vue";
+import NotificationBar from "../components/NotificationBar.vue";
+import BellIcon from "../icons/BellIcon.vue";
 // import SmoothScrollableContainer from "../components/SmoothScrollableContainer.vue";
 // import SocialBar from "../components/SocialBar.vue";
-
 const invoke = window.electron.ipcRenderer.invoke;
 const state = useState();
 const player = usePlayer();
 const metadata = computed(() => player.state.currentlyPlayingMetadata);
 
 const isShowingSettings = ref(false);
+const isShowingNotifications = ref(false);
 
+const notifs = computed(() => state.state.notifications.length);
 const cover = computed(() => {
   if (!metadata.value?.common?.picture?.[0])
     return state.state.defaultCover;
@@ -57,11 +60,16 @@ function calculateStars(metadata: IAudioMetadata) {
 <template>
   <div class="flex  h-[calc(100%-24px)] text-white bg-[#0D0D0D] font-main main">
     <navigation-bar>
-      <navigation-button :icon="SettingsIcon" :active="isShowingSettings"
+      <navigation-button class="hover:animate-spin" :icon="SettingsIcon" :active="isShowingSettings"
         @click="isShowingSettings = !isShowingSettings" />
+      <navigation-button :notifs="notifs" :icon="BellIcon" :active="isShowingNotifications"
+        @click="isShowingNotifications = !isShowingNotifications" />
     </navigation-bar>
     <transition>
-      <settings v-if="isShowingSettings" />
+      <settings-bar v-if="isShowingSettings" />
+    </transition>
+    <transition>
+      <notification-bar v-if="isShowingNotifications" />
     </transition>
     <queue />
     <div class="h-full flex w-full flex-col overflow-x-auto flex-1">

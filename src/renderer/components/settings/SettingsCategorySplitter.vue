@@ -8,6 +8,6 @@
 </template>
 
 <script setup lang="ts">
-import Brush from '../../icons/Brush.vue';
+import Brush from '../../icons/BrushIcon.vue';
 defineProps<{ text: string, icon?: any }>();
 </script>

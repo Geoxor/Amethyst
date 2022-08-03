@@ -1,12 +1,14 @@
 import { useLocalStorage } from "@vueuse/core";
 import { computed, reactive } from "vue";
+import { AmetyhstNotification } from "./notification";
 
-export const OVERALL_CONCURRENCY = 3;
+export const OVERALL_CONCURRENCY = 5;
 export const COVERART_RENDERING_CONCURRENCY = ~~(OVERALL_CONCURRENCY / 2);
 export const BPM_COMPUTATION_CONCURRENCY = ~~(OVERALL_CONCURRENCY / 2);
 
 export default class AppState {
 	public state = reactive({
+		notifications: [] as AmetyhstNotification[],
 		allowedExtensions: [] as string[],
 		version: "",
 		isMinimized: false,
@@ -26,6 +28,7 @@ export default class AppState {
 		useLogarithmicSpectrum: true,
 		showInstantDecibelValues: false,
 		showAverageDecibelValues: false,
+		showMiniCovers: true,
 		spectrumVerticalZoom: 1.5,
 		spectrumFftSize: 8192,
 		spectrumSmoothing: 0.5,

@@ -28,7 +28,7 @@ const playPop = () => {
         <menu-splitter />
         <menu-option :shortcuts="['CTRL', 'SHIFT', 'X']" title="Clear Queue" @click="player.clearQueue()" />
       </Menu>
-      <Menu title="Settings">
+      <Menu title="Utility">
         <menu-option :shortcuts="['CTRL', 'D', '+', 'X']"
           :title="`Clear cover art cache (${bytesToHuman(state.coverArtCacheSize.value)})`"
           @click="state.state.coverCache = {}" />
