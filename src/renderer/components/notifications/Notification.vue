@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { AmetyhstNotification } from 'renderer/notification.js';
+import { AmetyhstNotification } from '../../notification.js';
 defineProps<{ notification: AmetyhstNotification }>();
 </script>
 
