@@ -83,7 +83,8 @@ function calculateStars(metadata: IAudioMetadata) {
               :src="cover">
             <div class="flex justify-between flex-col h-full gap-1">
               <div class="flex flex-col gap-2">
-                <h1 class=" text-[32px] hover:underline cursor-external-pointer "
+                <h1 v-if="player.state.currentlyPlayingFilePath"
+                  class=" text-[32px] hover:underline cursor-external-pointer "
                   @click="invoke('show-item', [player.state.currentlyPlayingFilePath])">
                   {{ metadata?.common.title
                       ||
