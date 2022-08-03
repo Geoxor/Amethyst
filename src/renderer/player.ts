@@ -130,7 +130,7 @@ export default class Player {
 		this.appState.state.coverCache[path] = await this.electron.invoke<string>("get-cover", [path]);
 		return new AmetyhstNotification({
 			title: "Cover Art Loaded",
-			body: `Cover art for ${path} has finished rendering`
+			body: `Cover art for <strong>${path}</strong> has finished rendering`
 		})
 	};
 
