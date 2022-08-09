@@ -146,6 +146,7 @@ export default class Player {
 		// Create a destination out of the context
 		const destination = this.state.ctx.createMediaStreamDestination();
 
+		// Connect the source to the destination
 		this.state.source.connect(destination);
 
 		// Create a new audio element that way we can change the audio output path
