@@ -2,10 +2,6 @@ import { useLocalStorage } from "@vueuse/core";
 import { computed, reactive } from "vue";
 import { AmetyhstNotification } from "./notification";
 
-export const OVERALL_CONCURRENCY = 5;
-export const COVERART_RENDERING_CONCURRENCY = ~~(OVERALL_CONCURRENCY / 2);
-export const BPM_COMPUTATION_CONCURRENCY = ~~(OVERALL_CONCURRENCY / 2);
-
 export default class AppState {
 	public state = reactive({
 		notifications: [] as AmetyhstNotification[],
@@ -55,7 +51,6 @@ export default class AppState {
 }
 
 // recursively goes through every file in the folder and flattens it
-
 export function bytesToHuman(bytes: number): string {
 	const sizes = ["B", "KB", "MB", "GB", "TB"];
 	if (bytes === 0)

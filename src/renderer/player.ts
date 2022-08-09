@@ -4,7 +4,6 @@ import { reactive, watch } from "vue";
 import type ElectronEventManager from "./electronEventManager";
 import type AppState from "./state";
 import mitt from 'mitt';
-import { COVERART_RENDERING_CONCURRENCY } from "./state";
 import { AmetyhstNotification } from "./notification";
 
 export const ALLOWED_EXTENSIONS = ["ogg", "flac", "wav", "opus", "aac", "aiff", "mp3", "m4a"];
