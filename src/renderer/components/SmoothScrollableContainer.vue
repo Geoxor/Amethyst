@@ -14,6 +14,10 @@ const wrapper = ref() as Ref<HTMLDivElement>;
 const smoothScrollableContainer = ref() as Ref<HTMLDivElement>;
 const state = useState();
 
+// Temporary fix cus otherwise we are 72px short
+// TODO: should use the parents height instead
+const MENU_CONTAINER_HEIGHT = 72
+
 let sy = 0;
 let dy = sy;
 
@@ -26,12 +30,30 @@ function render() {
   window.requestAnimationFrame(render);
 }
 
+onMounted(() => {
+  new ResizeObserver(() => {
+    sy = 0;
+    dy = sy;
+  }).observe(wrapper.value);
+})
+
 function li(a: number, b: number, n: number) {
   return (1 - n) * a + n * b;
 }
 
 function easeScroll(e: WheelEvent) {
-  sy = Math.max(0, sy + (e.deltaY / 2));
+  const delta = e.deltaY;
+
+  // only scroll if the container is taller than the window height
+  if (smoothScrollableContainer.value.offsetHeight > window.innerHeight + MENU_CONTAINER_HEIGHT) {
+    // check if reached the bottom of the container
+    if (sy + window.innerHeight >= smoothScrollableContainer.value.offsetHeight && delta > 0) {
+      sy = smoothScrollableContainer.value.offsetHeight - window.innerHeight + MENU_CONTAINER_HEIGHT;
+    }
+    else {
+      sy = Math.max(0, sy + (e.deltaY / 2));
+    }
+  }
 }
 
 onMounted(() => {
