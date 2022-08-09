@@ -161,13 +161,13 @@
     ],
     "publish": {
       "provider": "github",
-      "owner": "amethyst-px",
+      "owner": "Geoxor",
       "repo": "amethyst"
     }
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/amethyst-px/amethyst"
+    "url": "git+https://github.com/Geoxor/amethyst"
   },
   "contributors": [
     {
