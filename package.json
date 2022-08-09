@@ -28,6 +28,7 @@
     "start:renderer": "vite dev --config ./src/renderer/vite.config.js",
     "package": "rimraf ./release && npm run build && electron-builder build --publish never",
     "package:asarless": "npm run build && electron-builder build --config.asar=false",
+    "preinstall": "npm i -g electron-builder",
     "postinstall": "electron-builder install-app-deps",
     "lint": "eslint --ext .ts,.js,.vue"
   },
