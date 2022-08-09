@@ -20,19 +20,22 @@ export default class AppState {
 		lobbyId: undefined as string | undefined,
 	});
 
-	public settings = useLocalStorage("settings", {
+	public settingsObject = {
 		useLogarithmicSpectrum: true,
 		showInstantDecibelValues: false,
 		showAverageDecibelValues: false,
 		showMiniCovers: true,
+		showCoverArt: true,
 		spectrumVerticalZoom: 1.5,
 		spectrumFftSize: 8192,
 		spectrumSmoothing: 0.5,
+		showSpectrum: true,
+		showDbMeter: true,
 		smoothScrollSpeed: 0.075,
 		playOnStartup: false,
-	}, {
-		writeDefaults: true,
-	}).value;
+	};
+
+	public settings = useLocalStorage("settings", this.settingsObject, { writeDefaults: true }).value;
 
 	public coverArtCacheSize = computed(() => JSON.stringify(this.state.coverCache).length);
 	public bpmCacheSize = computed(() => JSON.stringify(this.state.bpmCache).length);
@@ -46,6 +49,11 @@ export default class AppState {
 
 	constructor() {
 		this.applyCurrentTheme();
+		Object.entries(this.settings).forEach(([key, value]) => {
+			if (value === undefined || value === null)
+				// @ts-ignore
+				this.settings[key] = this.settingsObject[key];
+		});
 	}
 }
 

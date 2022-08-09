@@ -86,7 +86,7 @@ function calculateStars(metadata: IAudioMetadata) {
 
         <div class="z-10 p-8 flex w-full flex-col">
           <div class="flex gap-8 items-end">
-            <img
+            <img v-if="state.settings.showCoverArt"
               class="w-48 h-48 cover transform transition duration-201 active:-translate-y-0 hover:-translate-y-1 cursor-pointer"
               :src="cover">
             <div class="flex justify-between flex-col h-full gap-1">
@@ -120,8 +120,8 @@ function calculateStars(metadata: IAudioMetadata) {
               </div>
             </div>
           </div>
-          <spectrum v-if="player.state.source" :key="player.state.currentlyPlayingFilePath" class="mt-8"
-            :node="player.state.source" />
+          <spectrum v-if="state.settings.showSpectrum && player.state.source"
+            :key="player.state.currentlyPlayingFilePath" class="mt-8" :node="player.state.source" />
         </div>
       </div>
     </div>
