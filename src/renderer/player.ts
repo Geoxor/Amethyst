@@ -150,7 +150,6 @@ export default class Player {
 
 		// Create a new audio element that way we can change the audio output path
 		this.state.outputAudio.srcObject = destination.stream;
-		this.state.outputAudio.play();
 
 		// Play the sound and handle playback
 		this.play();
@@ -187,6 +186,7 @@ export default class Player {
 	};
 
 	public play() {
+		this.state.outputAudio.play();
 		this.state.inputAudio.play();
 		this.state.isPlaying = true;
 		this.emit("play", this.state.currentlyPlayingFilePath);
