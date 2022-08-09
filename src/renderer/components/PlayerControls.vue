@@ -7,7 +7,7 @@ import DbMeter from "./DbMeter.vue";
 const player = usePlayer();
 const currentTime = ref("0");
 const timer = ref();
-const metadata = computed(() => player.state.currentlyPlayingMetadata );
+const metadata = computed(() => player.state.currentlyPlayingMetadata);
 const duration = computed(() => metadata.value?.format.duration || 0);
 let waveformRenderer: WaveformRenderer
 
@@ -43,10 +43,8 @@ onUnmounted(() => {
   <div class="flex p-1 gap-2 items-center">
     <div class="w-full h-full relative flex">
       <canvas id="waveformCanvas" class="w-full h-full absolute"></canvas>
-      <input
-        v-model="player.state.sound.currentTime" class="w-full z-10 opacity-50" min="0" :max="duration" step="0.01"
-        type="range" @wheel.stop="handleSeekMouseScroll"
-      >
+      <input v-model="player.state.inputAudio.currentTime" class="w-full z-10 opacity-50" min="0" :max="duration"
+        step="0.01" type="range" @wheel.stop="handleSeekMouseScroll">
     </div>
     <h1 class=" whitespace-nowrap text-sm">
       {{ currentTime }}
@@ -68,10 +66,8 @@ onUnmounted(() => {
       {{ '\u{0F050}' }}
       <!--  -->
     </button>
-    <input
-      id="volume" key="volume" v-model="player.state.volume" class="max-w-32" min="0" max="1" step="0.01"
-      type="range" @input="player.setVolume(player.state.volume)" @wheel="handleVolumeMouseScroll"
-    >
+    <input id="volume" key="volume" v-model="player.state.volume" class="max-w-32" min="0" max="1" step="0.01"
+      type="range" @input="player.setVolume(player.state.volume)" @wheel="handleVolumeMouseScroll">
     <db-meter v-if="player.state.source" :key="player.getCurrentlyPlayingFilePath()" :node="player.state.source" />
   </div>
 </template>

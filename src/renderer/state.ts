@@ -33,6 +33,7 @@ export default class AppState {
 		spectrumFftSize: 8192,
 		spectrumSmoothing: 0.5,
 		smoothScrollSpeed: 0.075,
+		playOnStartup: false,
 	}, {
 		writeDefaults: true,
 	}).value;
