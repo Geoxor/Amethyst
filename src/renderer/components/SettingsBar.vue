@@ -20,9 +20,6 @@
     <settings-binary-switch text="Show instant dB values" v-model="state.settings.showInstantDecibelValues" />
     <settings-binary-switch text="Show average dB values" v-model="state.settings.showAverageDecibelValues" />
 
-    <settings-category-splitter text="Playback" />
-    <settings-binary-switch text="Playback on startup" v-model="state.settings.playOnStartup" />
-
     <settings-category-splitter text="Audio Routing" />
     <settings-setting text="Output L/R">
       <select v-model="selectedOutputDevice" class="font-small text-7px w-full py-1 bg-[#303030]">
