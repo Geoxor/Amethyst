@@ -38,7 +38,6 @@ export default class AppState {
 	public bpmCacheSize = computed(() => JSON.stringify(this.state.bpmCache).length);
 	public waveformCacheSize = computed(() => JSON.stringify(this.state.waveformCache).length);
 	public isDev = computed(() => this.state.version.includes("DEV"));
-	public lobbySocket: WebSocket | undefined;
 
 	public applyCurrentTheme = () => {
 		const dom = document.querySelector("html");
