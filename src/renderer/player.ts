@@ -81,7 +81,8 @@ export default class Player {
 
 	public loadSoundAndPlay(path: string) {
 		this.state.sound && this.pause();
-		this.state.sound = new Audio(`file://${path}`);
+		// simple fix to folders that have # in their name
+		this.state.sound = new Audio(`file://${path.replace("#", "%23")}`);
 		this.state.sound.volume = this.state.volume;
 		this.play();
 		this.state.sound.onended = () => this.next();

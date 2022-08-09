@@ -4,24 +4,35 @@ import MenuBar from "./components/MenuBar.vue";
 // Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
 
 // Disable stupid scroll when hitting space
-window.addEventListener('keydown',  (e) => e.key === " " && e.target == document.body && e.preventDefault());
+window.addEventListener('keydown', (e) => e.key === " " && e.target == document.body && e.preventDefault());
 </script>
 
 <template>
   <div class="flex fixed flex-col">
     <menu-bar />
-    <router-view /> 
+    <router-view />
   </div>
 </template> 
 
 <style lang="postcss">
 * {
-  @apply !outline-none;
+  @apply  !outline-none;
   cursor: url("./cursors/default.png"), auto !important;
 }
 
-html, body, #app, #app > div {
-  @apply h-full w-full ;
+/*  Fixes the white bg showing up when resizing */
+html,
+body,
+#app,
+#app {
+  @apply bg-[#0D0D0D];
+}
+
+html,
+body,
+#app,
+#app>div {
+  @apply h-full w-full;
 }
 
 body::-webkit-scrollbar {
@@ -30,16 +41,19 @@ body::-webkit-scrollbar {
 
 *::-webkit-scrollbar {
   width: 4px;
-  height:4px;
+  height: 4px;
 }
+
 *:hover::-webkit-scrollbar {
   overflow-y: overlay;
 }
+
 *::-webkit-scrollbar-track,
 *::-webkit-scrollbar-corner {
   border-radius: 20px;
   @apply bg-gray-100;
 }
+
 *::-webkit-scrollbar-thumb {
   border-radius: 20px;
   @apply bg-gray-400;
