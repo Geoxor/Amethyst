@@ -53,6 +53,10 @@ onUnmounted(() => {
     <button class="flex items-center text-xl hover:text-blue-300" @click="player.shuffle()">
       ⮀
     </button>
+    <button class="flex items-center text-xl hover:text-blue-300" @click="player.state.loop = !player.state.loop">
+      <span v-if="player.state.loop" class="text-queue-text-hover">↻</span>
+      <span v-else>↻</span>
+    </button>
     <button class="flex items-center text-xl hover:text-blue-300" @click="player.previous()">
       {{ '\u{0F049}' }}
       <!--  -->

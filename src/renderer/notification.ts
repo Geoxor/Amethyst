@@ -7,7 +7,7 @@ export interface NotificationOptions {
   timeout?: number;
 }
 
-export class AmetyhstNotification {
+export class AmethystNotification {
   public title: string;
   public body: string;
   public sound?: string;

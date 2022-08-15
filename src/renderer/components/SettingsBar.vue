@@ -34,6 +34,9 @@
       </select>
     </settings-setting>
 
+    <settings-category-splitter text="Integrations" />
+    <settings-binary-switch text="Discord Rich Presence" v-model="state.settings.discordRichPresence" />
+
   </padded-container>
 </template>
 

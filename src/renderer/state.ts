@@ -1,10 +1,10 @@
 import { useLocalStorage } from "@vueuse/core";
 import { computed, reactive } from "vue";
-import { AmetyhstNotification } from "./notification";
+import { AmethystNotification } from "./notification";
 
 export default class AppState {
 	public state = reactive({
-		notifications: [] as AmetyhstNotification[],
+		notifications: [] as AmethystNotification[],
 		allowedExtensions: [] as string[],
 		version: "",
 		isMinimized: false,
@@ -33,6 +33,7 @@ export default class AppState {
 		showDbMeter: true,
 		smoothScrollSpeed: 0.075,
 		playOnStartup: false,
+		discordRichPresence: true,
 	};
 
 	public settings = useLocalStorage("settings", this.settingsObject, { writeDefaults: true }).value;

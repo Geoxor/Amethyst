@@ -8,8 +8,8 @@
 </template>
 
 <script setup lang="ts">
-import { AmetyhstNotification } from '../../notification.js';
-defineProps<{ notification: AmetyhstNotification }>();
+import { AmethystNotification } from '../../notification.js';
+defineProps<{ notification: AmethystNotification }>();
 </script>
 
 <style lang="postcss">

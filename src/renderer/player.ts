@@ -4,7 +4,7 @@ import { reactive, watch } from "vue";
 import type ElectronEventManager from "./electronEventManager";
 import type AppState from "./state";
 import mitt from 'mitt';
-import { AmetyhstNotification } from "./notification";
+import { AmethystNotification } from "./notification";
 
 export const ALLOWED_EXTENSIONS = ["ogg", "flac", "wav", "opus", "aac", "aiff", "mp3", "m4a"];
 
@@ -44,6 +44,7 @@ export default class Player {
 		currentlyPlayingIndex: -1,
 		volume: useLocalStorage<number>("volume", 1),
 		isPlaying: false,
+		loop: false,
 
 		outputDevices: [] as MediaDeviceInfo[],
 		inputDevices: [] as MediaDeviceInfo[],
@@ -103,7 +104,7 @@ export default class Player {
 		// Discord rich presence timer that updates discord every second
 		this.state.richPresenceTimer && clearInterval(this.state.richPresenceTimer);
 		this.state.richPresenceTimer = setInterval(() => {
-			this.state.currentlyPlayingMetadata && this.electron.invoke("update-rich-presence", [
+			(this.state.currentlyPlayingMetadata && this.appState.settings.discordRichPresence) && this.electron.invoke("update-rich-presence", [
 				this.state.currentlyPlayingMetadata.common.artist ? `${this.state.currentlyPlayingMetadata.common.artist || "Unkown Artist"} - ${this.state.currentlyPlayingMetadata.common.title}` : this.state.currentlyPlayingFilePath.substring(this.state.currentlyPlayingFilePath.lastIndexOf("\\") + 1),
 				secondsHuman(this.state.currentlyPlayingMetadata.format.duration!),
 				secondsHuman(this.getCurrentTime()),
@@ -153,7 +154,7 @@ export default class Player {
 
 		// Play the sound and handle playback
 		this.play();
-		this.state.inputAudio.onended = () => this.next();
+		this.state.inputAudio.onended = () => this.state.loop ? this.play() : this.next();
 
 		// Misc
 		this.updateAppTitle(path);
@@ -179,7 +180,7 @@ export default class Player {
 
 	public getCoverArt = async (path: string) => {
 		this.appState.state.coverCache[path] = await this.electron.invoke<string>("get-cover", [path]);
-		return new AmetyhstNotification({
+		return new AmethystNotification({
 			title: "Cover Art Loaded",
 			body: `Cover art for <strong>${path}</strong> has finished rendering`
 		})
