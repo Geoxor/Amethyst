@@ -15,9 +15,9 @@ const parseTitle = (path: string) => path.substring(Math.max(path.lastIndexOf("\
 </script>
 
 <template>
-  <div class="flex-col p-2 items-center flex w-64 borderRight">
+  <div class="p-2 items-center w-full borderRight items-start">
     <input v-model="filterText" type="text"
-      class="border-2 z-30 w-full border-gray-400 text-black py-0.25 indent-xs text-12px mb-2"
+      class="border-2 z-30 w-96 border-gray-400 text-black py-0.25 indent-xs text-12px mb-2"
       placeholder="artists, title & format...">
 
     <smooth-scrollable-container>

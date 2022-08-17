@@ -71,58 +71,63 @@ function calculateStars(metadata: IAudioMetadata) {
     <transition>
       <notification-bar v-if="state.settings.showNotifications && isShowingNotifications" />
     </transition>
-    <queue />
-    <div class="h-full flex w-full flex-col overflow-x-auto flex-1">
-      <player-controls />
-
+    <div class="h-full flex w-full flex-col overflow-x-auto">
+      <div class="flex-1">
+        <player-controls />
+        <queue />
+      </div>
       <!-- <div class="flex bg-black w-full h-1/3" /> -->
       <!-- <div class="flex bg-gray-400 w-full h-1/3" /> -->
       <!-- <div class="flex bg-black w-full h-1/3" /> -->
 
-      <div class="flex relative h-full  overflow-hidden">
+      <div class="flex relative h-full overflow-hidden">
         <!-- <div class="absolute w-full h-full bg-black transform scale-150 ">
         <div class="w-full h-full bg-center bg-no-repeat bg-cover opacity-50 filter blur-[64px]" :style="`background-image: url(${cover})`" />
       </div> -->
+        <div class="z-10 p-8 flex w-full items-end borderTop">
+          <div class="flex w-full justify-between">
+            <!-- song info -->
+            <div class="flex gap-8 items-end">
+              <img v-if="state.settings.showCoverArt"
+                class="w-24 h-24 cover transform transition duration-201 active:-translate-y-0 hover:-translate-y-1 cursor-pointer"
+                :src="cover">
+              <div class="flex justify-between flex-col">
+                <div class="flex flex-col">
+                  <h1 v-if="player.state.currentlyPlayingFilePath"
+                    class=" text-[32px] hover:underline cursor-external-pointer "
+                    @click="invoke('show-item', [player.state.currentlyPlayingFilePath])">
+                    {{ metadata?.common.title
+                        ||
+                        player.state.currentlyPlayingFilePath.substring(player.state.currentlyPlayingFilePath.lastIndexOf("\\")
+                          + 1)
+                    }}
+                  </h1>
+                  <h2 class=" text-white text-opacity-75 text-[16px] ">
+                    {{ metadata?.common.artists?.join(" & ") }}
+                  </h2>
+                  <h1 v-if="metadata" class="whitespace-nowrap"
+                    :class="calculateStars(metadata) > 0 && 'text-yellow-500'">
+                    {{ '\u{0272e}'.repeat(calculateStars(metadata)) }} {{ calculateScore(metadata) }}pts
+                  </h1>
+                </div>
 
-        <div class="z-10 p-8 flex w-full flex-col">
-          <div class="flex gap-8 items-end">
-            <img v-if="state.settings.showCoverArt"
-              class="w-48 h-48 cover transform transition duration-201 active:-translate-y-0 hover:-translate-y-1 cursor-pointer"
-              :src="cover">
-            <div class="flex justify-between flex-col h-full gap-1">
-              <div class="flex flex-col gap-2">
-                <h1 v-if="player.state.currentlyPlayingFilePath"
-                  class=" text-[32px] hover:underline cursor-external-pointer "
-                  @click="invoke('show-item', [player.state.currentlyPlayingFilePath])">
-                  {{ metadata?.common.title
-                      ||
-                      player.state.currentlyPlayingFilePath.substring(player.state.currentlyPlayingFilePath.lastIndexOf("\\")
-                        + 1)
-                  }}
-                </h1>
-                <h2 class=" text-white text-opacity-75 text-[16px] ">
-                  {{ metadata?.common.artists?.join(" & ") }}
-                </h2>
-                <h1 v-if="metadata" class="whitespace-nowrap"
-                  :class="calculateStars(metadata) > 0 && 'text-yellow-500'">
-                  {{ '\u{0272e}'.repeat(calculateStars(metadata)) }} {{ calculateScore(metadata) }}pts
-                </h1>
-              </div>
-
-              <div v-if="metadata" class="flex gap-2 items-center">
-                <tag v-if="metadata.format.container" :text="metadata.format.container" />
-                <tag v-if="metadata.format.bitrate" :text="`${~~(metadata.format.bitrate / 1024)}Kbps`" />
-                <tag v-if="metadata.format.sampleRate" :text="`${(metadata.format.sampleRate / 1000)}KHz`" />
-                <tag v-if="metadata.format.bitsPerSample" :text="`${metadata.format.bitsPerSample}bit`" />
-                <tag v-if="metadata.format.numberOfChannels" :text="`${metadata.format.numberOfChannels}ch`" />
-                <tag v-if="state.state.bpmCache[player.getCurrentlyPlayingFilePath()]"
-                  :text="`${state.state.bpmCache[player.getCurrentlyPlayingFilePath()]}BPM`" />
+                <div v-if="metadata" class="flex gap-2 items-center">
+                  <tag v-if="metadata.format.container" :text="metadata.format.container" />
+                  <tag v-if="metadata.format.bitrate" :text="`${~~(metadata.format.bitrate / 1024)}Kbps`" />
+                  <tag v-if="metadata.format.sampleRate" :text="`${(metadata.format.sampleRate / 1000)}KHz`" />
+                  <tag v-if="metadata.format.bitsPerSample" :text="`${metadata.format.bitsPerSample}bit`" />
+                  <tag v-if="metadata.format.numberOfChannels" :text="`${metadata.format.numberOfChannels}ch`" />
+                  <tag v-if="state.state.bpmCache[player.getCurrentlyPlayingFilePath()]"
+                    :text="`${state.state.bpmCache[player.getCurrentlyPlayingFilePath()]}BPM`" />
+                </div>
               </div>
             </div>
+            <!-- audio spectrum -->
+            <spectrum v-if="state.settings.showSpectrum && player.state.source"
+              :key="player.state.currentlyPlayingFilePath" class="" :node="player.state.source" />
           </div>
-          <spectrum v-if="state.settings.showSpectrum && player.state.source"
-            :key="player.state.currentlyPlayingFilePath" class="mt-8" :node="player.state.source" />
         </div>
+
       </div>
     </div>
     <!-- <social-bar /> -->

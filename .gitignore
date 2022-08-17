@@ -22,6 +22,7 @@ node_modules
 
 release/app/dist
 release/build
+manifests
 
 .idea
 npm-debug.log.*
