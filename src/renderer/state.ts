@@ -31,6 +31,7 @@ export default class AppState {
 		spectrumSmoothing: 0.5,
 		showSpectrum: true,
 		showDbMeter: true,
+		showNotifications: true,
 		smoothScrollSpeed: 0.075,
 		playOnStartup: false,
 		discordRichPresence: true,

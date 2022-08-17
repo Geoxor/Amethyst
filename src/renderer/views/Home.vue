@@ -62,14 +62,14 @@ function calculateStars(metadata: IAudioMetadata) {
     <navigation-bar>
       <navigation-button class="hover:animate-spin" :icon="SettingsIcon" :active="isShowingSettings"
         @click="isShowingSettings = !isShowingSettings" />
-      <navigation-button :notifs="notifs" :icon="BellIcon" :active="isShowingNotifications"
+      <navigation-button v-if="state.settings.showNotifications" :notifs="notifs" :icon="BellIcon" :active="isShowingNotifications"
         @click="isShowingNotifications = !isShowingNotifications" />
     </navigation-bar>
     <transition>
       <settings-bar v-if="isShowingSettings" />
     </transition>
     <transition>
-      <notification-bar v-if="isShowingNotifications" />
+      <notification-bar v-if="state.settings.showNotifications && isShowingNotifications" />
     </transition>
     <queue />
     <div class="h-full flex w-full flex-col overflow-x-auto flex-1">

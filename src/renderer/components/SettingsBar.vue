@@ -3,6 +3,7 @@
     <settings-category-splitter text="UI Behaviour" />
     <settings-modifier text="Smooth scroll speed" :min="0.01" :max="0.5" :step="0.001" :default="0.075"
       v-model="state.settings.smoothScrollSpeed" />
+    <settings-binary-switch text="Show notifications tab" v-model="state.settings.showNotifications" />
 
     <settings-category-splitter text="Covers" />
     <settings-binary-switch text="Show cover art" v-model="state.settings.showCoverArt" />
