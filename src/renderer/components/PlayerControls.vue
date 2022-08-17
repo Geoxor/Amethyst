@@ -3,7 +3,13 @@ import { WaveformRenderer } from '../waveformRenderer';
 import { onMounted, ref, computed, onUnmounted } from 'vue';
 import { usePlayer, useState } from "../amethyst";
 import DbMeter from "./DbMeter.vue";
-
+import PlaybackButton from './input/PlaybackButton.vue';
+import StopIcon from '../icons/StopIcon.vue';
+import PlayIcon from '../icons/PlayIcon.vue';
+import PauseIcon from "../icons/PauseIcon.vue";
+import LoopIcon from '../icons/LoopIcon.vue';
+import ShuffleIcon from '../icons/ShuffleIcon.vue';
+import SkipIcon from '../icons/SkipIcon.vue';
 const player = usePlayer();
 const state = useState();
 const currentTime = ref("0");
@@ -50,27 +56,15 @@ onUnmounted(() => {
     <h1 class=" whitespace-nowrap text-sm">
       {{ currentTime }}
     </h1>
-    <button class="flex items-center text-xl hover:text-blue-300" @click="player.shuffle()">
-      ⮀
-    </button>
-    <button class="flex items-center text-xl hover:text-blue-300" @click="player.state.loop = !player.state.loop">
-      <span v-if="player.state.loop" class="text-queue-text-hover">↻</span>
-      <span v-else>↻</span>
-    </button>
-    <button class="flex items-center text-xl hover:text-blue-300" @click="player.previous()">
-      {{ '\u{0F049}' }}
-      <!--  -->
-    </button>
-    <button v-if="player.isPlaying()" class="flex items-center text-xl hover:text-blue-300" @click="player.pause()">
-      ⏸
-    </button>
-    <button v-else class="flex items-center text-xl hover:text-blue-300" @click="player.play()">
-      ⏵
-    </button>
-    <button class="flex items-center text-xl hover:text-blue-300" @click="player.next()">
-      {{ '\u{0F050}' }}
-      <!--  -->
-    </button>
+    <playback-button :icon="ShuffleIcon" @pressed="player.shuffle()" />
+    <playback-button :icon="LoopIcon" @pressed="player.state.loop = !player.state.loop"
+      :is-active="player.state.loop" />
+    <playback-button :icon="SkipIcon" class="transform rotate-y-180" @pressed="player.previous()" />
+    <playback-button :icon="PlayIcon" v-if="!player.state.isPlaying" @pressed="player.play()" />
+    <playback-button :icon="PauseIcon" v-else @pressed="player.pause()" />
+    <playback-button :icon="SkipIcon" @pressed="player.next()" />
+    <playback-button :icon="StopIcon" @pressed="player.setCurrentlyPlayingIndex(0); player.pause()" />
+
     <input id="volume" key="volume" v-model="player.state.volume" class="max-w-32" min="0" max="1" step="0.01"
       type="range" @input="player.setVolume(player.state.volume)" @wheel="handleVolumeMouseScroll">
     <db-meter v-if="state.settings.showDbMeter && player.state.source" :key="player.getCurrentlyPlayingFilePath()"

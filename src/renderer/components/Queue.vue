@@ -25,13 +25,12 @@ const parseTitle = (path: string) => path.substring(Math.max(path.lastIndexOf("\
         v-for="([song, i]) of player.getQueue().map((song, i) => song.toLowerCase().includes(filterText.toLowerCase()) ? [song, i] : undefined).filter(song => !!song) as [string, number][]"
         :key="song"
         :class="[isHoldingControl && 'control-hover', isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', i === player.getCurrentlyPlayingIndex() && 'text-queue-text-active']"
-        class="h-3 mb-1 flex gap-2 max-w-59.5 hover:text-queue-text-hover list-none relative select-none"
-        @keypress.prevent
+        class="h-4 flex gap-2 max-w-59.5 hover:text-queue-text-hover list-none relative select-none" @keypress.prevent
         @mousedown="isHoldingControl ? invoke('show-item', [player.getQueue()[i]]) : player.setCurrentlyPlayingIndex(i)">
 
         <cover v-if="state.settings.showMiniCovers" class="w-3 h-3" :song-path="song" />
 
-        <p class="align-top text-12px overflow-hidden overflow-ellipsis whitespace-nowrap">
+        <p class="align-top py-0.5 text-12px overflow-hidden overflow-ellipsis whitespace-nowrap">
           {{ i === player.getCurrentlyPlayingIndex() ? "⏵ " : "" }}{{ parseTitle(song) }}
         </p>
       </li>
