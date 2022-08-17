@@ -76,7 +76,7 @@ onMounted(() => {
 		const bufferLength = analyser.frequencyBinCount;
 		const dataArray = new Uint8Array(bufferLength);
 
-		canvasCtx.value?.clearRect(0, 0, screen.width, screen.height);
+		canvasCtx.value.clearRect(0, 0, screen.width, screen.height);
 		analyser.getByteFrequencyData(dataArray);
 
 		const points = state.settings.useLogarithmicSpectrum ? transformLogarithmic(dataArray) : dataArray;
@@ -85,8 +85,8 @@ onMounted(() => {
 
 		for (let i = 0; i < points.length; i++) {
 			const tilt = (i * TILT_MULTIPLIER) - tiltOffset;
-			const x = points[i] * state.settings.spectrumVerticalZoom;
-			const barHeight = ((x + tilt) / 255 * SPECTRUM_HEIGHT);
+			const y = points[i] * state.settings.spectrumVerticalZoom;
+			const barHeight = ((y + tilt) / 255 * SPECTRUM_HEIGHT);
 			canvasCtx.value.fillRect(i * barWidth, SPECTRUM_HEIGHT - barHeight, 1, barHeight);
 		}
 
