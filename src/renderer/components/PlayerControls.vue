@@ -56,14 +56,17 @@ onUnmounted(() => {
     <h1 class=" whitespace-nowrap text-sm">
       {{ currentTime }}
     </h1>
-    <playback-button :icon="ShuffleIcon" @pressed="player.shuffle()" />
-    <playback-button :icon="LoopIcon" @pressed="player.state.loop = !player.state.loop"
-      :is-active="player.state.loop" />
-    <playback-button :icon="SkipIcon" class="transform rotate-y-180" @pressed="player.previous()" />
-    <playback-button :icon="PlayIcon" v-if="!player.state.isPlaying" @pressed="player.play()" />
-    <playback-button :icon="PauseIcon" v-else @pressed="player.pause()" />
-    <playback-button :icon="SkipIcon" @pressed="player.next()" />
-    <playback-button :icon="StopIcon" @pressed="player.setCurrentlyPlayingIndex(0); player.pause()" />
+
+    <div class="flex">
+      <playback-button :icon="ShuffleIcon" @pressed="player.shuffle()" />
+      <playback-button :icon="LoopIcon" @pressed="player.state.loop = !player.state.loop"
+        :is-active="player.state.loop" />
+      <playback-button :icon="SkipIcon" class="transform rotate-y-180" @pressed="player.previous()" />
+      <playback-button :icon="PlayIcon" v-if="!player.state.isPlaying" @pressed="player.play()" />
+      <playback-button :icon="PauseIcon" v-else @pressed="player.pause()" />
+      <playback-button :icon="SkipIcon" @pressed="player.next()" />
+      <playback-button :icon="StopIcon" @pressed="player.setCurrentlyPlayingIndex(0); player.pause()" />
+    </div>
 
     <input id="volume" key="volume" v-model="player.state.volume" class="max-w-32" min="0" max="1" step="0.01"
       type="range" @input="player.setVolume(player.state.volume)" @wheel="handleVolumeMouseScroll">
