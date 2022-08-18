@@ -72,10 +72,6 @@ body::-webkit-scrollbar {
   @apply border-1 border-b-[#202020] border-t-transparent border-r-transparent border-l-transparent;
 }
 
-.borderTop {
-  @apply border-1 border-b-[#202020] border-r-transparent border-l-transparent border-b-transparent;
-}
-
 .drag {
   -webkit-app-region: drag;
 }
