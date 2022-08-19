@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { useState } from '../amethyst.js';
+import { useState } from '../amethyst';
 import { onMounted, Ref, ref } from 'vue';
 const body = document.body;
 const wrapper = ref() as Ref<HTMLDivElement>;

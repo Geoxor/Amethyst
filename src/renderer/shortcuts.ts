@@ -1,10 +1,15 @@
-import { onKeyStroke, useLocalStorage } from "@vueuse/core";
+import { onKeyStroke, useLocalStorage, useKeyModifier } from "@vueuse/core";
+import { useElectron } from "./amethyst";
 import type Player from "./player";
 
 export type ShortcutBindings = Record<string, [string[], () => void]>;
 export type CustomShortcutBindings = Record<string, string[]>;
 
 export default class Shortcuts {
+  private control = useKeyModifier("Control");
+  // private shift = useKeyModifier("Shift");
+  // private alt = useKeyModifier("Alt");
+
   public DEFAULT_BINDINGS: ShortcutBindings = {
     "audio.play.pause": [["MediaPlayPause", " "], () => this.player.isPlaying() ? this.player.pause() : this.player.play()],
     "audio.play": [["MediaPlay"], () => this.player.play()],
@@ -16,6 +21,9 @@ export default class Shortcuts {
     "audio.volume.up": [["PageUp"], () => this.player.volumeUp()],
     "audio.volume.down": [["PageDown"], () => this.player.volumeDown()],
     "queue.remove.item": [["Delete"], () => this.player.removeCurrentItemFromQueue()],
+    "queue.add.file": [["o"], () => this.control && useElectron().openFileDialog()],
+    "queue.add.folder": [["O"], () => this.control && useElectron().openFolderDialog()],
+    "queue.clear": [["X"], () => this.control && this.player.clearQueue()],
   };
 
   public bindings = this.DEFAULT_BINDINGS;

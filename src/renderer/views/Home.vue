@@ -52,7 +52,7 @@ function calculateStars(metadata: IAudioMetadata) {
     stars++;
   if (metadata.format.bitsPerSample === 32)
     stars++;
-
+    
   return stars;
 }
 </script>
