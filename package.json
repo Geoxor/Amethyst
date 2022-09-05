@@ -30,7 +30,9 @@
     "package:asarless": "npm run build && electron-builder build --config.asar=false",
     "preinstall": "npm i -g electron-builder",
     "postinstall": "electron-builder install-app-deps",
-    "lint": "eslint --ext .ts,.js,.vue"
+    "lint": "eslint --ext .ts,.js,.vue",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook"
   },
   "electronmon": {
     "patterns": [
@@ -192,6 +194,15 @@
   ],
   "homepage": "https://github.com/amethyst/amethyst#readme",
   "devDependencies": {
+    "@babel/core": "^7.18.13",
+    "@storybook/addon-actions": "^6.5.10",
+    "@storybook/addon-essentials": "^6.5.10",
+    "@storybook/addon-interactions": "^6.5.10",
+    "@storybook/addon-links": "^6.5.10",
+    "@storybook/builder-webpack5": "^6.5.10",
+    "@storybook/manager-webpack5": "^6.5.10",
+    "@storybook/testing-library": "^0.0.13",
+    "@storybook/vue3": "^6.5.10",
     "@testing-library/jest-dom": "^5.16.4",
     "@types/discord-rpc": "^4.0.3",
     "@types/howler": "^2.2.7",
@@ -200,6 +211,7 @@
     "@types/source-map-support": "^0.5.4",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
+    "babel-loader": "^8.2.5",
     "chalk": "^4.1.2",
     "concurrently": "^7.1.0",
     "cross-env": "^7.0.3",
@@ -221,6 +233,7 @@
     "typescript": "^4.6.3",
     "unplugin-vue-components": "^0.19.5",
     "url-loader": "^4.1.1",
+    "vue-loader": "^16.8.3",
     "vue-tsc": "^0.34.15"
   },
   "dependencies": {
