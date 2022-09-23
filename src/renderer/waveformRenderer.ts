@@ -28,8 +28,8 @@ export class WaveformRenderer {
     const existingRender = this.player.appState.state.waveformCache[metadata.file];
     if (existingRender) return this.drawImage(existingRender);
 
-    const currentSound = this.player.state.sound;
-    if (currentSound != this.player.state.sound) return;
+    const currentSound = this.player.state.currentlyPlayingFilePath;
+    if (currentSound != this.player.state.currentlyPlayingFilePath) return;
 
     const channels = metadata.format.numberOfChannels ?? 2;
     const duration = metadata.format.duration ?? 1;
@@ -42,12 +42,12 @@ export class WaveformRenderer {
       sampleRate
     });
 
-    const tempBuffer = await this.fetchAudioBuffer(this.player.state.sound.src, offlineAudioCtx);
+    const tempBuffer = await this.fetchAudioBuffer(this.player.state.currentlyPlayingFilePath, offlineAudioCtx);
     if (!tempBuffer) {
       Promise.reject();
       return;
     }
-    if (currentSound != this.player.state.sound) return;
+    if (currentSound != this.player.state.currentlyPlayingFilePath) return;
 
     this.audioBuffer = tempBuffer;
     await this.renderWaveform(metadata.file);

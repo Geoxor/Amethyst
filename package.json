@@ -2,7 +2,7 @@
   "name": "amethyst",
   "author": "Geoxor <geoxor123@outlook.com>",
   "productName": "Amethyst",
-  "version": "1.5.13",
+  "version": "1.5.14",
   "main": "./release/dist/main/main.js",
   "licenses": [
     {
@@ -30,9 +30,7 @@
     "package:asarless": "npm run build && electron-builder build --config.asar=false",
     "preinstall": "npm i -g electron-builder",
     "postinstall": "electron-builder install-app-deps",
-    "lint": "eslint --ext .ts,.js,.vue",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "lint": "eslint --ext .ts,.js,.vue"
   },
   "electronmon": {
     "patterns": [
@@ -195,14 +193,6 @@
   "homepage": "https://github.com/amethyst/amethyst#readme",
   "devDependencies": {
     "@babel/core": "^7.18.13",
-    "@storybook/addon-actions": "^6.5.10",
-    "@storybook/addon-essentials": "^6.5.10",
-    "@storybook/addon-interactions": "^6.5.10",
-    "@storybook/addon-links": "^6.5.10",
-    "@storybook/builder-webpack5": "^6.5.10",
-    "@storybook/manager-webpack5": "^6.5.10",
-    "@storybook/testing-library": "^0.0.13",
-    "@storybook/vue3": "^6.5.10",
     "@testing-library/jest-dom": "^5.16.4",
     "@types/discord-rpc": "^4.0.3",
     "@types/howler": "^2.2.7",
