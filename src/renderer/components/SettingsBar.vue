@@ -38,6 +38,13 @@
     <settings-category-splitter text="Integrations" />
     <settings-binary-switch text="Discord Rich Presence" v-model="state.settings.discordRichPresence" />
 
+    <div class="opacity-10 flex-col flex gap-2">
+      <settings-splitter />
+      <div class="flex justify-between items-center">
+        Made by: <img src="geoxor_logo.svg" class="h-2" alt="">
+      </div>
+    </div>
+
   </padded-container>
 </template>
 
@@ -49,6 +56,7 @@ import SettingsModifier from './settings/SettingsModifier.vue';
 import PaddedContainer from './PaddedContainer.vue';
 import { ref, watch } from 'vue';
 import SettingsSetting from './settings/SettingsSetting.vue';
+import SettingsSplitter from './settings/SettingsSplitter.vue';
 const state = useState();
 const player = usePlayer();
 
