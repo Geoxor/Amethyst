@@ -11,11 +11,9 @@ export default class Shortcuts {
   // private alt = useKeyModifier("Alt");
 
   public DEFAULT_BINDINGS: ShortcutBindings = {
-    "audio.play.pause": [["MediaPlayPause", " "], () => this.player.isPlaying() ? this.player.pause() : this.player.play()],
-    "audio.play": [["MediaPlay"], () => this.player.play()],
-    "audio.pause": [["MediaPause"], () => this.player.pause()],
-    "audio.next": [["MediaTrackNext", "ArrowDown"], () => this.player.next()],
-    "audio.previous": [["MediaTrackPrevious", "ArrowUp"], () => this.player.previous()],
+    "audio.play.pause": [[" "], () => this.player.isPlaying() ? this.player.pause() : this.player.play()],
+    "audio.next": [["ArrowDown"], () => this.player.next()],
+    "audio.previous": [["ArrowUp"], () => this.player.previous()],
     "audio.seek.forward": [["ArrowRight"], () => this.player.seekForward()],
     "audio.seek.backward": [["ArrowLeft"], () => this.player.seekBackward()],
     "audio.volume.up": [["PageUp"], () => this.player.volumeUp()],

@@ -2,12 +2,14 @@ import ElectronEventManager from "./electronEventManager";
 import Player from "./player";
 import Shortcuts from "./shortcuts";
 import AppState from "./state";
+import MediaSession from "./mediaSession";
 
 export class Amethyst {
   public appState: AppState = new AppState();
   public electron: ElectronEventManager = new ElectronEventManager(this.appState);
   public player: Player = new Player(this.appState, this.electron);
   public shortcuts: Shortcuts = new Shortcuts(this.player);
+  public mediaSession: MediaSession = new MediaSession(this.player);
 
   constructor() {
     document.addEventListener("drop", (event) => {
