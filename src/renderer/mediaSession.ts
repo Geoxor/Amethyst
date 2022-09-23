@@ -40,13 +40,22 @@ export default class MediaSession {
     })
 
     this.player.on("metadata", meta => {
+      const cover = meta?.common?.picture?.[0];
+      let coverUrl: string = "";
+
+      if (cover) {
+        const coverBlob = new Blob([
+          new Uint8Array(cover.data, 0, cover.data.byteLength)
+        ], { type: "image/png" });
+        coverUrl = URL.createObjectURL(coverBlob);
+      }
+
+
       navigator.mediaSession.metadata = new MediaMetadata({
         title: meta.common.title,
         artist: meta.common.artists?.join(" & "),
         album: meta.common.album,
-        artwork: meta?.common?.picture?.[0].data.toString("base64url") ? [
-          { src: meta?.common?.picture?.[0].data.toString("base64url"),   type: 'image/png' },
-        ] : []
+        artwork: [{ src: coverUrl, type: 'image/png' }],
       });
     });
   }
