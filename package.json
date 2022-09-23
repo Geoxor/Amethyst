@@ -2,7 +2,7 @@
   "name": "amethyst",
   "author": "Geoxor <geoxor123@outlook.com>",
   "productName": "Amethyst",
-  "version": "1.5.15",
+  "version": "1.5.16",
   "main": "./release/dist/main/main.js",
   "licenses": [
     {
@@ -212,7 +212,6 @@
     "electron-rebuild": "^3.2.7",
     "electronmon": "^2.0.2",
     "eslint": "^8.12.0",
-    "husky": "^7.0.4",
     "postcss": "^8.4.13",
     "prettier": "^2.6.2",
     "rimraf": "^3.0.2",
