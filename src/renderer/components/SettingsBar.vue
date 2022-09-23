@@ -41,7 +41,7 @@
     <div class="opacity-10 flex-col flex gap-2">
       <splitter />
       <div class="flex justify-between items-center">
-        Made by: <img src="geoxor_logo.svg" class="h-2" alt="">
+        Made by: <img src="../geoxor_logo.svg" class="h-2" alt="">
       </div>
     </div>
 
