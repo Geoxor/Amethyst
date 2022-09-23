@@ -1,4 +1,4 @@
-<img align="left" src="https://media.discordapp.net/attachments/845328432715923487/978860497577340928/logo.png?width=192&height=192">
+<img align="left" src="https://media.discordapp.net/attachments/801857668175495179/1022921319282647080/logo.png?width=192&height=192">
 
 # Amethyst
 An electron-based audio player with a pixel-art aesthetic
