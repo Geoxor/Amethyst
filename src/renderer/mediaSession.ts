@@ -39,23 +39,15 @@ export default class MediaSession {
       navigator.mediaSession.playbackState = "paused";
     })
 
-    // this.player.on("metadata", meta => {
-    //   navigator.mediaSession.metadata = new MediaMetadata({
-    //     title: 'Unforgettable',
-    //     artist: 'Nat King Cole',
-    //     album: 'The Ultimate Collection (Remastered)',
-    //     artwork: [
-    //       { src: 'https://dummyimage.com/96x96',   sizes: '96x96',   type: 'image/png' },
-    //       { src: 'https://dummyimage.com/128x128', sizes: '128x128', type: 'image/png' },
-    //       { src: 'https://dummyimage.com/192x192', sizes: '192x192', type: 'image/png' },
-    //       { src: 'https://dummyimage.com/256x256', sizes: '256x256', type: 'image/png' },
-    //       { src: 'https://dummyimage.com/384x384', sizes: '384x384', type: 'image/png' },
-    //       { src: 'https://dummyimage.com/512x512', sizes: '512x512', type: 'image/png' },
-    //     ]
-    //   });
-
-    //   console.log(navigator.mediaSession.metadata);
-
-    // });
+    this.player.on("metadata", meta => {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: meta.common.title,
+        artist: meta.common.artists?.join(" & "),
+        album: meta.common.album,
+        artwork: meta?.common?.picture?.[0].data.toString("base64url") ? [
+          { src: meta?.common?.picture?.[0].data.toString("base64url"),   type: 'image/png' },
+        ] : []
+      });
+    });
   }
 }
