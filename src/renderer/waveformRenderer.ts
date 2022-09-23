@@ -110,7 +110,11 @@ export class WaveformRenderer {
         reject();
       }
 
-      this.currentWorker = new Worker("./workers/waveformRenderWorker.ts");
+      // Worker was not being bundled when building.
+      // https://webpack.js.org/guides/web-workers/
+      // https://github.com/vitejs/vite/issues/4642
+      // @ts-ignore
+      this.currentWorker = new Worker(new URL("./workers/waveformRenderWorker.ts", import.meta.url));
       this.currentWorker.postMessage({ canvas: offscreen, audioData }, [offscreen])
       this.currentWorker.onmessage = ({ data }) => {
         this.drawImage(data);
