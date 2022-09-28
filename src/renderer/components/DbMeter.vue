@@ -82,7 +82,7 @@ onUnmounted(() => shouldFuckOff = true);
 </script>
 
 <template>
-	<div class="relative bg-meter-instantaneous min-w-40 transform -translate-y-1.75">
+	<div class="relative bg-[#568B3F] min-w-32 text-[#888888] transform -translate-y-1.75">
 		<div v-for="i of metadata?.format.numberOfChannels" :key="i" class="text-xs absolute h-1.5 w-full"
 			:style="`top: ${8 * i - 8}px;`">
 			<div class="bg absolute  top-0 bg-[#202020] h-1.5 w-full" />
@@ -95,11 +95,11 @@ onUnmounted(() => shouldFuckOff = true);
 				</p>
 			</div>
 
-			<div :class="channels[i - 1][0].value > 0 ? 'bg-meter-instantaneous-clipping' : 'bg-meter-instantaneous'"
-				class="transition-all duration-100 absolute top-0  h-1.5"
+			<div :class="channels[i - 1][0].value > 0 ? 'bg-meter-instantaneous-clipping' : 'bg-[#568B3F]'"
+				class="transition-all duration-100 absolute top-0 h-1.5"
 				:style="`width: ${computedWidth(channels[i - 1][0].value)}%`" />
-			<div :class="channels[i - 1][1].value > 0 ? 'bg-meter-average-clipping' : 'bg-meter-average'"
-				class="absolute top-0  h-1.5" :style="`width: ${computedWidth(channels[i - 1][1].value)}%`" />
+			<div :class="channels[i - 1][1].value > 0 ? 'bg-meter-average-clipping' : 'bg-[#81F941]'"
+				class="absolute top-0 h-1.5" :style="`width: ${computedWidth(channels[i - 1][1].value)}%`" />
 		</div>
 	</div>
 </template>

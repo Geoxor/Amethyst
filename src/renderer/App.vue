@@ -16,7 +16,7 @@ window.addEventListener('keydown', (e) => e.key === " " && e.target == document.
 
 <style lang="postcss">
 * {
-  @apply  !outline-none;
+  @apply !outline-none;
   cursor: url("./cursors/default.png"), auto !important;
 }
 

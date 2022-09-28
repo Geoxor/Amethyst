@@ -6,6 +6,7 @@ export default class AppState {
 	public state = reactive({
 		notifications: [] as AmethystNotification[],
 		allowedExtensions: [] as string[],
+		cpuUsage: 0,
 		version: "",
 		isMinimized: false,
 		isMaximized: false,

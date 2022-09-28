@@ -12,8 +12,6 @@ import SettingsIcon from "../icons/SettingsIcon.vue";
 import SettingsBar from "../components/SettingsBar.vue";
 import NotificationBar from "../components/NotificationBar.vue";
 import BellIcon from "../icons/BellIcon.vue";
-// import SmoothScrollableContainer from "../components/SmoothScrollableContainer.vue";
-// import SocialBar from "../components/SocialBar.vue";
 const invoke = window.electron.ipcRenderer.invoke;
 const state = useState();
 const player = usePlayer();
@@ -52,7 +50,7 @@ function calculateStars(metadata: IAudioMetadata) {
     stars++;
   if (metadata.format.bitsPerSample === 32)
     stars++;
-    
+
   return stars;
 }
 </script>
@@ -62,8 +60,8 @@ function calculateStars(metadata: IAudioMetadata) {
     <navigation-bar>
       <navigation-button class="hover:animate-spin" :icon="SettingsIcon" :active="isShowingSettings"
         @click="isShowingSettings = !isShowingSettings" />
-      <navigation-button v-if="state.settings.showNotifications" :notifs="notifs" :icon="BellIcon" :active="isShowingNotifications"
-        @click="isShowingNotifications = !isShowingNotifications" />
+      <navigation-button v-if="state.settings.showNotifications" :notifs="notifs" :icon="BellIcon"
+        :active="isShowingNotifications" @click="isShowingNotifications = !isShowingNotifications" />
     </navigation-bar>
     <transition>
       <settings-bar v-if="isShowingSettings" />
@@ -75,15 +73,7 @@ function calculateStars(metadata: IAudioMetadata) {
     <div class="h-full flex w-full flex-col overflow-x-auto flex-1">
       <player-controls />
 
-      <!-- <div class="flex bg-black w-full h-1/3" /> -->
-      <!-- <div class="flex bg-gray-400 w-full h-1/3" /> -->
-      <!-- <div class="flex bg-black w-full h-1/3" /> -->
-
       <div class="flex relative h-full  overflow-hidden">
-        <!-- <div class="absolute w-full h-full bg-black transform scale-150 ">
-        <div class="w-full h-full bg-center bg-no-repeat bg-cover opacity-50 filter blur-[64px]" :style="`background-image: url(${cover})`" />
-      </div> -->
-
         <div class="z-10 p-8 flex w-full flex-col">
           <div class="flex gap-8 items-end">
             <img v-if="state.settings.showCoverArt"
@@ -95,9 +85,9 @@ function calculateStars(metadata: IAudioMetadata) {
                   class=" text-[32px] hover:underline cursor-external-pointer "
                   @click="invoke('show-item', [player.state.currentlyPlayingFilePath])">
                   {{ metadata?.common.title
-                      ||
-                      player.state.currentlyPlayingFilePath.substring(player.state.currentlyPlayingFilePath.lastIndexOf("\\")
-                        + 1)
+                  ||
+                  player.state.currentlyPlayingFilePath.substring(player.state.currentlyPlayingFilePath.lastIndexOf("\\")
+                  + 1)
                   }}
                 </h1>
                 <h2 class=" text-white text-opacity-75 text-[16px] ">
@@ -125,7 +115,6 @@ function calculateStars(metadata: IAudioMetadata) {
         </div>
       </div>
     </div>
-    <!-- <social-bar /> -->
   </div>
 </template>
 

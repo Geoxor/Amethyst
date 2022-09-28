@@ -5,21 +5,21 @@ import ControlButtons from "./ControlButtons.vue";
 import Menu from "./Menu.vue";
 import MenuOption from "./MenuOption.vue";
 import MenuSplitter from "./MenuSplitter.vue";
+import DbMeter from "./DbMeter.vue";
+import ProcessorUsageMeter from "./ProcessorUsageMeter.vue";
 const state = useState();
 const electron = useElectron();
 const player = usePlayer();
-const playPop = () => {
-  new Audio("./sounds/pop.flac").play();
-};
+
 </script>
 
 <template>
   <div
     class="bg-[#0D0D0D] borderBottom z-100 font-main drag text-12px select-none flex text-white justify-between items-center">
     <div class="flex no-drag h-full items-center">
-      <div class="logo px-3 cursor-heart-pointer" @click="playPop">
+      <div class="logo px-3 cursor-heart-pointer">
         <img v-if="state.isDev.value" src="../icon-dev.png">
-        <img v-else src="../icon.png" @click="playPop">
+        <img v-else src="../icon.png">
       </div>
       <Menu title="File">
         <menu-option :shortcuts="['CTRL', 'O']" title="Open audio..." @click="() => electron.openFileDialog()" />
@@ -49,7 +49,14 @@ const playPop = () => {
       Amethyst v{{ state.state.version }}
     </p>
 
-    <control-buttons />
+
+    <div class="flex gap-2 items-center overflow-hidden">
+      <db-meter v-if="state.settings.showDbMeter && player.state.source" :key="player.getCurrentlyPlayingFilePath()"
+        :node="player.state.source" />
+      <processor-usage-meter />
+      <control-buttons />
+    </div>
+
   </div>
 </template>
 

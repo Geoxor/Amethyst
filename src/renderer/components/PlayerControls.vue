@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { WaveformRenderer } from '../waveformRenderer';
+// import { WaveformRenderer } from '../waveformRenderer';
 import { onMounted, ref, computed, onUnmounted } from 'vue';
-import { usePlayer, useState } from "../amethyst";
-import DbMeter from "./DbMeter.vue";
+import { usePlayer } from "../amethyst";
 import PlaybackButton from './input/PlaybackButton.vue';
 import StopIcon from '../icons/StopIcon.vue';
 import PlayIcon from '../icons/PlayIcon.vue';
@@ -11,12 +10,11 @@ import LoopIcon from '../icons/LoopIcon.vue';
 import ShuffleIcon from '../icons/ShuffleIcon.vue';
 import SkipIcon from '../icons/SkipIcon.vue';
 const player = usePlayer();
-const state = useState();
 const currentTime = ref("0");
 const timer = ref();
 const metadata = computed(() => player.state.currentlyPlayingMetadata);
 const duration = computed(() => metadata.value?.format.duration || 0);
-let waveformRenderer: WaveformRenderer
+// let waveformRenderer: WaveformRenderer
 
 const handleVolumeMouseScroll = (e: WheelEvent) => {
   const delta = Math.sign(e.deltaY);
@@ -37,11 +35,11 @@ onMounted(() => {
     currentTime.value = `${player.currentTimeFormatted()} / ${player.currentDurationFormatted()}`;
   }, 500);
 
-  waveformRenderer = new WaveformRenderer(player, '#waveformCanvas');
+  // waveformRenderer = new WaveformRenderer(player, '#waveformCanvas');
 });
 
 onUnmounted(() => {
-  waveformRenderer.clean();
+  // waveformRenderer.clean();
 });
 
 </script>
@@ -70,10 +68,9 @@ onUnmounted(() => {
 
     <input id="volume" key="volume" v-model="player.state.volume" class="max-w-32" min="0" max="1" step="0.01"
       type="range" @input="player.setVolume(player.state.volume)" @wheel="handleVolumeMouseScroll">
-    <db-meter v-if="state.settings.showDbMeter && player.state.source" :key="player.getCurrentlyPlayingFilePath()"
-      :node="player.state.source" />
   </div>
 </template>
 
 <style scoped lang="postcss">
+
 </style>

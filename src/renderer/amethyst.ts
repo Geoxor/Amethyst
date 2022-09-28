@@ -4,12 +4,35 @@ import Shortcuts from "./shortcuts";
 import AppState from "./state";
 import MediaSession from "./mediaSession";
 
+export class CPUUsageMonitor {
+  public timer: NodeJS.Timer | undefined;
+
+  constructor(public state: AppState, public electron: ElectronEventManager) {
+    this.start();
+  }
+
+  public stop = () => {
+    this.timer && clearInterval(this.timer);
+  }
+
+  public start = () => {
+    this.timer = setInterval(() => this.getCpuData(), 1000)
+  }
+
+  private getCpuData = async () => {
+    this.electron.invoke("percent-cpu-usage")
+      .then((usage) => this.state.state.cpuUsage = usage as number)
+      .catch((err) => console.log("Failed to get CPU usage", err))
+  }
+}
+
 export class Amethyst {
   public appState: AppState = new AppState();
   public electron: ElectronEventManager = new ElectronEventManager(this.appState);
   public player: Player = new Player(this.appState, this.electron);
   public shortcuts: Shortcuts = new Shortcuts(this.player);
   public mediaSession: MediaSession = new MediaSession(this.player);
+  public cpuUsageMonitor: CPUUsageMonitor = new CPUUsageMonitor(this.appState, this.electron);
 
   constructor() {
     document.addEventListener("drop", (event) => {
@@ -23,6 +46,8 @@ export class Amethyst {
       e.preventDefault();
       e.stopPropagation();
     });
+
+
   }
 }
 

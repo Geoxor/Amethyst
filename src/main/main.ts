@@ -27,6 +27,7 @@ if (process.env.NODE_ENV === "production")
 app.setAppUserModelId("Amethyst")
 app.commandLine.appendSwitch('high-dpi-support', "1");
 app.commandLine.appendSwitch('force-device-scale-factor', "1");
+app.commandLine.appendSwitch('js-flags', '--max-old-space-size=128');
 
 if (!app.requestSingleInstanceLock()) {
 	app.quit();

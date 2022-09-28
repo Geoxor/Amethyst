@@ -1,6 +1,13 @@
 import type { IpcRendererEvent } from "electron";
 import { contextBridge, ipcRenderer } from "electron";
 
+const { webFrame } = require('electron')
+
+setInterval(() => {
+	webFrame.clearCache();
+	console.log("cleared cache ");
+}, 5000)
+
 export type Channels =
 	"minimize" |
 	"maximize" |
@@ -13,6 +20,7 @@ export type Channels =
 	"get-cover" |
 	"get-metadata" |
 	"show-item" |
+	"percent-cpu-usage" |
 	"update-rich-presence" |
 	"sync-window-state" |
 	"drop-file" |

@@ -136,6 +136,8 @@ export class MainWindow {
 					this.window.webContents.send("play-folder", await loadFolder(response.filePaths[0]));
 			},
 
+			"percent-cpu-usage": async () => process.getCPUUsage().percentCPUUsage,
+
 			"get-cover": async (_: Event, [path]: string[]) => this.getResizedCover(path),
 
 			"get-cover-pixelized": async (_: Event, [path]: string[]) => {
