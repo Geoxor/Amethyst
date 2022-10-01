@@ -33,6 +33,9 @@ const player = usePlayer();
           :title="`Clear Waveform cache (${bytesToHuman(state.waveformCacheSize.value)})`"
           @click="state.state.waveformCache = {}" />
         <menu-option :title="`Check for updates`" @click="electron.invoke('check-for-updates')" />
+
+        <menu-option title="Miniplayer" @click="electron.invoke('mini-player')" />
+
       </Menu>
       <Menu title="Debug" v-if="state.isDev.value">
         <menu-option title="Test 'UpdateInstallingNotification'"

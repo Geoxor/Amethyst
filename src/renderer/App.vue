@@ -5,6 +5,8 @@ import MenuBar from "./components/MenuBar.vue";
 
 // Disable stupid scroll when hitting space
 window.addEventListener('keydown', (e) => e.key === " " && e.target == document.body && e.preventDefault());
+// @ts-ignore
+document.body.style.zoom = 1.3
 </script>
 
 <template>

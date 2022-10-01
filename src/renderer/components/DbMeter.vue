@@ -85,7 +85,7 @@ onUnmounted(() => shouldFuckOff = true);
 </script>
 
 <template>
-	<div class="relative h-full" :style="`width: ${(width + (width / 2)) * nChannels + 3}px`">
+	<div class="relative h-full" :style="`width: ${(width + (width / 2)) * nChannels + 6}px`">
 		<div v-for="i of nChannels" :key="i" class="absolute h-full"
 			:style="`width: ${width}px; left: ${(width * 3 / 2) * i - (width * 3 / 2)}px;`">
 			<div :style="`width: ${width}px;`" class="absolute top-0 left-0 bg-surface-600 h-full rounded-full" />

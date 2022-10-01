@@ -1,7 +1,7 @@
 import fs from "fs";
 import path from "path";
 import * as mm from "music-metadata/lib/core";
-import type { Event } from "electron";
+import { Event } from "electron";
 import { BrowserWindow, dialog, ipcMain, shell, Notification } from "electron";
 import sharp from "sharp";
 import { ALLOWED_EXTENSIONS, APP_VERSION, IS_DEV, RESOURCES_PATH } from "./main";
@@ -116,6 +116,10 @@ export class MainWindow {
 			"close": (_: Event, [window]: string[]) => window === "preferences" ? this.preferencesWindow?.close() : this.window.close(),
 
 			"read-file": (_: Event, [path]: string[]) => fs.promises.readFile(path),
+
+			"mini-player": (_: Event) => {
+				this.window.setSize(this.windowOptions.minWidth!, 164)
+			},
 
 			"open-file-dialog": async () => {
 				const response = await dialog.showOpenDialog({
