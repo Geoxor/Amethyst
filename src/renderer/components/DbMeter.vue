@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import { usePlayer, useState } from "../amethyst";
+import { usePlayer } from "../amethyst";
 import { onMounted, onUnmounted, ref, computed } from "vue";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
-const state = useState();
 const FLOOR = -60;
 const RANGE = 30;
 const FFT_SIZE = 2048 * 2;
+
 
 const player = usePlayer();
 const metadata = computed(() => player.state.currentlyPlayingMetadata);
@@ -19,6 +19,9 @@ const channels = [
 	[ref(FLOOR), ref(FLOOR)], // left surround channel
 	[ref(FLOOR), ref(FLOOR)], // right surround channel
 ]
+
+const nChannels = computed(() => metadata.value?.format.numberOfChannels || 2);
+const width = 4;
 
 let shouldFuckOff = false;
 
@@ -82,25 +85,32 @@ onUnmounted(() => shouldFuckOff = true);
 </script>
 
 <template>
-	<div class="relative bg-[#568B3F] min-w-32 text-[#888888] transform -translate-y-1.75">
-		<div v-for="i of metadata?.format.numberOfChannels" :key="i" class="text-xs absolute h-1.5 w-full"
-			:style="`top: ${8 * i - 8}px;`">
-			<div class="bg absolute  top-0 bg-[#202020] h-1.5 w-full" />
-			<div class="clipping absolute  top-0 right-0 bg-[#202020]-clipping h-1.5 w-10/100" />
+	<div class="relative h-full" :style="`width: ${(width + (width / 2)) * nChannels + 3}px`">
+		<div v-for="i of nChannels" :key="i" class="absolute h-full"
+			:style="`width: ${width}px; left: ${(width * 3 / 2) * i - (width * 3 / 2)}px;`">
+			<div :style="`width: ${width}px;`" class="absolute top-0 left-0 bg-surface-600 h-full rounded-full" />
+			<div :style="`width: ${width}px;`" class="absolute bottom-0 bg-surface-500 h-90/100 rounded-full" />
 
-			<div class="font-small text-7px z-30 absolute flex gap-1">
-				<p v-if="state.settings.showAverageDecibelValues">{{ channels[i - 1][1].value.toFixed(2) }} dB
-				</p>
-				<p v-if="state.settings.showInstantDecibelValues">{{ channels[i - 1][0].value.toFixed(2) }} dB
-				</p>
-			</div>
-
-			<div :class="channels[i - 1][0].value > 0 ? 'bg-meter-instantaneous-clipping' : 'bg-[#568B3F]'"
-				class="transition-all duration-100 absolute top-0 h-1.5"
-				:style="`width: ${computedWidth(channels[i - 1][0].value)}%`" />
-			<div :class="channels[i - 1][1].value > 0 ? 'bg-meter-average-clipping' : 'bg-[#81F941]'"
-				class="absolute top-0 h-1.5" :style="`width: ${computedWidth(channels[i - 1][1].value)}%`" />
+			<div :class="channels[i - 1][0].value > 0 ? 'bg-red-600' : 'bg-primary-800'"
+				class="transition-all rounded-full duration-100 absolute bottom-0"
+				:style="`width: ${width}px; height: ${computedWidth(channels[i - 1][0].value)}%`" />
+			<div :class="channels[i - 1][1].value > 0 ? 'bg-red-500' : 'bg-primary-900'"
+				class="absolute bottom-0 rounded-full"
+				:style="`width: ${width}px; height: ${computedWidth(channels[i - 1][1].value)}%`" />
 		</div>
+
+		<svg class="absolute h-full stroke-3px w-4px" :style="`left: ${((width + 2) * nChannels + 1)}px;`">
+			<line class="stroke-cap-round stroke-surface-500" x1="2" y1="2" x2="2" y2="98" />
+		</svg>
 	</div>
 </template>
 
+<style scoped>
+svg {
+	stroke-width: 3px;
+}
+
+line {
+	stroke-dasharray: 0 8;
+}
+</style>

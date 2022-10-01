@@ -1,5 +1,14 @@
 <template>
-<svg width="17" height="15" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path fill="currentColor"
-    d="M2 9h1V8H2zM3 10h1V9H3zM4 11h1v-1H4zM5 12h1v-1H5zM6 13h1v-1H6zM7 14h1v-1H7zM8 15h1v-1H8zM9 14h1v-1H9zM10 13h1v-1h-1zM11 12h1v-1h-1zM12 11h1v-1h-1zM13 10h1V9h-1zM14 9h1V8h-1zM15 8h1V7h-1zM16 6h1V5h-1zM16 7h1V6h-1zM5 1h1V0H5zM2 1h1V0H2zM1 2h1V1H1zM1 8h1V7H1zM7 2H6V1h1zM8 3H7V2h1zM9 4H8V3h1zM0 3h1V2H0zM0 4h1V3H0zM0 5h1V4H0zM0 6h1V5H0zM0 7h1V6H0zM4 1h1V0H4zM3 1h1V0H3zM13 1h-1V0h1zM12 1h-1V0h1zM16 2h-1V1h1zM10 2h1V1h-1zM9 3h1V2H9zM17 3h-1V2h1zM17 4h-1V3h1zM17 5h-1V4h1zM14 1h-1V0h1zM15 1h-1V0h1z" />
-</svg></template>
+  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g clip-path="url(#clip0_451_6089)">
+      <path
+        d="M1.848 9.552C2.53267 10.2367 6.67534 13.6827 6.96267 13.97C7.24934 14.2567 7.62467 14.3993 8 14.3993C8.37534 14.3993 8.75067 14.256 9.03734 13.97C9.32534 13.6827 13.468 10.236 14.152 9.552C15.7273 7.97667 15.7273 5.42334 14.152 3.848C12.5767 2.27267 10.0233 2.27267 8.448 3.848C8.27734 4.01867 8.134 4.20534 8 4.39667C7.866 4.20534 7.72267 4.01867 7.552 3.848C5.97667 2.27267 3.42334 2.27267 1.848 3.848C0.272671 5.42334 0.272671 7.97667 1.848 9.552Z"
+        fill="currentColor" />
+    </g>
+    <defs>
+      <clipPath id="clip0_451_6089">
+        <rect width="16" height="16" fill="white" />
+      </clipPath>
+    </defs>
+  </svg>
+</template>

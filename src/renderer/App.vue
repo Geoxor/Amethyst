@@ -25,7 +25,7 @@ html,
 body,
 #app,
 #app {
-  @apply bg-[#0D0D0D];
+  @apply bg-surface-900;
 }
 
 html,

@@ -2,18 +2,8 @@
 @import url(themes/amethyst-dark.css);
 
 @font-face {
-  font-family: "roboto-mono";
-  src: url("../../assets/fonts/roboto-mono.ttf");
-}
-
-@font-face {
-  font-family: "cozette-vector";
-  src: url("../../assets/fonts/cozette-vector.ttf");
-}
-
-@font-face {
-  font-family: "ark-pixel";
-  src: url("../../assets/fonts/ark-pixel-10px-latin.ttf");
+  font-family: "jost";
+  src: url("../../assets/fonts/jost.ttf");
 }
 
 @font-face {
@@ -21,16 +11,9 @@
   src: url("../../assets/fonts/aseprite-remix.ttf");
 }
 
-.font-main {
-  font-family: "cozette-vector", "ark-pixel", "aseprite";
-}
-
-.font-small {
-  font-family: "aseprite";
-}
-
 * {
   cursor: url("./cursors/default.png"), auto !important;
+  font-family: "jost";
 }
 
 .cursor-pointer,

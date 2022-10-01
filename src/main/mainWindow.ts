@@ -10,7 +10,7 @@ import { resolveHTMLPath } from "./util";
 import { loadFolder } from "./handles";
 import { Discord } from "./discord";
 
-const icon = () => path.join(RESOURCES_PATH, `icon${IS_DEV ? "-dev" : ""}.png`)
+const icon = () => path.join(RESOURCES_PATH, 'icon.png');
 
 const notifications = {
 	showUpdateInstallingNotification: () =>
@@ -32,10 +32,12 @@ export class MainWindow {
 	public readonly window: BrowserWindow;
 	public preferencesWindow: BrowserWindow | undefined = undefined;
 
-	private readonly windowOptions = {
+	private readonly windowOptions: Electron.BrowserWindowConstructorOptions = {
 		show: false,
-		width: 1024,
-		height: 728,
+		width: 1280,
+		height: 720,
+		minHeight: 500,
+		minWidth: 800,
 		icon: icon(),
 		frame: false,
 		webPreferences: {
@@ -201,7 +203,7 @@ export class MainWindow {
 		return meta.common.picture?.[0].data;
 	}
 
-	private async getResizedCover(path: string, resizeTo = 12): Promise<string | undefined> {
+	private async getResizedCover(path: string, resizeTo = 128): Promise<string | undefined> {
 		const cover = await this.getCover(path);
 
 		if (!cover)

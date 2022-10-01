@@ -1,10 +1,9 @@
 import { useLocalStorage } from "@vueuse/core";
 import type { IAudioMetadata } from "music-metadata";
-import { reactive, watch } from "vue";
+import { computed, reactive, watch } from "vue";
 import type ElectronEventManager from "./electronEventManager";
 import type AppState from "./state";
 import mitt from 'mitt';
-import { AmethystNotification } from "./notification";
 
 export const ALLOWED_EXTENSIONS = ["ogg", "flac", "wav", "opus", "aac", "aiff", "mp3", "m4a"];
 
@@ -88,6 +87,29 @@ export default class Player {
 			array[i] = t;
 		}
 		return array;
+	}
+
+	// TODO: fix this, substring fails when first starting cus getCurrentlyPlayingFilePath() returns null
+	public getFilename = () => {
+		const current = this.getCurrentlyPlayingFilePath() || "";
+		return current.substring(Math.max(current.lastIndexOf("\\"), current.lastIndexOf("/")) + 1)
+	}
+
+	public getTitle = () => {
+		return computed(() => this.state.currentlyPlayingMetadata?.common.title || this.getFilename()).value;
+	}
+
+	public getArtist = () => {
+		return computed(() => this.state.currentlyPlayingMetadata?.common.artists?.join(" & ") || "unknown artist").value;
+	}
+
+	public getCoverBase64 = () => {
+		this.getCoverArt(this.getCurrentlyPlayingFilePath())
+		return computed(() => `data:image/png;base64,${this.appState.state.coverCache[this.getCurrentlyPlayingFilePath()] || ""}`).value;
+	}
+
+	public hasCover = () => {
+		return !!this.appState.state.coverCache[this.getCurrentlyPlayingFilePath()];
 	}
 
 	public getOutputDevices = async () => {
@@ -179,11 +201,9 @@ export default class Player {
 	}
 
 	public getCoverArt = async (path: string) => {
-		this.appState.state.coverCache[path] = await this.electron.invoke<string>("get-cover", [path]);
-		return new AmethystNotification({
-			title: "Cover Art Loaded",
-			body: `Cover art for <strong>${path}</strong> has finished rendering`
-		})
+		const cover = await this.electron.invoke<string>("get-cover", [path]);
+		this.appState.state.coverCache[path] = cover
+		return cover
 	};
 
 	public play() {

@@ -1,30 +1,12 @@
 .theme-amethyst-dark {
-  --primary-color: rgb(130, 137, 255);
-  --secondary-color: rgb(224, 145, 255);
-
-  --color-menu-bar: rgb(255, 255, 255);
-  --color-menu-text: rgb(255, 255, 255);
-  --color-menu-text-hover: var(--primary-color);
-  --color-menu-background: rgb(8, 9, 29);
-  --color-menu-option-hover: rgba(96, 104, 254, 0.25);
-  --color-menu-option-text: var(--primary-color);
-  --color-menu-option-text-hover: var(--secondary-color);
-  --color-menu-splitter: rgba(96, 104, 254, 0.50);
-
-  --color-explorer-background: rgb(8, 9, 29);
-  --color-explorer-text: rgba(96, 104, 254, 0.50);
-  --color-explorer-text-active: var(--secondary-color);
-  --color-explorer-text-hover: var(--primary-color);
-
-  --color-meter-background: rgba(96, 104, 254, 0.30);
-  --color-meter-background-clipping: rgba(96, 104, 254, 0.20);
-  --color-meter-instantaneous: var(--secondary-color);
-  --color-meter-average: var(--primary-color);
-  --color-meter-instantaneous-clipping: rgb(239, 68, 68);
-  --color-meter-average-clipping: rgb(248, 113, 113);
-
-  --color-spectrum-background: rgba(255, 255, 255, 0);
-
-  --color-tag-background: rgb(0, 0, 0);
-  --color-tag-text: rgb(255, 255, 255);
+  --surface-900: 15, 17, 25;
+  --surface-800: 20, 22, 33;
+  --surface-700: 24, 26, 39;
+  --surface-600: 31, 33, 52;
+  --surface-500: 45, 45, 73;
+  --primary-900: 134, 138, 255;
+  --primary-800: 100, 106, 195;
+  --unlit-900: 101, 101, 138;
+  --contrast: 255, 255, 255;
+  color: rgb(var(--contrast));
 }

@@ -17,7 +17,7 @@ export default class AppState {
 		bpmCache: useLocalStorage<Record<string, number>>("bpm-cache", {}),
 		waveformCache: useLocalStorage<Record<string, ImageBitmap>>("waveform-cache", {}),
 		defaultCover: "",
-		theme: useLocalStorage<string>("theme", "amethyst-light"),
+		theme: useLocalStorage<string>("theme", "amethyst-dark"),
 		lobbyId: undefined as string | undefined,
 	});
 

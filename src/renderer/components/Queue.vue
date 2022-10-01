@@ -2,7 +2,6 @@
 import { useKeyModifier } from "@vueuse/core";
 import { ref } from "vue";
 import { usePlayer, useState } from "../amethyst";
-import SmoothScrollableContainer from "./SmoothScrollableContainer.vue";
 import Cover from "./Cover.vue";
 
 const state = useState();
@@ -15,12 +14,11 @@ const parseTitle = (path: string) => path.substring(Math.max(path.lastIndexOf("\
 </script>
 
 <template>
-  <div class="flex-col p-2 items-center flex w-64 borderRight">
+  <div class="flex-col p-2 items-center flex w-64 h-full borderRight">
     <input v-model="filterText" type="text"
       class="border-2 z-30 w-full border-gray-400 text-black py-0.25 indent-xs text-12px mb-2"
       placeholder="artists, title & format...">
-
-    <smooth-scrollable-container>
+    <ul class="overflow-y-scroll">
       <li
         v-for="([song, i]) of player.getQueue().map((song, i) => song.toLowerCase().includes(filterText.toLowerCase()) ? [song, i] : undefined).filter(song => !!song) as [string, number][]"
         :key="song"
@@ -34,7 +32,7 @@ const parseTitle = (path: string) => path.substring(Math.max(path.lastIndexOf("\
           {{ i === player.getCurrentlyPlayingIndex() ? "⏵ " : "" }}{{ parseTitle(song) }}
         </p>
       </li>
-    </smooth-scrollable-container>
+    </ul>
   </div>
 
 </template>

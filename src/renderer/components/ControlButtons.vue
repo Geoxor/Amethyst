@@ -1,7 +1,6 @@
 <script lang="ts" setup>
 import { useRoute } from "vue-router";
 import { useElectron, useState } from "../amethyst";
-
 const electron = useElectron();
 const state = useState();
 const route = useRoute();

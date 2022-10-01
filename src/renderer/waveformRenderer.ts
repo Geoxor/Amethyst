@@ -135,6 +135,8 @@ export class WaveformRenderer {
     try {
       ctx.drawImage(data, 0, 0);
     } catch (error) {
+      console.log(error);
+
       // we don't care about it not being able to render the last frame, its better to ignore this than to check for it every frame 
     }
   }

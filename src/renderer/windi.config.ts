@@ -1,51 +1,16 @@
 import { defineConfig } from "vite-plugin-windicss";
 import typography from "windicss/plugin/typography";
 
-const cssVariable = (cssVariable: string) => `var(--color-${cssVariable})`;
+function cssVarRgbHelper(cssVariable: string) {
+	return ({ opacityVariable, opacityValue }: { opacityVariable: string; opacityValue: number }) => {
+		if (opacityValue !== undefined)
+			return `rgba(var(--${cssVariable}), ${opacityValue})`;
 
-const COLORS = [
-	"primary",
-	"secondary",
-	"menu-bar",
-	"menu-text",
-	"menu-text-hover",
-	"menu-background",
-	"menu-option-hover",
-	"menu-option-text",
-	"menu-option-text-hover",
-	"menu-splitter",
-	"control-minimize-icon",
-	"control-minimize-icon-hover",
-	"control-minimize-background-hover",
-	"control-maximize-icon",
-	"control-maximize-icon-hover",
-	"control-maximize-background-hover",
-	"control-close-icon",
-	"control-close-icon-hover",
-	"control-close-background-hover",
-	"social-background",
-	"social-text",
-	"social-text-hover",
-	"queue-background",
-	"queue-text",
-	"queue-text-active",
-	"queue-text-hover",
-	"meter-background",
-	"meter-background-clipping",
-	"meter-instantaneous",
-	"meter-instantaneous-clipping",
-	"meter-average",
-	"meter-average-clipping",
-	"spectrum-background",
-	"tag-background",
-	"tag-text",
-];
+		if (opacityVariable !== undefined)
+			return `rgba(var(--${cssVariable}), var(${opacityVariable}, 1))`;
 
-const windiColors: Record<string, string> = {};
-
-for (let i = 0; i < COLORS.length; i++) {
-	const color = COLORS[i];
-	windiColors[color] = cssVariable(color);
+		return `rgb(var(--${cssVariable}))`;
+	};
 }
 
 export default defineConfig({
@@ -57,8 +22,20 @@ export default defineConfig({
 	theme: {
 		extend: {
 			colors: {
-				
- 				...windiColors,
+				primary: {
+					900: cssVarRgbHelper("primary-900"),
+					800: cssVarRgbHelper("primary-800"),
+				},
+				surface: {
+					900: cssVarRgbHelper("surface-900"),
+					800: cssVarRgbHelper("surface-800"),
+					700: cssVarRgbHelper("surface-700"),
+					600: cssVarRgbHelper("surface-600"),
+					500: cssVarRgbHelper("surface-500"),
+				},
+				unlit: {
+					900: cssVarRgbHelper("unlit-900"),
+				}
 			},
 		},
 	},

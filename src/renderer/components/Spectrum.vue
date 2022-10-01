@@ -3,8 +3,8 @@ import { computed, ComputedRef } from "@vue/reactivity";
 import { useState } from "../amethyst";
 import { onMounted, onUnmounted, watch } from "vue";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
-const SPECTRUM_WIDTH = 500;
-const SPECTRUM_HEIGHT = 150;
+const SPECTRUM_HEIGHT = 76;
+const SPECTRUM_WIDTH = SPECTRUM_HEIGHT * 2;
 // const DOWNSCALE_FACTOR = 7;
 const TILT_MULTIPLIER = 0.005; // 3dB/octave
 
@@ -45,7 +45,7 @@ onMounted(() => {
 
 	// Don't change these
 	analyser.maxDecibels = 30;
-	analyser.minDecibels = -120;
+	analyser.minDecibels = -110;
 
 	// Updates the FFT size whenever it changes in the settings in real time
 	watch(() => state.settings.spectrumFftSize, () => analyser.fftSize = state.settings.spectrumFftSize)
@@ -113,7 +113,7 @@ onUnmounted(() => shouldStopRendering = true);
 </script>
 
 <template>
-	<div class="w-min flex flex-col">
+	<div :style="`min-width: ${SPECTRUM_WIDTH}px;`" class="flex flex-col bg-surface-700 rounded-4px overflow-hidden">
 		<canvas id="spectrum" ref="spectrum" :width="SPECTRUM_WIDTH" :height="SPECTRUM_HEIGHT" />
 	</div>
 </template>

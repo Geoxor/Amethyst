@@ -1,140 +1,118 @@
 <script setup lang="ts">
-import type { IAudioMetadata } from "music-metadata";
-import { computed, ref } from "vue";
-import { usePlayer, useState } from "../amethyst";
+import { usePlayer, useState } from '../amethyst';
+import { computed, onMounted, ref } from 'vue';
+
 import Queue from "../components/Queue.vue";
-import Tag from "../components/Tag.vue";
-import Spectrum from "../components/Spectrum.vue";
-import PlayerControls from "../components/PlayerControls.vue";
-import NavigationBar from "../components/NavigationBar.vue";
-import NavigationButton from "../components/NavigationButton.vue";
-import SettingsIcon from "../icons/SettingsIcon.vue";
-import SettingsBar from "../components/SettingsBar.vue";
-import NotificationBar from "../components/NotificationBar.vue";
-import BellIcon from "../icons/BellIcon.vue";
-const invoke = window.electron.ipcRenderer.invoke;
+import Spectrum from '../components/Spectrum.vue';
+import Chip from '../components/new/Chip.vue';
+import Cover from '../components/new/Cover.vue';
+import DbMeter from '../components/DbMeter.vue';
+import SettingsBar from '../components/SettingsBar.vue';
+
+import HeartIcon from '../icons/HeartIcon.vue';
+import PlaylistIcon from '../icons/PlaylistIcon.vue';
+import PlayIcon from '../icons/PlayIcon.vue';
+import NextIcon from '../icons/NextIcon.vue';
+import PauseIcon from '../icons/PauseIcon.vue';
+import BitrateIcon from "../icons/BitrateIcon.vue";
+import FileIcon from "../icons/FileIcon.vue";
+import Slider from "../components/input/Slider.vue";
+// import MetronomeIcon from '../icons/MetronomeIcon.vue';
+// import KeyClefIcon from "../icons/KeyClefIcon.vue";
+// import StorageIcon from "../icons/StorageIcon.vue";
+
 const state = useState();
 const player = usePlayer();
 const metadata = computed(() => player.state.currentlyPlayingMetadata);
+const duration = computed(() => metadata.value?.format.duration || 0);
+const currentTime = ref("0");
+const timer = ref();
 
-const isShowingSettings = ref(false);
-const isShowingNotifications = ref(false);
+onMounted(() => {
+  // player.loadSoundAndPlay(player.state.currentlyPlayingFilePath);
 
-const notifs = computed(() => state.state.notifications.length);
-const cover = computed(() => {
-  if (!metadata.value?.common?.picture?.[0])
-    return state.state.defaultCover;
+  timer.value && clearInterval(timer.value);
+  timer.value = setInterval(() => {
+    currentTime.value = `${player.currentTimeFormatted()} / ${player.currentDurationFormatted()}`;
+  }, 1000);
 
-  const buffer = metadata.value.common.picture[0].data;
-  const blob = new Blob([buffer], { type: metadata.value.common.picture[0].format });
-  return URL.createObjectURL(blob);
+  // waveformRenderer = new WaveformRenderer(player, '#waveformCanvas');
 });
 
-function calculateScore(metadata: IAudioMetadata) {
-  const sampleRate = (metadata.format.sampleRate! / 1000);
-  const bitRate = ~~(metadata.format.bitrate! / 1024);
-  const bits = metadata.format.bitsPerSample || 16;
-  const score = (sampleRate * bitRate * bits) / 100;
+const handleVolumeMouseScroll = (e: WheelEvent) => {
+  const delta = Math.sign(e.deltaY);
+  delta > 0 ? player.volumeDown() : player.volumeUp();
+};
 
-  return ~~score;
-}
+const handleSeekMouseScroll = (e: WheelEvent) => {
+  const delta = Math.sign(e.deltaY);
+  const step = duration.value / 10;
+  delta < 0 ? player.seekForward(step) : player.seekBackward(step);
+};
 
-function calculateStars(metadata: IAudioMetadata) {
-  let stars = 0;
-
-  if (calculateScore(metadata) > 4000)
-    stars++;
-  if (metadata.format.lossless)
-    stars++;
-  if (metadata.format.bitsPerSample === 24)
-    stars++;
-  if (metadata.format.bitsPerSample === 32)
-    stars++;
-
-  return stars;
-}
 </script>
 
 <template>
-  <div class="flex  h-[calc(100%-24px)] text-white bg-[#0D0D0D] font-main main">
-    <navigation-bar>
-      <navigation-button class="hover:animate-spin" :icon="SettingsIcon" :active="isShowingSettings"
-        @click="isShowingSettings = !isShowingSettings" />
-      <navigation-button v-if="state.settings.showNotifications" :notifs="notifs" :icon="BellIcon"
-        :active="isShowingNotifications" @click="isShowingNotifications = !isShowingNotifications" />
-    </navigation-bar>
-    <transition>
-      <settings-bar v-if="isShowingSettings" />
-    </transition>
-    <transition>
-      <notification-bar v-if="state.settings.showNotifications && isShowingNotifications" />
-    </transition>
-    <queue />
-    <div class="h-full flex w-full flex-col overflow-x-auto flex-1">
-      <player-controls />
+  <div class="h-full whitespace-nowrap flex flex-col justify-between overflow-hidden">
+    <div class="flex-1 flex h-full max-h-full overflow-hidden">
+      <queue />
+      <settings-bar />
+    </div>
 
-      <div class="flex relative h-full  overflow-hidden">
-        <div class="z-10 p-8 flex w-full flex-col">
-          <div class="flex gap-8 items-end">
-            <img v-if="state.settings.showCoverArt"
-              class="w-48 h-48 cover transform transition duration-201 active:-translate-y-0 hover:-translate-y-1 cursor-pointer"
-              :src="cover">
-            <div class="flex justify-between flex-col h-full gap-1">
-              <div class="flex flex-col gap-2">
-                <h1 v-if="player.state.currentlyPlayingFilePath"
-                  class=" text-[32px] hover:underline cursor-external-pointer "
-                  @click="invoke('show-item', [player.state.currentlyPlayingFilePath])">
-                  {{ metadata?.common.title
-                  ||
-                  player.state.currentlyPlayingFilePath.substring(player.state.currentlyPlayingFilePath.lastIndexOf("\\")
-                  + 1)
-                  }}
-                </h1>
-                <h2 class=" text-white text-opacity-75 text-[16px] ">
-                  {{ metadata?.common.artists?.join(" & ") }}
-                </h2>
-                <h1 v-if="metadata" class="whitespace-nowrap"
-                  :class="calculateStars(metadata) > 0 && 'text-yellow-500'">
-                  {{ '\u{0272e}'.repeat(calculateStars(metadata)) }} {{ calculateScore(metadata) }}pts
-                </h1>
-              </div>
-
-              <div v-if="metadata" class="flex gap-2 items-center">
-                <tag v-if="metadata.format.container" :text="metadata.format.container" />
-                <tag v-if="metadata.format.bitrate" :text="`${~~(metadata.format.bitrate / 1024)}Kbps`" />
-                <tag v-if="metadata.format.sampleRate" :text="`${(metadata.format.sampleRate / 1000)}KHz`" />
-                <tag v-if="metadata.format.bitsPerSample" :text="`${metadata.format.bitsPerSample}bit`" />
-                <tag v-if="metadata.format.numberOfChannels" :text="`${metadata.format.numberOfChannels}ch`" />
-                <tag v-if="state.state.bpmCache[player.getCurrentlyPlayingFilePath()]"
-                  :text="`${state.state.bpmCache[player.getCurrentlyPlayingFilePath()]}BPM`" />
-              </div>
-            </div>
+    <div class="flex gap-3 p-3 bg-surface-800">
+      <spectrum v-if="state.settings.showSpectrum && player.state.source" :key="player.state.currentlyPlayingFilePath"
+        :node="player.state.source" />
+      <db-meter v-if="state.settings.showDbMeter && player.state.source" :key="player.getCurrentlyPlayingFilePath()"
+        :node="player.state.source" />
+      <div class="flex flex-col justify-between h-full w-full">
+        <div class="flex gap-3 items-center justify-between">
+          <div class="flex gap-3 text-unlit-900">
+            <heart-icon class="hover:text-rose-600" />
+            <playlist-icon class="hover:text-white" />
+            <next-icon class="hover:text-white transform-gpu rotate-180" @click="player.previous()" />
+            <pause-icon class="hover:text-white" @click="player.pause()" v-if="player.isPlaying()" />
+            <play-icon class="hover:text-white" @click="player.play()" v-else />
+            <next-icon class="hover:text-white" @click="player.next()" />
           </div>
-          <spectrum v-if="state.settings.showSpectrum && player.state.source"
-            :key="player.state.currentlyPlayingFilePath" class="mt-8" :node="player.state.source" />
+
+          <slider v-model="player.state.inputAudio.currentTime" @wheel.stop="handleSeekMouseScroll"
+            class="w-full z-10 opacity-50" min="0" :max="duration" step="0.01" :id="currentTime" />
+
+          <p class="text-8px">{{player.currentTimeFormatted()}} /
+            {{player.currentDurationFormatted()}}</p>
+
+          <slider id="volume" key="volume" v-model="player.state.volume" class="volume max-w-32" min="0" max="1"
+            step="0.001" @input="player.setVolume(player.state.volume)" @wheel="handleVolumeMouseScroll" />
+        </div>
+        <div class="flex items-center justify-between gap-3 tracking-wider h-12">
+          <div class="flex gap-2 items-center w-full">
+            <cover :url="player.getCoverBase64()" v-if="player.hasCover()" />
+            <div class="flex flex-col font-bold gap-2">
+              <h1 class="text-12px hover:underline cursor-pointer">{{player.getTitle()}}</h1>
+              <p class="text-8px text-white text-opacity-50">{{player.getArtist()}}</p>
+            </div>
+
+          </div>
+          <div class="flex gap-1 text-8px font-bold">
+            <!-- <chip :icon="MetronomeIcon">
+              128<strong class="opacity-50">bpm</strong>
+            </chip>
+            <chip :icon="KeyClefIcon">
+              D# Pentatonic
+            </chip> -->
+            <chip v-if="player.state.currentlyPlayingMetadata?.format.codec" :icon="FileIcon">
+              {{player.state.currentlyPlayingMetadata?.format.codec}}
+            </chip>
+            <chip v-if="player.state.currentlyPlayingMetadata?.format.bitrate" :icon="BitrateIcon">
+              {{(player.state.currentlyPlayingMetadata?.format.bitrate / 1024).toFixed(2)}}<strong
+                class="opacity-50">kbps</strong>
+            </chip>
+            <!-- <chip :icon="StorageIcon">
+              {{(player.getFileSize())}}<strong class="opacity-50"> MB</strong>
+            </chip> -->
+          </div>
         </div>
       </div>
     </div>
   </div>
 </template>
-
-<style lang="postcss" scoped>
-a {
-  @apply text-[#42b983];
-}
-
-.v-enter-active,
-.v-leave-active {
-  transition: 300ms ease;
-  @apply w-64;
-}
-
-.v-enter-from,
-.v-leave-to {
-  @apply w-0;
-}
-
-.cover:hover {
-  filter: drop-shadow(0px 8px 16px rgba(0, 0, 0, 0.25));
-}
-</style>

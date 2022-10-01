@@ -1,10 +1,5 @@
 <template>
   <padded-container>
-    <settings-category-splitter text="UI Behaviour" />
-    <settings-modifier text="Smooth scroll speed" :min="0.01" :max="0.5" :step="0.001" :default="0.075"
-      v-model="state.settings.smoothScrollSpeed" />
-    <settings-binary-switch text="Show notifications tab" v-model="state.settings.showNotifications" />
-
     <settings-category-splitter text="Covers" />
     <settings-binary-switch text="Show cover art" v-model="state.settings.showCoverArt" />
 
@@ -28,7 +23,7 @@
 
     <settings-category-splitter text="Audio Routing" />
     <settings-setting text="Output L/R">
-      <select v-model="selectedOutputDevice" class="font-small text-7px w-full py-1 bg-[#303030]">
+      <select v-model="selectedOutputDevice" class="font-small text-7px w-full py-1 bg-surface-700">
         <option v-for="output of player.state.outputDevices">{{
         output.label
         }}</option>
@@ -38,7 +33,7 @@
     <settings-category-splitter text="Integrations" />
     <settings-binary-switch text="Discord Rich Presence" v-model="state.settings.discordRichPresence" />
 
-    <div class="opacity-10 flex-col flex gap-2">
+    <div class="opacity-20 flex-col flex gap-2">
       <splitter />
       <div class="flex justify-between items-center">
         Made by: <img src="../geoxor_logo.svg" class="h-2" alt="">
