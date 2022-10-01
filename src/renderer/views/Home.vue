@@ -64,7 +64,7 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
         :node="player.state.source" />
       <db-meter v-if="state.settings.showDbMeter && player.state.source" :key="player.getCurrentlyPlayingFilePath()"
         :node="player.state.source" />
-      <div class="flex flex-col justify-between h-full w-full">
+      <div class="flex flex-col gap-3 justify-between h-full w-full">
         <div class="flex gap-3 items-center justify-between">
           <div class="flex gap-3 text-unlit-900">
             <heart-icon class="hover:text-rose-600" />

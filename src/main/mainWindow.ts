@@ -36,7 +36,7 @@ export class MainWindow {
 		show: false,
 		width: 1280,
 		height: 720,
-		minHeight: 500,
+		minHeight: 100,
 		minWidth: 800,
 		icon: icon(),
 		frame: false,
