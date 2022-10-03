@@ -6,7 +6,9 @@ import { getThemeColorHex } from "../logic/color";
 import { transformLogarithmic } from "../logic/math";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
 const state = useState();
+
 const SPECTRUM_HEIGHT = 76;
+
 const SPECTRUM_WIDTH = SPECTRUM_HEIGHT * 2;
 // const DOWNSCALE_FACTOR = 7;
 const TILT_MULTIPLIER = 0.005; // 3dB/octave
@@ -40,8 +42,6 @@ onMounted(() => {
 		const canvas = spectrum.getContext("2d");
 		return canvas;
 	});
-
-
 
 	function draw() {
 		const bufferLength = analyser.frequencyBinCount;

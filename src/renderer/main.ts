@@ -1,5 +1,5 @@
 import "virtual:windi.css";
-import "./app.css";
+import "./app.pcss";
 // Make this conditional if we are in dev mode
 // import "virtual:windi-devtools";
 import { createApp } from "vue";
