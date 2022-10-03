@@ -2,7 +2,7 @@ import { onKeyStroke, useLocalStorage, useKeyModifier } from "@vueuse/core";
 import { useElectron } from "./amethyst";
 import type Player from "./player";
 
-export type ShortcutBindings = Record<string, [string[], () => void]>;
+export type ShortcutBindings = Record<string, [string[], (e: KeyboardEvent) => void]>;
 export type CustomShortcutBindings = Record<string, string[]>;
 
 export default class Shortcuts {
@@ -44,7 +44,11 @@ export default class Shortcuts {
 
       // Register the event for each key
       for (let j = 0; j < keys.length; j++)
-        onKeyStroke(keys[j], action);
+        onKeyStroke(keys[j], (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          action(e);
+        });
     }
   }
 }
