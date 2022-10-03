@@ -2,7 +2,7 @@
   "name": "amethyst",
   "author": "Geoxor <geoxor123@outlook.com>",
   "productName": "Amethyst",
-  "version": "1.6.2",
+  "version": "1.6.3",
   "main": "./release/dist/main/main.js",
   "licenses": [
     {
@@ -234,6 +234,7 @@
     "electron-log": "^4.4.6",
     "electron-updater": "^4.6.5",
     "events": "^3.3.0",
+    "fast-average-color-node": "^2.4.0",
     "history": "^5.3.0",
     "howler": "^2.2.3",
     "mitt": "^3.0.0",

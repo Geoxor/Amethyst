@@ -66,13 +66,15 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
         :node="player.state.source" />
       <div class="flex flex-col gap-3 justify-between h-full w-full">
         <div class="flex gap-3 items-center justify-between">
-          <div class="flex gap-3 text-unlit-900">
-            <heart-icon class="hover:text-rose-600" />
-            <playlist-icon class="hover:text-white" />
-            <next-icon class="hover:text-white transform-gpu rotate-180" @click="player.previous()" />
-            <pause-icon class="hover:text-white" @click="player.pause()" v-if="player.isPlaying()" />
-            <play-icon class="hover:text-white" @click="player.play()" v-else />
-            <next-icon class="hover:text-white" @click="player.next()" />
+          <div class="flex text-primary-900 gap-3">
+            <heart-icon class="opacity-75 hover:opacity-100 hover:text-rose-600" />
+            <playlist-icon class="opacity-75 hover:opacity-100 hover:text-white" />
+            <next-icon class="opacity-75 hover:opacity-100 hover:text-white transform-gpu rotate-180"
+              @click="player.previous()" />
+            <pause-icon class="opacity-75 hover:opacity-100 hover:text-white" @click="player.pause()"
+              v-if="player.isPlaying()" />
+            <play-icon class="opacity-75 hover:opacity-100 hover:text-white" @click="player.play()" v-else />
+            <next-icon class="opacity-75 hover:opacity-100 hover:text-white" @click="player.next()" />
           </div>
 
           <slider v-model="player.state.inputAudio.currentTime" @wheel.stop="handleSeekMouseScroll"

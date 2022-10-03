@@ -18,6 +18,7 @@ export type Channels =
 	"update-rich-presence" |
 	"sync-window-state" |
 	"drop-file" |
+	"get-cover-colors" |
 	"open-preferences" |
 	"test-notification" |
 	"check-for-updates";

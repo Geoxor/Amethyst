@@ -5,6 +5,8 @@ import { Event } from "electron";
 import { BrowserWindow, dialog, ipcMain, shell, Notification } from "electron";
 import sharp from "sharp";
 import { ALLOWED_EXTENSIONS, APP_VERSION, IS_DEV, RESOURCES_PATH } from "./main";
+import { getAverageColor } from 'fast-average-color-node';
+import { FastAverageColorResult } from 'fast-average-color';
 
 import { resolveHTMLPath } from "./util";
 import { loadFolder } from "./handles";
@@ -145,6 +147,19 @@ export class MainWindow {
 			"percent-cpu-usage": async () => process.getCPUUsage().percentCPUUsage,
 
 			"get-cover": async (_: Event, [path]: string[]) => this.getResizedCover(path),
+
+			"get-cover-colors": async (_: Event, [path]: string[]): Promise<FastAverageColorResult> => {
+				const coverBuffer = await this.getCover(path);
+				if (!coverBuffer)
+					return Promise.reject();
+
+				try {
+					const color = await getAverageColor(coverBuffer);
+					return color
+				} catch (error) {
+					return Promise.reject(error);
+				}
+			},
 
 			"get-cover-pixelized": async (_: Event, [path]: string[]) => {
 				const coverBuffer = await this.getCover(path);

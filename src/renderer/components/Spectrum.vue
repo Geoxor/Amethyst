@@ -14,7 +14,7 @@ const TILT_MULTIPLIER = 0.005; // 3dB/octave
 // const DOWNSCALED_WIDTH =  SPECTRUM_WIDTH / DOWNSCALE_FACTOR;
 // const DOWNSCALED_HEIGHT = SPECTRUM_HEIGHT / DOWNSCALE_FACTOR;
 let shouldStopRendering = false;
-const primaryColor = getThemeColorHex("--primary-900");
+
 
 onMounted(() => {
 	const context = props.node.context;
@@ -41,7 +41,7 @@ onMounted(() => {
 		return canvas;
 	});
 
-	canvasCtx.value!.fillStyle = primaryColor;
+
 
 	function draw() {
 		const bufferLength = analyser.frequencyBinCount;
@@ -54,6 +54,8 @@ onMounted(() => {
 		const barWidth = SPECTRUM_WIDTH / points.length;
 		const tiltOffset = TILT_MULTIPLIER * points.length;
 
+		const primaryColor = getThemeColorHex("--primary-900");
+		canvasCtx.value!.fillStyle = primaryColor;
 
 		for (let i = 0; i < points.length; i++) {
 			const tilt = (i * TILT_MULTIPLIER) - tiltOffset;

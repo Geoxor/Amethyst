@@ -1,5 +1,5 @@
 import { useLocalStorage } from "@vueuse/core";
-import { computed, reactive } from "vue";
+import { computed, reactive, watch } from "vue";
 import { AmethystNotification } from "./notification";
 
 export default class AppState {
@@ -28,6 +28,7 @@ export default class AppState {
 		showMiniCovers: true,
 		showCoverArt: true,
 		spectrumVerticalZoom: 1.5,
+		colorInterfaceFromCoverart: false,
 		spectrumFftSize: 8192,
 		spectrumSmoothing: 0.5,
 		showSpectrum: true,
@@ -57,6 +58,7 @@ export default class AppState {
 				// @ts-ignore
 				this.settings[key] = this.settingsObject[key];
 		});
+
 	}
 }
 

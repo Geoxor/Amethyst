@@ -1,5 +1,10 @@
 <template>
   <padded-container>
+
+    <settings-category-splitter text="UI" />
+    <settings-binary-switch text="Color UI based on cover art" v-model="state.settings.colorInterfaceFromCoverart" />
+
+
     <settings-category-splitter text="Covers" />
     <settings-binary-switch text="Show cover art" v-model="state.settings.showCoverArt" />
 

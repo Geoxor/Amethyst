@@ -3,6 +3,7 @@ import type { IAudioMetadata } from "music-metadata";
 import { computed, reactive, watch } from "vue";
 import type ElectronEventManager from "./electronEventManager";
 import type AppState from "./state";
+import { FastAverageColorResult } from 'fast-average-color';
 import mitt from 'mitt';
 
 export const ALLOWED_EXTENSIONS = ["ogg", "flac", "wav", "opus", "aac", "aiff", "mp3", "m4a"];
@@ -75,6 +76,10 @@ export default class Player {
 
 		// Prepare output node
 		this.updateOutputDevice(this.state.selectedOutputDeviceId);
+
+		// TODO: move the recolor logic somewhere else pls
+		// Resets the colors when the user disables this setting in the state
+		watch(() => this.appState.settings.colorInterfaceFromCoverart, () => this.resetThemeColors())
 	}
 
 	public static fisherYatesShuffle<T>(array: T[]) {
@@ -206,11 +211,51 @@ export default class Player {
 		return cover
 	};
 
+	private updateThemeColors = async (path: string) => {
+		this.electron.invoke<FastAverageColorResult>("get-cover-colors", [path])
+			.then(color => {
+				const [r, g, b] = color.value;
+
+				const root = document.querySelector<HTMLElement>(':root')!;
+				root.style.setProperty('--primary-900', `${r}, ${g}, ${b}`);
+				root.style.setProperty('--primary-800', `${r - 5}, ${g - 5}, ${b - 5}`);
+
+				const maximal = Math.max(r, g, b);
+
+				const rRatio = r / maximal;
+				const gRatio = g / maximal;
+				const bRatio = b / maximal;
+
+				const computeShade = (tint: number = 15, r: number, g: number, b: number): string => {
+					return `${r + rRatio * tint}, ${g + gRatio * tint},  ${b + bRatio * tint}`
+				}
+
+				root.style.setProperty("--surface-900", computeShade(15, 20, 20, 20)); // 15, 17, 25
+				root.style.setProperty("--surface-800", computeShade(20, 27, 27, 27)); // 20, 22, 33
+				root.style.setProperty("--surface-700", computeShade(24, 32, 32, 32)); // 24, 26, 39
+				root.style.setProperty("--surface-600", computeShade(31, 42, 42, 42)); // 31, 33, 52
+				root.style.setProperty("--surface-500", computeShade(45, 59, 59, 59)); // 45, 45, 73
+			})
+			.catch(console.log)
+	}
+
+	public resetThemeColors = () => {
+		const root = document.querySelector<HTMLElement>(':root')!;
+		root.style.setProperty('--primary-900', `134, 138, 255`);
+		root.style.setProperty('--primary-800', `100, 106, 195`);
+		root.style.setProperty("--surface-900", `15, 17, 25`);
+		root.style.setProperty("--surface-800", `20, 22, 33`);
+		root.style.setProperty("--surface-700", `24, 26, 39`);
+		root.style.setProperty("--surface-600", `31, 33, 52`);
+		root.style.setProperty("--surface-500", `45, 45, 73`);
+	}
+
 	public play() {
 		this.state.outputAudio.play();
 		this.state.inputAudio.play();
 		this.state.isPlaying = true;
 		this.emit("play", this.state.currentlyPlayingFilePath);
+		this.appState.settings.colorInterfaceFromCoverart && this.updateThemeColors(this.state.currentlyPlayingFilePath);
 	}
 
 	public pause() {
