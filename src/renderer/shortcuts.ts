@@ -6,9 +6,9 @@ export type ShortcutBindings = Record<string, [string[], (e: KeyboardEvent) => v
 export type CustomShortcutBindings = Record<string, string[]>;
 
 export default class Shortcuts {
-  private control = useKeyModifier("Control");
-  // private shift = useKeyModifier("Shift");
-  // private alt = useKeyModifier("Alt");
+  private isControlPressed = useKeyModifier("Control");
+  private isShiftPressed = useKeyModifier("Shift");
+  private isAltPressed = useKeyModifier("Alt");
 
   public DEFAULT_BINDINGS: ShortcutBindings = {
     "audio.play.pause": [[" "], () => this.player.isPlaying() ? this.player.pause() : this.player.play()],
@@ -19,9 +19,9 @@ export default class Shortcuts {
     "audio.volume.up": [["PageUp"], () => this.player.volumeUp()],
     "audio.volume.down": [["PageDown"], () => this.player.volumeDown()],
     "queue.remove.item": [["Delete"], () => this.player.removeCurrentItemFromQueue()],
-    "queue.add.file": [["o"], () => this.control.value && useElectron().openFileDialog()],
-    "queue.add.folder": [["O"], () => this.control.value && useElectron().openFolderDialog()],
-    "queue.clear": [["X"], () => this.control.value && this.player.clearQueue()],
+    "queue.add.file": [["o"], () => this.isControlPressed.value && useElectron().openFileDialog()],
+    "queue.add.folder": [["O"], () => this.isControlPressed.value && useElectron().openFolderDialog()],
+    "queue.clear": [["X"], () => this.isControlPressed.value && this.player.clearQueue()],
   };
 
   public bindings = this.DEFAULT_BINDINGS;

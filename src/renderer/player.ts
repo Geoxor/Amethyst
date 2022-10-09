@@ -165,7 +165,6 @@ export default class Player {
 
 		// simple fix to folders that have # in their name
 		this.state.inputAudio = new Audio(`file://${path.replace("#", "%23")}`);
-		this.state.inputAudio.volume = this.state.volume;
 
 		// Create a source out of the context
 		this.state.source = this.state.ctx.createMediaElementSource(this.state.inputAudio);
@@ -178,6 +177,7 @@ export default class Player {
 
 		// Create a new audio element that way we can change the audio output path
 		this.state.outputAudio.srcObject = destination.stream;
+		this.state.outputAudio.volume = this.state.volume;
 
 		// Play the sound and handle playback
 		this.play();
@@ -275,17 +275,17 @@ export default class Player {
 	}
 
 	public setVolume(volume: number) {
-		this.state.inputAudio.volume = volume;
+		this.state.outputAudio.volume = volume;
 		this.state.volume = volume;
 		this.emit("setVolume", volume);
 	}
 
 	public volumeUp(amount = 0.1) {
-		this.setVolume(this.state.inputAudio.volume = Math.min(1, this.state.inputAudio.volume + amount));
+		this.setVolume(this.state.outputAudio.volume = Math.min(1, this.state.outputAudio.volume + amount));
 	}
 
 	public volumeDown(amount = 0.1) {
-		this.setVolume(Math.max(0, this.state.inputAudio.volume - amount));
+		this.setVolume(Math.max(0, this.state.outputAudio.volume - amount));
 	}
 
 	public addToQueueAndPlay(file: string) {
