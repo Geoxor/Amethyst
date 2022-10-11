@@ -67,12 +67,7 @@ jobs:
         with:
           name: artifact
 
-      - name: Unzip Artifacts
-        uses: montudor/action-zip@v1
-        with:
-          args: unzip -qq artifact.zip -d artifacts
-
       - name: Post Releases
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "./artifacts/*"
+          artifacts: "./*"
