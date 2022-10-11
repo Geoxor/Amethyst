@@ -58,6 +58,7 @@ jobs:
 
   publish-releases:
     needs: [build-linux, build-windows]
+    if: startsWith(github.ref, 'refs/tags/v')
     name: Publish Releases
     runs-on: ubuntu-latest
     permissions:

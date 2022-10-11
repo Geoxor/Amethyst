@@ -2,7 +2,7 @@
   "name": "amethyst",
   "author": "Geoxor <geoxor123@outlook.com>",
   "productName": "Amethyst",
-  "version": "1.6.7",
+  "version": "1.6.8",
   "main": "./release/dist/main/main.js",
   "licenses": [
     {
