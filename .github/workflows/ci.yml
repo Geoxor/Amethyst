@@ -1,12 +1,13 @@
 name: Build Amethyst
 
-on: [push, workflow_dispatch, pull_request]
+on: [push, workflow_dispatch, pull_request_target]
 
 jobs:
   build-windows:
     name: Build Windows
     runs-on: windows-latest
-
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -22,7 +23,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: Amethyst Build Windows
+          name: amethyst_windows_builds
           path: |
             release/build/*.yml
             release/build/*.exe*
@@ -30,7 +31,8 @@ jobs:
   build-linux:
     name: Build Linux
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
@@ -49,25 +51,19 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: Amethyst Build Linux
+          name: amethyst_linux_builds
           path: |
             release/build/*.yml
             release/build/*.AppImage*
 
-# https://bittu.eu.org/docs/wr-intro/
-
-# name: Publish to WinGet
-# on:
-#   release:
-#     types: [released]
-# jobs:
-#   publish:
-#     runs-on: windows-latest # action can only be run on windows
-#     steps:
-#       - uses: vedantmgoyal2009/vedantmgoyal2009/winget-pkgs-automation/releaser-action@v1.0.0
-#         with:
-#           identifier: Package.Identifier
-#           version-regex: '[0-9.]+'
-#           installers-regex: '\.exe$' # only .exe files
-#           delete-previous-version: 'false' # don't forget the quotes
-#           token: ${{ secrets.WINGET_TOKEN }}
+  publish-releases:
+    needs: [build-linux, build-windows]
+    name: Publish Releases
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Post Releases
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: "amethyst_linux_builds,amethyst_windows_builds"
