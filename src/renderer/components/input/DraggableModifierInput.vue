@@ -17,7 +17,7 @@
 
 <script lang="ts" setup>
 import { useVModel } from '@vueuse/core'
-import { computed, defineEmits, defineProps, ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 const props = defineProps({
   modelValue: {
     type: Number,

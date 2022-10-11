@@ -51,16 +51,16 @@ else {
 				mainWindow.window.focus();
 			});
 
-			if (IS_DEV) {
-				import("electron-devtools-installer").then(({
-					default: installExtension,
-					VUEJS3_DEVTOOLS,
-				}) => installExtension(VUEJS3_DEVTOOLS, {
-					loadExtensionOptions: {
-						allowFileAccess: true,
-					},
-				})).catch(error => console.error("Failed install extension:", error));
-			}
+			// if (IS_DEV) {
+			// 	import("electron-devtools-installer").then(({
+			// 		default: installExtension,
+			// 		VUEJS3_DEVTOOLS,
+			// 	}) => installExtension(VUEJS3_DEVTOOLS, {
+			// 		loadExtensionOptions: {
+			// 			allowFileAccess: true,
+			// 		},
+			// 	})).catch(error => console.error("Failed install extension:", error));
+			// }
 
 			mainWindow.show();
 

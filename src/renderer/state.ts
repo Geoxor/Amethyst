@@ -1,5 +1,5 @@
 import { useLocalStorage } from "@vueuse/core";
-import { computed, reactive, watch } from "vue";
+import { computed, reactive } from "vue";
 import { AmethystNotification } from "./notification";
 
 export default class AppState {
@@ -17,7 +17,7 @@ export default class AppState {
 		bpmCache: useLocalStorage<Record<string, number>>("bpm-cache", {}),
 		waveformCache: useLocalStorage<Record<string, ImageBitmap>>("waveform-cache", {}),
 		defaultCover: "",
-		theme: useLocalStorage<string>("theme", "amethyst-dark"),
+		theme: "amethyst-dark",
 		lobbyId: undefined as string | undefined,
 	});
 
