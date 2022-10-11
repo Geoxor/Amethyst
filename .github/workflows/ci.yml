@@ -55,14 +55,24 @@ jobs:
             release/build/*.AppImage*
 
   publish-releases:
-    needs: [build-linux, build-windows]
     if: startsWith(github.ref, 'refs/tags/v')
+    needs: [build-linux, build-windows]
     name: Publish Releases
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
+      - name: Download All Artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: artifact
+
+      - name: Unzip Artifacts
+        uses: montudor/action-zip@v1
+        with:
+          args: unzip -qq artifact.zip -d artifacts
+
       - name: Post Releases
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "artifact"
+          artifacts: "./artifacts/*"
