@@ -23,7 +23,6 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: amethyst_windows_builds
           path: |
             release/build/*.yml
             release/build/*.exe*
@@ -51,7 +50,6 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: amethyst_linux_builds
           path: |
             release/build/*.yml
             release/build/*.AppImage*
@@ -67,4 +65,4 @@ jobs:
       - name: Post Releases
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "amethyst_linux_builds,amethyst_windows_builds"
+          artifacts: "*.yml,*.exe*,*.AppImage*"
