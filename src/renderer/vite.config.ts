@@ -16,6 +16,11 @@ const PACKAGE_ROOT = __dirname;
 export default defineConfig({
 	mode: process.env.MODE,
 	root: PACKAGE_ROOT,
+	test: {
+		coverage: {
+      provider: 'istanbul' // or 'c8'
+    },
+	},
 	resolve: {
 		alias: {
 			"@/": `${join(PACKAGE_ROOT, "./")}/`,
@@ -48,13 +53,12 @@ export default defineConfig({
 			strict: true,
 		},
 		host: true,
-		port: process.env.PORT | 1212,
+		port: Number.parseInt(process.env.PORT || '1212'),
 	},
 	build: {
 		sourcemap: true,
 		outDir: "../../release/dist/renderer",
 		assetsDir: ".",
 		emptyOutDir: true,
-		brotliSize: false,
 	},
 });
