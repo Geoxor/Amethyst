@@ -54,10 +54,6 @@ const dragging = ref(false)
 let startY = 0
 let initialValue = 0
 let currentIdx = 0;
-const playSoundEffect = () => {
-  const click = new Audio("sounds/click.wav")
-  click.play();
-}
 
 const displayValue = computed(() => {
   if (props.percent)
@@ -86,23 +82,17 @@ const onMove = (e: MouseEvent) => {
   const distance = startY - e.clientY
 
   if (props.range.length != 0) {
-    const newValue = (props.range as number[])[Math.max(0, Math.min(props.range.length - 1, currentIdx + ~~(distance / 10)))]
-    newValue != model.value && playSoundEffect()
-    model.value = newValue;
-
+    model.value = (props.range as number[])[Math.max(0, Math.min(props.range.length - 1, currentIdx + ~~(distance / 10)))]
     return;
   }
 
-  const newValue = Math.min(
+  model.value = Math.min(
     Math.max(
       initialValue + roundNearestStep(((distance * scale) / 200)),
       props.min,
     ),
     props.max,
-  );
-
-  newValue != model.value && playSoundEffect()
-  model.value = newValue;
+  )
 }
 const onMouseUp = () => {
   dragging.value = false
