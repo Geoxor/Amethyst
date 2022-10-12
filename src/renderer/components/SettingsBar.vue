@@ -11,9 +11,14 @@
     <settings-category-splitter text="Queue List" />
     <settings-binary-switch text="Show mini covers" v-model="state.settings.showMiniCovers" />
 
+    <settings-category-splitter text="Vectorscope" />
+    <settings-binary-switch text="Enabled" v-model="state.settings.showVectorscope" />
+    <settings-modifier text="Line thickness" :min="0.1" :max="5" :step="0.1" :default="1"
+      v-model="state.settings.vectorscopeLineThickness" />
+
     <settings-category-splitter text="Spectrum" />
     <settings-binary-switch text="Enabled" v-model="state.settings.showSpectrum" />
-    <settings-binary-switch text="Logarithmic Spectrum" v-model="state.settings.useLogarithmicSpectrum" />
+    <settings-binary-switch text="Logarithmic spectrum" v-model="state.settings.useLogarithmicSpectrum" />
     <settings-modifier text="Vertical zoom" :min="0.5" :max="2" :step="0.1" :default="1.5"
       v-model="state.settings.spectrumVerticalZoom" />
     <settings-modifier text="Smoothing" :min="0.01" :max="0.99" :step="0.01" :default="0.5"
@@ -62,6 +67,4 @@ const player = usePlayer();
 
 const selectedOutputDevice = ref(player.state.outputDevices.find(device => device.deviceId === player.state.selectedOutputDeviceId)?.label || "Unset");
 watch(() => selectedOutputDevice.value, () => player.updateOutputDevice(player.state.outputDevices.find(device => device.label === selectedOutputDevice.value)?.deviceId!));
-
-
 </script>

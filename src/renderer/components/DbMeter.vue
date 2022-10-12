@@ -38,10 +38,6 @@ onMounted(() => {
 		return analyzer;
 	})
 
-	// Time domain samples are always provided with the count of
-	// fftSize even though there is no FFT involved.
-	// (Note that fftSize can only have particular values, not an
-	// arbitrary integer.)
 	const buffers = analyzers.map(analyzer => new Float32Array(analyzer.fftSize));
 
 	props.node.connect(splitter);

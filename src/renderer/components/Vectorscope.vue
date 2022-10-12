@@ -1,0 +1,74 @@
+<script setup lang="ts">
+import { getThemeColorHex } from "../logic/color";
+import { computed, onMounted, onUnmounted, watch } from "vue";
+import { useState } from "../amethyst";
+const props = defineProps<{ node: MediaElementAudioSourceNode }>();
+const FFT_SIZE = 512;
+const WIDTH = 76;
+const HEIGHT = WIDTH
+const state = useState();
+let shouldStopRendering = false;
+
+
+onMounted(() => {
+	const vectorscope = document.querySelector("#vectorscope") as HTMLCanvasElement;
+	const canvasCtx = computed(() => {
+		const canvas = vectorscope.getContext("2d")!;
+		return canvas;
+	});
+
+	const context = props.node.context;
+	const analyzerX = context.createAnalyser();
+	const analyzerY = context.createAnalyser();
+	analyzerX.fftSize = FFT_SIZE;
+	analyzerY.fftSize = FFT_SIZE;
+
+	const splitter = context.createChannelSplitter(2);
+	props.node.connect(splitter);
+	splitter.connect(analyzerX, 0, 0);
+	splitter.connect(analyzerY, 1, 0);
+	const bufferX = new Float32Array(analyzerX.fftSize);
+	const bufferY = new Float32Array(analyzerY.fftSize);
+	const primaryColor = getThemeColorHex("--primary-900");
+
+	canvasCtx.value.strokeStyle = `${primaryColor}66`;
+
+	canvasCtx.value.lineWidth = state.settings.vectorscopeLineThickness;
+	watch(() => state.settings.vectorscopeLineThickness, () => canvasCtx.value.lineWidth = state.settings.vectorscopeLineThickness)
+
+	let lastPosition = [WIDTH / 2, HEIGHT / 2];
+
+	function draw() {
+		analyzerX.getFloatTimeDomainData(bufferX);
+		analyzerY.getFloatTimeDomainData(bufferY);
+
+		canvasCtx.value.clearRect(0, 0, screen.width, screen.height);
+		for (let i = 0; i < bufferX.length; i++) {
+			canvasCtx.value.beginPath();
+			canvasCtx.value.moveTo(lastPosition[0], lastPosition[1]);
+
+
+			const x = bufferX[i] * 36 + WIDTH / 2;
+			const y = bufferY[i] * 36 + HEIGHT / 2;
+
+			canvasCtx.value.lineTo(x, y);
+			canvasCtx.value.stroke();
+			lastPosition = [x, y]
+		}
+
+		!shouldStopRendering && requestAnimationFrame(draw);
+	}
+
+	draw();
+});
+
+onUnmounted(() => shouldStopRendering = true);
+</script>
+
+<template>
+	<div :style="`min-width: ${WIDTH}px;`" class="flex flex-col bg-surface-900 rounded-4px overflow-hidden">
+		<canvas class="transform rotate-45 scale-66 rounded-4px bg-black bg-opacity-20 " id="vectorscope" ref="vectorscope"
+			:width="WIDTH" :height="HEIGHT" />
+	</div>
+</template>
+

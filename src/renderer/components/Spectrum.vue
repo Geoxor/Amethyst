@@ -39,7 +39,7 @@ onMounted(() => {
 
 	const spectrum = document.querySelector("#spectrum") as HTMLCanvasElement;
 	const canvasCtx = computed(() => {
-		const canvas = spectrum.getContext("2d");
+		const canvas = spectrum.getContext("2d")!;
 		return canvas;
 	});
 
@@ -47,7 +47,7 @@ onMounted(() => {
 		const bufferLength = analyser.frequencyBinCount;
 		const dataArray = new Uint8Array(bufferLength);
 
-		canvasCtx.value!.clearRect(0, 0, screen.width, screen.height);
+		canvasCtx.value.clearRect(0, 0, screen.width, screen.height);
 		analyser.getByteFrequencyData(dataArray);
 
 		const points = state.settings.useLogarithmicSpectrum ? transformLogarithmic(dataArray) : dataArray;
@@ -87,7 +87,7 @@ onUnmounted(() => shouldStopRendering = true);
 </script>
 
 <template>
-	<div :style="`min-width: ${SPECTRUM_WIDTH}px;`" class="flex flex-col bg-surface-700 rounded-4px overflow-hidden">
+	<div :style="`min-width: ${SPECTRUM_WIDTH}px;`" class="flex flex-col bg-surface-900 rounded-4px overflow-hidden">
 		<canvas id="spectrum" ref="spectrum" :width="SPECTRUM_WIDTH" :height="SPECTRUM_HEIGHT" />
 	</div>
 </template>

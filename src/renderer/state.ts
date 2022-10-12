@@ -30,8 +30,10 @@ export default class AppState {
 		spectrumVerticalZoom: 1.5,
 		colorInterfaceFromCoverart: false,
 		spectrumFftSize: 8192,
+		vectorscopeLineThickness: 1,
 		spectrumSmoothing: 0.5,
 		showSpectrum: true,
+		showVectorscope: true,
 		showDbMeter: true,
 		showNotifications: true,
 		smoothScrollSpeed: 0.075,
@@ -53,8 +55,9 @@ export default class AppState {
 
 	constructor() {
 		this.applyCurrentTheme();
-		Object.entries(this.settings).forEach(([key, value]) => {
-			if (value === undefined || value === null)
+		Object.keys(this.settingsObject).forEach((key) => {
+			// @ts-ignore
+			if (this.settings[key] === undefined || this.settings[key] === null)
 				// @ts-ignore
 				this.settings[key] = this.settingsObject[key];
 		});

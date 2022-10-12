@@ -17,6 +17,7 @@ import PauseIcon from '../icons/PauseIcon.vue';
 import BitrateIcon from "../icons/BitrateIcon.vue";
 import FileIcon from "../icons/FileIcon.vue";
 import Slider from "../components/input/Slider.vue";
+import Vectorscope from '../components/Vectorscope.vue';
 // import MetronomeIcon from '../icons/MetronomeIcon.vue';
 // import KeyClefIcon from "../icons/KeyClefIcon.vue";
 // import StorageIcon from "../icons/StorageIcon.vue";
@@ -60,6 +61,8 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
     </div>
 
     <div class="flex gap-3 p-3 bg-surface-800">
+      <vectorscope v-if="state.settings.showVectorscope && player.state.source"
+        :key="player.state.currentlyPlayingFilePath" :node="player.state.source" />
       <spectrum v-if="state.settings.showSpectrum && player.state.source" :key="player.state.currentlyPlayingFilePath"
         :node="player.state.source" />
       <db-meter v-if="state.settings.showDbMeter && player.state.source" :key="player.getCurrentlyPlayingFilePath()"
