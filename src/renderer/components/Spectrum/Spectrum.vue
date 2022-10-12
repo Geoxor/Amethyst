@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from "@vue/reactivity";
-import { useState } from "../amethyst";
+import { useState } from "../../amethyst";
 import { onMounted, onUnmounted, watch } from "vue";
-import { getThemeColorHex } from "../logic/color";
-import { transformLogarithmic } from "../logic/math";
+import { getThemeColorHex } from "../../logic/color";
+import { transformLogarithmic } from "../../logic/math";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
 const state = useState();
 

@@ -4,7 +4,7 @@ import { computed, ref } from "vue";
 import { usePlayer, useState } from "../amethyst";
 import Queue from "../components/Queue.vue";
 import Tag from "../components/Tag.vue";
-import Spectrum from "../components/Spectrum.vue";
+import Spectrum from "../components/Spectrum/Spectrum.vue";
 import PlayerControls from "../components/PlayerControls.vue";
 import NavigationBar from "../components/NavigationBar.vue";
 import NavigationButton from "../components/NavigationButton.vue";

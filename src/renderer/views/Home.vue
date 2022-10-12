@@ -3,7 +3,7 @@ import { usePlayer, useState } from '../amethyst';
 import { computed, onMounted, ref } from 'vue';
 
 import Queue from "../components/Queue.vue";
-import Spectrum from '../components/Spectrum.vue';
+import Spectrum from '../components/Spectrum';
 import Chip from '../components/new/Chip.vue';
 import Cover from '../components/new/Cover.vue';
 import DbMeter from '../components/DbMeter.vue';
