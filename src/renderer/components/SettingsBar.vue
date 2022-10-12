@@ -4,7 +4,6 @@
     <settings-category-splitter text="UI" />
     <settings-binary-switch text="Color UI based on cover art" v-model="state.settings.colorInterfaceFromCoverart" />
 
-
     <settings-category-splitter text="Covers" />
     <settings-binary-switch text="Show cover art" v-model="state.settings.showCoverArt" />
 
@@ -13,7 +12,9 @@
 
     <settings-category-splitter text="Vectorscope" />
     <settings-binary-switch text="Enabled" v-model="state.settings.showVectorscope" />
-    <settings-modifier text="Line thickness" :min="0.1" :max="5" :step="0.1" :default="1"
+    <settings-binary-switch text="Diagonal" v-model="state.settings.diagonalVectorscope" />
+
+    <settings-modifier text="Line thickness" :min="0.1" :max="5" :step="0.50" :default="1"
       v-model="state.settings.vectorscopeLineThickness" />
 
     <settings-category-splitter text="Spectrum" />
@@ -21,15 +22,13 @@
     <settings-binary-switch text="Logarithmic spectrum" v-model="state.settings.useLogarithmicSpectrum" />
     <settings-modifier text="Vertical zoom" :min="0.5" :max="2" :step="0.1" :default="1.5"
       v-model="state.settings.spectrumVerticalZoom" />
-    <settings-modifier text="Smoothing" :min="0.01" :max="0.99" :step="0.01" :default="0.5"
+    <settings-modifier text="Smoothing" :min="0.01" :max="0.99" :step="0.1" :default="0.5"
       v-model="state.settings.spectrumSmoothing" />
     <settings-modifier text="FFT Size" :range="[32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768]"
       :default="8192" v-model="state.settings.spectrumFftSize" />
 
     <settings-category-splitter text="dB Meter" />
     <settings-binary-switch text="Enabled" v-model="state.settings.showDbMeter" />
-    <settings-binary-switch text="Show instant dB values" v-model="state.settings.showInstantDecibelValues" />
-    <settings-binary-switch text="Show average dB values" v-model="state.settings.showAverageDecibelValues" />
 
     <settings-category-splitter text="Audio Routing" />
     <settings-setting text="Output L/R">

@@ -23,14 +23,13 @@ export default class AppState {
 
 	public settingsObject = {
 		useLogarithmicSpectrum: true,
-		showInstantDecibelValues: false,
-		showAverageDecibelValues: false,
 		showMiniCovers: true,
 		showCoverArt: true,
 		spectrumVerticalZoom: 1.5,
 		colorInterfaceFromCoverart: false,
 		spectrumFftSize: 8192,
 		vectorscopeLineThickness: 1,
+		diagonalVectorscope: true,
 		spectrumSmoothing: 0.5,
 		showSpectrum: true,
 		showVectorscope: true,

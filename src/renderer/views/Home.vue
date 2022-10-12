@@ -63,10 +63,13 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
     <div class="flex gap-3 p-3 bg-surface-800">
       <vectorscope v-if="state.settings.showVectorscope && player.state.source"
         :key="player.state.currentlyPlayingFilePath" :node="player.state.source" />
+
       <spectrum v-if="state.settings.showSpectrum && player.state.source" :key="player.state.currentlyPlayingFilePath"
         :node="player.state.source" />
-      <db-meter v-if="state.settings.showDbMeter && player.state.source" :key="player.getCurrentlyPlayingFilePath()"
+
+      <db-meter v-if="state.settings.showDbMeter && player.state.source" :key="player.state.currentlyPlayingFilePath"
         :node="player.state.source" />
+
       <div class="flex flex-col gap-3 justify-between h-full w-full">
         <div class="flex gap-3 items-center justify-between">
           <div class="flex text-primary-900 gap-3">

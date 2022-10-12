@@ -48,8 +48,8 @@ onMounted(() => {
 			canvasCtx.value.moveTo(lastPosition[0], lastPosition[1]);
 
 
-			const x = bufferX[i] * 36 + WIDTH / 2;
-			const y = bufferY[i] * 36 + HEIGHT / 2;
+			const x = bufferX[i] * 32 + WIDTH / 2;
+			const y = bufferY[i] * 32 + HEIGHT / 2;
 
 			canvasCtx.value.lineTo(x, y);
 			canvasCtx.value.stroke();
@@ -67,8 +67,13 @@ onUnmounted(() => shouldStopRendering = true);
 
 <template>
 	<div :style="`min-width: ${WIDTH}px;`" class="flex flex-col bg-surface-900 rounded-4px overflow-hidden">
-		<canvas class="transform rotate-45 scale-66 rounded-4px bg-black bg-opacity-20 " id="vectorscope" ref="vectorscope"
+		<canvas :class="[!state.settings.diagonalVectorscope && 'diagonal']" id="vectorscope" ref="vectorscope"
 			:width="WIDTH" :height="HEIGHT" />
 	</div>
 </template>
 
+<style scoped lang="postcss">
+.diagonal {
+	@apply transform rotate-45 scale-66 rounded-4px bg-black bg-opacity-20;
+}
+</style>
