@@ -2,7 +2,7 @@
   "name": "amethyst",
   "author": "Geoxor <geoxor123@outlook.com>",
   "productName": "Amethyst",
-  "version": "1.6.12",
+  "version": "1.6.13",
   "main": "./release/dist/main/main.js",
   "licenses": [
     {
@@ -20,9 +20,9 @@
   ],
   "description": "A music box made of amethyst.",
   "scripts": {
-    "dev": "concurrently -r \"npm run start:main\" \"npm run start:renderer\"",
-    "build": "concurrently -r \"npm run build:main\" \"npm run build:renderer\"",
-    "build:main": "concurrently -r \"tsc ./src/main/preload.ts\" \"tsc -p ./src/main/tsconfig.json\" ",
+    "dev": "concurrently -p none \"npm run start:main\" \"npm run start:renderer\"",
+    "build": "concurrently -p none \"npm run build:main\" \"npm run build:renderer\"",
+    "build:main": "concurrently -p none \"tsc ./src/main/preload.ts\" \"tsc -p ./src/main/tsconfig.json\" ",
     "build:renderer": "vite build --config ./src/renderer/vite.config.js",
     "start:main": "npm run build:main && cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only ./src/main/main.ts",
     "start:renderer": "vite dev --config ./src/renderer/vite.config.js",

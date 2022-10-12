@@ -11,23 +11,32 @@ import { FastAverageColorResult } from 'fast-average-color';
 import { resolveHTMLPath } from "./util";
 import { loadFolder } from "./handles";
 import { Discord } from "./discord";
+import { Logger } from "./logger";
 
 const icon = () => path.join(RESOURCES_PATH, 'icon.png');
 
 const notifications = {
-	showUpdateInstallingNotification: () =>
+	showUpdateInstallingNotification: () => {
+		const title = "Update Installing";
+		const body = "The application will restart once the update is complete.";
+		Logger.print(title, body)
 		new Notification({
 			icon: icon(),
-			title: "Update Installing",
-			body: "The application will restart once the update is complete.",
-		}).show(),
+			title,
+			body,
+		}).show()
+	},
 
-	showUpdateAvailableNotification: () =>
+	showUpdateAvailableNotification: () => {
+		const title = "Amethyst Update Available";
+		const body = "Amethyst is downloading an update and will restart when complete";
+		Logger.print(title, body)
 		new Notification({
 			icon: icon(),
-			title: "Amethyst Update Available",
-			body: "Amethyst is downloading an update and will restart when complete"
-		}).show(),
+			title,
+			body
+		}).show()
+	},
 }
 
 export class MainWindow {
@@ -54,15 +63,26 @@ export class MainWindow {
 	constructor() {
 		this.window = new BrowserWindow(this.windowOptions);
 		this.discord = new Discord();
+		Logger.printColor(`
+    ___                   __  __               __ 
+   /   |  ____ ___  ___  / /_/ /_  __  _______/ /_
+  / /| | / __ \`__ \\/ _ \\/ __/ __ \\/ / / / ___/ __/
+ / ___ |/ / / / / /  __/ /_/ / / / /_/ (__  ) /_  
+/_/  |_/_/ /_/ /_/\\___/\\__/_/ /_/\\__, /____/\\__/  
+ v${APP_VERSION}                        /____/            
+		`)
 
 		this.setIpcEvents();
 		this.setWindowEvents();
+		checkForUpdatesAndInstall();
 	}
 
 	public show(): void {
 		this.window.loadURL(resolveHTMLPath("index"));
 
 		this.window.on("ready-to-show", () => {
+			Logger.print("Amethyst ready")
+
 			if (process.env.START_MINIMIZED)
 				this.window.minimize();
 			else
@@ -79,6 +99,9 @@ export class MainWindow {
 	}
 
 	private setWindowEvents(): void {
+		Logger.print("Setting Window events")
+
+
 		this.window.on("minimize", () => this.window.webContents.send("minimize"));
 		this.window.on("maximize", () => this.window.webContents.send("maximize"));
 		this.window.on("closed", () => this.destroy());
@@ -106,6 +129,8 @@ export class MainWindow {
 	}
 
 	private setIpcEvents(): void {
+		Logger.print("Setting IPC events")
+
 		Object.entries({
 			"test-notification": (_: Event, [notification]: string) => (notifications as { [key: string]: any })[notification](),
 			// Temporary fix
@@ -235,10 +260,14 @@ export class MainWindow {
 }
 
 export async function checkForUpdatesAndInstall() {
+
+
 	return import("electron-updater")
 		.then(({ autoUpdater }) => {
 			autoUpdater.on("before-quit-for-update", () => notifications.showUpdateInstallingNotification());
 			autoUpdater.on("update-available", () => notifications.showUpdateAvailableNotification())
+			autoUpdater.on("update-not-available", () => Logger.print("No updates available"))
+			autoUpdater.on("checking-for-update", () => Logger.print("Checking for updates..."))
 			autoUpdater.on("update-downloaded", () => autoUpdater.quitAndInstall(true, true));
 		})
 		.catch(e => console.error("Failed check updates:", e));
