@@ -70,7 +70,9 @@ jobs:
           path: |
             release/build/*.yml
             release/build/*.dmg
+            release/build/*.dmg.*
             release/build/*.zip
+            release/build/*.zip.*
 
   build-linux:
     name: Build Linux
