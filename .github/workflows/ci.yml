@@ -62,7 +62,7 @@ jobs:
         run: npm ci
 
       - name: Build Amethyst
-        run: npm run package
+        run: USE_HARD_LINKS=false npm run package
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
