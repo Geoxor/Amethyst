@@ -48,6 +48,30 @@ jobs:
             release/build/*.yml
             release/build/*.exe*
 
+  build-macos:
+    needs: [tests]
+    name: Build MacOS
+    runs-on: macos-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.10.0
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Build Amethyst
+        run: npm run package
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          path: |
+            release/build/*
+
   build-linux:
     needs: [tests]
     name: Build Linux
@@ -78,7 +102,7 @@ jobs:
 
   publish-releases:
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [build-linux, build-windows]
+    needs: [build-linux, build-windows, build-macos]
     name: Publish Releases
     runs-on: ubuntu-latest
     permissions:
