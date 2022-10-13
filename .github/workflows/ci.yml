@@ -68,7 +68,9 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           path: |
-            release/build/*
+            release/build/*.yml
+            release/build/*.dmg
+            release/build/*.zip
 
   build-linux:
     name: Build Linux
