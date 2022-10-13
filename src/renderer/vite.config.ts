@@ -18,8 +18,9 @@ export default defineConfig({
 	root: PACKAGE_ROOT,
 	test: {
 		coverage: {
-      provider: 'istanbul' // or 'c8'
-    },
+			provider: 'istanbul' // or 'c8'
+		},
+		reporters: ["verbose"]
 	},
 	resolve: {
 		alias: {

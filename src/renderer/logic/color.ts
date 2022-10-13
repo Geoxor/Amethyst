@@ -3,8 +3,11 @@ export const componentToHex = (c: number) => {
   return hex.length == 1 ? "0" + hex : hex;
 }
 
-export const rgbToHex = (r: string, g: string, b: string) => {
-  return "#" + componentToHex(parseInt(r)) + componentToHex(parseInt(g)) + componentToHex(parseInt(b));
+export const rgbToHex = (r: string | number, g: string | number, b: string | number) => {
+  r = typeof r == "string" ? parseFloat(r) : r;
+  g = typeof g == "string" ? parseFloat(g) : g;
+  b = typeof b == "string" ? parseFloat(b) : b;
+  return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 }
 
 export const getThemeColorHex = (variableName: string) => {
