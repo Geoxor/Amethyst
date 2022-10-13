@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { rgbToHex, componentToHex } from '../color';
+import { rgbToHex, componentToHex } from './color';
 
 describe('rgbToHex()', () => {
   const result = rgbToHex(255, 255, 255);
