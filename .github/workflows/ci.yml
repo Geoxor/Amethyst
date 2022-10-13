@@ -32,7 +32,6 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install Dependencies
-        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Run Tests
@@ -64,7 +63,6 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install Dependencies
-        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Build Amethyst
@@ -103,7 +101,6 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install Dependencies
-        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Build Amethyst
@@ -144,7 +141,6 @@ jobs:
             ${{ runner.os }}-
 
       - name: Install Dependencies
-        if: steps.cache-nodemodules.outputs.cache-hit != 'true'
         run: npm ci
 
       - name: Build Amethyst
