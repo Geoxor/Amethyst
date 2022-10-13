@@ -9,4 +9,4 @@ describe.skip('Spectrum unit tests', () => {
     const wrapper = mount(Spectrum);
     expect(wrapper).toBeTruthy();
   })
-})
+}) 
