@@ -139,7 +139,6 @@
       "category": "Music"
     },
     "mac": {
-      "icon": "assets/icon.png",
       "target": {
         "target": "default",
         "arch": [
