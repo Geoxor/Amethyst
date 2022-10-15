@@ -1,7 +1,7 @@
 <img align="left" src="https://media.discordapp.net/attachments/667464431562653706/1025732056124235826/icon.png?width=192&height=192">
 
 # Amethyst
-An electron-based audio player with a pixel-art aesthetic
+An electron-based audio player with a funny looking bloat
 
 ```powershell
 winget install amethyst
