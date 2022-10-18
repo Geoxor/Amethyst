@@ -18,7 +18,7 @@ const parseTitle = (path: string) => path.substring(Math.max(path.lastIndexOf("\
     <input v-model="filterText" type="text"
       class="border-2 z-30 w-full border-gray-400 text-black py-0.25 indent-xs text-12px mb-2"
       placeholder="artists, title & format...">
-    <ul class="overflow-y-scroll">
+    <ul class="overflow-y-scroll w-full">
       <li
         v-for="([song, i]) of player.getQueue().map((song, i) => song.toLowerCase().includes(filterText.toLowerCase()) ? [song, i] : undefined).filter(song => !!song) as [string, number][]"
         :key="song"

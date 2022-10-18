@@ -53,12 +53,12 @@ body::-webkit-scrollbar {
 *::-webkit-scrollbar-track,
 *::-webkit-scrollbar-corner {
   border-radius: 20px;
-  @apply bg-gray-100;
+  @apply bg-surface-700;
 }
 
 *::-webkit-scrollbar-thumb {
   border-radius: 20px;
-  @apply bg-gray-400;
+  @apply bg-surface-500;
   border: transparent;
 }
 

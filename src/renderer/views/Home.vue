@@ -8,16 +8,20 @@ import Chip from '../components/new/Chip.vue';
 import Cover from '../components/new/Cover.vue';
 import DbMeter from '../components/DbMeter.vue';
 import SettingsBar from '../components/SettingsBar.vue';
+import { LoopMode } from "../player";
 
 import HeartIcon from '../icons/HeartIcon.vue';
 import PlaylistIcon from '../icons/PlaylistIcon.vue';
 import PlayIcon from '../icons/PlayIcon.vue';
 import NextIcon from '../icons/NextIcon.vue';
 import PauseIcon from '../icons/PauseIcon.vue';
+import RepeatIcon from '../icons/RepeatIcon.vue';
+import RepeatOneIcon from '../icons/RepeatOneIcon.vue';
 import BitrateIcon from "../icons/BitrateIcon.vue";
 import FileIcon from "../icons/FileIcon.vue";
 import Slider from "../components/input/Slider.vue";
 import Vectorscope from '../components/Vectorscope.vue';
+import ShuffleIcon from '../icons/ShuffleIcon.vue';
 // import MetronomeIcon from '../icons/MetronomeIcon.vue';
 // import KeyClefIcon from "../icons/KeyClefIcon.vue";
 // import StorageIcon from "../icons/StorageIcon.vue";
@@ -60,7 +64,7 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
       <settings-bar />
     </div>
 
-    <div class="flex gap-3 p-3 bg-surface-800">
+    <div class="flex gap-2 p-2 bg-surface-800">
       <vectorscope v-if="state.settings.showVectorscope && player.state.source"
         :key="player.state.currentlyPlayingFilePath" :node="player.state.source" />
 
@@ -70,9 +74,9 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
       <db-meter v-if="state.settings.showDbMeter && player.state.source" :key="player.state.currentlyPlayingFilePath"
         :node="player.state.source" />
 
-      <div class="flex flex-col gap-3 justify-between h-full w-full">
-        <div class="flex gap-3 items-center justify-between">
-          <div class="flex text-primary-900 gap-3">
+      <div class="flex flex-col gap-2 justify-between h-full w-full">
+        <div class="flex gap-2 items-center justify-between">
+          <div class="flex text-primary-900 gap-2">
             <heart-icon class="opacity-75 hover:opacity-100 hover:text-rose-600" />
             <playlist-icon class="opacity-75 hover:opacity-100 hover:text-white" />
             <next-icon class="opacity-75 hover:opacity-100 hover:text-white transform-gpu rotate-180"
@@ -81,6 +85,17 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
               v-if="player.isPlaying()" />
             <play-icon class="opacity-75 hover:opacity-100 hover:text-white" @click="player.play()" v-else />
             <next-icon class="opacity-75 hover:opacity-100 hover:text-white" @click="player.next()" />
+
+            <shuffle-icon class="opacity-75 hover:opacity-100 hover:text-white" @click="player.shuffle()" />
+
+            <repeat-icon v-if="player.state.loopMode == LoopMode.None"
+              class="opacity-75 hover:opacity-100 hover:text-white" @click="player.loopAll()" />
+
+            <repeat-icon v-if="player.state.loopMode == LoopMode.All" class="opacity-100 text-gray-300 hover:text-white"
+              @click="player.loopOne()" />
+
+            <repeat-one-icon v-if="player.state.loopMode == LoopMode.One"
+              class="opacity-100 text-gray-300 hover:text-white" @click="player.loopNone()" />
           </div>
 
           <slider v-model="player.state.inputAudio.currentTime" @wheel.stop="handleSeekMouseScroll"

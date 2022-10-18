@@ -8,6 +8,12 @@ import mitt from 'mitt';
 
 export const ALLOWED_EXTENSIONS = ["ogg", "flac", "wav", "opus", "aac", "aiff", "mp3", "m4a"];
 
+export enum LoopMode {
+	None,
+	All,
+	One,
+}
+
 // Turns seconds from 80 to 1:20
 export const secondsHuman = (time: number) => {
 	const seconds = ~~time;
@@ -44,7 +50,7 @@ export default class Player {
 		currentlyPlayingIndex: -1,
 		volume: useLocalStorage<number>("volume", 1),
 		isPlaying: false,
-		loop: false,
+		loopMode: LoopMode.None,
 
 		outputDevices: [] as MediaDeviceInfo[],
 		inputDevices: [] as MediaDeviceInfo[],
@@ -92,6 +98,18 @@ export default class Player {
 			array[i] = t;
 		}
 		return array;
+	}
+
+	public loopNone = () => {
+		this.state.loopMode = LoopMode.None;
+	}
+
+	public loopOne = () => {
+		this.state.loopMode = LoopMode.One;
+	}
+
+	public loopAll = () => {
+		this.state.loopMode = LoopMode.All;
 	}
 
 	// TODO: fix this, substring fails when first starting cus getCurrentlyPlayingFilePath() returns null
@@ -181,7 +199,28 @@ export default class Player {
 
 		// Play the sound and handle playback
 		this.play();
-		this.state.inputAudio.onended = () => this.state.loop ? this.play() : this.next();
+		this.state.inputAudio.onended = () => {
+			const isLastInQueue = this.state.currentlyPlayingIndex == this.state.queue.size - 1;
+
+			// TODO: move this logic in the play(); method
+			switch (this.state.loopMode) {
+				case LoopMode.None:
+					return isLastInQueue ? this.pause() : this.next();
+				case LoopMode.One:
+					return this.play();
+				case LoopMode.All:
+					// If we are at the last song then start from the beginning
+					console.log(isLastInQueue);
+
+					if (isLastInQueue) {
+						this.setCurrentlyPlayingIndex(0);
+						return this.play();
+					}
+
+					// Otherwise play the next song
+					return this.next();
+			}
+		};
 
 		// Misc
 		this.updateAppTitle(path);

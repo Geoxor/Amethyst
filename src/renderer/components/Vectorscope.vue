@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { getThemeColorHex } from "../logic/color";
 import { computed, onMounted, onUnmounted, watch } from "vue";
 import { useState } from "../amethyst";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
@@ -29,9 +28,8 @@ onMounted(() => {
 	splitter.connect(analyzerY, 1, 0);
 	const bufferX = new Float32Array(analyzerX.fftSize);
 	const bufferY = new Float32Array(analyzerY.fftSize);
-	const primaryColor = getThemeColorHex("--primary-900");
 
-	canvasCtx.value.strokeStyle = `${primaryColor}66`;
+	canvasCtx.value.strokeStyle = "#ffcd0166";
 
 	canvasCtx.value.lineWidth = state.settings.vectorscopeLineThickness;
 	watch(() => state.settings.vectorscopeLineThickness, () => canvasCtx.value.lineWidth = state.settings.vectorscopeLineThickness)
