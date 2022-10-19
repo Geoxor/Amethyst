@@ -82,8 +82,6 @@ export default class Player {
 		watch(() => this.appState?.settings.colorInterfaceFromCoverart, () => this.resetThemeColors())
 	}
 
-
-
 	public loopNone = () => {
 		this.state.loopMode = LoopMode.None;
 	}
