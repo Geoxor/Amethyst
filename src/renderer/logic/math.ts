@@ -3,10 +3,10 @@ export const getLogIndex = (value: number, min: number, max: number) => {
   return min * (max / min) ** exp;
 };
 
-export const transformLogarithmic = (array: Uint8Array): Uint8Array => {
+export const scaleLog = (array: Uint8Array): Uint8Array => {
   const logArray = [];
 
-  for (let i = 1; i < array.length; i++) {
+  for (let i = 1; i < array.length - 2; i++) {
     const idx = getLogIndex(i, 1, array.length - 1);
     const low = ~~idx;
     const high = Math.ceil(idx);
@@ -19,3 +19,15 @@ export const transformLogarithmic = (array: Uint8Array): Uint8Array => {
 
   return new Uint8Array(logArray);
 };
+
+export const fisherYatesShuffle = <T>(array: T[]) => {
+  let m = array.length; let t; let i;
+  while (m) {
+    i = ~~(Math.random() * m--);
+
+    t = array[m];
+    array[m] = array[i];
+    array[i] = t;
+  }
+  return array;
+}

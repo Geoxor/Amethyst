@@ -3,7 +3,7 @@ import { computed } from "@vue/reactivity";
 import { useState } from "../../amethyst";
 import { onMounted, onUnmounted, watch } from "vue";
 import { getThemeColorHex } from "../../logic/color";
-import { transformLogarithmic } from "../../logic/math";
+import { scaleLog } from "../../logic/math";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
 const state = useState();
 
@@ -50,7 +50,7 @@ onMounted(() => {
 		canvasCtx.value.clearRect(0, 0, screen.width, screen.height);
 		analyser.getByteFrequencyData(dataArray);
 
-		const points = state.settings.useLogarithmicSpectrum ? transformLogarithmic(dataArray) : dataArray;
+		const points = state.settings.useLogarithmicSpectrum ? scaleLog(dataArray) : dataArray;
 		const barWidth = SPECTRUM_WIDTH / points.length;
 		const tiltOffset = TILT_MULTIPLIER * points.length;
 

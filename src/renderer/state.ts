@@ -1,10 +1,8 @@
 import { useLocalStorage } from "@vueuse/core";
 import { computed, reactive } from "vue";
-import { AmethystNotification } from "./notification";
 
 export default class AppState {
 	public state = reactive({
-		notifications: [] as AmethystNotification[],
 		allowedExtensions: [] as string[],
 		cpuUsage: 0,
 		version: "",
@@ -18,7 +16,6 @@ export default class AppState {
 		waveformCache: useLocalStorage<Record<string, ImageBitmap>>("waveform-cache", {}),
 		defaultCover: "",
 		theme: "amethyst-dark",
-		lobbyId: undefined as string | undefined,
 	});
 
 	public settingsObject = {
@@ -34,7 +31,6 @@ export default class AppState {
 		showSpectrum: true,
 		showVectorscope: true,
 		showDbMeter: true,
-		showNotifications: true,
 		smoothScrollSpeed: 0.075,
 		playOnStartup: false,
 		discordRichPresence: true,

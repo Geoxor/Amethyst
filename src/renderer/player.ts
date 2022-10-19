@@ -6,6 +6,7 @@ import type AppState from "./state";
 import { FastAverageColorResult } from 'fast-average-color';
 import mitt from 'mitt';
 import { secondsToHuman } from "./logic/formating";
+import { fisherYatesShuffle } from "./logic/math";
 
 export const ALLOWED_EXTENSIONS = ["ogg", "flac", "wav", "opus", "aac", "aiff", "mp3", "m4a"];
 
@@ -81,17 +82,7 @@ export default class Player {
 		watch(() => this.appState?.settings.colorInterfaceFromCoverart, () => this.resetThemeColors())
 	}
 
-	public static fisherYatesShuffle<T>(array: T[]) {
-		let m = array.length; let t; let i;
-		while (m) {
-			i = ~~(Math.random() * m--);
 
-			t = array[m];
-			array[m] = array[i];
-			array[i] = t;
-		}
-		return array;
-	}
 
 	public loopNone = () => {
 		this.state.loopMode = LoopMode.None;
@@ -369,7 +360,7 @@ export default class Player {
 	}
 
 	public shuffle() {
-		this.state.queue = new Set(Player.fisherYatesShuffle(this.getQueue()));
+		this.state.queue = new Set(fisherYatesShuffle(this.getQueue()));
 	}
 
 	public getCurrentlyPlayingIndex() {
@@ -389,10 +380,10 @@ export default class Player {
 	}
 
 	public currentTimeFormatted() {
-		return secondsHuman(this.state.inputAudio.currentTime);
+		return secondsToHuman(this.state.inputAudio.currentTime);
 	}
 
 	public currentDurationFormatted() {
-		return secondsHuman(this.state.inputAudio.duration);
+		return secondsToHuman(this.state.inputAudio.duration);
 	}
 }
