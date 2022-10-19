@@ -14,11 +14,11 @@ onKeyStroke("Escape", () => (isShowing.value = false));
       @click.stop="isShowing = !isShowing">
       {{ title }}
     </div>
-    <div v-if="isShowing" class="absolute z-30 flex select-none items-center bg-[#202020] left-1 py-2 flex-col w-96"
+    <div v-if="isShowing" class="absolute z-30 flex select-none items-center bg-surface-700 left-1 py-2 flex-col w-96"
       @click="isShowing = false">
       <slot />
     </div>
   </div>
-  <div v-if="isShowing" :class="isShowing && 'pointer-events-auto'"
-    class="pointer-events-none z-20 top-0 left-0 absolute w-full h-full" @click="isShowing = false" />
+  <div v-if="isShowing" @click="isShowing = false;" :class="isShowing && 'pointer-events-auto'"
+    class="pointer-events-none z-20 top-0 left-0 absolute w-full h-full" />
 </template>

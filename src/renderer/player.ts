@@ -286,12 +286,12 @@ export default class Player {
 	}
 
 	public next(skip = 1) {
-		if ((this.state.currentlyPlayingIndex + skip) < (this.state.queue.size - skip))
+		if ((this.state.currentlyPlayingIndex + skip) <= (this.state.queue.size - skip))
 			this.state.currentlyPlayingIndex++;
 	}
 
 	public previous(skip = 1) {
-		if ((this.state.currentlyPlayingIndex - skip) > 0)
+		if ((this.state.currentlyPlayingIndex - skip) >= 0)
 			this.state.currentlyPlayingIndex--;
 	}
 
