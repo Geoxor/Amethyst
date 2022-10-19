@@ -7,6 +7,8 @@ import sharp from "sharp";
 import { ALLOWED_EXTENSIONS, APP_VERSION, IS_DEV, RESOURCES_PATH } from "./main";
 import { getAverageColor } from 'fast-average-color-node';
 import { FastAverageColorResult } from 'fast-average-color';
+import { autoUpdater } from "electron-updater";
+import log from "electron-log";
 
 import { resolveHTMLPath } from "./util";
 import { loadFolder } from "./handles";
@@ -74,7 +76,6 @@ export class MainWindow {
 
 		this.setIpcEvents();
 		this.setWindowEvents();
-		checkForUpdatesAndInstall();
 	}
 
 	public show(): void {
@@ -82,6 +83,13 @@ export class MainWindow {
 
 		this.window.on("ready-to-show", () => {
 			Logger.print("Amethyst ready")
+
+			// Autoupdates
+			// Remove this if your app does not use auto updates
+			Logger.print("Checking for updates...")
+			log.transports.file.level = "info";
+			autoUpdater.logger = log;
+			autoUpdater.checkForUpdatesAndNotify();
 
 			if (process.env.START_MINIMIZED)
 				this.window.minimize();
@@ -232,9 +240,6 @@ export class MainWindow {
 				})
 			},
 			"check-for-updates": () => {
-				if (IS_DEV)
-					return;
-
 				checkForUpdatesAndInstall();
 			}
 		}).forEach(([channel, handler]) => ipcMain.handle(channel, handler));
@@ -260,15 +265,6 @@ export class MainWindow {
 }
 
 export async function checkForUpdatesAndInstall() {
-
-
-	return import("electron-updater")
-		.then(({ autoUpdater }) => {
-			autoUpdater.on("before-quit-for-update", () => notifications.showUpdateInstallingNotification());
-			autoUpdater.on("update-available", () => notifications.showUpdateAvailableNotification())
-			autoUpdater.on("update-not-available", () => Logger.print("No updates available"))
-			autoUpdater.on("checking-for-update", () => Logger.print("Checking for updates..."))
-			autoUpdater.on("update-downloaded", () => autoUpdater.quitAndInstall(true, true));
-		})
-		.catch(e => console.error("Failed check updates:", e));
+	Logger.print("Checking for updates...")
+	autoUpdater.checkForUpdatesAndNotify();
 }
