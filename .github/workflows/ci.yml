@@ -3,6 +3,24 @@ name: Build Amethyst
 on: [push, workflow_dispatch, pull_request_target]
 
 jobs:
+  lint:
+    name: Check for lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: 16.10.0
+
+      - name: Install gcc dependencies
+        run: sudo apt install gcc-multilib g++-multilib libvips
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Run eslint
+        run: npx eslint
+
   tests:
     name: Run unit tests
     runs-on: ubuntu-latest
