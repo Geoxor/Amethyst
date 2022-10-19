@@ -204,7 +204,7 @@
     "@vue/test-utils": "^2.1.0",
     "concurrently": "^7.1.0",
     "cross-env": "^7.0.3",
-    "electron": "^19.1.2",
+    "electron": "^21.1.1",
     "electron-builder": "^5.5.0",
     "electron-devtools-installer": "^3.2.0",
     "electron-notarize": "^1.2.1",
