@@ -48,8 +48,10 @@ export default class AppState {
 	public isDev = computed(() => this.state.version.includes("DEV"));
 
 	public applyCurrentTheme = () => {
-		const dom = document.querySelector("html");
-		dom!.className = `theme-${this.state.theme}`;
+		if (typeof document !== "undefined") {
+			const dom = document.querySelector("html");
+			dom!.className = `theme-${this.state.theme}`;
+		}
 	};
 
 	constructor() {
@@ -62,13 +64,4 @@ export default class AppState {
 		});
 
 	}
-}
-
-// recursively goes through every file in the folder and flattens it
-export function bytesToHuman(bytes: number): string {
-	const sizes = ["B", "KB", "MB", "GB", "TB"];
-	if (bytes === 0)
-		return "0 B";
-	const i = ~~(Math.log(bytes) / Math.log(1024));
-	return `${parseFloat((bytes / Math.pow(1024, i)).toFixed(2))} ${sizes[i]}`;
 }

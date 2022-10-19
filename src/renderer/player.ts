@@ -5,6 +5,7 @@ import type ElectronEventManager from "./electronEventManager";
 import type AppState from "./state";
 import { FastAverageColorResult } from 'fast-average-color';
 import mitt from 'mitt';
+import { secondsToHuman } from "./logic/formating";
 
 export const ALLOWED_EXTENSIONS = ["ogg", "flac", "wav", "opus", "aac", "aiff", "mp3", "m4a"];
 
@@ -13,14 +14,6 @@ export enum LoopMode {
 	All,
 	One,
 }
-
-// Turns seconds from 80 to 1:20
-export const secondsHuman = (time: number) => {
-	const seconds = ~~time;
-	const minutes = ~~(seconds / 60);
-	const secondsLeft = seconds % 60;
-	return `${minutes || 0}:${secondsLeft < 10 ? "0" : ""}${secondsLeft || 0}`;
-};
 
 export const Events = Object.freeze({
 	"play": "" as string,
@@ -56,11 +49,11 @@ export default class Player {
 		inputDevices: [] as MediaDeviceInfo[],
 	});
 
-	constructor(public appState: AppState, public electron: ElectronEventManager) {
+	constructor(public appState?: AppState, public electron?: ElectronEventManager) {
 		// Ignore the --require arg we get in dev mode so we don't end up with "--require" as a path in the queue
-		electron.electron.on<string>("play-file", file => file !== "--require" && this.addToQueueAndPlay(file));
-		electron.electron.on<(string)[]>("play-folder", files => this.setQueue(files));
-		electron.electron.on<(string)[]>("load-folder", files => this.setQueue([...files, ...this.getQueue()]));
+		electron?.electron.on<string>("play-file", file => file !== "--require" && this.addToQueueAndPlay(file));
+		electron?.electron.on<(string)[]>("play-folder", files => this.setQueue(files));
+		electron?.electron.on<(string)[]>("load-folder", files => this.setQueue([...files, ...this.getQueue()]));
 
 		// When the queue changes updated the current playing file path
 		watch(() => this.state.queue.size, () => this.updateCurrentlyPlayingFilePath());
@@ -85,7 +78,7 @@ export default class Player {
 
 		// TODO: move the recolor logic somewhere else pls
 		// Resets the colors when the user disables this setting in the state
-		watch(() => this.appState.settings.colorInterfaceFromCoverart, () => this.resetThemeColors())
+		watch(() => this.appState?.settings.colorInterfaceFromCoverart, () => this.resetThemeColors())
 	}
 
 	public static fisherYatesShuffle<T>(array: T[]) {
@@ -128,11 +121,11 @@ export default class Player {
 
 	public getCoverBase64 = () => {
 		this.getCoverArt(this.getCurrentlyPlayingFilePath())
-		return computed(() => `data:image/png;base64,${this.appState.state.coverCache[this.getCurrentlyPlayingFilePath()] || ""}`).value;
+		return computed(() => `data:image/png;base64,${this.appState?.state.coverCache[this.getCurrentlyPlayingFilePath()] || ""}`).value;
 	}
 
 	public hasCover = () => {
-		return !!this.appState.state.coverCache[this.getCurrentlyPlayingFilePath()];
+		return !!this.appState?.state.coverCache[this.getCurrentlyPlayingFilePath()];
 	}
 
 	public getOutputDevices = async () => {
@@ -149,17 +142,17 @@ export default class Player {
 		// Discord rich presence timer that updates discord every second
 		this.state.richPresenceTimer && clearInterval(this.state.richPresenceTimer);
 		this.state.richPresenceTimer = setInterval(() => {
-			(this.state.currentlyPlayingMetadata && this.appState.settings.discordRichPresence) && this.electron.invoke("update-rich-presence", [
+			(this.state.currentlyPlayingMetadata && this.appState?.settings.discordRichPresence) && this.electron?.invoke("update-rich-presence", [
 				this.state.currentlyPlayingMetadata.common.artist ? `${this.state.currentlyPlayingMetadata.common.artist || "Unkown Artist"} - ${this.state.currentlyPlayingMetadata.common.title}` : this.state.currentlyPlayingFilePath.substring(this.state.currentlyPlayingFilePath.lastIndexOf("\\") + 1),
-				secondsHuman(this.state.currentlyPlayingMetadata.format.duration!),
-				secondsHuman(this.getCurrentTime()),
+				secondsToHuman(this.state.currentlyPlayingMetadata.format.duration!),
+				secondsToHuman(this.getCurrentTime()),
 				this.state.isPlaying.toString(),
 			]);
 		}, 1000);
 	}
 
 	private updateCurrentMetadata(path: string) {
-		this.electron.invoke<IAudioMetadata>("get-metadata", [path]).then(
+		this.electron?.invoke<IAudioMetadata>("get-metadata", [path]).then(
 			(data) => {
 				this.state.currentlyPlayingMetadata = data;
 				this.emit("metadata", { file: path, ...data });
@@ -239,19 +232,19 @@ export default class Player {
 
 	public async getCovers(files: string[]): Promise<void> {
 		for (const file of files) {
-			if (this.appState.state.coverCache[file]) continue;
+			if (this.appState?.state.coverCache[file]) continue;
 			await this.getCoverArt(file);
 		}
 	}
 
 	public getCoverArt = async (path: string) => {
-		const cover = await this.electron.invoke<string>("get-cover", [path]);
-		this.appState.state.coverCache[path] = cover
+		const cover = await this.electron?.invoke<string>("get-cover", [path]);
+		if (this.appState) this.appState.state.coverCache[path] = cover as string
 		return cover
 	};
 
 	private updateThemeColors = async (path: string) => {
-		this.electron.invoke<FastAverageColorResult>("get-cover-colors", [path])
+		this.electron?.invoke<FastAverageColorResult>("get-cover-colors", [path])
 			.then(color => {
 				const [r, g, b] = color.value;
 
@@ -294,7 +287,7 @@ export default class Player {
 		this.state.inputAudio.play();
 		this.state.isPlaying = true;
 		this.emit("play", this.state.currentlyPlayingFilePath);
-		this.appState.settings.colorInterfaceFromCoverart && this.updateThemeColors(this.state.currentlyPlayingFilePath);
+		this.appState?.settings.colorInterfaceFromCoverart && this.updateThemeColors(this.state.currentlyPlayingFilePath);
 	}
 
 	public pause() {
