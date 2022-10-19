@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { bytesToHuman } from "../state";
+import { bytesToHuman } from '../logic/formating';
 import { useState, useElectron, usePlayer } from "../amethyst";
 import ControlButtons from "./ControlButtons.vue";
 import Menu from "./Menu.vue";
