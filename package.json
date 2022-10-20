@@ -236,7 +236,7 @@
     "fast-average-color-node": "^2.4.0",
     "mitt": "^3.0.0",
     "music-metadata": "^7.12.3",
-    "sharp": "^0.31.1",
+    "sharp": "0.30.7",
     "unplugin-icons": "^0.14.3",
     "vite": "^3.1.8",
     "vite-plugin-windicss": "^1.8.4",
