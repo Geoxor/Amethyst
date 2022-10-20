@@ -240,7 +240,7 @@
     "unplugin-icons": "^0.14.3",
     "vite": "^3.1.8",
     "vite-plugin-windicss": "^1.8.4",
-    "vue": "^3.2.40",
+    "vue": "^3.2.41",
     "vue-router": "^4.1.5",
     "web-audio-beat-detector": "^8.1.31",
     "windicss": "^3.5.6"
