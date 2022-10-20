@@ -45,7 +45,6 @@ export default class Shortcuts {
       // Register the event for each key
       for (let j = 0; j < keys.length; j++)
         onKeyStroke(keys[j], (e) => {
-          e.preventDefault();
           e.stopPropagation();
           action(e);
         });

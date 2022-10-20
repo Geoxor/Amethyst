@@ -79,6 +79,7 @@ export class MainWindow {
 	}
 
 	public show(): void {
+		Logger.fn("show");
 		this.window.loadURL(resolveHTMLPath("index"));
 
 		this.window.on("ready-to-show", () => {
@@ -99,14 +100,17 @@ export class MainWindow {
 	}
 
 	public destroy(): void {
+		Logger.fn("destroy");
 		this.window.destroy();
 	}
 
 	public playAudio(path: string): void {
+		Logger.fn("playAudio", { path });
 		this.window.webContents.send("play-file", path);
 	}
 
 	private setWindowEvents(): void {
+		Logger.fn("setWindowEvents");
 		Logger.print("Setting Window events")
 
 
@@ -137,6 +141,7 @@ export class MainWindow {
 	}
 
 	private setIpcEvents(): void {
+		Logger.fn("setIpcEvents");
 		Logger.print("Setting IPC events")
 
 		Object.entries({
@@ -150,13 +155,13 @@ export class MainWindow {
 			// Temporary fix
 			"close": (_: Event, [window]: string[]) => window === "preferences" ? this.preferencesWindow?.close() : this.window.close(),
 
-			"read-file": (_: Event, [path]: string[]) => fs.promises.readFile(path),
-
-			"mini-player": (_: Event) => {
-				this.window.setSize(this.windowOptions.minWidth!, 164)
+			"read-file": (_: Event, [path]: string[]) => {
+				Logger.handle("read-file");
+				return fs.promises.readFile(path)
 			},
 
 			"open-file-dialog": async () => {
+				Logger.handle("open-file-dialog");
 				const response = await dialog.showOpenDialog({
 					properties: ["openFile"],
 					filters: [
@@ -169,6 +174,7 @@ export class MainWindow {
 			},
 
 			"open-folder-dialog": async () => {
+				Logger.handle("open-folder-dialog");
 				const response = await dialog.showOpenDialog({
 					properties: ["openDirectory"],
 				});
@@ -177,11 +183,17 @@ export class MainWindow {
 					this.window.webContents.send("play-folder", await loadFolder(response.filePaths[0]));
 			},
 
-			"percent-cpu-usage": async () => process.getCPUUsage().percentCPUUsage,
+			"percent-cpu-usage": async () => {
+				return process.getCPUUsage().percentCPUUsage
+			},
 
-			"get-cover": async (_: Event, [path]: string[]) => this.getResizedCover(path),
+			"get-cover": async (_: Event, [path]: string[]) => {
+				Logger.handle("get-cover", { path });
+				return this.getResizedCover(path);
+			},
 
 			"get-cover-colors": async (_: Event, [path]: string[]): Promise<FastAverageColorResult> => {
+				Logger.handle("get-cover-colors", { path });
 				const coverBuffer = await this.getCover(path);
 				if (!coverBuffer)
 					return Promise.reject();
@@ -194,23 +206,18 @@ export class MainWindow {
 				}
 			},
 
-			"get-cover-pixelized": async (_: Event, [path]: string[]) => {
-				const coverBuffer = await this.getCover(path);
-
-				if (!coverBuffer)
-					return;
-
-				return (await sharp(await sharp(coverBuffer).resize(128, 128, {
-					kernel: "nearest",
-				}).png().toBuffer()).resize(256, 256, {
-					kernel: "nearest",
-				}).png().toBuffer()).toString("base64");
+			"get-metadata": async (_: Event, [path]: string[]) => {
+				Logger.handle("get-metadata", { path });
+				return path && mm.parseBuffer(await fs.promises.readFile(path))
 			},
-			"get-metadata": async (_: Event, [path]: string[]) => path && mm.parseBuffer(await fs.promises.readFile(path)),
 
-			"show-item": (_: Event, [fullPath]: string[]) => shell.showItemInFolder(path.normalize(fullPath)),
+			"show-item": (_: Event, [fullPath]: string[]) => {
+				Logger.handle("show-item", { fullPath });
+				shell.showItemInFolder(path.normalize(fullPath));
+			},
 
 			"drop-file": async (_: Event, [paths]: string[][]) => {
+				Logger.handle("drop-file", { paths })
 				paths.forEach(async (path) => {
 					const stat = await fs.promises.stat(path);
 					if (stat.isDirectory())
@@ -220,32 +227,38 @@ export class MainWindow {
 				});
 			},
 
-			"sync-window-state": () => ({
-				isMinimized: this.window.isMinimized(),
-				isMaximized: this.window.isMaximized(),
-			}),
+			"sync-window-state": () => {
+				Logger.handle("sync-window-state")
+				return {
+					isMinimized: this.window.isMinimized(),
+					isMaximized: this.window.isMaximized(),
+				}
+			},
 
 			"update-rich-presence": (_: Event, [
 				title,
 				duration,
 				seek,
 				status,
-			]: string[]) => this.discord.updateCurrentSong(title, duration, seek, status === "true"),
-
-			"open-preferences": () => {
-				this.preferencesWindow = new BrowserWindow({ ...this.windowOptions, show: true, width: 600, height: 800 });
-				this.preferencesWindow.loadURL(resolveHTMLPath("index") + "/#preferences");
-				this.preferencesWindow.once('ready-to-show', () => {
-					this.preferencesWindow!.show();
+			]: string[]) => {
+				Logger.handle("update-rich-presence", {
+					title,
+					duration,
+					seek,
+					status,
 				})
+				this.discord.updateCurrentSong(title, duration, seek, status === "true")
 			},
+
 			"check-for-updates": () => {
+				Logger.handle("check-for-updates")
 				checkForUpdatesAndInstall();
 			}
 		}).forEach(([channel, handler]) => ipcMain.handle(channel, handler));
 	}
 
 	private async getCover(path: string): Promise<Buffer | undefined> {
+		Logger.fn("playAudio", { path });
 		const file = await fs.promises.readFile(path);
 		const meta = await mm.parseBuffer(file);
 
@@ -253,6 +266,7 @@ export class MainWindow {
 	}
 
 	private async getResizedCover(path: string, resizeTo = 128): Promise<string | undefined> {
+		Logger.fn("playAudio", { path, resizeTo });
 		const cover = await this.getCover(path);
 
 		if (!cover)
@@ -265,6 +279,7 @@ export class MainWindow {
 }
 
 export async function checkForUpdatesAndInstall() {
+	Logger.fn("checkForUpdatesAndInstall");
 	Logger.print("Checking for updates...")
 	autoUpdater.checkForUpdatesAndNotify();
 }

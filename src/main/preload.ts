@@ -13,7 +13,6 @@ export type Channels =
 	"get-cover" |
 	"get-metadata" |
 	"show-item" |
-	"mini-player" |
 	"percent-cpu-usage" |
 	"update-rich-presence" |
 	"sync-window-state" |
