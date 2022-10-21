@@ -7,6 +7,7 @@ import { FastAverageColorResult } from 'fast-average-color';
 import mitt from 'mitt';
 import { secondsToHuman } from "./logic/formating";
 import { fisherYatesShuffle, flattenArray } from "./logic/math";
+import { PromisePool } from "@supercharge/promise-pool";
 
 export const ALLOWED_EXTENSIONS = ["ogg", "flac", "wav", "opus", "aac", "aiff", "mp3", "m4a"];
 
@@ -100,8 +101,8 @@ export default class Player {
 		return computed(() => this.state.currentlyPlayingMetadata?.common.artists?.join(" & ") || "unknown artist").value;
 	}
 
-	public getCoverBase64 = (path?: string) => {
-		const target = (path && this.appState?.state.coverCache[path]) || this.appState?.state.coverCache[this.getCurrentlyPlayingFilePath()];
+	public getCoverBase64 = (path: string) => {
+		const target = this.appState?.state.coverCache[path];
 
 		if (!target) {
 			this.getCoverArt(target)
@@ -195,16 +196,16 @@ export default class Player {
 		this.updateRichPresence();
 	}
 
-
-
 	public async getCovers(files: string[]): Promise<void> {
-		for (const file of files) {
-			if (this.appState?.state.coverCache[file]) continue;
-			await this.getCoverArt(file);
-		}
+		await PromisePool.for(files.filter(file => !this.appState.state.coverCache[file]).filter(file => !!file))
+			.withConcurrency(3) // Raise this for more parallel runs
+			.process(async (id, i) => {
+				await this.getCoverArt(files[i]);
+			});
 	}
 
 	public getCoverArt = async (path: string) => {
+		if (!path) return;
 		const cover = await this.electron.invoke<string>("get-cover", [path]);
 		if (this.appState) this.appState.state.coverCache[path] = cover as string
 		return cover

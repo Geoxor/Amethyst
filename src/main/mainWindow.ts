@@ -266,7 +266,7 @@ export class MainWindow {
 		return meta.common.picture?.[0].data;
 	}
 
-	private async getResizedCover(path: string, resizeTo = 128): Promise<string | undefined> {
+	private async getResizedCover(path: string, resizeTo = 64): Promise<string | undefined> {
 		Logger.fn("getResizedCover", { path, resizeTo });
 		const cover = await this.getCover(path);
 
