@@ -10,7 +10,8 @@ onKeyStroke("Escape", () => (isShowing.value = false));
 
 <template>
   <div class="menu relative h-full no-drag">
-    <div class="hover:text-primary cursor-default flex items-center mt-0.25 px-2 h-full"
+    <div :class="isShowing && 'text-primary-800'"
+      class="hover:text-primary-900 cursor-default flex items-center mt-0.25 px-2 h-full"
       @click.stop="isShowing = !isShowing">
       {{ title }}
     </div>
