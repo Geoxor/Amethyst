@@ -67,11 +67,15 @@ body::-webkit-scrollbar {
 }
 
 .borderRight {
-  @apply border-1 border-r-[#202020] border-t-transparent border-b-transparent border-l-transparent;
+  @apply border-1 border-r-surface-600 border-t-transparent border-b-transparent border-l-transparent;
+}
+
+.borderLeft {
+  @apply border-1 border-l-surface-600 border-t-transparent border-b-transparent border-r-transparent;
 }
 
 .borderBottom {
-  @apply border-1 border-b-[#202020] border-t-transparent border-r-transparent border-l-transparent;
+  @apply border-1 border-b-surface-600 border-t-transparent border-r-transparent border-l-transparent;
 }
 
 .drag {

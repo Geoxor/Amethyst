@@ -33,9 +33,9 @@
     <settings-category-splitter text="Integrations" />
     <settings-binary-switch text="Discord Rich Presence" v-model="state.settings.discordRichPresence" />
 
-    <div class="opacity-20 flex-col flex gap-2">
+    <div class="flex-col flex gap-2">
       <splitter />
-      <div class="flex justify-between items-center">
+      <div class="opacity-20 flex justify-between items-center">
         Made by: <img src="../geoxor_logo.svg" class="h-2" alt="">
       </div>
     </div>

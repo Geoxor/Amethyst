@@ -15,7 +15,7 @@ const player = usePlayer();
 <template>
   <div class="borderBottom z-100 font-main drag text-12px select-none flex text-white justify-between items-center">
     <div class="flex no-drag h-full items-center">
-      <div class="logo px-3 cursor-heart-pointer">
+      <div class="logo px-1 cursor-heart-pointer">
         <img src="../icon.svg">
       </div>
       <Menu title="File">
