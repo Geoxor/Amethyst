@@ -18,7 +18,7 @@ const player = usePlayer();
   <div class="h-full whitespace-nowrap flex flex-col justify-between overflow-hidden">
     <div class="flex-1 flex h-full max-h-full overflow-hidden">
       <queue />
-      <settings-bar class="borderLeft" />
+      <settings-bar class="borderLeft m-2 ml-0" />
     </div>
 
     <div class="flex gap-2 p-2 bg-surface-800">
