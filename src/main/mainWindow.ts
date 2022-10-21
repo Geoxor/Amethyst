@@ -92,6 +92,9 @@ export class MainWindow {
 			autoUpdater.logger = log;
 			autoUpdater.checkForUpdatesAndNotify();
 
+			// Check for updates every 10 minutes
+			setInterval(() => autoUpdater.checkForUpdatesAndNotify(), 600 * 1000)
+
 			if (process.env.START_MINIMIZED)
 				this.window.minimize();
 			else

@@ -178,8 +178,6 @@ export default class Player {
 					return this.play();
 				case LoopMode.All:
 					// If we are at the last song then start from the beginning
-					console.log(isLastInQueue);
-
 					if (isLastInQueue) {
 						this.setCurrentlyPlayingIndex(0);
 						return this.play();
@@ -199,9 +197,7 @@ export default class Player {
 	public async getCovers(files: string[]): Promise<void> {
 		await PromisePool.for(files.filter(file => !this.appState.state.coverCache[file]).filter(file => !!file))
 			.withConcurrency(3) // Raise this for more parallel runs
-			.process(async (id, i) => {
-				await this.getCoverArt(files[i]);
-			});
+			.process(async (_, i) => this.getCoverArt(files[i]));
 	}
 
 	public getCoverArt = async (path: string) => {
