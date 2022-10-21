@@ -113,9 +113,10 @@ export class MainWindow {
 		Logger.fn("setWindowEvents");
 		Logger.print("Setting Window events")
 
-
 		this.window.on("minimize", () => this.window.webContents.send("minimize"));
+		this.window.on("unmaximize", () => this.window.webContents.send("unmaximize"));
 		this.window.on("maximize", () => this.window.webContents.send("maximize"));
+
 		this.window.on("closed", () => this.destroy());
 		this.window.webContents.on("dom-ready", async () => {
 			if (process.argv[1])

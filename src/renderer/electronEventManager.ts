@@ -14,18 +14,19 @@ export default class ElectronEventManager {
 
     this.electron.on("maximize", () => state.state.isMaximized = true);
     this.electron.on("unmaximize", () => state.state.isMaximized = false);
+    this.electron.on("minimize", () => state.state.isMinimized = true);
   }
 
   public syncWindowState = async () => {
-		const windowState = await this.electron.invoke<{ isMinimized: boolean; isMaximized: boolean }>("sync-window-state");
-		this.state.state.isMinimized = windowState.isMinimized;
-		this.state.state.isMaximized = windowState.isMaximized;
-	};
+    const windowState = await this.electron.invoke<{ isMinimized: boolean; isMaximized: boolean }>("sync-window-state");
+    this.state.state.isMinimized = windowState.isMinimized;
+    this.state.state.isMaximized = windowState.isMaximized;
+  };
 
   private requestWindowStateChange = (state: "minimize" | "maximize" | "unmaximize" | "close", window: string) => {
     this.invoke(state, [window]);
     this.syncWindowState();
-  } 
+  }
 
   public maximize = (window: string) => this.requestWindowStateChange("maximize", window);
 
