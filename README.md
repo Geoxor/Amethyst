@@ -14,7 +14,7 @@ winget install amethyst
 ## ✨ Features
 - Custom cursors
 - Support for animated GIF cover art
-- Multichannel (up to 5.1) dB meters
+- Multichannel (up to 9.1.2) dB meters
 - High FPS customizable spectrum
 - High FPS customizable vectorscope
 - Discord RPC
