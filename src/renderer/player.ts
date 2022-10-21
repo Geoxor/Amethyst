@@ -32,13 +32,11 @@ export default class Player {
 
 	public state = reactive({
 		inputAudio: new Audio(),
-		outputAudio: new Audio(),
 		richPresenceTimer: null as null | NodeJS.Timer,
 		ctx: new window.AudioContext(),
 		source: null as null | MediaElementAudioSourceNode,
 		currentlyPlayingMetadata: null as null | IAudioMetadata,
 		currentlyPlayingFilePath: useLocalStorage<string>("currentlyPlayingFilePath", ""),
-		selectedOutputDeviceId: useLocalStorage<string>("selectedOutputDeviceId", ""),
 
 		queue: useLocalStorage<Set<string>>("queue", new Set()),
 		currentlyPlayingIndex: -1,
@@ -70,12 +68,6 @@ export default class Player {
 		watch(() => this.state.currentlyPlayingFilePath, () => this.loadSoundAndPlay(this.state.currentlyPlayingFilePath));
 
 		this.getCovers(Array.from(this.state.queue));
-
-		this.getOutputDevices().then(devices => this.state.outputDevices = devices);
-		this.getInputDevices().then(devices => this.state.inputDevices = devices);
-
-		// Prepare output node
-		this.updateOutputDevice(this.state.selectedOutputDeviceId);
 
 		// TODO: move the recolor logic somewhere else pls
 		// Resets the colors when the user disables this setting in the state
@@ -153,11 +145,6 @@ export default class Player {
 		document.title = path || "Amethyst";
 	}
 
-	public updateOutputDevice = (deviceId: string) => {
-		this.state.selectedOutputDeviceId = deviceId;
-		// @ts-ignore - https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/setSinkId#examples
-		this.state.outputAudio.setSinkId(deviceId);
-	}
 
 	public async loadSoundAndPlay(path: string) {
 		// If there was another song playing stop it
@@ -169,15 +156,8 @@ export default class Player {
 		// Create a source out of the context
 		this.state.source = this.state.ctx.createMediaElementSource(this.state.inputAudio);
 
-		// Create a destination out of the context
-		const destination = this.state.ctx.createMediaStreamDestination();
-
 		// Connect the source to the destination
-		this.state.source.connect(destination);
-
-		// Create a new audio element that way we can change the audio output path
-		this.state.outputAudio.srcObject = destination.stream;
-		this.state.outputAudio.volume = this.state.volume;
+		this.state.source.connect(this.state.ctx.destination);
 
 		// Play the sound and handle playback
 		this.play();
@@ -272,7 +252,6 @@ export default class Player {
 	}
 
 	public play() {
-		this.state.outputAudio.play();
 		this.state.inputAudio.play();
 		this.state.isPlaying = true;
 		this.emit("play", this.state.currentlyPlayingFilePath);
@@ -296,17 +275,17 @@ export default class Player {
 	}
 
 	public setVolume(volume: number) {
-		this.state.outputAudio.volume = volume;
+		this.state.inputAudio.volume = volume;
 		this.state.volume = volume;
 		this.emit("setVolume", volume);
 	}
 
 	public volumeUp(amount = 0.1) {
-		this.setVolume(this.state.outputAudio.volume = Math.min(1, this.state.outputAudio.volume + amount));
+		this.setVolume(this.state.inputAudio.volume = Math.min(1, this.state.inputAudio.volume + amount));
 	}
 
 	public volumeDown(amount = 0.1) {
-		this.setVolume(Math.max(0, this.state.outputAudio.volume - amount));
+		this.setVolume(Math.max(0, this.state.inputAudio.volume - amount));
 	}
 
 	public addToQueueAndPlay(file: string) {

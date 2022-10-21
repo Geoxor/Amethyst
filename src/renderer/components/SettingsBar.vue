@@ -30,15 +30,6 @@
     <settings-category-splitter text="dB Meter" />
     <settings-binary-switch text="Enabled" v-model="state.settings.showDbMeter" />
 
-    <settings-category-splitter text="Audio Routing" />
-    <settings-setting text="Output L/R">
-      <select v-model="selectedOutputDevice" class="font-small text-7px w-full py-1 bg-surface-700">
-        <option v-for="output of player.state.outputDevices">{{
-        output.label
-        }}</option>
-      </select>
-    </settings-setting>
-
     <settings-category-splitter text="Integrations" />
     <settings-binary-switch text="Discord Rich Presence" v-model="state.settings.discordRichPresence" />
 
@@ -53,17 +44,12 @@
 </template>
 
 <script setup lang="ts">
-import { usePlayer, useState } from '../amethyst';
+import { useState } from '../amethyst';
 import SettingsCategorySplitter from './settings/SettingsCategorySplitter.vue';
 import SettingsBinarySwitch from './settings/SettingsBinarySwitch.vue';
 import SettingsModifier from './settings/SettingsModifier.vue';
 import PaddedContainer from './PaddedContainer.vue';
-import { ref, watch } from 'vue';
-import SettingsSetting from './settings/SettingsSetting.vue';
 import Splitter from './Splitter.vue';
 const state = useState();
-const player = usePlayer();
 
-const selectedOutputDevice = ref(player.state.outputDevices.find(device => device.deviceId === player.state.selectedOutputDeviceId)?.label || "Unset");
-watch(() => selectedOutputDevice.value, () => player.updateOutputDevice(player.state.outputDevices.find(device => device.label === selectedOutputDevice.value)?.deviceId!));
 </script>

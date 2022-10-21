@@ -258,7 +258,7 @@ export class MainWindow {
 	}
 
 	private async getCover(path: string): Promise<Buffer | undefined> {
-		Logger.fn("playAudio", { path });
+		Logger.fn("getCover", { path });
 		const file = await fs.promises.readFile(path);
 		const meta = await mm.parseBuffer(file);
 
@@ -266,7 +266,7 @@ export class MainWindow {
 	}
 
 	private async getResizedCover(path: string, resizeTo = 128): Promise<string | undefined> {
-		Logger.fn("playAudio", { path, resizeTo });
+		Logger.fn("getResizedCover", { path, resizeTo });
 		const cover = await this.getCover(path);
 
 		if (!cover)

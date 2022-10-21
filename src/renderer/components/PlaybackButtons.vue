@@ -34,7 +34,7 @@
     </div>
     <div class="flex items-center justify-between gap-3 tracking-wider h-12">
       <div class="flex gap-2 items-center w-full">
-        <cover :url="player.getCoverBase64()" v-if="player.hasCover()" />
+        <cover :url="coverBase64" v-if="player.hasCover()" />
         <div class="flex flex-col font-bold gap-2">
           <h1 class="text-12px hover:underline cursor-pointer">{{player.getTitle()}}</h1>
           <p class="text-8px text-white text-opacity-50">{{player.getArtist()}}</p>
@@ -89,6 +89,8 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
   const delta = Math.sign(e.deltaY);
   delta > 0 ? props.player.volumeDown() : props.player.volumeUp();
 };
+
+const coverBase64 = computed(() => props.player.getCoverBase64());
 
 const handleSeekMouseScroll = (e: WheelEvent) => {
   const delta = Math.sign(e.deltaY);
