@@ -6,7 +6,6 @@ const FLOOR = -60;
 const RANGE = 30;
 const FFT_SIZE = 2048 * 2;
 
-
 const player = usePlayer();
 const metadata = computed(() => player.state.currentlyPlayingMetadata);
 
@@ -18,17 +17,20 @@ const channels = [
 	[ref(FLOOR), ref(FLOOR)], // sub channel
 	[ref(FLOOR), ref(FLOOR)], // left surround channel
 	[ref(FLOOR), ref(FLOOR)], // right surround channel
+	[ref(FLOOR), ref(FLOOR)], // 
+	[ref(FLOOR), ref(FLOOR)], // 
+	[ref(FLOOR), ref(FLOOR)], // 
+	[ref(FLOOR), ref(FLOOR)], // 
+	[ref(FLOOR), ref(FLOOR)], // 
 ]
 
 const nChannels = computed(() => metadata.value?.format.numberOfChannels || 2);
 const width = 4;
 
-let shouldFuckOff = false;
-
-const calculatePeaks = (value: number): number => 10 * Math.log10(value);
+let shouldStopRendering = false;
 
 onMounted(() => {
-	const context = props.node.context;
+	const { context } = props.node;
 
 	const splitter = context.createChannelSplitter(channels.length);
 
@@ -62,11 +64,11 @@ onMounted(() => {
 		}
 
 		channels.forEach((channel, i) => {
-			channel[0].value = calculatePeaks(peaks[i]);
-			channel[1].value = calculatePeaks(sumOfSquares[i] / buffers[0].length);
+			channel[0].value = 10 * Math.log10(peaks[i]);
+			channel[1].value = 10 * Math.log10(sumOfSquares[i] / buffers[0].length);
 		});
 
-		!shouldFuckOff && requestAnimationFrame(draw);
+		!shouldStopRendering && requestAnimationFrame(draw);
 	}
 	draw();
 });
@@ -77,7 +79,7 @@ const computedWidth = (value: number): number => {
 	return Math.max(0.01, width);
 };
 
-onUnmounted(() => shouldFuckOff = true);
+onUnmounted(() => shouldStopRendering = true);
 </script>
 
 <template>

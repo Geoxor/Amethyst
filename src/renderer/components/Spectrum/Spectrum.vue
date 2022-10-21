@@ -17,9 +17,9 @@ const TILT_MULTIPLIER = 0.005; // 3dB/octave
 // const DOWNSCALED_HEIGHT = SPECTRUM_HEIGHT / DOWNSCALE_FACTOR;
 let shouldStopRendering = false;
 
-
+  
 onMounted(() => {
-	const context = props.node.context;
+	const {context} = props.node;
 	const gain = context.createGain();
 	const analyser = context.createAnalyser();
 	analyser.fftSize = state.settings.spectrumFftSize;
@@ -34,6 +34,7 @@ onMounted(() => {
 	watch(() => state.settings.spectrumSmoothing, () => analyser.smoothingTimeConstant = state.settings.spectrumSmoothing)
 
 	props.node.connect(gain);
+	
 	// Raising the gain into the analyzer to compensate for the tilt bottom end loss
 	gain.connect(analyser);
 

@@ -34,7 +34,7 @@
     </div>
     <div class="flex items-center justify-between gap-3 tracking-wider h-12">
       <div class="flex gap-2 items-center w-full">
-        <cover :url="coverBase64" v-if="player.hasCover()" />
+        <cover class="rounded-4px w-12 h-12 min-h-12 min-w-12" :url="coverBase64" v-if="player.hasCover()" />
         <div class="flex flex-col font-bold gap-2">
           <h1 class="text-12px hover:underline cursor-pointer">{{player.getTitle()}}</h1>
           <p class="text-8px text-white text-opacity-50">{{player.getArtist()}}</p>
@@ -70,7 +70,7 @@ import ShuffleIcon from '../icons/ShuffleIcon.vue';
 import RepeatIcon from '../icons/RepeatIcon.vue';
 import RepeatOneIcon from '../icons/RepeatOneIcon.vue';
 import { LoopMode } from "../player";
-import Cover from '../components/new/Cover.vue';
+import Cover from '../components/Cover.vue';
 import Chip from '../components/new/Chip.vue';
 import HeartIcon from '../icons/HeartIcon.vue';
 import PlaylistIcon from '../icons/PlaylistIcon.vue';

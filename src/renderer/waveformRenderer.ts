@@ -4,13 +4,11 @@ import Player from "./player";
 export class WaveformRenderer {
   public canvas: HTMLCanvasElement;
 
-  private player: Player;
   private audioBuffer: AudioBuffer | null;
   private audioCtx: AudioContext;
   private currentWorker: Worker | null;
 
-  constructor(player: Player, canvasSelector: string) {
-    this.player = player;
+  constructor(public player: Player, canvasSelector: string) {
     this.canvas = document.querySelector(canvasSelector) || document.createElement("canvas");
     this.audioCtx = new AudioContext();
     this.audioBuffer = null;

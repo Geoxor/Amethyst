@@ -16,7 +16,7 @@ onMounted(() => {
 		return canvas;
 	});
 
-	const context = props.node.context;
+	const {context} = props.node;
 	const analyzerX = context.createAnalyser();
 	const analyzerY = context.createAnalyser();
 	analyzerX.fftSize = FFT_SIZE;

@@ -26,7 +26,7 @@ const parseTitle = (path: string) => path.substring(Math.max(path.lastIndexOf("\
         class="h-4 flex gap-2 w-full hover:text-primary-900 list-none relative select-none" @keypress.prevent
         @mousedown="isHoldingControl ? invoke('show-item', [player.getQueue()[i]]) : player.setCurrentlyPlayingIndex(i)">
 
-        <cover v-if="state.settings.showMiniCovers" class="w-3 h-3" :song-path="song" />
+        <cover v-if="state.settings.showMiniCovers" class="w-3 h-3" :url="player.getCoverBase64(song)" />
 
         <p class="align-top py-0.5 text-12px overflow-hidden overflow-ellipsis whitespace-nowrap">
           {{ i === player.getCurrentlyPlayingIndex() ? "⏵ " : "" }}{{ parseTitle(song) }}

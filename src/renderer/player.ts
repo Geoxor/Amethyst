@@ -6,7 +6,7 @@ import type AppState from "./state";
 import { FastAverageColorResult } from 'fast-average-color';
 import mitt from 'mitt';
 import { secondsToHuman } from "./logic/formating";
-import { fisherYatesShuffle } from "./logic/math";
+import { fisherYatesShuffle, flattenArray } from "./logic/math";
 
 export const ALLOWED_EXTENSIONS = ["ogg", "flac", "wav", "opus", "aac", "aiff", "mp3", "m4a"];
 
@@ -48,11 +48,11 @@ export default class Player {
 		inputDevices: [] as MediaDeviceInfo[],
 	});
 
-	constructor(public appState?: AppState, public electron?: ElectronEventManager) {
+	constructor(public appState: AppState, public electron: ElectronEventManager) {
 		// Ignore the --require arg we get in dev mode so we don't end up with "--require" as a path in the queue
-		electron?.electron.on<string>("play-file", file => file !== "--require" && this.addToQueueAndPlay(file));
-		electron?.electron.on<(string)[]>("play-folder", files => this.setQueue(files));
-		electron?.electron.on<(string)[]>("load-folder", files => this.setQueue([...files, ...this.getQueue()]));
+		electron.electron.on<string>("play-file", file => file !== "--require" && this.addToQueueAndPlay(file));
+		electron.electron.on<(string)[]>("play-folder", files => this.setQueue(files));
+		electron.electron.on<(string)[]>("load-folder", files => this.setQueue([...files, ...this.getQueue()]));
 
 		// When the queue changes updated the current playing file path
 		watch(() => this.state.queue.size, () => this.updateCurrentlyPlayingFilePath());
@@ -100,9 +100,14 @@ export default class Player {
 		return computed(() => this.state.currentlyPlayingMetadata?.common.artists?.join(" & ") || "unknown artist").value;
 	}
 
-	public getCoverBase64 = () => {
-		this.getCoverArt(this.getCurrentlyPlayingFilePath())
-		return computed(() => `data:image/png;base64,${this.appState?.state.coverCache[this.getCurrentlyPlayingFilePath()] || ""}`).value;
+	public getCoverBase64 = (path?: string) => {
+		const target = (path && this.appState?.state.coverCache[path]) || this.appState?.state.coverCache[this.getCurrentlyPlayingFilePath()];
+
+		if (!target) {
+			this.getCoverArt(target)
+		}
+
+		return computed(() => target ? `data:image/png;base64,${target}` : undefined).value;
 	}
 
 	public hasCover = () => {
@@ -123,7 +128,7 @@ export default class Player {
 		// Discord rich presence timer that updates discord every second
 		this.state.richPresenceTimer && clearInterval(this.state.richPresenceTimer);
 		this.state.richPresenceTimer = setInterval(() => {
-			(this.state.currentlyPlayingMetadata && this.appState?.settings.discordRichPresence) && this.electron?.invoke("update-rich-presence", [
+			(this.state.currentlyPlayingMetadata && this.appState?.settings.discordRichPresence) && this.electron.invoke("update-rich-presence", [
 				this.state.currentlyPlayingMetadata.common.artist ? `${this.state.currentlyPlayingMetadata.common.artist || "Unkown Artist"} - ${this.state.currentlyPlayingMetadata.common.title}` : this.state.currentlyPlayingFilePath.substring(this.state.currentlyPlayingFilePath.lastIndexOf("\\") + 1),
 				secondsToHuman(this.state.currentlyPlayingMetadata.format.duration!),
 				secondsToHuman(this.getCurrentTime()),
@@ -133,7 +138,7 @@ export default class Player {
 	}
 
 	private updateCurrentMetadata(path: string) {
-		this.electron?.invoke<IAudioMetadata>("get-metadata", [path]).then(
+		this.electron.invoke<IAudioMetadata>("get-metadata", [path]).then(
 			(data) => {
 				this.state.currentlyPlayingMetadata = data;
 				this.emit("metadata", { file: path, ...data });
@@ -190,14 +195,7 @@ export default class Player {
 		this.updateRichPresence();
 	}
 
-	public spreadArray(array: string[]): string[] {
-		return array.reduce((acc, item) => {
-			if (Array.isArray(item))
-				return acc.concat(this.spreadArray(item));
-			else
-				return acc.concat(item);
-		}, [] as string[]);
-	}
+
 
 	public async getCovers(files: string[]): Promise<void> {
 		for (const file of files) {
@@ -207,13 +205,13 @@ export default class Player {
 	}
 
 	public getCoverArt = async (path: string) => {
-		const cover = await this.electron?.invoke<string>("get-cover", [path]);
+		const cover = await this.electron.invoke<string>("get-cover", [path]);
 		if (this.appState) this.appState.state.coverCache[path] = cover as string
 		return cover
 	};
 
 	private updateThemeColors = async (path: string) => {
-		this.electron?.invoke<FastAverageColorResult>("get-cover-colors", [path])
+		this.electron.invoke<FastAverageColorResult>("get-cover-colors", [path])
 			.then(color => {
 				const [r, g, b] = color.value;
 
@@ -252,6 +250,7 @@ export default class Player {
 	}
 
 	public play() {
+		this.state.inputAudio.volume = this.state.volume;
 		this.state.inputAudio.play();
 		this.state.isPlaying = true;
 		this.emit("play", this.state.currentlyPlayingFilePath);
@@ -300,7 +299,7 @@ export default class Player {
 	}
 
 	public setQueue(files: string[]) {
-		this.state.queue = new Set(this.spreadArray(files));
+		this.state.queue = new Set(flattenArray(files));
 		this.getCovers(files);
 	}
 

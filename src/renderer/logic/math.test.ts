@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { fisherYatesShuffle, scaleLog } from './math';
+import { fisherYatesShuffle, flattenArray, scaleLog } from './math';
 
 describe('scaleLog()', () => {
   const start = new Uint8Array([
@@ -25,5 +25,17 @@ describe("fisherYatesShuffle()", () => {
     const start = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5];
     let willMutate = [...start];
     expect(fisherYatesShuffle(willMutate)).not.toEqual(start);
+  });
+});
+
+describe("flattenArray()", () => {
+  it("should be able to flatten an array with nested arrays", () => {
+    const start = [
+      [1, 2, 3],
+      4,
+      [5, 6, 7]
+    ]
+    const expected = [1, 2, 3, 4, 5, 6, 7];
+    expect(flattenArray(start)).toEqual(expected);
   });
 });

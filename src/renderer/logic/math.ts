@@ -20,7 +20,13 @@ export const scaleLog = (array: Uint8Array): Uint8Array => {
   return new Uint8Array(logArray);
 };
 
-export const fisherYatesShuffle = <T>(array: T[]) => {
+/**
+ * https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
+ * Fast shuffle method
+ * @param array 
+ * @returns array
+ */
+export const fisherYatesShuffle = <T>(array: T[]): T[] => {
   let m = array.length; let t; let i;
   while (m) {
     i = ~~(Math.random() * m--);
@@ -30,4 +36,18 @@ export const fisherYatesShuffle = <T>(array: T[]) => {
     array[i] = t;
   }
   return array;
+}
+
+/**
+ * Turn's an array of arrays into a flat array of all items
+ * @param array 
+ * @returns array
+ */
+export const flattenArray = <T>(array: T[]): T[] => {
+  return array.reduce((acc, item) => {
+    if (Array.isArray(item))
+      return acc.concat(flattenArray(item));
+    else
+      return acc.concat(item);
+  }, [] as T[]);
 }
