@@ -49,7 +49,7 @@ export class MainWindow {
 		show: false,
 		width: 1280,
 		height: 720,
-		minHeight: 100,
+		minHeight: 500,
 		minWidth: 800,
 		icon: icon(),
 		frame: false,
@@ -116,13 +116,13 @@ export class MainWindow {
 		this.window.on("minimize", () => this.window.webContents.send("minimize"));
 		this.window.on("unmaximize", () => this.window.webContents.send("unmaximize"));
 		this.window.on("maximize", () => this.window.webContents.send("maximize"));
-
 		this.window.on("closed", () => this.destroy());
+
+		autoUpdater.on("update-downloaded", () => this.window.webContents.send("update"))
+
 		this.window.webContents.on("dom-ready", async () => {
 			if (process.argv[1])
 				this.playAudio(process.argv[1]);
-
-
 
 			this.window.webContents.send("default-cover", await fs.promises.readFile(
 				path.join(RESOURCES_PATH, "/images/default-cover.png"),

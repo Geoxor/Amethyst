@@ -2,6 +2,7 @@
 import { bytesToHuman } from '../logic/formating';
 import { useState, useElectron, usePlayer } from "../amethyst";
 import ControlButtons from "./ControlButtons.vue";
+import { useRoute } from "vue-router";
 import Menu from "./Menu.vue";
 import MenuOption from "./MenuOption.vue";
 import MenuSplitter from "./MenuSplitter.vue";
@@ -9,6 +10,7 @@ import ProcessorUsageMeter from "./ProcessorUsageMeter.vue";
 const state = useState();
 const electron = useElectron();
 const player = usePlayer();
+const route = useRoute();
 
 </script>
 
@@ -35,6 +37,9 @@ const player = usePlayer();
         <menu-option :title="`Check for updates`" @click="electron.invoke('check-for-updates')" />
       </Menu>
       <Menu title="Debug" v-if="state.isDev.value">
+        <menu-option title="Set 'updateReady' to 'true'" @click="state.state.updateReady = true;" />
+        <menu-option title="Set 'updateReady' to 'false'" @click="state.state.updateReady = false;" />
+        <menu-splitter />
         <menu-option title="Test 'UpdateInstallingNotification'"
           @click="electron.invoke('test-notification', ['showUpdateInstallingNotification'])" />
         <menu-option title="Test 'UpdateAvailableNotification'"
@@ -42,12 +47,15 @@ const player = usePlayer();
       </Menu>
     </div>
 
-    <p class="absolute left-1/2 transform-gpu -translate-x-1/2">
+    <p class="">
       Amethyst v{{ state.state.version }}
     </p>
 
 
-    <div class="flex gap-2 items-center overflow-hidden">
+    <div class="flex gap-2 items-center overflow-hidden font-aseprite">
+      <button @click="electron.close(route.name as string)" v-if="state.state.updateReady"
+        class="no-drag py-1 px-2 cursor-pointer bg-green-900 bg-opacity-50 text-green-400 hover:bg-green-400 active:text-black hover:text-black active:bg-primary-900">INSTALL
+        UPDATE</button>
       <processor-usage-meter />
       <control-buttons />
     </div>

@@ -11,10 +11,12 @@ export default class ElectronEventManager {
     this.electron.on<Buffer>("default-cover", image => state.state.defaultCover = URL.createObjectURL(new Blob([image], { type: "image/png" })));
 
     // These are state syncs that get emitted on every state change
-
     this.electron.on("maximize", () => state.state.isMaximized = true);
     this.electron.on("unmaximize", () => state.state.isMaximized = false);
     this.electron.on("minimize", () => state.state.isMinimized = true);
+
+    // Shows the update button on the menu bar whenever theres an update ready to be installed
+    this.electron.on("update", () => state.state.updateReady = true);
   }
 
   public syncWindowState = async () => {

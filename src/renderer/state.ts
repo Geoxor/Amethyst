@@ -8,6 +8,7 @@ export default class AppState {
 		version: "",
 		isMinimized: false,
 		isMaximized: false,
+		updateReady: false,
 		processQueue: new Set(),
 		coverProcessQueue: 0,
 		bpmProcessQueue: 0,
