@@ -24,7 +24,7 @@
       </div>
 
       <slider v-model="player.state.inputAudio.currentTime" @wheel.stop="handleSeekMouseScroll"
-        class="w-full z-10 opacity-50" min="0" :max="duration" step="0.01" :id="currentTime" />
+        class="w-full z-10 opacity-50" min="0" :max="duration" step="0.01" :id="player.state.currentTime" />
 
       <p class="text-8px">{{player.currentTimeFormatted()}} /
         {{player.currentDurationFormatted()}}</p>

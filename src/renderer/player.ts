@@ -30,7 +30,6 @@ export default class Player {
 	private emit = this.events.emit;
 	public on = this.events.on;
 	public off = this.events.off;
-
 	public state = reactive({
 		inputAudio: new Audio(),
 		richPresenceTimer: null as null | NodeJS.Timer,
@@ -38,6 +37,7 @@ export default class Player {
 		source: null as null | MediaElementAudioSourceNode,
 		currentlyPlayingMetadata: null as null | IAudioMetadata,
 		currentlyPlayingFilePath: useLocalStorage<string>("currentlyPlayingFilePath", ""),
+		currentTime: 0,
 
 		queue: useLocalStorage<Set<string>>("queue", new Set()),
 		currentlyPlayingIndex: -1,
@@ -54,6 +54,16 @@ export default class Player {
 		electron.electron.on<string>("play-file", file => file !== "--require" && this.addToQueueAndPlay(file));
 		electron.electron.on<(string)[]>("play-folder", files => this.setQueue(files));
 		electron.electron.on<(string)[]>("load-folder", files => this.setQueue([...files, ...this.getQueue()]));
+
+		this.state.inputAudio.addEventListener("timeupdate", () => {
+			this.state.currentTime = this.state.inputAudio.currentTime
+		})
+
+		// Create a source out of the context
+		this.state.source = this.state.ctx.createMediaElementSource(this.state.inputAudio);
+
+		// Connect the source to the destination
+		this.state.source.connect(this.state.ctx.destination);
 
 		// When the queue changes updated the current playing file path
 		watch(() => this.state.queue.size, () => this.updateCurrentlyPlayingFilePath());
@@ -157,13 +167,9 @@ export default class Player {
 		this.state.inputAudio && this.pause();
 
 		// simple fix to folders that have # in their name
-		this.state.inputAudio = new Audio(`file://${path.replace("#", "%23")}`);
+		this.state.inputAudio.src = `file://${path.replace("#", "%23")}`;
 
-		// Create a source out of the context
-		this.state.source = this.state.ctx.createMediaElementSource(this.state.inputAudio);
 
-		// Connect the source to the destination
-		this.state.source.connect(this.state.ctx.destination);
 
 		// Play the sound and handle playback
 		this.play();
@@ -353,7 +359,7 @@ export default class Player {
 	}
 
 	public currentTimeFormatted() {
-		return secondsToHuman(this.state.inputAudio.currentTime);
+		return secondsToHuman(this.state.currentTime);
 	}
 
 	public currentDurationFormatted() {
