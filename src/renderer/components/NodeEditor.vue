@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { Position, VueFlow } from '@vue-flow/core'
 import { Background, BackgroundVariant } from '@vue-flow/additional-components'
 import { getThemeColorHex } from '../logic/color';
@@ -11,6 +11,13 @@ import Spectrum from './Spectrum/Spectrum.vue';
 import { usePlayer, useState } from '../amethyst';
 import MagnetIcon from '../icons/MagnetIcon.vue';
 import SquareButton from './SquareButton.vue';
+const dash = ref();
+
+// Fit to view again when resizing
+onMounted(() => {
+  window.addEventListener('resize', () => dash.value.fitView());
+});
+
 const player = usePlayer();
 const state = useState();
 const elements = ref([
@@ -48,8 +55,8 @@ const elements = ref([
     <SquareButton class="absolute bottom-2 right-2 z-10 " :icon="MagnetIcon" :active="state.settings.isSnappingToGrid"
       @click="state.settings.isSnappingToGrid = !state.settings.isSnappingToGrid" />
 
-    <VueFlow class="bg-black bg-opacity-25 p-2" :snap-to-grid="state.settings.isSnappingToGrid" v-model="elements"
-      :connection-line-style="{ stroke: getThemeColorHex('--primary-800') }" :fit-view-on-init="true"
+    <VueFlow ref="dash" class="bg-black bg-opacity-25 p-2" :snap-to-grid="state.settings.isSnappingToGrid"
+      v-model="elements" :connection-line-style="{ stroke: getThemeColorHex('--primary-800') }" :fit-view-on-init="true"
       :default-edge-options="{ type: 'smoothstep' }">
       <Background :size="0.5" :variant="BackgroundVariant.Dots" :pattern-color="getThemeColorHex('--surface-500')" />
       <template #node-custom-input>
