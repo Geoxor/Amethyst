@@ -14,17 +14,17 @@ const parseTitle = (path: string) => path.substring(Math.max(path.lastIndexOf("\
 </script>
 
 <template>
-  <div class="flex-col items-center p-2 flex w-full h-full">
+  <div class="flex-col items-center p-2 flex w-64 max-w-64 h-full">
     <input v-model="filterText" type="text"
       class="border-2 z-30 w-full bg-surface-800 border-surface-600 text-white py-0.25 indent-xs text-12px mb-2"
       placeholder="artists, title & format...">
-    <ul class="overflow-y-scroll w-full">
+    <ul class="overflow-y-auto w-full">
       <li
         v-for="([song, i]) of player.getQueue().map((song, i) => song.toLowerCase().includes(filterText.toLowerCase()) ? [song, i] : undefined).filter(song => !!song) as [string, number][]"
         :key="song"
         :class="[isHoldingControl && 'control-hover', isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', i === player.getCurrentlyPlayingIndex() && 'text-primary-800']"
         class="h-4 flex gap-2 w-full hover:text-primary-900 list-none relative select-none" @keypress.prevent
-        @mousedown="isHoldingControl ? invoke('show-item', [player.getQueue()[i]]) : player.setCurrentlyPlayingIndex(i)">
+        @click="isHoldingControl ? invoke('show-item', [player.getQueue()[i]]) : player.setCurrentlyPlayingIndex(i)">
 
         <cover v-if="state.settings.showMiniCovers" class="w-3 h-3" :url="player.getCoverBase64(song)" />
 

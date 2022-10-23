@@ -2,7 +2,7 @@
   "name": "amethyst",
   "author": "Geoxor <geoxor123@outlook.com>",
   "productName": "Amethyst",
-  "version": "1.7.4",
+  "version": "1.7.5",
   "main": "./release/dist/main/main.js",
   "licenses": [
     {
@@ -228,6 +228,8 @@
   },
   "dependencies": {
     "@supercharge/promise-pool": "^2.3.2",
+    "@vue-flow/additional-components": "^1.1.0",
+    "@vue-flow/core": "^1.2.0",
     "@vueuse/core": "^9.3.1",
     "chalk": "^4.1.2",
     "discord-rpc": "^4.0.1",

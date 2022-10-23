@@ -17,9 +17,10 @@ const TILT_MULTIPLIER = 0.005; // 3dB/octave
 // const DOWNSCALED_HEIGHT = SPECTRUM_HEIGHT / DOWNSCALE_FACTOR;
 let shouldStopRendering = false;
 
-  
+let randomId = Date.now();
+
 onMounted(() => {
-	const {context} = props.node;
+	const { context } = props.node;
 	const gain = context.createGain();
 	const analyser = context.createAnalyser();
 	analyser.fftSize = state.settings.spectrumFftSize;
@@ -34,11 +35,11 @@ onMounted(() => {
 	watch(() => state.settings.spectrumSmoothing, () => analyser.smoothingTimeConstant = state.settings.spectrumSmoothing)
 
 	props.node.connect(gain);
-	
+
 	// Raising the gain into the analyzer to compensate for the tilt bottom end loss
 	gain.connect(analyser);
 
-	const spectrum = document.querySelector("#spectrum") as HTMLCanvasElement;
+	const spectrum = document.querySelector(`#spectrum-${randomId}`) as HTMLCanvasElement;
 	const canvasCtx = computed(() => {
 		const canvas = spectrum.getContext("2d")!;
 		return canvas;
@@ -89,7 +90,7 @@ onUnmounted(() => shouldStopRendering = true);
 
 <template>
 	<div :style="`min-width: ${SPECTRUM_WIDTH}px;`" class="flex flex-col bg-surface-900 rounded-4px overflow-hidden">
-		<canvas id="spectrum" ref="spectrum" :width="SPECTRUM_WIDTH" :height="SPECTRUM_HEIGHT" />
+		<canvas :id="`spectrum-${randomId}`" :width="SPECTRUM_WIDTH" :height="SPECTRUM_HEIGHT" />
 	</div>
 </template>
 

@@ -129,7 +129,7 @@ watch(model, () => {
 }
 
 .modifier {
-  @apply text-7px select-none px-1.5 py-0.5 transition transform duration-100 border-2 border-transparent flex bg-surface-700 overflow-hidden;
+  @apply select-none px-1.5 py-0.5 transition transform duration-100 border-2 border-transparent flex bg-surface-700 overflow-hidden;
   cursor: ns-resize;
 
   &:active,

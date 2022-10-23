@@ -1,5 +1,5 @@
 <template>
-  <padded-container>
+  <padded-container class="w-64 min-w-64">
 
     <settings-category-splitter text="UI" />
     <settings-binary-switch text="Color UI based on cover art" v-model="state.settings.colorInterfaceFromCoverart" />
