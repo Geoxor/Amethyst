@@ -17,21 +17,21 @@ const elements = ref([
   {
     id: 'input',
     type: 'custom-input',
-    position: { x: 150, y: 250 },
+    position: { x: 0, y: 250 },
     sourcePosition: Position.Right,
-  },
-
-  {
-    id: 'output',
-    type: 'custom-output',
-    position: { x: 750, y: 250 },
-    targetPosition: Position.Left,
   },
 
   {
     id: 'spectrum',
     type: 'custom-spectrum',
-    position: { x: 325, y: 350 },
+    position: { x: 300, y: 350 },
+    targetPosition: Position.Left,
+  },
+
+  {
+    id: 'output',
+    type: 'custom-output',
+    position: { x: 700, y: 250 },
     targetPosition: Position.Left,
   },
 
