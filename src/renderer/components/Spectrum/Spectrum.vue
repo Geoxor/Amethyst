@@ -61,9 +61,12 @@ onMounted(() => {
 
 		for (let i = 0; i < points.length; i++) {
 			const tilt = (i * TILT_MULTIPLIER) - tiltOffset;
-			const y = points[i] * state.settings.spectrumVerticalZoom;
-			const barHeight = ((y + tilt) / 255 * SPECTRUM_HEIGHT);
-			canvasCtx.value!.fillRect(i * barWidth, SPECTRUM_HEIGHT - barHeight, 1, barHeight);
+			const barHeight = ((points[i] * state.settings.spectrumVerticalZoom + tilt) / 255 * SPECTRUM_HEIGHT);
+			const x = i * barWidth;
+			const y = SPECTRUM_HEIGHT - barHeight;
+
+			canvasCtx.value.fillStyle = primaryColor;
+			canvasCtx.value.fillRect(x, y, 1, barHeight);
 		}
 
 		// // TODO: make this into a toggleable option in the settings

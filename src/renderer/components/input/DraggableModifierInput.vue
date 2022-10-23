@@ -1,7 +1,7 @@
 
 <template>
-  <div ref="modifier" class="modifier font-aseprite" @mousedown.passive="onMouseDown"
-    @mouseup.passive="dragging = false">
+  <div ref="modifier" class="modifier font-aseprite" @mousedown.stop.passive="onMouseDown"
+    @mouseup.stop.passive="dragging = false">
     <div :class="{ pop }">
       <h1 class="absolute z-10 top-2px">
         {{ displayValue }}

@@ -20,6 +20,9 @@ export default class AppState {
 	});
 
 	public settingsObject = {
+		showQueue: true,
+		showNodeEditor: true,
+		showSettings: false,
 		useLogarithmicSpectrum: true,
 		showMiniCovers: true,
 		showCoverArt: true,
@@ -27,6 +30,7 @@ export default class AppState {
 		colorInterfaceFromCoverart: false,
 		spectrumFftSize: 8192,
 		vectorscopeLineThickness: 1,
+		isSnappingToGrid: false,
 		diagonalVectorscope: true,
 		spectrumSmoothing: 0.5,
 		showSpectrum: true,

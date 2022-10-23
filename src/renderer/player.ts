@@ -38,6 +38,7 @@ export default class Player {
 		currentlyPlayingMetadata: null as null | IAudioMetadata,
 		currentlyPlayingFilePath: useLocalStorage<string>("currentlyPlayingFilePath", ""),
 		currentTime: 0,
+		filter: null as unknown as BiquadFilterNode,
 
 		queue: useLocalStorage<Set<string>>("queue", new Set()),
 		currentlyPlayingIndex: -1,
@@ -59,11 +60,14 @@ export default class Player {
 			this.state.currentTime = this.state.inputAudio.currentTime
 		})
 
-		// Create a source out of the context
 		this.state.source = this.state.ctx.createMediaElementSource(this.state.inputAudio);
+		this.state.filter = this.state.ctx.createBiquadFilter();
 
-		// Connect the source to the destination
-		this.state.source.connect(this.state.ctx.destination);
+		const input = this.state.source
+		const output = this.state.ctx.destination;
+
+		// Input --> { ... } --> Output
+		input.connect(output);
 
 		// When the queue changes updated the current playing file path
 		watch(() => this.state.queue.size, () => this.updateCurrentlyPlayingFilePath());
@@ -139,6 +143,7 @@ export default class Player {
 		// Discord rich presence timer that updates discord every second
 		this.state.richPresenceTimer && clearInterval(this.state.richPresenceTimer);
 		this.state.richPresenceTimer = setInterval(() => {
+			if (!this.state.isPlaying) return;
 			(this.state.currentlyPlayingMetadata && this.appState?.settings.discordRichPresence) && this.electron.invoke("update-rich-presence", [
 				this.state.currentlyPlayingMetadata.common.artist ? `${this.state.currentlyPlayingMetadata.common.artist || "Unkown Artist"} - ${this.state.currentlyPlayingMetadata.common.title}` : this.state.currentlyPlayingFilePath.substring(this.state.currentlyPlayingFilePath.lastIndexOf("\\") + 1),
 				secondsToHuman(this.state.currentlyPlayingMetadata.format.duration!),

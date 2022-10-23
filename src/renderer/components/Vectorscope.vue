@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { getThemeColorHex } from "../logic/color";
 import { computed, onMounted, onUnmounted, watch } from "vue";
 import { useState } from "../amethyst";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
@@ -7,16 +8,16 @@ const WIDTH = 76;
 const HEIGHT = WIDTH
 const state = useState();
 let shouldStopRendering = false;
-
+let randomId = Date.now();
 
 onMounted(() => {
-	const vectorscope = document.querySelector("#vectorscope") as HTMLCanvasElement;
+	const vectorscope = document.querySelector(`#vectorscope-${randomId}`) as HTMLCanvasElement;
 	const canvasCtx = computed(() => {
 		const canvas = vectorscope.getContext("2d")!;
 		return canvas;
 	});
 
-	const {context} = props.node;
+	const { context } = props.node;
 	const analyzerX = context.createAnalyser();
 	const analyzerY = context.createAnalyser();
 	analyzerX.fftSize = FFT_SIZE;
@@ -29,7 +30,7 @@ onMounted(() => {
 	const bufferX = new Float32Array(analyzerX.fftSize);
 	const bufferY = new Float32Array(analyzerY.fftSize);
 
-	canvasCtx.value.strokeStyle = "#f5874266";
+	canvasCtx.value.strokeStyle = `${getThemeColorHex('--primary-900')}66`;
 
 	canvasCtx.value.lineWidth = state.settings.vectorscopeLineThickness;
 	watch(() => state.settings.vectorscopeLineThickness, () => canvasCtx.value.lineWidth = state.settings.vectorscopeLineThickness)
@@ -65,8 +66,8 @@ onUnmounted(() => shouldStopRendering = true);
 
 <template>
 	<div :style="`min-width: ${WIDTH}px;`" class="flex flex-col bg-surface-900 rounded-4px overflow-hidden">
-		<canvas :class="[!state.settings.diagonalVectorscope && 'diagonal']" id="vectorscope" ref="vectorscope"
-			:width="WIDTH" :height="HEIGHT" />
+		<canvas :class="[!state.settings.diagonalVectorscope && 'diagonal']" :id="`vectorscope-${randomId}`" :width="WIDTH"
+			:height="HEIGHT" />
 	</div>
 </template>
 
