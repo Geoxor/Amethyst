@@ -7,6 +7,7 @@ import MagnetIcon from '../icons/MagnetIcon.vue';
 import { getThemeColorHex } from '../logic/color';
 import SquareButton from './SquareButton.vue';
 const dash = ref();
+const nodeEditor = ref();
 
 // Fit to view again when resizing
 onMounted(() => {
@@ -20,7 +21,7 @@ const elements = computed(() => [...player.nodeManager.getNodeProperties(), ...p
 </script>
 
 <template>
-  <div class="w-full h-full flex flex-col borderLeft relative">
+  <div ref="nodeEditor" class="w-full h-full flex flex-col borderLeft relative">
 
     <SquareButton class="absolute bottom-2 right-2 z-10 " :icon="MagnetIcon" :active="state.settings.isSnappingToGrid"
       @click="state.settings.isSnappingToGrid = !state.settings.isSnappingToGrid" />

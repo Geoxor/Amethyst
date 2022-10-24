@@ -4,7 +4,7 @@ import { usePlayer, useState } from '../amethyst';
 import DbMeter from '../components/DbMeter.vue';
 import Queue from "../components/Queue.vue";
 import SettingsBar from '../components/SettingsBar.vue';
-import Spectrum from '../components/Spectrum';
+import Spectrum from '../components/Spectrum.vue';
 
 import NavigationBar from '../components/NavigationBar.vue';
 import NodeEditor from '../components/NodeEditor.vue';

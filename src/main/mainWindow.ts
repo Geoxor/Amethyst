@@ -1,19 +1,18 @@
+import { BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
+import log from "electron-log";
+import { autoUpdater } from "electron-updater";
+import { FastAverageColorResult } from 'fast-average-color';
+import { getAverageColor } from 'fast-average-color-node';
 import fs from "fs";
-import path from "path";
 import * as mm from "music-metadata/lib/core";
-import { Event } from "electron";
-import { BrowserWindow, dialog, ipcMain, shell, Notification } from "electron";
+import path from "path";
 import sharp from "sharp";
 import { ALLOWED_EXTENSIONS, APP_VERSION, IS_DEV, RESOURCES_PATH } from "./main";
-import { getAverageColor } from 'fast-average-color-node';
-import { FastAverageColorResult } from 'fast-average-color';
-import { autoUpdater } from "electron-updater";
-import log from "electron-log";
 
-import { resolveHTMLPath } from "./util";
-import { loadFolder } from "./handles";
 import { Discord } from "./discord";
+import { loadFolder } from "./handles";
 import { Logger } from "./logger";
+import { resolveHTMLPath } from "./util";
 
 const icon = () => path.join(RESOURCES_PATH, 'icon.png');
 
@@ -44,6 +43,7 @@ const notifications = {
 export class MainWindow {
 	public readonly window: BrowserWindow;
 	public preferencesWindow: BrowserWindow | undefined = undefined;
+	public updateCheckerTimer: NodeJS.Timer | undefined;
 
 	private readonly windowOptions: Electron.BrowserWindowConstructorOptions = {
 		show: false,
@@ -93,7 +93,8 @@ export class MainWindow {
 			autoUpdater.checkForUpdatesAndNotify();
 
 			// Check for updates every 10 minutes
-			setInterval(() => autoUpdater.checkForUpdatesAndNotify(), 600 * 1000)
+			this.updateCheckerTimer && clearInterval(this.updateCheckerTimer)
+			this.updateCheckerTimer = setInterval(() => autoUpdater.checkForUpdatesAndNotify(), 600 * 1000)
 
 			if (process.env.START_MINIMIZED)
 				this.window.minimize();

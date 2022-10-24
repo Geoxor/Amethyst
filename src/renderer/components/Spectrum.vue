@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from "@vue/reactivity";
 import { onMounted, onUnmounted, watch } from "vue";
-import { useState } from "../../amethyst";
-import { getThemeColorHex } from "../../logic/color";
-import { scaleLog } from "../../logic/math";
+import { useState } from "../amethyst";
+import { getThemeColorHex } from "../logic/color";
+import { scaleLog } from "../logic/math";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
 const state = useState();
 
@@ -18,6 +18,28 @@ const TILT_MULTIPLIER = 0.005; // 3dB/octave
 let shouldStopRendering = false;
 
 let randomId = Date.now();
+
+function interpolateArray<T>(data: T[], fitCount: number): T[] {
+	const linearInterpolate = function (before: any, after: any, atPoint: number) {
+		return before + (after - before) * atPoint;
+	};
+
+	const newData = [];
+	const springFactor = (data.length - 1) / (fitCount - 1);
+
+	newData[0] = data[0]; // for new allocation
+
+	for (let i = 1; i < fitCount - 1; i++) {
+		const tmp = i * springFactor;
+		const before = ~~Math.floor(tmp);
+		const after = ~~Math.ceil(tmp);
+		const atPoint = tmp - before;
+		newData[i] = linearInterpolate(data[before], data[after], atPoint);
+	}
+	newData[fitCount - 1] = data[data.length - 1]; // for new allocation
+
+	return newData;
+};
 
 onMounted(() => {
 	const { context } = props.node;
@@ -39,6 +61,8 @@ onMounted(() => {
 	// Raising the gain into the analyzer to compensate for the tilt bottom end loss
 	gain.connect(analyser);
 
+
+
 	const spectrum = document.querySelector(`#spectrum-${randomId}`) as HTMLCanvasElement;
 	const canvasCtx = computed(() => {
 		const canvas = spectrum.getContext("2d")!;
@@ -53,20 +77,25 @@ onMounted(() => {
 		analyser.getByteFrequencyData(dataArray);
 
 		const points = state.settings.useLogarithmicSpectrum ? scaleLog(dataArray) : dataArray;
-		const barWidth = SPECTRUM_WIDTH / points.length;
 		const tiltOffset = TILT_MULTIPLIER * points.length;
 
 		const primaryColor = getThemeColorHex("--primary-900");
-		canvasCtx.value!.fillStyle = primaryColor;
+		canvasCtx.value.fillStyle = primaryColor;
+
+		const heightPoints = [];
 
 		for (let i = 0; i < points.length; i++) {
 			const tilt = (i * TILT_MULTIPLIER) - tiltOffset;
 			const barHeight = ((points[i] * state.settings.spectrumVerticalZoom + tilt) / 255 * SPECTRUM_HEIGHT);
-			const x = i * barWidth;
 			const y = SPECTRUM_HEIGHT - barHeight;
+			heightPoints.push(y);
+		}
 
-			canvasCtx.value.fillStyle = primaryColor;
-			canvasCtx.value.fillRect(x, y, 1, barHeight);
+		const interpolated = interpolateArray(heightPoints, SPECTRUM_WIDTH);
+
+		for (let i = 0; i < interpolated.length; i++) {
+			const y = interpolated[i];
+			canvasCtx.value.fillRect(i, y, 1, SPECTRUM_HEIGHT - y);
 		}
 
 		// // TODO: make this into a toggleable option in the settings
