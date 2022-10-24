@@ -25,7 +25,7 @@ const player = usePlayer();
       <settings-bar v-if="state.settings.showSettings" />
     </div>
 
-    <div class="flex gap-2 p-2 bg-surface-800">
+    <div class="flex gap-2 p-2 bg-surface-800 borderTop">
       <vectorscope v-if="state.settings.showVectorscope && player.state.source"
         :key="player.state.currentlyPlayingFilePath" :node="player.state.source" />
 

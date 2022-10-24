@@ -66,15 +66,19 @@ body::-webkit-scrollbar {
 }
 
 .borderRight {
-  @apply border-1 border-r-surface-600 border-t-transparent border-b-transparent border-l-transparent;
+  @apply border-r-1 border-r-surface-600 border-t-transparent border-b-transparent border-l-transparent;
 }
 
 .borderLeft {
-  @apply border-1 border-l-surface-600 border-t-transparent border-b-transparent border-r-transparent;
+  @apply border-l-1 border-l-surface-600 border-t-transparent border-b-transparent border-r-transparent;
 }
 
 .borderBottom {
-  @apply border-1 border-b-surface-600 border-t-transparent border-r-transparent border-l-transparent;
+  @apply border-b-1 border-b-surface-600 border-t-transparent border-r-transparent border-l-transparent;
+}
+
+.borderTop {
+  @apply border-t-1 border-b-transparent border-t-surface-600 border-r-transparent border-l-transparent;
 }
 
 .drag {
