@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import { usePlayer } from "../amethyst";
-import { onMounted, onUnmounted, ref, computed } from "vue";
 const props = defineProps<{ node: AudioNode }>();
 const FLOOR = -60;
 const RANGE = 30;
@@ -89,16 +89,15 @@ onUnmounted(() => shouldStopRendering = true);
 			<div :style="`width: ${width}px;`" class="absolute top-0 left-0 bg-surface-600 h-full rounded-full" />
 			<div :style="`width: ${width}px;`" class="absolute bottom-0 bg-surface-500 h-90/100 rounded-full" />
 
-			<div :class="channels[i - 1][0].value > 0 ? 'bg-red-600' : 'bg-primary-800'"
+			<div :class="channels[i - 1][0].value > 0 ? 'bg-red-600' : 'bg-green-600'"
 				class="transition-all rounded-full duration-100 absolute bottom-0"
 				:style="`width: ${width}px; height: ${computedWidth(channels[i - 1][0].value)}%`" />
-			<div :class="channels[i - 1][1].value > 0 ? 'bg-red-500' : 'bg-primary-900'"
-				class="absolute bottom-0 rounded-full"
+			<div :class="channels[i - 1][1].value > 0 ? 'bg-red-500' : 'bg-green-500'" class="absolute bottom-0 rounded-full"
 				:style="`width: ${width}px; height: ${computedWidth(channels[i - 1][1].value)}%`" />
 		</div>
 
 		<svg class="absolute h-full stroke-3px w-4px" :style="`left: ${((width + 2) * nChannels + 1)}px;`">
-			<line class="stroke-cap-round stroke-surface-500" x1="2" y1="2" x2="2" y2="98" />
+			<line class="stroke-cap-round stroke-surface-500" x1="2" y1="2" x2="2" y2="100" />
 		</svg>
 	</div>
 </template>
