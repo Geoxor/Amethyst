@@ -18,13 +18,12 @@
     </div>
   </div>
 
-
   <Handle id="a" type="source" :position="Position.Right" />
   <Handle id="b" type="target" :position="Position.Left" />
 </template>
 
 <script setup lang="ts">
-import { Handle, Position } from '@vue-flow/core'
+import { Handle, Position } from '@vue-flow/core';
 import { usePlayer } from '../../amethyst';
 import { AmethystAudioNode } from '../../logic/audio';
 import DbMeter from '../DbMeter.vue';
