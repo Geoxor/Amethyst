@@ -80,7 +80,8 @@ onMounted(() => {
 		const tiltOffset = TILT_MULTIPLIER * points.length;
 
 		const primaryColor = getThemeColorHex("--primary-900");
-		canvasCtx.value.fillStyle = primaryColor;
+		canvasCtx.value.fillStyle = `${primaryColor}16`;
+		canvasCtx.value.strokeStyle = primaryColor;
 
 		const heightPoints = [];
 
@@ -92,10 +93,16 @@ onMounted(() => {
 		}
 
 		const interpolated = interpolateArray(heightPoints, SPECTRUM_WIDTH);
+		canvasCtx.value.moveTo(0, 0);
+		canvasCtx.value.beginPath();
+
 
 		for (let i = 0; i < interpolated.length; i++) {
 			const y = interpolated[i];
 			canvasCtx.value.fillRect(i, y, 1, SPECTRUM_HEIGHT - y);
+			canvasCtx.value.lineTo(i, y + 1);
+			canvasCtx.value.stroke();
+
 		}
 
 		// // TODO: make this into a toggleable option in the settings
