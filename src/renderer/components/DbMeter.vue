@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { usePlayer } from "../amethyst";
 import { onMounted, onUnmounted, ref, computed } from "vue";
-const props = defineProps<{ node: MediaElementAudioSourceNode }>();
+const props = defineProps<{ node: AudioNode }>();
 const FLOOR = -60;
 const RANGE = 30;
 const FFT_SIZE = 2048 * 2;
@@ -76,7 +76,7 @@ onMounted(() => {
 const computedWidth = (value: number): number => {
 	const width = (1 + value / RANGE) * 90;
 	// this fixes the animation jump from 0 to the first value
-	return Math.max(0.01, width);
+	return Math.min(100, Math.max(0.01, width));
 };
 
 onUnmounted(() => shouldStopRendering = true);

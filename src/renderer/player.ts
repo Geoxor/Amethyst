@@ -7,7 +7,8 @@ import { FastAverageColorResult } from 'fast-average-color';
 import mitt from 'mitt';
 import { secondsToHuman } from "./logic/formating";
 import { fisherYatesShuffle, flattenArray } from "./logic/math";
-import { PromisePool } from "@supercharge/promise-pool";
+// import { PromisePool } from "@supercharge/promise-pool";
+import { AmethystAudioNodeManager } from "./logic/audio";
 
 export const ALLOWED_EXTENSIONS = ["ogg", "flac", "wav", "opus", "aac", "aiff", "mp3", "m4a"];
 
@@ -30,6 +31,8 @@ export default class Player {
 	private emit = this.events.emit;
 	public on = this.events.on;
 	public off = this.events.off;
+	public nodeManager: AmethystAudioNodeManager;
+
 	public state = reactive({
 		inputAudio: new Audio(),
 		richPresenceTimer: null as null | NodeJS.Timer,
@@ -63,11 +66,8 @@ export default class Player {
 		this.state.source = this.state.ctx.createMediaElementSource(this.state.inputAudio);
 		this.state.filter = this.state.ctx.createBiquadFilter();
 
-		const input = this.state.source
-		const output = this.state.ctx.destination;
-
-		// Input --> { ... } --> Output
-		input.connect(output);
+		// Audio routing happens in this class
+		this.nodeManager = new AmethystAudioNodeManager(this.state.source, this.state.ctx)
 
 		// When the queue changes updated the current playing file path
 		watch(() => this.state.queue.size, () => this.updateCurrentlyPlayingFilePath());
@@ -206,9 +206,9 @@ export default class Player {
 	}
 
 	public async getCovers(files: string[]): Promise<void> {
-		await PromisePool.for(files.filter(file => !this.appState.state.coverCache[file]).filter(file => !!file))
-			.withConcurrency(3) // Raise this for more parallel runs
-			.process(async (_, i) => this.getCoverArt(files[i]));
+		// await PromisePool.for(files.filter(file => !this.appState.state.coverCache[file]).filter(file => !!file))
+		// 	.withConcurrency(3) // Raise this for more parallel runs
+		// 	.process(async (_, i) => this.getCoverArt(files[i]));
 	}
 
 	public getCoverArt = async (path: string) => {

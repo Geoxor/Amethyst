@@ -1,13 +1,8 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue';
-import { Position, VueFlow } from '@vue-flow/core'
+import { computed, onMounted, ref } from 'vue';
+import { VueFlow } from '@vue-flow/core'
 import { Background, BackgroundVariant } from '@vue-flow/additional-components'
 import { getThemeColorHex } from '../logic/color';
-import CustomNode from '../components/nodes/CustomNode.vue';
-import StepIntoIcon from '../icons/nodes/StepIntoIcon.vue';
-import StepOutIcon from '../icons/nodes/StepOutIcon.vue';
-import WaveIcon from '../icons/nodes/WaveIcon.vue';
-import Spectrum from './Spectrum/Spectrum.vue';
 import { usePlayer, useState } from '../amethyst';
 import MagnetIcon from '../icons/MagnetIcon.vue';
 import SquareButton from './SquareButton.vue';
@@ -20,33 +15,8 @@ onMounted(() => {
 
 const player = usePlayer();
 const state = useState();
-const elements = ref([
-  {
-    id: 'input',
-    type: 'custom-input',
-    position: { x: 0, y: 250 },
-    sourcePosition: Position.Right,
-  },
+const elements = computed(() => [...player.nodeManager.getNodeProperties(), ...player.nodeManager.getNodeConnections()]);
 
-  {
-    id: 'spectrum',
-    type: 'custom-spectrum',
-    position: { x: 300, y: 350 },
-    targetPosition: Position.Left,
-  },
-
-  {
-    id: 'output',
-    type: 'custom-output',
-    position: { x: 700, y: 250 },
-    targetPosition: Position.Left,
-  },
-
-  // Edges
-  // Most basic edge, only consists of an id, source-id and target-id
-  { id: 'input-spectrum', source: 'input', target: 'spectrum', animated: true },
-  { id: 'spectrum-output', source: 'spectrum', target: 'output', animated: true },
-])
 </script>
 
 <template>
@@ -59,19 +29,9 @@ const elements = ref([
       v-model="elements" :connection-line-style="{ stroke: getThemeColorHex('--primary-800') }" :fit-view-on-init="true"
       :default-edge-options="{ type: 'smoothstep' }">
       <Background :size="0.5" :variant="BackgroundVariant.Dots" :pattern-color="getThemeColorHex('--surface-500')" />
-      <template #node-custom-input>
-        <CustomNode title="Input" description="From Amethyst" :icon="StepIntoIcon" />
-      </template>
 
-      <template #node-custom-output>
-        <CustomNode title="Output" description="To Speakers" :icon="StepOutIcon" />
-      </template>
-
-      <template #node-custom-spectrum>
-        <CustomNode title="Spectrum" :icon="WaveIcon">
-          <spectrum v-if="player.state.source" :key="player.state.currentlyPlayingFilePath"
-            :node="player.state.source" />
-        </CustomNode>
+      <template v-for="node of player.nodeManager.nodes" :key="node.properties.id" v-slot:[node.getSlotName()]>
+        <component :is="node.component" :node="node" />
       </template>
 
     </VueFlow>

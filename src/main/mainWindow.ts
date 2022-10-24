@@ -277,7 +277,7 @@ export class MainWindow {
 			return;
 
 		return (
-			await sharp(cover).resize(resizeTo, resizeTo).png().toBuffer()
+			await sharp(cover).resize(resizeTo, resizeTo).webp().toBuffer()
 		).toString("base64");
 	}
 }
