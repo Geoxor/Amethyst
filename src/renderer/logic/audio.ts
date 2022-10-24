@@ -1,9 +1,11 @@
 import { Position } from "@vue-flow/core";
-import { loadFolder } from "main/handles";
-import { DefineComponent, Ref, ref } from "vue";
-import InputNode from "../components/nodes/InputNode.vue"
-import OutputNode from "../components/nodes/OutputNode.vue"
-import FilterNode from "../components/nodes/FilterNode.vue"
+import { DefineComponent, ref } from "vue";
+import AnalyzerNode from "../components/nodes/AnalyzerNode.vue";
+import FilterNode from "../components/nodes/FilterNode.vue";
+import GainNode from "../components/nodes/GainNode.vue";
+import InputNode from "../components/nodes/InputNode.vue";
+import OutputNode from "../components/nodes/OutputNode.vue";
+import PannerNode from "../components/nodes/PannerNode.vue";
 
 export interface IAmethystNodeProperties {
   id: string,
@@ -20,15 +22,26 @@ export interface IAmethystNodeConnection {
 };
 
 export class AmethystAudioNodeManager {
+  private input: AmethystAudioNode<AudioNode>;
+  private output: AmethystAudioNode<AudioNode>;
+
   public nodes: AmethystAudioNode<AudioNode>[] = ref([]).value;
 
-  public constructor(public input: AudioNode, public context: AudioContext) {
-    const output = this.context.destination;
+  public constructor(input: AudioNode, public context: AudioContext) {
+    this.input = new AmethystAudioNode(input, "input", InputNode, { x: -50, y: 0 }, false)
+    this.output = new AmethystAudioNode(this.context.destination, "output", OutputNode, { x: 925, y: 0 }, false);
 
-    this.nodes.push(new AmethystAudioNode(input, "input", InputNode, { x: -50, y: 0 }, false))
+    // Attach first audio source node
+    this.nodes.push(this.input)
+
+    // All effect nodes
     this.nodes.push(new AmethystEqualizerNode(this.context, "filter", { x: 100, y: 0 }))
-    this.nodes.push(new AmethystAudioNode(output, "output", OutputNode, { x: 350, y: 0 }, false))
+    this.nodes.push(new AmethystPannerNode(this.context, "panner", { x: 300, y: 0 }))
+    this.nodes.push(new AmethystGainNode(this.context, "gain", { x: 500, y: 0 }))
+    this.nodes.push(new AmethystSpectrumNode(this.context, "spectrum", { x: 700, y: 0 }))
 
+    // Attach last output node
+    this.nodes.push(this.output)
     this.connectNodes();
   }
 
@@ -124,5 +137,26 @@ export class AmethystEqualizerNode extends AmethystAudioNode<BiquadFilterNode> {
     filter.gain.value = 0;
 
     super(filter, name, FilterNode, position);
+  }
+}
+
+export class AmethystSpectrumNode extends AmethystAudioNode<AudioNode> {
+  public constructor(context: AudioContext, name: string, position: IAmethystNodeProperties["position"]) {
+    super(context.createGain(), name, AnalyzerNode, position);
+  }
+}
+
+export class AmethystPannerNode extends AmethystAudioNode<StereoPannerNode> {
+  public constructor(context: AudioContext, name: string, position: IAmethystNodeProperties["position"]) {
+    const panner = context.createStereoPanner();
+    panner.pan.value = 0;
+
+    super(panner, name, PannerNode, position);
+  }
+}
+
+export class AmethystGainNode extends AmethystAudioNode<GainNode> {
+  public constructor(context: AudioContext, name: string, position: IAmethystNodeProperties["position"]) {
+    super(context.createGain(), name, GainNode, position);
   }
 }

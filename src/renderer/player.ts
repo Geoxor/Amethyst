@@ -1,14 +1,14 @@
+import { PromisePool } from "@supercharge/promise-pool";
 import { useLocalStorage } from "@vueuse/core";
+import { FastAverageColorResult } from 'fast-average-color';
+import mitt from 'mitt';
 import type { IAudioMetadata } from "music-metadata";
 import { computed, reactive, watch } from "vue";
 import type ElectronEventManager from "./electronEventManager";
-import type AppState from "./state";
-import { FastAverageColorResult } from 'fast-average-color';
-import mitt from 'mitt';
+import { AmethystAudioNodeManager } from "./logic/audio";
 import { secondsToHuman } from "./logic/formating";
 import { fisherYatesShuffle, flattenArray } from "./logic/math";
-// import { PromisePool } from "@supercharge/promise-pool";
-import { AmethystAudioNodeManager } from "./logic/audio";
+import type AppState from "./state";
 
 export const ALLOWED_EXTENSIONS = ["ogg", "flac", "wav", "opus", "aac", "aiff", "mp3", "m4a"];
 
@@ -206,9 +206,9 @@ export default class Player {
 	}
 
 	public async getCovers(files: string[]): Promise<void> {
-		// await PromisePool.for(files.filter(file => !this.appState.state.coverCache[file]).filter(file => !!file))
-		// 	.withConcurrency(3) // Raise this for more parallel runs
-		// 	.process(async (_, i) => this.getCoverArt(files[i]));
+		await PromisePool.for(files.filter(file => !this.appState.state.coverCache[file]).filter(file => !!file))
+			.withConcurrency(3) // Raise this for more parallel runs
+			.process(async (_, i) => this.getCoverArt(files[i]));
 	}
 
 	public getCoverArt = async (path: string) => {

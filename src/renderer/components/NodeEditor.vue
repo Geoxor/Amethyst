@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { Background, BackgroundVariant } from '@vue-flow/additional-components';
+import { VueFlow } from '@vue-flow/core';
 import { computed, onMounted, ref } from 'vue';
-import { VueFlow } from '@vue-flow/core'
-import { Background, BackgroundVariant } from '@vue-flow/additional-components'
-import { getThemeColorHex } from '../logic/color';
 import { usePlayer, useState } from '../amethyst';
 import MagnetIcon from '../icons/MagnetIcon.vue';
+import { getThemeColorHex } from '../logic/color';
 import SquareButton from './SquareButton.vue';
 const dash = ref();
 

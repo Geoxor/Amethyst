@@ -1,0 +1,17 @@
+<template >
+  <CustomNode :node="node" title="Stereo Panner" :icon="AzimuthIcon">
+    <p class="font-aseprite">{{ pan }}</p>
+    <Slider @mousedown.stop step="0.01" max="1" min="-1" v-model="pan" />
+  </CustomNode>
+</template>
+
+<script setup lang="ts">
+import { ref, watch } from 'vue';
+import AzimuthIcon from '../../icons/nodes/AzimuthIcon.vue';
+import { AmethystPannerNode } from '../../logic/audio';
+import Slider from '../input/Slider.vue';
+import CustomNode from './CustomNode.vue';
+const props = defineProps<{ node: AmethystPannerNode }>();
+const pan = ref(props.node.node.pan.value)
+watch(() => pan.value, () => props.node.node.pan.value = pan.value)
+</script>
