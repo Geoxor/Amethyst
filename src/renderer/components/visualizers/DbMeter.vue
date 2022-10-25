@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { usePlayer } from "@/amethyst";
 import { computed, onMounted, onUnmounted, ref } from "vue";
-import { usePlayer } from "../../amethyst";
 const props = defineProps<{ node: AudioNode }>();
 const FLOOR = -60;
 const RANGE = 30;

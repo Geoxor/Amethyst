@@ -26,8 +26,8 @@
       <slider v-model="player.state.inputAudio.currentTime" @wheel.stop="handleSeekMouseScroll"
         class="w-full z-10 opacity-50" min="0" :max="duration" step="0.01" :id="player.state.currentTime" />
 
-      <p class="text-8px">{{player.currentTimeFormatted()}} /
-        {{player.currentDurationFormatted()}}</p>
+      <p class="text-8px">{{     player.currentTimeFormatted()     }} /
+        {{     player.currentDurationFormatted()     }}</p>
 
       <slider id="volume" key="volume" v-model="player.state.volume" class="volume max-w-32" min="0" max="1"
         step="0.001" @input="player.setVolume(player.state.volume)" @wheel="handleVolumeMouseScroll" />
@@ -37,8 +37,8 @@
         <cover class="rounded-4px w-12 h-12 min-h-12 min-w-12"
           :url="player.getCoverBase64(player.getCurrentlyPlayingFilePath())" v-if="player.hasCover()" />
         <div class="flex flex-col font-bold gap-2">
-          <h1 class="text-12px hover:underline cursor-pointer">{{player.getTitle()}}</h1>
-          <p class="text-8px text-white text-opacity-50">{{player.getArtist()}}</p>
+          <h1 class="text-12px hover:underline cursor-pointer">{{     player.getTitle()     }}</h1>
+          <p class="text-8px text-white text-opacity-50">{{     player.getArtist()     }}</p>
         </div>
 
       </div>
@@ -50,10 +50,10 @@
               D# Pentatonic
             </chip> -->
         <chip v-if="player.state.currentlyPlayingMetadata?.format.codec" :icon="FileIcon">
-          {{player.state.currentlyPlayingMetadata?.format.codec}}
+          {{     player.state.currentlyPlayingMetadata?.format.codec     }}
         </chip>
         <chip v-if="player.state.currentlyPlayingMetadata?.format.bitrate" :icon="BitrateIcon">
-          {{(player.state.currentlyPlayingMetadata?.format.bitrate / 1024).toFixed(2)}}<strong
+          {{     (player.state.currentlyPlayingMetadata?.format.bitrate / 1024).toFixed(2)     }}<strong
             class="opacity-50">kbps</strong>
         </chip>
         <!-- <chip :icon="StorageIcon">
@@ -65,26 +65,26 @@
 </template>
 
 <script setup lang="ts">
-import Cover from '../components/Cover.vue';
-import Slider from "../components/input/Slider.vue";
-import Chip from '../components/new/Chip.vue';
-import BitrateIcon from "../icons/plumpy/BitrateIcon.vue";
-import FileIcon from "../icons/plumpy/FileIcon.vue";
-import HeartIcon from '../icons/plumpy/HeartIcon.vue';
-import NextIcon from '../icons/plumpy/NextIcon.vue';
-import PauseIcon from "../icons/plumpy/PauseIcon.vue";
-import PlayIcon from '../icons/plumpy/PlayIcon.vue';
-import PlaylistIcon from '../icons/plumpy/PlaylistIcon.vue';
-import RepeatIcon from '../icons/plumpy/RepeatIcon.vue';
-import RepeatOneIcon from '../icons/plumpy/RepeatOneIcon.vue';
-import ShuffleIcon from '../icons/plumpy/ShuffleIcon.vue';
-import { LoopMode } from "../player";
-// import MetronomeIcon from '../icons/plumpy/MetronomeIcon.vue';
-// import KeyClefIcon from "../icons/plumpy/KeyClefIcon.vue";
-// import StorageIcon from "../icons/plumpy/StorageIcon.vue";
+import Cover from '@/components/Cover.vue';
+import Slider from "@/components/input/Slider.vue";
+import Chip from '@/components/new/Chip.vue';
+import BitrateIcon from "@/icons/plumpy/BitrateIcon.vue";
+import FileIcon from "@/icons/plumpy/FileIcon.vue";
+import HeartIcon from '@/icons/plumpy/HeartIcon.vue';
+import NextIcon from '@/icons/plumpy/NextIcon.vue';
+import PauseIcon from "@/icons/plumpy/PauseIcon.vue";
+import PlayIcon from '@/icons/plumpy/PlayIcon.vue';
+import PlaylistIcon from '@/icons/plumpy/PlaylistIcon.vue';
+import RepeatIcon from '@/icons/plumpy/RepeatIcon.vue';
+import RepeatOneIcon from '@/icons/plumpy/RepeatOneIcon.vue';
+import ShuffleIcon from '@/icons/plumpy/ShuffleIcon.vue';
+import { LoopMode } from "@/player";
+// import MetronomeIcon from '@/icons/plumpy/MetronomeIcon.vue';
+// import KeyClefIcon from "@/icons/plumpy/KeyClefIcon.vue";
+// import StorageIcon from "@/icons/plumpy/StorageIcon.vue";
 
+import Player from '@/player';
 import { computed, onMounted, ref } from 'vue';
-import Player from '../player';
 const props = defineProps<{ player: Player }>();
 const handleVolumeMouseScroll = (e: WheelEvent) => {
   const delta = Math.sign(e.deltaY);

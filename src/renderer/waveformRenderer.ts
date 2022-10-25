@@ -1,5 +1,5 @@
+import Player from "@/player";
 import { IAudioMetadata } from "music-metadata";
-import Player from "./player";
 
 export class WaveformRenderer {
   public canvas: HTMLCanvasElement;

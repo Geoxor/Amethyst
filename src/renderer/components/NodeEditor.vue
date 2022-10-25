@@ -1,11 +1,11 @@
 <script setup lang="ts">
+import { usePlayer, useState } from '@/amethyst';
+import SquareButton from '@/components/input/SquareButton.vue';
+import MagnetIcon from '@/icons/plumpy/MagnetIcon.vue';
+import { getThemeColorHex } from '@/logic/color';
 import { Background, BackgroundVariant } from '@vue-flow/additional-components';
 import { VueFlow } from '@vue-flow/core';
 import { computed, onMounted, ref } from 'vue';
-import { usePlayer, useState } from '../amethyst';
-import MagnetIcon from '../icons/plumpy/MagnetIcon.vue';
-import { getThemeColorHex } from '../logic/color';
-import SquareButton from './input/SquareButton.vue';
 const dash = ref();
 const nodeEditor = ref();
 

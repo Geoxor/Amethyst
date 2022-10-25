@@ -3,9 +3,9 @@
 </template>
 
 <script setup lang="ts">
-import StepOutIcon from '../../icons/material/StepOutIcon.vue';
-import { AmethystAudioNode } from '../../logic/audio';
-import CustomNode from './CustomNode.vue';
+import CustomNode from '@/components/nodes/CustomNode.vue';
+import StepOutIcon from '@/icons/material/StepOutIcon.vue';
+import { AmethystAudioNode } from '@/logic/audio';
 defineProps<{ node: AmethystAudioNode<any> }>();
 
 </script>

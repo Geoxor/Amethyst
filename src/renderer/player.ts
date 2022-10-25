@@ -1,14 +1,14 @@
+import type ElectronEventManager from "@/electronEventManager";
+import { AmethystAudioNodeManager } from "@/logic/audio";
+import { secondsToHuman } from "@/logic/formating";
+import { fisherYatesShuffle, flattenArray } from "@/logic/math";
+import type AppState from "@/state";
 import { PromisePool } from "@supercharge/promise-pool";
 import { useLocalStorage } from "@vueuse/core";
 import { FastAverageColorResult } from 'fast-average-color';
 import mitt from 'mitt';
 import type { IAudioMetadata } from "music-metadata";
 import { computed, reactive, watch } from "vue";
-import type ElectronEventManager from "./electronEventManager";
-import { AmethystAudioNodeManager } from "./logic/audio";
-import { secondsToHuman } from "./logic/formating";
-import { fisherYatesShuffle, flattenArray } from "./logic/math";
-import type AppState from "./state";
 
 export const ALLOWED_EXTENSIONS = ["ogg", "flac", "wav", "opus", "aac", "aiff", "mp3", "m4a"];
 

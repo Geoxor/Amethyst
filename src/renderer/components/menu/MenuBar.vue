@@ -1,12 +1,12 @@
 <script lang="ts" setup>
+import { useElectron, usePlayer, useState } from "@/amethyst";
+import ControlButtons from "@/components/ControlButtons.vue";
+import Menu from "@/components/menu/Menu.vue";
+import MenuOption from "@/components/menu/MenuOption.vue";
+import MenuSplitter from "@/components/menu/MenuSplitter.vue";
+import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
+import { bytesToHuman } from '@/logic/formating';
 import { useRoute } from "vue-router";
-import { useElectron, usePlayer, useState } from "../../amethyst";
-import { bytesToHuman } from '../../logic/formating';
-import ControlButtons from "../ControlButtons.vue";
-import ProcessorUsageMeter from "../ProcessorUsageMeter.vue";
-import Menu from "./Menu.vue";
-import MenuOption from "./MenuOption.vue";
-import MenuSplitter from "./MenuSplitter.vue";
 const state = useState();
 const electron = useElectron();
 const player = usePlayer();

@@ -1,4 +1,4 @@
-import type AppState from "./state";
+import type AppState from "@/state";
 
 export default class ElectronEventManager {
   public electron = window.electron.ipcRenderer;

@@ -1,11 +1,11 @@
+import AnalyzerNode from "@/components/nodes/AnalyzerNode.vue";
+import FilterNode from "@/components/nodes/FilterNode.vue";
+import GainNode from "@/components/nodes/GainNode.vue";
+import InputNode from "@/components/nodes/InputNode.vue";
+import OutputNode from "@/components/nodes/OutputNode.vue";
+import PannerNode from "@/components/nodes/PannerNode.vue";
 import { Position } from "@vue-flow/core";
 import { DefineComponent, ref } from "vue";
-import AnalyzerNode from "../components/nodes/AnalyzerNode.vue";
-import FilterNode from "../components/nodes/FilterNode.vue";
-import GainNode from "../components/nodes/GainNode.vue";
-import InputNode from "../components/nodes/InputNode.vue";
-import OutputNode from "../components/nodes/OutputNode.vue";
-import PannerNode from "../components/nodes/PannerNode.vue";
 
 export interface IAmethystNodeProperties {
   id: string,

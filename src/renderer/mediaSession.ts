@@ -1,4 +1,4 @@
-import Player from "./player";
+import Player from "@/player";
 export default class MediaSession {
   public constructor(public player: Player) {
     const actionHandlers: ([MediaSessionAction, MediaSessionActionHandler])[] = [

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useState } from "../amethyst";
+import { useState } from "@/amethyst";
 defineProps<{ url?: string }>();
 const state = useState();
 </script>

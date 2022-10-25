@@ -27,5 +27,21 @@
     "vue/no-unused-components": [
       "warn"
     ]
+  },
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [
+          [
+            "@",
+            "./src/renderer"
+          ]
+        ],
+        "extensions": [
+          ".ts",
+          ".vue"
+        ]
+      }
+    }
   }
 }

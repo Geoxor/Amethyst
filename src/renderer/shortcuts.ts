@@ -1,6 +1,6 @@
-import { onKeyStroke, useLocalStorage, useKeyModifier } from "@vueuse/core";
-import { useElectron } from "./amethyst";
-import type Player from "./player";
+import { useElectron } from "@/amethyst";
+import type Player from "@/player";
+import { onKeyStroke, useKeyModifier, useLocalStorage } from "@vueuse/core";
 
 export type ShortcutBindings = Record<string, [string[], (e: KeyboardEvent) => void]>;
 export type CustomShortcutBindings = Record<string, string[]>;

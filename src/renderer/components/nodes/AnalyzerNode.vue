@@ -5,10 +5,10 @@
 </template>
 
 <script setup lang="ts">
-import WaveIcon from '../../icons/material/WaveIcon.vue';
-import { AmethystAudioNode } from '../../logic/audio';
-import Spectrum from '../visualizers/Spectrum.vue';
-import CustomNode from './CustomNode.vue';
+import CustomNode from '@/components/nodes/CustomNode.vue';
+import Spectrum from '@/components/visualizers/Spectrum.vue';
+import WaveIcon from '@/icons/material/WaveIcon.vue';
+import { AmethystAudioNode } from '@/logic/audio';
 defineProps<{ node: AmethystAudioNode<any> }>();
 
 </script>

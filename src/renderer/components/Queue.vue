@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import { usePlayer, useState } from "@/amethyst";
+import Cover from "@/components/Cover.vue";
 import { useKeyModifier } from "@vueuse/core";
 import { ref } from "vue";
-import { usePlayer, useState } from "../amethyst";
-import Cover from "./Cover.vue";
 
 const state = useState();
 const player = usePlayer();

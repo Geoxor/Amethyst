@@ -1,11 +1,11 @@
+import "@/app.pcss";
 import "virtual:windi.css";
-import "./app.pcss";
 // Make this conditional if we are in dev mode
 // import "virtual:windi-devtools";
+import "@/amethyst";
+import App from "@/App.vue";
+import router from "@/router";
 import { createApp } from "vue";
-import App from "./App.vue";
-import router from "./router";
-import "./amethyst";
 
 const app = createApp(App);
 

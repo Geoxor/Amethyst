@@ -23,11 +23,11 @@
 </template>
 
 <script setup lang="ts">
+import { usePlayer } from '@/amethyst';
+import SquareButton from '@/components/input/SquareButton.vue';
+import DbMeter from '@/components/visualizers/DbMeter.vue';
+import { AmethystAudioNode } from '@/logic/audio';
 import { Handle, Position } from '@vue-flow/core';
-import { usePlayer } from '../../amethyst';
-import { AmethystAudioNode } from '../../logic/audio';
-import SquareButton from '../input/SquareButton.vue';
-import DbMeter from '../visualizers/DbMeter.vue';
 defineProps<{ title: string, icon: any, description?: string, node: AmethystAudioNode<any>, meterless?: boolean }>();
 const player = usePlayer();
 </script>

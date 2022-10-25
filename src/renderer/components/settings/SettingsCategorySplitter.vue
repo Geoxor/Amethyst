@@ -7,6 +7,6 @@
 </template>
 
 <script setup lang="ts">
-import Splitter from '../Splitter.vue';
+import Splitter from '@/components/Splitter.vue';
 defineProps<{ text: string, icon?: any }>();
 </script>

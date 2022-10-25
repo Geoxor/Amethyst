@@ -6,7 +6,7 @@
     <Slider @mousedown.stop v-model="gain" min="-18" max="18" />
 
     <p class="font-aseprite"><strong class="text-white font-aseprite font-thin text-opacity-50">Frequency</strong> {{
-    frequency
+        frequency
     }}
       Hz</p>
     <Slider @mousedown.stop v-model="frequency" max="2000" />
@@ -14,11 +14,11 @@
 </template>
 
 <script setup lang="ts">
+import Slider from '@/components/input/Slider.vue';
+import CustomNode from '@/components/nodes/CustomNode.vue';
+import FilterIcon from '@/icons/material/FilterIcon.vue';
+import { AmethystEqualizerNode } from '@/logic/audio';
 import { ref, watch } from 'vue';
-import FilterIcon from '../../icons/material/FilterIcon.vue';
-import { AmethystEqualizerNode } from '../../logic/audio';
-import Slider from '../input/Slider.vue';
-import CustomNode from './CustomNode.vue';
 
 const props = defineProps<{ node: AmethystEqualizerNode }>();
 const gain = ref(props.node.node.gain.value);

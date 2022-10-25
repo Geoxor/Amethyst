@@ -5,14 +5,23 @@
     ],
     "target": "es2021",
     "module": "commonjs",
-    "lib": ["dom", "es2021"],
+    "lib": [
+      "dom",
+      "es2021"
+    ],
     "declaration": true,
     "declarationMap": true,
     "jsx": "preserve",
     "strict": true,
     "pretty": true,
+    "paths": {
+      "@/*": [
+        "./src/renderer/*"
+      ],
+      // more path aliases here
+    },
     "sourceMap": true,
-    "baseUrl": "./src",
+    "baseUrl": "./",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
@@ -24,5 +33,8 @@
     "allowJs": true,
     "outDir": "release/app/dist"
   },
-  "exclude": ["test", "release"]
+  "exclude": [
+    "test",
+    "release"
+  ]
 }

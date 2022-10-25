@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { usePlayer, useState } from '../amethyst';
+import { usePlayer, useState } from '@/amethyst';
 
-import Queue from "../components/Queue.vue";
-import SettingsBar from '../components/SettingsBar.vue';
-import DbMeter from '../components/visualizers/DbMeter.vue';
-import Spectrum from '../components/visualizers/Spectrum.vue';
+import Queue from "@/components/Queue.vue";
+import SettingsBar from '@/components/SettingsBar.vue';
+import DbMeter from '@/components/visualizers/DbMeter.vue';
+import Spectrum from '@/components/visualizers/Spectrum.vue';
 
-import NavigationBar from '../components/NavigationBar.vue';
-import NodeEditor from '../components/NodeEditor.vue';
-import PlaybackButtons from '../components/PlaybackButtons.vue';
-import Vectorscope from '../components/visualizers/Vectorscope.vue';
+import NavigationBar from '@/components/NavigationBar.vue';
+import NodeEditor from '@/components/NodeEditor.vue';
+import PlaybackButtons from '@/components/PlaybackButtons.vue';
+import Vectorscope from '@/components/visualizers/Vectorscope.vue';
 
 const state = useState();
 const player = usePlayer();
