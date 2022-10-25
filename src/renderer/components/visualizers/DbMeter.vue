@@ -90,9 +90,10 @@ onUnmounted(() => shouldStopRendering = true);
 			<div :style="`width: ${width}px;`" class="absolute bottom-0 bg-surface-500 h-90/100 rounded-full" />
 
 			<div :class="channels[i - 1][0].value > 0 ? 'bg-red-600' : 'bg-green-600'"
-				class="transition-all rounded-full duration-100 absolute bottom-0"
+				class="rounded-full duration-100 absolute bottom-0"
 				:style="`width: ${width}px; height: ${computedWidth(channels[i - 1][0].value)}%`" />
-			<div :class="channels[i - 1][1].value > 0 ? 'bg-red-500' : 'bg-green-500'" class="absolute bottom-0 rounded-full"
+			<div :class="channels[i - 1][0].value > 0 ? 'bg-red-500' : 'bg-green-500'"
+				class="absolute duration-100 transition-colors bottom-0 rounded-full"
 				:style="`width: ${width}px; height: ${computedWidth(channels[i - 1][1].value)}%`" />
 		</div>
 
