@@ -1,7 +1,7 @@
 <template>
   <div @mousedown="handleMouseDown" @mouseup="isResizing = false" @mouseover="handleMouseOver"
     @mouseleave="isHoveringOverResizeBoundary = false" ref="resizableDiv"
-    class="resizableDiv pr-2 border-r-2 border-transparent h-full"
+    class="resizableDiv w-full pr-2 border-r-2 border-transparent h-full"
     :class="[isHoveringOverResizeBoundary && 'border-r-primary-800']">
     <slot />
   </div>

@@ -9,14 +9,14 @@ import { computed, onMounted, ref } from 'vue';
 const dash = ref();
 const nodeEditor = ref();
 
-// Fit to view again when resizing
 onMounted(() => {
-  window.addEventListener('resize', () => dash.value.fitView());
+  new ResizeObserver(dash.value.fitView).observe(nodeEditor.value);
 });
 
 const player = usePlayer();
 const state = useState();
 const elements = computed(() => [...player.nodeManager.getNodeProperties(), ...player.nodeManager.getNodeConnections()]);
+
 
 </script>
 
