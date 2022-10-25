@@ -44,6 +44,7 @@ export default class Player {
 		filter: null as unknown as BiquadFilterNode,
 
 		queue: useLocalStorage<Set<string>>("queue", new Set()),
+		favorites: useLocalStorage<Set<string>>("favorites", new Set()),
 		currentlyPlayingIndex: -1,
 		volume: useLocalStorage<number>("volume", 1),
 		isPlaying: false,
@@ -263,6 +264,18 @@ export default class Player {
 		this.state.isPlaying = true;
 		this.emit("play", this.state.currentlyPlayingFilePath);
 		this.appState?.settings.colorInterfaceFromCoverart && this.updateThemeColors(this.state.currentlyPlayingFilePath);
+	}
+
+	public favoriteToggle(path: string) {
+		this.state.favorites.has(path) ? this.unfavorite(path) : this.favorite(path)
+	}
+
+	public favorite(path: string) {
+		this.state.favorites.add(path);
+	}
+
+	public unfavorite(path: string) {
+		this.state.favorites.delete(path);
 	}
 
 	public pause() {

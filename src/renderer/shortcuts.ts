@@ -22,6 +22,7 @@ export default class Shortcuts {
     "queue.add.file": [["o"], () => this.isControlPressed.value && useElectron().openFileDialog()],
     "queue.add.folder": [["O"], () => this.isControlPressed.value && useElectron().openFolderDialog()],
     "queue.clear": [["X"], () => this.isControlPressed.value && this.player.clearQueue()],
+    "song.favorite": [["f"], () => this.player.favoriteToggle(this.player.getCurrentlyPlayingFilePath())],
   };
 
   public bindings = this.DEFAULT_BINDINGS;
