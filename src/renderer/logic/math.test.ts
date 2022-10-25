@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { fisherYatesShuffle, flattenArray, scaleLog } from './math';
+import { describe, expect, it } from 'vitest';
+import { fisherYatesShuffle, flattenArray, interpolateArray, scaleLog } from './math';
 
 describe('scaleLog()', () => {
   const start = new Uint8Array([
@@ -37,5 +37,20 @@ describe("flattenArray()", () => {
     ]
     const expected = [1, 2, 3, 4, 5, 6, 7];
     expect(flattenArray(start)).toEqual(expected);
+  });
+});
+
+describe("interpolateArray()", () => {
+  const start = [1, 2, 3];
+  const target = [1, 1.5, 2, 2.5, 3];
+  const targetLength = 5;
+  const result = interpolateArray(start, targetLength);
+
+  it("should be able to interpolate an array", () => {
+    expect(result).toEqual(target);
+  });
+
+  it("should have length of 5", () => {
+    expect(result.length).toEqual(targetLength);
   });
 });

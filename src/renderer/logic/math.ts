@@ -51,3 +51,25 @@ export const flattenArray = <T>(array: T[]): T[] => {
       return acc.concat(item);
   }, [] as T[]);
 }
+
+export const interpolateArray = <T>(data: T[], fitCount: number): T[] => {
+  const linearInterpolate = function (before: any, after: any, atPoint: number) {
+    return before + (after - before) * atPoint;
+  };
+
+  const newData = [];
+  const springFactor = (data.length - 1) / (fitCount - 1);
+
+  newData[0] = data[0]; // for new allocation
+
+  for (let i = 1; i < fitCount - 1; i++) {
+    const tmp = i * springFactor;
+    const before = ~~Math.floor(tmp);
+    const after = ~~Math.ceil(tmp);
+    const atPoint = tmp - before;
+    newData[i] = linearInterpolate(data[before], data[after], atPoint);
+  }
+  newData[fitCount - 1] = data[data.length - 1]; // for new allocation
+
+  return newData;
+};

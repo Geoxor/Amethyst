@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useState } from "@/amethyst";
 import { getThemeColorHex } from "@/logic/color";
-import { scaleLog } from "@/logic/math";
+import { interpolateArray, scaleLog } from "@/logic/math";
 import { computed } from "@vue/reactivity";
 import { onMounted, onUnmounted, watch } from "vue";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
@@ -14,27 +14,7 @@ const TILT_MULTIPLIER = 0.005; // 3dB/octave
 let shouldStopRendering = false;
 let randomId = Date.now();
 
-function interpolateArray<T>(data: T[], fitCount: number): T[] {
-	const linearInterpolate = function (before: any, after: any, atPoint: number) {
-		return before + (after - before) * atPoint;
-	};
 
-	const newData = [];
-	const springFactor = (data.length - 1) / (fitCount - 1);
-
-	newData[0] = data[0]; // for new allocation
-
-	for (let i = 1; i < fitCount - 1; i++) {
-		const tmp = i * springFactor;
-		const before = ~~Math.floor(tmp);
-		const after = ~~Math.ceil(tmp);
-		const atPoint = tmp - before;
-		newData[i] = linearInterpolate(data[before], data[after], atPoint);
-	}
-	newData[fitCount - 1] = data[data.length - 1]; // for new allocation
-
-	return newData;
-};
 
 onMounted(() => {
 	const { context } = props.node;
