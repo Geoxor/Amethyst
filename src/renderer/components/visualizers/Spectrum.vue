@@ -14,8 +14,6 @@ const TILT_MULTIPLIER = 0.005; // 3dB/octave
 let shouldStopRendering = false;
 let randomId = Date.now();
 
-
-
 onMounted(() => {
 	const { context } = props.node;
 	const gain = context.createGain();

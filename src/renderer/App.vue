@@ -1,91 +1,47 @@
 <script setup lang="ts">
-import MenuBar from "./components//menu/MenuBar.vue";
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
+import { usePlayer, useState } from '@/amethyst';
+import MenuBar from "@/components//menu/MenuBar.vue";
+
+import Queue from "@/components/Queue.vue";
+import SettingsBar from '@/components/SettingsBar.vue';
+import DbMeter from '@/components/visualizers/DbMeter.vue';
+import Spectrum from '@/components/visualizers/Spectrum.vue';
+
+import NavigationBar from '@/components/NavigationBar.vue';
+import NodeEditor from '@/components/NodeEditor.vue';
+import PlaybackButtons from '@/components/PlaybackButtons.vue';
+import Vectorscope from '@/components/visualizers/Vectorscope.vue';
+
+const state = useState();
+const player = usePlayer();
 
 // Disable stupid scroll when hitting space
 window.addEventListener('keydown', (e) => e.key === " " && e.target == document.body && e.preventDefault());
-// @ts-ignore
 </script>
 
 <template>
   <div class="flex fixed flex-col">
     <menu-bar />
-    <router-view />
+    <div class="h-full whitespace-nowrap flex flex-col justify-between overflow-hidden">
+      <div class="flex-1 flex h-full max-h-full overflow-hidden">
+        <navigation-bar />
+        <queue v-if="state.settings.showQueue" />
+        <node-editor v-if="state.settings.showNodeEditor" />
+        <settings-bar v-if="state.settings.showSettings" />
+      </div>
+
+      <div class="flex gap-2 p-2 bg-surface-800 borderTop">
+        <vectorscope v-if="state.settings.showVectorscope && player.state.source"
+          :key="player.state.currentlyPlayingFilePath" :node="player.state.source" />
+
+        <spectrum v-if="state.settings.showSpectrum && player.state.source" :key="player.state.currentlyPlayingFilePath"
+          :node="player.state.source" />
+
+        <db-meter v-if="state.settings.showDbMeter && player.state.source" :key="player.state.currentlyPlayingFilePath"
+          :node="player.state.source" />
+
+        <playback-buttons :player="player" />
+      </div>
+    </div>
   </div>
 </template> 
-
-<style lang="postcss">
-* {
-  @apply !outline-none;
-  cursor: url("./cursors/default.png"), auto !important;
-}
-
-/*  Fixes the white bg showing up when resizing */
-html,
-body,
-#app,
-#app {
-  @apply bg-surface-900;
-}
-
-html,
-body,
-#app,
-#app>div {
-  @apply h-full w-full;
-}
-
-body::-webkit-scrollbar {
-  display: none;
-}
-
-*::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
-}
-
-*:hover::-webkit-scrollbar {
-  overflow-y: overlay;
-}
-
-*::-webkit-scrollbar-track,
-*::-webkit-scrollbar-corner {
-  border-radius: 20px;
-  @apply bg-surface-700;
-}
-
-*::-webkit-scrollbar-thumb {
-  border-radius: 20px;
-  @apply bg-surface-500;
-  border: transparent;
-}
-
-.fullscreen {
-  @apply fixed top-0 left-0 z-0 w-full h-full;
-}
-
-.borderRight {
-  @apply border-r-1 border-r-surface-600 border-t-transparent border-b-transparent border-l-transparent;
-}
-
-.borderLeft {
-  @apply border-l-1 border-l-surface-600 border-t-transparent border-b-transparent border-r-transparent;
-}
-
-.borderBottom {
-  @apply border-b-1 border-b-surface-600 border-t-transparent border-r-transparent border-l-transparent;
-}
-
-.borderTop {
-  @apply border-t-1 border-b-transparent border-t-surface-600 border-r-transparent border-l-transparent;
-}
-
-.drag {
-  -webkit-app-region: drag;
-}
-
-.no-drag {
-  -webkit-app-region: no-drag;
-}
-</style>
