@@ -2,6 +2,7 @@
 import { usePlayer, useState } from '@/amethyst';
 import MenuBar from "@/components//menu/MenuBar.vue";
 
+import ContextMenu from '@/components/input/ContextMenu.vue';
 import Queue from "@/components/Queue.vue";
 import SettingsBar from '@/components/SettingsBar.vue';
 import DbMeter from '@/components/visualizers/DbMeter.vue';
@@ -22,6 +23,7 @@ window.addEventListener('keydown', (e) => e.key === " " && e.target == document.
 <template>
   <div class="flex fixed flex-col">
     <menu-bar />
+    <context-menu v-if="state.state.contextMenu.isVisible" />
     <div class="h-full whitespace-nowrap flex flex-col justify-between overflow-hidden">
       <div class="flex-1 flex h-full max-h-full overflow-hidden">
         <navigation-bar />

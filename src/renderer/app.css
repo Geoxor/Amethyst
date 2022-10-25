@@ -9,7 +9,7 @@
   font-family: "jost";
   src: url("../../assets/fonts/jost.ttf");
 }
- 
+
 @font-face {
   font-family: "aseprite";
   src: url("../../assets/fonts/aseprite-remix.ttf");
@@ -24,6 +24,11 @@
   font-family: "aseprite";
   @apply text-7px;
 }
+
+*.font-aseprite * {
+  font-family: "aseprite";
+}
+
 
 .cursor-pointer,
 .cursor-pointer * {

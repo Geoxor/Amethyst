@@ -1,6 +1,11 @@
 import { useLocalStorage } from "@vueuse/core";
 import { computed, reactive } from "vue";
 
+export interface IContextMenuOption {
+	title: string,
+	action: () => any;
+}
+
 export default class AppState {
 	public state = reactive({
 		allowedExtensions: [] as string[],
@@ -8,6 +13,14 @@ export default class AppState {
 		version: "",
 		isMinimized: false,
 		isMaximized: false,
+		contextMenu: {
+			isVisible: false,
+			position: {
+				x: 0,
+				y: 0,
+			},
+			options: [] as IContextMenuOption[],
+		},
 		updateReady: false,
 		processQueue: new Set(),
 		coverProcessQueue: 0,
@@ -47,6 +60,12 @@ export default class AppState {
 	public bpmCacheSize = computed(() => JSON.stringify(this.state.bpmCache).length);
 	public waveformCacheSize = computed(() => JSON.stringify(this.state.waveformCache).length);
 	public isDev = computed(() => this.state.version.includes("DEV"));
+
+	public openContextMenuAt(x: number, y: number, options: IContextMenuOption[]) {
+		this.state.contextMenu.position = { x: x + 6, y: y + 6 };
+		this.state.contextMenu.options = options;
+		this.state.contextMenu.isVisible = true;
+	}
 
 	public applyCurrentTheme = () => {
 		if (typeof document !== "undefined") {

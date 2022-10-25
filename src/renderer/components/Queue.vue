@@ -11,6 +11,15 @@ const filterText = ref("");
 const invoke = window.electron.ipcRenderer.invoke;
 const parseTitle = (path: string) => path.substring(Math.max(path.lastIndexOf("\\"), path.lastIndexOf("/")) + 1);
 
+// Context Menu options for this component 
+const handleContextMenu = (e: MouseEvent, i: number) => {
+  state.openContextMenuAt(e.x, e.y, [
+    { title: "Play", action: () => player.setCurrentlyPlayingIndex(i) },
+    { title: "Render cover art", action: () => player.getCoverArt(player.getQueue()[i]) },
+    { title: "Remove from queue", action: () => player.removeItemFromQueue(i) },
+  ]);
+}
+
 </script>
 
 <template>
@@ -21,7 +30,7 @@ const parseTitle = (path: string) => path.substring(Math.max(path.lastIndexOf("\
     <ul class="overflow-y-auto w-full">
       <li
         v-for="([song, i]) of player.getQueue().map((song, i) => song.toLowerCase().includes(filterText.toLowerCase()) ? [song, i] : undefined).filter(song => !!song) as [string, number][]"
-        :key="song"
+        :key="song" @contextmenu="handleContextMenu($event, i)"
         :class="[isHoldingControl && 'control-hover', isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', i === player.getCurrentlyPlayingIndex() && 'text-primary-800']"
         class="h-4 flex gap-2 w-full hover:text-primary-900 list-none relative select-none" @keypress.prevent
         @click="isHoldingControl ? invoke('show-item', [player.getQueue()[i]]) : player.setCurrentlyPlayingIndex(i)">
