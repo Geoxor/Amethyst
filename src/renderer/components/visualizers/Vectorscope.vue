@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { getThemeColorHex } from "../logic/color";
 import { computed, onMounted, onUnmounted, watch } from "vue";
-import { useState } from "../amethyst";
+import { useState } from "../../amethyst";
+import { getThemeColorHex } from "../../logic/color";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
 const FFT_SIZE = 512;
 const WIDTH = 76;

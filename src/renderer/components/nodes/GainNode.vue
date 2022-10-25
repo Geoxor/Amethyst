@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import AdjustIcon from '../../icons/nodes/AdjustIcon.vue';
+import AdjustIcon from '../../icons/material/AdjustIcon.vue';
 import { AmethystGainNode } from '../../logic/audio';
 import Slider from '../input/Slider.vue';
 import CustomNode from './CustomNode.vue';

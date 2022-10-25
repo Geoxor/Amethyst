@@ -1,12 +1,12 @@
 <script lang="ts" setup>
-import { bytesToHuman } from '../logic/formating';
-import { useState, useElectron, usePlayer } from "../amethyst";
-import ControlButtons from "./ControlButtons.vue";
 import { useRoute } from "vue-router";
+import { useElectron, usePlayer, useState } from "../../amethyst";
+import { bytesToHuman } from '../../logic/formating';
+import ControlButtons from "../ControlButtons.vue";
+import ProcessorUsageMeter from "../ProcessorUsageMeter.vue";
 import Menu from "./Menu.vue";
 import MenuOption from "./MenuOption.vue";
 import MenuSplitter from "./MenuSplitter.vue";
-import ProcessorUsageMeter from "./ProcessorUsageMeter.vue";
 const state = useState();
 const electron = useElectron();
 const player = usePlayer();
@@ -18,7 +18,7 @@ const route = useRoute();
   <div class="borderBottom z-100 font-main drag text-12px select-none flex justify-between items-center">
     <div class="flex no-drag h-full items-center">
       <div class="logo px-2.25 cursor-heart-pointer">
-        <img src="../icon.svg">
+        <img src="../../icon.svg">
       </div>
       <Menu title="File">
         <menu-option :shortcuts="['CTRL', 'O']" title="Open audio..." @click="() => electron.openFileDialog()" />

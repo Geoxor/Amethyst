@@ -6,9 +6,4 @@
 
 <script setup lang="ts">
 defineProps<{ active: boolean, icon?: any }>();
-
 </script>
-
-<style scoped lang="postcss">
-
-</style>

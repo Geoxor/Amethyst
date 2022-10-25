@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useState } from '../amethyst';
-import PlaylistIcon from '../icons/PlaylistIcon.vue';
-import SettingsIcon from '../icons/SettingsIcon.vue';
+import PlaylistIcon from '../icons/plumpy/PlaylistIcon.vue';
+import SettingsIcon from '../icons/plumpy/SettingsIcon.vue';
 import NavigationButton from './NavigationButton.vue';
 
 const state = useState();

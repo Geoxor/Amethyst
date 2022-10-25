@@ -65,26 +65,26 @@
 </template>
 
 <script setup lang="ts">
-import PlayIcon from '../icons/PlayIcon.vue';
-import PauseIcon from "../icons/PauseIcon.vue";
-import ShuffleIcon from '../icons/ShuffleIcon.vue';
-import RepeatIcon from '../icons/RepeatIcon.vue';
-import RepeatOneIcon from '../icons/RepeatOneIcon.vue';
-import { LoopMode } from "../player";
 import Cover from '../components/Cover.vue';
-import Chip from '../components/new/Chip.vue';
-import HeartIcon from '../icons/HeartIcon.vue';
-import PlaylistIcon from '../icons/PlaylistIcon.vue';
-import NextIcon from '../icons/NextIcon.vue';
-import BitrateIcon from "../icons/BitrateIcon.vue";
-import FileIcon from "../icons/FileIcon.vue";
 import Slider from "../components/input/Slider.vue";
-// import MetronomeIcon from '../icons/MetronomeIcon.vue';
-// import KeyClefIcon from "../icons/KeyClefIcon.vue";
-// import StorageIcon from "../icons/StorageIcon.vue";
+import Chip from '../components/new/Chip.vue';
+import BitrateIcon from "../icons/plumpy/BitrateIcon.vue";
+import FileIcon from "../icons/plumpy/FileIcon.vue";
+import HeartIcon from '../icons/plumpy/HeartIcon.vue';
+import NextIcon from '../icons/plumpy/NextIcon.vue';
+import PauseIcon from "../icons/plumpy/PauseIcon.vue";
+import PlayIcon from '../icons/plumpy/PlayIcon.vue';
+import PlaylistIcon from '../icons/plumpy/PlaylistIcon.vue';
+import RepeatIcon from '../icons/plumpy/RepeatIcon.vue';
+import RepeatOneIcon from '../icons/plumpy/RepeatOneIcon.vue';
+import ShuffleIcon from '../icons/plumpy/ShuffleIcon.vue';
+import { LoopMode } from "../player";
+// import MetronomeIcon from '../icons/plumpy/MetronomeIcon.vue';
+// import KeyClefIcon from "../icons/plumpy/KeyClefIcon.vue";
+// import StorageIcon from "../icons/plumpy/StorageIcon.vue";
 
+import { computed, onMounted, ref } from 'vue';
 import Player from '../player';
-import { computed, ref, onMounted } from 'vue';
 const props = defineProps<{ player: Player }>();
 const handleVolumeMouseScroll = (e: WheelEvent) => {
   const delta = Math.sign(e.deltaY);

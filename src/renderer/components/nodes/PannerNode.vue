@@ -7,7 +7,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
-import AzimuthIcon from '../../icons/nodes/AzimuthIcon.vue';
+import AzimuthIcon from '../../icons/material/AzimuthIcon.vue';
 import { AmethystPannerNode } from '../../logic/audio';
 import Slider from '../input/Slider.vue';
 import CustomNode from './CustomNode.vue';
