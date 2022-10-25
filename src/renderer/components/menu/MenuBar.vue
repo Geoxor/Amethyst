@@ -6,11 +6,9 @@ import MenuOption from "@/components/menu/MenuOption.vue";
 import MenuSplitter from "@/components/menu/MenuSplitter.vue";
 import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
 import { bytesToHuman } from '@/logic/formating';
-import { useRoute } from "vue-router";
 const state = useState();
 const electron = useElectron();
 const player = usePlayer();
-const route = useRoute();
 
 </script>
 
@@ -53,7 +51,7 @@ const route = useRoute();
 
 
     <div class="flex gap-2 items-center overflow-hidden font-aseprite">
-      <button @click="electron.close(route.name as string)" v-if="state.state.updateReady"
+      <button @click="electron.close()" v-if="state.state.updateReady"
         class="no-drag py-1 px-2 cursor-pointer bg-green-900 bg-opacity-50 text-green-400 hover:bg-green-400 active:text-black hover:text-black active:bg-primary-900">INSTALL
         UPDATE</button>
       <processor-usage-meter />

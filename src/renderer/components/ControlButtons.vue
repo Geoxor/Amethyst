@@ -1,26 +1,24 @@
 <script lang="ts" setup>
 import { useElectron, useState } from "@/amethyst";
-import { useRoute } from "vue-router";
 const electron = useElectron();
 const state = useState();
-const route = useRoute();
 </script>
   
 <template>
   <div class="flex no-drag cursor-pointer">
-    <button @click="electron.minimize(route.name as string)">
+    <button @click="electron.minimize()">
       <i-fluency-minimize />
     </button>
 
-    <button v-if="!state.state.isMaximized" @click="electron.maximize(route.name as string)">
+    <button v-if="!state.state.isMaximized" @click="electron.maximize()">
       <i-fluency-maximize />
     </button>
 
-    <button v-if="state.state.isMaximized" @click="electron.unmaximize(route.name as string)">
+    <button v-if="state.state.isMaximized" @click="electron.unmaximize()">
       <i-fluency-shrink />
     </button>
 
-    <button class="close" @click="electron.close(route.name as string)">
+    <button class="close" @click="electron.close()">
       <i-fluency-x />
     </button>
   </div>

@@ -42,7 +42,6 @@ const notifications = {
 
 export class MainWindow {
 	public readonly window: BrowserWindow;
-	public preferencesWindow: BrowserWindow | undefined = undefined;
 	public updateCheckerTimer: NodeJS.Timer | undefined;
 
 	private readonly windowOptions: Electron.BrowserWindowConstructorOptions = {
@@ -151,14 +150,10 @@ export class MainWindow {
 
 		Object.entries({
 			"test-notification": (_: Event, [notification]: string) => (notifications as { [key: string]: any })[notification](),
-			// Temporary fix
-			"minimize": (_: Event, [window]: string[]) => window === "preferences" ? this.preferencesWindow?.minimize() : this.window.minimize(),
-			// Temporary fix
-			"maximize": (_: Event, [window]: string[]) => window === "preferences" ? this.preferencesWindow?.maximize() : this.window.maximize(),
-			// Temporary fix
-			"unmaximize": (_: Event, [window]: string[]) => window === "preferences" ? this.preferencesWindow?.unmaximize() : this.window.unmaximize(),
-			// Temporary fix
-			"close": (_: Event, [window]: string[]) => window === "preferences" ? this.preferencesWindow?.close() : this.window.close(),
+			"minimize": (_: Event) => this.window.minimize(),
+			"maximize": (_: Event) => this.window.maximize(),
+			"unmaximize": (_: Event) => this.window.unmaximize(),
+			"close": (_: Event) => this.window.close(),
 
 			"read-file": (_: Event, [path]: string[]) => {
 				Logger.handle("read-file");
