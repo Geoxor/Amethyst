@@ -1,11 +1,11 @@
 <template>
   <div id="contextMenu" role="contextMenu"
-    class="absolute font-aseprite text-8px p-1 rounded-4px border-1 border-surface-600 bg-surface-900 z-100"
+    class="absolute text-11px shadow-xl p-1 rounded-4px border-1 border-surface-600 bg-surface-800 z-100"
     ref="contextMenu">
 
     <ul class="flex flex-col min-w-32">
       <li v-for="option of state.state.contextMenu.options" @click="runAction(option)"
-        class="p-2 hover:bg-surface-700 rounded-2px">
+        class="p-2 hover:bg-surface-600 rounded-2px">
         <h1>{{ option.title }}</h1>
       </li>
     </ul>
