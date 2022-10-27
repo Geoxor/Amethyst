@@ -1,6 +1,6 @@
 ---
 name: ✨ feature request
-about: Suggest an idea for this project
+about: suggest an idea for amethyst
 title: ''
 labels: enhancement
 assignees: Geoxor
