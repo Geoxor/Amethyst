@@ -1,5 +1,9 @@
 <script lang="ts" setup>
 import { useElectron, useState } from "@/amethyst";
+import CloseIcon from "@/icons/fluency/CloseIcon.vue";
+import MaximizeIcon from "@/icons/fluency/MaximizeIcon.vue";
+import MinimizeIcon from "@/icons/fluency/MinimizeIcon.vue";
+import ShrinkIcon from "@/icons/fluency/ShrinkIcon.vue";
 const electron = useElectron();
 const state = useState();
 </script>
@@ -7,19 +11,19 @@ const state = useState();
 <template>
   <div class="flex no-drag cursor-pointer">
     <button @click="electron.minimize()">
-      <i-fluency-minimize />
+      <MinimizeIcon />
     </button>
 
     <button v-if="!state.state.isMaximized" @click="electron.maximize()">
-      <i-fluency-maximize />
+      <MaximizeIcon />
     </button>
 
     <button v-if="state.state.isMaximized" @click="electron.unmaximize()">
-      <i-fluency-shrink />
+      <ShrinkIcon />
     </button>
 
     <button class="close" @click="electron.close()">
-      <i-fluency-x />
+      <CloseIcon />
     </button>
   </div>
 </template>

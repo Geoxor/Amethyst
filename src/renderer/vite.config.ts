@@ -1,11 +1,7 @@
-import { join } from "path";
 import vue from "@vitejs/plugin-vue";
+import { join } from "path";
 import { defineConfig } from "vite";
 import WindiCSS from "vite-plugin-windicss";
-import Components from "unplugin-vue-components/vite";
-import IconsResolver from "unplugin-icons/resolver";
-import { FileSystemIconLoader } from "unplugin-icons/loaders";
-import Icons from "unplugin-icons/vite";
 
 const PACKAGE_ROOT = __dirname;
 
@@ -28,18 +24,6 @@ export default defineConfig({
 		},
 	},
 	plugins: [
-		Icons({
-			customCollections: {
-				fluency: FileSystemIconLoader("./assets/icons/app-icons"),
-			},
-		}),
-		Components({
-			resolvers: [
-				IconsResolver({
-					customCollections: ["fluency"],
-				}),
-			],
-		}),
 		WindiCSS({
 			scan: {
 				dirs: ["."], // all files in the cwd
