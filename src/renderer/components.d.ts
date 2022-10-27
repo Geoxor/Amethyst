@@ -11,7 +11,5 @@ declare module '@vue/runtime-core' {
     IFluencyMinimize: typeof import('~icons/fluency/minimize')['default']
     IFluencyShrink: typeof import('~icons/fluency/shrink')['default']
     IFluencyX: typeof import('~icons/fluency/x')['default']
-    RouterLink: typeof import('vue-router')['RouterLink']
-    RouterView: typeof import('vue-router')['RouterView']
   }
 }

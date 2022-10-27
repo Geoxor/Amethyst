@@ -59,7 +59,7 @@ jobs:
         run: npm ci
 
       - name: Build Amethyst
-        run: npm run package
+        run: yarn package
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
@@ -83,7 +83,7 @@ jobs:
         run: npm ci
 
       - name: Build Amethyst
-        run: USE_HARD_LINKS=false npm run package
+        run: USE_HARD_LINKS=false yarn package
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
@@ -113,7 +113,7 @@ jobs:
         run: npm ci
 
       - name: Build Amethyst
-        run: npm run package
+        run: yarn package
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
