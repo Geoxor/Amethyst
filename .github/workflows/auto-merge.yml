@@ -5,6 +5,8 @@ on: [pull_request, workflow_dispatch]
 jobs:
   auto-merge:
     name: "Auto-merge Dependabot PRs"
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
