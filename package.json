@@ -222,7 +222,7 @@
   "dependencies": {
     "@supercharge/promise-pool": "^2.3.2",
     "@vue-flow/additional-components": "^1.1.0",
-    "@vue-flow/core": "^1.2.0",
+    "@vue-flow/core": "^1.2.1",
     "@vueuse/core": "^9.4.0",
     "chalk": "^4.1.2",
     "discord-rpc": "^4.0.1",
