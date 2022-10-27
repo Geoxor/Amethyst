@@ -1,6 +1,6 @@
 ---
 name: 🪲 bug report
-about: Create a report to help us improve
+about: create a report to help Amethyst improve
 title: ''
 labels: bug
 assignees: Geoxor
