@@ -153,12 +153,12 @@ export class MainWindow {
 			"maximize": () => this.window.maximize(),
 			"unmaximize": () => this.window.unmaximize(),
 			"close": () => this.window.close(),
-
+			"log-info": (_: Event, messages: string[]) => Logger.print(...messages),
+			"log-error": (_: Event, messages: string[]) => Logger.error(...messages),
 			"read-file": (_: Event, [path]: string[]) => {
 				Logger.handle("read-file");
 				return fs.promises.readFile(path);
 			},
-
 			"open-file-dialog": async () => {
 				Logger.handle("open-file-dialog");
 				const response = await dialog.showOpenDialog({

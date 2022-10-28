@@ -9,6 +9,8 @@ export type Channels =
 	"close" |
 	"get-cover-pixelized" |
 	"open-file-dialog" |
+	"log-print" |
+	"log-error" |
 	"open-folder-dialog" |
 	"get-cover" |
 	"get-metadata" |

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 let stopRender = false;
 
 function render(canvas: HTMLCanvasElement, audioData: Float32Array): ImageBitmap | undefined {

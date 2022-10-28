@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import chalk from "chalk";
 
 export class Logger {
@@ -7,6 +9,10 @@ export class Logger {
 
   public static print(...msg: string[]) {
     console.log(chalk.hex("#6669D3")(" ➜ "), ...msg);
+  }
+
+  public static error(...msg: string[]) {
+    console.log(chalk.hex("#ff0000")(" ➜ "), ...msg);
   }
 
   public static fn(name: string, params?: Object, ...msg: string[]) {

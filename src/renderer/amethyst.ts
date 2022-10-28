@@ -1,13 +1,19 @@
 import ElectronEventManager from "@/electronEventManager";
-import MediaSession from "@/mediaSession";
+import MediaSession from "./mediaSession";
 import Player from "@/player";
 import Shortcuts from "@/shortcuts";
 import AppState from "@/state";
 
+export class BackendLogger {
+  public print = (...messages: any[]) => this.electron.invoke("log-print", messages);
+  public error = (...messages: any[]) => this.electron.invoke("log-error", messages);
+  constructor(public electron: ElectronEventManager) {}
+}
+
 export class CPUUsageMonitor {
   public timer: NodeJS.Timer | undefined;
 
-  constructor(public state: AppState, public electron: ElectronEventManager) {
+  constructor(public state: AppState, public electron: ElectronEventManager, public logger: BackendLogger) {
     this.start();
   }
 
@@ -22,17 +28,18 @@ export class CPUUsageMonitor {
   private getCpuData = async () => {
     this.electron.invoke("percent-cpu-usage")
       .then((usage) => this.state.state.cpuUsage = usage as number)
-      .catch((err) => console.log("Failed to get CPU usage", err));
+      .catch(this.logger.error);
   };
 }
 
 export class Amethyst {
   public appState: AppState = new AppState();
   public electron: ElectronEventManager = new ElectronEventManager(this.appState);
-  public player: Player = new Player(this.appState, this.electron);
+  public backendLogger: BackendLogger = new BackendLogger(this.electron);
+  public player: Player = new Player(this.appState, this.electron, this.backendLogger);
   public shortcuts: Shortcuts = new Shortcuts(this.player);
-  public mediaSession: MediaSession = new MediaSession(this.player);
-  public cpuUsageMonitor: CPUUsageMonitor = new CPUUsageMonitor(this.appState, this.electron);
+  public mediaSession: MediaSession = new MediaSession(this.player, this.backendLogger);
+  public cpuUsageMonitor: CPUUsageMonitor = new CPUUsageMonitor(this.appState, this.electron, this.backendLogger);
 
   constructor() {
     document.addEventListener("drop", (event) => {

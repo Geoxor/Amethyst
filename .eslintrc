@@ -10,6 +10,7 @@
       "warn",
       "double"
     ],
+    "@typescript-eslint/no-restricted-imports": "warn",
     "@typescript-eslint/quotes": [
       "warn",
       "double"

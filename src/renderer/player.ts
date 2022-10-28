@@ -9,6 +9,7 @@ import { FastAverageColorResult } from "fast-average-color";
 import mitt from "mitt";
 import type { IAudioMetadata } from "music-metadata";
 import { computed, reactive, watch } from "vue";
+import { BackendLogger } from "./amethyst";
 
 export const ALLOWED_EXTENSIONS = ["ogg", "flac", "wav", "opus", "aac", "aiff", "mp3", "m4a"];
 
@@ -54,7 +55,7 @@ export default class Player {
 		inputDevices: [] as MediaDeviceInfo[],
 	});
 
-	constructor(public appState: AppState, public electron: ElectronEventManager) {
+	constructor(public appState: AppState, public electron: ElectronEventManager, public logger: BackendLogger) {
 		// Ignore the --require arg we get in dev mode so we don't end up with "--require" as a path in the queue
 		electron.electron.on<string>("play-file", file => file !== "--require" && this.addToQueueAndPlay(file));
 		electron.electron.on<(string)[]>("play-folder", files => this.setQueue(files));
@@ -241,7 +242,7 @@ export default class Player {
 				root.style.setProperty("--surface-600", computeShade(31, 42, 42, 42)); // 31, 33, 52
 				root.style.setProperty("--surface-500", computeShade(45, 59, 59, 59)); // 45, 45, 73
 			})
-			.catch(console.log);
+			.catch(this.logger.print);
 	};
 
 	public resetThemeColors = () => {

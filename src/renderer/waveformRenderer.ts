@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import Player from "@/player";
 import { IAudioMetadata } from "music-metadata";
 
