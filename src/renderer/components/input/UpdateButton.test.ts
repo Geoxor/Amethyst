@@ -5,11 +5,11 @@ import UpdateButton from "./UpdateButton.vue";
 describe.concurrent("UpdateButton.vue", () => {
   it("should render", () => {
     const mounted = mount(UpdateButton);
-    expect(mounted.isVisible()).toBeTruthy()
+    expect(mounted.isVisible()).toBeTruthy();
   });
 
   it("should say 'install update'", () => {
     const mounted = mount(UpdateButton);
-    expect(((mounted.element as HTMLInputElement).innerText)).toEqual("Install Update")
+    expect(((mounted.element as HTMLInputElement).innerText)).toEqual("Install Update");
   });
 });

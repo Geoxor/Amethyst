@@ -1,3 +1,10 @@
+<script setup lang="ts">
+import { useVModel } from "@vueuse/core";
+const props = defineProps<{ modelValue?: boolean }>();
+const emits = defineEmits(["update:modelValue"]);
+const value = useVModel(props, "modelValue", emits);
+</script>
+
 <template>
   <div>
     <input
@@ -61,13 +68,6 @@
     </svg>
   </div>
 </template>
-
-<script setup lang="ts">
-import { useVModel } from "@vueuse/core";
-const props = defineProps<{ modelValue?: boolean }>();
-const emits = defineEmits(["update:modelValue"]);
-const value = useVModel(props, "modelValue", emits);
-</script>
 
 <style scoped lang="postcss">
 

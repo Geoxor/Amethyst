@@ -167,14 +167,12 @@ export default class Player {
 		document.title = path || "Amethyst";
 	};
 
-
 	public async loadSoundAndPlay(path: string) {
 		// If there was another song playing stop it
 		this.state.inputAudio && this.pause();
 
 		// simple fix to folders that have # in their name
 		this.state.inputAudio.src = `file://${path.replace("#", "%23")}`;
-
 
 		// Play the sound and handle playback
 		this.play();

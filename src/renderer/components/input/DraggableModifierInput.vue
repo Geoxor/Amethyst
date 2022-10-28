@@ -1,25 +1,4 @@
 
-<template>
-  <div
-    ref="modifier"
-    class="modifier font-aseprite"
-    @mousedown.stop.passive="onMouseDown"
-    @mouseup.stop.passive="dragging = false"
-  >
-    <div :class="{ pop }">
-      <h1 class="absolute z-10 top-2px">
-        {{ displayValue }}
-      </h1>
-      <p class="opacity-0">
-        {{ displayValue }}
-      </p>
-      <h2 class="text-black absolute top-3px">
-        {{ displayValue }}
-      </h2>
-    </div>
-  </div>
-</template>
-
 <script lang="ts" setup>
 import { useVModel } from "@vueuse/core";
 import { computed, ref, watch } from "vue";
@@ -120,6 +99,27 @@ watch(model, () => {
   setTimeout(() => pop.value = false, 100);
 });
 </script>
+
+<template>
+  <div
+    ref="modifier"
+    class="modifier font-aseprite"
+    @mousedown.stop.passive="onMouseDown"
+    @mouseup.stop.passive="dragging = false"
+  >
+    <div :class="{ pop }">
+      <h1 class="absolute z-10 top-2px">
+        {{ displayValue }}
+      </h1>
+      <p class="opacity-0">
+        {{ displayValue }}
+      </p>
+      <h2 class="text-black absolute top-3px">
+        {{ displayValue }}
+      </h2>
+    </div>
+  </div>
+</template>
 
 <style lang="postcss" scoped>
 @keyframes popAnimation {

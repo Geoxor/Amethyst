@@ -1,3 +1,49 @@
+<script setup lang="ts">
+// import MetronomeIcon from '@/icons/plumpy/MetronomeIcon.vue';
+// import KeyClefIcon from "@/icons/plumpy/KeyClefIcon.vue";
+// import StorageIcon from "@/icons/plumpy/StorageIcon.vue";
+import Cover from "@/components/CoverArt.vue";
+import Slider from "@/components/input/BaseSlider.vue";
+import Chip from "@/components/new/BaseChip.vue";
+import BitrateIcon from "@/icons/plumpy/BitrateIcon.vue";
+import FileIcon from "@/icons/plumpy/FileIcon.vue";
+import HeartIcon from "@/icons/plumpy/HeartIcon.vue";
+import NextIcon from "@/icons/plumpy/NextIcon.vue";
+import PauseIcon from "@/icons/plumpy/PauseIcon.vue";
+import PlayIcon from "@/icons/plumpy/PlayIcon.vue";
+import RepeatIcon from "@/icons/plumpy/RepeatIcon.vue";
+import RepeatOneIcon from "@/icons/plumpy/RepeatOneIcon.vue";
+import ShuffleIcon from "@/icons/plumpy/ShuffleIcon.vue";
+import Player, { LoopMode } from "@/player";
+import { computed, onMounted, ref } from "vue";
+
+const invoke = window.electron.ipcRenderer.invoke;
+const props = defineProps<{ player: Player }>();
+const handleVolumeMouseScroll = (e: WheelEvent) => {
+  const delta = Math.sign(e.deltaY);
+  delta > 0 ? props.player.volumeDown() : props.player.volumeUp();
+};
+
+const handleSeekMouseScroll = (e: WheelEvent) => {
+  const delta = Math.sign(e.deltaY);
+  const step = duration.value / 10;
+  delta < 0 ? props.player.seekForward(step) : props.player.seekBackward(step);
+};
+
+const metadata = computed(() => props.player.state.currentlyPlayingMetadata);
+const duration = computed(() => metadata.value?.format.duration || 0);
+const currentTime = ref("0");
+const timer = ref();
+
+onMounted(() => {
+  timer.value && clearInterval(timer.value);
+  timer.value = setInterval(() => {
+    currentTime.value = `${props.player.currentTimeFormatted()} / ${props.player.currentDurationFormatted()}`;
+  }, 1000);
+});
+
+</script>
+
 <template>
   <div class="flex flex-col gap-2 justify-between h-full w-full">
     <div class="flex gap-2 items-center justify-between">
@@ -125,49 +171,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-// import MetronomeIcon from '@/icons/plumpy/MetronomeIcon.vue';
-// import KeyClefIcon from "@/icons/plumpy/KeyClefIcon.vue";
-// import StorageIcon from "@/icons/plumpy/StorageIcon.vue";
-import Cover from "@/components/Cover.vue";
-import Slider from "@/components/input/BaseSlider.vue";
-import Chip from "@/components/new/BaseChip.vue";
-import BitrateIcon from "@/icons/plumpy/BitrateIcon.vue";
-import FileIcon from "@/icons/plumpy/FileIcon.vue";
-import HeartIcon from "@/icons/plumpy/HeartIcon.vue";
-import NextIcon from "@/icons/plumpy/NextIcon.vue";
-import PauseIcon from "@/icons/plumpy/PauseIcon.vue";
-import PlayIcon from "@/icons/plumpy/PlayIcon.vue";
-import RepeatIcon from "@/icons/plumpy/RepeatIcon.vue";
-import RepeatOneIcon from "@/icons/plumpy/RepeatOneIcon.vue";
-import ShuffleIcon from "@/icons/plumpy/ShuffleIcon.vue";
-import Player, { LoopMode } from "@/player";
-import { computed, onMounted, ref } from "vue";
-
-const invoke = window.electron.ipcRenderer.invoke;
-const props = defineProps<{ player: Player }>();
-const handleVolumeMouseScroll = (e: WheelEvent) => {
-  const delta = Math.sign(e.deltaY);
-  delta > 0 ? props.player.volumeDown() : props.player.volumeUp();
-};
-
-const handleSeekMouseScroll = (e: WheelEvent) => {
-  const delta = Math.sign(e.deltaY);
-  const step = duration.value / 10;
-  delta < 0 ? props.player.seekForward(step) : props.player.seekBackward(step);
-};
-
-const metadata = computed(() => props.player.state.currentlyPlayingMetadata);
-const duration = computed(() => metadata.value?.format.duration || 0);
-const currentTime = ref("0");
-const timer = ref();
-
-onMounted(() => {
-  timer.value && clearInterval(timer.value);
-  timer.value = setInterval(() => {
-    currentTime.value = `${props.player.currentTimeFormatted()} / ${props.player.currentDurationFormatted()}`;
-  }, 1000);
-});
-
-</script>

@@ -149,10 +149,10 @@ export class MainWindow {
 
 		Object.entries({
 			"test-notification": (_: Event, [notification]: string) => (notifications as { [key: string]: any })[notification](),
-			"minimize": (_: Event) => this.window.minimize(),
-			"maximize": (_: Event) => this.window.maximize(),
-			"unmaximize": (_: Event) => this.window.unmaximize(),
-			"close": (_: Event) => this.window.close(),
+			"minimize": () => this.window.minimize(),
+			"maximize": () => this.window.maximize(),
+			"unmaximize": () => this.window.unmaximize(),
+			"close": () => this.window.close(),
 
 			"read-file": (_: Event, [path]: string[]) => {
 				Logger.handle("read-file");

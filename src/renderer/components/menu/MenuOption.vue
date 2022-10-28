@@ -8,10 +8,14 @@ defineProps<{
 
 <template>
   <button
-    class="text-left cursor-pointer text-white hover:bg-primary-800 text-11px py-1.5 px-6 w-full flex justify-between items-center">
+    class="text-left cursor-pointer text-white hover:bg-primary-800 text-11px py-1.5 px-6 w-full flex justify-between items-center"
+  >
     <p>{{ title }}</p>
     <div class="text-8px flex gap-1">
-      <kbd v-for="(shortcut) of shortcuts" :key="shortcut">{{ shortcut }}</kbd>
+      <kbd
+        v-for="(shortcut) of shortcuts"
+        :key="shortcut"
+      >{{ shortcut }}</kbd>
     </div>
   </button>
 </template>

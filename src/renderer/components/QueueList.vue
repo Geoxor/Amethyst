@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { usePlayer, useState } from "@/amethyst";
-import Cover from "@/components/Cover.vue";
+import Cover from "@/components/CoverArt.vue";
 import ResizableDiv from "@/components/ResizableDiv.vue";
 import HeartIcon from "@/icons/plumpy/HeartIcon.vue";
 import { useKeyModifier } from "@vueuse/core";
@@ -82,4 +82,3 @@ const handleContextMenu = (e: MouseEvent, i: number) => {
   opacity: 0;
 }
 </style>
- 

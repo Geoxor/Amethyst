@@ -1,7 +1,7 @@
-import { describe, expect, it } from 'vitest';
-import { fisherYatesShuffle, flattenArray, interpolateArray, scaleLog } from './math';
+import { describe, expect, it } from "vitest";
+import { fisherYatesShuffle, flattenArray, interpolateArray, scaleLog } from "./math";
 
-describe.concurrent('scaleLog()', () => {
+describe.concurrent("scaleLog()", () => {
   const start = new Uint8Array([
     1, 2, 3, 4, 5, 6, 7,
     8, 9, 10, 11, 12, 13,
@@ -23,7 +23,7 @@ describe.concurrent('scaleLog()', () => {
 describe.concurrent("fisherYatesShuffle()", () => {
   it("should be able to shuffle an array", () => {
     const start = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5];
-    let willMutate = [...start];
+    const willMutate = [...start];
     expect(fisherYatesShuffle(willMutate)).not.toEqual(start);
   });
 });
@@ -34,7 +34,7 @@ describe.concurrent("flattenArray()", () => {
       [1, 2, 3],
       4,
       [5, 6, 7]
-    ]
+    ];
     const expected = [1, 2, 3, 4, 5, 6, 7];
     expect(flattenArray(start)).toEqual(expected);
   });

@@ -1,3 +1,7 @@
+<script setup lang="ts">
+defineProps<{ active: boolean, icon?: any }>();
+</script>
+
 <template>
   <div
     :class="active && 'active'"
@@ -9,7 +13,3 @@
     />
   </div>
 </template>
-
-<script setup lang="ts">
-defineProps<{ active: boolean, icon?: any }>();
-</script>

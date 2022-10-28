@@ -1,16 +1,3 @@
-<template>
-  <div
-    ref="resizableDiv"
-    class="resizableDiv w-full pr-2 border-r-2 border-transparent h-full"
-    :class="[isHoveringOverResizeBoundary && 'border-r-primary-800']"
-    @mousedown="handleMouseDown"
-    @mouseup="isResizing = false"
-    @mouseover="handleMouseOver"
-    @mouseleave="isHoveringOverResizeBoundary = false"
-  >
-    <slot />
-  </div>
-</template>
 <script lang="ts" setup>
 import { ref } from "vue";
 let mousePosition = 0;
@@ -57,6 +44,19 @@ function resize(e: MouseEvent) {
   resizableDiv.value!.style.width = Math.max(MINIMUM_WIDTH, parseInt(getComputedStyle(resizableDiv.value!, "").width) + dx) + "px";
 }
 </script>
+<template>
+  <div
+    ref="resizableDiv"
+    class="resizableDiv w-full pr-2 border-r-2 border-transparent h-full"
+    :class="[isHoveringOverResizeBoundary && 'border-r-primary-800']"
+    @mousedown="handleMouseDown"
+    @mouseup="isResizing = false"
+    @mouseover="handleMouseOver"
+    @mouseleave="isHoveringOverResizeBoundary = false"
+  >
+    <slot />
+  </div>
+</template>
 
 <style lang="postcss" scoped>
 .resizableDiv {

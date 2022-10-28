@@ -1,3 +1,7 @@
+<script setup lang="ts">
+defineProps<{ icon: any, active: boolean, notifs?: number }>();
+</script>
+
 <template>
   <div
     :class="[active ? 'text-primary-900' : 'text-white']"
@@ -12,7 +16,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-defineProps<{ icon: any, active: boolean, notifs?: number }>();
-</script>

@@ -1,3 +1,8 @@
+<script setup lang="ts">
+import Splitter from "@/components/SplitterLine.vue";
+defineProps<{ text: string, icon?: any }>();
+</script>
+
 <template>
   <div class="flex items-center gap-2 text-primary-900">
     <p>{{ text }}</p>
@@ -9,8 +14,3 @@
     />
   </div>
 </template>
-
-<script setup lang="ts">
-import Splitter from "@/components/SplitterLine.vue";
-defineProps<{ text: string, icon?: any }>();
-</script>

@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import { useState } from "@/amethyst";
+import PaddedContainer from "@/components/PaddedContainer.vue";
+import SettingsBinarySwitch from "@/components/settings/SettingsBinarySwitch.vue";
+import SettingsCategorySplitter from "@/components/settings/SettingsCategorySplitter.vue";
+import SettingsModifier from "@/components/settings/SettingsModifier.vue";
+import Splitter from "@/components/SplitterLine.vue";
+const state = useState();
+
+</script>
+
 <template>
   <padded-container class="w-64 min-w-64 borderLeft m-2 ml-0">
     <settings-category-splitter text="UI" />
@@ -93,14 +104,3 @@
     </div>
   </padded-container>
 </template>
-
-<script setup lang="ts">
-import { useState } from "@/amethyst";
-import PaddedContainer from "@/components/PaddedContainer.vue";
-import SettingsBinarySwitch from "@/components/settings/SettingsBinarySwitch.vue";
-import SettingsCategorySplitter from "@/components/settings/SettingsCategorySplitter.vue";
-import SettingsModifier from "@/components/settings/SettingsModifier.vue";
-import Splitter from "@/components/SplitterLine.vue";
-const state = useState();
-
-</script>

@@ -1,3 +1,19 @@
+<script setup lang="ts">
+import Slider from "@/components/input/BaseSlider.vue";
+import CustomNode from "@/components/nodes/CustomNode.vue";
+import FilterIcon from "@/icons/material/FilterIcon.vue";
+import { AmethystEqualizerNode } from "@/logic/audio";
+import { ref, watch } from "vue";
+
+const props = defineProps<{ node: AmethystEqualizerNode }>();
+const gain = ref(props.node.node.gain.value);
+watch(() => gain.value, () => props.node.node.gain.value = gain.value);
+
+const frequency = ref(props.node.node.frequency.value);
+watch(() => frequency.value, () => props.node.node.frequency.value = frequency.value);
+
+</script>
+
 <template>
   <CustomNode
     :node="node"
@@ -29,19 +45,3 @@
     />
   </CustomNode>
 </template>
-
-<script setup lang="ts">
-import Slider from "@/components/input/BaseSlider.vue";
-import CustomNode from "@/components/nodes/CustomNode.vue";
-import FilterIcon from "@/icons/material/FilterIcon.vue";
-import { AmethystEqualizerNode } from "@/logic/audio";
-import { ref, watch } from "vue";
-
-const props = defineProps<{ node: AmethystEqualizerNode }>();
-const gain = ref(props.node.node.gain.value);
-watch(() => gain.value, () => props.node.node.gain.value = gain.value);
-
-const frequency = ref(props.node.node.frequency.value);
-watch(() => frequency.value, () => props.node.node.frequency.value = frequency.value);
-
-</script>

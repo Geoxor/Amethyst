@@ -1,23 +1,3 @@
-<template>
-  <div
-    id="contextMenu"
-    ref="contextMenu"
-    role="contextMenu"
-    class="absolute text-11px shadow-xl p-1 rounded-4px border-1 border-surface-600 bg-surface-800 z-100"
-  >
-    <ul class="flex flex-col min-w-32">
-      <li
-        v-for="option of state.state.contextMenu.options"
-        :key="option.title"
-        class="p-2 hover:bg-surface-600 rounded-2px"
-        @click="runAction(option)"
-      >
-        <h1>{{ option.title }}</h1>
-      </li>
-    </ul>
-  </div>
-</template>
-
 <script setup lang="ts">
 import { useState } from "@/amethyst";
 import { IContextMenuOption } from "@/state";
@@ -43,3 +23,23 @@ const updatePositon = () => {
 };
 
 </script>
+
+<template>
+  <div
+    id="contextMenu"
+    ref="contextMenu"
+    role="contextMenu"
+    class="absolute text-11px shadow-xl p-1 rounded-4px border-1 border-surface-600 bg-surface-800 z-100"
+  >
+    <ul class="flex flex-col min-w-32">
+      <li
+        v-for="option of state.state.contextMenu.options"
+        :key="option.title"
+        class="p-2 hover:bg-surface-600 rounded-2px"
+        @click="runAction(option)"
+      >
+        <h1>{{ option.title }}</h1>
+      </li>
+    </ul>
+  </div>
+</template>

@@ -1,5 +1,5 @@
-import { describe, expect, it } from 'vitest';
-import { bytesToHuman, secondsToHuman } from './formating';
+import { describe, expect, it } from "vitest";
+import { bytesToHuman, secondsToHuman } from "./formating";
 
 describe.concurrent("secondsToHuman()", () => {
   it("should convert 60s to '1:00'", () => {
