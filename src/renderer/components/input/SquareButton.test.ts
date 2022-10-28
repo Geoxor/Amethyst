@@ -4,7 +4,7 @@ import { describe, expect, it } from "vitest";
 import { markRaw } from "vue";
 import SquareButton from "./SquareButton.vue";
 
-describe("SquareButton.vue", () => {
+describe.concurrent("SquareButton.vue", () => {
   it("should render", () => {
     const mounted = mount(SquareButton, { props: { active: false } });
     expect(mounted.isVisible()).toBeTruthy()

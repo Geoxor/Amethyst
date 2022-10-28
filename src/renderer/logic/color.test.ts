@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest'
-import { rgbToHex, componentToHex } from './color';
+import { describe, expect, it } from 'vitest';
+import { componentToHex, rgbToHex } from './color';
 
-describe('rgbToHex()', () => {
+describe.concurrent('rgbToHex()', () => {
   const result = rgbToHex(255, 255, 255);
 
   it('should return a string', () => {
@@ -27,7 +27,7 @@ describe('rgbToHex()', () => {
   })
 });
 
-describe("componentToHex()", () => {
+describe.concurrent("componentToHex()", () => {
   it("should turn an 8bit number to hex", () => {
     const result = componentToHex(255);
     expect(result).toBe("ff")

@@ -2,7 +2,7 @@ import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
 import ControlButtons from "./ControlButtons.vue";
 
-describe("ControlButtons.vue", () => {
+describe.concurrent("ControlButtons.vue", () => {
   const mounted = mount(ControlButtons, { props: { isMaximized: false } });
 
   it("should render", () => {

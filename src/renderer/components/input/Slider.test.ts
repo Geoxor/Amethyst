@@ -2,7 +2,7 @@ import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
 import Slider from "./Slider.vue";
 
-describe("Slider.vue", () => {
+describe.concurrent("Slider.vue", () => {
   it("should render", () => {
     const mounted = mount(Slider, { props: { modelValue: 50 } });
     expect(mounted.isVisible()).toBeTruthy()

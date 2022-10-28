@@ -1,7 +1,7 @@
-import { describe, it, expect } from 'vitest'
+import { describe, expect, it } from 'vitest';
 import { bytesToHuman, secondsToHuman } from './formating';
 
-describe("secondsToHuman()", () => {
+describe.concurrent("secondsToHuman()", () => {
   it("should convert 60s to '1:00'", () => {
     expect(secondsToHuman(60)).toBe("1:00");
   });
@@ -13,7 +13,7 @@ describe("secondsToHuman()", () => {
   });
 });
 
-describe("bytesToHuman()", () => {
+describe.concurrent("bytesToHuman()", () => {
   it("should convert 0 to '0 B'", () => {
     expect(bytesToHuman(0)).toBe("0 B");
   });

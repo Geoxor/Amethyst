@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { fisherYatesShuffle, flattenArray, interpolateArray, scaleLog } from './math';
 
-describe('scaleLog()', () => {
+describe.concurrent('scaleLog()', () => {
   const start = new Uint8Array([
     1, 2, 3, 4, 5, 6, 7,
     8, 9, 10, 11, 12, 13,
@@ -20,7 +20,7 @@ describe('scaleLog()', () => {
   });
 });
 
-describe("fisherYatesShuffle()", () => {
+describe.concurrent("fisherYatesShuffle()", () => {
   it("should be able to shuffle an array", () => {
     const start = [1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5, 1, 2, 3, 4, 5];
     let willMutate = [...start];
@@ -28,7 +28,7 @@ describe("fisherYatesShuffle()", () => {
   });
 });
 
-describe("flattenArray()", () => {
+describe.concurrent("flattenArray()", () => {
   it("should be able to flatten an array with nested arrays", () => {
     const start = [
       [1, 2, 3],
@@ -40,7 +40,7 @@ describe("flattenArray()", () => {
   });
 });
 
-describe("interpolateArray()", () => {
+describe.concurrent("interpolateArray()", () => {
   const start = [1, 2, 3];
   const target = [1, 1.5, 2, 2.5, 3];
   const targetLength = 5;
