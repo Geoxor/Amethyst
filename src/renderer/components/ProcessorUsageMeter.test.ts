@@ -10,7 +10,7 @@ describe.concurrent("ProcessorUsageMeter.vue", () => {
 
   it("should display 50% with value 50", () => {
     const mounted = mount(ProcessorUsageMeter, { props: { value: 50 } });
-    expect(((mounted.element as HTMLInputElement).innerText)).toEqual("50%");
+    expect(((mounted.element as HTMLInputElement).innerText.trim())).toEqual("50%");
   });
 
   it("should have 50% filled background", () => {

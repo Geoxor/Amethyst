@@ -10,6 +10,6 @@ describe.concurrent("UpdateButton.vue", () => {
 
   it("should say 'install update'", () => {
     const mounted = mount(UpdateButton);
-    expect(((mounted.element as HTMLInputElement).innerText)).toEqual("Install Update");
+    expect(((mounted.element as HTMLInputElement).innerText.trim())).toEqual("Install Update");
   });
 });
