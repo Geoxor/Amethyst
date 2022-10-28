@@ -1,3 +1,14 @@
+<script setup lang="ts">
+import Slider from "@/components/input/BaseSlider.vue";
+import CustomNode from "@/components/nodes/CustomNode.vue";
+import AzimuthIcon from "@/icons/material/AzimuthIcon.vue";
+import { AmethystPannerNode } from "@/logic/audio";
+import { ref, watch } from "vue";
+const props = defineProps<{ node: AmethystPannerNode }>();
+const pan = ref(props.node.node.pan.value);
+watch(() => pan.value, () => props.node.node.pan.value = pan.value);
+</script>
+
 <template>
   <CustomNode
     :node="node"
@@ -16,14 +27,3 @@
     />
   </CustomNode>
 </template>
-
-<script setup lang="ts">
-import Slider from "@/components/input/BaseSlider.vue";
-import CustomNode from "@/components/nodes/CustomNode.vue";
-import AzimuthIcon from "@/icons/material/AzimuthIcon.vue";
-import { AmethystPannerNode } from "@/logic/audio";
-import { ref, watch } from "vue";
-const props = defineProps<{ node: AmethystPannerNode }>();
-const pan = ref(props.node.node.pan.value);
-watch(() => pan.value, () => props.node.node.pan.value = pan.value);
-</script>

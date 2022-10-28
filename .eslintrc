@@ -22,6 +22,9 @@
       "warn",
       "always"
     ],
+    "vue/component-tags-order": ["warn", {
+      "order": [ "script", "template", "style" ]
+    }],
     "no-console": "warn",
     "no-multiple-empty-lines": ["warn", { "max": 1, "maxEOF": 0 }],
     "no-mixed-spaces-and-tabs": "off",

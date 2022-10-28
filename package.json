@@ -22,7 +22,7 @@
     "package:asarless": "yarn build && electron-builder build --config.asar=false",
     "preinstall": "yarn global add electron-builder",
     "postinstall": "electron-builder install-app-deps",
-    "lint": "eslint --ext .ts,.js,.vue",
+    "lint": "eslint -c .eslintrc --color --ext .ts,.js,.vue src/",
     "install:system": "yarn install && yarn test --run && yarn package",
     "install:windows": "yarn install:system && explorer release\\build",
     "test": "npx vitest --config ./src/renderer/vite.config.ts"
