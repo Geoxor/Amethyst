@@ -24,7 +24,7 @@ jobs:
         run: yarn install
 
       - name: Run eslint
-        run: npx eslint
+        run: yarn lint
 
   tests:
     name: Run unit tests
