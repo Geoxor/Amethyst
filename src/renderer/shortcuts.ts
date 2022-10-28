@@ -1,11 +1,11 @@
 import { useElectron } from "@/amethyst";
-import type Player from "@/player";
+import type { Player } from "@/player";
 import { onKeyStroke, useKeyModifier, useLocalStorage } from "@vueuse/core";
 
 export type ShortcutBindings = Record<string, [string[], (e: KeyboardEvent) => void]>;
 export type CustomShortcutBindings = Record<string, string[]>;
 
-export default class Shortcuts {
+export class Shortcuts {
   private isControlPressed = useKeyModifier("Control");
   private isShiftPressed = useKeyModifier("Shift");
   private isAltPressed = useKeyModifier("Alt");

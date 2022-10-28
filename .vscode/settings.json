@@ -2,11 +2,16 @@
   "css.customData": [
     ".vscode/css.json"
   ],
+  "eslint.validate": [
+    "javascript",
+    "vue",
+    "typescript",
+  ],
   "prettier.enable": false,
   "editor.formatOnSave": false,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
-    "source.organizeImports": false,
+    "source.organizeImports": true,
   },
   "typescript.inlayHints.variableTypes.enabled": false,
   "typescript.inlayHints.parameterNames.enabled": "all",

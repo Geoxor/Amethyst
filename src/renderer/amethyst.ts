@@ -1,8 +1,8 @@
-import ElectronEventManager from "@/electronEventManager";
-import MediaSession from "./mediaSession";
-import Player from "@/player";
-import Shortcuts from "@/shortcuts";
-import AppState from "@/state";
+import { ElectronEventManager } from "@/electronEventManager";
+import { Player } from "@/player";
+import { Shortcuts } from "@/shortcuts";
+import { AppState } from "@/state";
+import { MediaSession } from "./mediaSession";
 
 export class BackendLogger {
   public print = (...messages: any[]) => this.electron.invoke("log-print", messages);

@@ -28,7 +28,7 @@
     }],
     "no-console": "warn",
     "no-multiple-empty-lines": ["warn", { "max": 1, "maxEOF": 0 }],
-    "no-mixed-spaces-and-tabs": "off",
+    "no-mixed-spaces-and-tabs": "warn",
     "vue/no-mutating-props": "off",
     "@typescript-eslint/indent": "off",
     "@typescript-eslint/no-var-requires": "off",

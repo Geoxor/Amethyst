@@ -6,7 +6,7 @@ export interface IContextMenuOption {
 	action: () => any;
 }
 
-export default class AppState {
+export class AppState {
 	public state = reactive({
 		allowedExtensions: [] as string[],
 		cpuUsage: 0,

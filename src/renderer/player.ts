@@ -1,8 +1,7 @@
-import type ElectronEventManager from "@/electronEventManager";
 import { AmethystAudioNodeManager } from "@/logic/audio";
 import { secondsToHuman } from "@/logic/formating";
 import { fisherYatesShuffle, flattenArray } from "@/logic/math";
-import type AppState from "@/state";
+import type { AppState } from "@/state";
 import { PromisePool } from "@supercharge/promise-pool";
 import { useLocalStorage } from "@vueuse/core";
 import { FastAverageColorResult } from "fast-average-color";
@@ -10,6 +9,7 @@ import mitt from "mitt";
 import type { IAudioMetadata } from "music-metadata";
 import { computed, reactive, watch } from "vue";
 import { BackendLogger } from "./amethyst";
+import type { ElectronEventManager } from "./electronEventManager";
 
 export const ALLOWED_EXTENSIONS = ["ogg", "flac", "wav", "opus", "aac", "aiff", "mp3", "m4a"];
 
@@ -27,7 +27,7 @@ export const Events = Object.freeze({
 	"seekTo": 0 as number,
 });
 
-export default class Player {
+export class Player {
 	private events = mitt<typeof Events>();
 	private emit = this.events.emit;
 	public on = this.events.on;

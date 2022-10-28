@@ -1,6 +1,6 @@
 import Player from "@/player";
 import { BackendLogger } from "./amethyst";
-export default class MediaSession {
+export class MediaSession {
   public constructor(public player: Player, public logger: BackendLogger) {
     const actionHandlers: ([MediaSessionAction, MediaSessionActionHandler])[] = [
       ["play", () => this.player.isPlaying() ? this.player.pause() : this.player.play()],
