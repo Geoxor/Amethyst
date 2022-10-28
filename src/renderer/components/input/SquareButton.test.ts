@@ -11,8 +11,7 @@ describe("SquareButton.vue", () => {
 
   it("should render with an icon if given one", () => {
     const mounted = mount(SquareButton, { props: { icon: MagnetIcon, active: false } });
-    expect(mounted.element.children[0]).toBeTruthy()
-    expect(mounted.isVisible()).toBeTruthy()
+    expect(mounted.element.children[0] instanceof SVGElement).toBeTruthy()
   });
 
   it("should not have active class if not active", () => {

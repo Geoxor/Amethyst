@@ -1,28 +1,28 @@
+
 <script lang="ts" setup>
-import { useElectron, useState } from "@/amethyst";
 import CloseIcon from "@/icons/fluency/CloseIcon.vue";
 import MaximizeIcon from "@/icons/fluency/MaximizeIcon.vue";
 import MinimizeIcon from "@/icons/fluency/MinimizeIcon.vue";
 import ShrinkIcon from "@/icons/fluency/ShrinkIcon.vue";
-const electron = useElectron();
-const state = useState();
+const emit = defineEmits(['close', 'minimize', 'maximize', 'unmaximize']);
+defineProps<{ isMaximized: boolean }>();
 </script>
   
 <template>
   <div class="flex no-drag cursor-pointer">
-    <button @click="electron.minimize()">
+    <button @click="emit('minimize')">
       <MinimizeIcon />
     </button>
 
-    <button v-if="!state.state.isMaximized" @click="electron.maximize()">
+    <button v-if="!isMaximized" @click="emit('maximize')">
       <MaximizeIcon />
     </button>
 
-    <button v-if="state.state.isMaximized" @click="electron.unmaximize()">
+    <button v-else @click="emit('unmaximize')">
       <ShrinkIcon />
     </button>
 
-    <button class="close" @click="electron.close()">
+    <button class="close" @click="emit('close')">
       <CloseIcon />
     </button>
   </div>

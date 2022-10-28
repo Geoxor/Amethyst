@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useElectron, usePlayer, useState } from "@/amethyst";
-import ControlButtons from "@/components/ControlButtons.vue";
+import ControlButtons from "@/components/input/ControlButtons.vue";
 import Menu from "@/components/menu/Menu.vue";
 import MenuOption from "@/components/menu/MenuOption.vue";
 import MenuSplitter from "@/components/menu/MenuSplitter.vue";
@@ -55,7 +55,8 @@ const player = usePlayer();
         class="no-drag py-1 px-2 cursor-pointer bg-green-900 bg-opacity-50 text-green-400 hover:bg-green-400 active:text-black hover:text-black active:bg-primary-900">INSTALL
         UPDATE</button>
       <processor-usage-meter />
-      <control-buttons />
+      <control-buttons :is-maximized="state.state.isMaximized" @close="electron.close" @minimize="electron.minimize"
+        @maximize="electron.maximize" @unmaximize="electron.unmaximize" />
     </div>
 
   </div>
