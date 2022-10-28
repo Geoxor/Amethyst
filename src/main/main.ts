@@ -1,5 +1,3 @@
-/* eslint global-require: off, no-console: off, promise/always-return: off */
-
 /**
  * This module executes inside of electron's main process. You can start
  * electron renderer process from here and communicate with the other processes
@@ -23,7 +21,7 @@ if (process.env.NODE_ENV === "production")
 // if (isDebug) 
 // import("electron-debug").then(electronDebug => electronDebug ());
 
-app.setAppUserModelId("Amethyst")
+app.setAppUserModelId("Amethyst");
 
 if (!app.requestSingleInstanceLock()) {
 	app.quit();
@@ -65,8 +63,6 @@ else {
 
 		}).catch(console.error);
 }
-
-
 
 if (!IS_DEV) {
 	app

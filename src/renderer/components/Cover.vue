@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { useState } from "@/amethyst";
-defineProps<{ url?: string }>();
-const state = useState();
+defineProps<{ url: string }>();
 </script>
 
 <template>
-  <img :src="url || state.state.defaultCover">
+  <img :src="url">
 </template>

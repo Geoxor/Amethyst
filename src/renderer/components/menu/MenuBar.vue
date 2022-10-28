@@ -1,11 +1,12 @@
 <script lang="ts" setup>
 import { useElectron, usePlayer, useState } from "@/amethyst";
 import ControlButtons from "@/components/input/ControlButtons.vue";
-import Menu from "@/components/menu/Menu.vue";
+import UpdateButton from "@/components/input/UpdateButton.vue";
+import Menu from "@/components/menu/MenuContainer.vue";
 import MenuOption from "@/components/menu/MenuOption.vue";
 import MenuSplitter from "@/components/menu/MenuSplitter.vue";
 import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
-import { bytesToHuman } from '@/logic/formating';
+import { bytesToHuman } from "@/logic/formating";
 const state = useState();
 const electron = useElectron();
 const player = usePlayer();
@@ -19,29 +20,60 @@ const player = usePlayer();
         <img src="../../icon.svg">
       </div>
       <Menu title="File">
-        <menu-option :shortcuts="['CTRL', 'O']" title="Open audio..." @click="() => electron.openFileDialog()" />
-        <menu-option :shortcuts="['CTRL', 'SHIFT', 'O']" title="Open folder..."
-          @click="() => electron.openFolderDialog()" />
+        <menu-option
+          :shortcuts="['CTRL', 'O']"
+          title="Open audio..."
+          @click="() => electron.openFileDialog()"
+        />
+        <menu-option
+          :shortcuts="['CTRL', 'SHIFT', 'O']"
+          title="Open folder..."
+          @click="() => electron.openFolderDialog()"
+        />
         <menu-splitter />
-        <menu-option :shortcuts="['CTRL', 'SHIFT', 'X']" title="Clear Queue" @click="player.clearQueue()" />
+        <menu-option
+          :shortcuts="['CTRL', 'SHIFT', 'X']"
+          title="Clear Queue"
+          @click="player.clearQueue()"
+        />
       </Menu>
       <Menu title="Utility">
-        <menu-option :shortcuts="['CTRL', 'D', '+', 'X']"
+        <menu-option
+          :shortcuts="['CTRL', 'D', '+', 'X']"
           :title="`Clear cover art cache (${bytesToHuman(state.coverArtCacheSize.value)})`"
-          @click="state.state.coverCache = {}" />
-        <menu-option :shortcuts="['CTRL', 'D', '+', 'F']"
+          @click="state.state.coverCache = {}"
+        />
+        <menu-option
+          :shortcuts="['CTRL', 'D', '+', 'F']"
           :title="`Clear Waveform cache (${bytesToHuman(state.waveformCacheSize.value)})`"
-          @click="state.state.waveformCache = {}" />
-        <menu-option :title="`Check for updates`" @click="electron.invoke('check-for-updates')" />
+          @click="state.state.waveformCache = {}"
+        />
+        <menu-option
+          :title="`Check for updates`"
+          @click="electron.invoke('check-for-updates')"
+        />
       </Menu>
-      <Menu title="Debug" v-if="state.isDev.value">
-        <menu-option title="Set 'updateReady' to 'true'" @click="state.state.updateReady = true;" />
-        <menu-option title="Set 'updateReady' to 'false'" @click="state.state.updateReady = false;" />
+      <Menu
+        v-if="state.isDev.value"
+        title="Debug"
+      >
+        <menu-option
+          title="Set 'updateReady' to 'true'"
+          @click="state.state.updateReady = true;"
+        />
+        <menu-option
+          title="Set 'updateReady' to 'false'"
+          @click="state.state.updateReady = false;"
+        />
         <menu-splitter />
-        <menu-option title="Test 'UpdateInstallingNotification'"
-          @click="electron.invoke('test-notification', ['showUpdateInstallingNotification'])" />
-        <menu-option title="Test 'UpdateAvailableNotification'"
-          @click="electron.invoke('test-notification', ['showUpdateAvailableNotification'])" />
+        <menu-option
+          title="Test 'UpdateInstallingNotification'"
+          @click="electron.invoke('test-notification', ['showUpdateInstallingNotification'])"
+        />
+        <menu-option
+          title="Test 'UpdateAvailableNotification'"
+          @click="electron.invoke('test-notification', ['showUpdateAvailableNotification'])"
+        />
       </Menu>
     </div>
 
@@ -49,16 +81,20 @@ const player = usePlayer();
       Amethyst v{{ state.state.version }}
     </p>
 
-
     <div class="flex gap-2 items-center overflow-hidden font-aseprite">
-      <button @click="electron.close()" v-if="state.state.updateReady"
-        class="no-drag py-1 px-2 cursor-pointer bg-green-900 bg-opacity-50 text-green-400 hover:bg-green-400 active:text-black hover:text-black active:bg-primary-900">INSTALL
-        UPDATE</button>
-      <processor-usage-meter />
-      <control-buttons :is-maximized="state.state.isMaximized" @close="electron.close" @minimize="electron.minimize"
-        @maximize="electron.maximize" @unmaximize="electron.unmaximize" />
+      <update-button
+        v-if="state.state.updateReady"
+        @click="electron.close()"
+      />
+      <processor-usage-meter :value="state.state.cpuUsage" />
+      <control-buttons
+        :is-maximized="state.state.isMaximized"
+        @close="electron.close"
+        @minimize="electron.minimize"
+        @maximize="electron.maximize"
+        @unmaximize="electron.unmaximize"
+      />
     </div>
-
   </div>
 </template>
 

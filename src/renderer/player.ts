@@ -5,8 +5,8 @@ import { fisherYatesShuffle, flattenArray } from "@/logic/math";
 import type AppState from "@/state";
 import { PromisePool } from "@supercharge/promise-pool";
 import { useLocalStorage } from "@vueuse/core";
-import { FastAverageColorResult } from 'fast-average-color';
-import mitt from 'mitt';
+import { FastAverageColorResult } from "fast-average-color";
+import mitt from "mitt";
 import type { IAudioMetadata } from "music-metadata";
 import { computed, reactive, watch } from "vue";
 
@@ -24,7 +24,7 @@ export const Events = Object.freeze({
 	"pause": undefined,
 	"setVolume": 0 as number,
 	"seekTo": 0 as number,
-})
+});
 
 export default class Player {
 	private events = mitt<typeof Events>();
@@ -61,14 +61,14 @@ export default class Player {
 		electron.electron.on<(string)[]>("load-folder", files => this.setQueue([...files, ...this.getQueue()]));
 
 		this.state.inputAudio.addEventListener("timeupdate", () => {
-			this.state.currentTime = this.state.inputAudio.currentTime
-		})
+			this.state.currentTime = this.state.inputAudio.currentTime;
+		});
 
 		this.state.source = this.state.ctx.createMediaElementSource(this.state.inputAudio);
 		this.state.filter = this.state.ctx.createBiquadFilter();
 
 		// Audio routing happens in this class
-		this.nodeManager = new AmethystAudioNodeManager(this.state.source, this.state.ctx)
+		this.nodeManager = new AmethystAudioNodeManager(this.state.source, this.state.ctx);
 
 		// When the queue changes updated the current playing file path
 		watch(() => this.state.queue.size, () => this.updateCurrentlyPlayingFilePath());
@@ -87,58 +87,58 @@ export default class Player {
 
 		// TODO: move the recolor logic somewhere else pls
 		// Resets the colors when the user disables this setting in the state
-		watch(() => this.appState?.settings.colorInterfaceFromCoverart, () => this.resetThemeColors())
+		watch(() => this.appState?.settings.colorInterfaceFromCoverart, () => this.resetThemeColors());
 	}
 
 	public loopNone = () => {
 		this.state.loopMode = LoopMode.None;
-	}
+	};
 
 	public loopOne = () => {
 		this.state.loopMode = LoopMode.One;
-	}
+	};
 
 	public loopAll = () => {
 		this.state.loopMode = LoopMode.All;
-	}
+	};
 
 	// TODO: fix this, substring fails when first starting cus getCurrentlyPlayingFilePath() returns null
 	public getFilename = () => {
 		const current = this.getCurrentlyPlayingFilePath() || "";
-		return current.substring(Math.max(current.lastIndexOf("\\"), current.lastIndexOf("/")) + 1)
-	}
+		return current.substring(Math.max(current.lastIndexOf("\\"), current.lastIndexOf("/")) + 1);
+	};
 
 	public getTitle = () => {
 		return computed(() => this.state.currentlyPlayingMetadata?.common.title || this.getFilename()).value;
-	}
+	};
 
 	public getArtist = () => {
 		return computed(() => this.state.currentlyPlayingMetadata?.common.artists?.join(" & ") || "unknown artist").value;
-	}
+	};
 
 	public getCoverBase64 = (path: string) => {
 		const target = this.appState?.state.coverCache[path];
 
 		if (!target) {
-			this.getCoverArt(target)
+			this.getCoverArt(target);
 		}
 
-		return computed(() => target ? `data:image/png;base64,${target}` : undefined).value;
-	}
+		return computed(() => target ? `data:image/png;base64,${target}` : this.appState.state.defaultCover).value;
+	};
 
 	public hasCover = () => {
 		return !!this.appState?.state.coverCache[this.getCurrentlyPlayingFilePath()];
-	}
+	};
 
 	public getOutputDevices = async () => {
-		const devices = await navigator.mediaDevices.enumerateDevices()
-		return devices.filter(device => device.kind === 'audiooutput' && (device.deviceId !== "default" && device.deviceId !== "communications")).sort((a, b) => a.label.localeCompare(b.label));
-	}
+		const devices = await navigator.mediaDevices.enumerateDevices();
+		return devices.filter(device => device.kind === "audiooutput" && (device.deviceId !== "default" && device.deviceId !== "communications")).sort((a, b) => a.label.localeCompare(b.label));
+	};
 
 	public getInputDevices = async () => {
-		const devices = await navigator.mediaDevices.enumerateDevices()
-		return devices.filter(device => device.kind === 'audioinput' && (device.deviceId !== "default" && device.deviceId !== "communications")).sort((a, b) => a.label.localeCompare(b.label));
-	}
+		const devices = await navigator.mediaDevices.enumerateDevices();
+		return devices.filter(device => device.kind === "audioinput" && (device.deviceId !== "default" && device.deviceId !== "communications")).sort((a, b) => a.label.localeCompare(b.label));
+	};
 
 	private updateRichPresence = () => {
 		// Discord rich presence timer that updates discord every second
@@ -152,7 +152,7 @@ export default class Player {
 				this.state.isPlaying.toString(),
 			]);
 		}, 1000);
-	}
+	};
 
 	private updateCurrentMetadata(path: string) {
 		this.electron.invoke<IAudioMetadata>("get-metadata", [path]).then(
@@ -165,7 +165,7 @@ export default class Player {
 	private updateAppTitle = (path: string) => {
 		// set the html title to the song name
 		document.title = path || "Amethyst";
-	}
+	};
 
 
 	public async loadSoundAndPlay(path: string) {
@@ -174,7 +174,6 @@ export default class Player {
 
 		// simple fix to folders that have # in their name
 		this.state.inputAudio.src = `file://${path.replace("#", "%23")}`;
-
 
 
 		// Play the sound and handle playback
@@ -215,8 +214,8 @@ export default class Player {
 	public getCoverArt = async (path: string) => {
 		if (!path) return;
 		const cover = await this.electron.invoke<string>("get-cover", [path]);
-		if (this.appState) this.appState.state.coverCache[path] = cover as string
-		return cover
+		if (this.appState) this.appState.state.coverCache[path] = cover as string;
+		return cover;
 	};
 
 	private updateThemeColors = async (path: string) => {
@@ -224,9 +223,9 @@ export default class Player {
 			.then(color => {
 				const [r, g, b] = color.value;
 
-				const root = document.querySelector<HTMLElement>(':root')!;
-				root.style.setProperty('--primary-900', `${r}, ${g}, ${b}`);
-				root.style.setProperty('--primary-800', `${r - 5}, ${g - 5}, ${b - 5}`);
+				const root = document.querySelector<HTMLElement>(":root")!;
+				root.style.setProperty("--primary-900", `${r}, ${g}, ${b}`);
+				root.style.setProperty("--primary-800", `${r - 5}, ${g - 5}, ${b - 5}`);
 
 				const maximal = Math.max(r, g, b);
 
@@ -235,8 +234,8 @@ export default class Player {
 				const bRatio = b / maximal;
 
 				const computeShade = (tint: number = 15, r: number, g: number, b: number): string => {
-					return `${r + rRatio * tint}, ${g + gRatio * tint},  ${b + bRatio * tint}`
-				}
+					return `${r + rRatio * tint}, ${g + gRatio * tint},  ${b + bRatio * tint}`;
+				};
 
 				root.style.setProperty("--surface-900", computeShade(15, 20, 20, 20)); // 15, 17, 25
 				root.style.setProperty("--surface-800", computeShade(20, 27, 27, 27)); // 20, 22, 33
@@ -244,19 +243,19 @@ export default class Player {
 				root.style.setProperty("--surface-600", computeShade(31, 42, 42, 42)); // 31, 33, 52
 				root.style.setProperty("--surface-500", computeShade(45, 59, 59, 59)); // 45, 45, 73
 			})
-			.catch(console.log)
-	}
+			.catch(console.log);
+	};
 
 	public resetThemeColors = () => {
-		const root = document.querySelector<HTMLElement>(':root')!;
-		root.style.setProperty('--primary-900', `134, 138, 255`);
-		root.style.setProperty('--primary-800', `100, 106, 195`);
-		root.style.setProperty("--surface-900", `15, 17, 25`);
-		root.style.setProperty("--surface-800", `20, 22, 33`);
-		root.style.setProperty("--surface-700", `24, 26, 39`);
-		root.style.setProperty("--surface-600", `31, 33, 52`);
-		root.style.setProperty("--surface-500", `45, 45, 73`);
-	}
+		const root = document.querySelector<HTMLElement>(":root")!;
+		root.style.setProperty("--primary-900", "134, 138, 255");
+		root.style.setProperty("--primary-800", "100, 106, 195");
+		root.style.setProperty("--surface-900", "15, 17, 25");
+		root.style.setProperty("--surface-800", "20, 22, 33");
+		root.style.setProperty("--surface-700", "24, 26, 39");
+		root.style.setProperty("--surface-600", "31, 33, 52");
+		root.style.setProperty("--surface-500", "45, 45, 73");
+	};
 
 	public play() {
 		this.state.inputAudio.volume = this.state.volume;
@@ -267,7 +266,7 @@ export default class Player {
 	}
 
 	public favoriteToggle(path: string) {
-		this.state.favorites.has(path) ? this.unfavorite(path) : this.favorite(path)
+		this.state.favorites.has(path) ? this.unfavorite(path) : this.favorite(path);
 	}
 
 	public favorite(path: string) {

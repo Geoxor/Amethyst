@@ -3,7 +3,7 @@ import { Client } from "discord-rpc";
 import { APP_VERSION, IS_DEV } from "./main";
 
 const DEV_CLIENT_ID = "977664616568078408";
-const PROD_CLIENT_ID = "976036303156162570";
+const PROD_CLIENT_ID = "976036303156162570"; 
 
 export class Discord {
 	private readonly client: Client;

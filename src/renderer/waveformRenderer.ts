@@ -14,7 +14,7 @@ export class WaveformRenderer {
     this.audioBuffer = null;
     this.currentWorker = null;
 
-    this.player.on('metadata', async (metadata) => {
+    this.player.on("metadata", async (metadata) => {
       this.player.appState.state.processQueue.add(metadata.file);
       // TODO: refactor this system so amethyst automatically determines when processing has finished from child plugins
       await this.handlePlayAudio(metadata);
@@ -32,7 +32,6 @@ export class WaveformRenderer {
     const channels = metadata.format.numberOfChannels ?? 2;
     const duration = metadata.format.duration ?? 1;
     const sampleRate = this.player.state.source?.context.sampleRate ?? 44100;
-
 
     const offlineAudioCtx = new OfflineAudioContext({
       numberOfChannels: channels,
@@ -59,12 +58,12 @@ export class WaveformRenderer {
   private fetchAudioBuffer = (src: string, offlineAudioCtx: OfflineAudioContext): Promise<AudioBuffer> => {
     const source = offlineAudioCtx.createBufferSource();
     const request = new XMLHttpRequest();
-    request.open('GET', src, true);
-    request.responseType = 'arraybuffer';
+    request.open("GET", src, true);
+    request.responseType = "arraybuffer";
 
     return new Promise<AudioBuffer>((resolve, reject) => {
       request.onload = () => {
-        var audioData = request.response;
+        const audioData = request.response;
 
         this.audioCtx.decodeAudioData(audioData)
           .then((buffer: AudioBuffer) => {
@@ -77,16 +76,16 @@ export class WaveformRenderer {
               .then(resolve)
               .catch(reject);
           });
-      }
+      };
 
       request.send();
-    })
+    });
   };
 
   private renderWaveform = async (filePath: string) => {
     return new Promise<void>((resolve, reject) => {
       this.setCanvasSize();
-      const backCanvas = document.createElement('canvas');
+      const backCanvas = document.createElement("canvas");
       backCanvas.width = this.canvas.width;
       backCanvas.height = this.canvas.height;
 
@@ -113,22 +112,22 @@ export class WaveformRenderer {
       // https://github.com/vitejs/vite/issues/4642
       // @ts-ignore
       this.currentWorker = new Worker(new URL("./workers/waveformRenderWorker.ts", import.meta.url));
-      this.currentWorker.postMessage({ canvas: offscreen, audioData }, [offscreen])
+      this.currentWorker.postMessage({ canvas: offscreen, audioData }, [offscreen]);
       this.currentWorker.onmessage = ({ data }) => {
         this.drawImage(data);
         this.player.appState.state.waveformCache[filePath] = data;
         this.currentWorker = null;
         resolve();
       };
-    })
+    });
   };
 
   public clean = () => {
-    this.player.off('metadata');
+    this.player.off("metadata");
   };
 
   public drawImage = (data: ImageBitmap) => {
-    const ctx = this.canvas.getContext('2d')!;
+    const ctx = this.canvas.getContext("2d")!;
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     try {
       ctx.drawImage(data, 0, 0);
@@ -137,5 +136,5 @@ export class WaveformRenderer {
 
       // we don't care about it not being able to render the last frame, its better to ignore this than to check for it every frame 
     }
-  }
+  };
 }

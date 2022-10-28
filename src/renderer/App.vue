@@ -1,23 +1,23 @@
 <script setup lang="ts">
-import { usePlayer, useState } from '@/amethyst';
+import { usePlayer, useState } from "@/amethyst";
 import MenuBar from "@/components//menu/MenuBar.vue";
 
-import ContextMenu from '@/components/input/ContextMenu.vue';
-import Queue from "@/components/Queue.vue";
-import SettingsBar from '@/components/SettingsBar.vue';
-import DbMeter from '@/components/visualizers/DbMeter.vue';
-import Spectrum from '@/components/visualizers/Spectrum.vue';
+import ContextMenu from "@/components/input/ContextMenu.vue";
+import Queue from "@/components/QueueList.vue";
+import SettingsBar from "@/components/SettingsBar.vue";
+import DbMeter from "@/components/visualizers/DbMeter.vue";
+import Spectrum from "@/components/visualizers/SpectrumAnalyzer.vue";
 
-import NavigationBar from '@/components/NavigationBar.vue';
-import NodeEditor from '@/components/NodeEditor.vue';
-import PlaybackButtons from '@/components/PlaybackButtons.vue';
-import Vectorscope from '@/components/visualizers/Vectorscope.vue';
+import NavigationBar from "@/components/NavigationBar.vue";
+import NodeEditor from "@/components/NodeEditor.vue";
+import PlaybackButtons from "@/components/PlaybackButtons.vue";
+import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 
 const state = useState();
 const player = usePlayer();
 
 // Disable stupid scroll when hitting space
-window.addEventListener('keydown', (e) => e.key === " " && e.target == document.body && e.preventDefault());
+window.addEventListener("keydown", (e) => e.key === " " && e.target == document.body && e.preventDefault());
 </script>
 
 <template>
@@ -33,14 +33,23 @@ window.addEventListener('keydown', (e) => e.key === " " && e.target == document.
       </div>
 
       <div class="flex gap-2 p-2 bg-surface-800 borderTop">
-        <vectorscope v-if="state.settings.showVectorscope && player.state.source"
-          :key="player.state.currentlyPlayingFilePath" :node="player.state.source" />
+        <vectorscope
+          v-if="state.settings.showVectorscope && player.state.source"
+          :key="player.state.currentlyPlayingFilePath"
+          :node="player.state.source"
+        />
 
-        <spectrum v-if="state.settings.showSpectrum && player.state.source" :key="player.state.currentlyPlayingFilePath"
-          :node="player.state.source" />
+        <spectrum
+          v-if="state.settings.showSpectrum && player.state.source"
+          :key="player.state.currentlyPlayingFilePath"
+          :node="player.state.source"
+        />
 
-        <db-meter v-if="state.settings.showDbMeter && player.state.source" :key="player.state.currentlyPlayingFilePath"
-          :node="player.state.source" />
+        <db-meter
+          v-if="state.settings.showDbMeter && player.state.source"
+          :key="player.state.currentlyPlayingFilePath"
+          :node="player.state.source"
+        />
 
         <playback-buttons :player="player" />
       </div>

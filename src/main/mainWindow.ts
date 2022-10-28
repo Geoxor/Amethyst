@@ -1,8 +1,8 @@
 import { BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
 import log from "electron-log";
 import { autoUpdater } from "electron-updater";
-import { FastAverageColorResult } from 'fast-average-color';
-import { getAverageColor } from 'fast-average-color-node';
+import { FastAverageColorResult } from "fast-average-color";
+import { getAverageColor } from "fast-average-color-node";
 import fs from "fs";
 import * as mm from "music-metadata/lib/core";
 import path from "path";
@@ -14,31 +14,31 @@ import { loadFolder } from "./handles";
 import { Logger } from "./logger";
 import { resolveHTMLPath } from "./util";
 
-const icon = () => path.join(RESOURCES_PATH, 'icon.png');
+const icon = () => path.join(RESOURCES_PATH, "icon.png");
 
 const notifications = {
 	showUpdateInstallingNotification: () => {
 		const title = "Update Installing";
 		const body = "The application will restart once the update is complete.";
-		Logger.print(title, body)
+		Logger.print(title, body);
 		new Notification({
 			icon: icon(),
 			title,
 			body,
-		}).show()
+		}).show();
 	},
 
 	showUpdateAvailableNotification: () => {
 		const title = "Amethyst Update Available";
 		const body = "Amethyst is downloading an update and will restart when complete";
-		Logger.print(title, body)
+		Logger.print(title, body);
 		new Notification({
 			icon: icon(),
 			title,
 			body
-		}).show()
+		}).show();
 	},
-}
+};
 
 export class MainWindow {
 	public readonly window: BrowserWindow;
@@ -56,10 +56,9 @@ export class MainWindow {
 			preload: path.join(__dirname, "preload.js"),
 			webSecurity: false,
 		},
-	}
+	};
 
 	private readonly discord: Discord;
-
 
 	constructor() {
 		this.window = new BrowserWindow(this.windowOptions);
@@ -71,7 +70,7 @@ export class MainWindow {
  / ___ |/ / / / / /  __/ /_/ / / / /_/ (__  ) /_  
 /_/  |_/_/ /_/ /_/\\___/\\__/_/ /_/\\__, /____/\\__/  
  v${APP_VERSION}                        /____/            
-		`)
+		`);
 
 		this.setIpcEvents();
 		this.setWindowEvents();
@@ -82,18 +81,18 @@ export class MainWindow {
 		this.window.loadURL(resolveHTMLPath("index"));
 
 		this.window.on("ready-to-show", () => {
-			Logger.print("Amethyst ready")
+			Logger.print("Amethyst ready");
 
 			// Autoupdates
 			// Remove this if your app does not use auto updates
-			Logger.print("Checking for updates...")
+			Logger.print("Checking for updates...");
 			log.transports.file.level = "info";
 			autoUpdater.logger = log;
 			autoUpdater.checkForUpdatesAndNotify();
 
 			// Check for updates every 10 minutes
-			this.updateCheckerTimer && clearInterval(this.updateCheckerTimer)
-			this.updateCheckerTimer = setInterval(() => autoUpdater.checkForUpdatesAndNotify(), 600 * 1000)
+			this.updateCheckerTimer && clearInterval(this.updateCheckerTimer);
+			this.updateCheckerTimer = setInterval(() => autoUpdater.checkForUpdatesAndNotify(), 600 * 1000);
 
 			if (process.env.START_MINIMIZED)
 				this.window.minimize();
@@ -114,14 +113,14 @@ export class MainWindow {
 
 	private setWindowEvents(): void {
 		Logger.fn("setWindowEvents");
-		Logger.print("Setting Window events")
+		Logger.print("Setting Window events");
 
 		this.window.on("minimize", () => this.window.webContents.send("minimize"));
 		this.window.on("unmaximize", () => this.window.webContents.send("unmaximize"));
 		this.window.on("maximize", () => this.window.webContents.send("maximize"));
 		this.window.on("closed", () => this.destroy());
 
-		autoUpdater.on("update-downloaded", () => this.window.webContents.send("update"))
+		autoUpdater.on("update-downloaded", () => this.window.webContents.send("update"));
 
 		this.window.webContents.on("dom-ready", async () => {
 			if (process.argv[1])
@@ -146,7 +145,7 @@ export class MainWindow {
 
 	private setIpcEvents(): void {
 		Logger.fn("setIpcEvents");
-		Logger.print("Setting IPC events")
+		Logger.print("Setting IPC events");
 
 		Object.entries({
 			"test-notification": (_: Event, [notification]: string) => (notifications as { [key: string]: any })[notification](),
@@ -157,7 +156,7 @@ export class MainWindow {
 
 			"read-file": (_: Event, [path]: string[]) => {
 				Logger.handle("read-file");
-				return fs.promises.readFile(path)
+				return fs.promises.readFile(path);
 			},
 
 			"open-file-dialog": async () => {
@@ -184,7 +183,7 @@ export class MainWindow {
 			},
 
 			"percent-cpu-usage": async () => {
-				return process.getCPUUsage().percentCPUUsage
+				return process.getCPUUsage().percentCPUUsage;
 			},
 
 			"get-cover": async (_: Event, [path]: string[]) => {
@@ -200,7 +199,7 @@ export class MainWindow {
 
 				try {
 					const color = await getAverageColor(coverBuffer);
-					return color
+					return color;
 				} catch (error) {
 					return Promise.reject(error);
 				}
@@ -208,7 +207,7 @@ export class MainWindow {
 
 			"get-metadata": async (_: Event, [path]: string[]) => {
 				Logger.handle("get-metadata", { path });
-				return path && mm.parseBuffer(await fs.promises.readFile(path))
+				return path && mm.parseBuffer(await fs.promises.readFile(path));
 			},
 
 			"show-item": (_: Event, [fullPath]: string[]) => {
@@ -217,7 +216,7 @@ export class MainWindow {
 			},
 
 			"drop-file": async (_: Event, [paths]: string[][]) => {
-				Logger.handle("drop-file", { paths })
+				Logger.handle("drop-file", { paths });
 				paths.forEach(async (path) => {
 					const stat = await fs.promises.stat(path);
 					if (stat.isDirectory())
@@ -228,11 +227,11 @@ export class MainWindow {
 			},
 
 			"sync-window-state": () => {
-				Logger.handle("sync-window-state")
+				Logger.handle("sync-window-state");
 				return {
 					isMinimized: this.window.isMinimized(),
 					isMaximized: this.window.isMaximized(),
-				}
+				};
 			},
 
 			"update-rich-presence": (_: Event, [
@@ -246,12 +245,12 @@ export class MainWindow {
 					duration,
 					seek,
 					status,
-				})
-				this.discord.updateCurrentSong(title, duration, seek, status === "true")
+				});
+				this.discord.updateCurrentSong(title, duration, seek, status === "true");
 			},
 
 			"check-for-updates": () => {
-				Logger.handle("check-for-updates")
+				Logger.handle("check-for-updates");
 				checkForUpdatesAndInstall();
 			}
 		}).forEach(([channel, handler]) => ipcMain.handle(channel, handler));
@@ -280,6 +279,6 @@ export class MainWindow {
 
 export async function checkForUpdatesAndInstall() {
 	Logger.fn("checkForUpdatesAndInstall");
-	Logger.print("Checking for updates...")
+	Logger.print("Checking for updates...");
 	autoUpdater.checkForUpdatesAndNotify();
 }

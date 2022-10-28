@@ -14,10 +14,10 @@ export default defineConfig({
 	root: PACKAGE_ROOT,
 	test: {
 		coverage: {
-			provider: 'istanbul' // or 'c8'
+			provider: "istanbul" // or 'c8'
 		},
 		reporters: ["verbose"],
-		environment: 'happy-dom'
+		environment: "happy-dom"
 	},
 	resolve: {
 		alias: {
@@ -39,7 +39,7 @@ export default defineConfig({
 			strict: true,
 		},
 		host: true,
-		port: Number.parseInt(process.env.PORT || '1212'),
+		port: Number.parseInt(process.env.PORT || "1212"),
 	},
 	build: {
 		sourcemap: true,

@@ -1,16 +1,16 @@
 let stopRender = false;
 
 function render(canvas: HTMLCanvasElement, audioData: Float32Array): ImageBitmap | undefined {
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
 
   if (!ctx) return;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-  gradient.addColorStop(0, '#e08eff');
-  gradient.addColorStop(0.5, '#868aff');
-  gradient.addColorStop(1, '#e08eff');
+  gradient.addColorStop(0, "#e08eff");
+  gradient.addColorStop(0.5, "#868aff");
+  gradient.addColorStop(1, "#e08eff");
 
   ctx.strokeStyle = gradient;
   ctx.lineWidth = 1;
@@ -38,7 +38,7 @@ function render(canvas: HTMLCanvasElement, audioData: Float32Array): ImageBitmap
     return img;
   } catch (error) {
     console.log(error);
-    return undefined
+    return undefined;
   }
 }
 

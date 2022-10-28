@@ -1,7 +1,11 @@
 
 <template>
-  <div ref="modifier" class="modifier font-aseprite" @mousedown.stop.passive="onMouseDown"
-    @mouseup.stop.passive="dragging = false">
+  <div
+    ref="modifier"
+    class="modifier font-aseprite"
+    @mousedown.stop.passive="onMouseDown"
+    @mouseup.stop.passive="dragging = false"
+  >
     <div :class="{ pop }">
       <h1 class="absolute z-10 top-2px">
         {{ displayValue }}
@@ -17,8 +21,8 @@
 </template>
 
 <script lang="ts" setup>
-import { useVModel } from '@vueuse/core'
-import { computed, ref, watch } from 'vue'
+import { useVModel } from "@vueuse/core";
+import { computed, ref, watch } from "vue";
 const props = defineProps({
   modelValue: {
     type: Number,
@@ -30,6 +34,7 @@ const props = defineProps({
   },
   range: {
     type: Array,
+    // eslint-disable-next-line vue/require-valid-default-prop
     default: [],
   },
   max: {
@@ -48,42 +53,42 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
-})
-const emit = defineEmits(['update:modelValue'])
-const model = useVModel(props, 'modelValue', emit)
-const dragging = ref(false)
-let startY = 0
-let initialValue = 0
+});
+const emit = defineEmits(["update:modelValue"]);
+const model = useVModel(props, "modelValue", emit);
+const dragging = ref(false);
+let startY = 0;
+let initialValue = 0;
 let currentIdx = 0;
 
 const displayValue = computed(() => {
   if (props.percent)
-    return `${(model.value * 100).toFixed(0)}%`
-  return props.step < 1 ? model.value.toFixed(2) : model.value
-})
+    return `${(model.value * 100).toFixed(0)}%`;
+  return props.step < 1 ? model.value.toFixed(2) : model.value;
+});
 // Sets model to 0 if alt is held. Otherwise sets dragging to true.
 const onMouseDown = (e: MouseEvent) => {
   if (e.altKey) {
-    model.value = props.default
+    model.value = props.default;
   }
   else {
     currentIdx = props.range.indexOf(model.value || props.default);
-    dragging.value = true
-    startY = e.clientY
-    initialValue = model.value
+    dragging.value = true;
+    startY = e.clientY;
+    initialValue = model.value;
   }
-}
+};
 const roundNearestStep = (value: number) => {
-  return Math.ceil(value / props.step) * props.step
-}
+  return Math.ceil(value / props.step) * props.step;
+};
 
 const onMove = (e: MouseEvent) => {
-  if (!dragging.value) return
-  const scale = props.max - props.min
-  const distance = startY - e.clientY
+  if (!dragging.value) return;
+  const scale = props.max - props.min;
+  const distance = startY - e.clientY;
 
   if (props.range.length != 0) {
-    model.value = (props.range as number[])[Math.max(0, Math.min(props.range.length - 1, currentIdx + ~~(distance / 10)))]
+    model.value = (props.range as number[])[Math.max(0, Math.min(props.range.length - 1, currentIdx + ~~(distance / 10)))];
     return;
   }
 
@@ -93,29 +98,28 @@ const onMove = (e: MouseEvent) => {
       props.min,
     ),
     props.max,
-  )
-}
+  );
+};
 const onMouseUp = () => {
-  dragging.value = false
-  startY = model.value
-}
+  dragging.value = false;
+  startY = model.value;
+};
 watch(dragging, () => {
   if (dragging.value) {
-    document.addEventListener('mousemove', onMove)
-    document.addEventListener('mouseup', onMouseUp)
+    document.addEventListener("mousemove", onMove);
+    document.addEventListener("mouseup", onMouseUp);
   }
   else {
-    document.removeEventListener('mousemove', onMove)
-    document.removeEventListener('mouseup', onMouseUp)
+    document.removeEventListener("mousemove", onMove);
+    document.removeEventListener("mouseup", onMouseUp);
   }
-})
-const pop = ref(false)
+});
+const pop = ref(false);
 watch(model, () => {
-  pop.value = true
-  setTimeout(() => pop.value = false, 100)
-})
+  pop.value = true;
+  setTimeout(() => pop.value = false, 100);
+});
 </script>
-
 
 <style lang="postcss" scoped>
 @keyframes popAnimation {

@@ -1,4 +1,8 @@
 {
+  "extends": [
+    "plugin:vue/vue3-recommended",
+    "@vue/eslint-config-typescript"
+  ],
   "rules": {
     "no-tabs": "off",
     "indent": "off",
@@ -19,7 +23,9 @@
       "always"
     ],
     "no-console": "warn",
+    "no-multiple-empty-lines": ["warn", { "max": 1, "maxEOF": 0 }],
     "no-mixed-spaces-and-tabs": "off",
+    "vue/no-mutating-props": "off",
     "@typescript-eslint/indent": "off",
     "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/no-unused-vars": "warn",
@@ -28,6 +34,9 @@
       "warn"
     ]
   },
+  "plugins": [
+    "vue"
+  ],
   "settings": {
     "import/resolver": {
       "alias": {

@@ -23,29 +23,39 @@ const handleContextMenu = (e: MouseEvent, i: number) => {
     { title: "Render cover art", action: () => player.getCoverArt(player.getQueue()[i]) },
     { title: "Remove from queue", action: () => player.removeItemFromQueue(i) },
   ]);
-}
+};
 
 </script>
 
 <template>
   <ResizableDiv class="w-64">
-
     <div class="flex-col items-center p-2 pr-0 flex max-w-full h-full">
-      <input v-model="filterText" type="text"
+      <input
+        v-model="filterText"
+        type="text"
         class="border-2 z-30 w-full bg-surface-800 border-surface-600 text-white py-0.25 indent-xs text-12px mb-2"
-        placeholder="artists, title & format...">
+        placeholder="artists, title & format..."
+      >
       <ul class="overflow-y-auto w-full">
         <li
           v-for="([song, i]) of player.getQueue().map((song, i) => song.toLowerCase().includes(filterText.toLowerCase()) ? [song, i] : undefined).filter(song => !!song) as [string, number][]"
-          :key="song" @contextmenu="handleContextMenu($event, i)"
+          :key="song"
           :class="[isHoldingControl && 'control-hover', isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', i === player.getCurrentlyPlayingIndex() && 'text-primary-800']"
           class="h-4 flex items-center gap-2 w-full hover:text-primary-900 list-none relative select-none"
+          @contextmenu="handleContextMenu($event, i)"
           @keypress.prevent
-          @click="isHoldingControl ? invoke('show-item', [player.getQueue()[i]]) : player.setCurrentlyPlayingIndex(i)">
+          @click="isHoldingControl ? invoke('show-item', [player.getQueue()[i]]) : player.setCurrentlyPlayingIndex(i)"
+        >
+          <cover
+            v-if="state.settings.showMiniCovers"
+            class="w-3 h-3"
+            :url="player.getCoverBase64(song)"
+          />
 
-          <cover v-if="state.settings.showMiniCovers" class="w-3 h-3" :url="player.getCoverBase64(song)" />
-
-          <heart-icon class="h-3 w-3 min-h-3 min-w-3 text-rose-600" v-if="player.state.favorites.has(song)" />
+          <heart-icon
+            v-if="player.state.favorites.has(song)"
+            class="h-3 w-3 min-h-3 min-w-3 text-rose-600"
+          />
 
           <p class="align-top py-0.5 text-12px overflow-hidden overflow-ellipsis whitespace-nowrap">
             {{ i === player.getCurrentlyPlayingIndex() ? "⏵ " : "" }}{{ parseTitle(song) }}
@@ -53,7 +63,6 @@ const handleContextMenu = (e: MouseEvent, i: number) => {
         </li>
       </ul>
     </div>
-
   </ResizableDiv>
 </template>
 

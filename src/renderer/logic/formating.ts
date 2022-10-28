@@ -5,7 +5,7 @@ export const bytesToHuman = (bytes: number): string => {
     return "0 B";
   const i = ~~(Math.log(bytes) / Math.log(1024));
   return `${parseFloat((bytes / Math.pow(1024, i)).toFixed(2))} ${sizes[i]}`;
-}
+};
 
 // Turns seconds from 80 to 1:20
 export const secondsToHuman = (time: number): `${string}:${string}` => {

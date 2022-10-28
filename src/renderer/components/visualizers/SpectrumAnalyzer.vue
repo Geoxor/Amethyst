@@ -2,7 +2,7 @@
 import { useState } from "@/amethyst";
 import { getThemeColorHex } from "@/logic/color";
 import { interpolateArray, scaleLog } from "@/logic/math";
-import { computed } from "@vue/reactivity";
+import { computed } from "vue";
 import { onMounted, onUnmounted, watch } from "vue";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
 const state = useState();
@@ -26,8 +26,8 @@ onMounted(() => {
 	analyser.minDecibels = -120;
 
 	// Updates the FFT size whenever it changes in the settings in real time
-	watch(() => state.settings.spectrumFftSize, () => analyser.fftSize = state.settings.spectrumFftSize)
-	watch(() => state.settings.spectrumSmoothing, () => analyser.smoothingTimeConstant = state.settings.spectrumSmoothing)
+	watch(() => state.settings.spectrumFftSize, () => analyser.fftSize = state.settings.spectrumFftSize);
+	watch(() => state.settings.spectrumSmoothing, () => analyser.smoothingTimeConstant = state.settings.spectrumSmoothing);
 
 	props.node.connect(gain);
 
@@ -67,7 +67,6 @@ onMounted(() => {
 		canvasCtx.value.moveTo(0, 0);
 		canvasCtx.value.beginPath();
 
-
 		for (let i = 0; i < interpolated.length; i++) {
 			const y = interpolated[i];
 			canvasCtx.value.fillRect(i, y, 1, SPECTRUM_HEIGHT - y);
@@ -86,8 +85,14 @@ onUnmounted(() => shouldStopRendering = true);
 </script>
 
 <template>
-	<div :style="`min-width: ${SPECTRUM_WIDTH}px;`" class="flex flex-col bg-surface-900 rounded-4px overflow-hidden">
-		<canvas :id="`spectrum-${randomId}`" :width="SPECTRUM_WIDTH" :height="SPECTRUM_HEIGHT" />
-	</div>
+  <div
+    :style="`min-width: ${SPECTRUM_WIDTH}px;`"
+    class="flex flex-col bg-surface-900 rounded-4px overflow-hidden"
+  >
+    <canvas
+      :id="`spectrum-${randomId}`"
+      :width="SPECTRUM_WIDTH"
+      :height="SPECTRUM_HEIGHT"
+    />
+  </div>
 </template>
-

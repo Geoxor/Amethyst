@@ -36,7 +36,7 @@ export const fisherYatesShuffle = <T>(array: T[]): T[] => {
     array[i] = t;
   }
   return array;
-}
+};
 
 /**
  * Turn's an array of arrays into a flat array of all items
@@ -50,7 +50,7 @@ export const flattenArray = <T>(array: T[]): T[] => {
     else
       return acc.concat(item);
   }, [] as T[]);
-}
+};
 
 export const interpolateArray = <T>(data: T[], fitCount: number): T[] => {
   const linearInterpolate = function (before: any, after: any, atPoint: number) {

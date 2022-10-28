@@ -1,8 +1,13 @@
 <template>
-  <div @mousedown="handleMouseDown" @mouseup="isResizing = false" @mouseover="handleMouseOver"
-    @mouseleave="isHoveringOverResizeBoundary = false" ref="resizableDiv"
+  <div
+    ref="resizableDiv"
     class="resizableDiv w-full pr-2 border-r-2 border-transparent h-full"
-    :class="[isHoveringOverResizeBoundary && 'border-r-primary-800']">
+    :class="[isHoveringOverResizeBoundary && 'border-r-primary-800']"
+    @mousedown="handleMouseDown"
+    @mouseup="isResizing = false"
+    @mouseover="handleMouseOver"
+    @mouseleave="isHoveringOverResizeBoundary = false"
+  >
     <slot />
   </div>
 </template>
@@ -43,7 +48,7 @@ const handleMouseOver = (e: MouseEvent) => {
     return isHoveringOverResizeBoundary.value = true;
   }
   return isHoveringOverResizeBoundary.value = false;
-}
+};
 
 function resize(e: MouseEvent) {
   if (e.x < MINIMUM_WIDTH + 40 || e.x > MAXIMUM_WIDTH - 32) return;

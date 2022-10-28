@@ -4,25 +4,39 @@ import CloseIcon from "@/icons/fluency/CloseIcon.vue";
 import MaximizeIcon from "@/icons/fluency/MaximizeIcon.vue";
 import MinimizeIcon from "@/icons/fluency/MinimizeIcon.vue";
 import ShrinkIcon from "@/icons/fluency/ShrinkIcon.vue";
-const emit = defineEmits(['close', 'minimize', 'maximize', 'unmaximize']);
+const emit = defineEmits(["close", "minimize", "maximize", "unmaximize"]);
 defineProps<{ isMaximized: boolean }>();
 </script>
   
 <template>
   <div class="flex no-drag cursor-pointer">
-    <button class="minimize" @click="emit('minimize')">
+    <button
+      class="minimize"
+      @click="emit('minimize')"
+    >
       <MinimizeIcon />
     </button>
 
-    <button class="maximize" v-if="!isMaximized" @click="emit('maximize')">
+    <button
+      v-if="!isMaximized"
+      class="maximize"
+      @click="emit('maximize')"
+    >
       <MaximizeIcon />
     </button>
 
-    <button class="unmaximize" v-else @click="emit('unmaximize')">
+    <button
+      v-else
+      class="unmaximize"
+      @click="emit('unmaximize')"
+    >
       <ShrinkIcon />
     </button>
 
-    <button class="close" @click="emit('close')">
+    <button
+      class="close"
+      @click="emit('close')"
+    >
       <CloseIcon />
     </button>
   </div>

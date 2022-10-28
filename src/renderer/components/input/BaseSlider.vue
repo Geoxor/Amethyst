@@ -6,7 +6,10 @@ const value = useVModel(props, "modelValue", emits);
 </script>
   
 <template>
-  <input type="range" v-model="value">
+  <input
+    v-model="value"
+    type="range"
+  >
 </template>
 
 <style scoped>
@@ -28,4 +31,3 @@ input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;
 }
 </style>
-

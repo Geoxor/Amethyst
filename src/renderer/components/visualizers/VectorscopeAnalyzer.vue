@@ -5,7 +5,7 @@ import { computed, onMounted, onUnmounted, watch } from "vue";
 const props = defineProps<{ node: MediaElementAudioSourceNode }>();
 const FFT_SIZE = 512;
 const WIDTH = 76;
-const HEIGHT = WIDTH
+const HEIGHT = WIDTH;
 const state = useState();
 let shouldStopRendering = false;
 let randomId = Date.now();
@@ -30,10 +30,10 @@ onMounted(() => {
 	const bufferX = new Float32Array(analyzerX.fftSize);
 	const bufferY = new Float32Array(analyzerY.fftSize);
 
-	canvasCtx.value.strokeStyle = `${getThemeColorHex('--primary-900')}66`;
+	canvasCtx.value.strokeStyle = `${getThemeColorHex("--primary-900")}66`;
 
 	canvasCtx.value.lineWidth = state.settings.vectorscopeLineThickness;
-	watch(() => state.settings.vectorscopeLineThickness, () => canvasCtx.value.lineWidth = state.settings.vectorscopeLineThickness)
+	watch(() => state.settings.vectorscopeLineThickness, () => canvasCtx.value.lineWidth = state.settings.vectorscopeLineThickness);
 
 	let lastPosition = [WIDTH / 2, HEIGHT / 2];
 
@@ -46,13 +46,12 @@ onMounted(() => {
 			canvasCtx.value.beginPath();
 			canvasCtx.value.moveTo(lastPosition[0], lastPosition[1]);
 
-
 			const x = bufferX[i] * 32 + WIDTH / 2;
 			const y = bufferY[i] * 32 + HEIGHT / 2;
 
 			canvasCtx.value.lineTo(x, y);
 			canvasCtx.value.stroke();
-			lastPosition = [x, y]
+			lastPosition = [x, y];
 		}
 
 		!shouldStopRendering && requestAnimationFrame(draw);
@@ -65,10 +64,17 @@ onUnmounted(() => shouldStopRendering = true);
 </script>
 
 <template>
-	<div :style="`min-width: ${WIDTH}px;`" class="flex flex-col bg-surface-900 rounded-4px overflow-hidden">
-		<canvas :class="[!state.settings.diagonalVectorscope && 'diagonal']" :id="`vectorscope-${randomId}`" :width="WIDTH"
-			:height="HEIGHT" />
-	</div>
+  <div
+    :style="`min-width: ${WIDTH}px;`"
+    class="flex flex-col bg-surface-900 rounded-4px overflow-hidden"
+  >
+    <canvas
+      :id="`vectorscope-${randomId}`"
+      :class="[!state.settings.diagonalVectorscope && 'diagonal']"
+      :width="WIDTH"
+      :height="HEIGHT"
+    />
+  </div>
 </template>
 
 <style scoped lang="postcss">

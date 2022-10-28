@@ -13,17 +13,17 @@ export class CPUUsageMonitor {
 
   public stop = () => {
     this.timer && clearInterval(this.timer);
-  }
+  };
 
   public start = () => {
-    this.timer = setInterval(() => this.getCpuData(), 1000)
-  }
+    this.timer = setInterval(() => this.getCpuData(), 1000);
+  };
 
   private getCpuData = async () => {
     this.electron.invoke("percent-cpu-usage")
       .then((usage) => this.state.state.cpuUsage = usage as number)
-      .catch((err) => console.log("Failed to get CPU usage", err))
-  }
+      .catch((err) => console.log("Failed to get CPU usage", err));
+  };
 }
 
 export class Amethyst {

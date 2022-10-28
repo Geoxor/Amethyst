@@ -28,20 +28,20 @@ export class AmethystAudioNodeManager {
   public nodes: AmethystAudioNode<AudioNode>[] = ref([]).value;
 
   public constructor(input: AudioNode, public context: AudioContext) {
-    this.input = new AmethystAudioNode(input, "input", InputNode, { x: -50, y: 0 }, false)
+    this.input = new AmethystAudioNode(input, "input", InputNode, { x: -50, y: 0 }, false);
     this.output = new AmethystAudioNode(this.context.destination, "output", OutputNode, { x: 925, y: 0 }, false);
 
     // Attach first audio source node
-    this.nodes.push(this.input)
+    this.nodes.push(this.input);
 
     // All effect nodes
-    this.nodes.push(new AmethystEqualizerNode(this.context, "filter", { x: 100, y: 0 }))
-    this.nodes.push(new AmethystPannerNode(this.context, "panner", { x: 300, y: 0 }))
-    this.nodes.push(new AmethystGainNode(this.context, "gain", { x: 500, y: 0 }))
-    this.nodes.push(new AmethystSpectrumNode(this.context, "spectrum", { x: 700, y: 0 }))
+    this.nodes.push(new AmethystEqualizerNode(this.context, "filter", { x: 100, y: 0 }));
+    this.nodes.push(new AmethystPannerNode(this.context, "panner", { x: 300, y: 0 }));
+    this.nodes.push(new AmethystGainNode(this.context, "gain", { x: 500, y: 0 }));
+    this.nodes.push(new AmethystSpectrumNode(this.context, "spectrum", { x: 700, y: 0 }));
 
     // Attach last output node
-    this.nodes.push(this.output)
+    this.nodes.push(this.output);
     this.connectNodes();
   }
 
@@ -110,7 +110,7 @@ export class AmethystAudioNode<T extends AudioNode> {
       type: `custom-${name}`,
       position,
       sourcePosition: Position.Right,
-    }
+    };
   }
 
   public getSlotName() {
@@ -119,7 +119,7 @@ export class AmethystAudioNode<T extends AudioNode> {
 
   public connectTo(target: AmethystAudioNode<T>) {
     this.connectedTo = target;
-    this.connection = { id: `edge-${this.properties.id}-${target.properties.id}`, source: this.properties.id, target: target.properties.id, animated: true }
+    this.connection = { id: `edge-${this.properties.id}-${target.properties.id}`, source: this.properties.id, target: target.properties.id, animated: true };
     this.node.connect(target.node);
   }
 

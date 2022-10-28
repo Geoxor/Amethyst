@@ -22,7 +22,7 @@ const channels = [
 	[ref(FLOOR), ref(FLOOR)], // 
 	[ref(FLOOR), ref(FLOOR)], // 
 	[ref(FLOOR), ref(FLOOR)], // 
-]
+];
 
 const nChannels = computed(() => metadata.value?.format.numberOfChannels || 2);
 const width = 4;
@@ -35,10 +35,10 @@ onMounted(() => {
 	const splitter = context.createChannelSplitter(channels.length);
 
 	const analyzers = channels.map(() => {
-		const analyzer = context.createAnalyser()
+		const analyzer = context.createAnalyser();
 		analyzer.fftSize = FFT_SIZE;
 		return analyzer;
-	})
+	});
 
 	const buffers = analyzers.map(analyzer => new Float32Array(analyzer.fftSize));
 
@@ -83,24 +83,50 @@ onUnmounted(() => shouldStopRendering = true);
 </script>
 
 <template>
-	<div class="relative h-full" :style="`width: ${(width + (width / 2)) * nChannels + 6}px`">
-		<div v-for="i of nChannels" :key="i" class="absolute h-full"
-			:style="`width: ${width}px; left: ${(width * 3 / 2) * i - (width * 3 / 2)}px;`">
-			<div :style="`width: ${width}px;`" class="absolute top-0 left-0 bg-surface-600 h-full rounded-full" />
-			<div :style="`width: ${width}px;`" class="absolute bottom-0 bg-surface-500 h-90/100 rounded-full" />
+  <div
+    class="relative h-full"
+    :style="`width: ${(width + (width / 2)) * nChannels + 6}px`"
+  >
+    <div
+      v-for="i of nChannels"
+      :key="i"
+      class="absolute h-full"
+      :style="`width: ${width}px; left: ${(width * 3 / 2) * i - (width * 3 / 2)}px;`"
+    >
+      <div
+        :style="`width: ${width}px;`"
+        class="absolute top-0 left-0 bg-surface-600 h-full rounded-full"
+      />
+      <div
+        :style="`width: ${width}px;`"
+        class="absolute bottom-0 bg-surface-500 h-90/100 rounded-full"
+      />
 
-			<div :class="channels[i - 1][0].value > 0 ? 'bg-red-600' : 'bg-green-600'"
-				class="rounded-full duration-100 absolute bottom-0"
-				:style="`width: ${width}px; height: ${computedWidth(channels[i - 1][0].value)}%`" />
-			<div :class="channels[i - 1][0].value > 0 ? 'bg-red-500' : 'bg-green-500'"
-				class="absolute duration-100 transition-colors bottom-0 rounded-full"
-				:style="`width: ${width}px; height: ${computedWidth(channels[i - 1][1].value)}%`" />
-		</div>
+      <div
+        :class="channels[i - 1][0].value > 0 ? 'bg-red-600' : 'bg-green-600'"
+        class="rounded-full duration-100 absolute bottom-0"
+        :style="`width: ${width}px; height: ${computedWidth(channels[i - 1][0].value)}%`"
+      />
+      <div
+        :class="channels[i - 1][0].value > 0 ? 'bg-red-500' : 'bg-green-500'"
+        class="absolute duration-100 transition-colors bottom-0 rounded-full"
+        :style="`width: ${width}px; height: ${computedWidth(channels[i - 1][1].value)}%`"
+      />
+    </div>
 
-		<svg class="absolute h-full stroke-3px w-4px" :style="`left: ${((width + 2) * nChannels + 1)}px;`">
-			<line class="stroke-cap-round stroke-surface-500" x1="2" y1="2" x2="2" y2="100" />
-		</svg>
-	</div>
+    <svg
+      class="absolute h-full stroke-3px w-4px"
+      :style="`left: ${((width + 2) * nChannels + 1)}px;`"
+    >
+      <line
+        class="stroke-cap-round stroke-surface-500"
+        x1="2"
+        y1="2"
+        x2="2"
+        y2="100"
+      />
+    </svg>
+  </div>
 </template>
 
 <style scoped>

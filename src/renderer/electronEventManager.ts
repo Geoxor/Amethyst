@@ -28,7 +28,7 @@ export default class ElectronEventManager {
   private requestWindowStateChange = (state: "minimize" | "maximize" | "unmaximize" | "close") => {
     this.invoke(state);
     this.syncWindowState();
-  }
+  };
 
   public maximize = () => this.requestWindowStateChange("maximize");
 
