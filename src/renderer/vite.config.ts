@@ -16,7 +16,8 @@ export default defineConfig({
 		coverage: {
 			provider: 'istanbul' // or 'c8'
 		},
-		reporters: ["verbose"]
+		reporters: ["verbose"],
+		environment: 'happy-dom'
 	},
 	resolve: {
 		alias: {
