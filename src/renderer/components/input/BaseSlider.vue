@@ -22,12 +22,14 @@ input[type=range] {
   border-radius: 4px;
   height: 6px;
   overflow: hidden;
+  appearance: none;
   -webkit-appearance: none;
 }
 
 input[type='range']::-webkit-slider-thumb {
   width: 0px;
   box-shadow: -8000px 0 0 8000px rgb(var(--primary-900));
+  appearance: none;
   -webkit-appearance: none;
 }
 </style>
