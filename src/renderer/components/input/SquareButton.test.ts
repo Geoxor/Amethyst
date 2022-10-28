@@ -1,6 +1,7 @@
 import MagnetIcon from '@/icons/plumpy/MagnetIcon.vue';
 import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
+import { markRaw } from "vue";
 import SquareButton from "./SquareButton.vue";
 
 describe("SquareButton.vue", () => {
@@ -10,7 +11,7 @@ describe("SquareButton.vue", () => {
   });
 
   it("should render with an icon if given one", () => {
-    const mounted = mount(SquareButton, { props: { icon: MagnetIcon, active: false } });
+    const mounted = mount(SquareButton, { props: { icon: markRaw(MagnetIcon), active: false } });
     expect(mounted.element.children[0] instanceof SVGElement).toBeTruthy()
   });
 
