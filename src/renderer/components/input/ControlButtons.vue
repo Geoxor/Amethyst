@@ -10,15 +10,15 @@ defineProps<{ isMaximized: boolean }>();
   
 <template>
   <div class="flex no-drag cursor-pointer">
-    <button @click="emit('minimize')">
+    <button class="minimize" @click="emit('minimize')">
       <MinimizeIcon />
     </button>
 
-    <button v-if="!isMaximized" @click="emit('maximize')">
+    <button class="maximize" v-if="!isMaximized" @click="emit('maximize')">
       <MaximizeIcon />
     </button>
 
-    <button v-else @click="emit('unmaximize')">
+    <button class="unmaximize" v-else @click="emit('unmaximize')">
       <ShrinkIcon />
     </button>
 
