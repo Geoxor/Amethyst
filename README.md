@@ -38,7 +38,7 @@ yay amethyst
 ## 📝 Contributing
 - Use `Node.js 1.16.10`
 - Use the `recommended extensions`
-- Have `gcc` installed
+- Have `libvips` installed for linux
 - Have `yarn` installed
 
 ## ⌨️ Coding
