@@ -26,7 +26,7 @@ export class AmethystAudioNodeManager {
   private input: AmethystAudioNode<AudioNode>;
   private output: AmethystAudioNode<AudioNode>;
   
-  public master: AmethystAudioNode<AudioNode>;
+  public master: AmethystAudioNode<GainNode>;
   
   public nodes: AmethystAudioNode<AudioNode>[] = ref([]).value;
 

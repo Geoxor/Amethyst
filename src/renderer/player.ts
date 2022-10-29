@@ -260,7 +260,7 @@ export class Player {
 	};
 
 	public play() {
-		this.state.inputAudio.volume = this.state.volume;
+		this.setVolume(this.state.volume);
 		this.state.inputAudio.play();
 		this.state.isPlaying = true;
 		this.emit("play", this.state.currentlyPlayingFilePath);
@@ -296,17 +296,17 @@ export class Player {
 	}
 
 	public setVolume(volume: number) {
-		this.state.inputAudio.volume = volume;
+		this.nodeManager.master.node.gain.value = volume;
 		this.state.volume = volume;
 		this.emit("setVolume", volume);
 	}
 
 	public volumeUp(amount = 0.1) {
-		this.setVolume(this.state.inputAudio.volume = Math.min(1, this.state.inputAudio.volume + amount));
+		this.setVolume(this.nodeManager.master.node.gain.value = Math.min(1, this.nodeManager.master.node.gain.value + amount));
 	}
 
 	public volumeDown(amount = 0.1) {
-		this.setVolume(Math.max(0, this.state.inputAudio.volume - amount));
+		this.setVolume(Math.max(0, this.nodeManager.master.node.gain.value - amount));
 	}
 
 	public addToQueueAndPlay(file: string) {
