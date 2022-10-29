@@ -33,19 +33,19 @@ const player = usePlayer();
         <vectorscope
           v-if="state.settings.showVectorscope && player.state.source"
           :key="player.state.currentlyPlayingFilePath"
-          :node="player.state.source"
+          :node="player.nodeManager.master.node"
         />
 
         <spectrum
           v-if="state.settings.showSpectrum && player.state.source"
           :key="player.state.currentlyPlayingFilePath"
-          :node="player.state.source"
+          :node="player.nodeManager.master.node"
         />
 
         <db-meter
           v-if="state.settings.showDbMeter && player.state.source"
           :key="player.state.currentlyPlayingFilePath"
-          :node="player.state.source"
+          :node="player.nodeManager.master.node"
         />
 
         <playback-buttons :player="player" />

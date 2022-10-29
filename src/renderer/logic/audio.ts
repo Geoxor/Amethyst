@@ -2,6 +2,7 @@ import AnalyzerNode from "@/components/nodes/AnalyzerNode.vue";
 import FilterNode from "@/components/nodes/FilterNode.vue";
 import GainNode from "@/components/nodes/GainNode.vue";
 import InputNode from "@/components/nodes/InputNode.vue";
+import MasterNode from "@/components/nodes/MasterNode.vue";
 import OutputNode from "@/components/nodes/OutputNode.vue";
 import PannerNode from "@/components/nodes/PannerNode.vue";
 import { Position } from "@vue-flow/core";
@@ -24,12 +25,15 @@ export interface IAmethystNodeConnection {
 export class AmethystAudioNodeManager {
   private input: AmethystAudioNode<AudioNode>;
   private output: AmethystAudioNode<AudioNode>;
-
+  
+  public master: AmethystAudioNode<AudioNode>;
+  
   public nodes: AmethystAudioNode<AudioNode>[] = ref([]).value;
 
   public constructor(input: AudioNode, public context: AudioContext) {
     this.input = new AmethystAudioNode(input, "input", InputNode, { x: -50, y: 0 }, false);
-    this.output = new AmethystAudioNode(this.context.destination, "output", OutputNode, { x: 925, y: 0 }, false);
+    this.master = new AmethystAudioNode(this.context.createGain(), "master", MasterNode, { x: 925, y: 0 }, false);
+    this.output = new AmethystAudioNode(this.context.destination, "output", OutputNode, { x: 1050, y: 0 }, false);
 
     // Attach first audio source node
     this.nodes.push(this.input);
@@ -39,6 +43,9 @@ export class AmethystAudioNodeManager {
     this.nodes.push(new AmethystPannerNode(this.context, "panner", { x: 300, y: 0 }));
     this.nodes.push(new AmethystGainNode(this.context, "gain", { x: 500, y: 0 }));
     this.nodes.push(new AmethystSpectrumNode(this.context, "spectrum", { x: 700, y: 0 }));
+
+    // Attach master node
+    this.nodes.push(this.master);
 
     // Attach last output node
     this.nodes.push(this.output);
