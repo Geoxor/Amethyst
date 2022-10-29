@@ -69,7 +69,6 @@ const handleContextMenu = (e: MouseEvent, i: number) => {
         </li>
       </ul>
     </div>
-    </ResizableDiv>
   </resizable-div>
 </template>
 
