@@ -6,7 +6,7 @@ const isHoveringOverResizeBoundary = ref(false);
 const isResizing = ref(false);
 
 const MINIMUM_WIDTH = 128;
-const MAXIMUM_WIDTH = 384;
+const MAXIMUM_WIDTH = 1920;
 
 const resizableDiv = ref<HTMLDivElement>();
 const handleMouseDown = (e: MouseEvent) => {

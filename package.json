@@ -2,7 +2,7 @@
   "name": "amethyst",
   "author": "Geoxor <geoxor123@outlook.com>",
   "productName": "Amethyst",
-  "version": "1.7.10",
+  "version": "1.7.11",
   "main": "./release/dist/main/main.js",
   "licenses": [
     {
@@ -60,7 +60,59 @@
         "icon": "./assets/icon.ico"
       },
       {
+        "ext": ".ogv",
+        "icon": "./assets/icon.ico"
+      }, 
+      {
+        "ext": ".oga",
+        "icon": "./assets/icon.ico"
+      }, 
+      {
+        "ext": ".ogx",
+        "icon": "./assets/icon.ico"
+      }, 
+      {
+        "ext": ".ogm",
+        "icon": "./assets/icon.ico"
+      }, 
+      {
+        "ext": ".spx",
+        "icon": "./assets/icon.ico"
+      }, 
+      {
+        "ext": ".opus",
+        "icon": "./assets/icon.ico"
+      },
+      {
         "ext": "wav",
+        "icon": "./assets/icon.ico"
+      },
+      {
+        "ext": "wave",
+        "icon": "./assets/icon.ico"
+      },
+      {
+        "ext": ".m4a",
+        "icon": "./assets/icon.ico"
+      },
+      {
+        "ext": ".m4b",
+        "icon": "./assets/icon.ico"
+      },
+      {
+        "ext": ".m4p",
+        "icon": "./assets/icon.ico"
+      },
+      {
+        "ext": ".m4r",
+        "icon": "./assets/icon.ico"
+      },
+      {
+        "ext": ".m4v",
+        "icon": "./assets/icon.ico"
+      },
+      {
+        "ext": ".3gp",
         "icon": "./assets/icon.ico"
       },
       {
