@@ -4,16 +4,16 @@
     "@vue/eslint-config-typescript"
   ],
   "rules": {
-    "arrow-parens": ["warn", "as-needed"],
+    "arrow-parens": [
+      "warn",
+      "as-needed"
+    ],
     "no-multi-spaces": "warn",
     "no-tabs": "off",
+    "arrow-spacing": ["warn", { "before": true, "after": true }],
+    "space-infix-ops": "warn",
     "indent": "off",
     "quotes": [
-      "warn",
-      "double"
-    ],
-    "@typescript-eslint/no-restricted-imports": "warn",
-    "@typescript-eslint/quotes": [
       "warn",
       "double"
     ],
@@ -21,24 +21,44 @@
       "warn",
       "always"
     ],
+    "no-console": "warn",
+    "no-multiple-empty-lines": [
+      "warn",
+      {
+        "max": 1,
+        "maxEOF": 0
+      }
+    ],
+    "no-mixed-spaces-and-tabs": "warn",
+    "@typescript-eslint/indent": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
     "@typescript-eslint/semi": [
       "warn",
       "always"
     ],
-    "vue/component-tags-order": ["warn", {
-      "order": [ "script", "template", "style" ]
-    }],
-    "no-console": "warn",
-    "no-multiple-empty-lines": ["warn", { "max": 1, "maxEOF": 0 }],
-    "no-mixed-spaces-and-tabs": "warn",
+    "@typescript-eslint/no-restricted-imports": "warn",
+    "@typescript-eslint/quotes": [
+      "warn",
+      "double"
+    ],
+    "vue/component-tags-order": [
+      "warn",
+      {
+        "order": [
+          "script",
+          "template",
+          "style"
+        ]
+      }
+    ],
     "vue/no-mutating-props": "off",
-    "@typescript-eslint/indent": "off",
-    "@typescript-eslint/no-var-requires": "off",
-    "@typescript-eslint/no-unused-vars": "warn",
-    "no-unused-vars": "warn",
-    "vue/no-unused-components": [
-      "warn"
-    ]
+    "vue/prefer-import-from-vue": "warn",
+    "vue/html-closing-bracket-spacing": "warn",
+    "vue/no-unused-components": "warn",
+    "vue/html-self-closing": "warn",
+    "vue/no-unused-refs": "warn"
+
   },
   "plugins": [
     "vue"

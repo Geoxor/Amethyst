@@ -68,7 +68,3 @@ const value = useVModel(props, "modelValue", emits);
     </svg>
   </div>
 </template>
-
-<style scoped lang="postcss">
-
-</style>

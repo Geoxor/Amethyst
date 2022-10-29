@@ -1,5 +1,5 @@
 <script setup lang="ts">
-// import MetronomeIcon from '@/icons/plumpy/MetronomeIcon.vue';
+// import MetronomeIcon from "@/icons/plumpy/MetronomeIcon.vue";
 // import KeyClefIcon from "@/icons/plumpy/KeyClefIcon.vue";
 // import StorageIcon from "@/icons/plumpy/StorageIcon.vue";
 import Cover from "@/components/CoverArt.vue";

@@ -102,7 +102,6 @@ watch(model, () => {
 
 <template>
   <div
-    ref="modifier"
     class="modifier font-aseprite"
     @mousedown.stop.passive="onMouseDown"
     @mouseup.stop.passive="dragging = false"
