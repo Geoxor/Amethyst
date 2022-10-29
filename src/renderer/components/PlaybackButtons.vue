@@ -118,6 +118,7 @@ const duration = computed(() => metadata.value?.format.duration || 0);
     <div class="flex items-center justify-between gap-3 tracking-wider h-12">
       <div class="flex gap-2 items-center w-full">
         <cover
+          v-if="player.appState.settings.showCoverArt" 
           class="rounded-4px w-12 h-12 min-h-12 min-w-12"
           :url="player.getCoverBase64(player.getCurrentlyPlayingFilePath())"
         />
