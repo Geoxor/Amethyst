@@ -103,6 +103,10 @@ export class AmethystAudioNodeManager {
   public getNodeConnections() {
     return this.nodes.map(node => node.connection).filter(n => !!n) as IAmethystNodeConnection[];
   }
+
+  public getNodeConnectinsString() {
+    return this.getNodeConnections().map(c => `${c.source}-${c.target}`).join("-");
+  }
 }
 
 export class AmethystAudioNode<T extends AudioNode> {

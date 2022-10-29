@@ -2,9 +2,8 @@
 import { useState } from "@/amethyst";
 import { getThemeColorHex } from "@/logic/color";
 import { interpolateArray, scaleLog } from "@/logic/math";
-import { computed } from "vue";
-import { onMounted, onUnmounted, watch } from "vue";
-const props = defineProps<{ node: MediaElementAudioSourceNode }>();
+import { computed, onMounted, onUnmounted, watch } from "vue";
+const props = defineProps<{ node: AudioNode }>();
 const state = useState();
 
 const SPECTRUM_HEIGHT = 76;
