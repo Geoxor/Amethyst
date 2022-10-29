@@ -17,7 +17,7 @@ const state = useState();
 const player = usePlayer();
 
 // Disable stupid scroll when hitting space
-window.addEventListener("keydown", (e) => e.key === " " && e.target == document.body && e.preventDefault());
+window.addEventListener("keydown", e => e.key === " " && e.target == document.body && e.preventDefault());
 </script>
 
 <template>

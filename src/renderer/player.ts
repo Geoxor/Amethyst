@@ -19,16 +19,16 @@ export enum LoopMode {
 	One,
 }
 
-export const Events = Object.freeze({
-	"play": "" as string,
-	"metadata": {} as { file: string } & IAudioMetadata,
-	"pause": undefined,
-	"setVolume": 0 as number,
-	"seekTo": 0 as number,
-});
-
 export class Player {
-	private events = mitt<typeof Events>();
+	private events = mitt<{
+    play: string;
+    metadata: {
+        file: string;
+    } & IAudioMetadata;
+    pause: void;
+    setVolume: number;
+    seekTo: number;
+	}>();
 	private emit = this.events.emit;
 	public on = this.events.on;
 	public off = this.events.off;
@@ -157,7 +157,7 @@ export class Player {
 
 	private updateCurrentMetadata(path: string) {
 		this.electron.invoke<IAudioMetadata>("get-metadata", [path]).then(
-			(data) => {
+			data => {
 				this.state.currentlyPlayingMetadata = data;
 				this.emit("metadata", { file: path, ...data });
 			});

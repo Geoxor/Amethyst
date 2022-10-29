@@ -4,6 +4,8 @@
     "@vue/eslint-config-typescript"
   ],
   "rules": {
+    "arrow-parens": ["warn", "as-needed"],
+    "no-multi-spaces": "warn",
     "no-tabs": "off",
     "indent": "off",
     "quotes": [

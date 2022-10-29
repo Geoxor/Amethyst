@@ -76,7 +76,7 @@ export class AppState {
 
 	constructor() {
 		this.applyCurrentTheme();
-		Object.keys(this.settingsObject).forEach((key) => {
+		Object.keys(this.settingsObject).forEach(key => {
 			// @ts-ignore
 			if (this.settings[key] === undefined || this.settings[key] === null)
 				// @ts-ignore

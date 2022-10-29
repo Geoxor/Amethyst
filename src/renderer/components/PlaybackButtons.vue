@@ -14,7 +14,7 @@ import PlayIcon from "@/icons/plumpy/PlayIcon.vue";
 import RepeatIcon from "@/icons/plumpy/RepeatIcon.vue";
 import RepeatOneIcon from "@/icons/plumpy/RepeatOneIcon.vue";
 import ShuffleIcon from "@/icons/plumpy/ShuffleIcon.vue";
-import Player, { LoopMode } from "@/player";
+import { LoopMode, Player } from "@/player";
 import { computed, onMounted, ref } from "vue";
 
 const invoke = window.electron.ipcRenderer.invoke;

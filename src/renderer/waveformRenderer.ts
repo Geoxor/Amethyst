@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import Player from "@/player";
+import { Player } from "@/player";
 import { IAudioMetadata } from "music-metadata";
 
 export class WaveformRenderer {
@@ -15,7 +15,7 @@ export class WaveformRenderer {
     this.audioBuffer = null;
     this.currentWorker = null;
 
-    this.player.on("metadata", async (metadata) => {
+    this.player.on("metadata", async metadata => {
       this.player.appState.state.processQueue.add(metadata.file);
       // TODO: refactor this system so amethyst automatically determines when processing has finished from child plugins
       await this.handlePlayAudio(metadata);

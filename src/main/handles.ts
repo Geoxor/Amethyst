@@ -12,7 +12,7 @@ export async function loadFolder(inputPath: string) {
 			}
 			else {
 				Promise.all(
-					files.map(async (file) => {
+					files.map(async file => {
 						const filePath = path.join(inputPath, file);
 						const stats = await fs.promises.stat(filePath);
 						if (stats.isDirectory())

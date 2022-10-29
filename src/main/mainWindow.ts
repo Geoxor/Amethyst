@@ -136,7 +136,7 @@ export class MainWindow {
 			this.window.webContents.send("acceptable-extensions", ALLOWED_EXTENSIONS);
 		});
 		// Open urls in the user's browser
-		this.window.webContents.setWindowOpenHandler((data) => {
+		this.window.webContents.setWindowOpenHandler(data => {
 			shell.openExternal(data.url);
 
 			return { action: "deny" };
@@ -217,7 +217,7 @@ export class MainWindow {
 
 			"drop-file": async (_: Event, [paths]: string[][]) => {
 				Logger.handle("drop-file", { paths });
-				paths.forEach(async (path) => {
+				paths.forEach(async path => {
 					const stat = await fs.promises.stat(path);
 					if (stat.isDirectory())
 						this.window.webContents.send("load-folder", await loadFolder(path));

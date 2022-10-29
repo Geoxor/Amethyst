@@ -1,4 +1,4 @@
-import Player from "@/player";
+import { Player } from "@/player";
 import { BackendLogger } from "./amethyst";
 export class MediaSession {
   public constructor(public player: Player, public logger: BackendLogger) {
@@ -7,9 +7,9 @@ export class MediaSession {
       ["pause", () => !this.player.isPlaying() ? this.player.play() : this.player.pause()],
       ["previoustrack", () => this.player.previous()],
       ["nexttrack", () => this.player.next()],
-      ["seekbackward", (details) => { this.player.seekBackward(details.seekOffset || undefined); }],
-      ["seekforward", (details) => { this.player.seekForward(details.seekOffset || undefined); }],
-      ["seekto", (details) => { details.seekTime && this.player.seekTo(details.seekTime); }],
+      ["seekbackward", details => { this.player.seekBackward(details.seekOffset || undefined); }],
+      ["seekforward", details => { this.player.seekForward(details.seekOffset || undefined); }],
+      ["seekto", details => { details.seekTime && this.player.seekTo(details.seekTime); }],
       ["stop", () => {
         this.player.pause();
         this.player.setCurrentlyPlayingIndex(0);

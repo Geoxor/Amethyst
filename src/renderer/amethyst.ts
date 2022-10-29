@@ -27,7 +27,7 @@ export class CPUUsageMonitor {
 
   private getCpuData = async () => {
     this.electron.invoke("percent-cpu-usage")
-      .then((usage) => this.state.state.cpuUsage = usage as number)
+      .then(usage => this.state.state.cpuUsage = usage as number)
       .catch(this.logger.error);
   };
 }
@@ -42,14 +42,14 @@ export class Amethyst {
   public cpuUsageMonitor: CPUUsageMonitor = new CPUUsageMonitor(this.appState, this.electron, this.backendLogger);
 
   constructor() {
-    document.addEventListener("drop", (event) => {
+    document.addEventListener("drop", event => {
       event.preventDefault();
       event.stopPropagation();
 
       this.electron.invoke("drop-file", [Array.from(event.dataTransfer!.files).map(f => f.path)]);
     });
 
-    document.addEventListener("dragover", (e) => {
+    document.addEventListener("dragover", e => {
       e.preventDefault();
       e.stopPropagation();
     });

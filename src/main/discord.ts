@@ -24,7 +24,7 @@ export class Discord {
 	}
 
 	public connect(): Promise<boolean> {
-		return new Promise((resolve) => {
+		return new Promise(resolve => {
 			// The app will crash with status 3489660927 if the RPC won't connect unless rate limited
 			this.client.login({
 				clientId: IS_DEV ? DEV_CLIENT_ID : PROD_CLIENT_ID,
