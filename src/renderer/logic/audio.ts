@@ -140,6 +140,10 @@ export class AmethystAudioNode<T extends AudioNode> {
     this.node.disconnect();
     delete this.connection;
   }
+
+  public reset(){
+    console.log(new Error("Not implemented"));
+  };
 }
 
 export class AmethystEqualizerNode extends AmethystAudioNode<BiquadFilterNode> {
@@ -151,12 +155,19 @@ export class AmethystEqualizerNode extends AmethystAudioNode<BiquadFilterNode> {
 
     super(filter, name, FilterNode, position);
   }
+
+  public override reset(){
+    this.node.frequency.value = 100;
+    this.node.gain.value = 0;
+  }
 }
 
 export class AmethystSpectrumNode extends AmethystAudioNode<AudioNode> {
   public constructor(context: AudioContext, name: string, position: IAmethystNodeProperties["position"]) {
     super(context.createGain(), name, AnalyzerNode, position);
   }
+
+  public reset(){};
 }
 
 export class AmethystPannerNode extends AmethystAudioNode<StereoPannerNode> {
@@ -166,10 +177,18 @@ export class AmethystPannerNode extends AmethystAudioNode<StereoPannerNode> {
 
     super(panner, name, PannerNode, position);
   }
+
+  public override reset() {
+    this.node.pan.value = 0;
+  }
 }
 
 export class AmethystGainNode extends AmethystAudioNode<GainNode> {
   public constructor(context: AudioContext, name: string, position: IAmethystNodeProperties["position"]) {
     super(context.createGain(), name, GainNode, position);
+  }
+
+  public override reset() {
+    this.node.gain.value = 1;
   }
 }
