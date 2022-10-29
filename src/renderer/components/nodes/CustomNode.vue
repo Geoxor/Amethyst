@@ -14,6 +14,7 @@ const handleContextMenu = (e: MouseEvent) => {
     props.node.isDisabled
       ? { title: "Enable", action: () => player.nodeManager.enableNode(props.node) }
       : { title: "Disable", action: () => player.nodeManager.disableNode(props.node) },
+      { title: "Reset", action: () => props.node.reset() },
   ]);
 };
 
