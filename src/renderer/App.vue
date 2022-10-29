@@ -32,20 +32,20 @@ const player = usePlayer();
       <div class="flex gap-2 p-2 bg-surface-800 borderTop">
         <vectorscope
           v-if="state.settings.showVectorscope && player.state.source"
-          :key="player.state.currentlyPlayingFilePath"
-          :node="player.state.source"
+          :key="player.nodeManager.getNodeConnectinsString()"
+          :node="player.nodeManager.master.node"
         />
 
         <spectrum
           v-if="state.settings.showSpectrum && player.state.source"
-          :key="player.state.currentlyPlayingFilePath"
-          :node="player.state.source"
+          :key="player.nodeManager.getNodeConnectinsString()"
+          :node="player.nodeManager.master.node"
         />
 
         <db-meter
           v-if="state.settings.showDbMeter && player.state.source"
-          :key="player.state.currentlyPlayingFilePath"
-          :node="player.state.source"
+          :key="player.nodeManager.getNodeConnectinsString()"
+          :node="player.nodeManager.master.node"
         />
 
         <playback-buttons :player="player" />

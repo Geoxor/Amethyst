@@ -2,7 +2,7 @@
 import { useState } from "@/amethyst";
 import { getThemeColorHex } from "@/logic/color";
 import { computed, onMounted, onUnmounted, watch } from "vue";
-const props = defineProps<{ node: MediaElementAudioSourceNode }>();
+const props = defineProps<{ node: AudioNode }>();
 const FFT_SIZE = 512;
 const WIDTH = 76;
 const HEIGHT = WIDTH;
