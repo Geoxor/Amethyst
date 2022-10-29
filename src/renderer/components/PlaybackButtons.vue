@@ -90,6 +90,7 @@ const duration = computed(() => metadata.value?.format.duration || 0);
       <slider
         :id="player.state.currentTime"
         v-model="player.state.inputAudio.currentTime"
+        :value="player.state.inputAudio.currentTime"
         class="w-full z-10 opacity-50"
         min="0"
         :max="duration"
