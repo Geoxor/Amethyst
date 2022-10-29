@@ -15,6 +15,14 @@
   },
   "typescript.inlayHints.variableTypes.enabled": false,
   "typescript.inlayHints.parameterNames.enabled": "all",
+  "todohighlight.keywords": [
+    {
+      "text": "TODO:",
+      "color": "#ff00b6",
+      "backgroundColor": "#6600b622",
+      "isWholeLine": true
+    }
+  ],
   "search.exclude": {
     ".git": true,
     ".eslintcache": true,

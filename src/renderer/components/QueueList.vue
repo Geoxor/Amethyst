@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { usePlayer, useState } from "@/amethyst";
+import AmethystFiller from "@/components/AmethystFiller.vue";
 import Cover from "@/components/CoverArt.vue";
 import ResizableDiv from "@/components/ResizableDiv.vue";
 import HeartIcon from "@/icons/plumpy/HeartIcon.vue";
 import { useKeyModifier } from "@vueuse/core";
 import { ref } from "vue";
-import AmethystFiller from "./AmethystFiller.vue";
 
 const state = useState();
 const player = usePlayer();
