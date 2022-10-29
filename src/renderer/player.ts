@@ -66,7 +66,6 @@ export class Player {
 		});
 
 		this.state.source = this.state.ctx.createMediaElementSource(this.state.inputAudio);
-		this.state.filter = this.state.ctx.createBiquadFilter();
 
 		// Audio routing happens in this class
 		this.nodeManager = new AmethystAudioNodeManager(this.state.source, this.state.ctx);
@@ -206,12 +205,13 @@ export class Player {
 
 	public async getCovers(files: string[]): Promise<void> {
 		await PromisePool.for(files.filter(file => !this.appState.state.coverCache[file]).filter(file => !!file))
-			.withConcurrency(3) // Raise this for more parallel runs
+			.withConcurrency(5) // Raise this for more parallel runs
 			.process(async (_, i) => this.getCoverArt(files[i]));
 	}
 
 	public getCoverArt = async (path: string) => {
 		if (!path) return;
+		if (this.appState.state.coverCache[path]) return this.appState.state.coverCache[path];
 		const cover = await this.electron.invoke<string>("get-cover", [path]);
 		if (this.appState) this.appState.state.coverCache[path] = cover as string;
 		return cover;

@@ -15,7 +15,7 @@ import RepeatIcon from "@/icons/plumpy/RepeatIcon.vue";
 import RepeatOneIcon from "@/icons/plumpy/RepeatOneIcon.vue";
 import ShuffleIcon from "@/icons/plumpy/ShuffleIcon.vue";
 import { LoopMode, Player } from "@/player";
-import { computed, onMounted, ref } from "vue";
+import { computed } from "vue";
 
 const invoke = window.electron.ipcRenderer.invoke;
 const props = defineProps<{ player: Player }>();
@@ -26,22 +26,11 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
 
 const handleSeekMouseScroll = (e: WheelEvent) => {
   const delta = Math.sign(e.deltaY);
-  const step = duration.value / 10;
-  delta < 0 ? props.player.seekForward(step) : props.player.seekBackward(step);
+  delta < 0 ? props.player.seekForward() : props.player.seekBackward();
 };
 
 const metadata = computed(() => props.player.state.currentlyPlayingMetadata);
 const duration = computed(() => metadata.value?.format.duration || 0);
-const currentTime = ref("0");
-const timer = ref();
-
-onMounted(() => {
-  timer.value && clearInterval(timer.value);
-  timer.value = setInterval(() => {
-    currentTime.value = `${props.player.currentTimeFormatted()} / ${props.player.currentDurationFormatted()}`;
-  }, 1000);
-});
-
 </script>
 
 <template>

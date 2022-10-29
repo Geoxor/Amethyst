@@ -5,7 +5,7 @@ import InputNode from "@/components/nodes/InputNode.vue";
 import OutputNode from "@/components/nodes/OutputNode.vue";
 import PannerNode from "@/components/nodes/PannerNode.vue";
 import { Position } from "@vue-flow/core";
-import { DefineComponent, ref } from "vue";
+import { DefineComponent, markRaw, ref } from "vue";
 
 export interface IAmethystNodeProperties {
   id: string,
@@ -103,14 +103,16 @@ export class AmethystAudioNode<T extends AudioNode> {
   public connection: IAmethystNodeConnection | undefined;
   public isDisabled: boolean = false;
   private connectedTo: AmethystAudioNode<T> | undefined;
+  public component: DefineComponent<{}, {}, any>;
 
-  public constructor(public node: T, name: string, public component: DefineComponent<{}, {}, any>, position: IAmethystNodeProperties["position"], public isRemovable: boolean = true) {
+  public constructor(public node: T, name: string, component: DefineComponent<{}, {}, any>, position: IAmethystNodeProperties["position"], public isRemovable: boolean = true) {
     this.properties = {
       id: name,
       type: `custom-${name}`,
       position,
       sourcePosition: Position.Right,
     };
+    this.component = markRaw(component);
   }
 
   public getSlotName() {
