@@ -27,7 +27,7 @@ const handleClick = () => {
 
   // Easter-egg credit @IchikaGerman
   if (aughIndex % 10 == 0) {
-    const aughSound = new Audio("./sounds/augh.flac");
+    const aughSound = new Audio("https://cdn.discordapp.com/attachments/848439598706065408/1035740493771964498/augh.flac");
     aughSound.play();
     isShowingAugh.value = true;
     setTimeout(() => isShowingAugh.value = false, 1000);
