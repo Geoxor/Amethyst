@@ -5,6 +5,7 @@ import ResizableDiv from "@/components/ResizableDiv.vue";
 import HeartIcon from "@/icons/plumpy/HeartIcon.vue";
 import { useKeyModifier } from "@vueuse/core";
 import { ref } from "vue";
+import AmethystFiller from "./AmethystFiller.vue";
 
 const state = useState();
 const player = usePlayer();
@@ -28,7 +29,7 @@ const handleContextMenu = (e: MouseEvent, i: number) => {
 </script>
 
 <template>
-  <ResizableDiv class="w-64">
+  <resizable-div class="w-64">
     <div class="flex-col items-center p-2 pr-0 flex max-w-full h-full">
       <input
         v-model="filterText"
@@ -36,7 +37,12 @@ const handleContextMenu = (e: MouseEvent, i: number) => {
         class="border-2 z-30 w-full bg-surface-800 border-surface-600 text-white py-0.25 indent-xs text-12px mb-2"
         placeholder="artists, title & format..."
       >
-      <ul class="overflow-y-auto w-full">
+      <amethyst-filler v-if="player.getQueue().length == 0" />
+      
+      <ul
+        v-else
+        class="overflow-y-auto w-full"
+      >
         <li
           v-for="([song, i]) of player.getQueue().map((song, i) => song.toLowerCase().includes(filterText.toLowerCase()) ? [song, i] : undefined).filter(song => !!song) as [string, number][]"
           :key="song"
@@ -63,7 +69,8 @@ const handleContextMenu = (e: MouseEvent, i: number) => {
         </li>
       </ul>
     </div>
-  </ResizableDiv>
+    </ResizableDiv>
+  </resizable-div>
 </template>
 
 <style lang="postcss" scoped>

@@ -6,7 +6,7 @@ const isHoveringOverResizeBoundary = ref(false);
 const isResizing = ref(false);
 
 const MINIMUM_WIDTH = 128;
-const MAXIMUM_WIDTH = 1920;
+const MAXIMUM_WIDTH = window.document.body.clientWidth;
 
 const resizableDiv = ref<HTMLDivElement>();
 const handleMouseDown = (e: MouseEvent) => {
@@ -47,7 +47,7 @@ function resize(e: MouseEvent) {
 <template>
   <div
     ref="resizableDiv"
-    class="resizableDiv w-full pr-2 border-r-2 border-transparent h-full"
+    class="resizableDiv max-w-80vw pr-2 border-r-2 border-transparent h-full"
     :class="[isHoveringOverResizeBoundary && 'border-r-primary-800']"
     @mousedown="handleMouseDown"
     @mouseup="isResizing = false"

@@ -39,7 +39,7 @@ const handleClick = () => {
 <template>
   <div
     ref="nodeEditor"
-    class="w-full h-full flex flex-col borderLeft relative"
+    class="flex-1 h-full flex flex-col borderLeft relative"
   >
     <Teleport to="body">
       <transition>
