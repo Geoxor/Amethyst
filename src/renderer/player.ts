@@ -41,12 +41,11 @@ export class Player {
 		source: null as null | MediaElementAudioSourceNode,
 		currentlyPlayingMetadata: null as null | IAudioMetadata,
 		currentlyPlayingFilePath: useLocalStorage<string>("currentlyPlayingFilePath", ""),
-		currentTime: 0,
-		filter: null as unknown as BiquadFilterNode,
+		currentlyPlayingIndex: useLocalStorage<number>("currentlyPlayingIndex", 0),
+		currentTime: useLocalStorage<number>("currentTime", 0),
 
 		queue: useLocalStorage<Set<string>>("queue", new Set()),
 		favorites: useLocalStorage<Set<string>>("favorites", new Set()),
-		currentlyPlayingIndex: -1,
 		volume: useLocalStorage<number>("volume", 1),
 		isPlaying: false,
 		loopMode: LoopMode.None,
@@ -60,6 +59,10 @@ export class Player {
 		electron.electron.on<string>("play-file", file => file !== "--require" && this.addToQueueAndPlay(file));
 		electron.electron.on<(string)[]>("play-folder", files => this.setQueue(files));
 		electron.electron.on<(string)[]>("load-folder", files => this.setQueue([...files, ...this.getQueue()]));
+
+		this.loadSoundAndPlay(this.state.currentlyPlayingFilePath);
+		this.seekTo(this.state.currentTime); 
+		this.pause();
 
 		this.state.inputAudio.addEventListener("timeupdate", () => {
 			this.state.currentTime = this.state.inputAudio.currentTime;
