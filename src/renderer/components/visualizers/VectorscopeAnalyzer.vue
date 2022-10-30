@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { usePlayer, useState } from "@/amethyst";
 import { getThemeColorHex } from "@/logic/color";
-import { computed, onMounted, onUnmounted, ref, watch } from "vue";
+import { computed, onMounted, onUnmounted, watch } from "vue";
 const props = defineProps<{ node: AudioNode }>();
 const FFT_SIZE = 512;
 const WIDTH = 76;
 const HEIGHT = WIDTH;
 const state = useState();
 const player = usePlayer();
-const shouldStopRendering = ref(!player.isPlaying());
+let shouldStopRendering = !player.isPlaying();
 let randomId = Date.now();
 
 onMounted(() => {
@@ -37,10 +37,10 @@ onMounted(() => {
 	watch(() => state.settings.vectorscopeLineThickness, () => canvasCtx.value.lineWidth = state.settings.vectorscopeLineThickness);
 
 	player.on("play", () => {
-		shouldStopRendering.value = false;
+		shouldStopRendering = false;
 		draw();
 	});
-	player.on("pause", () => shouldStopRendering.value = true);
+	player.on("pause", () => shouldStopRendering = true);
 
 	let lastPosition = [WIDTH / 2, HEIGHT / 2];
 
@@ -61,13 +61,13 @@ onMounted(() => {
 			lastPosition = [x, y];
 		}
 
-		!shouldStopRendering.value && requestAnimationFrame(draw);
+		!shouldStopRendering && requestAnimationFrame(draw);
 	}
 
 	draw();
 });
 
-onUnmounted(() => shouldStopRendering.value = true);
+onUnmounted(() => shouldStopRendering = true);
 </script>
 
 <template>
