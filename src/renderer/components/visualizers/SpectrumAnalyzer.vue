@@ -1,17 +1,16 @@
 <script setup lang="ts">
-import { usePlayer, useState } from "@/amethyst";
+import { useState } from "@/amethyst";
 import { getThemeColorHex } from "@/logic/color";
 import { interpolateArray, scaleLog } from "@/logic/math";
 import { computed, onMounted, onUnmounted, watch } from "vue";
 const props = defineProps<{ node: AudioNode }>();
 const state = useState();
-const player = usePlayer();
 
 const SPECTRUM_HEIGHT = 76;
 const SPECTRUM_WIDTH = SPECTRUM_HEIGHT * 2;
 const TILT_MULTIPLIER = 0.005; // 3dB/octave
 
-let shouldStopRendering = true;
+let shouldStopRendering = false;
 let randomId = Date.now();
 
 onMounted(() => {
@@ -28,12 +27,6 @@ onMounted(() => {
 	// Updates the FFT size whenever it changes in the settings in real time
 	watch(() => state.settings.spectrumFftSize, () => analyser.fftSize = state.settings.spectrumFftSize);
 	watch(() => state.settings.spectrumSmoothing, () => analyser.smoothingTimeConstant = state.settings.spectrumSmoothing);
-
-	player.on("play", () => {
-		shouldStopRendering = false;
-		draw();
-	});
-	player.on("pause", () => shouldStopRendering = true);
 
 	props.node.connect(gain);
 
