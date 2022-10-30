@@ -26,8 +26,7 @@ const channels = [
 
 const nChannels = computed(() => metadata.value?.format.numberOfChannels || 2);
 const width = 4;
-
-let shouldStopRendering = !player.isPlaying();
+const shouldStopRendering = ref(!player.isPlaying());
 
 onMounted(() => {
 	const { context } = props.node;
@@ -43,10 +42,10 @@ onMounted(() => {
 	const buffers = analyzers.map(analyzer => new Float32Array(analyzer.fftSize));
 
 	player.on("play", () => {
-		shouldStopRendering = false;
+		shouldStopRendering.value = false;
 		draw();
 	});
-	player.on("pause", () => shouldStopRendering = true);
+	player.on("pause", () => shouldStopRendering.value = true);
 
 	props.node.connect(splitter);
 	analyzers.forEach((analyzer, i) => splitter.connect(analyzer, i, 0));
@@ -74,7 +73,7 @@ onMounted(() => {
 			channel[1].value = 10 * Math.log10(sumOfSquares[i] / buffers[0].length);
 		});
 
-		!shouldStopRendering && requestAnimationFrame(draw);
+		!shouldStopRendering.value && requestAnimationFrame(draw);
 	}
 	draw();
 });
@@ -85,7 +84,7 @@ const computedWidth = (value: number): number => {
 	return Math.min(100, Math.max(0.01, width));
 };
 
-onUnmounted(() => shouldStopRendering = true);
+onUnmounted(() => shouldStopRendering.value = true);
 </script>
 
 <template>

@@ -2,7 +2,7 @@
 import { usePlayer, useState } from "@/amethyst";
 import { getThemeColorHex } from "@/logic/color";
 import { interpolateArray, scaleLog } from "@/logic/math";
-import { computed, onMounted, onUnmounted, watch } from "vue";
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 const props = defineProps<{ node: AudioNode }>();
 const state = useState();
 const player = usePlayer();
@@ -11,7 +11,7 @@ const SPECTRUM_HEIGHT = 76;
 const SPECTRUM_WIDTH = SPECTRUM_HEIGHT * 2;
 const TILT_MULTIPLIER = 0.005; // 3dB/octave
 
-let shouldStopRendering = !player.isPlaying();
+const shouldStopRendering = ref(!player.isPlaying());
 let randomId = Date.now();
 
 onMounted(() => {
@@ -30,10 +30,10 @@ onMounted(() => {
 	watch(() => state.settings.spectrumSmoothing, () => analyser.smoothingTimeConstant = state.settings.spectrumSmoothing);
 
 	player.on("play", () => {
-		shouldStopRendering = false;
+		shouldStopRendering.value = false;
 		draw();
 	});
-	player.on("pause", () => shouldStopRendering = true);
+	player.on("pause", () => shouldStopRendering.value = true);
 
 	props.node.connect(gain);
 
@@ -81,13 +81,13 @@ onMounted(() => {
 
 		}
 
-		!shouldStopRendering && requestAnimationFrame(draw);
+		!shouldStopRendering.value && requestAnimationFrame(draw);
 	}
 
 	draw();
 });
 
-onUnmounted(() => shouldStopRendering = true);
+onUnmounted(() => shouldStopRendering.value = true);
 </script>
 
 <template>
