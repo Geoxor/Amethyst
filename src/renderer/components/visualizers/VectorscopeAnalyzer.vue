@@ -7,9 +7,9 @@ const FFT_SIZE = 512;
 const WIDTH = 76;
 const HEIGHT = WIDTH;
 const state = useState();
-let shouldStopRendering = true;
-let randomId = Date.now();
 const player = usePlayer();
+let shouldStopRendering = !player.isPlaying();
+let randomId = Date.now();
 
 onMounted(() => {
 	const vectorscope = document.querySelector(`#vectorscope-${randomId}`) as HTMLCanvasElement;

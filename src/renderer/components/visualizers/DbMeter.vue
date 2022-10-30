@@ -27,7 +27,7 @@ const channels = [
 const nChannels = computed(() => metadata.value?.format.numberOfChannels || 2);
 const width = 4;
 
-let shouldStopRendering = true;
+let shouldStopRendering = !player.isPlaying();
 
 onMounted(() => {
 	const { context } = props.node;
