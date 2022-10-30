@@ -11,7 +11,7 @@ const SPECTRUM_HEIGHT = 76;
 const SPECTRUM_WIDTH = SPECTRUM_HEIGHT * 2;
 const TILT_MULTIPLIER = 0.005; // 3dB/octave
 
-let shouldStopRendering = !player.isPlaying();
+let shouldStopRendering = true;
 let randomId = Date.now();
 
 onMounted(() => {
