@@ -27,7 +27,7 @@ const channels = [
 const nChannels = computed(() => metadata.value?.format.numberOfChannels || 2);
 const width = 4;
 
-let shouldStopRendering = false;
+let shouldStopRendering = true;
 
 onMounted(() => {
 	const { context } = props.node;
@@ -41,6 +41,12 @@ onMounted(() => {
 	});
 
 	const buffers = analyzers.map(analyzer => new Float32Array(analyzer.fftSize));
+
+	player.on("play", () => {
+		shouldStopRendering = false;
+		draw();
+	});
+	player.on("pause", () => shouldStopRendering = true);
 
 	props.node.connect(splitter);
 	analyzers.forEach((analyzer, i) => splitter.connect(analyzer, i, 0));
