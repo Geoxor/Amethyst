@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import AmethystShadow from "@/icons/AmethystShadow.vue";
+import AmethystLogo from "@/icons/AmethysLogo.vue";
 </script>
 
 <template>
   <div
     class="h-full w-full flex items-center justify-center"
   >
-    <AmethystShadow
-      class="w-32 h-32 opacity-20"
+    <AmethystLogo
+      class="w-32 h-32 opacity-35"
     />
   </div>
 </template>

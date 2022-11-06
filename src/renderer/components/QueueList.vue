@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { usePlayer, useState } from "@/amethyst";
-import AmethystFiller from "@/components/AmethystFiller.vue";
 import Cover from "@/components/CoverArt.vue";
+import EmptyDiv from "@/components/EmptyDiv.vue";
 import ResizableDiv from "@/components/ResizableDiv.vue";
 import HeartIcon from "@/icons/plumpy/HeartIcon.vue";
 import { useKeyModifier } from "@vueuse/core";
 import { ref } from "vue";
-
 const state = useState();
 const player = usePlayer();
 const isHoldingControl = useKeyModifier("Control");
@@ -37,7 +36,7 @@ const handleContextMenu = (e: MouseEvent, i: number) => {
         class="border-2 z-30 w-full bg-surface-800 border-surface-600 text-white py-0.25 indent-xs text-12px mb-2"
         placeholder="artists, title & format..."
       >
-      <amethyst-filler v-if="player.getQueue().length == 0" />
+      <empty-div v-if="player.getQueue().length == 0" />
       
       <ul
         v-else

@@ -17,21 +17,8 @@ const player = usePlayer();
 const state = useState();
 const elements = computed(() => [...player.nodeManager.getNodeProperties(), ...player.nodeManager.getNodeConnections()]);
 
-let aughIndex = 0;
-
-const isShowingAugh = ref(false);
-
 const handleClick = () => {
   state.settings.isSnappingToGrid = !state.settings.isSnappingToGrid;
-  aughIndex++;
-
-  // Easter-egg credit @IchikaGerman
-  if (aughIndex % 10 == 0) {
-    const aughSound = new Audio("https://cdn.discordapp.com/attachments/848439598706065408/1035740493771964498/augh.flac");
-    aughSound.play();
-    isShowingAugh.value = true;
-    setTimeout(() => isShowingAugh.value = false, 1000);
-  }
 };
 
 </script>
@@ -41,17 +28,6 @@ const handleClick = () => {
     ref="nodeEditor"
     class="flex-1 h-full flex flex-col borderLeft relative"
   >
-    <Teleport to="body">
-      <transition>
-        <img
-          v-if="isShowingAugh"
-          class="absolute top-1/2 left-1/2 transform-gpu -translate-x-1/2 scale-500  -translate-y-1/2"
-          src="https://cdn.discordapp.com/emojis/798748646857244722.webp?size=512"
-          alt=""
-        >
-      </transition>
-    </Teleport>
-
     <SquareButton
       class="absolute bottom-2 right-2 z-10 "
       :icon="MagnetIcon"
@@ -86,13 +62,12 @@ const handleClick = () => {
         />
       </template>
     </VueFlow>
-    <!-- <h1>test</h1> -->
   </div>
 </template>
 
 <style>
 .magnet:hover {
-  @apply bg-cyan-300 text-surface-900;
+  @apply bg-surface-500;
 }
 
 .magnet.active {
@@ -100,7 +75,7 @@ const handleClick = () => {
 }
 
 .magnet.active:hover {
-  @apply bg-cyan-500 text-surface-900;
+  @apply bg-cyan-300 text-surface-900;
 }
 
 /* we will explain what these classes do next! */

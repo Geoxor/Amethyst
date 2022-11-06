@@ -8,6 +8,7 @@ import SettingsBar from "@/components/SettingsBar.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import Spectrum from "@/components/visualizers/SpectrumAnalyzer.vue";
 
+import EmptyDiv from "@/components/EmptyDiv.vue";
 import NavigationBar from "@/components/NavigationBar.vue";
 import NodeEditor from "@/components/NodeEditor.vue";
 import PlaybackButtons from "@/components/PlaybackButtons.vue";
@@ -26,6 +27,7 @@ const player = usePlayer();
         <navigation-bar />
         <queue v-if="state.settings.showQueue" />
         <node-editor v-if="state.settings.showNodeEditor" />
+        <empty-div v-else />
         <settings-bar v-if="state.settings.showSettings" />
       </div>
 
