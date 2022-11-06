@@ -1918,10 +1918,10 @@ electron-updater@^5.3.0:
     semver "^7.3.5"
     typed-emitter "^2.1.0"
 
-electron@20.3.3:
-  version "20.3.3"
-  resolved "https://registry.npmjs.org/electron/-/electron-20.3.3.tgz"
-  integrity sha512-6Cp3vMZGFEEtaIZrQ49iLqO2qogLWThlIYgH4a6dEl7xfaNQ6CjfXNBxFJRJTg7XRBFpeNtzuXkeGfNv9Kwfcg==
+electron@20.3.4:
+  version "20.3.4"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-20.3.4.tgz#a982196c7901a17d1107618634b1d0839f49c1df"
+  integrity sha512-kZYy7lgR9k24rkz89lQSXA28PkjMz1Z6Fr5ewvfjUatKOSrc0NJKlZ+mJ9KDmTvD5+gqOmewAyVecEGsMLFVow==
   dependencies:
     "@electron/get" "^1.14.1"
     "@types/node" "^16.11.26"
