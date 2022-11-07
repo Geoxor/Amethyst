@@ -6,17 +6,23 @@ import Menu from "@/components/menu/MenuContainer.vue";
 import MenuOption from "@/components/menu/MenuOption.vue";
 import MenuSplitter from "@/components/menu/MenuSplitter.vue";
 import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
+import AudioFileIcon from "@/icons/plumpy/AudioFileIcon.vue";
+import BroomIcon from "@/icons/plumpy/BroomIcon.vue";
+import DiscordIcon from "@/icons/plumpy/DiscordIcon.vue";
+import GitHubIcon from "@/icons/plumpy/GitHubIcon.vue";
+import MusicFolderIcon from "@/icons/plumpy/MusicFolderIcon.vue";
+import RestartIcon from "@/icons/plumpy/RestartIcon.vue";
+
 import { bytesToHuman } from "@/logic/formating";
 const state = useState();
 const electron = useElectron();
 const player = usePlayer();
-
 </script>
 
 <template>
   <div
     class="text-primary-900 borderBottom z-100 font-main drag text-12px select-none flex justify-between items-center"
-    :class="[state.state.isFocused ? 'text-opacity-100' : 'text-opacity-50']"
+    :class="[state.state.isFocused ? 'text-opacity-100' : 'text-opacity-65']"
   >
     <div class="flex no-drag h-full items-center">
       <div class="logo px-2.25 mr-0.5 cursor-heart-pointer">
@@ -26,34 +32,51 @@ const player = usePlayer();
         <menu-option
           :shortcuts="['CTRL', 'O']"
           title="Open audio..."
+          :icon="AudioFileIcon"
           @click="() => electron.openFileDialog()"
         />
         <menu-option
           :shortcuts="['CTRL', 'SHIFT', 'O']"
           title="Open folder..."
+          :icon="MusicFolderIcon"
           @click="() => electron.openFolderDialog()"
         />
         <menu-splitter />
         <menu-option
           :shortcuts="['CTRL', 'SHIFT', 'X']"
-          title="Clear Queue"
+          title="Clear queue"
+          :icon="BroomIcon"
           @click="player.clearQueue()"
         />
       </Menu>
       <Menu title="Utility">
         <menu-option
-          :shortcuts="['CTRL', 'D', '+', 'X']"
           :title="`Clear cover art cache (${bytesToHuman(state.coverArtCacheSize.value)})`"
+          :icon="BroomIcon"
           @click="state.state.coverCache = {}"
         />
         <menu-option
-          :shortcuts="['CTRL', 'D', '+', 'F']"
-          :title="`Clear Waveform cache (${bytesToHuman(state.waveformCacheSize.value)})`"
+          :title="`Clear waveform cache (${bytesToHuman(state.waveformCacheSize.value)})`"
+          :icon="BroomIcon"
           @click="state.state.waveformCache = {}"
         />
+        <menu-splitter />
         <menu-option
           :title="`Check for updates`"
-          @click="electron.invoke('check-for-updates')"
+          :icon="RestartIcon"
+          @click="electron.checkForUpdates()"
+        />
+      </Menu>
+      <Menu title="About">
+        <menu-option
+          title="GitHub Repository"
+          :icon="GitHubIcon"
+          @click="electron.open('https://github.com/geoxor/amethyst')"
+        />
+        <menu-option
+          title="Discord Server"
+          :icon="DiscordIcon"
+          @click="electron.open('https://discord.gg/geoxor')"
         />
       </Menu>
       <Menu
@@ -71,11 +94,11 @@ const player = usePlayer();
         <menu-splitter />
         <menu-option
           title="Test 'UpdateInstallingNotification'"
-          @click="electron.invoke('test-notification', ['showUpdateInstallingNotification'])"
+          @click="electron.testNotification('showUpdateInstallingNotification')"
         />
         <menu-option
           title="Test 'UpdateAvailableNotification'"
-          @click="electron.invoke('test-notification', ['showUpdateAvailableNotification'])"
+          @click="electron.testNotification('showUpdateAvailableNotification')"
         />
       </Menu>
     </div>

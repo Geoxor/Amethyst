@@ -2,7 +2,7 @@
   "name": "amethyst",
   "author": "Geoxor <geoxor123@outlook.com>",
   "productName": "Amethyst",
-  "version": "1.7.15",
+  "version": "1.7.16",
   "main": "./release/dist/main/main.js",
   "licenses": [
     {
@@ -62,23 +62,23 @@
       {
         "ext": ".ogv",
         "icon": "./assets/icon.ico"
-      }, 
+      },
       {
         "ext": ".oga",
         "icon": "./assets/icon.ico"
-      }, 
+      },
       {
         "ext": ".ogx",
         "icon": "./assets/icon.ico"
-      }, 
+      },
       {
         "ext": ".ogm",
         "icon": "./assets/icon.ico"
-      }, 
+      },
       {
         "ext": ".spx",
         "icon": "./assets/icon.ico"
-      }, 
+      },
       {
         "ext": ".opus",
         "icon": "./assets/icon.ico"
@@ -304,6 +304,7 @@
     "fast-average-color-node": "^2.4.0",
     "mitt": "^3.0.0",
     "music-metadata": "7.13.0",
+    "open": "^8.4.0",
     "sharp": "0.30.7",
     "vite": "^3.2.2",
     "vite-plugin-windicss": "^1.8.4",

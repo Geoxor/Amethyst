@@ -3,7 +3,10 @@ import { usePlayer, useState } from "@/amethyst";
 import Cover from "@/components/CoverArt.vue";
 import EmptyDiv from "@/components/EmptyDiv.vue";
 import ResizableDiv from "@/components/ResizableDiv.vue";
+import BroomIcon from "@/icons/plumpy/BroomIcon.vue";
 import HeartIcon from "@/icons/plumpy/HeartIcon.vue";
+import PlayIcon from "@/icons/plumpy/PlayIcon.vue";
+import RestartIcon from "@/icons/plumpy/RestartIcon.vue";
 import { useKeyModifier } from "@vueuse/core";
 import { ref } from "vue";
 const state = useState();
@@ -16,12 +19,12 @@ const parseTitle = (path: string) => path.substring(Math.max(path.lastIndexOf("\
 // Context Menu options for this component 
 const handleContextMenu = (e: MouseEvent, i: number) => {
   state.openContextMenuAt(e.x, e.y, [
-    { title: "Play", action: () => player.setCurrentlyPlayingIndex(i) },
+    { title: "Play", icon: PlayIcon, action: () => player.setCurrentlyPlayingIndex(i) },
     !player.state.favorites.has(player.getQueue()[i])
-      ? { title: "Favorite", action: () => player.favorite(player.getQueue()[i]) }
-      : { title: "Unfavorite", action: () => player.unfavorite(player.getQueue()[i]) },
-    { title: "Render cover art", action: () => player.getCoverArt(player.getQueue()[i]) },
-    { title: "Remove from queue", action: () => player.removeItemFromQueue(i) },
+      ? { title: "Favorite", icon: HeartIcon, action: () => player.favorite(player.getQueue()[i]) }
+      : { title: "Unfavorite", icon: HeartIcon, action: () => player.unfavorite(player.getQueue()[i]) },
+    { title: "Render cover art", icon: RestartIcon, action: () => player.getCoverArt(player.getQueue()[i]) },
+    { title: "Remove from queue", icon: BroomIcon, action: () => player.removeItemFromQueue(i) },
   ]);
 };
 

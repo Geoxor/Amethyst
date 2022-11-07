@@ -1,15 +1,16 @@
 import { useElectron } from "@/amethyst";
 import type { Player } from "@/player";
-import { onKeyStroke, useKeyModifier, useLocalStorage } from "@vueuse/core";
+import { onKeyStroke, useKeyModifier, UseKeyModifierReturn, useLocalStorage } from "@vueuse/core";
 
 export type ShortcutBindings = Record<string, [string[], (e: KeyboardEvent) => void]>;
 export type CustomShortcutBindings = Record<string, string[]>;
 
 export class Shortcuts {
-  private isControlPressed = useKeyModifier("Control");
-  private isShiftPressed = useKeyModifier("Shift");
-  private isAltPressed = useKeyModifier("Alt");
+  public isControlPressed = useKeyModifier("Control") as UseKeyModifierReturn<boolean>;
+  public isShiftPressed = useKeyModifier("Shift") as UseKeyModifierReturn<boolean>;
+  public isAltPressed = useKeyModifier("Alt") as UseKeyModifierReturn<boolean>;
 
+  // TODO: somehow link this logic to each function in the components so they render automatically in dropdown menus
   public DEFAULT_BINDINGS: ShortcutBindings = {
     "audio.play.pause": [[" "], () => this.player.isPlaying() ? this.player.pause() : this.player.play()],
     "audio.next": [["ArrowDown"], () => this.player.next()],
@@ -28,7 +29,7 @@ export class Shortcuts {
   public bindings = this.DEFAULT_BINDINGS;
   public customBindings = useLocalStorage<CustomShortcutBindings>("customShortcuts", {}).value;
 
-  constructor(public player: Player) {
+  public constructor(public player: Player) {
     this.registerShortcuts();
   }
 

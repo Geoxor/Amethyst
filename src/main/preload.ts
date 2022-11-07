@@ -10,6 +10,7 @@ export type Channels =
 	"get-cover-pixelized" |
 	"open-file-dialog" |
 	"log-print" |
+	"open-external" |
 	"log-error" |
 	"open-folder-dialog" |
 	"get-cover" |

@@ -1,21 +1,37 @@
 <script lang="ts" setup>
+import BaseKeyboardButton from "../input/BaseKeyboardButton.vue";
+
 defineProps<{
   title: string
-  hint?: string
+  icon?: any
   shortcuts?: string[]
 }>();
 </script>
 
 <template>
   <button
-    class="text-left cursor-pointer hover:text-primary-800 hover:bg-surface-600 text-11px py-1.5 px-6 w-full flex justify-between items-center"
+    class="text-left hover:text-primary-800 hover:bg-surface-600 text-11px py-1.5 px-6 w-full flex justify-between items-center"
   >
-    <p>{{ title }}</p>
-    <div class="text-8px flex gap-1">
-      <kbd
+    <div class="flex gap-2 items-center">
+      <component
+        :is="icon"
+        v-if="icon"
+        class="h-3 w-3"
+      />
+      <div
+        v-else
+        class="h-3 w-3"
+      />
+      <p>{{ title }}</p>
+    </div>
+    <div class="text-7px font-aseprite flex gap-1">
+      <base-keyboard-button
         v-for="(shortcut) of shortcuts"
         :key="shortcut"
-      >{{ shortcut }}</kbd>
+        :button="shortcut"
+      >
+        {{ shortcut }}
+      </base-keyboard-button>
     </div>
   </button>
 </template>

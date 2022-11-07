@@ -3,6 +3,7 @@ import { computed, reactive } from "vue";
 
 export interface IContextMenuOption {
 	title: string,
+	icon?: any,
 	action: () => any;
 }
 

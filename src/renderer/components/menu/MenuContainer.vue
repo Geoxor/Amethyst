@@ -19,7 +19,7 @@ onKeyStroke("Escape", () => (isShowing.value = false));
     </div>
     <div
       v-if="isShowing"
-      class="absolute z-30 flex select-none items-center bg-surface-700 left-0 py-2 flex-col w-96"
+      class="absolute z-30 flex select-none items-center bg-surface-800 shadow-xl border-1 border-surface-600 left-0 py-2 flex-col w-96"
       @click="isShowing = false"
     >
       <slot />

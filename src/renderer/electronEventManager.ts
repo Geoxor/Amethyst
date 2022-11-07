@@ -1,10 +1,12 @@
 import type { AppState } from "@/state";
+import { FastAverageColorResult } from "fast-average-color";
+import { IAudioMetadata } from "music-metadata";
 
 export class ElectronEventManager {
   public electron = window.electron.ipcRenderer;
-  public invoke = this.electron.invoke;
+  private invoke = this.electron.invoke;
 
-  constructor(public state: AppState) {
+  public constructor(public state: AppState) {
     // These are constant state syncs that get emitted on startup from the main process
     this.electron.on<string>("version", version => state.state.version = version);
     this.electron.on<string[]>("allowed-extensions", allowedExtensions => state.state.allowedExtensions = allowedExtensions);
@@ -22,7 +24,7 @@ export class ElectronEventManager {
   }
 
   public syncWindowState = async () => {
-    const windowState = await this.electron.invoke<{ isMinimized: boolean; isMaximized: boolean }>("sync-window-state");
+    const windowState = await this.invoke<{ isMinimized: boolean; isMaximized: boolean }>("sync-window-state");
     this.state.state.isMinimized = windowState.isMinimized;
     this.state.state.isMaximized = windowState.isMaximized;
   };
@@ -40,7 +42,29 @@ export class ElectronEventManager {
 
   public close = () => this.requestWindowStateChange("close");
 
+  public logPrint = (messages: any[]) => this.invoke("log-print", messages);
+  
+  public logError = (messages: any[]) => this.invoke("log-error", messages);
+
+  public getCpuUsage = () => this.invoke("percent-cpu-usage");
+
   public openFileDialog = () => this.invoke("open-file-dialog");
 
   public openFolderDialog = () => this.invoke("open-folder-dialog");
+
+  public dropFiles = (paths: string[]) => this.invoke("drop-file", paths);
+
+  public checkForUpdates = () => this.invoke("check-for-updates");
+
+  public testNotification = (name: string) => this.invoke("test-notification",[name]);
+  
+  public open = (url: string) => this.invoke("open-external", [url]);
+
+  public getCover = (path: string) => this.invoke("get-cover", [path]);
+
+  public getCoverColors = (path: string) => this.invoke<FastAverageColorResult>("get-cover-colors", [path]);
+
+  public getMetadata = (path: string) => this.invoke<IAudioMetadata>("get-metadata", [path]);
+
+  public updateRichPresence = (args: string[]) => this.invoke("update-rich-presence", args);
 }

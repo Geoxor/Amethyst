@@ -4,7 +4,6 @@ import { fisherYatesShuffle, flattenArray } from "@/logic/math";
 import type { AppState } from "@/state";
 import { PromisePool } from "@supercharge/promise-pool";
 import { useLocalStorage } from "@vueuse/core";
-import { FastAverageColorResult } from "fast-average-color";
 import mitt from "mitt";
 import type { IAudioMetadata } from "music-metadata";
 import { computed, reactive, watch } from "vue";
@@ -148,7 +147,7 @@ export class Player {
 		this.state.richPresenceTimer && clearInterval(this.state.richPresenceTimer);
 		this.state.richPresenceTimer = setInterval(() => {
 			if (!this.state.isPlaying) return;
-			(this.state.currentlyPlayingMetadata && this.appState?.settings.discordRichPresence) && this.electron.invoke("update-rich-presence", [
+			(this.state.currentlyPlayingMetadata && this.appState?.settings.discordRichPresence) && this.electron.updateRichPresence( [
 				this.state.currentlyPlayingMetadata.common.artist ? `${this.state.currentlyPlayingMetadata.common.artist || "Unkown Artist"} - ${this.state.currentlyPlayingMetadata.common.title}` : this.state.currentlyPlayingFilePath.substring(this.state.currentlyPlayingFilePath.lastIndexOf("\\") + 1),
 				secondsToHuman(this.state.currentlyPlayingMetadata.format.duration!),
 				secondsToHuman(this.getCurrentTime()),
@@ -158,7 +157,7 @@ export class Player {
 	};
 
 	private updateCurrentMetadata(path: string) {
-		this.electron.invoke<IAudioMetadata>("get-metadata", [path]).then(
+		this.electron.getMetadata(path).then(
 			data => {
 				this.state.currentlyPlayingMetadata = data;
 				this.emit("metadata", { file: path, ...data });
@@ -215,13 +214,13 @@ export class Player {
 	public getCoverArt = async (path: string) => {
 		if (!path) return;
 		if (this.appState.state.coverCache[path]) return this.appState.state.coverCache[path];
-		const cover = await this.electron.invoke<string>("get-cover", [path]);
+		const cover = await this.electron.getCover(path);
 		if (this.appState) this.appState.state.coverCache[path] = cover as string;
 		return cover;
 	};
 
 	private updateThemeColors = async (path: string) => {
-		this.electron.invoke<FastAverageColorResult>("get-cover-colors", [path])
+		this.electron.getCoverColors(path)
 			.then(color => {
 				const [r, g, b] = color.value;
 

@@ -5,8 +5,8 @@ import { AppState } from "@/state";
 import { MediaSession } from "./mediaSession";
 
 export class BackendLogger {
-  public print = (...messages: any[]) => this.electron.invoke("log-print", messages);
-  public error = (...messages: any[]) => this.electron.invoke("log-error", messages);
+  public print = (...messages: any[]) => this.electron.logPrint(messages);
+  public error = (...messages: any[]) => this.electron.logError(messages);
   constructor(public electron: ElectronEventManager) {}
 }
 
@@ -26,7 +26,7 @@ export class CPUUsageMonitor {
   };
 
   private getCpuData = async () => {
-    this.electron.invoke("percent-cpu-usage")
+    this.electron.getCpuUsage()
       .then(usage => this.state.state.cpuUsage = usage as number)
       .catch(this.logger.error);
   };
@@ -46,7 +46,7 @@ export class Amethyst {
       event.preventDefault();
       event.stopPropagation();
 
-      this.electron.invoke("drop-file", [Array.from(event.dataTransfer!.files).map(f => f.path)]);
+      this.electron.dropFiles(Array.from(event.dataTransfer!.files).map(f => f.path));
     });
 
     document.addEventListener("dragover", e => {

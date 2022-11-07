@@ -5,13 +5,13 @@ import { FastAverageColorResult } from "fast-average-color";
 import { getAverageColor } from "fast-average-color-node";
 import fs from "fs";
 import * as mm from "music-metadata/lib/core";
+import open from "open";
 import path from "path";
 import sharp from "sharp";
-import { ALLOWED_EXTENSIONS, APP_VERSION, IS_DEV, RESOURCES_PATH } from "./main";
-
 import { Discord } from "./discord";
 import { loadFolder } from "./handles";
 import { Logger } from "./logger";
+import { ALLOWED_EXTENSIONS, APP_VERSION, IS_DEV, RESOURCES_PATH } from "./main";
 import { resolveHTMLPath } from "./util";
 
 const icon = () => path.join(RESOURCES_PATH, "icon.png");
@@ -172,6 +172,10 @@ export class MainWindow {
 
 				if (!response.canceled)
 					this.playAudio(response.filePaths[0]);
+			},
+
+			"open-external": (_: Event, [path]: string[]) => {
+				open(path);
 			},
 
 			"open-folder-dialog": async () => {
