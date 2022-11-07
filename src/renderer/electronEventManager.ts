@@ -42,9 +42,9 @@ export class ElectronEventManager {
 
   public close = () => this.requestWindowStateChange("close");
 
-  public logPrint = (messages: any[]) => this.invoke("log-print", messages);
+  public logPrint = (messages: any[]) => this.invoke("log-print", [messages]);
   
-  public logError = (messages: any[]) => this.invoke("log-error", messages);
+  public logError = (messages: any[]) => this.invoke("log-error", [messages]);
 
   public getCpuUsage = () => this.invoke("percent-cpu-usage");
 
@@ -52,7 +52,7 @@ export class ElectronEventManager {
 
   public openFolderDialog = () => this.invoke("open-folder-dialog");
 
-  public dropFiles = (paths: string[]) => this.invoke("drop-file", paths);
+  public dropFiles = (paths: string[]) => this.invoke("drop-file", [paths]);
 
   public checkForUpdates = () => this.invoke("check-for-updates");
 
@@ -66,5 +66,5 @@ export class ElectronEventManager {
 
   public getMetadata = (path: string) => this.invoke<IAudioMetadata>("get-metadata", [path]);
 
-  public updateRichPresence = (args: string[]) => this.invoke("update-rich-presence", args);
+  public updateRichPresence = (args: string[]) => this.invoke("update-rich-presence", [args]);
 }

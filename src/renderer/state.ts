@@ -4,6 +4,7 @@ import { computed, reactive } from "vue";
 export interface IContextMenuOption {
 	title: string,
 	icon?: any,
+	shortcuts?: string[]
 	action: () => any;
 }
 
