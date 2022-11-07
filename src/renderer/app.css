@@ -66,8 +66,8 @@ body,
 }
 
 *::-webkit-scrollbar {
-  width: 4px;
-  height: 4px;
+  width: 5px;
+  height: 5px;
 }
 
 *:hover::-webkit-scrollbar {
