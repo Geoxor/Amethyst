@@ -14,6 +14,8 @@ export class ElectronEventManager {
     this.electron.on("maximize", () => state.state.isMaximized = true);
     this.electron.on("unmaximize", () => state.state.isMaximized = false);
     this.electron.on("minimize", () => state.state.isMinimized = true);
+    this.electron.on("focus", () => state.state.isFocused = true);
+    this.electron.on("unfocus", () => state.state.isFocused = false);
 
     // Shows the update button on the menu bar whenever theres an update ready to be installed
     this.electron.on("update", () => state.state.updateReady = true);

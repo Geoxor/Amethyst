@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useState } from "@/amethyst";
+import MenuOption from "@/components/menu/MenuOption.vue";
 import { IContextMenuOption } from "@/state";
 import { onClickOutside } from "@vueuse/core";
 import { onMounted, ref, watch } from "vue";
@@ -29,17 +30,15 @@ const updatePositon = () => {
     id="contextMenu"
     ref="contextMenu"
     role="contextMenu"
-    class="absolute text-11px shadow-xl p-1 rounded-4px border-1 border-surface-600 bg-surface-800 z-100"
+    class="absolute shadow-xl border-1 py-1 border-surface-600 bg-surface-800 z-100"
   >
-    <ul class="flex flex-col min-w-32">
-      <li
+    <ul class="flex flex-col min-w-48">
+      <menu-option
         v-for="option of state.state.contextMenu.options"
         :key="option.title"
-        class="p-2 hover:bg-surface-600 rounded-2px"
+        :title="option.title"
         @click="runAction(option)"
-      >
-        <h1>{{ option.title }}</h1>
-      </li>
+      />
     </ul>
   </div>
 </template>

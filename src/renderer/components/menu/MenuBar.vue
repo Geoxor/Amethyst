@@ -14,9 +14,12 @@ const player = usePlayer();
 </script>
 
 <template>
-  <div class="borderBottom z-100 font-main drag text-12px select-none flex justify-between items-center">
+  <div
+    class="text-primary-900 borderBottom z-100 font-main drag text-12px select-none flex justify-between items-center"
+    :class="[state.state.isFocused ? 'text-opacity-100' : 'text-opacity-50']"
+  >
     <div class="flex no-drag h-full items-center">
-      <div class="logo px-2.25 cursor-heart-pointer">
+      <div class="logo px-2.25 mr-0.5 cursor-heart-pointer">
         <img src="../../icon.svg">
       </div>
       <Menu title="File">
@@ -77,7 +80,7 @@ const player = usePlayer();
       </Menu>
     </div>
 
-    <p class="">
+    <p>
       Amethyst v{{ state.state.version }}
     </p>
 

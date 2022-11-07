@@ -4,7 +4,7 @@ defineProps<{ text: string, icon?: any }>();
 </script>
 
 <template>
-  <div class="flex items-center gap-2 text-primary-900">
+  <div class="flex items-center gap-2 text-primary-800">
     <p>{{ text }}</p>
     <splitter />
     <component

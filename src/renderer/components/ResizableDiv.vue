@@ -48,7 +48,7 @@ function resize(e: MouseEvent) {
   <div
     ref="resizableDiv"
     class="resizableDiv max-w-80vw pr-2 border-r-2 border-transparent h-full"
-    :class="[isHoveringOverResizeBoundary && 'border-r-primary-800']"
+    :class="[isHoveringOverResizeBoundary && 'border-r-primary-700']"
     @mousedown="handleMouseDown"
     @mouseup="isResizing = false"
     @mouseover="handleMouseOver"

@@ -28,47 +28,53 @@ const handleContextMenu = (e: MouseEvent, i: number) => {
 </script>
 
 <template>
-  <resizable-div class="w-64">
-    <div class="flex-col items-center p-2 pr-0 flex max-w-full h-full">
-      <input
-        v-model="filterText"
-        type="text"
-        class="border-2 z-30 w-full bg-surface-800 border-surface-600 text-white py-0.25 indent-xs text-12px mb-2"
-        placeholder="artists, title & format..."
-      >
-      <empty-div v-if="player.getQueue().length == 0" />
-      
-      <ul
-        v-else
-        class="overflow-y-auto w-full"
-      >
-        <li
-          v-for="([song, i]) of player.getQueue().map((song, i) => song.toLowerCase().includes(filterText.toLowerCase()) ? [song, i] : undefined).filter(song => !!song) as [string, number][]"
-          :key="song"
-          :class="[isHoldingControl && 'control-hover', isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', i === player.getCurrentlyPlayingIndex() && 'text-primary-800']"
-          class="h-4 flex items-center gap-2 w-full hover:text-primary-900 list-none relative select-none"
-          @contextmenu="handleContextMenu($event, i)"
-          @keypress.prevent
-          @click="isHoldingControl ? invoke('show-item', [player.getQueue()[i]]) : player.setCurrentlyPlayingIndex(i)"
+  <div class="borderRight">
+    <resizable-div class="w-64">
+      <div class="flex-col items-center p-2 pr-0 flex max-w-full h-full">
+        <input
+          v-model="filterText"
+          type="text"
+          class="border-2 z-30 select-none w-full bg-surface-800 border-surface-600 text-white py-0.25 placeholder-primary-900 placeholder-opacity-75 hover:placeholder-opacity-100 indent-xs text-12px mb-2"
+          placeholder="artists, title & format..."
         >
-          <cover
-            v-if="state.settings.showMiniCovers"
-            class="w-3 h-3"
-            :url="player.getCoverBase64(song)"
-          />
+        <empty-div v-if="player.getQueue().length == 0" />
+      
+        <ul
+          v-else
+          class="overflow-y-auto w-full"
+        >
+          <li
+            v-for="([song, i]) of player.getQueue().map((song, i) => song.toLowerCase().includes(filterText.toLowerCase()) ? [song, i] : undefined).filter(song => !!song) as [string, number][]"
+            :key="song"
+            class="h-4 flex items-center gap-2 w-full hover:text-white list-none relative select-none"
+            :class="[
+              isHoldingControl && 'control-hover', 
+              isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', 
+              i == player.getCurrentlyPlayingIndex() ? 'text-primary-800' : 'text-primary-900'
+            ]"
+            @contextmenu="handleContextMenu($event, i)"
+            @keypress.prevent
+            @click="isHoldingControl ? invoke('show-item', [player.getQueue()[i]]) : player.setCurrentlyPlayingIndex(i)"
+          >
+            <cover
+              v-if="state.settings.showMiniCovers"
+              class="w-3 h-3"
+              :url="player.getCoverBase64(song)"
+            />
 
-          <heart-icon
-            v-if="player.state.favorites.has(song)"
-            class="h-3 w-3 min-h-3 min-w-3 text-rose-600"
-          />
+            <heart-icon
+              v-if="player.state.favorites.has(song)"
+              class="h-3 w-3 min-h-3 min-w-3 text-rose-600"
+            />
 
-          <p class="align-top py-0.5 text-12px overflow-hidden overflow-ellipsis whitespace-nowrap">
-            {{ i === player.getCurrentlyPlayingIndex() ? "⏵ " : "" }}{{ parseTitle(song) }}
-          </p>
-        </li>
-      </ul>
-    </div>
-  </resizable-div>
+            <p class="align-top py-0.5 text-12px overflow-hidden overflow-ellipsis whitespace-nowrap">
+              {{ i === player.getCurrentlyPlayingIndex() ? "⏵ " : "" }}{{ parseTitle(song) }}
+            </p>
+          </li>
+        </ul>
+      </div>
+    </resizable-div>
+  </div>
 </template>
 
 <style lang="postcss" scoped>

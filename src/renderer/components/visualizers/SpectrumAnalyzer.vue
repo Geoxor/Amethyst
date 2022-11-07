@@ -49,7 +49,7 @@ onMounted(() => {
 		const points = state.settings.useLogarithmicSpectrum ? scaleLog(dataArray) : dataArray;
 		const tiltOffset = TILT_MULTIPLIER * points.length;
 
-		const primaryColor = getThemeColorHex("--primary-900");
+		const primaryColor = getThemeColorHex("--primary-800");
 		canvasCtx.value.fillStyle = `${primaryColor}16`;
 		canvasCtx.value.strokeStyle = primaryColor;
 

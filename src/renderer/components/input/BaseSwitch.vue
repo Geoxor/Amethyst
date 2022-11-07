@@ -22,14 +22,14 @@ const value = useModelValue(props, "modelValue", emits);
 .slider {
   @apply bg-surface-500 rounded-full border-2 border-transparent duration-100 absolute cursor-pointer top-0 left-0 right-0 bottom-0;
   &:hover {
-    @apply border-2 border-primary-900 bg-surface-600;
+    @apply border-2 border-primary-800 bg-surface-600;
   }
 }
 
 input:checked + .slider {
-  @apply bg-primary-800;
+  @apply bg-primary-700;
   &:hover {
-    @apply bg-primary-900;
+    @apply bg-primary-800;
   }
 }
 

@@ -226,8 +226,8 @@ export class Player {
 				const [r, g, b] = color.value;
 
 				const root = document.querySelector<HTMLElement>(":root")!;
-				root.style.setProperty("--primary-900", `${r}, ${g}, ${b}`);
-				root.style.setProperty("--primary-800", `${r - 5}, ${g - 5}, ${b - 5}`);
+				root.style.setProperty("--primary-800", `${r}, ${g}, ${b}`);
+				root.style.setProperty("--primary-700", `${r - 5}, ${g - 5}, ${b - 5}`);
 
 				const maximal = Math.max(r, g, b);
 
@@ -250,8 +250,8 @@ export class Player {
 
 	public resetThemeColors = () => {
 		const root = document.querySelector<HTMLElement>(":root")!;
-		root.style.setProperty("--primary-900", "134, 138, 255");
-		root.style.setProperty("--primary-800", "100, 106, 195");
+		root.style.setProperty("--primary-800", "134, 138, 255");
+		root.style.setProperty("--primary-700", "100, 106, 195");
 		root.style.setProperty("--surface-900", "15, 17, 25");
 		root.style.setProperty("--surface-800", "20, 22, 33");
 		root.style.setProperty("--surface-700", "24, 26, 39");

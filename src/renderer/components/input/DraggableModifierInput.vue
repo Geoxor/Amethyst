@@ -137,11 +137,11 @@ watch(model, () => {
 
   &:active,
   &:focus {
-    @apply border-2 border-primary-900;
+    @apply border-2 border-primary-800;
   }
 
   &:active h1 {
-    @apply text-primary-900 font-bold;
+    @apply text-primary-800 font-bold;
   }
 
   & .pop {

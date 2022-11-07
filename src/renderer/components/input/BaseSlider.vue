@@ -28,7 +28,7 @@ input[type=range] {
 
 input[type='range']::-webkit-slider-thumb {
   width: 0px;
-  box-shadow: -8000px 0 0 8000px rgb(var(--primary-900));
+  box-shadow: -8000px 0 0 8000px rgb(var(--primary-800));
   appearance: none;
   -webkit-appearance: none;
 }

@@ -30,7 +30,7 @@ onMounted(() => {
 	const bufferX = new Float32Array(analyzerX.fftSize);
 	const bufferY = new Float32Array(analyzerY.fftSize);
 
-	canvasCtx.value.strokeStyle = `${getThemeColorHex("--primary-900")}99`;
+	canvasCtx.value.strokeStyle = `${getThemeColorHex("--primary-800")}99`;
 
 	canvasCtx.value.lineWidth = state.settings.vectorscopeLineThickness;
 	watch(() => state.settings.vectorscopeLineThickness, () => canvasCtx.value.lineWidth = state.settings.vectorscopeLineThickness);

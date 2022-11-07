@@ -12,6 +12,7 @@ export class AppState {
 		cpuUsage: 0,
 		version: "",
 		isMinimized: false,
+		isFocused: true,
 		isMaximized: false,
 		contextMenu: {
 			isVisible: false,

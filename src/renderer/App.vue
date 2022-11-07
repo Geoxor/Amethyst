@@ -27,7 +27,10 @@ const player = usePlayer();
         <navigation-bar />
         <queue v-if="state.settings.showQueue" />
         <node-editor v-if="state.settings.showNodeEditor" />
-        <empty-div v-else />
+        <empty-div
+          v-else
+          class="bg-black bg-opacity-25 w-full"
+        />
         <settings-bar v-if="state.settings.showSettings" />
       </div>
 

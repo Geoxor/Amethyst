@@ -118,6 +118,8 @@ export class MainWindow {
 		this.window.on("minimize", () => this.window.webContents.send("minimize"));
 		this.window.on("unmaximize", () => this.window.webContents.send("unmaximize"));
 		this.window.on("maximize", () => this.window.webContents.send("maximize"));
+		this.window.on("focus", () => this.window.webContents.send("focus"));
+		this.window.on("blur", () => this.window.webContents.send("unfocus"));
 		this.window.on("closed", () => this.destroy());
 
 		autoUpdater.on("update-downloaded", () => this.window.webContents.send("update"));

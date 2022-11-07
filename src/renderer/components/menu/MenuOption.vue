@@ -8,7 +8,7 @@ defineProps<{
 
 <template>
   <button
-    class="text-left cursor-pointer text-white hover:bg-primary-800 text-11px py-1.5 px-6 w-full flex justify-between items-center"
+    class="text-left cursor-pointer hover:text-primary-800 hover:bg-surface-600 text-11px py-1.5 px-6 w-full flex justify-between items-center"
   >
     <p>{{ title }}</p>
     <div class="text-8px flex gap-1">
