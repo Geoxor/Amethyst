@@ -26,7 +26,7 @@ const handleClick = () => {
 <template>
   <div
     ref="nodeEditor"
-    class="flex-1 h-full flex flex-col relative"
+    class="flex-1 h-full borderRight flex flex-col relative"
   >
     <SquareButton
       class="absolute bottom-2 right-2 z-10 "

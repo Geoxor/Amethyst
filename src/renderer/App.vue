@@ -29,7 +29,7 @@ const player = usePlayer();
         <node-editor v-if="state.settings.showNodeEditor" />
         <empty-div
           v-else
-          class="bg-black bg-opacity-25 w-full"
+          class="bg-black bg-opacity-25 w-full borderRight"
         />
         <settings-bar v-if="state.settings.showSettings" />
       </div>
