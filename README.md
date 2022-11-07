@@ -18,7 +18,7 @@ yay amethyst
 git clone https://github.com/geoxor/amethyst && cd amethyst && yarn && yarn test --run && yarn package
 ```
 
-![Amethyst](https://cdn.discordapp.com/attachments/667464431562653706/1033772275473846322/unknown.png)
+![Amethyst](https://cdn.discordapp.com/attachments/873293195893678111/1039305942312960160/image.png)
 
 ## ✨ Features
 - Custom cursors
