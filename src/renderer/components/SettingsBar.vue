@@ -10,7 +10,7 @@ const state = useState();
 </script>
 
 <template>
-  <padded-container class="w-64 min-w-64 m-2 ml-0">
+  <padded-container class="w-64 text-primary-900 min-w-64 m-2 ml-0">
     <settings-category-splitter text="UI" />
     <settings-binary-switch
       v-model="state.settings.colorInterfaceFromCoverart"

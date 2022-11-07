@@ -12,6 +12,9 @@ import DiscordIcon from "@/icons/plumpy/DiscordIcon.vue";
 import GitHubIcon from "@/icons/plumpy/GitHubIcon.vue";
 import MusicFolderIcon from "@/icons/plumpy/MusicFolderIcon.vue";
 import RestartIcon from "@/icons/plumpy/RestartIcon.vue";
+import ZoomInIcon from "@/icons/plumpy/ZoomInIcon.vue";
+import ZoomOutIcon from "@/icons/plumpy/ZoomOutIcon.vue";
+import ZoomToExtentsIcon from "@/icons/plumpy/ZoomToExtentsIcon.vue";
 
 import { bytesToHuman } from "@/logic/formating";
 const state = useState();
@@ -60,6 +63,24 @@ const player = usePlayer();
           :icon="BroomIcon"
           @click="state.state.waveformCache = {}"
         />
+        
+        <menu-splitter />
+        <menu-option
+          title="Zoom in"
+          :icon="ZoomInIcon"
+          :shortcuts="['CTRL', 'SHIFT', '+']"
+        />
+        <menu-option
+          title="Zoom out"
+          :icon="ZoomOutIcon"
+          :shortcuts="['CTRL', '-']"
+        />
+        <menu-option
+          title="Reset zoom"
+          :icon="ZoomToExtentsIcon"
+          :shortcuts="['CTRL', '0']"
+        />
+        
         <menu-splitter />
         <menu-option
           :title="`Check for updates`"
