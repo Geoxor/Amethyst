@@ -305,7 +305,7 @@
     "mitt": "^3.0.0",
     "music-metadata": "7.13.0",
     "open": "^8.4.0",
-    "sharp": "0.30.7",
+    "sharp": "0.31.2",
     "vite": "^3.2.2",
     "vite-plugin-windicss": "^1.8.4",
     "vue": "^3.2.41",
