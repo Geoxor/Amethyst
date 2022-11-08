@@ -88,7 +88,7 @@ const state = useState();
 
     <settings-category-splitter text="Integrations" />
     <settings-binary-switch
-      v-model="state.settings.discordRichPresence"
+      v-model="state.settings.useDiscordRichPresence"
       text="Discord Rich Presence"
     />
 
