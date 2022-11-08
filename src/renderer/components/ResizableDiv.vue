@@ -1,20 +1,16 @@
 <script lang="ts" setup>
-import { ref } from "vue";
-let mousePosition = 0;
+import { Ref, ref } from "vue";
+let startX = 0, startWidth = 0;
 
 const isHoveringOverResizeBoundary = ref(false);
 const isResizing = ref(false);
 
-const MINIMUM_WIDTH = 128;
-const MAXIMUM_WIDTH = window.document.body.clientWidth;
-
-const resizableDiv = ref<HTMLDivElement>();
+const resizableDiv = ref() as Ref<HTMLDivElement>;
 const handleMouseDown = (e: MouseEvent) => {
-  const width = resizableDiv.value!.getBoundingClientRect().width;
+  startWidth = resizableDiv.value.getBoundingClientRect().width;
+  startX = e.clientX;
   isResizing.value = true;
-  if (width - e.offsetX < 12) {
-    mousePosition = e.x;
-    isHoveringOverResizeBoundary.value = true;
+  if (startWidth - e.offsetX < 12) {
     document.addEventListener("mousemove", resize, false);
     document.addEventListener(
       "mouseup",
@@ -24,13 +20,11 @@ const handleMouseDown = (e: MouseEvent) => {
       },
       false
     );
-    return;
   }
-  return isHoveringOverResizeBoundary.value = false;
 };
 
 const handleMouseOver = (e: MouseEvent) => {
-  const width = resizableDiv.value!.getBoundingClientRect().width;
+  const width = resizableDiv.value.getBoundingClientRect().width;
   if (width - e.offsetX < 12) {
     return isHoveringOverResizeBoundary.value = true;
   }
@@ -38,16 +32,16 @@ const handleMouseOver = (e: MouseEvent) => {
 };
 
 function resize(e: MouseEvent) {
-  if (e.x < MINIMUM_WIDTH + 40 || e.x > MAXIMUM_WIDTH - 32) return;
-  const dx = e.x - mousePosition;
-  mousePosition = e.x;
-  resizableDiv.value!.style.width = Math.max(MINIMUM_WIDTH, parseInt(getComputedStyle(resizableDiv.value!, "").width) + dx) + "px";
+  // if (e.x < MINIMUM_WIDTH + 40 || e.x > MAXIMUM_WIDTH - 32) return;
+  const newWidth = (startWidth + e.clientX - startX);
+  if (newWidth < 128) return;
+  resizableDiv.value.style.width = newWidth + "px";
 }
 </script>
 <template>
   <div
     ref="resizableDiv"
-    class="resizableDiv max-w-80vw pr-2 border-r-2 border-transparent h-full"
+    class="resizableDiv max-w-80vw pr-2 border-r-2 border-transparent select-none h-full"
     :class="[isHoveringOverResizeBoundary && 'border-r-primary-700']"
     @mousedown="handleMouseDown"
     @mouseup="isResizing = false"

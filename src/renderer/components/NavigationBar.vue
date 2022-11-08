@@ -10,6 +10,12 @@ const state = useState();
 <template>
   <div class="borderRight">
     <navigation-button
+      :icon="SelectNoneIcon"
+      :active="state.settings.showNodeEditor"
+      @click="state.settings.showNodeEditor = !state.settings.showNodeEditor"
+    />
+
+    <navigation-button
       :icon="ListIcon"
       :active="state.settings.showQueue"
       @click="state.settings.showQueue = !state.settings.showQueue"
@@ -19,12 +25,6 @@ const state = useState();
       :icon="SettingsIcon"
       :active="state.settings.showSettings"
       @click="state.settings.showSettings = !state.settings.showSettings"
-    />
-
-    <navigation-button
-      :icon="SelectNoneIcon"
-      :active="state.settings.showNodeEditor"
-      @click="state.settings.showNodeEditor = !state.settings.showNodeEditor"
     />
   </div>
 </template>
