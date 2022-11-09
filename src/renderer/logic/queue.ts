@@ -5,7 +5,7 @@ import { Track } from "./track";
 import {ref} from "vue";
 
 export class Queue {
-  private savedQueue = useLocalStorage<string[]>("queue", []);
+  private savedQueue = useLocalStorage<string[]>("queuev2", []);
   private list = ref(new Map<string, Track>());
 
   public constructor(paths?: string[]) {
