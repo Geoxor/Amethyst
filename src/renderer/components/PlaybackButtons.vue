@@ -39,12 +39,6 @@ const duration = computed(() => metadata.value?.format.duration || 0);
   <div class="flex flex-col gap-2 justify-between h-full w-full">
     <div class="flex gap-2 items-center justify-between">
       <div class="flex text-primary-800 gap-2">
-        <!-- TODO: fix this scuff shit, turn each song into a class instance already -->
-        <!-- <heart-icon
-          class="opacity-75 hover:opacity-100 hover:text-rose-600"
-          :class="[player.state.favorites.has(player.getCurrentTrack()?.path) && 'text-rose-600 opacity-100']"
-          @click="player.favoriteToggle(player.getCurrentTrack()?.path)"
-        /> -->
         <!-- <playlist-icon class="opacity-75 hover:opacity-100 hover:text-white" /> -->
         <next-icon
           class="opacity-75 hover:opacity-100 hover:text-white transform-gpu rotate-180"
