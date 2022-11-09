@@ -1,7 +1,7 @@
 import { describe, expect, it, vi, afterEach, beforeAll } from "vitest";
 import { AudioContext } from "standardized-audio-context-mock";
 
-import {Track} from "../logic/track";
+import { Track } from "../logic/track";
 import { Metadata } from "../../main/metadata";
 
 const mockResource = (path: string) => `./src/renderer/mocks/${path}`;
@@ -20,7 +20,7 @@ vi.stubGlobal("electron", {
           return Metadata.getMetadata(args[0]);
         case "get-cover":
           return Metadata.getResizedCover(args[0]);
-      } 
+      }
       return;
     }),
   }
@@ -31,6 +31,27 @@ let track: Track;
 describe.concurrent("class Track", () => {
   afterEach(() => {
     vi.restoreAllMocks();
+  });
+
+  describe.concurrent("track.fetchAsyncData()", () => {
+    const track = new Track(mockResource("House - Zenith v1.mp3"));
+
+    it("should be able to fetch metadata", async () => {
+      await track.fetchMetadata();
+      expect(track.metadata.data).toBeTruthy();
+    });
+
+    it("should be able to fetch cover", async () => {
+      await track.fetchCover();
+      expect(track.cover.data).toBeTruthy();
+    });
+
+    it("should be able to fetch both metadata and cover", async () => {
+      const track = new Track(mockResource("House - Zenith v1.mp3"));
+      await track.fetchAsyncData();
+      expect(track.metadata.data).toBeTruthy();
+      expect(track.cover.data).toBeTruthy();
+    });
   });
 
   beforeAll(async () => {
@@ -44,13 +65,13 @@ describe.concurrent("class Track", () => {
     });
 
     it("should have metadata if the file actually has metadata", async () => {
-    expect(track.metadata.data).toBeTruthy();
+      expect(track.metadata.data).toBeTruthy();
     });
 
     it("should have path property", async () => {
       expect(track.path).toBeTruthy();
     });
-  }); 
+  });
 
   describe.concurrent("track.getFilename()", () => {
     it("should return the filename", async () => {
@@ -65,7 +86,7 @@ describe.concurrent("class Track", () => {
 
     it("should return the filename if there's no title in the metadata", async () => {
       const track = new Track(mockResource("no-metadata.flac"));
-    await track.fetchAsyncData();
+      await track.fetchAsyncData();
       expect(track.getTitleFormatted()).toBe("no-metadata.flac");
     });
   });
@@ -73,7 +94,7 @@ describe.concurrent("class Track", () => {
   describe.concurrent("track.getArtistsFormatted()", () => {
     it("should return the artists if exists", async () => {
       const track = new Track(mockResource("KOAN Sound - Traverse.flac"));
-    await track.fetchAsyncData();
+      await track.fetchAsyncData();
       expect(track.getArtistsFormatted()).toBe("KOAN Sound");
     });
 
@@ -83,7 +104,7 @@ describe.concurrent("class Track", () => {
 
     it("should default to 'unknown artist' if there is no artists in the metadata", async () => {
       const track = new Track(mockResource("no-metadata.flac"));
-    await track.fetchAsyncData();
+      await track.fetchAsyncData();
       expect(track.getArtistsFormatted()).toBe("unknown artist");
     });
   });
@@ -91,7 +112,7 @@ describe.concurrent("class Track", () => {
   describe.concurrent("track.getDurationSeconds()", () => {
     it("should return the duration in seconds", async () => {
       const track = new Track(mockResource("House - Zenith v1.mp3"));
-    await track.fetchAsyncData();
+      await track.fetchAsyncData();
       expect(~~track.getDurationSeconds()).toBe(15);
     });
 
