@@ -16,7 +16,6 @@ import ZoomInIcon from "@/icons/plumpy/ZoomInIcon.vue";
 import ZoomOutIcon from "@/icons/plumpy/ZoomOutIcon.vue";
 import ZoomToExtentsIcon from "@/icons/plumpy/ZoomToExtentsIcon.vue";
 
-import { bytesToHuman } from "@/logic/formating";
 const state = useState();
 const electron = useElectron();
 const player = usePlayer();
@@ -53,18 +52,6 @@ const player = usePlayer();
         />
       </Menu>
       <Menu title="Utility">
-        <menu-option
-          :title="`Clear cover art cache (${bytesToHuman(state.coverArtCacheSize.value)})`"
-          :icon="BroomIcon"
-          @click="state.state.coverCache = {}"
-        />
-        <menu-option
-          :title="`Clear waveform cache (${bytesToHuman(state.waveformCacheSize.value)})`"
-          :icon="BroomIcon"
-          @click="state.state.waveformCache = {}"
-        />
-        
-        <menu-splitter />
         <menu-option
           title="Zoom in"
           :icon="ZoomInIcon"
