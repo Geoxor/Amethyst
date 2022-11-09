@@ -18,8 +18,6 @@ vi.stubGlobal("electron", {
       switch (channel) {
         case "get-metadata":
           return Metadata.getMetadata(args[0]);
-        case "get-cover":
-          return Metadata.getResizedCover(args[0]);
       }
       return;
     }),
@@ -41,17 +39,6 @@ describe.concurrent("class Track", () => {
       expect(track.metadata.data).toBeTruthy();
     });
 
-    it("should be able to fetch cover", async () => {
-      await track.fetchCover();
-      expect(track.cover.data).toBeTruthy();
-    });
-
-    it("should be able to fetch both metadata and cover", async () => {
-      const track = new Track(mockResource("House - Zenith v1.mp3"));
-      await track.fetchAsyncData();
-      expect(track.metadata.data).toBeTruthy();
-      expect(track.cover.data).toBeTruthy();
-    });
   });
 
   beforeAll(async () => {
@@ -113,7 +100,7 @@ describe.concurrent("class Track", () => {
     it("should return the duration in seconds", async () => {
       const track = new Track(mockResource("House - Zenith v1.mp3"));
       await track.fetchAsyncData();
-      expect(~~track.getDurationSeconds()).toBe(15);
+      expect(~~track.getDurationSeconds()).toBe(14);
     });
 
     it("should return 0 if it has no metadata", async () => {
@@ -129,21 +116,7 @@ describe.concurrent("class Track", () => {
     it("should return the duration in a formatted string", async () => {
       const track = new Track(mockResource("House - Zenith v1.mp3"));
       await track.fetchAsyncData();
-      expect(track.getDurationFormatted()).toBe("0:15");
-    });
-  });
-
-  describe.concurrent("track.getCover()", () => {
-    it("should return undefined when there's no picture", async () => {
-      const track = new Track(mockResource("no-metadata.flac"));
-      await track.fetchAsyncData();
-      expect(track.getCover()).toBeFalsy();
-    });
-
-    it("should return an IPicture object when there is one", async () => {
-      const track = new Track(mockResource("House - Zenith v1.mp3"));
-      await track.fetchAsyncData();
-      expect(track.getCover()).toBeTruthy();
+      expect(track.getDurationFormatted()).toBe("0:14");
     });
   });
 });

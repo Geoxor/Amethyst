@@ -11,6 +11,8 @@ import { loadFolder } from "./handles";
 import { ALLOWED_EXTENSIONS, APP_VERSION, IS_DEV, RESOURCES_PATH } from "./main";
 import { resolveHTMLPath } from "./util";
 import {Metadata} from "./metadata";
+import * as mm from "music-metadata/lib/core";
+import sharp from "sharp";
 
 const icon = () => path.join(RESOURCES_PATH, "icon.png");
 
@@ -71,6 +73,23 @@ export class MainWindow {
 
 		this.setIpcEvents();
 		this.setWindowEvents();
+	}
+
+  public  async getCover(path: string): Promise<Buffer | undefined> {
+		const meta = await Metadata.getMetadata();
+
+		return meta?.common.picture?.[0].data;
+	}
+
+	public  async getResizedCover(path: string, resizeTo = 64): Promise<string | undefined> {
+		const cover = await this.getCover(path);
+
+		if (!cover)
+			return;
+
+		return (
+			await sharp(cover).resize(resizeTo, resizeTo).webp().toBuffer()
+		).toString("base64");
 	}
 
 	public show(): void {
@@ -176,11 +195,11 @@ export class MainWindow {
 			},
 
 			"get-cover": async (_: Event, [path]: string[]) => {
-				return Metadata.getResizedCover(path);
+				return this.getResizedCover(path);
 			},
 
 			"get-cover-colors": async (_: Event, [path]: string[]): Promise<FastAverageColorResult> => {
-				const coverBuffer = await Metadata.getCover(path);
+				const coverBuffer = await this.getCover(path);
 				if (!coverBuffer)
 					return Promise.reject();
 
