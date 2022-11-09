@@ -74,5 +74,6 @@ export class Queue {
    */
   public shuffle() {
 		this.list.value = new Map(fisherYatesShuffle(Array.from(this.list.value.entries())));
+    this.syncLocalStorage();
   }
 }
