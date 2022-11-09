@@ -33,43 +33,40 @@ export class Track {
   }
 
   /**
-   * Keeps track of asynchronous loading state
-   * @param method The async method to execute whilst loading
-   */
-  private async useAsyncLoadProxy(method: () => Promise<void>) {
-    this.isLoading.value = true;
-    await method();
-    this.isLoading.value = false;
-    this.isLoaded.value = true;
-  }
-
-  /**
    * Fetches the metadata for a given track
    */
   public fetchMetadata = async () => {
+    try {
       const amethyst = await import("../amethyst");
       this.metadata.data = await amethyst.useElectron().getMetadata(this.path);
       this.metadata.state = LoadStatus.Loaded;
+    } catch (error) {
+      this.isMoved.value = true;
+    }
   };
 
   /**
    * Fetches the resized cover art in base64
    */
   public fetchCover = async () => {
+    try {
       const amethyst = await import("../amethyst");
       const data = await amethyst.useElectron().getCover(this.path);
       this.cover.data = data ? `data:image/webp;base64,${data}` : undefined;
       this.cover.state = LoadStatus.Loaded;
+    } catch (error) {
+      this.isMoved.value = true;
+    }
   };
 
   /**
    * Fetches all async data concurrently
    */
   public fetchAsyncData = async () => {
-    return this.useAsyncLoadProxy(async () => {
-      // TODO: make the covers be fetch with the metadata so we dont fetch the metadata twice
-      await Promise.all([this.fetchCover(), this.fetchMetadata()]);
-    });
+    this.isLoading.value = true;
+    this.isLoading.value = false;
+    await Promise.allSettled([this.fetchCover(), this.fetchMetadata()]);
+    this.isLoaded.value = true;
   };
 
   /**

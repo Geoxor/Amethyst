@@ -45,6 +45,7 @@ export class Player extends EventEmitter<{
   public play(idx?: number) {
     if (idx) {
       const track = this.queue.getTrack(idx);
+      if (track.isMoved) return;
       this.input.src = track.path;
       this.setVolume(this.volume.value);
       this.currentTrack.value = track;

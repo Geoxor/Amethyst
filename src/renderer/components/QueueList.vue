@@ -42,11 +42,14 @@ const handleContextMenu = (e: MouseEvent, idx:number, track: Track) => {
           class="overflow-y-auto w-full h-full"
         >
           <queue-item
-            v-for="([path, track], i) of Array.from(player.queue.getList()).filter(([_, track]) => 
-              track.getFilename().toLowerCase().includes(filterText)
-              || track.getArtistsFormatted().toLowerCase().includes(filterText)
-              || track.getAlbumFormatted().toLowerCase().includes(filterText)
-            )"
+            v-for="([path, track], i) of 
+              Array.from(player.queue.getList())
+                .filter(([_, track]) => filterText ? !track.isMoved : track)
+                .filter(([_, track]) => 
+                  track.getFilename().toLowerCase().includes(filterText)
+                  || track.getArtistsFormatted().toLowerCase().includes(filterText)
+                  || track.getAlbumFormatted().toLowerCase().includes(filterText)
+                )"
             :key="path"
             :track="track"
             @contextmenu="handleContextMenu($event, i, track)"

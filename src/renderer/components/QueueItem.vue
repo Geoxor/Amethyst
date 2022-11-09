@@ -2,6 +2,7 @@
 import { usePlayer, useShortcuts, useState } from "@/amethyst";
 import { Track } from "@/logic/track";
 import LoadingIcon from "@/icons/plumpy/LoadingIcon.vue";
+import ErrorIcon from "@/icons/plumpy/ErrorIcon.vue";
 import Cover from "@/components/CoverArt.vue";
 
 const isHoldingControl = useShortcuts().isControlPressed;
@@ -17,12 +18,18 @@ const props = defineProps<{track: Track}>();
     :class="[
       isHoldingControl && 'control-hover', 
       isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', 
+      track.isMoved && 'opacity-50 not-allowed',
       player.getCurrentTrack()?.path == track.path ? 'text-primary-800' : 'text-primary-900'
     ]"
   >
     <loading-icon
       v-if="track.isLoading"
       class="h-3 animate-spin w-3 min-h-3 min-w-3"
+    />
+
+    <error-icon
+      v-else-if="track.isMoved"
+      class="h-3 w-3 min-h-3 min-w-3"
     />
     
     <cover

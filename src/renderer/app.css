@@ -16,7 +16,7 @@
 }
 
 * {
-  cursor: url("./cursors/default.png"), auto !important;
+  cursor: url("./cursors/default.png"), auto;
   font-family: "jost";
 }
 
@@ -43,6 +43,11 @@
 .cursor-external-pointer,
 .cursor-external-pointer * {
   cursor: url("./cursors/external-pointer.png") 4 0, auto !important;
+}
+
+.not-allowed,
+.not-allowed * {
+  cursor: not-allowed !important;
 }
 
 * {
