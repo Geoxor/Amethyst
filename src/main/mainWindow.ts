@@ -6,13 +6,12 @@ import { getAverageColor } from "fast-average-color-node";
 import fs from "fs";
 import open from "open";
 import path from "path";
+import sharp from "sharp";
 import { Discord } from "./discord";
 import { loadFolder } from "./handles";
 import { ALLOWED_EXTENSIONS, APP_VERSION, IS_DEV, RESOURCES_PATH } from "./main";
+import { Metadata } from "./metadata";
 import { resolveHTMLPath } from "./util";
-import {Metadata} from "./metadata";
-import * as mm from "music-metadata/lib/core";
-import sharp from "sharp";
 
 const icon = () => path.join(RESOURCES_PATH, "icon.png");
 
@@ -75,13 +74,12 @@ export class MainWindow {
 		this.setWindowEvents();
 	}
 
-  public  async getCover(path: string): Promise<Buffer | undefined> {
-		const meta = await Metadata.getMetadata();
-
+  public async getCover(path: string): Promise<Buffer | undefined> {
+		const meta = await Metadata.getMetadata(path);
 		return meta?.common.picture?.[0].data;
 	}
 
-	public  async getResizedCover(path: string, resizeTo = 64): Promise<string | undefined> {
+	public async getResizedCover(path: string, resizeTo = 64): Promise<string | undefined> {
 		const cover = await this.getCover(path);
 
 		if (!cover)
