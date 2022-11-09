@@ -50,7 +50,7 @@ export class Amethyst {
       event.preventDefault();
       event.stopPropagation();
 
-      this.electron.dropFiles(Array.from(event.dataTransfer!.files).map(f => f.path));
+      this.player.queue.add(Array.from(event.dataTransfer!.files).map(f => f.path));
     });
 
     document.addEventListener("dragover", e => {

@@ -25,7 +25,9 @@ const player = usePlayer();
     <div class="h-full whitespace-nowrap flex flex-col justify-between overflow-hidden">
       <div class="flex-1 flex h-full max-h-full overflow-hidden">
         <navigation-bar />
-        <queue v-if="state.settings.showQueue" />
+        <queue 
+          v-if="state.settings.showQueue"
+        />
         <node-editor v-if="state.settings.showNodeEditor" />
         <empty-div
           v-else

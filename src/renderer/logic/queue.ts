@@ -29,7 +29,7 @@ export class Queue {
    * Fetches all async data for each track concurrently
    */
   private fetchAsyncData(){
-    PromisePool
+    return PromisePool
 			.for(Array.from(this.list.value.values()))
 			.withConcurrency(5)
 			.process(track => track.fetchAsyncData());
@@ -43,14 +43,14 @@ export class Queue {
    * Adds a track to the queue
    * @param path A filepath to the track
    */
-  public add(path: string | string[]) {
+  public async add(path: string | string[]) {
     if (path instanceof Array) {
       path.forEach(path => this.list.value.set(path, new Track(path)));
-      this.fetchAsyncData();
+      await this.fetchAsyncData();
     } else {
       const track = new Track(path);
       this.list.value.set(path, track);
-      track.fetchAsyncData();
+      await track.fetchAsyncData();
     }
 
     this.syncLocalStorage();

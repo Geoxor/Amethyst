@@ -1,11 +1,19 @@
 <script lang="ts" setup>
-import { Ref, ref } from "vue";
+import { useLocalStorage } from "@vueuse/core";
+import { onMounted, Ref, ref } from "vue";
 let startX = 0, startWidth = 0;
-
+const props = defineProps<{
+  name: string;
+}>();
 const isHoveringOverResizeBoundary = ref(false);
 const isResizing = ref(false);
-
 const resizableDiv = ref() as Ref<HTMLDivElement>;
+const storedWidth = useLocalStorage(`${props.name}-width`, 128);
+
+onMounted(() => {
+  resizableDiv.value.style.width = storedWidth.value + "px";
+});
+
 const handleMouseDown = (e: MouseEvent) => {
   startWidth = resizableDiv.value.getBoundingClientRect().width;
   startX = e.clientX;
@@ -36,6 +44,7 @@ function resize(e: MouseEvent) {
   const newWidth = (startWidth + e.clientX - startX);
   if (newWidth < 128) return;
   resizableDiv.value.style.width = newWidth + "px";
+  storedWidth.value = newWidth;
 }
 </script>
 <template>

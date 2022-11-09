@@ -5,9 +5,13 @@ import ResizableDiv from "@/components/ResizableDiv.vue";
 import BroomIcon from "@/icons/plumpy/BroomIcon.vue";
 import PlayIcon from "@/icons/plumpy/PlayIcon.vue";
 import RestartIcon from "@/icons/plumpy/RestartIcon.vue";
-import QueueItem from "@/components/QueueItem.vue";
+import LoadingIcon from "@/icons/plumpy/LoadingIcon.vue";
+import ErrorIcon from "@/icons/plumpy/ErrorIcon.vue";
+import Cover from "@/components/CoverArt.vue";
+
 import { Track } from "@/logic/track";
 import { ref } from "vue";
+import BaseChip from "./new/BaseChip.vue";
 const state = useState();
 const player = usePlayer();
 const isHoldingControl = useShortcuts().isControlPressed;
@@ -27,21 +31,31 @@ const handleContextMenu = (e: MouseEvent, idx:number, track: Track) => {
 
 <template>
   <div class="borderRight">
-    <resizable-div class="w-64">
-      <div class="flex-col items-center p-2 pr-0 flex max-w-full h-full">
+    <resizable-div
+      name="queue"
+      class="w-64"
+    >
+      <div class="flex-col overflow-x-auto tems-center p-2 pr-0 flex max-w-full h-full">
         <input
           v-model="filterText"
           type="text"
           class="border-2 z-30 select-none w-full bg-surface-800 border-surface-600 text-white py-0.25 placeholder-primary-900 placeholder-opacity-75 hover:placeholder-opacity-100 indent-xs text-12px mb-2"
           placeholder="name, album & artist..."
+          @keydown.stop
         >
-        <empty-div v-if="player.queue.getList().size == 0" />
-      
-        <ul
-          v-else
-          class="overflow-y-auto w-full h-full"
+        <table
+          class="w-full text-12px text-left"
         >
-          <queue-item
+          <tr class="text-primary-900">
+            <th />
+            <th>Filename</th>
+            <th>Artist</th>
+            <th>Album</th>
+            <th>Container</th>
+            <th>Size</th>
+            <th>Duration</th>
+          </tr>
+          <tr
             v-for="([path, track], i) of 
               Array.from(player.queue.getList())
                 .filter(([_, track]) => filterText ? !track.hasErrored : track)
@@ -51,12 +65,57 @@ const handleContextMenu = (e: MouseEvent, idx:number, track: Track) => {
                   || track.getAlbumFormatted().toLowerCase().includes(filterText)
                 )"
             :key="path"
-            :track="track"
+            class="hover:text-white"
+            :class="[
+              isHoldingControl && 'control-hover', 
+              isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', 
+              track.hasErrored && 'opacity-50 not-allowed',
+              player.getCurrentTrack()?.path == track.path ? 'text-primary-800' : 'text-primary-900'
+            ]"
             @contextmenu="handleContextMenu($event, i, track)"
             @keypress.prevent
             @click="isHoldingControl ? invoke('show-item', [path]) : player.play(i)"
-          />
-        </ul>
+          > 
+            <td class="min-w-4 w-4">
+              <loading-icon
+                v-if="track.isLoading"
+                class="h-3 animate-spin w-3 min-h-3 min-w-3"
+              />
+
+              <error-icon
+                v-else-if="track.hasErrored"
+                class="h-3 w-3 min-h-3 min-w-3"
+              />
+    
+              <cover
+                v-else-if="state.settings.showMiniCovers"
+                class="w-3 h-3"
+                :url="(track.isLoaded ? track.getCover() : state.state.defaultCover) as string"
+              />
+            </td>
+            <td>
+              {{ player.getCurrentTrack()?.path == track.path ? "⏵ " : "" }}{{ track.getFilename() }}
+            </td>
+            <td>
+              {{ track.getArtistsFormatted() }}
+            </td>
+            <td>
+              {{ track.getAlbumFormatted() }}
+            </td>
+            <td>
+              <BaseChip class="text-8px">
+                {{ track.getMetadata()?.format.container }}
+              </BaseChip>
+            </td>
+            <td>
+              {{ track.getFilesizeFormatted() }}
+            </td>
+            <td>
+              {{ track.getDurationFormatted() }}
+            </td>
+          </tr>
+        </table>
+        <empty-div v-if="player.queue.getList().size == 0" />
       </div>
     </resizable-div>
   </div>
