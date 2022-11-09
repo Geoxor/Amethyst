@@ -97,7 +97,7 @@ export class Track {
    * @example "0:15", "1:54"
    */
   public getDurationFormatted = () => {
-    return secondsToHuman(this.getDurationSeconds());
+    return secondsToHuman(~~this.getDurationSeconds());
   };
 
 }
