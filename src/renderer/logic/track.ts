@@ -14,12 +14,17 @@ export type LoadState<T> = {
  * Each playable audio file is an instance of this class
  */
 export class Track {
+  public static ALLOWED_EXTENSIONS = ["ogg", "ogv", "oga", "ogx", "ogm", "spx", "opus", "wav", "wave", "m4a", "m4b", "m4p", "m4r", "m4v", "3gp", "flac", "opus", "aac", "aiff", "mp3", "m4a"];
   public metadata: LoadState<IAudioMetadata> = { state: "loading", data: undefined };
   public cover: {state: "loading" | "loaded", data: string | undefined} = { state: "loading", data: undefined };
   public isLoading = ref(false);
   public isLoaded = ref(false);
 
-  public constructor(public path: string) { /* {...} */ }
+  public constructor(public path: string) { 
+    if (!Track.ALLOWED_EXTENSIONS.some(ext => path.endsWith(ext)) )
+      throw new Error(`Given file extension does not match any of the allowed types [${Track.ALLOWED_EXTENSIONS.join(", ")}]`);
+    
+  }
 
   /**
    * Fetches the metadata for a given track

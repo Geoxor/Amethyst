@@ -1,8 +1,8 @@
-import { describe, expect, it, vi, afterEach, beforeAll } from "vitest";
 import { AudioContext } from "standardized-audio-context-mock";
+import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 
-import { Track } from "../logic/track";
 import { Metadata } from "../../main/metadata";
+import { Track } from "../logic/track";
 
 const mockResource = (path: string) => `./src/renderer/mocks/${path}`;
 vi.stubGlobal("AudioContext", AudioContext);
@@ -57,6 +57,10 @@ describe.concurrent("class Track", () => {
 
     it("should have path property", async () => {
       expect(track.path).toBeTruthy();
+    });
+
+    it("should throw if file extension isn't allowed", () => {
+      expect(() => new Track(mockResource("geoxor_logo.svg"))).toThrow();
     });
   });
 
