@@ -33,7 +33,7 @@ const handleContextMenu = (e: MouseEvent, idx:number, track: Track) => {
           v-model="filterText"
           type="text"
           class="border-2 z-30 select-none w-full bg-surface-800 border-surface-600 text-white py-0.25 placeholder-primary-900 placeholder-opacity-75 hover:placeholder-opacity-100 indent-xs text-12px mb-2"
-          placeholder="artists, title & format..."
+          placeholder="name, album & artist..."
         >
         <empty-div v-if="player.queue.list.size == 0" />
       
@@ -42,7 +42,11 @@ const handleContextMenu = (e: MouseEvent, idx:number, track: Track) => {
           class="overflow-y-auto w-full h-full"
         >
           <queue-item
-            v-for="([path, track], i) of Array.from(player.queue.list)"
+            v-for="([path, track], i) of Array.from(player.queue.list).filter(([_, track]) => 
+              track.getFilename().toLowerCase().includes(filterText)
+              || track.getArtistsFormatted().toLowerCase().includes(filterText)
+              || track.getAlbumFormatted().toLowerCase().includes(filterText)
+            )"
             :key="path"
             :track="track"
             @contextmenu="handleContextMenu($event, i, track)"

@@ -114,6 +114,10 @@ export class Track {
     return this.getMetadata()?.common.artists?.join(" & ") || "unknown artist";
   };
 
+  public getAlbumFormatted() {
+    return this.getMetadata()?.common.album || "unknown album";
+  }
+
   /**
    * @returns The seconds of the track in float
    * @example 15.02400204024 || 0

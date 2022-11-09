@@ -25,12 +25,6 @@ export class AppState {
 			options: [] as IContextMenuOption[],
 		},
 		updateReady: false,
-		processQueue: new Set(),
-		coverProcessQueue: 0,
-		bpmProcessQueue: 0,
-		coverCache: useLocalStorage<Record<string, string>>("cover-cache", {}),
-		bpmCache: useLocalStorage<Record<string, number>>("bpm-cache", {}),
-		waveformCache: useLocalStorage<Record<string, ImageBitmap>>("waveform-cache", {}),
 		defaultCover: "",
 		theme: "amethyst-dark",
 	});
@@ -58,10 +52,6 @@ export class AppState {
 	};
 
 	public settings = useLocalStorage("settings", this.settingsObject, { writeDefaults: true }).value;
-
-	public coverArtCacheSize = computed(() => JSON.stringify(this.state.coverCache).length);
-	public bpmCacheSize = computed(() => JSON.stringify(this.state.bpmCache).length);
-	public waveformCacheSize = computed(() => JSON.stringify(this.state.waveformCache).length);
 	public isDev = computed(() => this.state.version.includes("DEV"));
 
 	public openContextMenuAt(x: number, y: number, options: IContextMenuOption[]) {
