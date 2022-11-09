@@ -39,7 +39,7 @@ export class Player extends EventEmitter<{
     super();
 
     this.input.addEventListener("timeupdate", () => this.currentTime.value = this.input.currentTime);
-    this.input.onended = this.next;
+    this.input.onended = () => this.next();
   }
 
   public play(idx?: number) {
@@ -86,17 +86,17 @@ export class Player extends EventEmitter<{
     this.play(this.currentTrackIndex.value);
   }
 
-  public seekTo(time: number) {
+  // public seekTo(time: number) {
 		
-	}
+	// }
 
-	public seekForward(step = 5) {
+	// public seekForward(step = 5) {
 		
-	}
+	// }
 
-	public seekBackward(step = 5) {
+	// public seekBackward(step = 5) {
 		
-	}
+	// }
 
   public loopNone() {
 		this.loopMode.value = LoopMode.None;
