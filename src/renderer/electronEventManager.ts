@@ -59,7 +59,7 @@ export class ElectronEventManager {
   
   public open = (url: string) => this.ipc.invoke("open-external", [url]);
 
-  public getCover = (path: string) => this.ipc.invoke("get-cover", [path]);
+  public getCover = (path: string) => this.ipc.invoke<string>("get-cover", [path]);
 
   public getCoverColors = (path: string) => this.ipc.invoke<FastAverageColorResult>("get-cover-colors", [path]);
 

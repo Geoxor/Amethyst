@@ -9,6 +9,7 @@ import type { IAudioMetadata } from "music-metadata";
 import { computed, reactive, watch } from "vue";
 import { BackendLogger } from "./amethyst";
 import type { ElectronEventManager } from "./electronEventManager";
+import { Track } from "./logic/track";
 
 export const ALLOWED_EXTENSIONS = ["ogg", "flac", "wav", "opus", "aac", "aiff", "mp3", "m4a"];
 
@@ -38,12 +39,10 @@ export class Player {
 		richPresenceTimer: null as null | NodeJS.Timer,
 		ctx: new window.AudioContext(),
 		source: null as null | MediaElementAudioSourceNode,
-		currentlyPlayingMetadata: null as null | IAudioMetadata,
-		currentlyPlayingFilePath: useLocalStorage<string>("currentlyPlayingFilePath", ""),
 		currentlyPlayingIndex: useLocalStorage<number>("currentlyPlayingIndex", 0),
 		currentTime: useLocalStorage<number>("currentTime", 0),
 
-		queue: useLocalStorage<Set<string>>("queue", new Set()),
+		queue: new Set<Track>(),
 		favorites: useLocalStorage<Set<string>>("favorites", new Set()),
 		volume: useLocalStorage<number>("volume", 1),
 		isPlaying: false,
@@ -56,10 +55,17 @@ export class Player {
 	constructor(public appState: AppState, public electron: ElectronEventManager, public logger: BackendLogger) {
 		// Ignore the --require arg we get in dev mode so we don't end up with "--require" as a path in the queue
 		electron.ipc.on<string>("play-file", file => file !== "--require" && this.addToQueueAndPlay(file));
-		electron.ipc.on<(string)[]>("play-folder", files => this.setQueue(files));
-		electron.ipc.on<(string)[]>("load-folder", files => this.setQueue([...files, ...this.getQueue()]));
+		electron.ipc.on<(string)[]>("play-folder", files => 
+			PromisePool
+			.for(flattenArray(files))
+			.withConcurrency(5)
+			.process(file => new Track(file))
+			.then(({results}) => this.setQueue(results)));
 
-		this.loadSoundAndPlay(this.state.currentlyPlayingFilePath);
+		// electron.ipc.on<(string)[]>("load-folder", files => this.setQueue([...files, ...this.getQueue()]));
+
+		this.getMetadata();
+		this.getCurrentTrack() && this.loadSoundAndPlay(this.getCurrentTrack().path);
 		this.seekTo(this.state.currentTime); 
 		this.pause();
 
@@ -73,19 +79,9 @@ export class Player {
 		this.nodeManager = new AmethystAudioNodeManager(this.state.source, this.state.ctx);
 
 		// When the queue changes updated the current playing file path
-		watch(() => this.state.queue.size, () => this.updateCurrentlyPlayingFilePath());
-
-		// When the playing index changes update the current playing file path
-		watch(() => this.state.currentlyPlayingIndex, () => this.updateCurrentlyPlayingFilePath());
-
-		// Play again if the first element in the queue changes
-		// (when the user dropped a file that already is in the queue but not at position 0)
-		watch(() => this.getQueue()[0], () => this.updateCurrentlyPlayingFilePath());
-
-		// When the currently playing file path changes play the new file
-		watch(() => this.state.currentlyPlayingFilePath, () => this.loadSoundAndPlay(this.state.currentlyPlayingFilePath));
-
-		this.getCovers(Array.from(this.state.queue));
+		watch(() => this.state.queue.size, () => {
+			this.getMetadata();
+		});
 
 		// TODO: move the recolor logic somewhere else pls
 		// Resets the colors when the user disables this setting in the state
@@ -104,20 +100,6 @@ export class Player {
 		this.state.loopMode = LoopMode.All;
 	};
 
-	// TODO: fix this, substring fails when first starting cus getCurrentlyPlayingFilePath() returns null
-	public getFilename = () => {
-		const current = this.getCurrentlyPlayingFilePath() || "";
-		return current.substring(Math.max(current.lastIndexOf("\\"), current.lastIndexOf("/")) + 1);
-	};
-
-	public getTitle = () => {
-		return computed(() => this.state.currentlyPlayingMetadata?.common.title || this.getFilename()).value;
-	};
-
-	public getArtist = () => {
-		return computed(() => this.state.currentlyPlayingMetadata?.common.artists?.join(" & ") || "unknown artist").value;
-	};
-
 	public getCoverBase64 = (path: string) => {
 		const target = this.appState?.state.coverCache[path];
 
@@ -126,10 +108,6 @@ export class Player {
 		}
 
 		return computed(() => target ? `data:image/png;base64,${target}` : this.appState.state.defaultCover).value;
-	};
-
-	public hasCover = () => {
-		return !!this.appState?.state.coverCache[this.getCurrentlyPlayingFilePath()];
 	};
 
 	public getOutputDevices = async () => {
@@ -147,27 +125,24 @@ export class Player {
 		this.state.richPresenceTimer && clearInterval(this.state.richPresenceTimer);
 		this.state.richPresenceTimer = setInterval(() => {
 			if (!this.state.isPlaying) return;
-			(this.state.currentlyPlayingMetadata && this.appState?.settings.discordRichPresence) && this.electron.updateRichPresence( [
-				this.state.currentlyPlayingMetadata.common.artist ? `${this.state.currentlyPlayingMetadata.common.artist || "Unkown Artist"} - ${this.state.currentlyPlayingMetadata.common.title}` : this.state.currentlyPlayingFilePath.substring(this.state.currentlyPlayingFilePath.lastIndexOf("\\") + 1),
-				secondsToHuman(this.state.currentlyPlayingMetadata.format.duration!),
+			this.appState?.settings.discordRichPresence && this.electron.updateRichPresence( [
+				`${this.getCurrentTrack().getArtistsFormatted()} - ${this.getCurrentTrack().getTitleFormatted()}`,
+				secondsToHuman(this.getCurrentTrack().getMetadata().format.duration!),
 				secondsToHuman(this.getCurrentTime()),
 				this.state.isPlaying.toString(),
 			]);
 		}, 1000);
 	};
 
-	private updateCurrentMetadata(path: string) {
-		this.electron.getMetadata(path).then(
-			data => {
-				this.state.currentlyPlayingMetadata = data;
-				this.emit("metadata", { file: path, ...data });
-			});
-	}
-
 	private updateAppTitle = (path: string) => {
 		// set the html title to the song name
 		document.title = path || "Amethyst";
 	};
+
+	public playIndex(idx: number) {
+		this.setCurrentlyPlayingIndex(idx);
+		this.loadSoundAndPlay(this.getQueue()[idx].path);
+	}
 
 	public async loadSoundAndPlay(path: string) {
 		// If there was another song playing stop it
@@ -201,14 +176,13 @@ export class Player {
 
 		// Misc
 		this.updateAppTitle(path);
-		this.updateCurrentMetadata(path);
 		this.updateRichPresence();
 	}
 
-	public async getCovers(files: string[]): Promise<void> {
-		await PromisePool.for(files.filter(file => !this.appState.state.coverCache[file]).filter(file => !!file))
-			.withConcurrency(5) // Raise this for more parallel runs
-			.process(async (_, i) => this.getCoverArt(files[i]));
+	public async getMetadata(): Promise<void> {
+		await PromisePool.for(this.getQueue())
+			.withConcurrency(10) // Raise this for more parallel runs
+			.process(track => track.fetchAsyncData());
 	}
 
 	public getCoverArt = async (path: string) => {
@@ -262,8 +236,8 @@ export class Player {
 		this.setVolume(this.state.volume);
 		this.state.inputAudio.play();
 		this.state.isPlaying = true;
-		this.emit("play", this.state.currentlyPlayingFilePath);
-		this.appState?.settings.colorInterfaceFromCoverart && this.updateThemeColors(this.state.currentlyPlayingFilePath);
+		this.emit("play", this.getCurrentTrack().path);
+		this.appState?.settings.colorInterfaceFromCoverart && this.updateThemeColors(this.getCurrentTrack().path);
 	}
 
 	public favoriteToggle(path: string) {
@@ -276,6 +250,10 @@ export class Player {
 
 	public unfavorite(path: string) {
 		this.state.favorites.delete(path);
+	}
+
+	public getCurrentTrack() {
+		return this.getQueue()[this.getCurrentlyPlayingIndex()];
 	}
 
 	public pause() {
@@ -311,7 +289,7 @@ export class Player {
 
 	public addToQueueAndPlay(file: string) {
 		if (ALLOWED_EXTENSIONS.includes(file.substring(file.lastIndexOf(".") + 1).toLowerCase())) {
-			this.state.queue = new Set([file, ...this.getQueue()]);
+			// this.state.queue = new Set([file, ...this.getQueue()]);
 			this.state.currentlyPlayingIndex = 0;
 		}
 	}
@@ -320,9 +298,8 @@ export class Player {
 		return Array.from(this.state.queue.values());
 	}
 
-	public setQueue(files: string[]) {
-		this.state.queue = new Set(flattenArray(files));
-		this.getCovers(files);
+	public setQueue(tracks: Track[]) {
+		this.state.queue = new Set(tracks);
 	}
 
 	public clearQueue() {
@@ -371,10 +348,6 @@ export class Player {
 
 	public getCurrentlyPlayingFilePath() {
 		return this.getQueue()[this.state.currentlyPlayingIndex];
-	}
-
-	public updateCurrentlyPlayingFilePath() {
-		this.state.currentlyPlayingFilePath = this.getCurrentlyPlayingFilePath();
 	}
 
 	public currentTimeFormatted() {

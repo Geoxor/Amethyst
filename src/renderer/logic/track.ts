@@ -1,31 +1,63 @@
 import type { IAudioMetadata } from "music-metadata";
 import { secondsToHuman } from "./formating";
+import {ref} from "vue";
+
+export type LoadState<T> = {
+  state: "loading",
+  data: undefined
+} | {
+  state: "loaded",
+  data: T
+};
 
 /**
  * Each playable audio file is an instance of this class
  */
 export class Track {
-  private constructor(public path: string, public metadata: IAudioMetadata) { /* {...} */ }
+  public metadata: LoadState<IAudioMetadata> = { state: "loading", data: undefined };
+  public cover: {state: "loading" | "loaded", data: string | undefined} = { state: "loading", data: undefined };
+  public isLoading = ref(false);
+  public isLoaded = ref(false);
+
+  public constructor(public path: string) { /* {...} */ }
 
   /**
-   * Async construction of Track class
-   * @param path 
+   * Fetches the metadata for a given track
+   * @param path The track file path
    */
-  public static new = async (path: string): Promise<Track> => {
-    try {
-      const self = new this(path, await this.fetchMetadata(path));
-      return self;
-    } catch (error) {
-      return Promise.reject(error);      
-    }
+  public fetchMetadata = async () => {
+    const amethyst = await import("../amethyst");
+    this.metadata.data = await amethyst.useElectron().getMetadata(this.path);
+    this.metadata.state = "loaded";
+  };
+
+  public fetchCover = async () => { 
+    const amethyst = await import("../amethyst"); 
+    const data = await amethyst.useElectron().getCover(this.path);
+    this.cover.data = data ? `data:image/webp;base64,${data}` : undefined;
+    this.cover.state = "loaded";
+  };
+
+  public fetchAsyncData = async () => {
+    this.isLoading.value = true;
+    // TODO: make the covers be fetch with the metadata so we dont fetch the metadata twice
+    await Promise.all([this.fetchCover(), this.fetchMetadata()]); 
+    this.isLoaded.value = true;
+    this.isLoading.value = false;
   };
 
   /**
-   * Gets the metadata for a given song
-   * @param path The song file path
+   * @returns The metadata object for this tune if it's loaded
+   * @throws Error message if the object hasn't loaded yet
    */
-  private static fetchMetadata = async (path: string) => {
-    return (await import("../amethyst")).useElectron().getMetadata(path);
+  public getMetadata = () => {
+    if (this.metadata.state != "loaded") throw new Error("Metadata hasn't finished loading yet for this file");
+    return this.metadata.data;
+  };
+
+   public getCover = () => {
+    if (this.cover.state != "loaded") throw new Error("Cover hasn't finished loading yet for this file");
+    return this.cover.data;
   };
 
   /**
@@ -41,7 +73,7 @@ export class Track {
    * @example "Get Lucky" || "02. Daft Punk - Get Lucky.flac"
    */
 	public getTitleFormatted = () => {
-		return this.metadata.common.title || this.getFilename();
+		return this.getMetadata()?.common.title || this.getFilename();
 	};
 
   /**
@@ -49,15 +81,15 @@ export class Track {
    * @example "Daft Punk", "Virtual Riot & Panda Eyes" || "unknown artist",
    */
 	public getArtistsFormatted = () => {
-		return this.metadata.common.artists?.join(" & ") || "unknown artist";
+		return this.getMetadata()?.common.artists?.join(" & ") || "unknown artist";
 	};
 
   /**
    * @returns The seconds of the track in float
-   * @example 15.02400204024
+   * @example 15.02400204024 || 0
    */
   public getDurationSeconds = () => {
-    return this.metadata.format.duration!;
+    return this.getMetadata()?.format.duration || 0;
   };
 
   /**
@@ -67,4 +99,5 @@ export class Track {
   public getDurationFormatted = () => {
     return secondsToHuman(this.getDurationSeconds());
   };
+
 }

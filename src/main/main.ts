@@ -10,7 +10,6 @@ import path from "path";
 import { app } from "electron";
 
 import { checkForUpdatesAndInstall, MainWindow } from "./mainWindow";
-import { Logger } from "./logger";
 
 export const IS_DEV = process.env.NODE_ENV === "development" || process.env.DEBUG_PROD === "true";
 export const RESOURCES_PATH = path.join(__dirname, "../".repeat(+app.isPackaged * 2 + 2), "assets");
@@ -62,12 +61,11 @@ else {
 
 			mainWindow.show();
 
-		}).catch(Logger.error);
+		}).catch();
 }
 
 if (!IS_DEV) {
 	app
 		.whenReady()
-		.then(checkForUpdatesAndInstall)
-		.then(() => Logger.print("Updates installed"));
+		.then(checkForUpdatesAndInstall);
 }

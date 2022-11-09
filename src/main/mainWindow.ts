@@ -4,15 +4,13 @@ import { autoUpdater } from "electron-updater";
 import { FastAverageColorResult } from "fast-average-color";
 import { getAverageColor } from "fast-average-color-node";
 import fs from "fs";
-import * as mm from "music-metadata/lib/core";
 import open from "open";
 import path from "path";
-import sharp from "sharp";
 import { Discord } from "./discord";
 import { loadFolder } from "./handles";
-import { Logger } from "./logger";
 import { ALLOWED_EXTENSIONS, APP_VERSION, IS_DEV, RESOURCES_PATH } from "./main";
 import { resolveHTMLPath } from "./util";
+import {Metadata} from "./metadata";
 
 const icon = () => path.join(RESOURCES_PATH, "icon.png");
 
@@ -20,7 +18,6 @@ const notifications = {
 	showUpdateInstallingNotification: () => {
 		const title = "Update Installing";
 		const body = "The application will restart once the update is complete.";
-		Logger.print(title, body);
 		new Notification({
 			icon: icon(),
 			title,
@@ -31,7 +28,6 @@ const notifications = {
 	showUpdateAvailableNotification: () => {
 		const title = "Amethyst Update Available";
 		const body = "Amethyst is downloading an update and will restart when complete";
-		Logger.print(title, body);
 		new Notification({
 			icon: icon(),
 			title,
@@ -63,7 +59,8 @@ export class MainWindow {
 	constructor() {
 		this.window = new BrowserWindow(this.windowOptions);
 		this.discord = new Discord();
-		Logger.printColor(`
+		// eslint-disable-next-line no-console
+		console.log(`
     ___                   __  __               __ 
    /   |  ____ ___  ___  / /_/ /_  __  _______/ /_
   / /| | / __ \`__ \\/ _ \\/ __/ __ \\/ / / / ___/ __/
@@ -77,15 +74,12 @@ export class MainWindow {
 	}
 
 	public show(): void {
-		Logger.fn("show");
 		this.window.loadURL(resolveHTMLPath("index"));
 
 		this.window.on("ready-to-show", () => {
-			Logger.print("Amethyst ready");
 
 			// Autoupdates
 			// Remove this if your app does not use auto updates
-			Logger.print("Checking for updates...");
 			log.transports.file.level = "info";
 			autoUpdater.logger = log;
 			autoUpdater.checkForUpdatesAndNotify();
@@ -102,18 +96,14 @@ export class MainWindow {
 	}
 
 	public destroy(): void {
-		Logger.fn("destroy");
 		this.window.destroy();
 	}
 
 	public playAudio(path: string): void {
-		Logger.fn("playAudio", { path });
 		this.window.webContents.send("play-file", path);
 	}
 
 	private setWindowEvents(): void {
-		Logger.fn("setWindowEvents");
-		Logger.print("Setting Window events");
 
 		this.window.on("minimize", () => this.window.webContents.send("minimize"));
 		this.window.on("unmaximize", () => this.window.webContents.send("unmaximize"));
@@ -146,8 +136,6 @@ export class MainWindow {
 	}
 
 	private setIpcEvents(): void {
-		Logger.fn("setIpcEvents");
-		Logger.print("Setting IPC events");
 
 		Object.entries({
 			"test-notification": (_: Event, [notification]: string) => (notifications as { [key: string]: any })[notification](),
@@ -155,14 +143,10 @@ export class MainWindow {
 			"maximize": () => this.window.maximize(),
 			"unmaximize": () => this.window.unmaximize(),
 			"close": () => this.window.close(),
-			"log-info": (_: Event, messages: string[]) => Logger.print(...messages),
-			"log-error": (_: Event, messages: string[]) => Logger.error(...messages),
 			"read-file": (_: Event, [path]: string[]) => {
-				Logger.handle("read-file");
 				return fs.promises.readFile(path);
 			},
 			"open-file-dialog": async () => {
-				Logger.handle("open-file-dialog");
 				const response = await dialog.showOpenDialog({
 					properties: ["openFile"],
 					filters: [
@@ -179,7 +163,6 @@ export class MainWindow {
 			},
 
 			"open-folder-dialog": async () => {
-				Logger.handle("open-folder-dialog");
 				const response = await dialog.showOpenDialog({
 					properties: ["openDirectory"],
 				});
@@ -193,13 +176,11 @@ export class MainWindow {
 			},
 
 			"get-cover": async (_: Event, [path]: string[]) => {
-				Logger.handle("get-cover", { path });
-				return this.getResizedCover(path);
+				return Metadata.getResizedCover(path);
 			},
 
 			"get-cover-colors": async (_: Event, [path]: string[]): Promise<FastAverageColorResult> => {
-				Logger.handle("get-cover-colors", { path });
-				const coverBuffer = await this.getCover(path);
+				const coverBuffer = await Metadata.getCover(path);
 				if (!coverBuffer)
 					return Promise.reject();
 
@@ -212,17 +193,14 @@ export class MainWindow {
 			},
 
 			"get-metadata": async (_: Event, [path]: string[]) => {
-				Logger.handle("get-metadata", { path });
-				return path && mm.parseBuffer(await fs.promises.readFile(path));
+				return Metadata.getMetadata(path);
 			},
 
 			"show-item": (_: Event, [fullPath]: string[]) => {
-				Logger.handle("show-item", { fullPath });
 				shell.showItemInFolder(path.normalize(fullPath));
 			},
 
 			"drop-file": async (_: Event, [paths]: string[][]) => {
-				Logger.handle("drop-file", { paths });
 				paths.forEach(async path => {
 					const stat = await fs.promises.stat(path);
 					if (stat.isDirectory())
@@ -233,7 +211,6 @@ export class MainWindow {
 			},
 
 			"sync-window-state": () => {
-				Logger.handle("sync-window-state");
 				return {
 					isMinimized: this.window.isMinimized(),
 					isMaximized: this.window.isMaximized(),
@@ -246,45 +223,16 @@ export class MainWindow {
 				seek,
 				status,
 			]: string[]) => {
-				Logger.handle("update-rich-presence", {
-					title,
-					duration,
-					seek,
-					status,
-				});
 				this.discord.updateCurrentSong(title, duration, seek, status === "true");
 			},
 
 			"check-for-updates": () => {
-				Logger.handle("check-for-updates");
 				checkForUpdatesAndInstall();
 			}
 		}).forEach(([channel, handler]) => ipcMain.handle(channel, handler));
 	}
-
-	private async getCover(path: string): Promise<Buffer | undefined> {
-		Logger.fn("getCover", { path });
-		const file = await fs.promises.readFile(path);
-		const meta = await mm.parseBuffer(file);
-
-		return meta.common.picture?.[0].data;
-	}
-
-	private async getResizedCover(path: string, resizeTo = 64): Promise<string | undefined> {
-		Logger.fn("getResizedCover", { path, resizeTo });
-		const cover = await this.getCover(path);
-
-		if (!cover)
-			return;
-
-		return (
-			await sharp(cover).resize(resizeTo, resizeTo).webp().toBuffer()
-		).toString("base64");
-	}
 }
 
 export async function checkForUpdatesAndInstall() {
-	Logger.fn("checkForUpdatesAndInstall");
-	Logger.print("Checking for updates...");
 	autoUpdater.checkForUpdatesAndNotify();
 }

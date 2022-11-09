@@ -1,9 +1,8 @@
-import { describe, expect, it, vi, afterEach, beforeEach } from "vitest";
+import { describe, expect, it, vi, afterEach, beforeAll } from "vitest";
 import { AudioContext } from "standardized-audio-context-mock";
 
 import {Track} from "../logic/track";
-import fs from "fs";
-import * as mm from "music-metadata/lib/core";
+import { Metadata } from "../../main/metadata";
 
 const mockResource = (path: string) => `./src/renderer/mocks/${path}`;
 vi.stubGlobal("AudioContext", AudioContext);
@@ -18,9 +17,10 @@ vi.stubGlobal("electron", {
     invoke: vi.fn(async (channel: string, args: string[]) => {
       switch (channel) {
         case "get-metadata":
-          // TODO: turn this into an actual method in mainWindow.ts and then import use it here
-          return args[0] && mm.parseBuffer(await fs.promises.readFile(args[0]));
-      }
+          return Metadata.getMetadata(args[0]);
+        case "get-cover":
+          return Metadata.getResizedCover(args[0]);
+      } 
       return;
     }),
   }
@@ -33,17 +33,18 @@ describe.concurrent("class Track", () => {
     vi.restoreAllMocks();
   });
 
-  beforeEach(async () => {
-    track = await Track.new(mockResource("KOAN Sound & Asa - Starlite.flac"));
+  beforeAll(async () => {
+    track = new Track(mockResource("KOAN Sound & Asa - Starlite.flac"));
+    await track.fetchAsyncData();
   });
 
-  describe.concurrent("Track.new()", () => {
+  describe.concurrent("new Track()", () => {
     it("should be able to create an instance of a track", async () => {
       expect(track).toBeTruthy();
     });
 
     it("should have metadata if the file actually has metadata", async () => {
-      expect(track.metadata).toBeTruthy();
+    expect(track.metadata.data).toBeTruthy();
     });
 
     it("should have path property", async () => {
@@ -63,14 +64,16 @@ describe.concurrent("class Track", () => {
     });
 
     it("should return the filename if there's no title in the metadata", async () => {
-      const track = await Track.new(mockResource("no-metadata.flac"));
+      const track = new Track(mockResource("no-metadata.flac"));
+    await track.fetchAsyncData();
       expect(track.getTitleFormatted()).toBe("no-metadata.flac");
     });
   });
 
   describe.concurrent("track.getArtistsFormatted()", () => {
     it("should return the artists if exists", async () => {
-      const track = await Track.new(mockResource("KOAN Sound - Traverse.flac"));
+      const track = new Track(mockResource("KOAN Sound - Traverse.flac"));
+    await track.fetchAsyncData();
       expect(track.getArtistsFormatted()).toBe("KOAN Sound");
     });
 
@@ -79,22 +82,47 @@ describe.concurrent("class Track", () => {
     });
 
     it("should default to 'unknown artist' if there is no artists in the metadata", async () => {
-      const track = await Track.new(mockResource("no-metadata.flac"));
+      const track = new Track(mockResource("no-metadata.flac"));
+    await track.fetchAsyncData();
       expect(track.getArtistsFormatted()).toBe("unknown artist");
     });
   });
 
   describe.concurrent("track.getDurationSeconds()", () => {
     it("should return the duration in seconds", async () => {
-      const track = await Track.new(mockResource("House - Zenith v1.mp3"));
+      const track = new Track(mockResource("House - Zenith v1.mp3"));
+    await track.fetchAsyncData();
       expect(~~track.getDurationSeconds()).toBe(15);
+    });
+
+    it("should return 0 if it has no metadata", async () => {
+      const track = new Track(mockResource("no-metadata.flac"));
+      await track.fetchAsyncData();
+      // @ts-ignore
+      track.metadata.data!.format.duration = undefined;
+      expect(~~track.getDurationSeconds()).toBe(0);
     });
   });
 
   describe.concurrent("track.getDurationFormatted()", () => {
     it("should return the duration in a formatted string", async () => {
-      const track = await Track.new(mockResource("House - Zenith v1.mp3"));
+      const track = new Track(mockResource("House - Zenith v1.mp3"));
+      await track.fetchAsyncData();
       expect(track.getDurationFormatted()).toBe("0:15");
+    });
+  });
+
+  describe.concurrent("track.getCover()", () => {
+    it("should return undefined when there's no picture", async () => {
+      const track = new Track(mockResource("no-metadata.flac"));
+      await track.fetchAsyncData();
+      expect(track.getCover()).toBeFalsy();
+    });
+
+    it("should return an IPicture object when there is one", async () => {
+      const track = new Track(mockResource("House - Zenith v1.mp3"));
+      await track.fetchAsyncData();
+      expect(track.getCover()).toBeTruthy();
     });
   });
 });

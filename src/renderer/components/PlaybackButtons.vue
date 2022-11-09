@@ -29,7 +29,7 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
   delta < 0 ? props.player.seekForward() : props.player.seekBackward();
 };
 
-const metadata = computed(() => props.player.state.currentlyPlayingMetadata);
+const metadata = computed(() => props.player.getCurrentTrack()?.isLoaded ? props.player.getCurrentTrack()?.getMetadata() : undefined);
 const duration = computed(() => metadata.value?.format.duration || 0);
 </script>
 
@@ -40,8 +40,8 @@ const duration = computed(() => metadata.value?.format.duration || 0);
         <!-- TODO: fix this scuff shit, turn each song into a class instance already -->
         <heart-icon
           class="opacity-75 hover:opacity-100 hover:text-rose-600"
-          :class="[player.state.favorites.has(player.getCurrentlyPlayingFilePath()) && 'text-rose-600 opacity-100']"
-          @click="player.favoriteToggle(player.getCurrentlyPlayingFilePath())"
+          :class="[player.state.favorites.has(player.getCurrentTrack()?.path) && 'text-rose-600 opacity-100']"
+          @click="player.favoriteToggle(player.getCurrentTrack()?.path)"
         />
         <!-- <playlist-icon class="opacity-75 hover:opacity-100 hover:text-white" /> -->
         <next-icon
@@ -115,26 +115,31 @@ const duration = computed(() => metadata.value?.format.duration || 0);
         @wheel="handleVolumeMouseScroll"
       />
     </div>
-    <div class="flex items-center justify-between gap-3 tracking-wider h-12">
+    <div 
+      v-if="player.getCurrentTrack() && player.getCurrentTrack().isLoaded"
+      class="flex items-center justify-between gap-3 tracking-wider h-12"
+    >
       <div class="flex gap-2 items-center w-full">
         <cover
           v-if="player.appState.settings.showCoverArt" 
           class="rounded-4px w-12 h-12 min-h-12 min-w-12"
-          :url="player.getCoverBase64(player.getCurrentlyPlayingFilePath())"
+          :url="player.getCurrentTrack().getCover()"
         />
         <div class="flex flex-col font-bold gap-2">
           <h1
             class="text-12px hover:underline cursor-pointer"
-            @click="invoke('show-item', [player.getCurrentlyPlayingFilePath()])"
+            @click="invoke('show-item', [player.getCurrentTrack()?.path])"
           >
-            {{ player.getTitle() }}
+            {{ player.getCurrentTrack()?.getTitleFormatted() }}
           </h1>
           <p class="text-8px text-primary-900">
-            {{ player.getArtist() }}
+            {{ player.getCurrentTrack()?.getArtistsFormatted() }}
           </p>
         </div>
       </div>
-      <div class="flex gap-1 text-8px font-bold">
+      <div
+        class="flex gap-1 text-8px font-bold"
+      >
         <!-- <chip :icon="MetronomeIcon">
               128<strong class="opacity-50">bpm</strong>
             </chip>
@@ -142,16 +147,16 @@ const duration = computed(() => metadata.value?.format.duration || 0);
               D# Pentatonic
             </chip> -->
         <chip
-          v-if="player.state.currentlyPlayingMetadata?.format.codec"
+          v-if="player.getCurrentTrack().getMetadata().format.codec"
           :icon="FileIcon"
         >
-          {{ player.state.currentlyPlayingMetadata?.format.codec }}
+          {{ player.getCurrentTrack().getMetadata().format.codec }}
         </chip>
         <chip
-          v-if="player.state.currentlyPlayingMetadata?.format.bitrate"
+          v-if="player.getCurrentTrack().getMetadata().format.bitrate"
           :icon="BitrateIcon"
         >
-          {{ (player.state.currentlyPlayingMetadata?.format.bitrate / 1024).toFixed(2) }}<strong
+          {{ ((player.getCurrentTrack().getMetadata().format.bitrate || 0) / 1024).toFixed(2) }}<strong
             class="opacity-50"
           >kbps</strong>
         </chip>
