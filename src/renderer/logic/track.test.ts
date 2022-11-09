@@ -100,7 +100,7 @@ describe.concurrent("class Track", () => {
     it("should return the duration in seconds", async () => {
       const track = new Track(mockResource("House - Zenith v1.mp3"));
       await track.fetchAsyncData();
-      expect(~~track.getDurationSeconds()).toBe(14);
+      expect(~~track.getDurationSeconds()).toBe(15);
     });
 
     it("should return 0 if it has no metadata", async () => {
@@ -116,7 +116,7 @@ describe.concurrent("class Track", () => {
     it("should return the duration in a formatted string", async () => {
       const track = new Track(mockResource("House - Zenith v1.mp3"));
       await track.fetchAsyncData();
-      expect(track.getDurationFormatted()).toBe("0:14");
+      expect(track.getDurationFormatted()).toBe("0:15");
     });
   });
 });
