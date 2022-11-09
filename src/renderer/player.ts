@@ -54,7 +54,7 @@ export class Player {
 
 	constructor(public appState: AppState, public electron: ElectronEventManager, public logger: BackendLogger) {
 		// Ignore the --require arg we get in dev mode so we don't end up with "--require" as a path in the queue
-		electron.ipc.on<string>("play-file", file => file !== "--require" && this.addToQueueAndPlay(file));
+		electron.ipc.on<string>("play-file", file => file !== "--require" && this.addToQueueAndPlay(new Track(file)));
 		electron.ipc.on<(string)[]>("play-folder", files => 
 			PromisePool
 			.for(flattenArray(files))
@@ -282,12 +282,9 @@ export class Player {
 		this.setVolume(Math.max(0, this.nodeManager.master.node.gain.value - amount));
 	}
 
-	public addToQueueAndPlay(file: string) {
-		this.getMetadata();
-		if (ALLOWED_EXTENSIONS.includes(file.substring(file.lastIndexOf(".") + 1).toLowerCase())) {
-			// this.state.queue = new Set([file, ...this.getQueue()]);
-			this.state.currentlyPlayingIndex = 0;
-		}
+	public addToQueueAndPlay(track: Track) {
+		this.setQueue([track, ...this.getQueue()]);
+		this.setCurrentlyPlayingIndex(0);
 	}
 
 	public getQueue() {

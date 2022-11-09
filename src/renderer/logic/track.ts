@@ -1,6 +1,6 @@
 import type { IAudioMetadata } from "music-metadata";
+import { ref } from "vue";
 import { secondsToHuman } from "./formating";
-import {ref} from "vue";
 
 export type LoadState<T> = {
   state: "loading",
@@ -23,7 +23,6 @@ export class Track {
 
   /**
    * Fetches the metadata for a given track
-   * @param path The track file path
    */
   public fetchMetadata = async () => {
     const amethyst = await import("../amethyst");
@@ -31,6 +30,9 @@ export class Track {
     this.metadata.state = "loaded";
   };
 
+  /**
+   * Fetches the resized cover art in base64
+   */
   public fetchCover = async () => { 
     const amethyst = await import("../amethyst"); 
     const data = await amethyst.useElectron().getCover(this.path);
@@ -38,6 +40,9 @@ export class Track {
     this.cover.state = "loaded";
   };
 
+  /**
+   * Fetches all async data concurrently
+   */
   public fetchAsyncData = async () => {
     this.isLoading.value = true;
     // TODO: make the covers be fetch with the metadata so we dont fetch the metadata twice
@@ -55,6 +60,10 @@ export class Track {
     return this.metadata.data;
   };
 
+  /**
+   * @returns The cover string for this tune if it's loaded
+   * @throws Error message if the object hasn't loaded yet
+   */
    public getCover = () => {
     if (this.cover.state != "loaded") throw new Error("Cover hasn't finished loading yet for this file");
     return this.cover.data;
