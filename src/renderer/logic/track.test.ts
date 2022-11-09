@@ -2,7 +2,7 @@ import { AudioContext } from "standardized-audio-context-mock";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
 
 import { Metadata } from "../../main/metadata";
-import { Track } from "../logic/track";
+import { LoadStatus, Track } from "../logic/track";
 
 const mockResource = (path: string) => `./src/renderer/mocks/${path}`;
 vi.stubGlobal("AudioContext", AudioContext);
@@ -31,14 +31,27 @@ describe.concurrent("class Track", () => {
     vi.restoreAllMocks();
   });
 
-  describe.concurrent("track.fetchAsyncData()", () => {
+  describe.concurrent("track.fetchMetadata()", () => {
     const track = new Track(mockResource("House - Zenith v1.mp3"));
+
+    it("should start with 'LoadStatus.Loading'", () => {
+      expect(track.metadata.state).toBe(LoadStatus.Loading);
+    });
+
+    it("should set isLoaded to true when finished", async () => {
+      await track.fetchMetadata();
+      expect(track.isLoaded.value).toBeTruthy();
+    });
 
     it("should be able to fetch metadata", async () => {
       await track.fetchMetadata();
       expect(track.metadata.data).toBeTruthy();
     });
 
+    it("should set the loading state of metadata to 'LoadStatus.Loaded'", async () => {
+      await track.fetchMetadata();
+      expect(track.metadata.state).toBe(LoadStatus.Loaded);
+    });
   });
 
   beforeAll(async () => {

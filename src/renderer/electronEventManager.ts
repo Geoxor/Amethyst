@@ -1,6 +1,6 @@
 import type { AppState } from "@/state";
 import { FastAverageColorResult } from "fast-average-color";
-import { IAudioMetadata } from "music-metadata";
+import { IMetadata } from "src/main/metadata";
 
 export class ElectronEventManager {
   public ipc = window.electron.ipcRenderer;
@@ -63,7 +63,7 @@ export class ElectronEventManager {
 
   public getCoverColors = (path: string) => this.ipc.invoke<FastAverageColorResult>("get-cover-colors", [path]);
 
-  public getMetadata = (path: string) => this.ipc.invoke<IAudioMetadata>("get-metadata", [path]);
+  public getMetadata = (path: string) => this.ipc.invoke<IMetadata>("get-metadata", [path]);
 
   public updateRichPresence = (args: string[]) => this.ipc.invoke("update-rich-presence", [args]);
 }
