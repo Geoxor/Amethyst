@@ -19,7 +19,7 @@ const invoke = window.electron.ipcRenderer.invoke;
 // Context Menu options for this component 
 const handleContextMenu = (e: MouseEvent, i: number) => {
   state.openContextMenuAt(e.x, e.y, [
-    { title: "Play", icon: PlayIcon, action: () => player.setCurrentlyPlayingIndex(i) },
+    { title: "Play", icon: PlayIcon, action: () => player.playIndex(i) },
     !player.state.favorites.has(player.getQueue()[i].path)
       ? { title: "Favorite", icon: HeartIcon, action: () => player.favorite(player.getQueue()[i].path) }
       : { title: "Unfavorite", icon: HeartIcon, action: () => player.unfavorite(player.getQueue()[i].path) },
@@ -67,7 +67,7 @@ const handleContextMenu = (e: MouseEvent, i: number) => {
             <cover
               v-else-if="state.settings.showMiniCovers"
               class="w-3 h-3"
-              :url="track.isLoaded ? track.getCover() : state.state.defaultCover"
+              :url="track.isLoaded && track.getCover() || state.state.defaultCover"
             />
 
             <heart-icon

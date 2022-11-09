@@ -78,11 +78,6 @@ export class Player {
 		// Audio routing happens in this class
 		this.nodeManager = new AmethystAudioNodeManager(this.state.source, this.state.ctx);
 
-		// When the queue changes updated the current playing file path
-		watch(() => this.state.queue.size, () => {
-			this.getMetadata();
-		});
-
 		// TODO: move the recolor logic somewhere else pls
 		// Resets the colors when the user disables this setting in the state
 		watch(() => this.appState?.settings.colorInterfaceFromCoverart, () => this.resetThemeColors());
@@ -125,7 +120,7 @@ export class Player {
 		this.state.richPresenceTimer && clearInterval(this.state.richPresenceTimer);
 		this.state.richPresenceTimer = setInterval(() => {
 			if (!this.state.isPlaying) return;
-			this.appState?.settings.discordRichPresence && this.electron.updateRichPresence( [
+			this.appState?.settings.useDiscordRichPresence && this.electron.updateRichPresence( [
 				`${this.getCurrentTrack().getArtistsFormatted()} - ${this.getCurrentTrack().getTitleFormatted()}`,
 				secondsToHuman(this.getCurrentTrack().getMetadata().format.duration!),
 				secondsToHuman(this.getCurrentTime()),
@@ -288,6 +283,7 @@ export class Player {
 	}
 
 	public addToQueueAndPlay(file: string) {
+		this.getMetadata();
 		if (ALLOWED_EXTENSIONS.includes(file.substring(file.lastIndexOf(".") + 1).toLowerCase())) {
 			// this.state.queue = new Set([file, ...this.getQueue()]);
 			this.state.currentlyPlayingIndex = 0;
@@ -300,6 +296,7 @@ export class Player {
 
 	public setQueue(tracks: Track[]) {
 		this.state.queue = new Set(tracks);
+		this.getMetadata();
 	}
 
 	public clearQueue() {
