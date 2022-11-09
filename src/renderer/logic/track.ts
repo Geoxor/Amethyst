@@ -24,7 +24,7 @@ export class Track {
   public cover: { state: LoadStatus, data: string | undefined } = { state: LoadStatus.Loading, data: undefined };
   public isLoading = ref(false);
   public isLoaded = ref(false);
-  public isMoved = ref(false);
+  public hasErrored = ref(false);
 
   public constructor(public path: string) {
     if (!Track.ALLOWED_EXTENSIONS.some(ext => path.endsWith(ext)))
@@ -41,7 +41,7 @@ export class Track {
       this.metadata.data = await amethyst.useElectron().getMetadata(this.path);
       this.metadata.state = LoadStatus.Loaded;
     } catch (error) {
-      this.isMoved.value = true;
+      this.hasErrored.value = true;
     }
   };
 
@@ -55,7 +55,7 @@ export class Track {
       this.cover.data = data ? `data:image/webp;base64,${data}` : undefined;
       this.cover.state = LoadStatus.Loaded;
     } catch (error) {
-      this.isMoved.value = true;
+      this.hasErrored.value = true;
     }
   };
 

@@ -44,7 +44,7 @@ const handleContextMenu = (e: MouseEvent, idx:number, track: Track) => {
           <queue-item
             v-for="([path, track], i) of 
               Array.from(player.queue.getList())
-                .filter(([_, track]) => filterText ? !track.isMoved : track)
+                .filter(([_, track]) => filterText ? !track.hasErrored : track)
                 .filter(([_, track]) => 
                   track.getFilename().toLowerCase().includes(filterText)
                   || track.getArtistsFormatted().toLowerCase().includes(filterText)

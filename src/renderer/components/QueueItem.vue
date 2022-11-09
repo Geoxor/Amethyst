@@ -18,7 +18,7 @@ const props = defineProps<{track: Track}>();
     :class="[
       isHoldingControl && 'control-hover', 
       isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', 
-      track.isMoved && 'opacity-50 not-allowed',
+      track.hasErrored && 'opacity-50 not-allowed',
       player.getCurrentTrack()?.path == track.path ? 'text-primary-800' : 'text-primary-900'
     ]"
   >
@@ -28,7 +28,7 @@ const props = defineProps<{track: Track}>();
     />
 
     <error-icon
-      v-else-if="track.isMoved"
+      v-else-if="track.hasErrored"
       class="h-3 w-3 min-h-3 min-w-3"
     />
     
