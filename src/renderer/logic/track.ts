@@ -46,24 +46,20 @@ export class Track {
   /**
    * Fetches the metadata for a given track
    */
-  public fetchMetadata = () => {
-    return this.useAsyncLoadProxy(async () => {
+  public fetchMetadata = async () => {
       const amethyst = await import("../amethyst");
       this.metadata.data = await amethyst.useElectron().getMetadata(this.path);
       this.metadata.state = LoadStatus.Loaded;
-    });
   };
 
   /**
    * Fetches the resized cover art in base64
    */
   public fetchCover = async () => {
-    return this.useAsyncLoadProxy(async () => {
       const amethyst = await import("../amethyst");
       const data = await amethyst.useElectron().getCover(this.path);
       this.cover.data = data ? `data:image/webp;base64,${data}` : undefined;
       this.cover.state = LoadStatus.Loaded;
-    });
   };
 
   /**
@@ -134,4 +130,11 @@ export class Track {
     return secondsToHuman(~~this.getDurationSeconds());
   };
 
+  /**
+   * @returns The number of channels
+   * @example 2, 4, 6 || 2
+  */
+  public getChannels() {
+    return this.metadata.data?.format.numberOfChannels || 2;
+  }
 }

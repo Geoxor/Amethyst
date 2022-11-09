@@ -54,6 +54,10 @@ describe.concurrent("class Player", () => {
     it("should have a loopMode state", () => {
       expect(player.loopMode).toBeTruthy();
     });
+
+    it("should have a queue", () => {
+      expect(player.queue).toBeTruthy();
+    });
   });
 
   describe("player.play()", () => {
@@ -67,7 +71,7 @@ describe.concurrent("class Player", () => {
     });
     it("should set the isPaused state to false", () => {
       expect(player.isPaused.value).toBe(false);
-    });
+    }); 
   });
 
   describe("player.pause()", () => {

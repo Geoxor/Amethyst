@@ -49,7 +49,7 @@ const player = usePlayer();
           :shortcuts="['CTRL', 'SHIFT', 'X']"
           title="Clear queue"
           :icon="BroomIcon"
-          @click="player.clearQueue()"
+          @click="player.queue.clear()"
         />
       </Menu>
       <Menu title="Utility">

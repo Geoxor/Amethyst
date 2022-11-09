@@ -1,5 +1,5 @@
 import { ElectronEventManager } from "@/electronEventManager";
-import { Player } from "@/player";
+import { Player } from "@/logic/player";
 import { Shortcuts } from "@/shortcuts";
 import { AppState } from "@/state";
 import { MediaSession } from "./mediaSession";
@@ -36,7 +36,7 @@ export class Amethyst {
   public appState: AppState = new AppState();
   public electron: ElectronEventManager = new ElectronEventManager(this.appState);
   public backendLogger: BackendLogger = new BackendLogger(this.electron);
-  public player: Player = new Player(this.appState, this.electron, this.backendLogger);
+  public player: Player = new Player(this.electron);
   public shortcuts: Shortcuts = new Shortcuts(this.player);
   public mediaSession: MediaSession = new MediaSession(this.player, this.backendLogger);
   public cpuUsageMonitor: CPUUsageMonitor = new CPUUsageMonitor(this.appState, this.electron, this.backendLogger);

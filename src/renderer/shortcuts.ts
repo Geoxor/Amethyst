@@ -1,5 +1,5 @@
 import { useElectron } from "@/amethyst";
-import type { Player } from "@/player";
+import type { Player } from "@/logic/player";
 import { onKeyStroke, useKeyModifier, UseKeyModifierReturn, useLocalStorage } from "@vueuse/core";
 
 export type ShortcutBindings = Record<string, [string[], (e: KeyboardEvent) => void]>;
@@ -12,18 +12,17 @@ export class Shortcuts {
 
   // TODO: somehow link this logic to each function in the components so they render automatically in dropdown menus
   public DEFAULT_BINDINGS: ShortcutBindings = {
-    "audio.play.pause": [[" "], () => this.player.isPlaying() ? this.player.pause() : this.player.play()],
+    "audio.play.pause": [[" "], () => this.player.isPlaying.value ? this.player.pause() : this.player.play()],
     "audio.next": [["ArrowDown"], () => this.player.next()],
     "audio.previous": [["ArrowUp"], () => this.player.previous()],
     "audio.seek.forward": [["ArrowRight"], () => this.player.seekForward()],
     "audio.seek.backward": [["ArrowLeft"], () => this.player.seekBackward()],
     "audio.volume.up": [["PageUp"], () => this.player.volumeUp()],
     "audio.volume.down": [["PageDown"], () => this.player.volumeDown()],
-    "queue.remove.item": [["Delete"], () => this.player.removeCurrentItemFromQueue()],
+    "queue.remove.item": [["Delete"], () => this.player.queue.remove(this.player.getCurrentTrack())],
     "queue.add.file": [["o"], () => this.isControlPressed.value && useElectron().openFileDialog()],
     "queue.add.folder": [["O"], () => this.isControlPressed.value && useElectron().openFolderDialog()],
-    "queue.clear": [["X"], () => this.isControlPressed.value && this.player.clearQueue()],
-    "song.favorite": [["f"], () => this.player.favoriteToggle(this.player.getCurrentlyPlayingFilePath())],
+    "queue.clear": [["X"], () => this.isControlPressed.value && this.player.queue.clear()],
   };
 
   public bindings = this.DEFAULT_BINDINGS;

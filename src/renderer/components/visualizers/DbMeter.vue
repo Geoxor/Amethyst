@@ -1,13 +1,9 @@
 <script setup lang="ts">
-import { usePlayer } from "@/amethyst";
-import { computed, onMounted, onUnmounted, ref } from "vue";
-const props = defineProps<{ node: AudioNode }>();
+import { onMounted, onUnmounted, ref } from "vue";
+const props = defineProps<{ node: AudioNode, channels: number }>();
 const FLOOR = -60;
 const RANGE = 30;
 const FFT_SIZE = 2048 * 2;
-
-const player = usePlayer();
-const metadata = computed(() => player.state.currentlyPlayingMetadata);
 
 // Tuple of insta and average per channel
 const channels = [
@@ -24,7 +20,7 @@ const channels = [
 	[ref(FLOOR), ref(FLOOR)], // 
 ];
 
-const nChannels = computed(() => metadata.value?.format.numberOfChannels || 2);
+const nChannels = props.channels || 2;
 const width = 4;
 
 let shouldStopRendering = false;
