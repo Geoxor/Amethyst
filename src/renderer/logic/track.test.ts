@@ -1,32 +1,15 @@
 import { AudioContext } from "standardized-audio-context-mock";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
-
-import { Metadata } from "../../main/metadata";
 import { LoadStatus, Track } from "../logic/track";
+import { Audio, electron, mockResource } from "./mocks";
 
-const mockResource = (path: string) => `./src/renderer/mocks/${path}`;
 vi.stubGlobal("AudioContext", AudioContext);
-vi.stubGlobal("Audio", vi.fn(() => ({
-  pause: vi.fn(),
-  play: vi.fn(),
-  addEventListener: vi.fn()
-})));
-vi.stubGlobal("electron", {
-  ipcRenderer: {
-    on: vi.fn(),
-    invoke: vi.fn(async (channel: string, args: string[]) => {
-      switch (channel) {
-        case "get-metadata":
-          return Metadata.getMetadata(args[0]);
-      }
-      return;
-    }),
-  }
-});
-
-let track: Track;
+vi.stubGlobal("Audio", Audio);
+vi.stubGlobal("electron", electron);
 
 describe.concurrent("class Track", () => {
+  let track: Track;
+
   afterEach(() => {
     vi.restoreAllMocks();
   });
@@ -60,7 +43,7 @@ describe.concurrent("class Track", () => {
   });
 
   describe.concurrent("new Track()", () => {
-    it("should be able to create an instance of a track", async () => {
+    it("should be able to create an instance of a Track", async () => {
       expect(track).toBeTruthy();
     });
 
