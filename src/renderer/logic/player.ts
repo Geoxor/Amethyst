@@ -1,10 +1,8 @@
-import { ElectronEventManager } from "@/electronEventManager";
 import { useLocalStorage } from "@vueuse/core";
 import { ref } from "vue";
 import { AmethystAudioNodeManager } from "./audio";
 import { EventEmitter } from "./eventEmitter";
 import { secondsToHuman } from "./formating";
-import { flattenArray } from "./math";
 import { Queue } from "./queue";
 import { Track } from "./track";
 
@@ -37,10 +35,8 @@ export class Player extends EventEmitter<{
 
   public nodeManager = new AmethystAudioNodeManager(this.source, this.context);
 
-  public constructor(public electron: ElectronEventManager){
+  public constructor(){
     super();
-		electron.ipc.on<string>("play-file", path => path !== "--require" && this.queue.add(path));
-    electron.ipc.on<(string)[]>("play-folder", paths => this.queue.add(flattenArray(paths)));
 
     this.input.addEventListener("timeupdate", () => this.currentTime.value = this.input.currentTime);
     this.input.onended = this.next;
@@ -116,6 +112,7 @@ export class Player extends EventEmitter<{
 
   public setVolume(volume: number) {
 		this.volume.value = Math.max(0, Math.min(1, volume));
+    this.nodeManager.master.node.gain.value = this.volume.value;
     this.emit("volume", this.volume.value);
 	}
 

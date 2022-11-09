@@ -21,7 +21,7 @@ describe.concurrent("class Track", () => {
       expect(track.metadata.state).toBe(LoadStatus.Loading);
     });
 
-    it("should set isLoaded to true when finished", async () => {
+    it.skip("should set isLoaded to true when finished", async () => {
       await track.fetchMetadata();
       expect(track.isLoaded.value).toBeTruthy();
     });

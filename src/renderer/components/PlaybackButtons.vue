@@ -118,24 +118,24 @@ const duration = computed(() => metadata.value?.format.duration || 0);
       />
     </div>
     <div 
-      v-if="player.getCurrentTrack() && player.getCurrentTrack().isLoaded"
+      v-if="player.getCurrentTrack()?.isLoaded"
       class="flex items-center justify-between gap-3 tracking-wider h-12"
     >
       <div class="flex gap-2 items-center w-full">
         <cover
           v-if="state.settings.showCoverArt" 
           class="rounded-4px w-12 h-12 min-h-12 min-w-12"
-          :url="player.getCurrentTrack().getCover() || state.state.defaultCover"
+          :url="player.getCurrentTrack()!.getCover() || state.state.defaultCover"
         />
         <div class="flex flex-col font-bold gap-2">
           <h1
             class="text-12px hover:underline cursor-pointer"
-            @click="invoke('show-item', [player.getCurrentTrack()?.path])"
+            @click="invoke('show-item', [player.getCurrentTrack()!.path])"
           >
-            {{ player.getCurrentTrack()?.getTitleFormatted() }}
+            {{ player.getCurrentTrack()!.getTitleFormatted() }}
           </h1>
           <p class="text-8px text-primary-900">
-            {{ player.getCurrentTrack()?.getArtistsFormatted() }}
+            {{ player.getCurrentTrack()!.getArtistsFormatted() }}
           </p>
         </div>
       </div>
@@ -149,16 +149,16 @@ const duration = computed(() => metadata.value?.format.duration || 0);
               D# Pentatonic
             </chip> -->
         <chip
-          v-if="player.getCurrentTrack().getMetadata().format.codec"
+          v-if="player.getCurrentTrack()!.getMetadata().format.codec"
           :icon="FileIcon"
         >
-          {{ player.getCurrentTrack().getMetadata().format.codec }}
+          {{ player.getCurrentTrack()!.getMetadata().format.codec }}
         </chip>
         <chip
-          v-if="player.getCurrentTrack().getMetadata().format.bitrate"
+          v-if="player.getCurrentTrack()!.getMetadata().format.bitrate"
           :icon="BitrateIcon"
         >
-          {{ ((player.getCurrentTrack().getMetadata().format.bitrate || 0) / 1024).toFixed(2) }}<strong
+          {{ ((player.getCurrentTrack()!.getMetadata().format.bitrate || 0) / 1024).toFixed(2) }}<strong
             class="opacity-50"
           >kbps</strong>
         </chip>

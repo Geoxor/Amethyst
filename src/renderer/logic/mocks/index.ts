@@ -8,6 +8,8 @@ export const electron = {
       switch (channel) {
         case "get-metadata":
           return Metadata.getMetadata(args[0]);
+        case "get-cover":
+          return Buffer.from([0, 0, 0]);
       }
       return;
     }),

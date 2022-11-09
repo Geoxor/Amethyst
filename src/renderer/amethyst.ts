@@ -2,6 +2,7 @@ import { ElectronEventManager } from "@/electronEventManager";
 import { Player } from "@/logic/player";
 import { Shortcuts } from "@/shortcuts";
 import { AppState } from "@/state";
+import { flattenArray } from "./logic/math";
 import { MediaSession } from "./mediaSession";
 
 export class BackendLogger {
@@ -36,12 +37,15 @@ export class Amethyst {
   public appState: AppState = new AppState();
   public electron: ElectronEventManager = new ElectronEventManager(this.appState);
   public backendLogger: BackendLogger = new BackendLogger(this.electron);
-  public player: Player = new Player(this.electron);
+  public player: Player = new Player();
   public shortcuts: Shortcuts = new Shortcuts(this.player);
   public mediaSession: MediaSession = new MediaSession(this.player, this.backendLogger);
   public cpuUsageMonitor: CPUUsageMonitor = new CPUUsageMonitor(this.appState, this.electron, this.backendLogger);
 
   constructor() {
+		this.electron.ipc.on<string>("play-file", path => path !== "--require" && this.player.queue.add(path));
+    this.electron.ipc.on<(string)[]>("play-folder", paths => this.player.queue.add(flattenArray(paths)));
+
     document.addEventListener("drop", event => {
       event.preventDefault();
       event.stopPropagation();
