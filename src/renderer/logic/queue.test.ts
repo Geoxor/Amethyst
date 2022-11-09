@@ -28,14 +28,14 @@ describe.concurrent("class Queue", () => {
     });
 
     it("should have a size of 4", () => {
-      expect(queue.list.size).toEqual(3);
+      expect(queue.getList().size).toEqual(3);
     });
   });
 
   describe("queue.add()", () => {
     it("should add a track to the queue", () => {
       queue.add(mockResource("KOAN Sound - Traverse.flac")),
-      expect(queue.list.size).toEqual(4);
+      expect(queue.getList().size).toEqual(4);
     });
 
     it("shouldn't add dupes", () => {
@@ -43,14 +43,14 @@ describe.concurrent("class Queue", () => {
       queue.add(mockResource("KOAN Sound - Traverse.flac")),
       queue.add(mockResource("KOAN Sound - Traverse.flac")),
       queue.add(mockResource("KOAN Sound - Traverse.flac")),
-      expect(queue.list.size).toEqual(4);
+      expect(queue.getList().size).toEqual(4);
     });
   });
 
   describe("queue.remove()", () => {
     it("can remove a track from the queue", () => {
       queue.remove(3),
-      expect(queue.list.size).toEqual(3);
+      expect(queue.getList().size).toEqual(3);
     });
   });
 });
