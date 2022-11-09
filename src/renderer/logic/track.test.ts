@@ -23,7 +23,6 @@ vi.stubGlobal("electron", {
       }
       return;
     }),
-    removeAllListeners: vi.fn(),
   }
 });
 
@@ -52,13 +51,13 @@ describe.concurrent("class Track", () => {
     });
   }); 
 
-  describe.concurrent("Track.getFilename()", () => {
+  describe.concurrent("track.getFilename()", () => {
     it("should return the filename", async () => {
       expect(track.getFilename()).toBe("KOAN Sound & Asa - Starlite.flac");
     });
   });
 
-  describe.concurrent("Track.getTitleFormatted()", () => {
+  describe.concurrent("track.getTitleFormatted()", () => {
     it("should return the title if exists", async () => {
       expect(track.getTitleFormatted()).toBe("Starlite");
     });
@@ -69,7 +68,7 @@ describe.concurrent("class Track", () => {
     });
   });
 
-  describe.concurrent("Track.getArtistsFormatted()", () => {
+  describe.concurrent("track.getArtistsFormatted()", () => {
     it("should return the artists if exists", async () => {
       const track = await Track.new(mockResource("KOAN Sound - Traverse.flac"));
       expect(track.getArtistsFormatted()).toBe("KOAN Sound");
@@ -84,5 +83,18 @@ describe.concurrent("class Track", () => {
       expect(track.getArtistsFormatted()).toBe("unknown artist");
     });
   });
-  
+
+  describe.concurrent("track.getDurationSeconds()", () => {
+    it("should return the duration in seconds", async () => {
+      const track = await Track.new(mockResource("House - Zenith v1.mp3"));
+      expect(~~track.getDurationSeconds()).toBe(15);
+    });
+  });
+
+  describe.concurrent("track.getDurationFormatted()", () => {
+    it("should return the duration in a formatted string", async () => {
+      const track = await Track.new(mockResource("House - Zenith v1.mp3"));
+      expect(track.getDurationFormatted()).toBe("0:15");
+    });
+  });
 });
