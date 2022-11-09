@@ -6,7 +6,7 @@ import {ref} from "vue";
 
 export class Queue {
   private savedQueue = useLocalStorage<string[]>("queue", []);
-  public list = ref(new Map<string, Track>()).value;
+  private list = ref(new Map<string, Track>());
 
   public constructor(paths?: string[]) {
     paths 
@@ -14,11 +14,15 @@ export class Queue {
       : this.add(this.savedQueue.value);
   }
 
+  public getList() {
+    return this.list.value;
+  }
+
   /**
    * Saves the current queue to local storage for persistance
    */
   private syncLocalStorage() {
-    this.savedQueue.value = Array.from(this.list.values()).map(t => t.path);
+    this.savedQueue.value = Array.from(this.list.value.values()).map(t => t.path);
   }
 
   /**
@@ -26,13 +30,13 @@ export class Queue {
    */
   private fetchAsyncData(){
     PromisePool
-			.for(Array.from(this.list.values()))
+			.for(Array.from(this.list.value.values()))
 			.withConcurrency(5)
 			.process(track => track.fetchAsyncData());
   }
 
   public getTrack(idx: number){
-    return Array.from(this.list.values())[idx];
+    return Array.from(this.list.value.values())[idx];
   }
 
   /**
@@ -41,11 +45,11 @@ export class Queue {
    */
   public add(path: string | string[]) {
     if (path instanceof Array) {
-      path.forEach(path => this.list.set(path, new Track(path)));
+      path.forEach(path => this.list.value.set(path, new Track(path)));
       this.fetchAsyncData();
     } else {
       const track = new Track(path);
-      this.list.set(path, track);
+      this.list.value.set(path, track);
       track.fetchAsyncData();
     }
 
@@ -57,18 +61,18 @@ export class Queue {
    * @param target An index or Track instance to remove
    */
   public remove(target: number| Track) {
-    target instanceof Track ? this.list.delete(target.path) : this.list.delete(this.getTrack(target).path);
+    target instanceof Track ? this.list.value.delete(target.path) : this.list.value.delete(this.getTrack(target).path);
     this.syncLocalStorage();
   }
 
   public clear(){
-    this.list.clear();
+    this.list.value.clear();
   }
 
   /**
    * Shuffles the queue
    */
   public shuffle() {
-		this.list = new Map(fisherYatesShuffle(Array.from(this.list.entries())));
+		this.list.value = new Map(fisherYatesShuffle(Array.from(this.list.value.entries())));
   }
 }
