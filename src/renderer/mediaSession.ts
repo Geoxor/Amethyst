@@ -27,18 +27,19 @@ export class MediaSession {
     this.player.on("play", () => navigator.mediaSession.playbackState = "playing");
     this.player.on("pause", () => navigator.mediaSession.playbackState = "paused");
 
-    this.player.on("metadata", meta => {
-      const cover = meta?.common?.picture?.[0];
-      let coverUrl: string = "";
+    // TODO: Fix this
+    // this.player.on("metadata", meta => {
+    //   const cover = meta?.common?.picture?.[0];
+    //   let coverUrl: string = "";
 
-      cover && (coverUrl = URL.createObjectURL(new Blob([new Uint8Array(cover.data)], { type: "image/png" })));
+    //   cover && (coverUrl = URL.createObjectURL(new Blob([new Uint8Array(cover.data)], { type: "image/png" })));
 
-      navigator.mediaSession.metadata = new MediaMetadata({
-        title: meta.common.title,
-        artist: meta.common.artists?.join(" & "),
-        album: meta.common.album,
-        artwork: [{ src: coverUrl, type: "image/png" }],
-      });
-    });
+    //   navigator.mediaSession.metadata = new MediaMetadata({
+    //     title: meta.common.title,
+    //     artist: meta.common.artists?.join(" & "),
+    //     album: meta.common.album,
+    //     artwork: [{ src: coverUrl, type: "image/png" }],
+    //   });
+    // });
   }
 }

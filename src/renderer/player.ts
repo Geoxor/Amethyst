@@ -55,9 +55,9 @@ export class Player {
 
 	constructor(public appState: AppState, public electron: ElectronEventManager, public logger: BackendLogger) {
 		// Ignore the --require arg we get in dev mode so we don't end up with "--require" as a path in the queue
-		electron.electron.on<string>("play-file", file => file !== "--require" && this.addToQueueAndPlay(file));
-		electron.electron.on<(string)[]>("play-folder", files => this.setQueue(files));
-		electron.electron.on<(string)[]>("load-folder", files => this.setQueue([...files, ...this.getQueue()]));
+		electron.ipc.on<string>("play-file", file => file !== "--require" && this.addToQueueAndPlay(file));
+		electron.ipc.on<(string)[]>("play-folder", files => this.setQueue(files));
+		electron.ipc.on<(string)[]>("load-folder", files => this.setQueue([...files, ...this.getQueue()]));
 
 		this.loadSoundAndPlay(this.state.currentlyPlayingFilePath);
 		this.seekTo(this.state.currentTime); 
@@ -295,6 +295,7 @@ export class Player {
 	}
 
 	public setVolume(volume: number) {
+		if (!this.nodeManager) return;
 		this.nodeManager.master.node.gain.value = volume;
 		this.state.volume = volume;
 		this.emit("setVolume", volume);

@@ -1,5 +1,4 @@
 import type { IAudioMetadata } from "music-metadata";
-import { useElectron } from "./amethyst";
 
 /**
  * Each playable audio file is an instance of this class
@@ -21,7 +20,7 @@ export class Track {
    * @param path The song file path
    */
   private static fetchMetadata = async (path: string) => {
-    return useElectron().getMetadata(path);
+    return (await import("../amethyst")).useElectron().getMetadata(path);
   };
 
   /**
