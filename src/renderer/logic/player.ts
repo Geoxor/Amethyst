@@ -86,17 +86,17 @@ export class Player extends EventEmitter<{
     this.play(this.currentTrackIndex.value);
   }
 
-  // public seekTo(time: number) {
-		
-	// }
+  public seekTo(time: number) {
+		this.input.currentTime = time;
+	}
 
-	// public seekForward(step = 5) {
-		
-	// }
+	public seekForward(step = 5) {
+		this.seekTo(this.currentTime.value + step);
+	}
 
-	// public seekBackward(step = 5) {
-		
-	// }
+	public seekBackward(step = 5) {
+		this.seekTo(this.currentTime.value - step);
+	}
 
   public loopNone() {
 		this.loopMode.value = LoopMode.None;
