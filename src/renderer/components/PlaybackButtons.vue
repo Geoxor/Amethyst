@@ -87,7 +87,7 @@ const duration = computed(() => metadata.value?.format.duration || 0);
         :id="player.currentTime"
         v-model="player.input.currentTime"
         :value="player.input.currentTime"
-        class="w-full z-10 opacity-50"
+        class="w-full"
         min="0"
         :max="duration"
         step="0.01"
@@ -103,7 +103,7 @@ const duration = computed(() => metadata.value?.format.duration || 0);
         id="volume"
         key="volume"
         v-model="player.volume.value"
-        class="volume max-w-32"
+        class="max-w-32"
         min="0"
         max="1"
         step="0.001"
@@ -143,16 +143,16 @@ const duration = computed(() => metadata.value?.format.duration || 0);
               D# Pentatonic
             </chip> -->
         <chip
-          v-if="player.getCurrentTrack()!.getMetadata().format.codec"
+          v-if="player.getCurrentTrack()!.getMetadata()?.format.codec"
           :icon="FileIcon"
         >
-          {{ player.getCurrentTrack()!.getMetadata().format.codec }}
+          {{ player.getCurrentTrack()!.getMetadata()?.format.codec }}
         </chip>
         <chip
-          v-if="player.getCurrentTrack()!.getMetadata().format.bitrate"
+          v-if="player.getCurrentTrack()!.getMetadata()?.format.bitrate"
           :icon="BitrateIcon"
         >
-          {{ ((player.getCurrentTrack()!.getMetadata().format.bitrate || 0) / 1024).toFixed(2) }}<strong
+          {{ ((player.getCurrentTrack()!.getMetadata()?.format.bitrate || 0) / 1024).toFixed(2) }}<strong
             class="opacity-50"
           >kbps</strong>
         </chip>

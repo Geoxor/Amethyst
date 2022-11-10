@@ -18,11 +18,10 @@ const state = useState();
       placeholder="name, album & artist..."
       @keydown.stop
     >
-    <!-- <empty-div v-if="player.queue.getList().size == 0" /> -->
 
     <cover-art
       v-if="state.settings.showAmbientBackground"
-      class="absolute pointer-events-none top-1/2 transform-gpu -translate-y-1/2 left-0 w-full filter blur-3xl"
+      class="absolute z-1000 select-none pointer-events-none top-1/2 transform-gpu -translate-y-1/2 left-0 w-full filter blur-3xl"
       :style="`opacity: ${state.settings.ambientBackgroundOpacity}%;`"
       :url="player.getCurrentTrack()?.getCover()"
     />
