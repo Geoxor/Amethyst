@@ -44,7 +44,7 @@ const handleContextMenu = (e: MouseEvent) => {
       <slot />
       <h1
         v-if="description"
-        class=" text-white font-aseprite text-opacity-30"
+        class="text-primary-900 font-aseprite"
       >
         {{ description }}
       </h1>
@@ -54,6 +54,7 @@ const handleContextMenu = (e: MouseEvent) => {
       <db-meter
         v-if="!meterless"
         :node="node.node"
+        :channels="player.getCurrentTrack()?.getChannels() || 2"
       />
     </div>
   </div>
