@@ -17,9 +17,9 @@ const isHoldingControl = useShortcuts().isControlPressed;
 const invoke = window.electron.ipcRenderer.invoke;
 
 // Context Menu options for this component 
-const handleContextMenu = (e: MouseEvent, idx:number, track: Track) => {
+const handleContextMenu = (e: MouseEvent, track: Track) => {
   state.openContextMenuAt(e.x, e.y, [
-    { title: "Play", icon: PlayIcon, action: () => player.play(idx) },
+    { title: "Play", icon: PlayIcon, action: () => player.play(track) },
     { title: "Open in Explorer...", icon: ExternalLinkIcon, action: () => invoke("show-item", [track.path]) },
     { title: "Render cover art", icon: RestartIcon, action: () => track.path },
     { title: "Remove from queue", icon: BroomIcon, action: () => player.queue.remove(track) },
@@ -55,7 +55,7 @@ const handleContextMenu = (e: MouseEvent, idx:number, track: Track) => {
           player.getCurrentTrack()?.path == item.path && 'active'
         ]"
         class="queue"
-        @contextmenu="handleContextMenu($event, i, item)"
+        @contextmenu="handleContextMenu($event, item)"
         @keypress.prevent
         @click="isHoldingControl ? invoke('show-item', [item.path]) : player.play(item)"
       >
