@@ -3,6 +3,7 @@ import { usePlayer, useShortcuts, useState } from "@/amethyst";
 import EmptyDiv from "@/components/EmptyDiv.vue";
 import BroomIcon from "@/icons/plumpy/BroomIcon.vue";
 import PlayIcon from "@/icons/plumpy/PlayIcon.vue";
+import ExternalLinkIcon from "@/icons/plumpy/ExternalLinkIcon.vue";
 import RestartIcon from "@/icons/plumpy/RestartIcon.vue";
 import LoadingIcon from "@/icons/plumpy/LoadingIcon.vue";
 import ErrorIcon from "@/icons/plumpy/ErrorIcon.vue";
@@ -21,7 +22,8 @@ const invoke = window.electron.ipcRenderer.invoke;
 const handleContextMenu = (e: MouseEvent, idx:number, track: Track) => {
   state.openContextMenuAt(e.x, e.y, [
     { title: "Play", icon: PlayIcon, action: () => player.play(idx) },
-    { title: "Render cover art", icon: RestartIcon, action: () => player.getCurrentTrack()?.path },
+    { title: "Open in Explorer...", icon: ExternalLinkIcon, action: () => invoke("show-item", [track.path]) },
+    { title: "Render cover art", icon: RestartIcon, action: () => track.path },
     { title: "Remove from queue", icon: BroomIcon, action: () => player.queue.remove(track) },
   ]);
 };
