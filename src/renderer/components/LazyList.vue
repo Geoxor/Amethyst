@@ -34,6 +34,7 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
     :items="tracks"
     :item-size="16"
     key-field="path"
+    :buffer="32"
   >
     <template #before>
       <div
@@ -107,9 +108,14 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
 </template>
 
 <style lang="postcss">
+
+.vue-recycle-scroller__slot {
+  @apply flex;
+}
+
 .vue-recycle-scroller__slot,
 .vue-recycle-scroller__item-view {
-  @apply flex text-left;
+  @apply  text-left;
 }
 .th,
 .td {
