@@ -19,11 +19,14 @@ const player = usePlayer();
 </script>
 
 <template>
-  <div class="flex fixed flex-col">
-    <cover-art
+  <div class="flex fixed flex-col bg-surface-900">
+    <cover-art 
       v-if="state.settings.showAmbientBackground"
-      class="absolute z-1000 select-none pointer-events-none top-1/2 transform-gpu -translate-y-1/2 left-0 w-full filter blur-3xl"
-      :style="`opacity: ${state.settings.ambientBackgroundOpacity}%;`"
+      class="absolute z-1000 select-none mix-blend-soft-light pointer-events-none top-1/2 transform-gpu -translate-y-1/2 left-1/2 -translate-x-1/2 w-full"
+      :style="`
+        opacity: ${state.settings.ambientBackgroundOpacity}%;
+        filter: blur(${state.settings.abmientBackgroundBlurStrength}px);
+      `"
       :url="player.getCurrentTrack()?.getCover()"
     />
 

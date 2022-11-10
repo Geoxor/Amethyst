@@ -11,18 +11,27 @@ const state = useState();
 
 <template>
   <padded-container class="w-64 text-primary-900 min-w-64 m-2 ml-0">
-    <settings-category-splitter text="UI" />
+    <settings-category-splitter text="Ambient Background" />
     <settings-binary-switch
       v-model="state.settings.showAmbientBackground"
-      text="Show ambient background"
+      text="Enabled"
     />
     <settings-modifier
       v-model="state.settings.ambientBackgroundOpacity"
-      text="Ambient background opacity"
+      text="Opacity"
       :min="0"
-      :max="35"
+      :max="100"
       :step="1"
-      :def="15"
+      :def="state.defaultSettings.ambientBackgroundOpacity"
+    />
+
+    <settings-modifier
+      v-model="state.settings.abmientBackgroundBlurStrength"
+      text="Blur strength"
+      :min="32"
+      :max="256"
+      :step="1"
+      :def="state.defaultSettings.abmientBackgroundBlurStrength"
     />
 
     <settings-category-splitter text="Covers" />
@@ -53,7 +62,7 @@ const state = useState();
       :min="0.1"
       :max="5"
       :step="0.50"
-      :def="1"
+      :def="state.defaultSettings.vectorscopeLineThickness"
     />
 
     <settings-category-splitter text="Spectrum" />
@@ -71,7 +80,7 @@ const state = useState();
       :min="0.5"
       :max="2"
       :step="0.1"
-      :def="1.5"
+      :def="state.defaultSettings.spectrumVerticalZoom"
     />
     <settings-modifier
       v-model="state.settings.spectrumSmoothing"
@@ -79,13 +88,13 @@ const state = useState();
       :min="0.01"
       :max="0.99"
       :step="0.1"
-      :def="0.5"
+      :def="state.defaultSettings.spectrumSmoothing"
     />
     <settings-modifier
       v-model="state.settings.spectrumFftSize"
       text="FFT Size"
       :range="[32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768]"
-      :def="8192"
+      :def="state.defaultSettings.spectrumFftSize"
     />
 
     <settings-category-splitter text="dB Meter" />

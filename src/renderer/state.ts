@@ -29,7 +29,7 @@ export class AppState {
 		theme: "amethyst-dark",
 	});
 
-	public settingsObject = {
+	public defaultSettings = {
 		showQueue: true,
 		showSettings: false,
 		showMiniCovers: true,
@@ -38,7 +38,8 @@ export class AppState {
 		showVectorscope: true,
 		showDbMeter: true,
 		showAmbientBackground: false,
-		ambientBackgroundOpacity: 15,
+		ambientBackgroundOpacity: 25,
+		abmientBackgroundBlurStrength: 64,
 		spectrumVerticalZoom: 1.5,
 		spectrumFftSize: 8192,
 		spectrumSmoothing: 0.5,
@@ -51,7 +52,7 @@ export class AppState {
 		playOnStartup: false,
 	};
 
-	public settings = useLocalStorage("settings", this.settingsObject, { writeDefaults: true }).value;
+	public settings = useLocalStorage("settings", this.defaultSettings, { writeDefaults: true }).value;
 	public isDev = computed(() => this.state.version.includes("DEV"));
 
 	public openContextMenuAt(x: number, y: number, options: IContextMenuOption[]) {
@@ -69,11 +70,11 @@ export class AppState {
 
 	constructor() {
 		this.applyCurrentTheme();
-		Object.keys(this.settingsObject).forEach(key => {
+		Object.keys(this.defaultSettings).forEach(key => {
 			// @ts-ignore
 			if (this.settings[key] === undefined || this.settings[key] === null)
 				// @ts-ignore
-				this.settings[key] = this.settingsObject[key];
+				this.settings[key] = this.defaultSettings[key];
 		});
 
 	}
