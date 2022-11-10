@@ -31,7 +31,7 @@ export class Queue {
   private fetchAsyncData(){
     return PromisePool
 			.for(Array.from(this.list.value.values()))
-			.withConcurrency(5)
+			.withConcurrency(20)
 			.process(track => track.fetchAsyncData());
   }
 
@@ -67,10 +67,12 @@ export class Queue {
 
   public clear(){
     this.list.value.clear();
+    this.syncLocalStorage();
   }
 
   public clearErrored(){
     Array.from(this.getList().values()).filter(t => t.hasErrored).forEach(t => this.remove(t));
+    this.syncLocalStorage();
   }
 
   /**
