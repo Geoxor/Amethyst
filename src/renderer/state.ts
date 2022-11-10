@@ -38,7 +38,7 @@ export class AppState {
 		showVectorscope: true,
 		showDbMeter: true,
 		showAmbientBackground: false,
-		ambientBackgroundOpacity: 20,
+		ambientBackgroundOpacity: 15,
 		spectrumVerticalZoom: 1.5,
 		spectrumFftSize: 8192,
 		spectrumSmoothing: 0.5,

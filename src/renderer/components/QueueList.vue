@@ -1,12 +1,10 @@
 <script setup lang="ts">
-import { usePlayer, useState} from "@/amethyst";
+import { usePlayer } from "@/amethyst";
 
 import { ref } from "vue";
 import LazyList from "@/components/LazyList.vue";
-import CoverArt from "./CoverArt.vue";
 const player = usePlayer();
 const filterText = ref("");
-const state = useState();
 </script>
 
 <template>
@@ -18,13 +16,6 @@ const state = useState();
       placeholder="name, album & artist..."
       @keydown.stop
     >
-
-    <cover-art
-      v-if="state.settings.showAmbientBackground"
-      class="absolute z-1000 select-none pointer-events-none top-1/2 transform-gpu -translate-y-1/2 left-0 w-full filter blur-3xl"
-      :style="`opacity: ${state.settings.ambientBackgroundOpacity}%;`"
-      :url="player.getCurrentTrack()?.getCover()"
-    />
 
     <LazyList
       :headers="[

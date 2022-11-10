@@ -12,6 +12,7 @@ import NavigationBar from "@/components/NavigationBar.vue";
 import NodeEditor from "@/components/NodeEditor.vue";
 import PlaybackButtons from "@/components/PlaybackButtons.vue";
 import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
+import CoverArt from "@/components/CoverArt.vue";
 
 const state = useState();
 const player = usePlayer();
@@ -19,6 +20,13 @@ const player = usePlayer();
 
 <template>
   <div class="flex fixed flex-col">
+    <cover-art
+      v-if="state.settings.showAmbientBackground"
+      class="absolute z-1000 select-none pointer-events-none top-1/2 transform-gpu -translate-y-1/2 left-0 w-full filter blur-3xl"
+      :style="`opacity: ${state.settings.ambientBackgroundOpacity}%;`"
+      :url="player.getCurrentTrack()?.getCover()"
+    />
+
     <menu-bar />
     <context-menu v-if="state.state.contextMenu.isVisible" />
     <div class="h-full whitespace-nowrap flex flex-col justify-between overflow-hidden">

@@ -20,9 +20,9 @@ const state = useState();
       v-model="state.settings.ambientBackgroundOpacity"
       text="Ambient background opacity"
       :min="0"
-      :max="100"
+      :max="35"
       :step="1"
-      :def="25"
+      :def="15"
     />
 
     <settings-category-splitter text="Covers" />
