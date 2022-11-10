@@ -47,7 +47,7 @@ const handleContextMenu = (e: MouseEvent, idx:number, track: Track) => {
       <table
         class="text-12px text-left w-full"
       >
-        <tr class="text-primary-900">
+        <tr>
           <th v-if="state.settings.showMiniCovers" />
           <th>Filename</th>
           <th>Artist</th>
@@ -65,13 +65,12 @@ const handleContextMenu = (e: MouseEvent, idx:number, track: Track) => {
                 || track.getArtistsFormatted().toLowerCase().includes(filterText)
                 || track.getAlbumFormatted().toLowerCase().includes(filterText)
               )"
-          :key="path"
-          class="hover:text-white h-4"
+          :key="i"
           :class="[
             isHoldingControl && 'control-hover', 
-            isHoldingControl ? 'cursor-external-pointer' : 'cursor-default', 
+            isHoldingControl && 'cursor-external-pointer', 
             track.hasErrored && 'opacity-50 not-allowed',
-            player.getCurrentTrack()?.path == track.path ? 'text-primary-800' : 'text-primary-900'
+            player.getCurrentTrack()?.path == track.path && 'active'
           ]"
           @contextmenu="handleContextMenu($event, i, track)"
           @keypress.prevent
@@ -97,13 +96,13 @@ const handleContextMenu = (e: MouseEvent, idx:number, track: Track) => {
               :url="(track.isLoaded ? track.getCover() : state.state.defaultCover) as string"
             />
           </td>
-          <td class="max-w-48 overflow-hidden overflow-ellipsis">
+          <td class="max-w-48 ">
             {{ player.getCurrentTrack()?.path == track.path ? "⏵ " : "" }}{{ track.getFilename() }}
           </td>
-          <td class="max-w-48 overflow-hidden overflow-ellipsis">
+          <td class="max-w-48 ">
             {{ track.getArtistsFormatted() }}
           </td>
-          <td class="max-w-48 overflow-hidden overflow-ellipsis">
+          <td class="max-w-48 ">
             {{ track.getAlbumFormatted() }}
           </td>
           <td class="min-w-8">
@@ -117,7 +116,7 @@ const handleContextMenu = (e: MouseEvent, idx:number, track: Track) => {
           <td class="min-w-16">
             {{ track.getFilesizeFormatted() }}
           </td>
-          <td class="max-w-32 overflow-hidden overflow-ellipsis">
+          <td class="max-w-32 ">
             {{ track.getDurationFormatted() }}
           </td>
         </tr>
@@ -141,4 +140,17 @@ const handleContextMenu = (e: MouseEvent, idx:number, track: Track) => {
   transform: translateY(-20px);
   opacity: 0;
 }
+
+td {
+  @apply overflow-hidden overflow-ellipsis;
+}
+
+tr {
+  @apply hover:text-white text-primary-900 h-4;
+
+  &.active {
+    @apply text-primary-800;
+  }
+}
+
 </style>
