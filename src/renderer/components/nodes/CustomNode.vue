@@ -2,6 +2,7 @@
 import { usePlayer, useState } from "@/amethyst";
 import SquareButton from "@/components/input/SquareButton.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
+import RestartIcon from "@/icons/plumpy/RestartIcon.vue";
 import { AmethystAudioNode } from "@/logic/audio";
 import { Handle, Position } from "@vue-flow/core";
 const props = defineProps<{ title: string, icon: any, description?: string, node: AmethystAudioNode<any>, meterless?: boolean }>();
@@ -14,7 +15,7 @@ const handleContextMenu = (e: MouseEvent) => {
     props.node.isDisabled
       ? { title: "Enable", action: () => player.nodeManager.enableNode(props.node) }
       : { title: "Disable", action: () => player.nodeManager.disableNode(props.node) },
-      { title: "Reset", action: () => props.node.reset() },
+      { title: "Reset", icon: RestartIcon, action: () => props.node.reset() },
   ]);
 };
 
