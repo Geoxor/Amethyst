@@ -1,6 +1,6 @@
 import { IMetadata } from "src/main/metadata";
 import { ref } from "vue";
-import { secondsToHuman } from "./formating";
+import { bytesToHuman, secondsToHuman } from "./formating";
 
 export enum LoadStatus {
   Loading,
@@ -64,8 +64,8 @@ export class Track {
    */
   public fetchAsyncData = async () => {
     this.isLoading.value = true;
-    this.isLoading.value = false;
     await Promise.allSettled([this.fetchCover(), this.fetchMetadata()]);
+    this.isLoading.value = false;
     this.isLoaded.value = true;
   };
 
@@ -74,7 +74,7 @@ export class Track {
    * @throws Error message if the object hasn't loaded yet
    */
   public getMetadata = () => {
-    if (this.metadata.state != LoadStatus.Loaded) throw new Error("Metadata hasn't finished loading yet for this file");
+    if (this.metadata.state != LoadStatus.Loaded) return;
     return this.metadata.data;
   };
 
@@ -83,7 +83,7 @@ export class Track {
    * @throws Error message if the object hasn't loaded yet
    */
   public getCover = () => {
-    if (this.cover.state != LoadStatus.Loaded) throw new Error("Cover hasn't finished loading yet for this file");
+    if (this.cover.state != LoadStatus.Loaded) return;
     return this.cover.data;
   };
 
@@ -94,6 +94,14 @@ export class Track {
   public getFilename = () => {
     return this.path.substring(Math.max(this.path.lastIndexOf("\\"), this.path.lastIndexOf("/")) + 1);
   };
+
+  /**
+   * @returns The filesize in a human readable string
+   * @example "2.42 MB"
+   */
+  public getFilesizeFormatted(){
+    return bytesToHuman(this.getMetadata()?.size || 0);
+  }
 
   /**
    * @returns The title from metadata and falls back to the filename

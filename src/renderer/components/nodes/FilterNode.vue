@@ -21,7 +21,7 @@ watch(() => frequency.value, () => props.node.node.frequency.value = frequency.v
     :icon="FilterIcon"
   >
     <p class="font-aseprite">
-      <strong class="text-white font-aseprite font-thin text-opacity-50">Gain</strong> {{ gain }}
+      <strong class="text-primary-900 font-aseprite font-thin">Gain</strong> {{ gain }}
       dB
     </p>
 
@@ -33,7 +33,7 @@ watch(() => frequency.value, () => props.node.node.frequency.value = frequency.v
     />
 
     <p class="font-aseprite">
-      <strong class="text-white font-aseprite font-thin text-opacity-50">Frequency</strong> {{
+      <strong class="text-primary-900 font-aseprite font-thin">Frequency</strong> {{
         frequency
       }}
       Hz

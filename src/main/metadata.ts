@@ -5,12 +5,14 @@ import { ICommonTagsResult, IFormat } from "music-metadata/lib/type";
 export interface IMetadata {
 	format: IFormat;
 	common: ICommonTagsResult;
+	size: number;
 }
 
 export class Metadata {
 	public static async getMetadata(path?: string): Promise<IMetadata | undefined> {
 		if (!path) return;
-		const {common, format} = await mm.parseBuffer(await fs.promises.readFile(path));
-		return {common, format};
+		const file = await fs.promises.readFile(path);
+		const {common, format} = await mm.parseBuffer(file);
+		return {common, format, size: file.buffer.byteLength};
 	}
 }

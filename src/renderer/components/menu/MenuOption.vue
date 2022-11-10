@@ -10,6 +10,7 @@ defineProps<{
 
 <template>
   <button
+    :class="[title.includes('...') && 'cursor-pointer']"
     class="text-left hover:text-primary-800 hover:bg-surface-600 text-11px py-1.5 px-6 w-full flex justify-between items-center"
   >
     <div class="flex gap-2 items-center">

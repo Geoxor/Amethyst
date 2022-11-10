@@ -23,8 +23,8 @@ const player = usePlayer();
 
 <template>
   <div
-    class="text-primary-900 borderBottom z-100 font-main drag text-12px select-none flex justify-between items-center"
-    :class="[state.state.isFocused ? 'text-opacity-100' : 'text-opacity-65']"
+    class="borderBottom z-100 font-main drag text-12px select-none flex justify-between items-center"
+    :class="[state.state.isFocused ? 'text-primary-1000' : 'text-primary-900']"
   >
     <div class="flex no-drag h-full items-center">
       <div class="logo px-2.25 mr-0.5 cursor-heart-pointer">
@@ -43,13 +43,6 @@ const player = usePlayer();
           :icon="MusicFolderIcon"
           @click="() => electron.openFolderDialog()"
         />
-        <menu-splitter />
-        <menu-option
-          :shortcuts="['CTRL', 'SHIFT', 'X']"
-          title="Clear queue"
-          :icon="BroomIcon"
-          @click="player.queue.clear()"
-        />
       </Menu>
       <Menu title="Utility">
         <menu-option
@@ -67,7 +60,21 @@ const player = usePlayer();
           :icon="ZoomToExtentsIcon"
           :shortcuts="['CTRL', '0']"
         />
-        
+
+        <menu-splitter />
+        <menu-option
+          :shortcuts="['CTRL', 'X']"
+          title="Clear queue"
+          :icon="BroomIcon"
+          @click="player.queue.clear()"
+        />
+        <menu-option
+          :shortcuts="['CTRL', 'Z']"
+          title="Clear errored"
+          :icon="BroomIcon"
+          @click="player.queue.clearErrored()"
+        />
+
         <menu-splitter />
         <menu-option
           :title="`Check for updates`"

@@ -31,7 +31,6 @@ export class AppState {
 
 	public settingsObject = {
 		showQueue: true,
-		showNodeEditor: true,
 		showSettings: false,
 		showMiniCovers: true,
 		showCoverArt: true,
@@ -41,7 +40,6 @@ export class AppState {
 		spectrumVerticalZoom: 1.5,
 		spectrumFftSize: 8192,
 		spectrumSmoothing: 0.5,
-		colorInterfaceFromCoverart: false,
 		vectorscopeLineThickness: 1,
 		isSnappingToGrid: false,
 		diagonalVectorscope: true,

@@ -23,6 +23,7 @@ export default defineConfig({
 		extend: {
 			colors: {
 				primary: {
+					1000: cssVarRgbHelper("primary-1000"),
 					900: cssVarRgbHelper("primary-900"),
 					800: cssVarRgbHelper("primary-800"),
 					700: cssVarRgbHelper("primary-700"),
