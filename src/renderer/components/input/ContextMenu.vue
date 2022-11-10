@@ -38,7 +38,6 @@ const updatePositon = () => {
         :icon="option.icon"
         :title="option.title"
         :shortcuts="option.shortcuts"
-        :class="[option.title.includes('...') && 'cursor-pointer']"
         @click="runAction(option)"
       />
     </ul>
