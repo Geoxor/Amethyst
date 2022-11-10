@@ -48,7 +48,7 @@ const handleContextMenu = (e: MouseEvent, idx:number, track: Track) => {
         class="text-12px text-left w-full"
       >
         <tr class="text-primary-900">
-          <th />
+          <th v-if="state.settings.showMiniCovers" />
           <th>Filename</th>
           <th>Artist</th>
           <th>Album</th>
@@ -77,7 +77,10 @@ const handleContextMenu = (e: MouseEvent, idx:number, track: Track) => {
           @keypress.prevent
           @click="isHoldingControl ? invoke('show-item', [path]) : player.play(track)"
         > 
-          <td class="min-w-4 w-4">
+          <td
+            v-if="state.settings.showMiniCovers"
+            class="min-w-4 w-4"
+          >
             <loading-icon
               v-if="track.isLoading"
               class="h-3 animate-spin w-3 min-h-3 min-w-3"
