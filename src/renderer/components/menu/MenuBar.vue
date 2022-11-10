@@ -63,13 +63,13 @@ const player = usePlayer();
 
         <menu-splitter />
         <menu-option
-          :shortcuts="['CTRL', 'X']"
+          :shortcuts="['CTRL', 'SHIFT', 'X']"
           title="Clear queue"
           :icon="BroomIcon"
           @click="player.queue.clear()"
         />
         <menu-option
-          :shortcuts="['CTRL', 'Z']"
+          :shortcuts="['CTRL', 'SHIFT', 'Z']"
           title="Clear errored"
           :icon="BroomIcon"
           @click="player.queue.clearErrored()"

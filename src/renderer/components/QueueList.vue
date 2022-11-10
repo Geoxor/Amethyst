@@ -39,7 +39,11 @@ const handleContextMenu = (e: MouseEvent, idx:number, track: Track) => {
       placeholder="name, album & artist..."
       @keydown.stop
     >
-    <div class="overflow-auto h-full">
+    <empty-div v-if="player.queue.getList().size == 0" />
+    <div
+      v-else
+      class="overflow-auto h-full"
+    >
       <table
         class="text-12px text-left w-full"
       >
@@ -116,7 +120,6 @@ const handleContextMenu = (e: MouseEvent, idx:number, track: Track) => {
         </tr>
       </table>
     </div>
-    <empty-div v-if="player.queue.getList().size == 0" />
   </div>
 </template>
 
