@@ -50,6 +50,12 @@ const player = usePlayer();
           :icon="BroomIcon"
           @click="player.queue.clear()"
         />
+        <menu-option
+          :shortcuts="['CTRL', 'SHIFT', 'Z']"
+          title="Clear errored"
+          :icon="BroomIcon"
+          @click="player.queue.clearErrored()"
+        />
       </Menu>
       <Menu title="Utility">
         <menu-option

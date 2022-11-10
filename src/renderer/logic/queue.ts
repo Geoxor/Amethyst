@@ -69,6 +69,10 @@ export class Queue {
     this.list.value.clear();
   }
 
+  public clearErrored(){
+    Array.from(this.getList().values()).filter(t => t.hasErrored).forEach(t => this.remove(t));
+  }
+
   /**
    * Shuffles the queue
    */
