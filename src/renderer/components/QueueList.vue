@@ -22,7 +22,7 @@ const state = useState();
 
     <cover-art
       v-if="state.settings.showAmbientBackground"
-      class="absolute -top-1/4 left-0 w-full filter blur-3xl"
+      class="absolute pointer-events-none top-1/2 transform-gpu -translate-y-1/2 left-0 w-full filter blur-3xl"
       :style="`opacity: ${state.settings.ambientBackgroundOpacity}%;`"
       :url="player.getCurrentTrack()?.getCover()"
     />
