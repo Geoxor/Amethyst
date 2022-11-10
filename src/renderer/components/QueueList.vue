@@ -29,7 +29,7 @@ const handleContextMenu = (e: MouseEvent, idx:number, track: Track) => {
 </script>
 
 <template>
-  <div class="flex-col p-2 pr-0 flex w-full borderRight h-full">
+  <div class="flex-col p-2 flex w-full borderRight h-full">
     <input
       v-model="filterText"
       type="text"
