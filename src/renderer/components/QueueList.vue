@@ -1,14 +1,16 @@
 <script setup lang="ts">
-import { usePlayer} from "@/amethyst";
+import { usePlayer, useState} from "@/amethyst";
 
 import { ref } from "vue";
 import LazyList from "@/components/LazyList.vue";
+import CoverArt from "./CoverArt.vue";
 const player = usePlayer();
 const filterText = ref("");
+const state = useState();
 </script>
 
 <template>
-  <div class="flex-col p-2 flex w-full borderRight h-full">
+  <div class="flex-col p-2 flex w-full borderRight h-full ">
     <input
       v-model="filterText"
       type="text"
@@ -17,6 +19,13 @@ const filterText = ref("");
       @keydown.stop
     >
     <!-- <empty-div v-if="player.queue.getList().size == 0" /> -->
+
+    <cover-art
+      v-if="state.settings.showAmbientBackground"
+      class="absolute -top-1/4 left-0 w-full filter blur-3xl"
+      :style="`opacity: ${state.settings.ambientBackgroundOpacity}%;`"
+      :url="player.getCurrentTrack()?.getCover()"
+    />
 
     <LazyList
       :headers="[

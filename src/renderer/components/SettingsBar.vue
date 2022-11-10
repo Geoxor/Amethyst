@@ -11,6 +11,20 @@ const state = useState();
 
 <template>
   <padded-container class="w-64 text-primary-900 min-w-64 m-2 ml-0">
+    <settings-category-splitter text="UI" />
+    <settings-binary-switch
+      v-model="state.settings.showAmbientBackground"
+      text="Show ambient background"
+    />
+    <settings-modifier
+      v-model="state.settings.ambientBackgroundOpacity"
+      text="Ambient background opacity"
+      :min="0"
+      :max="100"
+      :step="1"
+      :def="25"
+    />
+
     <settings-category-splitter text="Covers" />
     <settings-binary-switch
       v-model="state.settings.showCoverArt"
