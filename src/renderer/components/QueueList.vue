@@ -69,7 +69,7 @@ const handleContextMenu = (e: MouseEvent, idx:number, track: Track) => {
           ]"
           @contextmenu="handleContextMenu($event, i, track)"
           @keypress.prevent
-          @click="isHoldingControl ? invoke('show-item', [path]) : player.play(i)"
+          @click="isHoldingControl ? invoke('show-item', [path]) : player.play(track)"
         > 
           <td class="min-w-4 w-4">
             <loading-icon

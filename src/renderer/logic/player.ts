@@ -42,14 +42,18 @@ export class Player extends EventEmitter<{
     this.input.onended = () => this.next();
   }
 
-  public play(idx?: number) {
-    if (idx) {
-      const track = this.queue.getTrack(idx);
+  /**
+   * Changes the currenlty playing tune to the given input and plays it
+   * @param target the index or instace of a Track
+   */
+  public play(target?: number | Track) {
+    if (target) {
+      const track = target instanceof Track ? target : this.queue.getTrack(target);
       if (track.hasErrored) return;
       this.input.src = track.path;
       this.setVolume(this.volume.value);
       this.currentTrack.value = track;
-      this.currentTrackIndex.value = idx;
+      this.currentTrackIndex.value = Array.from(this.queue.getList().values()).indexOf(track);
       this.input.play();
     }
     this.input.play();
