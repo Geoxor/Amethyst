@@ -100,7 +100,10 @@ const handleContextMenu = (e: MouseEvent, idx:number, track: Track) => {
             {{ track.getAlbumFormatted() }}
           </td>
           <td class="min-w-8">
-            <BaseChip class="text-8px">
+            <BaseChip
+              v-if="track.getMetadata()?.format.container"
+              class="text-8px"
+            >
               {{ track.getMetadata()?.format.container }}
             </BaseChip>
           </td>
