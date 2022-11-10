@@ -54,7 +54,7 @@ function resize(e: MouseEvent) {
     :class="[isHoveringOverResizeBoundary && 'border-r-primary-700']"
     @mousedown="handleMouseDown"
     @mouseup="isResizing = false"
-    @mouseover="handleMouseOver"
+    @mouseenter="handleMouseOver"
     @mouseleave="isHoveringOverResizeBoundary = false"
   >
     <slot />
