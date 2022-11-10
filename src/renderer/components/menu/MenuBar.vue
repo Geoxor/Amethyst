@@ -43,19 +43,6 @@ const player = usePlayer();
           :icon="MusicFolderIcon"
           @click="() => electron.openFolderDialog()"
         />
-        <menu-splitter />
-        <menu-option
-          :shortcuts="['CTRL', 'SHIFT', 'X']"
-          title="Clear queue"
-          :icon="BroomIcon"
-          @click="player.queue.clear()"
-        />
-        <menu-option
-          :shortcuts="['CTRL', 'SHIFT', 'Z']"
-          title="Clear errored"
-          :icon="BroomIcon"
-          @click="player.queue.clearErrored()"
-        />
       </Menu>
       <Menu title="Utility">
         <menu-option
@@ -73,7 +60,21 @@ const player = usePlayer();
           :icon="ZoomToExtentsIcon"
           :shortcuts="['CTRL', '0']"
         />
-        
+
+        <menu-splitter />
+        <menu-option
+          :shortcuts="['CTRL', 'X']"
+          title="Clear queue"
+          :icon="BroomIcon"
+          @click="player.queue.clear()"
+        />
+        <menu-option
+          :shortcuts="['CTRL', 'Z']"
+          title="Clear errored"
+          :icon="BroomIcon"
+          @click="player.queue.clearErrored()"
+        />
+
         <menu-splitter />
         <menu-option
           :title="`Check for updates`"

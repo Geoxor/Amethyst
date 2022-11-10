@@ -25,8 +25,8 @@ export class Shortcuts {
     }],
     "queue.add.file": [["o"], () => this.isControlPressed.value && useElectron().openFileDialog()],
     "queue.add.folder": [["O"], () => this.isControlPressed.value && useElectron().openFolderDialog()],
-    "queue.clear": [["X"], () => this.isControlPressed.value && this.player.queue.clear()],
-    "queue.clear.errored": [["Z"], () => this.isControlPressed.value && this.player.queue.clearErrored()],
+    "queue.clear": [["x"], () => this.isControlPressed.value && this.player.queue.clear()],
+    "queue.clear.errored": [["z"], () => this.isControlPressed.value && this.player.queue.clearErrored()],
   };
 
   public bindings = this.DEFAULT_BINDINGS;
