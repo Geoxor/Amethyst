@@ -29,7 +29,7 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
 </script>
 
 <template>
-  <div class="text-12px h-full text-left relative select-none">
+  <div class="text-12px min-h-0 h-full flex flex-col text-left relative select-none">
     <header class="flex">
       <div class="w-4" />
       <div
