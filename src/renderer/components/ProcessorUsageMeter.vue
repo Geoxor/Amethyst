@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{ value: number; }>();
+defineProps<{value: number; }>();
 </script>
 
 <template>
@@ -8,7 +8,7 @@ defineProps<{ value: number; }>();
       {{ value.toFixed(0) }}%
     </p>
     <div
-      class="background bg-primary-700 h-full duration-500 h-full absolute top-0 left-0"
+      class="background bg-current h-full duration-500 h-full absolute top-0 left-0"
       :style="`width: ${value}%;`"
     />
   </div>

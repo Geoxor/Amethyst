@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { usePlayer, useState } from "@/amethyst";
-import MenuBar from "@/components//menu/MenuBar.vue";
+import TopBar from "@/components/TopBar.vue";
 
 import ContextMenu from "@/components/input/ContextMenu.vue";
 import Queue from "@/components/QueueList.vue";
@@ -30,7 +30,7 @@ const player = usePlayer();
       :url="player.getCurrentTrack()?.getCover()"
     />
 
-    <menu-bar />
+    <top-bar />
     <context-menu v-if="state.state.contextMenu.isVisible" />
     <div class="h-full whitespace-nowrap flex flex-col justify-between overflow-hidden">
       <div class="flex-1 flex h-full max-h-full overflow-hidden">

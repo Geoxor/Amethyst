@@ -27,8 +27,8 @@ export class Queue {
         .filter(track => search ? !track.hasErrored : track)
         .filter(track => 
           track.getFilename().toLowerCase().includes(search)
-          || track.getArtistsFormatted().toLowerCase().includes(search)
-          || track.getAlbumFormatted().toLowerCase().includes(search));
+          || track.getArtistsFormatted()?.toLowerCase().includes(search)
+          || track.getAlbumFormatted()?.toLowerCase().includes(search));
   }
 
   public updateTotalSize() {

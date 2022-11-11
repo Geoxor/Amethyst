@@ -127,7 +127,12 @@ const player = usePlayer();
         v-if="state.state.updateReady"
         @click="electron.close()"
       />
-      <processor-usage-meter :value="state.state.cpuUsage" />
+      <processor-usage-meter
+        :value="state.state.cpuUsage.renderer"
+      />
+      <processor-usage-meter
+        :value="state.state.cpuUsage.node"
+      />
       <control-buttons
         :is-maximized="state.state.isMaximized"
         @close="electron.close"

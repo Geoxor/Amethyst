@@ -82,10 +82,26 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
           {{ player.getCurrentTrack()?.path == item.path ? "⏵ " : "" }}{{ item.getFilename() }}
         </div>
         <div class="td">
-          {{ item.getArtistsFormatted() }}
+          <span v-if="item.getArtistsFormatted()">
+            {{ item.getArtistsFormatted() }}
+          </span>
+          <span
+            v-else
+            class="text-primary-900 text-opacity-50"
+          >
+            n/a
+          </span>
         </div>
         <div class="td">
-          {{ item.getAlbumFormatted() }}
+          <span v-if="item.getAlbumFormatted()">
+            {{ item.getAlbumFormatted() }}
+          </span>
+          <span
+            v-else
+            class="text-primary-900 text-opacity-50"
+          >
+            n/a
+          </span>
         </div>
         <div class="td ">
           <BaseChip

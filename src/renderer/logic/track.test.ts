@@ -89,10 +89,10 @@ describe.concurrent("class Track", () => {
       expect(track.getArtistsFormatted()).toBe("KOAN Sound & Asa");
     });
 
-    it("should default to 'unknown artist' if there is no artists in the metadata", async () => {
+    it("should be undefined if there is no artists in the metadata", async () => {
       const track = new Track(mockResource("no-metadata.flac"));
       await track.fetchAsyncData();
-      expect(track.getArtistsFormatted()).toBe("unknown artist");
+      expect(track.getArtistsFormatted()).toBeUndefined();
     });
   });
 

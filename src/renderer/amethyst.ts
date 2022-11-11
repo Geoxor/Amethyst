@@ -28,7 +28,7 @@ export class CPUUsageMonitor {
 
   private getCpuData = async () => {
     this.electron.getCpuUsage()
-      .then(usage => this.state.state.cpuUsage = usage as number)
+      .then(usage => this.state.state.cpuUsage = usage as {node: number, renderer: number})
       .catch(this.logger.error);
   };
 }

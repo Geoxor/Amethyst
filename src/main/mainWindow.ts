@@ -6,12 +6,14 @@ import { getAverageColor } from "fast-average-color-node";
 import fs from "fs";
 import open from "open";
 import path from "path";
+import pidusage from "pidusage";
 import sharp from "sharp";
 import { Discord } from "./discord";
 import { loadFolder } from "./handles";
 import { ALLOWED_EXTENSIONS, APP_VERSION, IS_DEV, RESOURCES_PATH } from "./main";
 import { Metadata } from "./metadata";
 import { resolveHTMLPath } from "./util";
+import os from "os";
 
 const icon = () => path.join(RESOURCES_PATH, "icon.png");
 
@@ -189,7 +191,12 @@ export class MainWindow {
 			},
 
 			"percent-cpu-usage": async () => {
-				return process.getCPUUsage().percentCPUUsage;
+				const windowStats = await pidusage(this.window.webContents.getOSProcessId());
+
+				return {
+					node: process.getCPUUsage().percentCPUUsage,
+					renderer: windowStats.cpu / os.cpus().length
+				};
 			},
 
 			"get-cover": async (_: Event, [path]: string[]) => {

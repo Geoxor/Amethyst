@@ -11,7 +11,10 @@ export interface IContextMenuOption {
 export class AppState {
 	public state = reactive({
 		allowedExtensions: [] as string[],
-		cpuUsage: 0,
+		cpuUsage: {
+			node: 0,
+			renderer: 0
+		},
 		version: "",
 		isMinimized: false,
 		isFocused: true,

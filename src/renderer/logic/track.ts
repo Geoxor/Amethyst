@@ -31,7 +31,6 @@ export class Track {
       throw new Error(`Given file extension does not match any of the allowed types [${Track.ALLOWED_EXTENSIONS.join(", ")}]`);
 
   }
-
   /**
    * Fetches the metadata for a given track
    */
@@ -113,14 +112,14 @@ export class Track {
 
   /**
    * @returns The artist(s) (joined with a "&") from metadata and falls back to "uknown artist"
-   * @example "Daft Punk", "Virtual Riot & Panda Eyes" || "unknown artist",
+   * @example "Daft Punk", "Virtual Riot & Panda Eyes",
    */
   public getArtistsFormatted = () => {
-    return this.getMetadata()?.common.artists?.join(" & ") || "unknown artist";
+    return this.getMetadata()?.common.artists?.join(" & ");
   };
 
   public getAlbumFormatted() {
-    return this.getMetadata()?.common.album || "unknown album";
+    return this.getMetadata()?.common.album;
   }
 
   /**
