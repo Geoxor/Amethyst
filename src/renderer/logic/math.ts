@@ -1,3 +1,15 @@
+import { useState } from "@/amethyst";
+import { computed } from "vue";
+
+const logIndexes = computed(() => {
+  const count = useState().settings.spectrumFftSize / 2;
+  const indexes: number[] = [];
+  for (let i = 0; i < count; i++) {
+    indexes.push(getLogIndex(i, 1, count));
+  }
+  return indexes;
+});
+
 export const getLogIndex = (value: number, min: number, max: number) => {
   const exp = value / min / (max - min);
   return min * (max / min) ** exp;
@@ -6,8 +18,8 @@ export const getLogIndex = (value: number, min: number, max: number) => {
 export const scaleLog = (array: Uint8Array): Uint8Array => {
   const logArray = [];
 
-  for (let i = 1; i < array.length - 2; i++) {
-    const idx = getLogIndex(i, 1, array.length - 1);
+  for (let i = 1; i < array.length - 1; i++) {
+    const idx = logIndexes.value[i];
     const low = ~~idx;
     const high = Math.ceil(idx);
     const lv = array[low];
