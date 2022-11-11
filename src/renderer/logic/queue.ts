@@ -3,10 +3,14 @@ import { useLocalStorage } from "@vueuse/core";
 import { fisherYatesShuffle } from "./math";
 import { Track } from "./track";
 import {ref} from "vue";
+import { bytesToHuman, secondsToHuman } from "./formating";
 
 export class Queue {
   private savedQueue = useLocalStorage<string[]>("queuev2", []);
   private list = ref(new Map<string, Track>());
+
+  public totalSize = ref(0);
+  public totalDuration = ref(0);
 
   public constructor(paths?: string[]) {
     paths 
@@ -15,14 +19,43 @@ export class Queue {
   }
 
   public getList() {
-    return this.list.value;
+    return Array.from(this.list.value.values());
+  }
+
+  public search(search: string) {
+    return this.getList()
+        .filter(track => search ? !track.hasErrored : track)
+        .filter(track => 
+          track.getFilename().toLowerCase().includes(search)
+          || track.getArtistsFormatted().toLowerCase().includes(search)
+          || track.getAlbumFormatted().toLowerCase().includes(search));
+  }
+
+  public updateTotalSize() {
+    this.totalSize.value = this.getList().reduce((a, b) => a + (b.metadata.data?.size || 0), 0);
+  }
+
+  public updateTotalDuration(){
+    this.totalDuration.value = this.getList().reduce((a, b) => a + (b.getDurationSeconds()), 0);
+  }
+
+  public getTotalSizeFormatted(){
+    return bytesToHuman(this.totalSize.value);
+  }
+
+  public getTotalTracks(){
+    return this.getList().length;
+  }
+
+  public getTotalDurationFormatted() {
+    return secondsToHuman(this.totalDuration.value);
   }
 
   /**
    * Saves the current queue to local storage for persistance
    */
   private syncLocalStorage() {
-    this.savedQueue.value = Array.from(this.list.value.values()).map(t => t.path);
+    this.savedQueue.value = this.getList().map(t => t.path);
   }
 
   /**
@@ -30,13 +63,17 @@ export class Queue {
    */
   private fetchAsyncData(){
     return PromisePool
-			.for(Array.from(this.list.value.values()))
+			.for(this.getList())
 			.withConcurrency(20)
-			.process(track => track.fetchAsyncData());
+			.process(async track => {
+        await track.fetchAsyncData();
+        this.updateTotalSize();
+        this.updateTotalDuration();
+      });
   }
 
   public getTrack(idx: number){
-    return Array.from(this.list.value.values())[idx];
+    return this.getList()[idx];
   }
 
   /**
@@ -71,7 +108,7 @@ export class Queue {
   }
 
   public clearErrored(){
-    Array.from(this.getList().values()).filter(t => t.hasErrored).forEach(t => this.remove(t));
+    this.getList().filter(t => t.hasErrored).forEach(t => this.remove(t));
     this.syncLocalStorage();
   }
 

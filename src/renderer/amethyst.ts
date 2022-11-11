@@ -56,6 +56,8 @@ export class Amethyst {
       e.preventDefault();
       e.stopPropagation();
     });
+
+    this.player.on("*", console.log);
   }
 }
 

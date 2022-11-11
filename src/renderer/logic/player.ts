@@ -16,6 +16,7 @@ export class Player extends EventEmitter<{
   play: Track;
   pause: Track;
   volume: number;
+  shuffle: void;
   stop: void;
 }> {
   private currentTrack = ref<Track>();
@@ -40,6 +41,9 @@ export class Player extends EventEmitter<{
 
     this.input.addEventListener("timeupdate", () => this.currentTime.value = this.input.currentTime);
     this.input.onended = () => this.next();
+
+    // Set the volume on first load
+    this.nodeManager.master.node.gain.value = this.volume.value;
   }
 
   /**
@@ -51,9 +55,8 @@ export class Player extends EventEmitter<{
       const track = target instanceof Track ? target : this.queue.getTrack(target);
       if (track.hasErrored) return;
       this.input.src = track.path;
-      this.setVolume(this.volume.value);
       this.currentTrack.value = track;
-      this.currentTrackIndex.value = Array.from(this.queue.getList().values()).indexOf(track);
+      this.currentTrackIndex.value = this.queue.getList().indexOf(track);
       this.input.play();
     }
     this.input.play();
@@ -79,6 +82,11 @@ export class Player extends EventEmitter<{
     this.currentTrack.value = undefined;
     this.currentTrackIndex.value = 0;
     this.emit("stop");
+  }
+
+  public shuffle() {
+    this.queue.shuffle();
+    this.emit("shuffle");
   }
 
   public next(){

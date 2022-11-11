@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { usePlayer } from "@/amethyst";
 
-import { ref } from "vue";
 import LazyList from "@/components/LazyList.vue";
+import { ref } from "vue";
 const player = usePlayer();
 const filterText = ref("");
+
 </script>
 
 <template>
@@ -24,16 +25,10 @@ const filterText = ref("");
         'Artist',
         'Album',
         'Container',
-        'Size',
-        'Duration',
+        `Size <strong>${player.queue.getTotalSizeFormatted()}</strong>`,
+        `Duration <strong>${player.queue.getTotalDurationFormatted()}</strong>`,
       ]"
-      :tracks="Array.from(player.queue.getList())
-        .filter(([_, track]) => filterText ? !track.hasErrored : track)
-        .filter(([_, track]) => 
-          track.getFilename().toLowerCase().includes(filterText)
-          || track.getArtistsFormatted().toLowerCase().includes(filterText)
-          || track.getAlbumFormatted().toLowerCase().includes(filterText)
-        ).map(t=>t[1])"
+      :tracks="player.queue.search(filterText)"
     />
   </div>
 </template>

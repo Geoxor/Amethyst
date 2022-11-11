@@ -41,9 +41,8 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
         v-for="header in headers"
         :key="header"
         class="th font-bold text-primary-900 mb-2"
-      >
-        {{ header }}
-      </div>
+        v-html="header"
+      />
     </template>
     <template
       #default="{ item }"
@@ -120,6 +119,10 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
 .th,
 .td {
   @apply flex-1;
+
+  & strong {
+    @apply text-primary-900 text-9px text-opacity-50;
+  }
 }
 
 .td {

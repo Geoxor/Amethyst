@@ -61,7 +61,7 @@ const duration = computed(() => metadata.value?.format.duration || 0);
 
         <shuffle-icon
           class="opacity-75 hover:opacity-100 hover:text-white"
-          @click="player.queue.shuffle()"
+          @click="player.shuffle()"
         />
 
         <repeat-icon
