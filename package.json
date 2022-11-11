@@ -2,7 +2,7 @@
   "name": "amethyst",
   "author": "Geoxor <geoxor123@outlook.com>",
   "productName": "Amethyst",
-  "version": "1.7.22",
+  "version": "1.7.23",
   "main": "./release/dist/main/main.js",
   "licenses": [
     {
@@ -12,6 +12,7 @@
   ],
   "description": "Amethyst is an Electron-based audio player with a node-based audio routing system, the main goal of this project is to make a music player in Typescript that has pro-level features as most DAWs / DAEs, while also providing useful tools and customizability to the end-user to deal with audio.",
   "scripts": {
+    "bump": "npm version patch --force && git add . && git commit \"bump to $(node -e \"console.log(require(\"./package.json\").version);\")\" && git tag -m $(node -e \"console.log(require(\"./package.json\").version);\") && git push",
     "dev": "concurrently -p none \"yarn start:main\" \"yarn start:renderer\"",
     "build": "concurrently -p none \"yarn build:main\" \"yarn build:renderer\"",
     "build:main": "concurrently -p none \"tsc ./src/main/preload.ts\" \"tsc -p ./src/main/tsconfig.json\" ",
