@@ -4,7 +4,7 @@ import { ICommonTagsResult, IFormat } from "music-metadata/lib/type";
 
 export interface IMetadata {
 	format: IFormat;
-	common: ICommonTagsResult;
+	common: ICommonTagsResult & {[key: string]: any};
 	size: number;
 }
 

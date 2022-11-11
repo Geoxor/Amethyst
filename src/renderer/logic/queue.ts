@@ -4,6 +4,7 @@ import { fisherYatesShuffle } from "./math";
 import { Track } from "./track";
 import {ref} from "vue";
 import { bytesToHuman, secondsToHuman } from "./formating";
+import { ICommonTagsResult } from "music-metadata";
 
 export class Queue {
   private savedQueue = useLocalStorage<string[]>("queuev2", []);
@@ -20,6 +21,10 @@ export class Queue {
 
   public getList() {
     return Array.from(this.list.value.values());
+  }
+
+  public sort(by: keyof ICommonTagsResult) {
+    return this.getList().sort((a, b) => a.metadata.data?.common[by] > b.metadata.data?.common[by] ? 1 : -1);
   }
 
   public search(search: string) {

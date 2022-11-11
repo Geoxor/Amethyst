@@ -2,14 +2,25 @@
 import { usePlayer } from "@/amethyst";
 
 import LazyList from "@/components/LazyList.vue";
+import MyLocationIcon from "@/icons/material/MyLocationIcon.vue";
 import { ref } from "vue";
+import SquareButton from "./input/SquareButton.vue";
 const player = usePlayer();
+
 const filterText = ref("");
+
+const scrollToCurrentElement = () => {
+  const active = document.querySelector(".vue-recycle-scroller");
+  const currentTrack = player.getCurrentTrack();
+  if (!currentTrack) return;
+  const estimatedPosition = player.queue.getList().indexOf(currentTrack) * 16;
+  active?.scrollTo({top: estimatedPosition, behavior: "smooth"});
+};
 
 </script>
 
 <template>
-  <div class="flex-col p-2 flex w-full borderRight h-full ">
+  <div class="flex-col p-2 flex w-full relative borderRight h-full ">
     <input
       v-model="filterText"
       type="text"
@@ -17,6 +28,12 @@ const filterText = ref("");
       placeholder="name, album & artist..."
       @keydown.stop
     >
+
+    <square-button
+      class="absolute bottom-2 right-5 z-10 "
+      :icon="MyLocationIcon"
+      @click="scrollToCurrentElement"
+    />
 
     <LazyList
       :tracks="player.queue.search(filterText)"
