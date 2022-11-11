@@ -63,7 +63,7 @@ export class Queue {
    */
   private fetchAsyncData(){
     return PromisePool
-			.for(this.getList())
+			.for(this.getList().filter(track => !track.isLoaded))
 			.withConcurrency(20)
 			.process(async track => {
         await track.fetchAsyncData();
