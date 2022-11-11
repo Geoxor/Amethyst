@@ -146,6 +146,6 @@ export class Player extends EventEmitter<{
 	}
 
 	public currentDurationFormatted() {
-		return secondsToHuman(this.input.duration);
+		return secondsToHuman(this.input.duration || 0);
 	}
 }

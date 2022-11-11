@@ -28,6 +28,7 @@ export class Queue {
         .filter(track => 
           track.getFilename().toLowerCase().includes(search)
           || track.getArtistsFormatted()?.toLowerCase().includes(search)
+          || track.getTitle()?.toLowerCase().includes(search)
           || track.getAlbumFormatted()?.toLowerCase().includes(search));
   }
 

@@ -10,7 +10,7 @@ import LoadingIcon from "@/icons/plumpy/LoadingIcon.vue";
 import ErrorIcon from "@/icons/plumpy/ErrorIcon.vue";
 import Cover from "@/components/CoverArt.vue";
 
-defineProps<{tracks: Track[], headers: string[]}>();
+defineProps<{tracks: Track[]}>();
 const state = useState();
 const player = usePlayer();
 const isHoldingControl = useShortcuts().isControlPressed;
@@ -29,97 +29,121 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
 </script>
 
 <template>
-  <RecycleScroller
-    class="h-full text-12px text-left relative select-none"
-    :items="tracks"
-    :item-size="16"
-    key-field="path"
-    :buffer="32"
-  >
-    <template #before>
+  <div class="text-12px h-full text-left relative select-none">
+    <header class="flex">
+      <div class="w-4" />
       <div
-        v-for="header in headers"
+        v-for="header in [
+          'Filename',
+          'Artist',
+          'Title',
+          'Album',
+          'Container',
+          `Size <strong>${player.queue.getTotalSizeFormatted()}</strong>`,
+          `Duration <strong>${player.queue.getTotalDurationFormatted()}</strong>`,
+        ]"
         :key="header"
         class="th font-bold text-primary-900 mb-2"
         v-html="header"
       />
-    </template>
-    <template
-      #default="{ item }"
+    </header>
+    <RecycleScroller
+      class="h-full"
+      :items="tracks"
+      :item-size="16"
+      key-field="path"
+      :buffer="32"
     >
-      <div
-        :class="[
-          isHoldingControl && 'control-hover', 
-          isHoldingControl && 'cursor-external-pointer', 
-          item.hasErrored && 'opacity-50 not-allowed',
-          player.getCurrentTrack()?.path == item.path && 'active'
-        ]"
-        class="queue"
-        @contextmenu="handleContextMenu($event, item)"
-        @keypress.prevent
-        @click="isHoldingControl ? invoke('show-item', [item.path]) : player.play(item)"
+      <template
+        #default="{ item }"
       >
         <div
-          v-if="state.settings.showMiniCovers"
-          class="td max-w-4"
+          :class="[
+            isHoldingControl && 'control-hover', 
+            isHoldingControl && 'cursor-external-pointer', 
+            item.hasErrored && 'opacity-50 not-allowed',
+            player.getCurrentTrack()?.path == item.path && 'active'
+          ]"
+          class="queue"
+          @contextmenu="handleContextMenu($event, item)"
+          @keypress.prevent
+          @click="isHoldingControl ? invoke('show-item', [item.path]) : player.play(item)"
         >
-          <loading-icon
-            v-if="item.isLoading"
-            class="h-3 animate-spin w-3 min-h-3 min-w-3"
-          />
-          <error-icon
-            v-else-if="item.hasErrored"
-            class="h-3 w-3 min-h-3 min-w-3"
-          />
+          <div
+            v-if="state.settings.showMiniCovers"
+            class="td max-w-4"
+          >
+            <loading-icon
+              v-if="item.isLoading"
+              class="h-3 animate-spin w-3 min-h-3 min-w-3"
+            />
+            <error-icon
+              v-else-if="item.hasErrored"
+              class="h-3 w-3 min-h-3 min-w-3"
+            />
     
-          <cover
-            v-else-if="state.settings.showMiniCovers"
-            class="w-3 h-3"
-            :url="(item.isLoaded ? item.getCover() : state.state.defaultCover) as string"
-          />
+            <cover
+              v-else-if="state.settings.showMiniCovers"
+              class="w-3 h-3"
+              :url="(item.isLoaded ? item.getCover() : state.state.defaultCover) as string"
+            />
+          </div>
+          <div class="td">
+            {{ player.getCurrentTrack()?.path == item.path ? "⏵ " : "" }}{{ item.getFilename() }}
+          </div>
+          <div class="td">
+            <span v-if="item.getArtistsFormatted()">
+              {{ item.getArtistsFormatted() }}
+            </span>
+            <span
+              v-else
+              class="text-primary-900 text-opacity-50"
+            >
+              n/a
+            </span>
+          </div>
+
+          <div class="td">
+            <span v-if="item.getTitle()">
+              {{ item.getTitle() }}
+            </span>
+            <span
+              v-else
+              class="text-primary-900 text-opacity-50"
+            >
+              n/a
+            </span>
+          </div>
+
+          <div class="td">
+            <span v-if="item.getAlbumFormatted()">
+              {{ item.getAlbumFormatted() }}
+            </span>
+            <span
+              v-else
+              class="text-primary-900 text-opacity-50"
+            >
+              n/a
+            </span>
+          </div>
+          <div class="td ">
+            <BaseChip
+              v-if="item.getMetadata()?.format.container"
+              class="text-8px"
+            >
+              {{ item.getMetadata()?.format.container }}
+            </BaseChip>
+          </div>
+          <div class="td">
+            {{ item.getFilesizeFormatted() }}
+          </div>
+          <div class="td">
+            {{ item.getDurationFormatted() }}
+          </div>
         </div>
-        <div class="td">
-          {{ player.getCurrentTrack()?.path == item.path ? "⏵ " : "" }}{{ item.getFilename() }}
-        </div>
-        <div class="td">
-          <span v-if="item.getArtistsFormatted()">
-            {{ item.getArtistsFormatted() }}
-          </span>
-          <span
-            v-else
-            class="text-primary-900 text-opacity-50"
-          >
-            n/a
-          </span>
-        </div>
-        <div class="td">
-          <span v-if="item.getAlbumFormatted()">
-            {{ item.getAlbumFormatted() }}
-          </span>
-          <span
-            v-else
-            class="text-primary-900 text-opacity-50"
-          >
-            n/a
-          </span>
-        </div>
-        <div class="td ">
-          <BaseChip
-            v-if="item.getMetadata()?.format.container"
-            class="text-8px"
-          >
-            {{ item.getMetadata()?.format.container }}
-          </BaseChip>
-        </div>
-        <div class="td">
-          {{ item.getFilesizeFormatted() }}
-        </div>
-        <div class="td">
-          {{ item.getDurationFormatted() }}
-        </div>
-      </div>
-    </template>
-  </RecycleScroller>
+      </template>
+    </RecycleScroller>
+  </div>
 </template>
 
 <style lang="postcss">

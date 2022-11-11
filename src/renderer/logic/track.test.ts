@@ -120,7 +120,7 @@ describe.concurrent("class Track", () => {
       await track.fetchAsyncData();
       const duration = track.getDurationFormatted();
       // Linux vs Windows oddities
-      expect(duration == "0:14" || duration == "0:15").toBeTruthy();
+      expect(duration == "14s" || duration == "15s").toBeTruthy();
     });
   });
 });

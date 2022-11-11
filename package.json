@@ -312,6 +312,7 @@
     "music-metadata": "7.13.0",
     "open": "^8.4.0",
     "pidusage": "^3.0.2",
+    "pretty-ms": "^8.0.0",
     "sharp": "0.30.7",
     "vite": "^3.2.2",
     "vite-plugin-windicss": "^1.8.4",

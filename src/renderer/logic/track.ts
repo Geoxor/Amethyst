@@ -72,7 +72,7 @@ export class Track {
    * @returns The metadata object for this tune if it's loaded
    * @throws Error message if the object hasn't loaded yet
    */
-  public getMetadata = () => {
+  public getMetadata() {
     if (this.metadata.state != LoadStatus.Loaded) return;
     return this.metadata.data;
   };
@@ -81,16 +81,20 @@ export class Track {
    * @returns The cover string for this tune if it's loaded
    * @throws Error message if the object hasn't loaded yet
    */
-  public getCover = () => {
+  public getCover() {
     if (this.cover.state != LoadStatus.Loaded) return;
     return this.cover.data;
   };
+
+  public getTitle(){
+    return this.metadata.data?.common.title;
+  }
 
   /**
    * @returns The filename of a file from the full path
    * @example "02. Daft Punk - Get Lucky.flac"
    */
-  public getFilename = () => {
+  public getFilename() {
     return this.path.substring(Math.max(this.path.lastIndexOf("\\"), this.path.lastIndexOf("/")) + 1);
   };
 
@@ -106,7 +110,7 @@ export class Track {
    * @returns The title from metadata and falls back to the filename
    * @example "Get Lucky" || "02. Daft Punk - Get Lucky.flac"
    */
-  public getTitleFormatted = () => {
+  public getTitleFormatted() {
     return this.getMetadata()?.common.title || this.getFilename();
   };
 
@@ -114,7 +118,7 @@ export class Track {
    * @returns The artist(s) (joined with a "&") from metadata and falls back to "uknown artist"
    * @example "Daft Punk", "Virtual Riot & Panda Eyes",
    */
-  public getArtistsFormatted = () => {
+  public getArtistsFormatted() {
     return this.getMetadata()?.common.artists?.join(" & ");
   };
 
@@ -126,7 +130,7 @@ export class Track {
    * @returns The seconds of the track in float
    * @example 15.02400204024 || 0
    */
-  public getDurationSeconds = () => {
+  public getDurationSeconds() {
     return this.getMetadata()?.format.duration || 0;
   };
 
@@ -134,7 +138,7 @@ export class Track {
    * @returns The seconds of the track in a human readable format
    * @example "0:15", "1:54"
    */
-  public getDurationFormatted = () => {
+  public getDurationFormatted() {
     return secondsToHuman(~~this.getDurationSeconds());
   };
 

@@ -19,15 +19,6 @@ const filterText = ref("");
     >
 
     <LazyList
-      :headers="[
-        '',
-        'Filename',
-        'Artist',
-        'Album',
-        'Container',
-        `Size <strong>${player.queue.getTotalSizeFormatted()}</strong>`,
-        `Duration <strong>${player.queue.getTotalDurationFormatted()}</strong>`,
-      ]"
       :tracks="player.queue.search(filterText)"
     />
   </div>

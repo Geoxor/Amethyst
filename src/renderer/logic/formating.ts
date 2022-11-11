@@ -1,3 +1,5 @@
+import prettyMilliseconds from "pretty-ms";
+
 // recursively goes through every file in the folder and flattens it
 export const bytesToHuman = (bytes: number): string => {
   const sizes = ["B", "KB", "MB", "GB", "TB"];
@@ -8,9 +10,6 @@ export const bytesToHuman = (bytes: number): string => {
 };
 
 // Turns seconds from 80 to 1:20
-export const secondsToHuman = (time: number): `${string}:${string}` => {
-  const seconds = ~~time;
-  const minutes = ~~(seconds / 60);
-  const secondsLeft = seconds % 60;
-  return `${minutes || 0}:${secondsLeft < 10 ? "0" : ""}${secondsLeft || 0}`;
+export const secondsToHuman = (seconds: number): string => {
+  return prettyMilliseconds(seconds * 1000,{secondsDecimalDigits: 0});
 };
