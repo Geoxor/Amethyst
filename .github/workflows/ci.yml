@@ -16,6 +16,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 16.10.0
+          cache: 'yarn'
 
       - name: Install gcc dependencies
         run: sudo apt install gcc-multilib g++-multilib libvips
@@ -34,6 +35,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 16.10.0
+          cache: 'yarn'
 
       - name: Install gcc dependencies
         run: sudo apt install gcc-multilib g++-multilib libvips
@@ -54,6 +56,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 16.10.0
+          cache: 'yarn'
 
       - name: Install Dependencies
         run: yarn install
@@ -106,6 +109,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 16.10.0
+          cache: 'yarn'
 
       - name: Install linux dependencies
         run: sudo apt install rpm snapd libarchive-tools && sudo snap install snapcraft --classic && sudo snap install multipass --beta --classic
