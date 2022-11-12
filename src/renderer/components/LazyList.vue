@@ -31,7 +31,9 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
 <template>
   <div class="text-12px min-h-0 h-full flex flex-col text-left relative select-none">
     <header class="flex">
-      <div class="w-4" />
+      <div
+        class="w-4"
+      />
       <div
         v-for="header in [
           'Filename',
@@ -70,7 +72,6 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
           @click="isHoldingControl ? invoke('show-item', [item.path]) : player.play(item)"
         >
           <div
-            v-if="state.settings.showMiniCovers"
             class="td max-w-4"
           >
             <loading-icon
@@ -83,7 +84,7 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
             />
     
             <cover
-              v-else-if="state.settings.showMiniCovers"
+              v-else
               class="w-3 h-3"
               :url="(item.isLoaded ? item.getCover() : state.state.defaultCover) as string"
             />
@@ -138,7 +139,7 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
             {{ item.getFilesizeFormatted() }}
           </div>
           <div class="td">
-            {{ item.getDurationFormatted() }}
+            {{ item.getDurationFormatted(true) }}
           </div>
         </div>
       </template>

@@ -35,10 +35,10 @@ export class AppState {
 	public defaultSettings = {
 		showQueue: true,
 		showSettings: false,
-		showMiniCovers: true,
 		showCoverArt: true,
 		showSpectrum: true,
 		showVectorscope: true,
+		processingConcurrency: 10,
 		showDbMeter: true,
 		showAmbientBackground: false,
 		ambientBackgroundOpacity: 25,

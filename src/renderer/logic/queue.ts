@@ -67,10 +67,12 @@ export class Queue {
   /**
    * Fetches all async data for each track concurrently
    */
-  private fetchAsyncData(){
+  private async fetchAsyncData(){
+    const { useState } = await import("@/amethyst");
+
     return PromisePool
 			.for(this.getList().filter(track => !track.isLoaded))
-			.withConcurrency(20)
+			.withConcurrency(useState().settings.processingConcurrency || 5)
 			.process(async track => {
         await track.fetchAsyncData();
         this.updateTotalSize();

@@ -2,7 +2,7 @@ import { useLocalStorage } from "@vueuse/core";
 import { ref } from "vue";
 import { AmethystAudioNodeManager } from "./audio";
 import { EventEmitter } from "./eventEmitter";
-import { secondsToHuman } from "./formating";
+import { secondsToColinHuman, secondsToHuman } from "./formating";
 import { Queue } from "./queue";
 import { Track } from "./track";
 
@@ -141,11 +141,7 @@ export class Player extends EventEmitter<{
     return this.currentTrack.value;
   }
 
-  public currentTimeFormatted() {
-		return secondsToHuman(this.currentTime.value);
-	}
-
-	public currentDurationFormatted() {
-		return secondsToHuman(this.input.duration || 0);
+  public currentTimeFormatted(colinNotation?: boolean) {
+		return colinNotation ? secondsToColinHuman(this.currentTime.value) : secondsToHuman(this.currentTime.value);
 	}
 }

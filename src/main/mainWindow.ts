@@ -192,8 +192,9 @@ export class MainWindow {
 
 			"percent-cpu-usage": async () => {
 				const windowStats = await pidusage(this.window.webContents.getOSProcessId());
-
+				
 				return {
+
 					node: process.getCPUUsage().percentCPUUsage,
 					renderer: windowStats.cpu / os.cpus().length
 				};
@@ -241,13 +242,13 @@ export class MainWindow {
 				};
 			},
 
-			"update-rich-presence": (_: Event, [
-				title,
-				duration,
-				seek,
-				status,
-			]: string[]) => {
+			"update-rich-presence": (_: Event, [args]: string[]) => {
+				const [	title,	duration,	seek,	status ] = args;
 				this.discord.updateCurrentSong(title, duration, seek, status === "true");
+			},
+
+			"clear-rich-presence": () => {
+				this.discord.clearRichPresence();
 			},
 
 			"check-for-updates": () => {

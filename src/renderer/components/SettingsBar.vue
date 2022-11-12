@@ -41,9 +41,14 @@ const state = useState();
     />
 
     <settings-category-splitter text="Queue List" />
-    <settings-binary-switch
-      v-model="state.settings.showMiniCovers"
-      text="Show mini covers"
+
+    <settings-modifier
+      v-model="state.settings.processingConcurrency"
+      text="Processing concurrency"
+      :min="1"
+      :max="32"
+      :step="1"
+      :def="state.defaultSettings.processingConcurrency"
     />
 
     <settings-category-splitter text="Vectorscope" />
