@@ -2,7 +2,7 @@
   "name": "amethyst",
   "author": "Geoxor <geoxor123@outlook.com>",
   "productName": "Amethyst",
-  "version": "1.7.31",
+  "version": "1.7.32",
   "main": "./release/dist/main/main.js",
   "licenses": [
     {
@@ -275,7 +275,6 @@
     "electron-devtools-installer": "^3.2.0",
     "electron-mock-ipc": "^0.3.12",
     "electron-notarize": "^1.2.2",
-    "electron-rebuild": "^3.2.7",
     "electronmon": "^2.0.2",
     "eslint": "^8.26.0",
     "eslint-import-resolver-alias": "^1.1.2",
