@@ -1,6 +1,6 @@
 import { IMetadata } from "src/main/metadata";
 import { ref } from "vue";
-import { bytesToHuman, secondsToHuman } from "./formating";
+import { bytesToHuman, secondsToColinHuman, secondsToHuman } from "./formating";
 
 export enum LoadStatus {
   Loading,
@@ -138,8 +138,8 @@ export class Track {
    * @returns The seconds of the track in a human readable format
    * @example "0:15", "1:54"
    */
-  public getDurationFormatted() {
-    return secondsToHuman(~~this.getDurationSeconds());
+  public getDurationFormatted(colinNotation?: boolean) {
+    return colinNotation ? secondsToColinHuman(~~this.getDurationSeconds()) : secondsToHuman(~~this.getDurationSeconds());
   };
 
   /**

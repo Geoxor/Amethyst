@@ -95,8 +95,8 @@ const duration = computed(() => metadata.value?.format.duration || 0);
       />
 
       <p class="text-8px">
-        {{ player.currentTimeFormatted() }} /
-        {{ player.currentDurationFormatted() }}
+        {{ player.currentTimeFormatted(true) }} /
+        {{ player.getCurrentTrack()?.getDurationFormatted(true) }}
       </p>
 
       <slider
