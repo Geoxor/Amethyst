@@ -14,6 +14,9 @@ apt install amethyst
 # Arch (soon hopefully)
 yay amethyst
 
+# MacOS (soon hopefully)
+brew install amethyst
+
 # Oneliner Build From Source
 git clone https://github.com/geoxor/amethyst && cd amethyst && yarn && yarn test --run && yarn package
 ```
