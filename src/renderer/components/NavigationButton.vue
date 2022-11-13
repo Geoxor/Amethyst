@@ -4,7 +4,7 @@ defineProps<{ icon: any, active: boolean, notifs?: number }>();
 
 <template>
   <div
-    :class="[active ? 'text-primary-800' : 'text-primary-900']"
+    :class="[active ? 'text-primary-800' : 'text-primary-800 text-opacity-30']"
     class="p-3 hover:bg-surface-700 items-center hover:text-primary-800 flex relative justify-center"
   >
     <component :is="icon" />
