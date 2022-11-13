@@ -42,6 +42,7 @@
       "warn",
       "double"
     ],
+    "vue/no-v-html": "off",
     "vue/component-tags-order": [
       "warn",
       {

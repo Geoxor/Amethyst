@@ -7,8 +7,10 @@ import "virtual:windi.css";
 import {RecycleScroller} from "vue-virtual-scroller";
 import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 import { createApp } from "vue";
+import { router } from "@/router";
 
 const app = createApp(App);
 
 app.component("RecycleScroller", RecycleScroller);
+app.use(router);
 app.mount("#app");

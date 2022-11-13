@@ -3,13 +3,11 @@ import { usePlayer, useState } from "@/amethyst";
 import TopBar from "@/components/TopBar.vue";
 
 import ContextMenu from "@/components/input/ContextMenu.vue";
-import Queue from "@/components/QueueList.vue";
 import SettingsBar from "@/components/SettingsBar.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import Spectrum from "@/components/visualizers/SpectrumAnalyzer.vue";
 
 import NavigationBar from "@/components/NavigationBar.vue";
-import NodeEditor from "@/components/NodeEditor.vue";
 import PlaybackButtons from "@/components/PlaybackButtons.vue";
 import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 import CoverArt from "@/components/CoverArt.vue";
@@ -35,8 +33,7 @@ const player = usePlayer();
     <div class="h-full whitespace-nowrap flex flex-col justify-between overflow-hidden">
       <div class="flex-1 flex h-full max-h-full overflow-hidden">
         <navigation-bar />
-        <queue v-if="state.settings.showQueue" />
-        <node-editor v-else />
+        <router-view />
         <settings-bar v-if="state.settings.showSettings" />
       </div>
 

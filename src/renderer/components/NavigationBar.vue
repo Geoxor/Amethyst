@@ -3,15 +3,33 @@ import { useState } from "@/amethyst";
 import NavigationButton from "@/components/NavigationButton.vue";
 import ListIcon from "@/icons/material/ListIcon.vue";
 import SettingsIcon from "@/icons/material/SettingsIcon.vue";
+import SelectNoneIcon from "@/icons/material/SelectNoneIcon.vue";
+import { useRoute, useRouter } from "vue-router";
+import PlaystationButtonsIcon from "@/icons/material/PlaystationButtonsIcon.vue";
 const state = useState();
+const router = useRouter();
+const route = useRoute();
 </script>
 
 <template>
   <div class="borderRight">
     <navigation-button
+      :icon="SelectNoneIcon"
+      :active="route.name == 'node-editor'"
+      @click="router.push({name: 'node-editor'})"
+    />
+    
+    <navigation-button
       :icon="ListIcon"
-      :active="state.settings.showQueue"
-      @click="state.settings.showQueue = !state.settings.showQueue"
+      :active="route.name == 'queue-list'"
+      @click="router.push({name: 'queue-list'})"
+    />
+    
+    <navigation-button
+      v-if="state.isDev"
+      :icon="PlaystationButtonsIcon"
+      :active="route.name == 'playground-view'"
+      @click="router.push({name: 'playground-view'})"
     />
 
     <navigation-button
