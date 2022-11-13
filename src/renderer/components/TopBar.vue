@@ -15,6 +15,8 @@ import RestartIcon from "@/icons/plumpy/RestartIcon.vue";
 import ZoomInIcon from "@/icons/plumpy/ZoomInIcon.vue";
 import ZoomOutIcon from "@/icons/plumpy/ZoomOutIcon.vue";
 import ZoomToExtentsIcon from "@/icons/plumpy/ZoomToExtentsIcon.vue";
+import { useFps } from "@vueuse/core";
+const fps = useFps({every: 30});
 
 const state = useState();
 const electron = useElectron();
@@ -127,6 +129,16 @@ const player = usePlayer();
         v-if="state.state.updateReady"
         @click="electron.close()"
       />
+      <div 
+        :class="[
+          fps < 30 && 'text-red-500',
+          fps >= 30 && fps < 155 && 'text-yellow-300',
+          fps >= (155*0.8) && 'text-green-500',
+        ]"
+        class="font-aseprite"
+      >
+        {{ fps }}fps
+      </div>
       <processor-usage-meter
         :value="state.state.cpuUsage.renderer"
       />

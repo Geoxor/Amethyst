@@ -152,7 +152,7 @@ const duration = computed(() => metadata.value?.format.duration || 0);
           v-if="player.getCurrentTrack()!.getMetadata()?.format.bitrate"
           :icon="BitrateIcon"
         >
-          {{ ((player.getCurrentTrack()!.getMetadata()?.format.bitrate || 0) / 1024).toFixed(2) }}<strong
+          {{ ((player.getCurrentTrack()!.getMetadata()?.format.bitrate || 0) / 1000).toFixed(2) }}<strong
             class="opacity-50"
           >kbps</strong>
         </chip>
