@@ -12,6 +12,8 @@ import PlaybackButtons from "@/components/PlaybackButtons.vue";
 import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 import CoverArt from "@/components/CoverArt.vue";
 
+import HideIcon from "@/icons/plumpy/HideIcon.vue";
+
 const state = useState();
 const player = usePlayer();
 </script>
@@ -42,12 +44,18 @@ const player = usePlayer();
           v-if="state.settings.showVectorscope && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
           :node="player.nodeManager.master.node"
+          @contextmenu="state.openContextMenuAt($event.x, $event.y, [
+            { title: 'Hide Vectorscope', icon: HideIcon, action: () => state.settings.showVectorscope = false },
+          ]);"
         />
 
         <spectrum
           v-if="state.settings.showSpectrum && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
           :node="player.nodeManager.master.node"
+          @contextmenu="state.openContextMenuAt($event.x, $event.y, [
+            { title: 'Hide Spectrum', icon: HideIcon, action: () => state.settings.showSpectrum = false },
+          ]);"
         />
 
         <db-meter
@@ -55,6 +63,9 @@ const player = usePlayer();
           :key="player.nodeManager.getNodeConnectinsString()"
           :node="player.nodeManager.master.node"
           :channels="player.getCurrentTrack()?.getChannels() || 2"
+          @contextmenu="state.openContextMenuAt($event.x, $event.y, [
+            { title: 'Hide dB Meter', icon: HideIcon, action: () => state.settings.showDbMeter = false },
+          ]);"
         />
 
         <playback-buttons :player="player" />
