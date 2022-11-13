@@ -12,7 +12,7 @@ const route = useRoute();
 </script>
 
 <template>
-  <div class="borderRight">
+  <div class="borderRight flex flex-col">
     <navigation-button
       :icon="SelectNoneIcon"
       :active="route.name == 'node-editor'"
@@ -31,6 +31,8 @@ const route = useRoute();
       :active="route.name == 'playground-view'"
       @click="router.push({name: 'playground-view'})"
     />
+
+    <div class="flex-1" />
 
     <navigation-button
       :icon="SettingsIcon"
