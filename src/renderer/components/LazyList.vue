@@ -61,12 +61,11 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
       >
         <div
           :class="[
-            isHoldingControl && 'control-hover', 
-            isHoldingControl && 'cursor-external-pointer', 
+            isHoldingControl && 'control cursor-external-pointer', 
             item.hasErrored && 'opacity-50 not-allowed',
             player.getCurrentTrack()?.path == item.path && 'active'
           ]"
-          class="queue"
+          class="row"
           @contextmenu="handleContextMenu($event, item)"
           @keypress.prevent
           @click="isHoldingControl ? invoke('show-item', [item.path]) : player.play(item)"
@@ -127,7 +126,7 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
               n/a
             </span>
           </div>
-          <div class="td ">
+          <div class="td">
             <BaseChip
               v-if="item.getMetadata()?.format.container"
               class="text-8px"
@@ -175,8 +174,12 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
   @apply w-4 max-w-4;
 }
 
-.queue {
+.row {
   @apply hover:text-white text-primary-900 h-4 w-full flex;
+
+  &.control:hover {
+    @apply underline;
+  } 
 
   &.active {
     @apply text-primary-800;

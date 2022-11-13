@@ -43,10 +43,6 @@ const scrollToCurrentElement = () => {
 </template>
 
 <style lang="postcss" scoped>
-.control-hover:hover {
-  @apply underline;
-}
-
 .slide-fade-enter-active,
 .slide-fade-leave-active {
   transition: all 0.5s ease;
