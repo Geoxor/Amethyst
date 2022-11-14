@@ -615,10 +615,10 @@
     "@volar/typescript" "1.0.9"
     "@volar/vue-language-core" "1.0.9"
 
-"@vue-flow/additional-components@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@vue-flow/additional-components/-/additional-components-1.2.2.tgz#d9b8c0aa53a20d4056f169cdfe710aabe8976478"
-  integrity sha512-rD+HERTZCvGz8AxrSH4Qp/jlOJR08tP0C0b94stT52ASphQBCpI09+PdEwgWxbGyAU7Zea6JHC/vb5DlvOTb6w==
+"@vue-flow/additional-components@^1.2.3":
+  version "1.2.3"
+  resolved "https://registry.yarnpkg.com/@vue-flow/additional-components/-/additional-components-1.2.3.tgz#b6347e7a45f21b528f0da6628257602c33696d62"
+  integrity sha512-jDeic7hdcZ3dME8J4VHxTYriQgpHyr+wPk+gNnzkAdC267IX25gAMzgujr3q8zF7fx7enePRVy5intsFhJaSCg==
   dependencies:
     "@types/d3-selection" "^3.0.3"
     "@types/d3-zoom" "^3.0.1"
