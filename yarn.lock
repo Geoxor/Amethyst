@@ -295,31 +295,6 @@
   dependencies:
     "@types/node" "*"
 
-"@types/d3-color@*":
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/@types/d3-color/-/d3-color-3.1.0.tgz#6594da178ded6c7c3842f3cc0ac84b156f12f2d4"
-  integrity sha512-HKuicPHJuvPgCD+np6Se9MQvS6OCbJmOjGvylzMJRlDwUXjKTTXs6Pwgk79O09Vj/ho3u1ofXnhFOaEWWPrlwA==
-
-"@types/d3-interpolate@*":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@types/d3-interpolate/-/d3-interpolate-3.0.1.tgz#e7d17fa4a5830ad56fe22ce3b4fac8541a9572dc"
-  integrity sha512-jx5leotSeac3jr0RePOH1KdR9rISG91QIE4Q2PYTu4OymLTZfA3SrnURSLzKH48HmXVUru50b8nje4E79oQSQw==
-  dependencies:
-    "@types/d3-color" "*"
-
-"@types/d3-selection@*", "@types/d3-selection@^3.0.3":
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/@types/d3-selection/-/d3-selection-3.0.3.tgz#57be7da68e7d9c9b29efefd8ea5a9ef1171e42ba"
-  integrity sha512-Mw5cf6nlW1MlefpD9zrshZ+DAWL4IQ5LnWfRheW6xwsdaWOb6IRRu2H7XPAQcyXEx1D7XQWgdoKR83ui1/HlEA==
-
-"@types/d3-zoom@^3.0.1":
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/@types/d3-zoom/-/d3-zoom-3.0.1.tgz#4bfc7e29625c4f79df38e2c36de52ec3e9faf826"
-  integrity sha512-7s5L9TjfqIYQmQQEUcpMAcBOahem7TRoSO/+Gkz02GbMVuULiZzjF2BOdw291dbO2aNon4m2OdFsRGaCq2caLQ==
-  dependencies:
-    "@types/d3-interpolate" "*"
-    "@types/d3-selection" "*"
-
 "@types/debug@^4.1.6":
   version "4.1.7"
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.7.tgz#7cc0ea761509124709b8b2d1090d8f6c17aadb82"
@@ -615,13 +590,11 @@
     "@volar/typescript" "1.0.9"
     "@volar/vue-language-core" "1.0.9"
 
-"@vue-flow/additional-components@^1.2.2":
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/@vue-flow/additional-components/-/additional-components-1.2.2.tgz#d9b8c0aa53a20d4056f169cdfe710aabe8976478"
-  integrity sha512-rD+HERTZCvGz8AxrSH4Qp/jlOJR08tP0C0b94stT52ASphQBCpI09+PdEwgWxbGyAU7Zea6JHC/vb5DlvOTb6w==
+"@vue-flow/additional-components@^1.2.4":
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/@vue-flow/additional-components/-/additional-components-1.2.4.tgz#251173d6eb95bf189393049aa1d906fbbe0fa380"
+  integrity sha512-WaZ8IDXO8M3WhlxwZyjCj1OSL3icrRY9M+Y9wQFYbBgFIDOj4V5E2SR7KGhrBZ4L0Amv1pezbI19p+v/DymC1g==
   dependencies:
-    "@types/d3-selection" "^3.0.3"
-    "@types/d3-zoom" "^3.0.1"
     d3-selection "^3.0.0"
     d3-zoom "^3.0.0"
 
