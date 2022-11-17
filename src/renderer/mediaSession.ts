@@ -1,7 +1,7 @@
 import { Player } from "@/logic/player";
-import { BackendLogger } from "./amethyst";
+
 export class MediaSession {
-  public constructor(public player: Player, public logger: BackendLogger) {
+  public constructor(public player: Player) {
     const actionHandlers: ([MediaSessionAction, MediaSessionActionHandler])[] = [
       ["play", () => this.player.isPlaying.value ? this.player.pause() : this.player.play()],
       ["pause", () => !this.player.isPlaying.value ? this.player.play() : this.player.pause()],
@@ -17,7 +17,7 @@ export class MediaSession {
       try {
         navigator.mediaSession.setActionHandler(action, handler);
       } catch (error) {
-        logger.error(`The media session action "${action}" is not supported yet.`);
+        console.error(`The media session action "${action}" is not supported yet.`);
       }
     }
 

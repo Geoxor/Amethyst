@@ -11,7 +11,12 @@
   "editor.formatOnSave": false,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true,
-    "source.organizeImports": false,
+    "source.organizeImports": true,
+  },
+  "[vue]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports": false,
+    },
   },
   "vitest.commandLine": "yarn test --",
   "typescript.inlayHints.variableTypes.enabled": false,

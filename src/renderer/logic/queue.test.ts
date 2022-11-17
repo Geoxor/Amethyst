@@ -11,7 +11,7 @@ import { Queue } from "./queue";
 describe.concurrent("class Queue", () => {
   afterEach(() => {
     vi.restoreAllMocks(); 
-  });
+  }); 
 
   describe("new Queue()", () => {
     it("should be able to create an instance of a Queue", () => {

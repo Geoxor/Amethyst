@@ -6,43 +6,15 @@ import { watch } from "vue";
 import { flattenArray } from "./logic/math";
 import { Track } from "@/logic/track";
 import { MediaSession } from "@/mediaSession";
-
-export class BackendLogger {
-  public print = (...messages: any[]) => this.electron.logPrint(messages);
-  public error = (...messages: any[]) => this.electron.logError(messages);
-  constructor(public electron: ElectronEventManager) {}
-}
-
-export class CPUUsageMonitor {
-  public timer: NodeJS.Timer | undefined;
-
-  constructor(public state: AppState, public electron: ElectronEventManager, public logger: BackendLogger) {
-    this.start();
-  }
-
-  public stop = () => {
-    this.timer && clearInterval(this.timer);
-  };
-
-  public start = () => {
-    this.timer = setInterval(() => this.getCpuData(), 1000);
-  };
-
-  private getCpuData = async () => {
-    this.electron.getCpuUsage()
-      .then(usage => this.state.state.cpuUsage = usage as {node: number, renderer: number})
-      .catch(this.logger.error);
-  };
-}
+import { CPUUsageMonitor } from "@/logic/CPUUsageMonitor";
 
 export class Amethyst {
   public appState: AppState = new AppState();
   public electron: ElectronEventManager = new ElectronEventManager(this.appState);
-  public backendLogger: BackendLogger = new BackendLogger(this.electron);
   public player: Player = new Player();
   public shortcuts: Shortcuts = new Shortcuts(this.player);
-  public mediaSession: MediaSession = new MediaSession(this.player, this.backendLogger);
-  public cpuUsageMonitor: CPUUsageMonitor = new CPUUsageMonitor(this.appState, this.electron, this.backendLogger);
+  public mediaSession: MediaSession = new MediaSession(this.player);
+  public cpuUsageMonitor: CPUUsageMonitor = new CPUUsageMonitor(this.appState, this.electron);
 
   private richPresenceTimer: NodeJS.Timer | undefined;
 
