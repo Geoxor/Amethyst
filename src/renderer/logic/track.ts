@@ -62,6 +62,7 @@ export class Track {
    * Fetches all async data concurrently
    */
   public fetchAsyncData = async () => {
+    this.isLoaded.value = false;
     this.isLoading.value = true;
     await Promise.allSettled([this.fetchCover(), this.fetchMetadata()]);
     this.isLoading.value = false;

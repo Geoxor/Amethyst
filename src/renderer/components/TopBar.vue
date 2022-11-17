@@ -15,6 +15,8 @@ import RestartIcon from "@/icons/plumpy/RestartIcon.vue";
 import ZoomInIcon from "@/icons/plumpy/ZoomInIcon.vue";
 import ZoomOutIcon from "@/icons/plumpy/ZoomOutIcon.vue";
 import ZoomToExtentsIcon from "@/icons/plumpy/ZoomToExtentsIcon.vue";
+import InstallingUpdatesIcon from "@/icons/plumpy/InstallingUpdatesIcon.vue";
+
 import { useFps } from "@vueuse/core";
 const fps = useFps({every: 30});
 
@@ -79,11 +81,23 @@ const player = usePlayer();
           :icon="BroomIcon"
           @click="player.queue.clearErrored()"
         />
+        <menu-splitter />
+        <menu-option
+          :shortcuts="['CTRL', 'ALT', 'R']"
+          title="Refresh all metadata"
+          :icon="RestartIcon"
+          @click="player.queue.fetchAsyncData(true)"
+        />
+        <menu-option
+          :shortcuts="['CTRL', 'R']"
+          title="Refresh window"
+          :icon="RestartIcon"
+        />
 
         <menu-splitter />
         <menu-option
           :title="`Check for updates`"
-          :icon="RestartIcon"
+          :icon="InstallingUpdatesIcon"
           @click="electron.checkForUpdates()"
         />
       </Menu>

@@ -25,11 +25,17 @@ const route = useRoute();
       @click="router.push({name: 'queue-list'})"
     />
     
+    <!-- <navigation-button -->
+    <!-- :icon="BookshelfIcon" -->
+    <!-- :active="route.name == 'library'" -->
+    <!-- @click="router.push({name: 'library'})" -->
+    <!-- /> -->
+
     <navigation-button
       v-if="state.isDev"
       :icon="PlaystationButtonsIcon"
-      :active="route.name == 'playground-view'"
-      @click="router.push({name: 'playground-view'})"
+      :active="route.name == 'playground'"
+      @click="router.push({name: 'playground'})"
     />
 
     <div class="flex-1" />

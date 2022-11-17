@@ -28,7 +28,7 @@ onMounted(() => {
 
   // Fixes sticky buttons when a popup happens and we lose focus
   watch(() => useState().state.isFocused, isFocused => {
-    if (isFocused) active.value = false;
+    if (!isFocused) active.value = false;
   });
 });
 

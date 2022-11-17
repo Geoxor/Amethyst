@@ -1,10 +1,10 @@
+import { Queue } from "@/logic/queue";
+import { Track } from "@/logic/track";
 import { useLocalStorage } from "@vueuse/core";
 import { ref } from "vue";
 import { AmethystAudioNodeManager } from "./audio";
 import { EventEmitter } from "./eventEmitter";
 import { secondsToColinHuman, secondsToHuman } from "./formating";
-import { Queue } from "@/logic/queue";
-import { Track } from "@/logic/track";
 
 export enum LoopMode {
 	None,

@@ -58,6 +58,7 @@ export class AppState {
 	public settings = useLocalStorage("settings", this.defaultSettings, { writeDefaults: true }).value;
 	public isDev = computed(() => this.state.version.includes("DEV"));
 
+	// TODO: Refactor context menus to its own class & manager
 	public openContextMenuAt(x: number, y: number, options: IContextMenuOption[]) {
 		this.state.contextMenu.position = { x: x + 6, y: y + 6 };
 		this.state.contextMenu.options = options;
