@@ -8,7 +8,7 @@ vi.stubGlobal("Audio", Audio);
 vi.stubGlobal("electron", electron);
 
 describe.concurrent("class Track", () => {
-  let track: Track;
+  let track: Track; 
 
   afterEach(() => {
     vi.restoreAllMocks();
@@ -21,9 +21,9 @@ describe.concurrent("class Track", () => {
       expect(track.metadata.state).toBe(LoadStatus.Loading);
     });
 
-    it.skip("should set isLoaded to true when finished", async () => {
+    it("should set isLoaded to true when finished", async () => {
       await track.fetchMetadata();
-      expect(track.isLoaded.value).toBeTruthy();
+      expect(track.isLoaded).toBeTruthy();
     });
 
     it("should be able to fetch metadata", async () => {

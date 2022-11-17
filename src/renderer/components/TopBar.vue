@@ -30,7 +30,10 @@ const player = usePlayer();
   >
     <div class="flex no-drag h-full items-center">
       <div class="logo px-2.25 mr-0.5 cursor-heart-pointer">
-        <img src="../icon.svg">
+        <img
+          class="w-4 h-4 min-h-4 min-w-4"
+          src="../icon.svg"
+        >
       </div>
       <Menu title="File">
         <menu-option

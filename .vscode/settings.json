@@ -13,6 +13,7 @@
     "source.fixAll.eslint": true,
     "source.organizeImports": false,
   },
+  "vitest.commandLine": "yarn test --",
   "typescript.inlayHints.variableTypes.enabled": false,
   "typescript.inlayHints.parameterNames.enabled": "all",
   "todohighlight.keywords": [
@@ -45,5 +46,6 @@
     "**/.settings": true,
     "**/.factorypath": true
   },
-  "hide-files.files": []
+  "hide-files.files": [],
+  "testing.automaticallyOpenPeekView": "never"
 }

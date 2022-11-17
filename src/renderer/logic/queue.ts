@@ -127,4 +127,4 @@ export class Queue {
 		this.list.value = new Map(fisherYatesShuffle(Array.from(this.list.value.entries())));
     this.syncLocalStorage();
   }
-}
+} 

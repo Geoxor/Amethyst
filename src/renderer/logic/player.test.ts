@@ -1,11 +1,17 @@
 import { AudioContext } from "standardized-audio-context-mock";
 import { afterEach, beforeAll, beforeEach, describe, expect, it, vi } from "vitest";
 import { Audio, electron } from "./mocks";
-import { LoopMode, Player } from "./player";
 
 vi.stubGlobal("AudioContext", AudioContext);
 vi.stubGlobal("Audio", Audio);
 vi.stubGlobal("electron", electron);
+vi.mock("@/amethyst", () => ({
+  useState: vi.fn(() => ({
+    settings: vi.fn(),
+  }))
+}));
+
+import { LoopMode, Player } from "./player";
 
 describe.concurrent("class Player", () => {
   let player: Player;

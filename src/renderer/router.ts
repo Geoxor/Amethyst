@@ -1,21 +1,10 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
-import NodeEditor from "@/views/NodeEditor.vue";
-import QueueList from "@/views/QueueList.vue";
-import PlaygroundView from "@/views/PlaygroundView.vue";
-import { DefineComponent } from "vue";
-
-const defineRoute = (component: DefineComponent<any, any, any>): RouteRecordRaw => {
-  const name = component.__name?.split(/(?=[A-Z])/).join("-").toLowerCase();
-  return { path: `/${name}`, name, component };
-};
+import { createRouter, createWebHashHistory } from "vue-router";
 
 const routes = [
-  defineRoute(NodeEditor),
-  defineRoute(QueueList),
-  defineRoute(PlaygroundView),
+  { path: "/node-editor", name: "node-editor", component: () => import("@/views/NodeEditor.vue") },
+  { path: "/queue-list", name: "queue-list", component: () => import("@/views/QueueList.vue") },
+  { path: "/playground-view", name: "playground-view", component: () => import("@/views/PlaygroundView.vue") },
 ];
-
-console.log(routes);
 
 export const router = createRouter({
   history: createWebHashHistory(),

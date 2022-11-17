@@ -3,8 +3,8 @@ import { ref } from "vue";
 import { AmethystAudioNodeManager } from "./audio";
 import { EventEmitter } from "./eventEmitter";
 import { secondsToColinHuman, secondsToHuman } from "./formating";
-import { Queue } from "./queue";
-import { Track } from "./track";
+import { Queue } from "@/logic/queue";
+import { Track } from "@/logic/track";
 
 export enum LoopMode {
 	None,

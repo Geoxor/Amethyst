@@ -91,7 +91,7 @@ const duration = computed(() => metadata.value?.format.duration || 0);
         min="0"
         :max="duration"
         step="0.01"
-        @wheel.stop="handleSeekMouseScroll"
+        @wheel.passive.stop="handleSeekMouseScroll"
       />
 
       <p class="text-8px">
@@ -108,7 +108,7 @@ const duration = computed(() => metadata.value?.format.duration || 0);
         max="1"
         step="0.001"
         @input="player.setVolume(player.volume.value)"
-        @wheel="handleVolumeMouseScroll"
+        @wheel.passive="handleVolumeMouseScroll"
       />
     </div>
     <div 

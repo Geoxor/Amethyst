@@ -4,8 +4,8 @@ import { Shortcuts } from "@/shortcuts";
 import { AppState } from "@/state";
 import { watch } from "vue";
 import { flattenArray } from "./logic/math";
-import { Track } from "./logic/track";
-import { MediaSession } from "./mediaSession";
+import { Track } from "@/logic/track";
+import { MediaSession } from "@/mediaSession";
 
 export class BackendLogger {
   public print = (...messages: any[]) => this.electron.logPrint(messages);

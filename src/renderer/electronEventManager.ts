@@ -1,6 +1,6 @@
 import type { AppState } from "@/state";
 import { FastAverageColorResult } from "fast-average-color";
-import { IMetadata } from "src/main/metadata";
+import { IMetadata } from "../main/metadata";
 
 export class ElectronEventManager {
   public ipc = window.electron.ipcRenderer;
