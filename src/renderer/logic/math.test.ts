@@ -12,7 +12,7 @@ describe.concurrent("scaleLog()", () => {
   const expected = new Uint8Array([
     2, 2, 2, 2, 3, 3, 4,
     4, 5, 6, 7, 8, 9, 10,
-    12, 14, 17
+    12, 14, 17, 0
   ]);
 
   it("should be able to turn a linear array to log scale", () => {

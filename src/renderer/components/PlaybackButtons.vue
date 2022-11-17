@@ -2,7 +2,7 @@
 // import MetronomeIcon from "@/icons/plumpy/MetronomeIcon.vue";
 // import KeyClefIcon from "@/icons/plumpy/KeyClefIcon.vue";
 // import StorageIcon from "@/icons/plumpy/StorageIcon.vue";
-import { useState } from "@/amethyst";
+import { usePlayer, useState } from "@/amethyst";
 import Cover from "@/components/CoverArt.vue";
 import Slider from "@/components/input/BaseSlider.vue";
 import Chip from "@/components/new/BaseChip.vue";
@@ -15,23 +15,23 @@ import PlayIcon from "@/icons/plumpy/PlayIcon.vue";
 import RepeatIcon from "@/icons/plumpy/RepeatIcon.vue";
 import RepeatOneIcon from "@/icons/plumpy/RepeatOneIcon.vue";
 import ShuffleIcon from "@/icons/plumpy/ShuffleIcon.vue";
-import { LoopMode, Player } from "@/logic/player";
+import { LoopMode } from "@/logic/player";
 import { computed } from "vue";
 const state = useState();
+const player = usePlayer();
 
 const invoke = window.electron.ipcRenderer.invoke;
-const props = defineProps<{ player: Player, }>();
 const handleVolumeMouseScroll = (e: WheelEvent) => {
   const delta = Math.sign(e.deltaY);
-  delta > 0 ? props.player.volumeDown() : props.player.volumeUp();
+  delta > 0 ? player.volumeDown() : player.volumeUp();
 };
 
 const handleSeekMouseScroll = (e: WheelEvent) => {
   const delta = Math.sign(e.deltaY);
-  delta < 0 ? props.player.seekForward() : props.player.seekBackward();
+  delta < 0 ? player.seekForward() : player.seekBackward();
 };
 
-const metadata = computed(() => props.player.getCurrentTrack()?.isLoaded ? props.player.getCurrentTrack()?.getMetadata() : undefined);
+const metadata = computed(() => player.getCurrentTrack()?.isLoaded ? player.getCurrentTrack()?.getMetadata() : undefined);
 const duration = computed(() => metadata.value?.format.duration || 0);
 </script>
 
