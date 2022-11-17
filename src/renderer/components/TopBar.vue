@@ -23,6 +23,8 @@ const fps = useFps({every: 30});
 const state = useState();
 const electron = useElectron();
 const player = usePlayer();
+const refreshWindow = () => location.reload();
+
 </script>
 
 <template>
@@ -92,6 +94,7 @@ const player = usePlayer();
           :shortcuts="['CTRL', 'R']"
           title="Refresh window"
           :icon="RestartIcon"
+          @click="refreshWindow"
         />
 
         <menu-splitter />
