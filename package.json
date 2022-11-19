@@ -298,7 +298,7 @@
     "@supercharge/promise-pool": "^2.3.2",
     "@types/pidusage": "^2.0.2",
     "@vue-flow/additional-components": "^1.2.4",
-    "@vue-flow/core": "^1.4.1",
+    "@vue-flow/core": "^1.4.2",
     "@vueuse/core": "^9.5.0",
     "chalk": "^4.1.2",
     "discord-rpc": "^4.0.1",
