@@ -3,7 +3,7 @@ name: ✨ feature request
 about: suggest an idea for amethyst
 title: ''
 labels: enhancement
-assignees: Geoxor
+assignees:
 
 ---
 
