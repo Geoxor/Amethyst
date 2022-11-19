@@ -3,12 +3,15 @@ name: 🪲 bug report
 about: create a report to help Amethyst improve
 title: ''
 labels: bug
-assignees: Geoxor
+assignees: 
 
 ---
 
 **Describe the bug**
 A clear and concise description of what the bug is.
+
+**Amethyst Details (required):**
+ - Version [e.g. v1.7.10]
 
 **To Reproduce (optional)**
 Steps to reproduce the behavior:
@@ -20,11 +23,8 @@ Steps to reproduce the behavior:
 **Expected behavior (optional)**
 A clear and concise description of what you expected to happen.
 
-**Screenshots**
+**Screenshots (optional)**
 If applicable, add screenshots to help explain your problem.
-
-**Amethyst Details (please complete the following information):**
- - Version [e.g. v1.7.10]
 
 **Additional context (optional)**
 Add any other context about the problem here.
