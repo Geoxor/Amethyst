@@ -67,5 +67,6 @@ export class ElectronEventManager {
 
   public updateRichPresence = (args: string[]) => this.ipc.invoke("update-rich-presence", [args]);
   public clearRichPresence = () => this.ipc.invoke("clear-rich-presence");
-  
+
+  public showDevTools = () => this.ipc.invoke("dev-tools");
 }

@@ -5,6 +5,7 @@ import { FastAverageColorResult } from "fast-average-color";
 import { getAverageColor } from "fast-average-color-node";
 import fs from "fs";
 import open from "open";
+import os from "os";
 import path from "path";
 import pidusage from "pidusage";
 import sharp from "sharp";
@@ -13,7 +14,6 @@ import { loadFolder } from "./handles";
 import { ALLOWED_EXTENSIONS, APP_VERSION, IS_DEV, RESOURCES_PATH } from "./main";
 import { Metadata } from "./metadata";
 import { resolveHTMLPath } from "./util";
-import os from "os";
 
 const icon = () => path.join(RESOURCES_PATH, "icon.png");
 
@@ -188,6 +188,10 @@ export class MainWindow {
 
 				if (!response.canceled)
 					this.window.webContents.send("play-folder", await loadFolder(response.filePaths[0]));
+			},
+
+			"dev-tools": () => {
+				this.window.webContents.openDevTools();
 			},
 
 			"percent-cpu-usage": async () => {

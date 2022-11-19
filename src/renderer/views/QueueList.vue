@@ -15,7 +15,7 @@ const scrollToCurrentElement = () => {
   const currentTrack = player.getCurrentTrack();
   if (!currentTrack) return;
   
-  const estimatedPosition = player.queue.getList().indexOf(currentTrack) * 16;
+  const estimatedPosition = player.queue.search(filterText.value).indexOf(currentTrack) * 16;
   active?.scrollTo({top: estimatedPosition, behavior: "smooth"});
 };
 

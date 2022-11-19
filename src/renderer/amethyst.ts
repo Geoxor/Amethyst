@@ -1,12 +1,12 @@
 import { ElectronEventManager } from "@/electronEventManager";
+import { CPUUsageMonitor } from "@/logic/CPUUsageMonitor";
 import { Player } from "@/logic/player";
+import { Track } from "@/logic/track";
+import { MediaSession } from "@/mediaSession";
 import { Shortcuts } from "@/shortcuts";
 import { AppState } from "@/state";
 import { watch } from "vue";
 import { flattenArray } from "./logic/math";
-import { Track } from "@/logic/track";
-import { MediaSession } from "@/mediaSession";
-import { CPUUsageMonitor } from "@/logic/CPUUsageMonitor";
 
 export class Amethyst {
   public appState: AppState = new AppState();
@@ -15,7 +15,7 @@ export class Amethyst {
   public shortcuts: Shortcuts = new Shortcuts(this.player);
   public mediaSession: MediaSession = new MediaSession(this.player);
   public cpuUsageMonitor: CPUUsageMonitor = new CPUUsageMonitor(this.appState, this.electron);
-
+  
   private richPresenceTimer: NodeJS.Timer | undefined;
 
   constructor() {

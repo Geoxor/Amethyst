@@ -18,13 +18,13 @@ import ZoomToExtentsIcon from "@/icons/plumpy/ZoomToExtentsIcon.vue";
 import InstallingUpdatesIcon from "@/icons/plumpy/InstallingUpdatesIcon.vue";
 
 import { useFps } from "@vueuse/core";
+import SettingsIcon from "@/icons/plumpy/SettingsIcon.vue";
 const fps = useFps({every: 30});
 
 const state = useState();
 const electron = useElectron();
 const player = usePlayer();
 const refreshWindow = () => location.reload();
-
 </script>
 
 <template>
@@ -104,6 +104,20 @@ const refreshWindow = () => location.reload();
           @click="electron.checkForUpdates()"
         />
       </Menu>
+      <Menu title="View">
+        <menu-option
+          title="Toggle settings panel"
+          :icon="SettingsIcon"
+          @click="state.settings.showSettings = !state.settings.showSettings"
+        />
+        <menu-option
+          title="Show dev tools"
+          :icon="SettingsIcon"
+          :shortcuts="['CTRL', 'SHIFT', 'I']"
+          @click="electron.showDevTools()"
+        />
+      </Menu>
+
       <Menu title="About">
         <menu-option
           title="GitHub Repository"

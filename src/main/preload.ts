@@ -7,6 +7,7 @@ export type Channels =
 	"unmaximize" |
 	"read-file" |
 	"close" |
+	"dev-tools" |
 	"get-cover-pixelized" |
 	"open-file-dialog" |
 	"log-print" |
