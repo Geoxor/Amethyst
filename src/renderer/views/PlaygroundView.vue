@@ -85,6 +85,7 @@ const loader = new THREE.FileLoader();
   const renderer = new THREE.WebGLRenderer({ canvas: threeCanvas.value, antialias: true });
   renderer.setAnimationLoop(animation);
   renderer.setSize(width, height);
+  renderer.setClearColor( 0x000000, 0 ); // the default
 
   // animation
   const context = usePlayer().nodeManager.master.node.context;
@@ -95,11 +96,11 @@ const loader = new THREE.FileLoader();
 	gain.connect(analyser);
 
 	analyser.fftSize = 4096;
-	analyser.smoothingTimeConstant = 0.7;
+	analyser.smoothingTimeConstant = 0.8;
 
 	// Don't change these
 	analyser.maxDecibels = 30;
-	analyser.minDecibels = -120;
+	analyser.minDecibels = -90;
 
   function animation() {
 
