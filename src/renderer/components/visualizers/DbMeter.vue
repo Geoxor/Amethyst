@@ -3,7 +3,7 @@ import { onMounted, onUnmounted, ref } from "vue";
 const props = defineProps<{ node: AudioNode, channels: number }>();
 const FLOOR = -60;
 const RANGE = 30;
-const FFT_SIZE = 2048 * 2;
+const FFT_SIZE = 1024;
 
 // Tuple of insta and average per channel
 const channels = [
@@ -105,7 +105,7 @@ onUnmounted(() => shouldStopRendering = true);
       />
       <div
         :class="channels[i - 1][0].value > 0 ? 'bg-red-500' : 'bg-green-500'"
-        class="absolute duration-100 transition-colors bottom-0 rounded-full"
+        class="absolute duration-50 transition-all bottom-0 rounded-full"
         :style="`width: ${width}px; height: ${computedWidth(channels[i - 1][1].value)}%`"
       />
     </div>

@@ -13,6 +13,7 @@ import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 import CoverArt from "@/components/CoverArt.vue";
 
 import HideIcon from "@/icons/plumpy/HideIcon.vue";
+import GPUSpectrumAnalyzer from "./components/visualizers/GPUSpectrumAnalyzer.vue";
 
 const state = useState();
 const player = usePlayer();
@@ -49,10 +50,11 @@ const player = usePlayer();
           ]);"
         />
 
-        <spectrum
+        <GPUSpectrumAnalyzer
           v-if="state.settings.showSpectrum && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
-          :node="player.nodeManager.master.node"
+          class="h-76px w-152px min-h-76px min-w-152px"
+          :node="usePlayer().nodeManager.master.node"
           @contextmenu="state.openContextMenuAt($event.x, $event.y, [
             { title: 'Hide Spectrum', icon: HideIcon, action: () => state.settings.showSpectrum = false },
           ]);"

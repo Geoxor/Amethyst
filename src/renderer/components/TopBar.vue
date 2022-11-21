@@ -19,7 +19,15 @@ import InstallingUpdatesIcon from "@/icons/plumpy/InstallingUpdatesIcon.vue";
 
 import { useFps } from "@vueuse/core";
 import SettingsIcon from "@/icons/plumpy/SettingsIcon.vue";
-const fps = useFps({every: 30});
+import { ref, watch } from "vue";
+const min = ref(1000);
+const max = ref(0);
+const fps = useFps({every: 60});
+
+watch(() => fps.value, fps => {
+  if (fps > max.value) max.value = fps;
+  if (fps < min.value) min.value = fps;
+});
 
 const state = useState();
 const electron = useElectron();
@@ -163,6 +171,7 @@ const refreshWindow = () => location.reload();
         v-if="state.state.updateReady"
         @click="electron.close()"
       />
+
       <div 
         :class="[
           fps < 30 && 'text-red-500',
@@ -173,6 +182,10 @@ const refreshWindow = () => location.reload();
       >
         {{ fps }}fps
       </div>
+      <div class="font-aseprite text-primary-900 text-opacity-50">
+        <strong class="text-primary-900 text-opacity-25">min</strong> {{ min }} <strong class="text-primary-900 text-opacity-25">max</strong> {{ max }}
+      </div>
+
       <processor-usage-meter
         :value="state.state.cpuUsage.renderer"
       />

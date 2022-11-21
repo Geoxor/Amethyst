@@ -73,7 +73,7 @@ const state = useState();
     <settings-category-splitter text="Spectrum" />
     <settings-binary-switch
       v-model="state.settings.showSpectrum"
-      text="Enabled"
+      text="Show spectrum"
     />
     <settings-binary-switch
       v-model="state.settings.useLogarithmicSpectrum"
