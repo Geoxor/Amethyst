@@ -172,18 +172,20 @@ const refreshWindow = () => location.reload();
         @click="electron.close()"
       />
 
-      <div 
-        :class="[
-          fps < 30 && 'text-red-500',
-          fps >= 30 && fps < 155 && 'text-yellow-300',
-          fps >= (155*0.8) && 'text-green-500',
-        ]"
-        class="font-aseprite"
-      >
-        {{ fps }}fps
-      </div>
-      <div class="font-aseprite text-primary-900 text-opacity-50">
-        <strong class="text-primary-900 text-opacity-25">min</strong> {{ min }} <strong class="text-primary-900 text-opacity-25">max</strong> {{ max }}
+      <div class="w-30 flex gap-2 justify-end">
+        <div 
+          :class="[
+            fps < 30 && 'text-red-500',
+            fps >= 30 && fps < 155 && 'text-yellow-300',
+            fps >= (155*0.8) && 'text-green-500',
+          ]"
+          class="font-aseprite"
+        >
+          {{ fps }}fps
+        </div>
+        <div class="font-aseprite text-primary-900 text-opacity-50">
+          <strong class="text-primary-900 text-opacity-25">min</strong> {{ min }} <strong class="text-primary-900 text-opacity-25">max</strong> {{ max }}
+        </div>
       </div>
 
       <processor-usage-meter
