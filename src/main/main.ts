@@ -6,8 +6,8 @@
  * When running `yarn build` or `yarn build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import path from "path";
 import { app } from "electron";
+import path from "path";
 
 import { checkForUpdatesAndInstall, MainWindow } from "./mainWindow";
 
@@ -22,6 +22,7 @@ if (process.env.NODE_ENV === "production")
 // import("electron-debug").then(electronDebug => electronDebug ());
 
 app.setAppUserModelId("Amethyst");
+// app.commandLine.appendSwitch("disable-frame-rate-limit");
 
 if (!app.requestSingleInstanceLock()) {
 	app.quit();

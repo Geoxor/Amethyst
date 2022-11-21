@@ -32,7 +32,7 @@ const route = useRoute();
     <!-- /> -->
 
     <navigation-button
-      v-if="state.isDev"
+      v-if="state.isDev.value"
       :icon="PlaystationButtonsIcon"
       :active="route.name == 'playground'"
       @click="router.push({name: 'playground'})"

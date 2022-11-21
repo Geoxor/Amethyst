@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import CustomNode from "@/components/nodes/CustomNode.vue";
-import Spectrum from "@/components/visualizers/SpectrumAnalyzer.vue";
 import WaveIcon from "@/icons/material/WaveIcon.vue";
 import { AmethystAudioNode } from "@/logic/audio";
+import GPUSpectrumAnalyzer from "../visualizers/GPUSpectrumAnalyzer.vue";
 defineProps<{ node: AmethystAudioNode<any> }>();
 
 </script>
@@ -13,6 +13,9 @@ defineProps<{ node: AmethystAudioNode<any> }>();
     title="Spectrum Analyzer"
     :icon="WaveIcon"
   >
-    <Spectrum :node="node.node" />
+    <GPUSpectrumAnalyzer
+      class="h-76px w-152px"
+      :node="node.node"
+    />
   </CustomNode>
 </template>

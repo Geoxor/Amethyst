@@ -40,7 +40,7 @@ const handleClick = () => {
       v-model="elements"
       class="bg-black bg-opacity-25 p-2"
       :snap-to-grid="state.settings.isSnappingToGrid"
-      :max-zoom="1.25"
+      :max-zoom="6.00"
       :connection-line-style="{ stroke: getThemeColorHex('--primary-700') }"
       :fit-view-on-init="true"
       :default-edge-options="{ type: 'smoothstep' }"
