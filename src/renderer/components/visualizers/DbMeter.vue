@@ -100,7 +100,7 @@ onUnmounted(() => shouldStopRendering = true);
 
       <div
         :class="channels[i - 1][0].value > 0 ? 'bg-red-600' : 'bg-green-600'"
-        class="rounded-full duration-100 absolute bottom-0"
+        class="rounded-full duration-50 transition-all absolute bottom-0"
         :style="`width: ${width}px; height: ${computedWidth(channels[i - 1][0].value)}%`"
       />
       <div
