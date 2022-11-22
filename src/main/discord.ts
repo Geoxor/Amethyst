@@ -4,6 +4,8 @@ import { APP_VERSION } from "./main";
 
 const DISCORD_CLIENT_ID = "976036303156162570"; 
 
+export type FormatIcons = "aiff" | "flac" | "mpeg" | "ogg" | "wave";
+
 export class Discord {
 	private readonly client: Client;
 
@@ -39,14 +41,14 @@ export class Discord {
 		this.connected.then(check => check && !this.destroyed && this.client.setActivity(args));
 	}
 
-	public updateCurrentSong(title: string, duration: string, seek: string, status: boolean): void {
+	public updateCurrentSong(title: string, duration: string, seek: string, format?: FormatIcons): void {
 		this.connected.then(check => check && !this.destroyed && this.updateRichPresence({
 			state: `${seek} - ${duration}`,
 			details: title,
-			largeImageKey: "logo",
-			largeImageText: `Amethyst v${APP_VERSION}`,
-			smallImageKey: status ? "play" : "pause",
-			smallImageText: status ? "Playing" : "Paused",
+			largeImageKey: format || "blank",
+			largeImageText: format?.toUpperCase() || "Unknown Format",
+			smallImageKey: "logo",
+			smallImageText: `Amethyst v${APP_VERSION}`,
 			buttons: [
 				{
 					label: "Find Song",

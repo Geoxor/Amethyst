@@ -19,7 +19,9 @@ export class Amethyst {
   private richPresenceTimer: NodeJS.Timer | undefined;
 
   constructor() {
-		this.electron.ipc.on<string>("play-file", path => path !== "--require" && this.player.queue.add(path));
+		this.electron.ipc.on<string>("play-file", path => path !== "--require" && this.player.queue.add(path).then(() => {
+      this.player.play(this.player.queue.getList().length - 1);
+    }));
     this.electron.ipc.on<(string)[]>("play-folder", paths => this.player.queue.add(flattenArray(paths)));
 
     watch(() => this.appState.settings.useDiscordRichPresence, value => {
@@ -58,7 +60,7 @@ export class Amethyst {
         `${track.getArtistsFormatted() || "unknown artist"} - ${track.getTitleFormatted() || "unknown title"}`,
         track.getDurationFormatted(true),
         this.player.currentTimeFormatted(true),
-        this.player.isPlaying.value.toString(),
+        track.metadata.data?.format.container?.toLowerCase()
       ]);
     };
     this.richPresenceTimer && clearInterval(this.richPresenceTimer);

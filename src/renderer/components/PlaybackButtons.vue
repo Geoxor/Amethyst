@@ -22,7 +22,7 @@ const createWaveSurfer = () => {
     progressColor: getThemeColorHex("--primary-800"),
     height: 32,
     hideScrollbar: true,
-
+    cursorWidth: 0,
   });
 };
 

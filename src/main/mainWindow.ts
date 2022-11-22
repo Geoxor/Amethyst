@@ -9,7 +9,7 @@ import os from "os";
 import path from "path";
 import pidusage from "pidusage";
 import sharp from "sharp";
-import { Discord } from "./discord";
+import { Discord, FormatIcons } from "./discord";
 import { loadFolder } from "./handles";
 import { ALLOWED_EXTENSIONS, APP_VERSION, IS_DEV, RESOURCES_PATH } from "./main";
 import { Metadata } from "./metadata";
@@ -248,8 +248,9 @@ export class MainWindow {
 			},
 
 			"update-rich-presence": (_: Event, [args]: string[]) => {
-				const [	title,	duration,	seek,	status ] = args;
-				this.discord.updateCurrentSong(title, duration, seek, status === "true");
+				const [	title,	duration,	seek,	format ] = args;
+				
+				this.discord.updateCurrentSong(title, duration, seek, format as FormatIcons);
 			},
 
 			"clear-rich-presence": () => {
