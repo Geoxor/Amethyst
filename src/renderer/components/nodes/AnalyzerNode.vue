@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import CustomNode from "@/components/nodes/CustomNode.vue";
-import WaveIcon from "@/icons/material/WaveIcon.vue";
+import {WaveIcon} from "@/icons/material";
 import { AmethystAudioNode } from "@/logic/audio";
 import GPUSpectrumAnalyzer from "../visualizers/GPUSpectrumAnalyzer.vue";
 defineProps<{ node: AmethystAudioNode<any> }>();

@@ -12,7 +12,7 @@ import PlaybackButtons from "@/components/PlaybackButtons.vue";
 import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 import CoverArt from "@/components/CoverArt.vue";
 
-import HideIcon from "@/icons/plumpy/HideIcon.vue";
+import {HideIcon} from "@/icons/plumpy";
 import GPUSpectrumAnalyzer from "./components/visualizers/GPUSpectrumAnalyzer.vue";
 
 const state = useState();

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Slider from "@/components/input/BaseSlider.vue";
 import CustomNode from "@/components/nodes/CustomNode.vue";
-import AdjustIcon from "@/icons/material/AdjustIcon.vue";
+import {AdjustIcon} from "@/icons/material";
 import { AmethystGainNode } from "@/logic/audio";
 import { ref, watch } from "vue";
 const props = defineProps<{ node: AmethystGainNode }>();

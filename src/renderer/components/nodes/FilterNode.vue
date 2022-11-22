@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Slider from "@/components/input/BaseSlider.vue";
 import CustomNode from "@/components/nodes/CustomNode.vue";
-import FilterIcon from "@/icons/material/FilterIcon.vue";
+import {FilterIcon} from "@/icons/material";
 import { AmethystEqualizerNode } from "@/logic/audio";
 import { ref, watch } from "vue";
 

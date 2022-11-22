@@ -1,20 +1,9 @@
 <script setup lang="ts">
-// import MetronomeIcon from "@/icons/plumpy/MetronomeIcon.vue";
-// import KeyClefIcon from "@/icons/plumpy/KeyClefIcon.vue";
-// import StorageIcon from "@/icons/plumpy/StorageIcon.vue";
 import { usePlayer, useState } from "@/amethyst";
 import Cover from "@/components/CoverArt.vue";
 import Slider from "@/components/input/BaseSlider.vue";
-import Chip from "@/components/new/BaseChip.vue";
-import BitrateIcon from "@/icons/plumpy/BitrateIcon.vue";
-import FileIcon from "@/icons/plumpy/FileIcon.vue";
-// import HeartIcon from "@/icons/plumpy/HeartIcon.vue";
-import NextIcon from "@/icons/plumpy/NextIcon.vue";
-import PauseIcon from "@/icons/plumpy/PauseIcon.vue";
-import PlayIcon from "@/icons/plumpy/PlayIcon.vue";
-import RepeatIcon from "@/icons/plumpy/RepeatIcon.vue";
-import RepeatOneIcon from "@/icons/plumpy/RepeatOneIcon.vue";
-import ShuffleIcon from "@/icons/plumpy/ShuffleIcon.vue";
+import Chip from "@/components/BaseChip.vue";
+import { BitrateIcon, FileIcon, NextIcon, PauseIcon, PlayIcon, RepeatIcon, RepeatOneIcon, ShuffleIcon } from "@/icons/plumpy";
 import { LoopMode } from "@/logic/player";
 import { computed } from "vue";
 const state = useState();

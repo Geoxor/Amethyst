@@ -2,7 +2,7 @@
 import { usePlayer } from "@/amethyst";
 
 import LazyList from "@/components/LazyList.vue";
-import MyLocationIcon from "@/icons/material/MyLocationIcon.vue";
+import {MyLocationIcon} from "@/icons/material";
 import { ref } from "vue";
 import SquareButton from "@/components//input/SquareButton.vue";
 // import * as THREE from "three";

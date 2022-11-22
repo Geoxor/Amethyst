@@ -1,9 +1,6 @@
 
 <script lang="ts" setup>
-import CloseIcon from "@/icons/fluency/CloseIcon.vue";
-import MaximizeIcon from "@/icons/fluency/MaximizeIcon.vue";
-import MinimizeIcon from "@/icons/fluency/MinimizeIcon.vue";
-import ShrinkIcon from "@/icons/fluency/ShrinkIcon.vue";
+import { CloseIcon, MaximizeIcon, MinimizeIcon, ShrinkIcon, } from "@/icons/fluency";
 const emit = defineEmits(["close", "minimize", "maximize", "unmaximize"]);
 defineProps<{ isMaximized: boolean }>();
 </script>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Slider from "@/components/input/BaseSlider.vue";
 import CustomNode from "@/components/nodes/CustomNode.vue";
-import AzimuthIcon from "@/icons/material/AzimuthIcon.vue";
+import {AzimuthIcon} from "@/icons/material";
 import { AmethystPannerNode } from "@/logic/audio";
 import { ref, watch } from "vue";
 const props = defineProps<{ node: AmethystPannerNode }>();

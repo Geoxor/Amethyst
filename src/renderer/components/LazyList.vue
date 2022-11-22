@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import { usePlayer, useShortcuts, useState } from "@/amethyst";
 import { Track } from "@/logic/track";
-import BaseChip from "./new/BaseChip.vue";
-import BroomIcon from "@/icons/plumpy/BroomIcon.vue";
-import PlayIcon from "@/icons/plumpy/PlayIcon.vue";
-import ExternalLinkIcon from "@/icons/plumpy/ExternalLinkIcon.vue";
-import RestartIcon from "@/icons/plumpy/RestartIcon.vue";
-import LoadingIcon from "@/icons/plumpy/LoadingIcon.vue";
-import ErrorIcon from "@/icons/plumpy/ErrorIcon.vue";
+import BaseChip from "@/components/BaseChip.vue";
+import { BroomIcon, PlayIcon, ExternalLinkIcon, RestartIcon, LoadingIcon, ErrorIcon } from "@/icons/plumpy";
 import Cover from "@/components/CoverArt.vue";
 
 defineProps<{tracks: Track[]}>();
