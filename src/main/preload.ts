@@ -2,13 +2,15 @@ import type { IpcRendererEvent } from "electron";
 import { contextBridge, ipcRenderer } from "electron";
 import * as fs from "fs/promises";
 import * as os from "os";
+import * as path from "path";
 
 contextBridge.exposeInMainWorld("fs", fs);
 contextBridge.exposeInMainWorld("os", os);
+contextBridge.exposeInMainWorld("path", path);
 
 export type Channels =
 	"minimize" |
-	"maximize" |
+	"maximize" | 
 	"unmaximize" |
 	"read-file" |
 	"close" |
