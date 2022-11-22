@@ -81,7 +81,7 @@ export class MainWindow {
 		return meta?.common.picture?.[0].data;
 	}
 
-	public async getResizedCover(path: string, resizeTo = 64): Promise<string | undefined> {
+	public async getResizedCover(path: string, resizeTo = 128): Promise<string | undefined> {
 		const cover = await this.getCover(path);
 
 		if (!cover)
@@ -142,7 +142,7 @@ export class MainWindow {
 			));
 			this.window.webContents.send(
 				"version",
-				APP_VERSION + (IS_DEV ? " DEV-BUILD" : ""),
+				APP_VERSION + (IS_DEV ? " dev" : ""),
 			);
 			this.window.webContents.send("acceptable-extensions", ALLOWED_EXTENSIONS);
 		});
