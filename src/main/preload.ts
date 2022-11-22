@@ -1,5 +1,10 @@
 import type { IpcRendererEvent } from "electron";
 import { contextBridge, ipcRenderer } from "electron";
+import * as fs from "fs/promises";
+import * as os from "os";
+
+contextBridge.exposeInMainWorld("fs", fs);
+contextBridge.exposeInMainWorld("os", os);
 
 export type Channels =
 	"minimize" |
