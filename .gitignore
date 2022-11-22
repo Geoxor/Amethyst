@@ -20,6 +20,8 @@ node_modules
 # OSX
 .DS_Store
 
+PlaygroundView.vue
+
 release/app/dist
 release/build
 
