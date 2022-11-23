@@ -39,7 +39,7 @@ export default defineConfig({
 			strict: true,
 		},
 		host: true,
-		port: Number.parseInt(process.env.PORT || "1212"),
+		port: 3000,
 	},
 	build: {
 		sourcemap: true,

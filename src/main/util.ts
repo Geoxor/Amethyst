@@ -1,9 +1,9 @@
-import { URL } from "url";
 import path from "path";
+import { URL } from "url";
 
 export function resolveHTMLPath(htmlFileName: string) {
     if (process.env.NODE_ENV === "development") {
-        const url = new URL(`http://localhost:${process.env.PORT || 1212}`);
+        const url = new URL(`http://localhost:${3000}`);
 
 		url.pathname = htmlFileName;
 
