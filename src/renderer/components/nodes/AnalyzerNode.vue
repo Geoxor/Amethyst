@@ -15,7 +15,7 @@ defineProps<{ node: AmethystAudioNode<any> }>();
   >
     <GPUSpectrumAnalyzer
       class="h-76px w-152px"
-      :node="node.node"
+      :node="node.audioNode"
     />
   </CustomNode>
 </template>
