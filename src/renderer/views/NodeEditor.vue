@@ -230,7 +230,7 @@ const fitToView = () => dash.value.fitView();
 }
 
 .vue-flow__handle {
-  @apply border-primary-900 border-opacity-60 h-6 rounded-2px hover:border-primary-800 bg-surface-800 hover:bg-surface-600 duration-100 transition-colors;
+  @apply border-primary-900 border-opacity-60 h-1/2 rounded-2px hover:border-primary-800 bg-surface-800 hover:bg-surface-600 duration-100 transition-colors;
 }
 
 </style>
