@@ -23,6 +23,7 @@ const createWaveSurfer = () => {
     height: 32,
     hideScrollbar: true,
     cursorWidth: 0,
+    normalize: true,
   });
 };
 

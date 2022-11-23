@@ -156,11 +156,6 @@ const refreshWindow = () => location.reload();
     </p>
 
     <div class="flex gap-2 items-center overflow-hidden font-aseprite">
-      <update-button
-        v-if="state.state.updateReady"
-        @click="electron.close()"
-      />
-
       <div class="w-30 flex gap-2 justify-end">
         <div 
           :class="[
@@ -176,7 +171,10 @@ const refreshWindow = () => location.reload();
           <strong class="text-primary-900 text-opacity-25">min</strong> {{ min }} <strong class="text-primary-900 text-opacity-25">max</strong> {{ max }}
         </div>
       </div>
-
+      <update-button
+        v-if="state.state.updateReady"
+        @click="electron.close()"
+      />
       <processor-usage-meter
         :value="state.state.cpuUsage.renderer"
       />
