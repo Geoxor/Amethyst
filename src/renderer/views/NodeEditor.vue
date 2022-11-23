@@ -159,7 +159,7 @@ const fitToView = () => dash.value.fitView();
       v-model="elements"
       class="bg-black bg-opacity-25 p-2"
       :snap-to-grid="state.settings.isSnappingToGrid"
-      :max-zoom="4.00"
+      :max-zoom="2.00"
       :connection-line-style="{ stroke: getThemeColorHex('--primary-700') }"
       :fit-view-on-init="true"
       @node-drag-stop="handleNodeDragStop"
