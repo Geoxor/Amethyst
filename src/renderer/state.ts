@@ -38,7 +38,7 @@ export class AppState {
 		showCoverArt: true,
 		showSpectrum: true,
 		showVectorscope: true,
-		processingConcurrency: 10,
+		processingConcurrency: 3,
 		showDbMeter: true,
 		showAmbientBackground: false,
 		ambientBackgroundOpacity: 25,
