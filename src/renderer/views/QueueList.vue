@@ -7,9 +7,10 @@ import { ref, watch } from "vue";
 import SquareButton from "@/components//input/SquareButton.vue";
 import DroppableContainer from "@/components/DroppableContainer.vue";
 import { Track } from "@/logic/track";
+import { useLocalStorage } from "@vueuse/core";
 const player = usePlayer();
 const state = useState();
-const filterText = ref("");
+const filterText = useLocalStorage("filterText", "");
 
 const scrollToCurrentElement = (track?: Track) => {
   const active = document.querySelector(".vue-recycle-scroller");
