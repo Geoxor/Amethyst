@@ -58,11 +58,15 @@ export class Player extends EventEmitter<{
       this.currentTrack.value = track;
       this.currentTrackIndex.value = this.queue.getList().indexOf(track);
       this.input.play();
+      if (!track.isLoaded) {
+        track.fetchAsyncData();
+      }
     }
     this.input.play();
     this.isPlaying.value = true;
     this.isPaused.value = false;
     this.isStopped.value = false;
+
     this.emit("play", this.getCurrentTrack()!);
   }
 

@@ -1,8 +1,6 @@
 import { BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
 import log from "electron-log";
 import { autoUpdater } from "electron-updater";
-import { FastAverageColorResult } from "fast-average-color";
-import { getAverageColor } from "fast-average-color-node";
 import fs from "fs";
 import open from "open";
 import os from "os";
@@ -207,19 +205,6 @@ export class MainWindow {
 
 			"get-cover": async (_: Event, [path]: string[]) => {
 				return this.getResizedCover(path);
-			},
-
-			"get-cover-colors": async (_: Event, [path]: string[]): Promise<FastAverageColorResult> => {
-				const coverBuffer = await this.getCover(path);
-				if (!coverBuffer)
-					return Promise.reject();
-
-				try {
-					const color = await getAverageColor(coverBuffer);
-					return color;
-				} catch (error) {
-					return Promise.reject(error);
-				}
 			},
 
 			"get-metadata": async (_: Event, [path]: string[]) => {
