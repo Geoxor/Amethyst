@@ -159,7 +159,7 @@ const fitToView = () => dash.value.fitView();
       v-model="elements"
       class="bg-black bg-opacity-25 p-2"
       :snap-to-grid="state.settings.isSnappingToGrid"
-      :max-zoom="1.00"
+      :max-zoom="4.00"
       :connection-line-style="{ stroke: getThemeColorHex('--primary-700') }"
       :fit-view-on-init="true"
       @node-drag-stop="handleNodeDragStop"
@@ -230,7 +230,7 @@ const fitToView = () => dash.value.fitView();
 }
 
 .vue-flow__handle {
-  @apply border-primary-900 hover:border-primary-1000 bg-surface-800 hover:bg-surface-400 duration-100 transition-colors;
+  @apply border-primary-900 border-opacity-75 h-6 rounded-1px hover:border-primary-800 bg-surface-800 hover:bg-surface-600 duration-100 transition-colors;
 }
 
 </style>
