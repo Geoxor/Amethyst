@@ -3,7 +3,7 @@ import { usePlayer, useState } from "@/amethyst";
 import SquareButton from "@/components/input/SquareButton.vue";
 import { AdjustIcon, AzimuthIcon, FilterIcon, SelectNoneIcon, WaveIcon } from "@/icons/material";
 import {MagnetIcon} from "@/icons/plumpy";
-import { AmethystLowPassNode, AmethystGainNode, AmethystPannerNode, AmethystSpectrumNode } from "@/logic/audio";
+import { AmethystLowPassNode, AmethystGainNode, AmethystPannerNode, AmethystSpectrumNode, AmethystHighPassNode } from "@/logic/audio";
 import { getThemeColorHex } from "@/logic/color";
 import { Background, BackgroundVariant } from "@vue-flow/additional-components";
 import { Connection, EdgeMouseEvent, NodeDragEvent, VueFlow } from "@vue-flow/core";
@@ -79,6 +79,9 @@ const handleContextMenu = ({y, x}: MouseEvent) => {
     {title: "Add AmethystLowPassNode", icon: FilterIcon, action: () => {
       player.nodeManager.addNode(new AmethystLowPassNode(player.nodeManager.context, "filter", computeNodePosition(x, y)));
     }},
+    {title: "Add AmethystHighPassNode", icon: FilterIcon, action: () => {
+      player.nodeManager.addNode(new AmethystHighPassNode(player.nodeManager.context, "filter", computeNodePosition(x, y)));
+    }},
     {title: "Add AmethystPannerNode", icon: AzimuthIcon, action: () => {
       player.nodeManager.addNode(new AmethystPannerNode(player.nodeManager.context, "panner", computeNodePosition(x, y)));
     }},
@@ -100,6 +103,9 @@ const handleEdgeContextMenu = (e: EdgeMouseEvent) => {
     {title: "Remove connection", icon: FilterIcon, action: () => sourceNode.disconnectFrom(targetNode)},
     {title: "Add AmethystLowPassNode", icon: FilterIcon, action: () => {
       player.nodeManager.addNode(new AmethystLowPassNode(player.nodeManager.context, "filter", computeNodePosition(x, y)), [sourceNode, targetNode]);
+    }},
+    {title: "Add AmethystHighPassNode", icon: FilterIcon, action: () => {
+      player.nodeManager.addNode(new AmethystHighPassNode(player.nodeManager.context, "filter", computeNodePosition(x, y)), [sourceNode, targetNode]);
     }},
     {title: "Add AmethystPannerNode", icon: AzimuthIcon, action: () => {
       player.nodeManager.addNode(new AmethystPannerNode(player.nodeManager.context, "panner", computeNodePosition(x, y)), [sourceNode, targetNode]);

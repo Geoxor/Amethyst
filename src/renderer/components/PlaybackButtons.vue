@@ -37,10 +37,12 @@ onMounted(() => {
     };
     wavesurfer.load(track.path);
     wavesurfer.on("ready", () => {
+      // Check if they paused before the waveform loaded
+      if (player.isPaused.value) return;
       wavesurfer.play();
       wavesurfer.setVolume(0);
-      wavesurfer.on("seek", value => player.seekTo(wavesurfer.getDuration() * value));
     });
+    wavesurfer.on("seek", value => player.seekTo(wavesurfer.getDuration() * value));
     oldTrack = track;
   });
 

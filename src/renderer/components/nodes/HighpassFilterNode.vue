@@ -2,37 +2,25 @@
 import Slider from "@/components/input/BaseSlider.vue";
 import CustomNode from "@/components/nodes/CustomNode.vue";
 import {FilterIcon} from "@/icons/material";
-import { AmethystLowPassNode } from "@/logic/audio";
+import { AmethystHighPassNode } from "@/logic/audio";
+import { percentToLog } from "@/logic/math";
 import { computed, ref, watch } from "vue";
 
-const props = defineProps<{ node: AmethystLowPassNode }>();
-const frequency = ref(100);
+const props = defineProps<{ node: AmethystHighPassNode }>();
+const frequency = ref(0);
 const Q = ref(props.node.audioNode.Q.value);
-const frequencyLog = computed(() => logSlider(frequency.value));
+const frequencyLog = computed(() => percentToLog(frequency.value, 20, 22050));
 
 // Update the nodes with the component's value
-watch(() => frequency.value, value => props.node.audioNode.frequency.value = logSlider(value));
+watch(() => frequency.value, value => props.node.audioNode.frequency.value = percentToLog(value, 20, 22050));
 watch(() => Q.value, value => props.node.audioNode.Q.value = value);
-
-const logSlider = (position: number) => {
-  const minp = 0;
-  const maxp = 100;
-
-  const minv = Math.log(20);
-  const maxv = Math.log(22050);
-
-  // calculate adjustment factor
-  const scale = (maxv - minv) / (maxp - minp);
-
-  return Math.exp(minv + scale * (position - minp));
-};
 
 </script>
 
 <template>
   <CustomNode
     :node="node"
-    title="Lowpass Filter"
+    title="Highpass Filter"
     :icon="FilterIcon"
   >
     <p class="font-aseprite">

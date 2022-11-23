@@ -73,3 +73,16 @@ export const interpolateArray = <T>(data: T[], fitCount: number): T[] => {
 
   return newData;
 };
+
+export const percentToLog = (percentage: number, min: number, max: number) => {
+  const minp = 0;
+  const maxp = 100;
+
+  const minv = Math.log(min);
+  const maxv = Math.log(max);
+
+  // calculate adjustment factor
+  const scale = (maxv - minv) / (maxp - minp);
+
+  return Math.exp(minv + scale * (percentage - minp));
+};
