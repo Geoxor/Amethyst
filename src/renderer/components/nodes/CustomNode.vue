@@ -21,7 +21,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
 <template>
   <div
     :class="node.isDisabled && 'disabled'"
-    class="flex select-none h-full gap-2 rounded-4px hover:border-primary-800 duration-50 flex gap-2 border-surface-500 bg-surface-800 border-1 p-2"
+    class="flex select-none h-full gap-2 rounded-4px hover:border-primary-800 duration-100 flex gap-2 border-surface-500 bg-surface-800 border-1 p-2"
     @contextmenu.stop="handleContextMenu"
   >
     <div class="flex flex-col gap-2">
