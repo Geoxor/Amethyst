@@ -72,7 +72,7 @@ export class Queue {
     
     return PromisePool
 			.for(force ? this.getList() : this.getList().filter(track => !track.isLoaded))
-			.withConcurrency(useState().settings.processingConcurrency)
+			.withConcurrency(useState().settings.processingConcurrency || 3)
 			.process(async track => {
         await track.fetchAsyncData();
         this.updateTotalSize();
