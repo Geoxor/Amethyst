@@ -20,7 +20,7 @@ export class Amethyst {
 
   constructor() {
 		this.electron.ipc.on<string>("play-file", path => path !== "--require" && this.player.queue.add(path).then(() => {
-      this.player.play(this.player.queue.getList().length - 1);
+      this.player.play(this.player.queue.getList().findIndex(track => track.path == path));
     }));
     this.electron.ipc.on<(string)[]>("play-folder", paths => this.player.queue.add(flattenArray(paths)));
 
