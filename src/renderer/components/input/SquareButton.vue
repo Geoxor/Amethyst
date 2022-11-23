@@ -3,13 +3,25 @@ defineProps<{ active?: boolean, icon?: any }>();
 </script>
 
 <template>
-  <div
-    :class="active && 'bg-cyan-500'"
-    class="select-none magnet p-1  bg-surface-700 border-1 border-surface-500"
+  <button
+    :class="active && 'active'"
+    class="select-none p-1 bg-surface-700 border-1 border-surface-500"
   >
     <component
       :is="icon"
       v-if="icon"
     />
-  </div>
+  </button>
 </template>
+
+<style scoped lang="postcss">
+button {
+  &.active {
+    @apply bg-cyan-500 hover:bg-cyan-400;
+  }
+
+  &:not(.active) {
+    @apply hover:bg-cyan-700;
+  }
+}
+</style>

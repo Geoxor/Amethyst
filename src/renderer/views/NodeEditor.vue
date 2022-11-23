@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { usePlayer, useState } from "@/amethyst";
 import SquareButton from "@/components/input/SquareButton.vue";
+import { AdjustIcon, AzimuthIcon, FilterIcon, SelectNoneIcon } from "@/icons/material";
 import {MagnetIcon} from "@/icons/plumpy";
+import { AmethystEqualizerNode, AmethystGainNode, AmethystPannerNode, AmethystSpectrumNode } from "@/logic/audio";
 import { getThemeColorHex } from "@/logic/color";
 import { Background, BackgroundVariant } from "@vue-flow/additional-components";
-import { VueFlow } from "@vue-flow/core";
+import { NodeDragEvent, VueFlow } from "@vue-flow/core";
 import { computed, onMounted, ref } from "vue";
 const dash = ref();
 const nodeEditor = ref();
@@ -19,6 +21,78 @@ const elements = computed(() => [...player.nodeManager.getNodeProperties(), ...p
 
 const handleClick = () => {
   state.settings.isSnappingToGrid = !state.settings.isSnappingToGrid;
+};
+
+const getDashCoords = () => {
+  const transformationPane = document.getElementsByClassName("vue-flow__transformationpane")[0]! as HTMLDivElement;
+  const style = getComputedStyle(transformationPane);
+  const matrix = style.transform;
+
+  // No transform property. Simply return 0 values.
+  if (matrix === "none" || typeof matrix === "undefined") {
+    return {
+      x: 0,
+      y: 0,
+      z: 0
+    };
+  }
+
+  // Can either be 2d or 3d transform
+  const matrixType = matrix.includes("3d") ? "3d" : "2d";
+  const matrixValues = matrix.match(/matrix.*\((.+)\)/)?.[1].split(", ");
+
+  // 2d matrices have 6 values
+  // Last 2 values are X and Y.
+  // 2d matrices does not have Z value.
+  if (matrixType === "2d") {
+    return {
+      x: parseFloat(matrixValues![4]),
+      y: parseFloat(matrixValues![5]),
+      z: 0
+    };
+  }
+
+  // 3d matrices have 16 values
+  // The 13th, 14th, and 15th values are X, Y, and Z
+  if (matrixType === "3d") {
+    return {
+      x: parseFloat(matrixValues![12]),
+      y: parseFloat(matrixValues![13]),
+      z: parseFloat(matrixValues![14]),
+    };
+  }
+
+  return {
+    x: 0,
+    y: 0,
+    z: 0
+  };
+};
+
+const computeNodePosition = (x: number, y: number) => {
+  const {x: dashX, y: dashY} = getDashCoords();
+  return { x: -dashX + x , y: -dashY + y };
+};
+
+const handleContextMenu = ({y, x}: MouseEvent) => {
+  state.openContextMenuAt(x, y, [
+    {title: "Add AmethystEqualizerNode", icon: FilterIcon, action: () => {
+      player.nodeManager.addNode(new AmethystEqualizerNode(player.nodeManager.context, "filter", computeNodePosition(x, y)));
+    }},
+    {title: "Add AmethystPannerNode", icon: SelectNoneIcon, action: () => {
+      player.nodeManager.addNode(new AmethystPannerNode(player.nodeManager.context, "panner", computeNodePosition(x, y)));
+    }},
+    {title: "Add AmethystGainNode", icon: AdjustIcon, action: () => {
+      player.nodeManager.addNode(new AmethystGainNode(player.nodeManager.context, "gain", computeNodePosition(x, y)));
+    }},
+    {title: "Add AmethystSpectrumNode", icon: AzimuthIcon, action: () => {
+      player.nodeManager.addNode(new AmethystSpectrumNode(player.nodeManager.context, "spectrum", computeNodePosition(x, y)));
+    }},
+  ]);
+};
+
+const handleNodeDragStop = (e: NodeDragEvent) => {
+  player.nodeManager.nodes.find(node => node.properties.id === e.node.id)?.updatePosition(e.node.position);
 };
 
 </script>
@@ -44,6 +118,8 @@ const handleClick = () => {
       :connection-line-style="{ stroke: getThemeColorHex('--primary-700') }"
       :fit-view-on-init="true"
       :default-edge-options="{ type: 'smoothstep' }"
+      @node-drag-stop="handleNodeDragStop"
+      @contextmenu="handleContextMenu"
     >
       <Background
         :size="0.5"

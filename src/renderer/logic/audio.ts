@@ -6,6 +6,7 @@ import MasterNode from "@/components/nodes/MasterNode.vue";
 import OutputNode from "@/components/nodes/OutputNode.vue";
 import PannerNode from "@/components/nodes/PannerNode.vue";
 import { Position } from "@vue-flow/core";
+import { v4 as uuid } from "uuid";
 import { DefineComponent, markRaw, ref } from "vue";
 
 export interface IAmethystNodeProperties {
@@ -79,7 +80,7 @@ export class AmethystAudioNodeManager {
 
   public addNode<T extends AudioNode>(node: AmethystAudioNode<T>) {
     this.nodes.splice(this.nodes.length - 2, 0, node);
-    this.connectNodes();
+    this.reconnectNodes();
   }
 
   public disableNode<T extends AudioNode>(node: AmethystAudioNode<T>) {
@@ -118,7 +119,7 @@ export class AmethystAudioNode<T extends AudioNode> {
 
   public constructor(public node: T, name: string, component: DefineComponent<{}, {}, any>, position: IAmethystNodeProperties["position"], public isRemovable: boolean = true) {
     this.properties = {
-      id: name,
+      id: `${name}-${uuid()}`,
       type: `custom-${name}`,
       position,
       sourcePosition: Position.Right,
@@ -141,6 +142,10 @@ export class AmethystAudioNode<T extends AudioNode> {
     delete this.connection;
   }
 
+  public updatePosition(newPosition: {x: number, y: number}) {
+    this.properties.position = newPosition;
+  }
+
   public reset(){
     console.log(new Error("Not implemented"));
   };
@@ -149,8 +154,9 @@ export class AmethystAudioNode<T extends AudioNode> {
 export class AmethystEqualizerNode extends AmethystAudioNode<BiquadFilterNode> {
   public constructor(context: AudioContext, name: string, position: IAmethystNodeProperties["position"]) {
     const filter = context.createBiquadFilter();
-    filter.type = "lowshelf";
-    filter.frequency.value = 100;
+    
+    filter.type = "lowpass";
+    filter.frequency.value = 22500;
     filter.gain.value = 0;
 
     super(filter, name, FilterNode, position);

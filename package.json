@@ -316,6 +316,7 @@
     "pretty-ms": "^8.0.0",
     "sharp": "0.30.7",
     "three": "^0.146.0",
+    "uuidv4": "^6.2.13",
     "vite": "^3.2.4",
     "vite-plugin-windicss": "^1.8.4",
     "vue": "^3.2.45",
