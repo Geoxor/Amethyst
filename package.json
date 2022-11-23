@@ -289,7 +289,6 @@
     "tailwindcss": "^3.2.4",
     "ts-node": "^10.7.0",
     "typescript": "^4.9.3",
-    "unplugin-vue-components": "^0.22.9",
     "vitest": "^0.25.3",
     "vue-tsc": "^1.0.9"
   },
@@ -307,7 +306,6 @@
     "electron-debug": "^3.2.0",
     "electron-log": "^4.4.6",
     "electron-updater": "^5.3.0",
-    "fast-average-color-node": "^2.4.0",
     "mitt": "^3.0.0",
     "music-metadata": "7.13.0",
     "open": "^8.4.0",
