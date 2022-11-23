@@ -3,7 +3,7 @@ import { usePlayer, useState } from "@/amethyst";
 
 import LazyList from "@/components/LazyList.vue";
 import { MyLocationIcon } from "@/icons/material";
-import { watch } from "vue";
+import { onMounted, watch } from "vue";
 import SquareButton from "@/components//input/SquareButton.vue";
 import DroppableContainer from "@/components/DroppableContainer.vue";
 import { Track } from "@/logic/track";
@@ -21,15 +21,17 @@ const scrollToCurrentElement = (track?: Track) => {
   active.scrollTo({ top: estimatedPosition, behavior: "smooth" });
 };
 
-watch(() => state.settings.followQueue, isEnabled => {
-  if (isEnabled) {
+const autoscroll = () => {
+  if (state.settings.followQueue) {
     scrollToCurrentElement();
     player.on("play", scrollToCurrentElement);
   } else {
     player.off("play", scrollToCurrentElement);
   }
-});
+};
 
+watch(() => state.settings.followQueue, () => autoscroll());
+onMounted(() => autoscroll());
 </script>
 
 <template>
