@@ -157,6 +157,7 @@ export class AmethystEqualizerNode extends AmethystAudioNode<BiquadFilterNode> {
     
     filter.type = "lowpass";
     filter.frequency.value = 22500;
+    filter.Q.value = -3;
     filter.gain.value = 0;
 
     super(filter, name, FilterNode, position);
