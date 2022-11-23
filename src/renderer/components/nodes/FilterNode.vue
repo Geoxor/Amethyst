@@ -2,10 +2,10 @@
 import Slider from "@/components/input/BaseSlider.vue";
 import CustomNode from "@/components/nodes/CustomNode.vue";
 import {FilterIcon} from "@/icons/material";
-import { AmethystEqualizerNode } from "@/logic/audio";
+import { AmethystLowPassNode } from "@/logic/audio";
 import { computed, ref, watch } from "vue";
 
-const props = defineProps<{ node: AmethystEqualizerNode }>();
+const props = defineProps<{ node: AmethystLowPassNode }>();
 const frequency = ref(100);
 const Q = ref(props.node.node.Q.value);
 const frequencyLog = computed(() => logSlider(frequency.value));
@@ -19,12 +19,12 @@ const logSlider = (position: number) => {
   const maxp = 100;
 
   const minv = Math.log(20);
-  const maxv = Math.log(22500);
+  const maxv = Math.log(22050);
 
   // calculate adjustment factor
   const scale = (maxv - minv) / (maxp - minp);
 
-  return Math.exp(minv + scale * (position - minp)) + .1;
+  return Math.exp(minv + scale * (position - minp));
 };
 
 </script>
@@ -37,7 +37,7 @@ const logSlider = (position: number) => {
   >
     <p class="font-aseprite">
       <strong class="text-primary-900 font-aseprite font-thin">Frequency</strong> {{
-        ~~frequencyLog
+        Math.ceil(frequencyLog)
       }}
       Hz
     </p>

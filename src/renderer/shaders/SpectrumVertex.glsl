@@ -1,6 +1,6 @@
 precision highp float;
 
-// All the amplitude levels for each frequency 1-22500hz
+// All the amplitude levels for each frequency 1-22050hz
 uniform int u_amplitude[ 4000 ];
 uniform int u_height;
 uniform float u_vertical_zoom;

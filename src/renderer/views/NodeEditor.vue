@@ -1,19 +1,19 @@
 <script setup lang="ts">
 import { usePlayer, useState } from "@/amethyst";
 import SquareButton from "@/components/input/SquareButton.vue";
-import { AdjustIcon, AzimuthIcon, FilterIcon, WaveIcon } from "@/icons/material";
+import { AdjustIcon, AzimuthIcon, FilterIcon, SelectNoneIcon, WaveIcon } from "@/icons/material";
 import {MagnetIcon} from "@/icons/plumpy";
-import { AmethystEqualizerNode, AmethystGainNode, AmethystPannerNode, AmethystSpectrumNode } from "@/logic/audio";
+import { AmethystLowPassNode, AmethystGainNode, AmethystPannerNode, AmethystSpectrumNode } from "@/logic/audio";
 import { getThemeColorHex } from "@/logic/color";
 import { Background, BackgroundVariant } from "@vue-flow/additional-components";
-import { NodeDragEvent, VueFlow } from "@vue-flow/core";
+import { Connection, EdgeMouseEvent, NodeDragEvent, VueFlow } from "@vue-flow/core";
 import { computed, onMounted, ref } from "vue";
 const dash = ref();
 const nodeEditor = ref();
 
 onMounted(() => {
-  new ResizeObserver(dash.value.fitView).observe(nodeEditor.value);
-});
+  // new ResizeObserver(dash.value.fitView).observe(nodeEditor.value);
+}); 
 
 const player = usePlayer();
 const state = useState();
@@ -76,8 +76,8 @@ const computeNodePosition = (x: number, y: number) => {
 
 const handleContextMenu = ({y, x}: MouseEvent) => {
   state.openContextMenuAt(x, y, [
-    {title: "Add AmethystEqualizerNode", icon: FilterIcon, action: () => {
-      player.nodeManager.addNode(new AmethystEqualizerNode(player.nodeManager.context, "filter", computeNodePosition(x, y)));
+    {title: "Add AmethystLowPassNode", icon: FilterIcon, action: () => {
+      player.nodeManager.addNode(new AmethystLowPassNode(player.nodeManager.context, "filter", computeNodePosition(x, y)));
     }},
     {title: "Add AmethystPannerNode", icon: AzimuthIcon, action: () => {
       player.nodeManager.addNode(new AmethystPannerNode(player.nodeManager.context, "panner", computeNodePosition(x, y)));
@@ -91,9 +91,42 @@ const handleContextMenu = ({y, x}: MouseEvent) => {
   ]);
 };
 
+const handleEdgeContextMenu = (e: EdgeMouseEvent) => {
+  const sourceNode = player.nodeManager.nodes.find(node => node.properties.id === e.edge.source)!;
+  const targetNode = player.nodeManager.nodes.find(node => node.properties.id === e.edge.target)!;
+
+  const {x, y} = e.event;
+  state.openContextMenuAt(x, y, [
+    {title: "Remove connection", icon: FilterIcon, action: () => sourceNode.disconnectFrom(targetNode)},
+    {title: "Add AmethystLowPassNode", icon: FilterIcon, action: () => {
+      player.nodeManager.addNode(new AmethystLowPassNode(player.nodeManager.context, "filter", computeNodePosition(x, y)), [sourceNode, targetNode]);
+    }},
+    {title: "Add AmethystPannerNode", icon: AzimuthIcon, action: () => {
+      player.nodeManager.addNode(new AmethystPannerNode(player.nodeManager.context, "panner", computeNodePosition(x, y)), [sourceNode, targetNode]);
+    }},
+    {title: "Add AmethystGainNode", icon: AdjustIcon, action: () => {
+      player.nodeManager.addNode(new AmethystGainNode(player.nodeManager.context, "gain", computeNodePosition(x, y)), [sourceNode, targetNode]);
+    }},
+    {title: "Add AmethystSpectrumNode", icon: WaveIcon, action: () => {
+      player.nodeManager.addNode(new AmethystSpectrumNode(player.nodeManager.context, "spectrum", computeNodePosition(x, y)), [sourceNode, targetNode]);
+    }},
+  ]);
+};
+
 const handleNodeDragStop = (e: NodeDragEvent) => {
   player.nodeManager.nodes.find(node => node.properties.id === e.node.id)?.updatePosition(e.node.position);
 };
+
+const handleConnect = (e: Connection) => {
+  const from = player.nodeManager.nodes.find(node => node.properties.id === e.source);
+  const to = player.nodeManager.nodes.find(node => node.properties.id === e.target);
+
+  if (from && to) {
+    from.connectTo(to);
+  }
+};
+
+const fitToView = () => dash.value.fitView();
 
 </script>
 
@@ -109,6 +142,12 @@ const handleNodeDragStop = (e: NodeDragEvent) => {
       @click="handleClick"
     />
 
+    <SquareButton
+      class="absolute bottom-10 right-2 z-10 "
+      :icon="SelectNoneIcon"
+      @click="fitToView"
+    />
+
     <VueFlow
       ref="dash"
       v-model="elements"
@@ -116,10 +155,10 @@ const handleNodeDragStop = (e: NodeDragEvent) => {
       :snap-to-grid="state.settings.isSnappingToGrid"
       :max-zoom="6.00"
       :connection-line-style="{ stroke: getThemeColorHex('--primary-700') }"
-      :fit-view-on-init="true"
-      :default-edge-options="{ type: 'smoothstep' }"
       @node-drag-stop="handleNodeDragStop"
-      @contextmenu="handleContextMenu"
+      @connect="handleConnect"
+      @edge-context-menu="handleEdgeContextMenu"
+      @contextmenu.capture="handleContextMenu"
     >
       <Background
         :size="0.5"
@@ -140,8 +179,7 @@ const handleNodeDragStop = (e: NodeDragEvent) => {
     </VueFlow>
   </div>
 </template>
-
-<style>
+<style lang="postcss">
 .magnet:hover {
   @apply bg-surface-500;
 }
@@ -169,4 +207,23 @@ const handleNodeDragStop = (e: NodeDragEvent) => {
 .v-leave-to {
   opacity: 0;
 }
+
+.vue-flow__edge {
+  path {
+    @apply stroke-surface-400 duration-100 transition-colors;
+  }
+
+  &:hover path {
+    @apply stroke-primary-800;
+  }
+
+  &.selected path {
+    @apply stroke-primary-700 !important;
+  }
+}
+
+.vue-flow__handle {
+  @apply border-primary-900 hover:border-primary-1000 bg-surface-800 hover:bg-surface-400 duration-100 transition-colors;
+}
+
 </style>

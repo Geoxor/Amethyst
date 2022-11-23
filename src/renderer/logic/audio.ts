@@ -20,7 +20,6 @@ export interface IAmethystNodeConnection {
   id: `${string}-${string}`,
   source: string,
   target: string,
-  animated: true,
 };
 
 export class AmethystAudioNodeManager {
@@ -32,65 +31,34 @@ export class AmethystAudioNodeManager {
   public nodes: AmethystAudioNode<AudioNode>[] = ref([]).value;
 
   public constructor(input: AudioNode, public context: AudioContext) {
-    this.input = new AmethystAudioNode(input, "input", InputNode, { x: -50, y: 0 }, false);
-    this.master = new AmethystAudioNode(this.context.createGain(), "master", MasterNode, { x: 925, y: 0 }, false);
-    this.output = new AmethystAudioNode(this.context.destination, "output", OutputNode, { x: 1050, y: 0 }, false);
+    this.input = new AmethystAudioNode(input, "input", InputNode, { x: 0, y: 0 }, false);
+    this.master = new AmethystAudioNode(this.context.createGain(), "master", MasterNode, { x: 300, y: 0 }, false);
+    this.output = new AmethystAudioNode(this.context.destination, "output", OutputNode, { x: 450, y: 0 }, false);
 
-    // Attach first audio source node
+    this.input.connectTo(this.master);
+    this.master.connectTo(this.output);
+
     this.nodes.push(this.input);
-
-    // All effect nodes
-    this.nodes.push(new AmethystEqualizerNode(this.context, "filter", { x: 100, y: 0 }));
-    this.nodes.push(new AmethystPannerNode(this.context, "panner", { x: 300, y: 0 }));
-    this.nodes.push(new AmethystGainNode(this.context, "gain", { x: 500, y: 0 }));
-    this.nodes.push(new AmethystSpectrumNode(this.context, "spectrum", { x: 700, y: 0 }));
-
-    // Attach master node
     this.nodes.push(this.master);
-
-    // Attach last output node
     this.nodes.push(this.output);
-    this.connectNodes();
   }
 
-  private connectNodes() {
-    const enabledNodes = this.nodes.filter(n => !n.isDisabled);
+  public removeNode(node: AmethystAudioNode<AudioNode>) {
+    if (!node.isRemovable) return;
+    node.disconnect();
+    this.nodes.splice(this.nodes.findIndex(n => n.properties.id === node.properties.id), 1);
+  }
 
-    for (let i = enabledNodes.length - 1; i >= 0; i--) {
-      const previousNode = enabledNodes[i - 1];
-      const node = enabledNodes[i];
-
-      previousNode && previousNode.connectTo(node);
+  public addNode(node: AmethystAudioNode<AudioNode>, betweenNodes?: [AmethystAudioNode<AudioNode>, AmethystAudioNode<AudioNode>]) {
+    // If the user right clicked a connection line, add the node inbetween the 2 nodes that were connected
+    if (betweenNodes) {
+      const [source, target] = betweenNodes;
+      source.disconnectFrom(target);
+      source.connectTo(node);
+      node.connectTo(target);
     }
-  }
-
-  private reconnectNodes() {
-    this.nodes.forEach(node => node.disconnect());
-    this.connectNodes();
-  }
-
-  public removeNode(id: string) {
-    const target = this.nodes[this.nodes.findIndex(node => node.properties.id === id)];
-    if (!target.isRemovable) return;
-    target.disconnect();
-    delete this.nodes[this.nodes.findIndex(node => node.properties.id === id)];
-    this.nodes = this.nodes.filter(n => !!n);
-    this.connectNodes();
-  }
-
-  public addNode<T extends AudioNode>(node: AmethystAudioNode<T>) {
-    this.nodes.splice(this.nodes.length - 2, 0, node);
-    this.reconnectNodes();
-  }
-
-  public disableNode<T extends AudioNode>(node: AmethystAudioNode<T>) {
-    node.isDisabled = true;
-    this.reconnectNodes();
-  }
-
-  public enableNode<T extends AudioNode>(node: AmethystAudioNode<T>) {
-    node.isDisabled = false;
-    this.reconnectNodes();
+    
+    this.nodes.push(node);
   }
 
   public getNodeProperties() {
@@ -102,25 +70,33 @@ export class AmethystAudioNodeManager {
   }
 
   public getNodeConnections() {
-    return this.nodes.map(node => node.connection).filter(n => !!n) as IAmethystNodeConnection[];
+    const allConnections: IAmethystNodeConnection[] = [];
+
+    this.nodes.forEach(node => {
+      node.connections.forEach(connection => allConnections.push(connection));
+    });
+
+    return allConnections;
   }
 
   public getNodeConnectinsString() {
-    return this.getNodeConnections().map(c => `${c.source}-${c.target}`).join("-");
+    return this.getNodeConnections().toString();
   }
 }
 
 export class AmethystAudioNode<T extends AudioNode> {
   public properties: IAmethystNodeProperties;
-  public connection: IAmethystNodeConnection | undefined;
+  public connections: IAmethystNodeConnection[] = [];
   public isDisabled: boolean = false;
-  private connectedTo: AmethystAudioNode<T> | undefined;
+  private connectedTo: (AmethystAudioNode<AudioNode>)[] = [];
   public component: DefineComponent<{}, {}, any>;
 
   public constructor(public node: T, name: string, component: DefineComponent<{}, {}, any>, position: IAmethystNodeProperties["position"], public isRemovable: boolean = true) {
+    const id = `${name}-${uuid()}`;
+    
     this.properties = {
-      id: `${name}-${uuid()}`,
-      type: `custom-${name}`,
+      id,
+      type: `custom-${id}`,
       position,
       sourcePosition: Position.Right,
     };
@@ -131,15 +107,26 @@ export class AmethystAudioNode<T extends AudioNode> {
     return `node-${this.properties.type}`;
   }
 
-  public connectTo(target: AmethystAudioNode<T>) {
-    this.connectedTo = target;
-    this.connection = { id: `edge-${this.properties.id}-${target.properties.id}`, source: this.properties.id, target: target.properties.id, animated: true };
+  public connectTo(target: AmethystAudioNode<AudioNode>) {
+    this.connectedTo.push(target);
+    this.connections.push({ 
+      id: `edge-${this.properties.id}-${target.properties.id}`, 
+      source: this.properties.id, 
+      target: target.properties.id 
+    });
     this.node.connect(target.node);
+  }
+
+  public disconnectFrom(target: AmethystAudioNode<AudioNode>) {
+    delete this.connectedTo[this.connectedTo.indexOf(target)];
+    delete this.connections[this.connections.findIndex(connection => connection.id === `edge-${this.properties.id}-${target.properties.id}`)];
+    this.node.disconnect(target.node);
   }
 
   public disconnect() {
     this.node.disconnect();
-    delete this.connection;
+    this.connections = [];
+    this.connectedTo = [];
   }
 
   public updatePosition(newPosition: {x: number, y: number}) {
@@ -151,12 +138,12 @@ export class AmethystAudioNode<T extends AudioNode> {
   };
 }
 
-export class AmethystEqualizerNode extends AmethystAudioNode<BiquadFilterNode> {
+export class AmethystLowPassNode extends AmethystAudioNode<BiquadFilterNode> {
   public constructor(context: AudioContext, name: string, position: IAmethystNodeProperties["position"]) {
     const filter = context.createBiquadFilter();
     
     filter.type = "lowpass";
-    filter.frequency.value = 22500;
+    filter.frequency.value = 22050;
     filter.Q.value = -3;
     filter.gain.value = 0;
 

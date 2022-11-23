@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { usePlayer, useState } from "@/amethyst";
-import SquareButton from "@/components/input/SquareButton.vue";
+import { usePlayer, useShortcuts, useState } from "@/amethyst";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import {RestartIcon, BroomIcon} from "@/icons/plumpy";
 import { AmethystAudioNode } from "@/logic/audio";
@@ -12,11 +11,8 @@ const state = useState();
 // Context Menu options for this component 
 const handleContextMenu = ({x, y}: MouseEvent) => {
   state.openContextMenuAt(x, y, [
-    props.node.isDisabled
-      ? { title: "Enable", action: () => player.nodeManager.enableNode(props.node) }
-      : { title: "Disable", action: () => player.nodeManager.disableNode(props.node) },
-        { title: "Reset", icon: RestartIcon, action: () => props.node.reset() },
-       { title: "Remove", icon: BroomIcon, action: () => player.nodeManager.removeNode(props.node.properties.id) },
+    { title: "Reset", icon: RestartIcon, action: () => props.node.reset() },
+    { title: "Remove", icon: BroomIcon, action: () => player.nodeManager.removeNode(props.node) },
   ]);
 };
 
@@ -25,7 +21,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
 <template>
   <div
     :class="node.isDisabled && 'disabled'"
-    class="flex h-full gap-2 rounded-4px hover:border-primary-800 duration-50 flex gap-2 border-surface-500 bg-surface-800 border-1 p-2"
+    class="flex select-none h-full gap-2 rounded-4px hover:border-primary-800 duration-50 flex gap-2 border-surface-500 bg-surface-800 border-1 p-2"
     @contextmenu.stop="handleContextMenu"
   >
     <div class="flex flex-col gap-2">
@@ -36,11 +32,13 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
         />
         <h1 class="text-primary-600 uppercase text-9px flex-1">
           {{ title }}
+          <p
+            v-if="useShortcuts().isAltPressed.value"
+            class="mt-0.5 text-surface-400 text-4px font-aseprite"
+          >
+            {{ node.properties.id }}
+          </p>
         </h1>
-        <SquareButton
-          :active="!node.isDisabled"
-          @click.stop="node.isDisabled ? player.nodeManager.enableNode(node) : player.nodeManager.disableNode(node)"
-        />
       </div>
 
       <slot />
