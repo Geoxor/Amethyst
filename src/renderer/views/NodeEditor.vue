@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { usePlayer, useState } from "@/amethyst";
 import SquareButton from "@/components/input/SquareButton.vue";
-import { AdjustIcon, AzimuthIcon, FilterIcon, SelectNoneIcon } from "@/icons/material";
+import { AdjustIcon, AzimuthIcon, FilterIcon, WaveIcon } from "@/icons/material";
 import {MagnetIcon} from "@/icons/plumpy";
 import { AmethystEqualizerNode, AmethystGainNode, AmethystPannerNode, AmethystSpectrumNode } from "@/logic/audio";
 import { getThemeColorHex } from "@/logic/color";
@@ -79,13 +79,13 @@ const handleContextMenu = ({y, x}: MouseEvent) => {
     {title: "Add AmethystEqualizerNode", icon: FilterIcon, action: () => {
       player.nodeManager.addNode(new AmethystEqualizerNode(player.nodeManager.context, "filter", computeNodePosition(x, y)));
     }},
-    {title: "Add AmethystPannerNode", icon: SelectNoneIcon, action: () => {
+    {title: "Add AmethystPannerNode", icon: AzimuthIcon, action: () => {
       player.nodeManager.addNode(new AmethystPannerNode(player.nodeManager.context, "panner", computeNodePosition(x, y)));
     }},
     {title: "Add AmethystGainNode", icon: AdjustIcon, action: () => {
       player.nodeManager.addNode(new AmethystGainNode(player.nodeManager.context, "gain", computeNodePosition(x, y)));
     }},
-    {title: "Add AmethystSpectrumNode", icon: AzimuthIcon, action: () => {
+    {title: "Add AmethystSpectrumNode", icon: WaveIcon, action: () => {
       player.nodeManager.addNode(new AmethystSpectrumNode(player.nodeManager.context, "spectrum", computeNodePosition(x, y)));
     }},
   ]);
