@@ -55,6 +55,7 @@ onMounted(() => {
   });
   
   wavesurfer.on("seek", value => {
+    // Fixes odd stutter when syncing seek
     if (!hasSeekFiredOnce ) {
       hasSeekFiredOnce = true;
       return; 
