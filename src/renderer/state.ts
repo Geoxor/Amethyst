@@ -41,7 +41,7 @@ export class AppState {
 		processingConcurrency: 3,
 		showDbMeter: true,
 		showAmbientBackground: false,
-		ambientBackgroundOpacity: 50,
+		ambientBackgroundOpacity: 32,
 		abmientBackgroundBlurStrength: 64,
 		spectrumVerticalZoom: 1.4,
 		spectrumFftSize: 4096,
