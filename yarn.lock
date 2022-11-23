@@ -17,10 +17,10 @@
   resolved "https://registry.yarnpkg.com/@antfu/utils/-/utils-0.5.2.tgz#8c2d931ff927be0ebe740169874a3d4004ab414b"
   integrity sha512-CQkeV+oJxUazwjlHD0/3ZD08QWKuGQkhnrKo3e6ly5pd48VUpXbb77q0xMU4+vc2CkJnDS02Eq/M9ugyX20XZA==
 
-"@antfu/utils@^0.6.0":
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/@antfu/utils/-/utils-0.6.2.tgz#7702df28b999db92e412b7ddbbfdc81dfcfc7797"
-  integrity sha512-Qdwda+qE1KOKXuM8Gnn09zIJSA293J5putdHBx4J9sdbHzqp5QY4OmH77KgwJoi0PuY+kbddkVVdkSoZ9ruiug==
+"@antfu/utils@^0.7.0":
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/@antfu/utils/-/utils-0.7.0.tgz#bbf4e1b0601e2b9db6dc51e6bd1020958d6a1520"
+  integrity sha512-tH38JQEFLOdvZJC32ZbPTvWOQzxEtOQh5jOqBPDLw8sxBr0PFF+f2Csgwb7mRpD0QB1xu+PDoAifIPiCNneeNA==
 
 "@babel/parser@^7.16.4":
   version "7.20.3"
@@ -824,7 +824,7 @@ acorn@^7.0.0:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-7.4.1.tgz#feaed255973d2e77555b83dbc08851a6c63520fa"
   integrity sha512-nQyp0o1/mNdbTO1PO6kHkwSrmgZ0MT/jCCpNiwbUjGoRN4dlBhqJtoQuCnEOKzgTVwg0ZWiCoQy6SxMebQVh8A==
 
-acorn@^8.4.1, acorn@^8.8.0:
+acorn@^8.4.1, acorn@^8.8.0, acorn@^8.8.1:
   version "8.8.1"
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-8.8.1.tgz#0a3f9cbecc4ec3bea6f0a80b66ae8dd2da250b73"
   integrity sha512-7zFpHzhnqYKrkYdUjF1HI1bzd0VygEGX8lFk4k5zVMqHEoES+P+7TKI+EvLO9WVMJ8eekdO0aDEK044xTXwPPA==
@@ -4577,12 +4577,12 @@ unixify@^1.0.0:
   dependencies:
     normalize-path "^2.1.1"
 
-unplugin-vue-components@^0.22.9:
-  version "0.22.9"
-  resolved "https://registry.yarnpkg.com/unplugin-vue-components/-/unplugin-vue-components-0.22.9.tgz#68f0824a606d07b20fc2636b46ce63c1d960c1b6"
-  integrity sha512-qBvooq3EgpjtYicxeccRUGUBBQCCw9rJ0kHPZPOSJd8TBZViSv86vuKLTRDHPyjWtclwOIkVStZJfPdJFhYUMw==
+unplugin-vue-components@^0.22.11:
+  version "0.22.11"
+  resolved "https://registry.yarnpkg.com/unplugin-vue-components/-/unplugin-vue-components-0.22.11.tgz#5e2f4ad776cc5540546a7cdaf6408e037b3c73b1"
+  integrity sha512-GTzqPl0Ek8fq8qMufjR6hvtnjnSwMpJ1Rg2Ez9AcKZVp1piWoU/Q4FDnI9wHVKX8eenYL0nqAF3ejYAk1TUfqQ==
   dependencies:
-    "@antfu/utils" "^0.6.0"
+    "@antfu/utils" "^0.7.0"
     "@rollup/pluginutils" "^5.0.2"
     chokidar "^3.5.3"
     debug "^4.3.4"
@@ -4591,17 +4591,17 @@ unplugin-vue-components@^0.22.9:
     magic-string "^0.26.7"
     minimatch "^5.1.0"
     resolve "^1.22.1"
-    unplugin "^0.10.1"
+    unplugin "^1.0.0"
 
-unplugin@^0.10.1:
-  version "0.10.2"
-  resolved "https://registry.yarnpkg.com/unplugin/-/unplugin-0.10.2.tgz#0f7089c3666f592cc448d746e39e7f41e9afb01a"
-  integrity sha512-6rk7GUa4ICYjae5PrAllvcDeuT8pA9+j5J5EkxbMFaV+SalHhxZ7X2dohMzu6C3XzsMT+6jwR/+pwPNR3uK9MA==
+unplugin@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/unplugin/-/unplugin-1.0.0.tgz#8d12e0d116bf56313d42755094fc370e9c18da86"
+  integrity sha512-H5UnBUxfhTXBXGo2AwKsl0UaLSHzSNDZNehPQSgdhVfO/t+XAS1Yoj3vmLrrlBrS9ZwtH5tejbX/TCp5DcyCKg==
   dependencies:
-    acorn "^8.8.0"
+    acorn "^8.8.1"
     chokidar "^3.5.3"
     webpack-sources "^3.2.3"
-    webpack-virtual-modules "^0.4.5"
+    webpack-virtual-modules "^0.4.6"
 
 unzip-crx-3@^0.2.0:
   version "0.2.0"
@@ -4815,7 +4815,7 @@ webpack-sources@^3.2.3:
   resolved "https://registry.yarnpkg.com/webpack-sources/-/webpack-sources-3.2.3.tgz#2d4daab8451fd4b240cc27055ff6a0c2ccea0cde"
   integrity sha512-/DyMEOrDgLKKIG0fmvtz+4dUX/3Ghozwgm6iPp8KRhvn+eQf9+Q7GWxVNMk3+uCPWfdXYC4ExGBckIXdFEfH1w==
 
-webpack-virtual-modules@^0.4.5:
+webpack-virtual-modules@^0.4.6:
   version "0.4.6"
   resolved "https://registry.yarnpkg.com/webpack-virtual-modules/-/webpack-virtual-modules-0.4.6.tgz#3e4008230731f1db078d9cb6f68baf8571182b45"
   integrity sha512-5tyDlKLqPfMqjT3Q9TAqf2YqjwmnUleZwzJi1A5qXnlBCdj2AtOJ6wAWdglTIDOPgOiOrXeBeFcsQ8+aGQ6QbA==
