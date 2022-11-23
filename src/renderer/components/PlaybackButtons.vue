@@ -30,22 +30,37 @@ const createWaveSurfer = () => {
 onMounted(() => {
   wavesurfer = createWaveSurfer();
   let oldTrack: Track;
+  let hasSeekFiredOnce = false;
   player.on("play", track => {
+
+    // Don't regenerate the waveform if we are playing again from a pause
     if (track == oldTrack) {
       wavesurfer.play();
       return;
     };
+
     wavesurfer.load(track.path);
     wavesurfer.on("ready", () => {
       // Check if they paused before the waveform loaded
       if (player.isPaused.value) return;
+      hasSeekFiredOnce = false;
       wavesurfer.play();
       wavesurfer.setVolume(0);
+      // Fix seek being off type on lowend pcs cus the waveform took too long to render
+      // and we are already 7 seconds in lol
+      wavesurfer.seekTo(player.currentTime.value / track.getDurationSeconds());
     });
-    wavesurfer.on("seek", value => player.seekTo(wavesurfer.getDuration() * value));
+    
     oldTrack = track;
   });
-
+  
+  wavesurfer.on("seek", value => {
+    if (!hasSeekFiredOnce ) {
+      hasSeekFiredOnce = true;
+      return; 
+    }
+    player.seekTo(wavesurfer.getDuration() * value);
+  });
   player.on("pause", () => wavesurfer.pause());
 });
 
