@@ -43,7 +43,7 @@ export class Player extends EventEmitter<{
     this.input.onended = () => this.next();
 
     // Set the volume on first load
-    this.nodeManager.master.node.gain.value = this.volume.value;
+    this.nodeManager.master.audioNode.gain.value = this.volume.value;
   }
 
   /**
@@ -125,7 +125,7 @@ export class Player extends EventEmitter<{
 
   public setVolume(volume: number) {
 		this.volume.value = Math.max(0, Math.min(1, volume));
-    this.nodeManager.master.node.gain.value = this.volume.value;
+    this.nodeManager.master.audioNode.gain.value = this.volume.value;
     this.emit("volume", this.volume.value);
 	}
 

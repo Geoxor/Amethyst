@@ -5,8 +5,8 @@ import {AdjustIcon} from "@/icons/material";
 import { AmethystGainNode } from "@/logic/audio";
 import { ref, watch } from "vue";
 const props = defineProps<{ node: AmethystGainNode }>();
-const gain = ref(props.node.node.gain.value);
-watch(() => gain.value, () => props.node.node.gain.value = gain.value);
+const gain = ref(props.node.audioNode.gain.value);
+watch(() => gain.value, () => props.node.audioNode.gain.value = gain.value);
 </script>
 
 <template>

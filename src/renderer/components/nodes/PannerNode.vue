@@ -5,8 +5,8 @@ import {AzimuthIcon} from "@/icons/material";
 import { AmethystPannerNode } from "@/logic/audio";
 import { ref, watch } from "vue";
 const props = defineProps<{ node: AmethystPannerNode }>();
-const pan = ref(props.node.node.pan.value);
-watch(() => pan.value, () => props.node.node.pan.value = pan.value);
+const pan = ref(props.node.audioNode.pan.value);
+watch(() => pan.value, () => props.node.audioNode.pan.value = pan.value);
 </script>
 
 <template>

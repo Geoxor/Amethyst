@@ -1,3 +1,4 @@
+import { usePlayer } from "@/amethyst";
 import AnalyzerNode from "@/components/nodes/AnalyzerNode.vue";
 import FilterNode from "@/components/nodes/FilterNode.vue";
 import GainNode from "@/components/nodes/GainNode.vue";
@@ -55,6 +56,11 @@ export class AmethystAudioNodeManager {
       const [source, target] = betweenNodes;
       source.disconnectFrom(target);
       source.connectTo(node);
+
+      // Align the new node between the source and target
+      node.properties.position.y = target.properties.position.y / 2 + source.properties.position.y / 2;
+      node.properties.position.x = target.properties.position.x / 2 + source.properties.position.x / 2;
+
       node.connectTo(target);
     }
     
@@ -91,7 +97,7 @@ export class AmethystAudioNode<T extends AudioNode> {
   private connectedTo: (AmethystAudioNode<AudioNode>)[] = [];
   public component: DefineComponent<{}, {}, any>;
 
-  public constructor(public node: T, name: string, component: DefineComponent<{}, {}, any>, position: IAmethystNodeProperties["position"], public isRemovable: boolean = true) {
+  public constructor(public audioNode: T, name: string, component: DefineComponent<{}, {}, any>, position: IAmethystNodeProperties["position"], public isRemovable: boolean = true) {
     const id = `${name}-${uuid()}`;
     
     this.properties = {
@@ -114,19 +120,28 @@ export class AmethystAudioNode<T extends AudioNode> {
       source: this.properties.id, 
       target: target.properties.id 
     });
-    this.node.connect(target.node);
+    this.audioNode.connect(target.audioNode);
   }
 
   public disconnectFrom(target: AmethystAudioNode<AudioNode>) {
-    delete this.connectedTo[this.connectedTo.indexOf(target)];
-    delete this.connections[this.connections.findIndex(connection => connection.id === `edge-${this.properties.id}-${target.properties.id}`)];
-    this.node.disconnect(target.node);
+    this.connectedTo.splice(this.connectedTo.indexOf(target), 1);
+    this.connections.splice(this.connections.findIndex(connection => connection.id === `edge-${this.properties.id}-${target.properties.id}`), 1);
+    this.audioNode.disconnect(target.audioNode);
   }
 
   public disconnect() {
-    this.node.disconnect();
-    this.connections = [];
-    this.connectedTo = [];
+    
+    this.connections.forEach(connection => {
+      const source = usePlayer().nodeManager.nodes.find(node => node.connections.some(connection => connection.target === this.properties.id));
+      const target = usePlayer().nodeManager.nodes.find(node => node.properties.id === connection.target);
+      target && this.disconnectFrom(target);
+      
+      // And this node from it's current target
+      // And connect them together as if this node never existed between them
+      if (source && target) {
+        source.connectTo(target);
+      }
+    });
   }
 
   public updatePosition(newPosition: {x: number, y: number}) {
@@ -151,8 +166,8 @@ export class AmethystLowPassNode extends AmethystAudioNode<BiquadFilterNode> {
   }
 
   public override reset(){
-    this.node.frequency.value = 100;
-    this.node.gain.value = 0;
+    this.audioNode.frequency.value = 100;
+    this.audioNode.gain.value = 0;
   }
 }
 
@@ -173,7 +188,7 @@ export class AmethystPannerNode extends AmethystAudioNode<StereoPannerNode> {
   }
 
   public override reset() {
-    this.node.pan.value = 0;
+    this.audioNode.pan.value = 0;
   }
 }
 
@@ -183,6 +198,6 @@ export class AmethystGainNode extends AmethystAudioNode<GainNode> {
   }
 
   public override reset() {
-    this.node.gain.value = 1;
+    this.audioNode.gain.value = 1;
   }
 }

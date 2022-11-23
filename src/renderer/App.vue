@@ -42,7 +42,7 @@ const player = usePlayer();
         <db-meter
           v-if="state.settings.showDbMeter && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
-          :node="player.nodeManager.master.node"
+          :node="player.nodeManager.master.audioNode"
           :channels="player.getCurrentTrack()?.getChannels() || 2"
           @contextmenu="state.openContextMenuAt($event.x, $event.y, [
             { title: 'Hide dB Meter', icon: HideIcon, action: () => state.settings.showDbMeter = false },
@@ -52,7 +52,7 @@ const player = usePlayer();
         <vectorscope
           v-if="state.settings.showVectorscope && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
-          :node="player.nodeManager.master.node"
+          :node="player.nodeManager.master.audioNode"
           @contextmenu="state.openContextMenuAt($event.x, $event.y, [
             { title: 'Hide Vectorscope', icon: HideIcon, action: () => state.settings.showVectorscope = false },
           ]);"
@@ -64,7 +64,7 @@ const player = usePlayer();
           v-if="state.settings.showSpectrum && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
           class="h-76px w-152px min-h-76px min-w-152px"
-          :node="usePlayer().nodeManager.master.node"
+          :node="usePlayer().nodeManager.master.audioNode"
           @contextmenu="state.openContextMenuAt($event.x, $event.y, [
             { title: 'Hide Spectrum', icon: HideIcon, action: () => state.settings.showSpectrum = false },
           ]);"

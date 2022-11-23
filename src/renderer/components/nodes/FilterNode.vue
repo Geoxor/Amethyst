@@ -7,12 +7,12 @@ import { computed, ref, watch } from "vue";
 
 const props = defineProps<{ node: AmethystLowPassNode }>();
 const frequency = ref(100);
-const Q = ref(props.node.node.Q.value);
+const Q = ref(props.node.audioNode.Q.value);
 const frequencyLog = computed(() => logSlider(frequency.value));
 
 // Update the nodes with the component's value
-watch(() => frequency.value, value => props.node.node.frequency.value = logSlider(value));
-watch(() => Q.value, value => props.node.node.Q.value = value);
+watch(() => frequency.value, value => props.node.audioNode.frequency.value = logSlider(value));
+watch(() => Q.value, value => props.node.audioNode.Q.value = value);
 
 const logSlider = (position: number) => {
   const minp = 0;

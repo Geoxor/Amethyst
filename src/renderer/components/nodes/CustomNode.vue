@@ -53,7 +53,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
     <div class="flex ">
       <db-meter
         v-if="!meterless"
-        :node="node.node"
+        :node="node.audioNode"
         :channels="player.getCurrentTrack()?.getChannels() || 2"
       />
     </div>
