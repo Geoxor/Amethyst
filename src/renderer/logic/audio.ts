@@ -150,7 +150,7 @@ export class AmethystAudioNode<T extends AudioNode> {
   }
 
   public reset(){
-    console.log(new Error("Not implemented"));
+    throw new Error("Not implemented");
   };
 }
 
