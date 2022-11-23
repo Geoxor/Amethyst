@@ -39,7 +39,7 @@ export default defineConfig({
 			strict: true,
 		},
 		host: true,
-		port: 3000,
+		port: 1337,
 	},
 	build: {
 		sourcemap: true,
