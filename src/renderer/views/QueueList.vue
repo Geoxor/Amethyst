@@ -1,65 +1,38 @@
 <script setup lang="ts">
-import { usePlayer } from "@/amethyst";
+import { usePlayer, useState } from "@/amethyst";
 
 import LazyList from "@/components/LazyList.vue";
-import {MyLocationIcon} from "@/icons/material";
-import { ref } from "vue";
+import { MyLocationIcon } from "@/icons/material";
+import { ref, watch } from "vue";
 import SquareButton from "@/components//input/SquareButton.vue";
-// import * as THREE from "three";
+import DroppableContainer from "@/components/DroppableContainer.vue";
+import { Track } from "@/logic/track";
 const player = usePlayer();
-
+const state = useState();
 const filterText = ref("");
 
-const scrollToCurrentElement = () => {
+const scrollToCurrentElement = (track?: Track) => {
   const active = document.querySelector(".vue-recycle-scroller");
-  const currentTrack = player.getCurrentTrack();
+  const currentTrack = track || player.getCurrentTrack();
   if (!currentTrack) return;
-  
+
   const estimatedPosition = player.queue.search(filterText.value).indexOf(currentTrack) * 16;
-  active?.scrollTo({top: estimatedPosition, behavior: "smooth"});
+  active?.scrollTo({ top: estimatedPosition, behavior: "smooth" });
 };
 
-// onMounted(() => {
-
-// // init
-
-// const camera = new THREE.PerspectiveCamera( 70, window.innerWidth / window.innerHeight, 0.01, 10 );
-// camera.position.z = 1;
-
-// const scene = new THREE.Scene();
-
-// const geometry = new THREE.BoxGeometry( 0.2, 0.2, 0.2 );
-// const material = new THREE.MeshNormalMaterial();
-
-// const mesh = new THREE.Mesh( geometry, material );
-// scene.add( mesh );
-
-// const renderer = new THREE.WebGLRenderer( { canvas: document.getElementById("three")!, antialias: true } );
-// renderer.setAnimationLoop( animation );
-
-// // animation
-
-// function animation( time: number ) {
-
-// 	mesh.rotation.x = time / 2000;
-// 	mesh.rotation.y = time / 1000;
-
-// 	renderer.render( scene, camera );
-// }
-
-//   animation(2);
-// });
+watch(() => state.settings.followQueue, isEnabled => {
+  if (isEnabled) {
+    scrollToCurrentElement();
+    player.on("play", scrollToCurrentElement);
+  } else {
+    player.off("play", scrollToCurrentElement);
+  }
+});
 
 </script>
 
 <template>
-  <div class="flex-col p-2 flex w-full relative borderRight h-full ">
-    <!-- <canvas
-      id="three"
-      width="400"
-      height="200"
-      class="w-100 h-50"
-    /> -->
+  <droppable-container class="flex-col p-1.5 flex w-full relative borderRight h-full">
     <input
       v-model="filterText"
       type="text"
@@ -69,15 +42,14 @@ const scrollToCurrentElement = () => {
     >
 
     <square-button
-      class="absolute bottom-2 right-5 z-10 "
+      class="absolute bottom-2 right-4.5 z-10 "
       :icon="MyLocationIcon"
-      @click="scrollToCurrentElement"
+      :active="state.settings.followQueue"
+      @click="state.settings.followQueue = !state.settings.followQueue;"
     />
 
-    <LazyList
-      :tracks="player.queue.search(filterText)"
-    />
-  </div>
+    <lazy-list :tracks="player.queue.search(filterText)" />
+  </droppable-container>
 </template>
 
 <style lang="postcss" scoped>
@@ -95,5 +67,4 @@ const scrollToCurrentElement = () => {
 td {
   @apply overflow-hidden overflow-ellipsis;
 }
-
 </style>

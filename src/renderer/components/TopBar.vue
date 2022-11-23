@@ -8,14 +8,18 @@ import MenuSplitter from "@/components/menu/MenuSplitter.vue";
 import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
 import { AudioFileIcon, BroomIcon, DiscordIcon, GitHubIcon, MusicFolderIcon, RestartIcon, ZoomInIcon, ZoomOutIcon, ZoomToExtentsIcon, InstallingUpdatesIcon, SettingsIcon, } from "@/icons/plumpy";
 import { useFps } from "@vueuse/core";
-import { ref, watch } from "vue";
+import { onMounted, ref } from "vue";
 const min = ref(1000);
 const max = ref(0);
-const fps = useFps({every: 60});
+const fpsCounter = useFps({every: 60});
+const fps = ref(0);
 
-watch(() => fps.value, fps => {
-  if (fps > max.value) max.value = fps;
-  if (fps < min.value) min.value = fps;
+onMounted(() => {
+  setInterval(() => {
+    fps.value = fpsCounter.value;
+    if (fps.value > max.value) max.value = fps.value;
+    if (fps.value < min.value) min.value = fps.value;
+  }, 1000);
 });
 
 const state = useState();
@@ -155,8 +159,8 @@ const refreshWindow = () => location.reload();
       Amethyst v{{ state.state.version }}
     </p>
 
-    <div class="flex gap-2 items-center overflow-hidden font-aseprite">
-      <div class="w-30 flex gap-2 justify-end">
+    <div class="flex gap-1.25 items-center overflow-hidden font-aseprite">
+      <div class="w-30 flex gap-1 justify-end">
         <div 
           :class="[
             fps < 30 && 'text-red-500',
@@ -167,7 +171,10 @@ const refreshWindow = () => location.reload();
         >
           {{ fps }}fps
         </div>
-        <div class="font-aseprite text-primary-900 text-opacity-50">
+        <div
+          class="no-drag font-aseprite text-primary-900 text-opacity-50"
+          @click="min = 0; max = 0;"
+        >
           <strong class="text-primary-900 text-opacity-25">min</strong> {{ min }} <strong class="text-primary-900 text-opacity-25">max</strong> {{ max }}
         </div>
       </div>

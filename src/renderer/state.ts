@@ -47,6 +47,7 @@ export class AppState {
 		spectrumFftSize: 8192,
 		spectrumSmoothing: 0.4,
 		vectorscopeLineThickness: 1,
+		followQueue: false,
 		isSnappingToGrid: false,
 		diagonalVectorscope: true,
 		useLogarithmicSpectrum: true,

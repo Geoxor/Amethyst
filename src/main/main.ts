@@ -22,7 +22,7 @@ if (process.env.NODE_ENV === "production")
 // import("electron-debug").then(electronDebug => electronDebug ());
 
 app.setAppUserModelId("Amethyst");
-// app.commandLine.appendSwitch("disable-frame-rate-limit");
+IS_DEV && app.commandLine.appendSwitch("disable-frame-rate-limit");
 
 if (!app.requestSingleInstanceLock()) {
 	app.quit();
