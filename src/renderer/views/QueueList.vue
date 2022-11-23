@@ -3,7 +3,7 @@ import { usePlayer, useState } from "@/amethyst";
 
 import LazyList from "@/components/LazyList.vue";
 import { MyLocationIcon } from "@/icons/material";
-import { ref, watch } from "vue";
+import { watch } from "vue";
 import SquareButton from "@/components//input/SquareButton.vue";
 import DroppableContainer from "@/components/DroppableContainer.vue";
 import { Track } from "@/logic/track";
@@ -15,10 +15,10 @@ const filterText = useLocalStorage("filterText", "");
 const scrollToCurrentElement = (track?: Track) => {
   const active = document.querySelector(".vue-recycle-scroller");
   const currentTrack = track || player.getCurrentTrack();
-  if (!currentTrack) return;
+  if (!currentTrack || !active) return;
 
   const estimatedPosition = player.queue.search(filterText.value).indexOf(currentTrack) * 16;
-  active?.scrollTo({ top: estimatedPosition, behavior: "smooth" });
+  active.scrollTo({ top: estimatedPosition, behavior: "smooth" });
 };
 
 watch(() => state.settings.followQueue, isEnabled => {
@@ -33,7 +33,7 @@ watch(() => state.settings.followQueue, isEnabled => {
 </script>
 
 <template>
-  <droppable-container class="flex-col p-1.5 flex w-full relative borderRight h-full">
+  <droppable-container class="flex-col p-1.5 flex w-full relative h-full">
     <input
       v-model="filterText"
       type="text"
