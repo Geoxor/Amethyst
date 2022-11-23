@@ -29,7 +29,7 @@ const state = useState();
         <settings-modifier
           v-model="state.settings.abmientBackgroundBlurStrength"
           text="Blur strength"
-          :min="32"
+          :min="0"
           :max="256"
           :step="1"
           :def="state.defaultSettings.abmientBackgroundBlurStrength"
