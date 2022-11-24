@@ -1,5 +1,4 @@
 import type { AppState } from "@/state";
-import { FastAverageColorResult } from "fast-average-color";
 import { IMetadata } from "../main/metadata";
 
 export class ElectronEventManager {
@@ -47,7 +46,7 @@ export class ElectronEventManager {
 
   public getCpuUsage = () => this.ipc.invoke("percent-cpu-usage");
 
-  public openFileDialog = () => this.ipc.invoke("open-file-dialog");
+  public openFileDialog = () => this.ipc.invoke<{canceled: boolean, filePath: string}>("open-file-dialog");
 
   public openFolderDialog = () => this.ipc.invoke("open-folder-dialog");
 
@@ -62,8 +61,6 @@ export class ElectronEventManager {
   public open = (url: string) => this.ipc.invoke("open-external", [url]);
 
   public getCover = (path: string) => this.ipc.invoke<string>("get-cover", [path]);
-
-  public getCoverColors = (path: string) => this.ipc.invoke<FastAverageColorResult>("get-cover-colors", [path]);
 
   public getMetadata = (path: string) => this.ipc.invoke<IMetadata>("get-metadata", [path]);
 

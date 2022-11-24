@@ -12,9 +12,13 @@ export const useFs = () => ({
   save: async (data: string | NodeJS.ArrayBufferView) => {
     const {canceled, filePath} = await useElectron().showSaveDialog();
     if (canceled) return;
-    
     return window.fs.writeFile(filePath, data, {encoding: "utf8"});
   },
+  open: async () => {
+    const {canceled, filePath} = await useElectron().openFileDialog();
+    if (canceled) return;
+    return window.fs.readFile(filePath);
+  }
 });
 
 export class Amethyst {

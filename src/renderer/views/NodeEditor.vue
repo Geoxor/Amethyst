@@ -144,6 +144,10 @@ const fitToView = () => dash.value.fitView();
     <div
       class="flex flex-col gap-2 absolute bottom-2 right-2 z-10 "
     >
+      <!-- <SquareButton
+        :icon="SaveIcon"
+        @click="fs.open().then()"
+      /> -->
       <SquareButton
         :icon="SaveIcon"
         @click="fs.save(player.nodeManager.serialize())"
