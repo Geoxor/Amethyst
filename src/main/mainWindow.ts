@@ -1,16 +1,11 @@
+/* eslint-disable no-console */
+const start = performance.now();
 import { BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
-import log from "electron-log";
-import { autoUpdater } from "electron-updater";
 import fs from "fs";
-import open from "open";
 import os from "os";
 import path from "path";
-import pidusage from "pidusage";
-import sharp from "sharp";
 import { Discord, FormatIcons } from "./discord";
-import { loadFolder } from "./handles";
 import { ALLOWED_EXTENSIONS, APP_VERSION, IS_DEV, RESOURCES_PATH } from "./main";
-import { Metadata } from "./metadata";
 import { resolveHTMLPath } from "./util";
 
 const icon = () => path.join(RESOURCES_PATH, "icon.png");
@@ -75,7 +70,8 @@ export class MainWindow {
 		this.setWindowEvents();
 	}
 
-  public async getCover(path: string): Promise<Buffer | undefined> {
+	public async getCover(path: string): Promise<Buffer | undefined> {
+		const { Metadata } = await import("./metadata");
 		const meta = await Metadata.getMetadata(path);
 		return meta?.common.picture?.[0].data;
 	}
@@ -86,6 +82,8 @@ export class MainWindow {
 		if (!cover)
 			return;
 
+		const sharp = (await import("sharp")).default;
+
 		return (
 			await sharp(cover).resize(resizeTo, resizeTo).webp().toBuffer()
 		).toString("base64");
@@ -95,16 +93,23 @@ export class MainWindow {
 		this.window.loadURL(resolveHTMLPath("index"));
 
 		this.window.on("ready-to-show", () => {
+			console.log(`Startup took: ${(performance.now() - start).toFixed(2)}ms`);
+			
+			import("electron-updater").then(({ autoUpdater }) => {
+				import("electron-log").then(log => {
+					// Autoupdates
+					// Remove this if your app does not use auto updates
+					log.transports.file.level = "info";
+					autoUpdater.logger = log;
+					autoUpdater.checkForUpdatesAndNotify();
 
-			// Autoupdates
-			// Remove this if your app does not use auto updates
-			log.transports.file.level = "info";
-			autoUpdater.logger = log;
-			autoUpdater.checkForUpdatesAndNotify();
+					// Check for updates every 10 minutes
+					this.updateCheckerTimer && clearInterval(this.updateCheckerTimer);
+					this.updateCheckerTimer = setInterval(() => autoUpdater.checkForUpdatesAndNotify(), 600 * 1000);
 
-			// Check for updates every 10 minutes
-			this.updateCheckerTimer && clearInterval(this.updateCheckerTimer);
-			this.updateCheckerTimer = setInterval(() => autoUpdater.checkForUpdatesAndNotify(), 600 * 1000);
+					autoUpdater.on("update-downloaded", () => this.window.webContents.send("update"));
+				});
+			});
 
 			if (process.env.START_MINIMIZED)
 				this.window.minimize();
@@ -129,8 +134,6 @@ export class MainWindow {
 		this.window.on("focus", () => this.window.webContents.send("focus"));
 		this.window.on("blur", () => this.window.webContents.send("unfocus"));
 		this.window.on("closed", () => this.destroy());
-
-		autoUpdater.on("update-downloaded", () => this.window.webContents.send("update"));
 
 		this.window.webContents.on("dom-ready", async () => {
 			if (process.argv[1])
@@ -176,8 +179,8 @@ export class MainWindow {
 					this.playAudio(response.filePaths[0]);
 			},
 
-			"open-external": (_: Event, [path]: string[]) => {
-				open(path);
+			"open-external": async (_: Event, [path]: string[]) => {
+				(await import("open")).default(path);
 			},
 
 			"open-folder-dialog": async () => {
@@ -185,8 +188,10 @@ export class MainWindow {
 					properties: ["openDirectory"],
 				});
 
-				if (!response.canceled)
+				if (!response.canceled) {
+					const { loadFolder } = await import ("./handles");
 					this.window.webContents.send("play-folder", await loadFolder(response.filePaths[0]));
+				}
 			},
 
 			"dev-tools": () => {
@@ -194,8 +199,9 @@ export class MainWindow {
 			},
 
 			"percent-cpu-usage": async () => {
+				const pidusage = (await import("pidusage")).default;
 				const windowStats = await pidusage(this.window.webContents.getOSProcessId());
-				
+
 				return {
 
 					node: process.getCPUUsage().percentCPUUsage,
@@ -208,6 +214,7 @@ export class MainWindow {
 			},
 
 			"get-metadata": async (_: Event, [path]: string[]) => {
+				const { Metadata } = await import("./metadata");
 				return Metadata.getMetadata(path);
 			},
 
@@ -216,10 +223,12 @@ export class MainWindow {
 			},
 
 			"drop-file": async (_: Event, [paths]: string[][]) => {
+				const { loadFolder } = await import ("./handles");
 				paths.forEach(async path => {
 					const stat = await fs.promises.stat(path);
-					if (stat.isDirectory())
+					if (stat.isDirectory()) {
 						this.window.webContents.send("load-folder", await loadFolder(path));
+					}
 					else
 						this.playAudio(path);
 				});
@@ -233,8 +242,8 @@ export class MainWindow {
 			},
 
 			"update-rich-presence": (_: Event, [args]: string[]) => {
-				const [	title,	duration,	seek,	format ] = args;
-				
+				const [title, duration, seek, format] = args;
+
 				this.discord.updateCurrentSong(title, duration, seek, format as FormatIcons);
 			},
 
@@ -250,5 +259,5 @@ export class MainWindow {
 }
 
 export async function checkForUpdatesAndInstall() {
-	autoUpdater.checkForUpdatesAndNotify();
+	import("electron-updater").then(({ autoUpdater }) => autoUpdater.checkForUpdatesAndNotify());
 }
