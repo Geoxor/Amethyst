@@ -130,6 +130,7 @@ export class AmethystAudioNode<T extends AudioNode> {
   }
 
   public connectTo(target: AmethystAudioNode<AudioNode>) {
+    if (this.connectedTo.includes(target)) return;
     this.connectedTo.push(target);
     this.connections.push({ 
       id: uuid(), 
