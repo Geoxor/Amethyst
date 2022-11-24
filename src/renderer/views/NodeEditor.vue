@@ -224,6 +224,25 @@ const fitToView = () => dash.value.fitView();
   opacity: 0;
 }
 
+.vue-flow__node {
+  .minimenu {
+    @apply invisible opacity-0 duration-100;
+  }
+
+  &:hover {
+    .minimenu {
+      @apply visible opacity-100;
+    }
+  }
+
+  &.selected > div {
+    @apply border-primary-700;
+  }
+  &.selected .minimenu {
+    @apply visible opacity-100;
+  }
+}
+
 .vue-flow__edge {
   path {
     @apply stroke-surface-400 duration-100 transition-colors;

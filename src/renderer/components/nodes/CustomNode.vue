@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { usePlayer, useShortcuts, useState } from "@/amethyst";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
-import {RestartIcon, BroomIcon} from "@/icons/plumpy";
+import QuickMenu from "@/components/nodes/QuickMenu.vue";
+import { ResetIcon, RemoveIcon, DisconnectIcon } from "@/icons/material";
+
 import { AmethystAudioNode } from "@/logic/audio";
 import { Handle, Position } from "@vue-flow/core";
 const props = defineProps<{ title: string, icon: any, description?: string, node: AmethystAudioNode<any>, meterless?: boolean }>();
@@ -11,8 +13,9 @@ const state = useState();
 // Context Menu options for this component 
 const handleContextMenu = ({x, y}: MouseEvent) => {
   state.openContextMenuAt(x, y, [
-    { title: "Reset", icon: RestartIcon, action: () => props.node.reset() },
-    { title: "Remove", icon: BroomIcon, action: () => player.nodeManager.removeNode(props.node) },
+    { title: "Unhook", icon: DisconnectIcon, action: () => props.node.disconnect() },
+    { title: "Reset", icon: ResetIcon, action: () => props.node.reset() },
+    { title: "Remove", icon: RemoveIcon, action: () => player.nodeManager.removeNode(props.node) },
   ]);
 };
 
@@ -21,9 +24,11 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
 <template>
   <div
     :class="node.isDisabled && 'disabled'"
-    class="flex select-none h-full gap-2 rounded-4px hover:border-primary-800 duration-100 flex gap-2 border-surface-500 bg-surface-800 border-1 p-2"
+    class="flex select-none h-full gap-2 relative rounded-4px hover:border-primary-800 border-surface-500 duration-100 flex gap-2 bg-surface-800 border-1 p-2"
     @contextmenu.stop="handleContextMenu"
   >
+    <quick-menu :node="node" />
+
     <div class="flex flex-col gap-2">
       <div class="flex gap-2 items-center">
         <component
@@ -70,9 +75,3 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
     :position="Position.Left"
   />
 </template>
-
-<style lang="postcss">
-.disabled {
-  @apply filter grayscale;
-}
-</style>

@@ -14,12 +14,20 @@ import SettingsIcon from "./SettingsIcon.vue";
 import StepIntoIcon from "./StepIntoIcon.vue";
 import StepOutIcon from "./StepOutIcon.vue";
 import WaveIcon from "./WaveIcon.vue";
+import RenameIcon from "./RenameIcon.vue";
 import SaveIcon from "./SaveIcon.vue";
+import ResetIcon from "./ResetIcon.vue";
+import RemoveIcon from "./RemoveIcon.vue";
+import DisconnectIcon from "./DisconnectIcon.vue";
 
 export {
   AdjustIcon,
   MagnetIcon,
   SaveIcon,
+  RenameIcon,
+  ResetIcon,
+  RemoveIcon,
+  DisconnectIcon,
   AzimuthIcon,
   BookshelfIcon,
   CircleToggleIcon,

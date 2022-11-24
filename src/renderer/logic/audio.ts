@@ -142,12 +142,13 @@ export class AmethystAudioNode<T extends AudioNode> {
 
   public disconnectFrom(target: AmethystAudioNode<AudioNode>) {
     this.connectedTo.splice(this.connectedTo.indexOf(target), 1);
-    this.connections.splice(this.connections.findIndex(connection => connection.id === `edge-${this.properties.id}-${target.properties.id}`), 1);
+    // TODO: make this get the indexes of all target connections because it only disconnects the first target
+    this.connections.splice(this.connections.findIndex(connection => connection.target === target.properties.id), 1);
     this.audioNode.disconnect(target.audioNode);
   }
 
   public disconnect() {
-    
+    // Disconnect descendants
     this.connections.forEach(connection => {
       const source = usePlayer().nodeManager.nodes.find(node => node.connections.some(connection => connection.target === this.properties.id));
       const target = usePlayer().nodeManager.nodes.find(node => node.properties.id === connection.target);
@@ -159,6 +160,13 @@ export class AmethystAudioNode<T extends AudioNode> {
         source.connectTo(target);
       }
     });
+
+    // Disconnect parents
+    this.getParentNode()?.disconnectFrom(this);
+  }
+
+  public getParentNode(){
+    return usePlayer().nodeManager.nodes.find(node => node.connectedTo.some(node => node.properties.id === this.properties.id));
   }
 
   public updatePosition(newPosition: {x: number, y: number}) {
