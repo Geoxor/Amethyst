@@ -171,10 +171,10 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
               D# Pentatonic
             </chip> -->
             <base-chip
-              v-if="player.getCurrentTrack()?.getMetadata()?.format.codec"
+              v-if="player.getCurrentTrack()?.getMetadata()?.format.container"
               :icon="FileIcon"
             >
-              {{ player.getCurrentTrack()?.getMetadata()?.format.codec }}
+              {{ player.getCurrentTrack()?.getMetadata()?.format.container }}
             </base-chip>
             <base-chip
               v-if="player.getCurrentTrack()?.getMetadata()?.format.bitrate"
@@ -182,7 +182,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
             >
               {{ ((player.getCurrentTrack()?.getMetadata()?.format.bitrate || 0) / 1000).toFixed(2) }}<strong
                 class="opacity-50"
-              >kbps</strong>
+              > kbps</strong>
             </base-chip>
             <!-- <chip :icon="StorageIcon">
               {{(player.getFileSize())}}<strong class="opacity-50"> MB</strong>
