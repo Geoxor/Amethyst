@@ -51,6 +51,8 @@ export class ElectronEventManager {
 
   public openFolderDialog = () => this.ipc.invoke("open-folder-dialog");
 
+  public showSaveDialog = () => this.ipc.invoke<{canceled: boolean, filePath: string}>("show-save-dialog");
+  
   public dropFiles = (paths: string[]) => this.ipc.invoke("drop-file", [paths]);
 
   public checkForUpdates = () => this.ipc.invoke("check-for-updates");
@@ -69,4 +71,5 @@ export class ElectronEventManager {
   public clearRichPresence = () => this.ipc.invoke("clear-rich-presence");
 
   public showDevTools = () => this.ipc.invoke("dev-tools");
+  
 }

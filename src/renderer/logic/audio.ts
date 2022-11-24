@@ -12,6 +12,7 @@ import { v4 as uuid } from "uuid";
 import { DefineComponent, markRaw, ref } from "vue";
 
 export interface IAmethystNodeProperties {
+  name: string,
   id: string,
   type: `custom-${string}`,
   position: { x: number, y: number },
@@ -19,7 +20,7 @@ export interface IAmethystNodeProperties {
 };
 
 export interface IAmethystNodeConnection {
-  id: `${string}-${string}`,
+  id: string,
   source: string,
   target: string,
 };
@@ -43,6 +44,19 @@ export class AmethystAudioNodeManager {
     this.nodes.push(this.input);
     this.nodes.push(this.master);
     this.nodes.push(this.output);
+  }
+
+  public serialize() {
+    return JSON.stringify({
+      version: 1,
+      nodes: this.nodes.map(({connections, properties, component}) => ({
+        name: properties.name,
+        component_name: component.__name,
+        id: properties.id,
+        position: properties.position,
+        connections,
+      }))
+    }, null, 2);
   }
 
   public removeNode(node: AmethystAudioNode<AudioNode>) {
@@ -99,9 +113,10 @@ export class AmethystAudioNode<T extends AudioNode> {
   public component: DefineComponent<{}, {}, any>;
 
   public constructor(public audioNode: T, name: string, component: DefineComponent<{}, {}, any>, position: IAmethystNodeProperties["position"], public isRemovable: boolean = true) {
-    const id = `${name}-${uuid()}`;
+    const id = uuid();
     
     this.properties = {
+      name,
       id,
       type: `custom-${id}`,
       position,
@@ -117,7 +132,7 @@ export class AmethystAudioNode<T extends AudioNode> {
   public connectTo(target: AmethystAudioNode<AudioNode>) {
     this.connectedTo.push(target);
     this.connections.push({ 
-      id: `edge-${this.properties.id}-${target.properties.id}`, 
+      id: uuid(), 
       source: this.properties.id, 
       target: target.properties.id 
     });

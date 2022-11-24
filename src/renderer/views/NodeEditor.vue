@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { usePlayer, useState } from "@/amethyst";
+import { usePlayer, useState, useFs } from "@/amethyst";
 import SquareButton from "@/components/input/SquareButton.vue";
-import { AdjustIcon, AzimuthIcon, FilterIcon, SelectNoneIcon, WaveIcon } from "@/icons/material";
-import {MagnetIcon} from "@/icons/plumpy";
+import { MagnetIcon, SaveIcon, AdjustIcon, AzimuthIcon, FilterIcon, SelectNoneIcon, WaveIcon } from "@/icons/material";
 import { AmethystLowPassNode, AmethystGainNode, AmethystPannerNode, AmethystSpectrumNode, AmethystHighPassNode } from "@/logic/audio";
 import { getThemeColorHex } from "@/logic/color";
 import { Background, BackgroundVariant } from "@vue-flow/additional-components";
@@ -10,6 +9,7 @@ import { Connection, EdgeMouseEvent, NodeDragEvent, VueFlow } from "@vue-flow/co
 import { computed, onMounted, ref } from "vue";
 const dash = ref();
 const nodeEditor = ref();
+const fs = useFs();
 
 onMounted(() => {
   new ResizeObserver(fitToView).observe(nodeEditor.value);
@@ -141,18 +141,23 @@ const fitToView = () => dash.value.fitView();
     ref="nodeEditor"
     class="flex-1 h-full w-full borderRight flex flex-col relative"
   >
-    <SquareButton
-      class="absolute bottom-2 right-2 z-10 "
-      :icon="MagnetIcon"
-      :active="state.settings.isSnappingToGrid"
-      @click="handleClick"
-    />
-
-    <SquareButton
-      class="absolute bottom-10 right-2 z-10 "
-      :icon="SelectNoneIcon"
-      @click="fitToView"
-    />
+    <div
+      class="flex flex-col gap-2 absolute bottom-2 right-2 z-10 "
+    >
+      <SquareButton
+        :icon="SaveIcon"
+        @click="fs.save(player.nodeManager.serialize())"
+      />
+      <SquareButton
+        :icon="SelectNoneIcon"
+        @click="fitToView"
+      />
+      <SquareButton
+        :icon="MagnetIcon"
+        :active="state.settings.isSnappingToGrid"
+        @click="handleClick"
+      />
+    </div>
 
     <VueFlow
       ref="dash"

@@ -10,6 +10,7 @@ contextBridge.exposeInMainWorld("path", path);
 
 export type Channels =
 	"minimize" |
+	"show-save-dialog" |
 	"maximize" | 
 	"unmaximize" |
 	"read-file" |

@@ -11,7 +11,6 @@ import HideIcon from "./HideIcon.vue";
 import InstallingUpdatesIcon from "./InstallingUpdatesIcon.vue";
 import KeyClefIcon from "./KeyClefIcon.vue";
 import LoadingIcon from "./LoadingIcon.vue";
-import MagnetIcon from "./MagnetIcon.vue";
 import MetronomeIcon from "./MetronomeIcon.vue";
 import MusicFolderIcon from "./MusicFolderIcon.vue";
 import NextIcon from "./NextIcon.vue";
@@ -43,7 +42,6 @@ export {
   InstallingUpdatesIcon,
   KeyClefIcon,
   LoadingIcon,
-  MagnetIcon,
   MetronomeIcon,
   MusicFolderIcon,
   NextIcon,

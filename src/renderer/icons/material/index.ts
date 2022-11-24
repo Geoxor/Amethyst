@@ -1,3 +1,4 @@
+import MagnetIcon from "./MagnetIcon.vue";
 import AdjustIcon from "./AdjustIcon.vue";
 import AzimuthIcon from "./AzimuthIcon.vue";
 import BookshelfIcon from "./BookshelfIcon.vue";
@@ -13,9 +14,12 @@ import SettingsIcon from "./SettingsIcon.vue";
 import StepIntoIcon from "./StepIntoIcon.vue";
 import StepOutIcon from "./StepOutIcon.vue";
 import WaveIcon from "./WaveIcon.vue";
+import SaveIcon from "./SaveIcon.vue";
 
 export {
   AdjustIcon,
+  MagnetIcon,
+  SaveIcon,
   AzimuthIcon,
   BookshelfIcon,
   CircleToggleIcon,

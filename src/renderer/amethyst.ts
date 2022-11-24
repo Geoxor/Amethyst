@@ -8,6 +8,15 @@ import { AppState } from "@/state";
 import { watch } from "vue";
 import { flattenArray } from "./logic/math";
 
+export const useFs = () => ({
+  save: async (data: string | NodeJS.ArrayBufferView) => {
+    const {canceled, filePath} = await useElectron().showSaveDialog();
+    if (canceled) return;
+    
+    return window.fs.writeFile(filePath, data, {encoding: "utf8"});
+  },
+});
+
 export class Amethyst {
   public appState: AppState = new AppState();
   public electron: ElectronEventManager = new ElectronEventManager(this.appState);

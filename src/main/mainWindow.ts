@@ -194,6 +194,10 @@ export class MainWindow {
 				}
 			},
 
+			"show-save-dialog": () => dialog.showSaveDialog({filters: [
+				{ name: "Amethyst Node Table", extensions: ["ant"] },
+			]}),
+			
 			"dev-tools": () => {
 				this.window.webContents.openDevTools();
 			},
