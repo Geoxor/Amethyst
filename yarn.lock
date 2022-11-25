@@ -965,7 +965,7 @@ at-least-node@^1.0.0:
   resolved "https://registry.yarnpkg.com/at-least-node/-/at-least-node-1.0.0.tgz#602cd4b46e844ad4effc92a8011a3c46e0238dc2"
   integrity sha512-+q/t7Ekv1EDY2l6Gda6LLiX14rU9TV20Wa3ofeQmwPFZbOMo9DXrLbOjFaaclkXKWidIaopwAObQDqwWtGUjqg==
 
-automation-events@^4.0.23, automation-events@^4.0.24:
+automation-events@^4.0.24:
   version "4.0.24"
   resolved "https://registry.yarnpkg.com/automation-events/-/automation-events-4.0.24.tgz#34dcd9cf8a7d3194c04e016cef1a54181b7060c1"
   integrity sha512-v/c//VCE1TGU3R56cyTFnebXFR3NOOx5Kiuaz7TXwLGpYMp9VgKCwelODRW3ZZ5TP2OFymfrWsvNVuPSi6vVPQ==
@@ -4028,7 +4028,7 @@ simple-update-notifier@^1.0.7:
   dependencies:
     semver "~7.0.0"
 
-sinon@^14.0.1:
+sinon@^14.0.2:
   version "14.0.2"
   resolved "https://registry.yarnpkg.com/sinon/-/sinon-14.0.2.tgz#585a81a3c7b22cf950762ac4e7c28eb8b151c46f"
   integrity sha512-PDpV0ZI3ZCS3pEqx0vpNp6kzPhHrLx72wA0G+ZLaaJjLIYeE0n8INlgaohKuGy7hP0as5tbUd23QWu5U233t+w==
@@ -4092,19 +4092,19 @@ sprintf-js@^1.1.2:
   resolved "https://registry.yarnpkg.com/sprintf-js/-/sprintf-js-1.1.2.tgz#da1765262bf8c0f571749f2ad6c26300207ae673"
   integrity sha512-VE0SOVEHCk7Qc8ulkWw3ntAzXuqf7S2lvwQaDLRnUeIEaKNQJzV6BwmLKhOqT61aGhfUMrXeaBk+oDGCzvhcug==
 
-standardized-audio-context-mock@^9.6.6:
-  version "9.6.6"
-  resolved "https://registry.yarnpkg.com/standardized-audio-context-mock/-/standardized-audio-context-mock-9.6.6.tgz#3db7c108277c5aba6e79c5859ceb89f37a28dd9a"
-  integrity sha512-cUs+WJY9qBhys7jBLxO8wSdMn4sOWfKG/lBLZ4JAFpFGpTBTjuk/vlZe6bWP6pvjHXw23zewTXEZ0lFYg99ibQ==
+standardized-audio-context-mock@^9.6.7:
+  version "9.6.7"
+  resolved "https://registry.yarnpkg.com/standardized-audio-context-mock/-/standardized-audio-context-mock-9.6.7.tgz#0b36b105bb58972ee3a53d0afe49c403066116b2"
+  integrity sha512-MaLYJ20smvMnRmOnLRSaqZP5vqpbzCScnI49k6GeMCdi0wXLpLZSvUu+lfghOzT6lGE84dVJrBvschepD6IpMw==
   dependencies:
     "@babel/runtime" "^7.20.1"
-    automation-events "^4.0.23"
-    sinon "^14.0.1"
-    standardized-audio-context "^25.3.34"
+    automation-events "^4.0.24"
+    sinon "^14.0.2"
+    standardized-audio-context "^25.3.35"
     tslib "^2.4.1"
     vehicles "^7.0.24"
 
-standardized-audio-context@^25.3.34:
+standardized-audio-context@^25.3.35:
   version "25.3.35"
   resolved "https://registry.yarnpkg.com/standardized-audio-context/-/standardized-audio-context-25.3.35.tgz#ebe98fa5e91936fb10dbf120f3f947da74147981"
   integrity sha512-61KBkor9fOsMEl3NZllnis8KDmTJzonuuW8h6JBmxXXcUDucypGCJp+hlbyKG+olav8wgA+VKlqFmiJEbh4CfA==
