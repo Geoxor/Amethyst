@@ -1,5 +1,5 @@
 import { useLocalStorage } from "@vueuse/core";
-import { computed, reactive } from "vue";
+import { computed, markRaw, reactive } from "vue";
 
 export interface IContextMenuOption {
 	title: string,
@@ -62,7 +62,7 @@ export class AppState {
 	// TODO: Refactor context menus to its own class & manager
 	public openContextMenuAt(x: number, y: number, options: IContextMenuOption[]) {
 		this.state.contextMenu.position = { x: x + 6, y: y + 6 };
-		this.state.contextMenu.options = options;
+		this.state.contextMenu.options = markRaw(options);
 		this.state.contextMenu.isVisible = true;
 	}
 

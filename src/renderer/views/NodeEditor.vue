@@ -6,7 +6,7 @@ import { AmethystLowPassNode, AmethystGainNode, AmethystPannerNode, AmethystSpec
 import { getThemeColorHex } from "@/logic/color";
 import { Background, BackgroundVariant } from "@vue-flow/additional-components";
 import { Connection, EdgeMouseEvent, NodeDragEvent, VueFlow } from "@vue-flow/core";
-import { computed, onMounted, ref } from "vue";
+import { computed, markRaw, onMounted, ref } from "vue";
 const dash = ref();
 const nodeEditor = ref();
 const fs = useFs();
