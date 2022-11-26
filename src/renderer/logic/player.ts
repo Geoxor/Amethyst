@@ -46,6 +46,16 @@ export class Player extends EventEmitter<{
     this.nodeManager.master.audioNode.gain.value = this.volume.value;
   }
 
+  private setPlayingTrack(track: Track) {
+    this.input.src = track.path;
+    this.currentTrack.value = track;
+    this.currentTrackIndex.value = this.queue.getList().indexOf(track);
+    this.input.play();
+    if (!track.isLoaded) {
+      track.fetchAsyncData();
+    }
+  }
+
   /**
    * Changes the currenlty playing tune to the given input and plays it
    * @param target the index or instace of a Track
@@ -54,19 +64,13 @@ export class Player extends EventEmitter<{
     if (target) {
       const track = target instanceof Track ? target : this.queue.getTrack(target);
       if (track.hasErrored) return;
-      this.input.src = track.path;
-      this.currentTrack.value = track;
-      this.currentTrackIndex.value = this.queue.getList().indexOf(track);
-      this.input.play();
-      if (!track.isLoaded) {
-        track.fetchAsyncData();
-      }
+      this.setPlayingTrack(track);
     }
     // Play the first track by default
     if (!this.currentTrack.value) {
-      this.currentTrackIndex.value = 0;
-      this.currentTrack.value = this.queue.getList()[0];
-      this.input.src = this.queue.getList()[0].path;
+      // Find the first non-errored track;
+      const track = this.queue.getList().find(track => !track.hasErrored);
+      track && this.setPlayingTrack(track);
     }
     this.input.play();
     this.isPlaying.value = true;
