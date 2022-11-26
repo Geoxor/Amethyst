@@ -4,9 +4,10 @@ import SquareButton from "@/components/input/SquareButton.vue";
 import { MagnetIcon, SaveIcon, AdjustIcon, AzimuthIcon, FilterIcon, SelectNoneIcon, WaveIcon } from "@/icons/material";
 import { AmethystLowPassNode, AmethystGainNode, AmethystPannerNode, AmethystSpectrumNode, AmethystHighPassNode } from "@/logic/audio";
 import { getThemeColorHex } from "@/logic/color";
-import { Background, BackgroundVariant } from "@vue-flow/additional-components";
+import { Background, BackgroundVariant  } from "@vue-flow/additional-components";
 import { Connection, EdgeMouseEvent, NodeDragEvent, VueFlow } from "@vue-flow/core";
-import { computed, markRaw, onMounted, ref } from "vue";
+import { onKeyStroke } from "@vueuse/core";
+import { computed, onMounted, ref } from "vue";
 const dash = ref();
 const nodeEditor = ref();
 const fs = useFs();
@@ -14,6 +15,8 @@ const fs = useFs();
 onMounted(() => {
   new ResizeObserver(fitToView).observe(nodeEditor.value);
 }); 
+
+
 
 const player = usePlayer();
 const state = useState();
@@ -133,7 +136,14 @@ const handleConnect = (e: Connection) => {
 };
 
 const fitToView = () => dash.value.fitView();
+onKeyStroke("Delete", () => {
+  dash.value.getSelectedNodes.forEach((nodeElement: any) => {
+    const node = player.nodeManager.nodes
+      .find(node => node.properties.id === nodeElement.id);
 
+    node && player.nodeManager.removeNode(node);
+  });
+})
 </script>
 
 <template>
@@ -175,6 +185,7 @@ const fitToView = () => dash.value.fitView();
       @connect="handleConnect"
       @edge-context-menu="handleEdgeContextMenu"
       @contextmenu.capture="handleContextMenu"
+      :select-nodes-on-drag="false"
     >
       <Background
         :size="0.5"

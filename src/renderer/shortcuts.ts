@@ -19,10 +19,6 @@ export class Shortcuts {
     "audio.seek.backward": [["ArrowLeft"], () => this.player.seekBackward()],
     "audio.volume.up": [["PageUp"], () => this.player.volumeUp()],
     "audio.volume.down": [["PageDown"], () => this.player.volumeDown()],
-    "queue.remove.item": [["Delete"], () => {
-      const currentTrack = this.player.getCurrentTrack();
-      currentTrack && this.player.queue.remove(currentTrack);
-    }],
     "queue.add.file": [["o"], () => this.isControlPressed.value && useElectron().openFileDialog()],
     "queue.add.folder": [["O"], () => this.isControlPressed.value && useElectron().openFolderDialog()],
     "queue.clear": [["X"], () => this.isControlPressed.value && this.player.queue.clear()],
