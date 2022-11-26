@@ -62,11 +62,16 @@ export class Player extends EventEmitter<{
         track.fetchAsyncData();
       }
     }
+    // Play the first track by default
+    if (!this.currentTrack.value) {
+      this.currentTrackIndex.value = 0;
+      this.currentTrack.value = this.queue.getList()[0];
+      this.input.src = this.queue.getList()[0].path;
+    }
     this.input.play();
     this.isPlaying.value = true;
     this.isPaused.value = false;
     this.isStopped.value = false;
-
     this.emit("play", this.getCurrentTrack()!);
   }
 
