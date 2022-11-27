@@ -33,7 +33,7 @@ export class Track {
   }
 
   private getCachePath() {
-    return window.path.join(useElectron().APPDATA_PATH , "/amethyst/Metadata Cache", this.getFilename() + ".amf");
+    return window.path.join(useElectron().APPDATA_PATH || "" , "/amethyst/Metadata Cache", this.getFilename() + ".amf");
   }
   
   private async isCached() {

@@ -23,7 +23,7 @@ export const useFs = () => ({
 
 export class Amethyst {
   public appState: AppState = new AppState();
-  public electron: ElectronEventManager = new ElectronEventManager(this.appState);
+  public electron: ElectronEventManager = new ElectronEventManager(this.appState.state);
   public player: Player = new Player();
   public shortcuts: Shortcuts = new Shortcuts(this.player);
   public mediaSession: MediaSession = new MediaSession(this.player);

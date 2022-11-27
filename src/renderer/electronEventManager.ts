@@ -5,29 +5,29 @@ export class ElectronEventManager {
   public ipc = window.electron.ipcRenderer;
   public APPDATA_PATH = "";
 
-  public constructor(public state: AppState) {
+  public constructor(public state: AppState["state"]) {
     this.ipc.invoke<string>("get-appdata-path").then(path => this.APPDATA_PATH = path);
 
     // These are constant state syncs that get emitted on startup from the main process
-    this.ipc.on<string>("version", version => state.state.version = version);
-    this.ipc.on<string[]>("allowed-extensions", allowedExtensions => state.state.allowedExtensions = allowedExtensions);
-    this.ipc.on<Buffer>("default-cover", image => state.state.defaultCover = URL.createObjectURL(new Blob([image], { type: "image/png" })));
+    this.ipc.on<string>("version", version => state.version = version);
+    this.ipc.on<string[]>("allowed-extensions", allowedExtensions => state.allowedExtensions = allowedExtensions);
+    this.ipc.on<Buffer>("default-cover", image => state.defaultCover = URL.createObjectURL(new Blob([image], { type: "image/png" })));
 
     // These are state syncs that get emitted on every state change
-    this.ipc.on("maximize", () => state.state.isMaximized = true);
-    this.ipc.on("unmaximize", () => state.state.isMaximized = false);
-    this.ipc.on("minimize", () => state.state.isMinimized = true);
-    this.ipc.on("focus", () => state.state.isFocused = true);
-    this.ipc.on("unfocus", () => state.state.isFocused = false);
+    this.ipc.on("maximize", () => state.isMaximized = true);
+    this.ipc.on("unmaximize", () => state.isMaximized = false);
+    this.ipc.on("minimize", () => state.isMinimized = true);
+    this.ipc.on("focus", () => state.isFocused = true);
+    this.ipc.on("unfocus", () => state.isFocused = false);
 
     // Shows the update button on the menu bar whenever theres an update ready to be installed
-    this.ipc.on("update", () => state.state.updateReady = true);
+    this.ipc.on("update", () => state.updateReady = true);
   }
 
   public syncWindowState = async () => {
     const windowState = await this.ipc.invoke<{ isMinimized: boolean; isMaximized: boolean }>("sync-window-state");
-    this.state.state.isMinimized = windowState.isMinimized;
-    this.state.state.isMaximized = windowState.isMaximized;
+    this.state.isMinimized = windowState.isMinimized;
+    this.state.isMaximized = windowState.isMaximized;
   };
 
   private requestWindowStateChange = (state: "minimize" | "maximize" | "unmaximize" | "close") => {

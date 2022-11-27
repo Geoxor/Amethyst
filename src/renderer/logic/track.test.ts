@@ -1,11 +1,16 @@
 import { AudioContext } from "standardized-audio-context-mock";
 import { afterEach, beforeAll, describe, expect, it, vi } from "vitest";
-import { LoadStatus, Track } from "../logic/track";
 import { Audio, electron, mockResource } from "./mocks";
+import fs from "fs/promises";
+import path from "path";
 
 vi.stubGlobal("AudioContext", AudioContext);
 vi.stubGlobal("Audio", Audio);
 vi.stubGlobal("electron", electron);
+vi.stubGlobal("fs", fs);
+vi.stubGlobal("path", path);
+
+import { LoadStatus, Track } from "../logic/track";
 
 describe.concurrent("class Track", () => {
   let track: Track; 
