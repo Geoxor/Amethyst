@@ -1,5 +1,6 @@
 import { IMetadata } from "src/main/metadata";
 import { ref } from "vue";
+import { useElectron } from "../amethyst";
 import { bytesToHuman, secondsToColinHuman, secondsToHuman } from "./formating";
 
 export enum LoadStatus {
@@ -29,42 +30,84 @@ export class Track {
   public constructor(public path: string) {
     if (!Track.ALLOWED_EXTENSIONS.some(ext => path.endsWith(ext)))
       throw new Error(`Given file extension does not match any of the allowed types [${Track.ALLOWED_EXTENSIONS.join(", ")}]`);
-
   }
+
+  private getCachePath() {
+    return window.path.join(useElectron().APPDATA_PATH || "" , "/amethyst/Metadata Cache", this.getFilename() + ".amf");
+  }
+  
+  private async isCached() {
+    try {
+      await window.fs.stat(this.getCachePath());
+      return true;
+    } catch (error) {
+      return false;
+    }
+  }
+
+  private async fetchCache() {
+    return (await fetch(this.getCachePath())).json();
+  }
+
   /**
    * Fetches the metadata for a given track
    */
-  public fetchMetadata = async () => {
+  public fetchMetadata = async (force = false) => {
     try {
+      if (!force && await this.isCached()) {
+        this.metadata.data = (await this.fetchCache()).metadata;
+        this.metadata.state = LoadStatus.Loaded;
+        return this.metadata.data;
+      }
       const amethyst = await import("../amethyst");
       this.metadata.data = await amethyst.useElectron().getMetadata(this.path);
       this.metadata.state = LoadStatus.Loaded;
+      return this.metadata.data;
     } catch (error) {
       this.hasErrored.value = true;
+      console.log(error);
+      return ;
     }
   };
 
   /**
    * Fetches the resized cover art in base64
    */
-  public fetchCover = async () => {
+  public fetchCover = async (force = false) => {
     try {
+      if (!force && await this.isCached()) {
+        this.cover.data = (await this.fetchCache()).cover;
+        this.cover.state = LoadStatus.Loaded;
+        return this.cover.data;
+      }
       const amethyst = await import("../amethyst");
       const data = await amethyst.useElectron().getCover(this.path);
       this.cover.data = data ? `data:image/webp;base64,${data}` : undefined;
       this.cover.state = LoadStatus.Loaded;
+      return this.cover.data;
     } catch (error) {
       this.hasErrored.value = true;
+      console.log(error);
+      return;
     }
   };
 
   /**
    * Fetches all async data concurrently
    */
-  public fetchAsyncData = async () => {
+  public fetchAsyncData = async (force = false) => {
     this.isLoaded.value = false;
     this.isLoading.value = true;
-    await Promise.allSettled([this.fetchCover(), this.fetchMetadata()]);
+    const [cover, metadata] = await Promise.all([this.fetchCover(force), this.fetchMetadata(force)]);
+    if (metadata) {
+      metadata.common.picture = [];
+    }
+    
+    window.fs.writeFile(this.getCachePath(), JSON.stringify({
+      cover,
+      metadata,
+    }, null, 2)).catch(console.log);
+
     this.isLoading.value = false;
     this.isLoaded.value = true;
   };

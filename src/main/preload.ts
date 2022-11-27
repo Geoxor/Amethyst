@@ -12,6 +12,7 @@ export type Channels =
 	"minimize" |
 	"show-save-dialog" |
 	"maximize" | 
+	"get-appdata-path" |
 	"unmaximize" |
 	"read-file" |
 	"close" |

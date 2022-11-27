@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 const start = performance.now();
-import { BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
+import { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
 import fs from "fs";
 import os from "os";
 import path from "path";
@@ -9,6 +9,8 @@ import { ALLOWED_EXTENSIONS, APP_VERSION, IS_DEV, RESOURCES_PATH } from "./main"
 import { resolveHTMLPath } from "./util";
 
 const icon = () => path.join(RESOURCES_PATH, "icon.png");
+
+fs.promises.mkdir(path.join(app.getPath("appData"), "/amethyst/Metadata Cache"));
 
 const notifications = {
 	showUpdateInstallingNotification: () => {
@@ -140,7 +142,7 @@ export class MainWindow {
 				this.playAudio(process.argv[1]);
 
 			this.window.webContents.send("default-cover", await fs.promises.readFile(
-				path.join(RESOURCES_PATH, "/images/default-cover.png"),
+				path.join(RESOURCES_PATH, "/images/audio.png"),
 			));
 			this.window.webContents.send(
 				"version",
@@ -167,6 +169,7 @@ export class MainWindow {
 			"read-file": (_: Event, [path]: string[]) => {
 				return fs.promises.readFile(path);
 			},
+			"get-appdata-path": () => app.getPath("appData"),
 			"open-file-dialog": async () => {
 				const response = await dialog.showOpenDialog({
 					properties: ["openFile"],

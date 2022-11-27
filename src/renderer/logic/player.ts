@@ -68,10 +68,10 @@ export class Player extends EventEmitter<{
     }
     // Play the first track by default
     if (!this.currentTrack.value) {
-      // Find the first non-errored track;
+      // Find the first non-errored track
       const track = this.queue.getList().find(track => !track.hasErrored);
       track && this.setPlayingTrack(track);
-    }
+    } 
     this.input.play();
     this.isPlaying.value = true;
     this.isPaused.value = false;
