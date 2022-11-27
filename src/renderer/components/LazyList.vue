@@ -25,7 +25,7 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
 
 <template>
   <div class="text-12px min-h-0 h-full flex flex-col text-left relative select-none">
-    <header class="flex text-primary-900 font-bold mb-2">
+    <header class="flex text-primary-900 font-bold mb-2 mr-1">
       <div class="w-4" />
       <div class="min-w-1/4">
         Filename
@@ -45,7 +45,7 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
       <div class="th max-w-24">
         Size <strong>{{ player.queue.getTotalSizeFormatted() }}</strong>
       </div>
-      <div class="th">
+      <div class="th max-w-32">
         Duration <strong>{{ player.queue.getTotalDurationFormatted() }}</strong>
       </div>
     </header>
@@ -137,7 +137,7 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
           <div class="td max-w-24">
             {{ item.getFilesizeFormatted() }}
           </div>
-          <div class="td">
+          <div class="td max-w-32">
             {{ item.getDurationFormatted(true) }}
           </div>
         </div>
