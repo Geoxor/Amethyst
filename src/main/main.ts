@@ -23,6 +23,7 @@ if (process.env.NODE_ENV === "production")
 
 app.setAppUserModelId("Amethyst");
 IS_DEV && app.commandLine.appendSwitch("disable-frame-rate-limit");
+app.commandLine.appendSwitch("js-flags", "--max-old-space-size=1536");
 
 if (!app.requestSingleInstanceLock()) {
 	app.quit();

@@ -12,17 +12,24 @@ import CoverArt from "@/components/CoverArt.vue";
 
 import {HideIcon} from "@/icons/plumpy";
 import GPUSpectrumAnalyzer from "@/components/visualizers/GPUSpectrumAnalyzer.vue";
-import { computed } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
+import { Track } from "@/logic/track";
 
 const state = useState();
 const player = usePlayer();
+const ambientBackgroundImage = ref("");
 
-const ambientBackgroundImage = computed(() => {
-  const cover = player.getCurrentTrack()?.getMetadata()?.common.picture?.[0];
-  let coverUrl: string = "";
-  cover && (coverUrl = URL.createObjectURL(new Blob([new Uint8Array(cover.data)], { type: "image/png" })));
-  console.log(coverUrl);
-  return coverUrl;
+const setAmbientCover = async (track: Track) => {
+  const cover = (await track.fetchMetadata(true))?.common.picture?.[0];
+  cover && (ambientBackgroundImage.value = URL.createObjectURL(new Blob([new Uint8Array(cover.data)], { type: "image/png" })));
+};
+
+onMounted(() => {
+  player.on("play", setAmbientCover);
+});
+
+onUnmounted(() => {
+  player.off("play", setAmbientCover);
 });
 
 </script>
