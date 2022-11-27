@@ -24,8 +24,12 @@ const player = usePlayer();
       class="absolute z-1000 select-none mix-blend-soft-light pointer-events-none top-1/2 transform-gpu -translate-y-1/2 left-1/2 scale-125 -translate-x-1/2 w-full"
     >
       <cover-art 
-        class="animate-spin animate-duration-25000 w-full h-full"
+        class="w-full h-full" 
+        :class="[
+          state.settings.ambientBackgroundSpin && 'animate-spin'
+        ]" 
         :style="`
+        animation-duration: ${state.settings.ambientBackgroundSpinSpeed}s;
         opacity: ${state.settings.ambientBackgroundOpacity}%;
         filter: blur(${state.settings.abmientBackgroundBlurStrength}px);
       `"

@@ -17,6 +17,18 @@ const state = useState();
           v-model="state.settings.showAmbientBackground"
           text="Enabled"
         />
+        <settings-binary-switch
+          v-model="state.settings.ambientBackgroundSpin"
+          text="Spin"
+        />
+        <settings-modifier
+          v-model="state.settings.ambientBackgroundSpinSpeed"
+          text="Spin speed"
+          :min="1"
+          :max="24"
+          :step="0.01"
+          :def="state.defaultSettings.ambientBackgroundSpinSpeed"
+        />
         <settings-modifier
           v-model="state.settings.ambientBackgroundOpacity"
           text="Opacity"
