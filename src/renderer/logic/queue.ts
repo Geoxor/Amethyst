@@ -74,7 +74,7 @@ export class Queue {
 			.for(force ? this.getList() : this.getList().filter(track => !track.isLoaded))
 			.withConcurrency(useState().settings.processingConcurrency || 3)
 			.process(async track => {
-        await track.fetchAsyncData();
+        await track.fetchAsyncData(force);
         this.updateTotalSize();
         this.updateTotalDuration();
       });

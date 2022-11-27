@@ -48,7 +48,7 @@ export class Discord {
 			largeImageKey: format || "blank",
 			largeImageText: format?.toUpperCase() || "Unknown Format",
 			smallImageKey: "logo",
-			smallImageText: `Amethyst v${APP_VERSION}`,
+			smallImageText: `Amethyst v${APP_VERSION}\n`,
 			buttons: [
 				{
 					label: "Find Song",

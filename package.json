@@ -2,7 +2,7 @@
   "name": "amethyst",
   "author": "Geoxor <geoxor123@outlook.com>",
   "productName": "Amethyst",
-  "version": "1.8.10",
+  "version": "1.8.11",
   "main": "./release/dist/main/main.js",
   "licenses": [
     {
@@ -31,6 +31,7 @@
     "patterns": [
       "!src/__tests__/**",
       "!release/**",
+      "!**/*.amf",
       "!src/renderer/**"
     ],
     "logLevel": "quiet"
@@ -62,88 +63,100 @@
         "description": "Amethyst Node Table"
       },
       {
+        "ext": "acf",
+        "icon": "./assets/images/acf.ico",
+        "name": "Amethyst Configuration File",
+        "description": "Amethyst Configuration File"
+      },
+      {
+        "ext": "amf",
+        "icon": "./assets/images/amf.ico",
+        "name": "Amethyst Metadata File",
+        "description": "Amethyst Metadata File"
+      },
+      {
         "ext": "ogg",
-        "icon": "./assets/icon.ico"
+        "icon": "./assets/images/audio.ico"
       },
       {
         "ext": ".ogv",
-        "icon": "./assets/icon.ico"
+        "icon": "./assets/images/audio.ico"
       },
       {
         "ext": ".oga",
-        "icon": "./assets/icon.ico"
+        "icon": "./assets/images/audio.ico"
       },
       {
         "ext": ".ogx",
-        "icon": "./assets/icon.ico"
+        "icon": "./assets/images/audio.ico"
       },
       {
         "ext": ".ogm",
-        "icon": "./assets/icon.ico"
+        "icon": "./assets/images/audio.ico"
       },
       {
         "ext": ".spx",
-        "icon": "./assets/icon.ico"
+        "icon": "./assets/images/audio.ico"
       },
       {
         "ext": ".opus",
-        "icon": "./assets/icon.ico"
+        "icon": "./assets/images/audio.ico"
       },
       {
         "ext": "wav",
-        "icon": "./assets/icon.ico"
+        "icon": "./assets/images/audio.ico"
       },
       {
         "ext": "wave",
-        "icon": "./assets/icon.ico"
+        "icon": "./assets/images/audio.ico"
       },
       {
         "ext": ".m4a",
-        "icon": "./assets/icon.ico"
+        "icon": "./assets/images/audio.ico"
       },
       {
         "ext": ".m4b",
-        "icon": "./assets/icon.ico"
+        "icon": "./assets/images/audio.ico"
       },
       {
         "ext": ".m4p",
-        "icon": "./assets/icon.ico"
+        "icon": "./assets/images/audio.ico"
       },
       {
         "ext": ".m4r",
-        "icon": "./assets/icon.ico"
+        "icon": "./assets/images/audio.ico"
       },
       {
         "ext": ".m4v",
-        "icon": "./assets/icon.ico"
+        "icon": "./assets/images/audio.ico"
       },
       {
         "ext": ".3gp",
-        "icon": "./assets/icon.ico"
+        "icon": "./assets/images/audio.ico"
       },
       {
         "ext": "flac",
-        "icon": "./assets/icon.ico"
+        "icon": "./assets/images/audio.ico"
       },
       {
         "ext": "opus",
-        "icon": "./assets/icon.ico"
+        "icon": "./assets/images/audio.ico"
       },
       {
         "ext": "aac",
-        "icon": "./assets/icon.ico"
+        "icon": "./assets/images/audio.ico"
       },
       {
         "ext": "aiff",
-        "icon": "./assets/icon.ico"
+        "icon": "./assets/images/audio.ico"
       },
       {
         "ext": "mp3",
-        "icon": "./assets/icon.ico"
+        "icon": "./assets/images/audio.ico"
       },
       {
         "ext": "m4a",
-        "icon": "./assets/icon.ico"
+        "icon": "./assets/images/audio.ico"
       }
     ],
     "files": [
