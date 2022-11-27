@@ -25,24 +25,29 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
 
 <template>
   <div class="text-12px min-h-0 h-full flex flex-col text-left relative select-none">
-    <header class="flex">
-      <div
-        class="w-4"
-      />
-      <div
-        v-for="header in [
-          'Filename',
-          'Artist',
-          'Title',
-          'Album',
-          'Container',
-          `Size <strong>${player.queue.getTotalSizeFormatted()}</strong>`,
-          `Duration <strong>${player.queue.getTotalDurationFormatted()}</strong>`,
-        ]"
-        :key="header"
-        class="th font-bold text-primary-900 mb-2"
-        v-html="header"
-      />
+    <header class="flex text-primary-900 font-bold mb-2">
+      <div class="w-4" />
+      <div class="min-w-1/4">
+        Filename
+      </div>
+      <div class="th">
+        Artist
+      </div>
+      <div class="th">
+        Title
+      </div>
+      <div class="th">
+        Album
+      </div>
+      <div class="th max-w-16">
+        Container
+      </div>
+      <div class="th max-w-24">
+        Size <strong>{{ player.queue.getTotalSizeFormatted() }}</strong>
+      </div>
+      <div class="th">
+        Duration <strong>{{ player.queue.getTotalDurationFormatted() }}</strong>
+      </div>
     </header>
     <RecycleScroller
       class="h-full"
@@ -83,7 +88,7 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
               :url="(item.isLoaded ? item.getCover() : state.state.defaultCover) as string"
             />
           </div>
-          <div class="td">
+          <div class="td min-w-1/4">
             {{ player.getCurrentTrack()?.path == item.path ? "⏵ " : "" }}{{ item.getFilename() }}
           </div>
           <div class="td">
@@ -121,7 +126,7 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
               n/a
             </span>
           </div>
-          <div class="td">
+          <div class="td max-w-16">
             <BaseChip
               v-if="item.getMetadata()?.format.container"
               class="text-8px"
@@ -129,7 +134,7 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
               {{ item.getMetadata()?.format.container }}
             </BaseChip>
           </div>
-          <div class="td">
+          <div class="td max-w-24">
             {{ item.getFilesizeFormatted() }}
           </div>
           <div class="td">
@@ -143,14 +148,6 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
 
 <style lang="postcss">
 
-.vue-recycle-scroller__slot {
-  @apply flex;
-}
-
-.vue-recycle-scroller__slot,
-.vue-recycle-scroller__item-view {
-  @apply  text-left;
-}
 .th,
 .td {
   @apply flex-1;
@@ -161,12 +158,7 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
 }
 
 .td {
-  @apply max-w-full overflow-hidden overflow-ellipsis;
-}
-
-.vue-recycle-scroller__slot .th:first-child,
-.vue-recycle-scroller__item-view .td:first-child {
-  @apply w-4 max-w-4;
+  @apply overflow-hidden overflow-ellipsis;
 }
 
 .row {
@@ -179,6 +171,20 @@ const handleContextMenu = (e: MouseEvent, track: Track) => {
   &.active {
     @apply text-primary-800;
   }
+}
+
+.vue-recycle-scroller__slot {
+  @apply flex;
+}
+
+.vue-recycle-scroller__slot,
+.vue-recycle-scroller__item-view {
+  @apply  text-left;
+}
+
+.vue-recycle-scroller__slot .th:first-child,
+.vue-recycle-scroller__item-view .td:first-child {
+  @apply w-4 max-w-4;
 }
 
 </style>

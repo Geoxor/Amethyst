@@ -107,7 +107,7 @@ const refreshWindow = () => location.reload();
       </Menu>
       <Menu title="View">
         <menu-option
-          title="Toggle settings panel"
+          title="Settings"
           :icon="SettingsIcon"
           @click="state.settings.showSettings = !state.settings.showSettings"
         />
