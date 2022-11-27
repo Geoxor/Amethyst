@@ -38,9 +38,9 @@ onUnmounted(() => {
   <div class="flex fixed flex-col bg-surface-900">
     <div
       v-if="state.settings.showAmbientBackground"
-      :class="[
-        state.settings.ambientBackgroundSpin && 'scale-125'
-      ]"
+      :style="`
+        transform: translate(-50%, -50%) scale(${state.settings.ambientBackgroundZoom}%);
+      `"
       class="absolute z-1000 select-none mix-blend-soft-light pointer-events-none top-1/2 transform-gpu -translate-y-1/2 left-1/2 -translate-x-1/2 w-full"
     >
       <cover-art 

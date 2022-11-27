@@ -39,6 +39,14 @@ const state = useState();
         />
 
         <settings-modifier
+          v-model="state.settings.ambientBackgroundZoom"
+          text="Zoom"
+          :min="0"
+          :max="500"
+          :step="1"
+          :def="state.defaultSettings.ambientBackgroundZoom"
+        />
+        <settings-modifier
           v-model="state.settings.abmientBackgroundBlurStrength"
           text="Blur strength"
           :min="0"

@@ -45,6 +45,7 @@ export class AppState {
 		ambientBackgroundSpin: true,
 		abmientBackgroundBlurStrength: 32,
 		spectrumVerticalZoom: 1.4,
+		ambientBackgroundZoom: 125,
 		spectrumFftSize: 4096,
 		spectrumSmoothing: 0.8,
 		ambientBackgroundSpinSpeed: 24,
