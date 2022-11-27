@@ -35,6 +35,21 @@ export class AmethystAudioNodeManager {
 
   public constructor(input: AudioNode, public context: AudioContext) {
     this.input = new AmethystAudioNode(input, "input", InputNode, { x: 0, y: 0 }, false);
+
+    // navigator.mediaDevices.enumerateDevices().then(devices => {
+    //   console.log("🚀 ~ file: audio.ts ~ line 43 ~ AmethystAudioNodeManager ~ constructor ~ devices", devices);
+    //   const inputs = devices.filter(device => device.kind === "audioinput");
+    //   const outputs = devices.filter(device => device.kind === "audiooutput");
+
+    //   inputs.forEach((input, index) => {
+    //     navigator.mediaDevices.getUserMedia({ audio: {deviceId: input.deviceId }}).then(stream => {
+    //       const microphone = context.createMediaStreamSource(stream);
+    //       const micInput = new AmethystAudioNode(microphone, "mic-input", InputNode, { x: 0, y: 52 + 52 * index }, false);
+    //       this.nodes.push(micInput);
+    //     });
+    //   });
+    // });
+
     this.master = new AmethystAudioNode(this.context.createGain(), "master", MasterNode, { x: 300, y: 0 }, false);
     this.output = new AmethystAudioNode(this.context.destination, "output", OutputNode, { x: 450, y: 0 }, false);
 
