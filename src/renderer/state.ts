@@ -43,7 +43,7 @@ export class AppState {
 		showAmbientBackground: false,
 		ambientBackgroundOpacity: 32,
 		ambientBackgroundSpin: true,
-		abmientBackgroundBlurStrength: 64,
+		abmientBackgroundBlurStrength: 32,
 		spectrumVerticalZoom: 1.4,
 		spectrumFftSize: 4096,
 		spectrumSmoothing: 0.8,

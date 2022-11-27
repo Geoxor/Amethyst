@@ -12,16 +12,29 @@ import CoverArt from "@/components/CoverArt.vue";
 
 import {HideIcon} from "@/icons/plumpy";
 import GPUSpectrumAnalyzer from "@/components/visualizers/GPUSpectrumAnalyzer.vue";
+import { computed } from "vue";
 
 const state = useState();
 const player = usePlayer();
+
+const ambientBackgroundImage = computed(() => {
+  const cover = player.getCurrentTrack()?.getMetadata()?.common.picture?.[0];
+  let coverUrl: string = "";
+  cover && (coverUrl = URL.createObjectURL(new Blob([new Uint8Array(cover.data)], { type: "image/png" })));
+  console.log(coverUrl);
+  return coverUrl;
+});
+
 </script>
 
 <template>
   <div class="flex fixed flex-col bg-surface-900">
     <div
       v-if="state.settings.showAmbientBackground"
-      class="absolute z-1000 select-none mix-blend-soft-light pointer-events-none top-1/2 transform-gpu -translate-y-1/2 left-1/2 scale-125 -translate-x-1/2 w-full"
+      :class="[
+        state.settings.ambientBackgroundSpin && 'scale-125'
+      ]"
+      class="absolute z-1000 select-none mix-blend-soft-light pointer-events-none top-1/2 transform-gpu -translate-y-1/2 left-1/2 -translate-x-1/2 w-full"
     >
       <cover-art 
         class="w-full h-full" 
@@ -33,7 +46,7 @@ const player = usePlayer();
         opacity: ${state.settings.ambientBackgroundOpacity}%;
         filter: blur(${state.settings.abmientBackgroundBlurStrength}px);
       `"
-        :url="player.getCurrentTrack()?.getCover()"
+        :url="ambientBackgroundImage"
       />
     </div>
     <top-bar />
