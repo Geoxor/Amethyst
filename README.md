@@ -11,11 +11,11 @@ Please do not write reviews yet as I have not finished implementing everything r
 # Windows
 winget install amethyst
 
+# Arch
+yay amethyst-player
+
 # Debian (soon hopefully)
 apt install amethyst
-
-# Arch (soon hopefully)
-yay amethyst
 
 # MacOS (soon hopefully)
 brew install amethyst
