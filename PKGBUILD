@@ -1,34 +1,30 @@
-Maintainer: Georgios Tsotsos <geoxor123@outlook.com>
+# Maintainer: Georgios Tsotsos <geoxor123@outlook.com>
 pkgname=amethyst
-pkgver=1.7.10
-pkgrel=1
-pkgdesc="Amethyst is an Electron-based audio player with a node-based audio routing system, the main goal of this project is to make a music player in Typescript that has pro-level features as most DAWs / DAEs, while also providing useful tools and customizability to the end-user to deal with audio."
+pkgver=1.8.15
+pkgrel=0
+pkgdesc="Audio Player"
 arch=('x86_64')
-url="https://github.com/Geoxor/amethyst"
+url="https://github.com/Geoxor/$pkgname"
 license=('MIT')
-depends=('libvips')
-makedepends=('gcc-multilib' 'g++-multilib' 'libvips' 'git')
-options=()
-install=
-changelog=
-source=("$pkgname-$pkgver.tar.gz"
-        "$pkgname-$pkgver.patch")
-source=('amethyst::git://github.com/Geoxor/amethyst.git')
-md5sums=('SKIP') #generate with 'makepkg -g'
+makedepends=('gcc-multilib' 'git' 'gendesk' 'yarn' 'libxcrypt-compat')
+source=("git+https://github.com/Geoxor/$pkgname/#tag=v$pkgver")
+md5sums=('SKIP')
 
-build() {
-	cd "$pkgname-$pkgver"
-	./configure --prefix=/usr
-	make
+prepare(){
+	cd "$pkgname"
+	gendesk -n -f --pkgname "$pkgname" --pkgdesc "$pkgdesc" --exec="/opt/$pkgname/${pkgname}"
+	yarn
 }
 
-check() {
+build() {
 	cd "$pkgname"
-  npm i yarn -g
-  yarn test
+	yarn build && yarn electron-builder --linux dir --publish never
 }
 
 package() {
 	cd "$pkgname"
-  yarn package
+	install -Dm644 "$pkgname.desktop" "$pkgdir/usr/share/applications/$pkgname.desktop"
+	install -d "$pkgdir/opt/$pkgname" && cp -r release/build/linux-unpacked/* "$pkgdir/opt/$pkgname"
+	install -Dm644 assets/icon.svg "$pkgdir/usr/share/pixmaps/$pkgname.svg"
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
 }
