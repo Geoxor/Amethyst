@@ -1,14 +1,14 @@
 # Maintainer: Georgios Tsotsos <geoxor123@outlook.com>
-
-pkgname=amethyst
+appname=amethyst
+pkgname=$appname-player
 pkgver=1.8.15
 pkgrel=0
 pkgdesc="Audio Player"
 arch=('x86_64')
-url="https://github.com/Geoxor/$pkgname"
+url="https://github.com/Geoxor/$appname"
 license=('MIT')
 makedepends=('gcc-multilib' 'git' 'gendesk' 'yarn' 'libxcrypt-compat')
-source=("git+https://github.com/Geoxor/$pkgname/#tag=v$pkgver")
+source=("git+https://github.com/Geoxor/$appname/#tag=v$pkgver")
 md5sums=('SKIP')
 
 logo() {
@@ -22,20 +22,20 @@ logo() {
 
 prepare(){
 	logo
-	cd "$pkgname"
-	gendesk -n -f --pkgname "$pkgname" --pkgdesc "$pkgdesc" --exec="/opt/$pkgname/${pkgname}"
+	cd "$appname"
+	gendesk -n -f --pkgname "$appname" --pkgdesc "$pkgdesc" --exec="/opt/$appname/$appname"
 	yarn
 }
 
 build() {
-	cd "$pkgname"
+	cd "$appname"
 	yarn build && yarn electron-builder --linux dir --publish never
 }
 
 package() {
-	cd "$pkgname"
-	install -Dm644 "$pkgname.desktop" "$pkgdir/usr/share/applications/$pkgname.desktop"
-	install -d "$pkgdir/opt/$pkgname" && cp -r release/build/linux-unpacked/* "$pkgdir/opt/$pkgname"
-	install -Dm644 assets/icon.svg "$pkgdir/usr/share/pixmaps/$pkgname.svg"
-	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$pkgname"
+	cd "$appname"
+	install -Dm644 "$appname.desktop" "$pkgdir/usr/share/applications/$appname.desktop"
+	install -d "$pkgdir/opt/$appname" && cp -r release/build/linux-unpacked/* "$pkgdir/opt/$appname"
+	install -Dm644 assets/icon.svg "$pkgdir/usr/share/pixmaps/$appname.svg"
+	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$appname"
 }
