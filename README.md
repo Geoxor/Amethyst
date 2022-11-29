@@ -24,7 +24,7 @@ apt install amethyst
 brew install amethyst
 
 # Oneliner Build From Source
-git clone https://github.com/geoxor/amethyst && cd amethyst && yarn && yarn test --run && yarn package
+git clone --recurse-submodules https://github.com/geoxor/amethyst && cd amethyst && yarn && yarn test --run && yarn package
 ```
 
 ![Amethyst](https://cdn.discordapp.com/attachments/667464431562653706/1043343748593107004/image.png)
