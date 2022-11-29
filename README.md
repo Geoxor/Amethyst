@@ -12,7 +12,7 @@ Please do not write reviews yet as I have not finished implementing everything r
 winget install amethyst
 
 # Arch
-yay amethyst-player
+yay -S amethyst-player
 
 # Debian (soon hopefully)
 apt install amethyst
