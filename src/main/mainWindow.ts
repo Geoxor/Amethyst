@@ -4,7 +4,7 @@ import { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from 
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { Discord, FormatIcons } from "./discord";
+import { Discord, FormatIcons } from "../../plugins/amethyst.discord";
 import { ALLOWED_EXTENSIONS, APP_VERSION, IS_DEV, RESOURCES_PATH } from "./main";
 import { resolveHTMLPath } from "./util";
 

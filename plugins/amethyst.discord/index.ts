@@ -1,6 +1,6 @@
 import type { Presence } from "discord-rpc";
 import { Client } from "discord-rpc";
-import { APP_VERSION } from "./main";
+import { APP_VERSION } from "../../src/main/main";
 
 const DISCORD_CLIENT_ID = "976036303156162570"; 
 
