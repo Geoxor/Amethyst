@@ -258,11 +258,6 @@
   },
   "contributors": [
     {
-      "name": "Connor OKeefe",
-      "email": "cimok2000@gmail.com",
-      "url": "https://github.com/cimok2000"
-    },
-    {
       "name": "George Tsotsos",
       "email": "geoxor123@outlook.com",
       "url": "https://github.com/Geoxor"
@@ -345,20 +340,5 @@
     "node": ">=19.1.x",
     "npm": ">=8.x",
     "yarn": ">=1.22.x"
-  },
-  "browserslist": [],
-  "prettier": {
-    "overrides": [
-      {
-        "files": [
-          ".prettierrc",
-          ".eslintrc"
-        ],
-        "options": {
-          "parser": "json"
-        }
-      }
-    ],
-    "singleQuote": true
   }
 }
