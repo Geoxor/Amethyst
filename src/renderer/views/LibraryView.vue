@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { usePlayer } from "@/amethyst";
 import CoverArt from "@/components/CoverArt.vue";
-
-const player = usePlayer();
+import { player } from "@/logic/player";
 
 </script>
 

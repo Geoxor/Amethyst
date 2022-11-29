@@ -1,16 +1,16 @@
-import { Player } from "@/logic/player";
+import { player } from "@/logic/player";
 
 export class MediaSession {
-  public constructor(public player: Player) {
+  public constructor() {
     const actionHandlers: ([MediaSessionAction, MediaSessionActionHandler])[] = [
-      ["play", () => this.player.isPlaying.value ? this.player.pause() : this.player.play()],
-      ["pause", () => !this.player.isPlaying.value ? this.player.play() : this.player.pause()],
-      ["previoustrack", () => this.player.previous()],
-      ["nexttrack", () => this.player.next()],
-      ["seekbackward", details => { this.player.seekBackward(details.seekOffset || undefined); }],
-      ["seekforward", details => { this.player.seekForward(details.seekOffset || undefined); }],
-      ["seekto", details => { details.seekTime && this.player.seekTo(details.seekTime); }],
-      ["stop", () => this.player.stop()],
+      ["play", () => player.isPlaying.value ? player.pause() : player.play()],
+      ["pause", () => !player.isPlaying.value ? player.play() : player.pause()],
+      ["previoustrack", () => player.previous()],
+      ["nexttrack", () => player.next()],
+      ["seekbackward", details => { player.seekBackward(details.seekOffset || undefined); }],
+      ["seekforward", details => { player.seekForward(details.seekOffset || undefined); }],
+      ["seekto", details => { details.seekTime && player.seekTo(details.seekTime); }],
+      ["stop", () => player.stop()],
     ];
 
     for (const [action, handler] of actionHandlers) {
@@ -21,10 +21,10 @@ export class MediaSession {
       }
     }
 
-    this.player.on("play", () => navigator.mediaSession.playbackState = "playing");
-    this.player.on("pause", () => navigator.mediaSession.playbackState = "paused");
+    player.on("play", () => navigator.mediaSession.playbackState = "playing");
+    player.on("pause", () => navigator.mediaSession.playbackState = "paused");
 
-    this.player.on("play", track => {
+    player.on("play", track => {
       const cover = track.getMetadata()?.common.picture?.[0];
       let coverUrl: string = "";
 

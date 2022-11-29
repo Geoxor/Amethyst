@@ -1,4 +1,3 @@
-import { usePlayer } from "@/amethyst";
 import AnalyzerNode from "@/components/nodes/AnalyzerNode.vue";
 import GainNode from "@/components/nodes/GainNode.vue";
 import HighpassFilterNode from "@/components/nodes/HighpassFilterNode.vue";
@@ -10,6 +9,7 @@ import PannerNode from "@/components/nodes/PannerNode.vue";
 import { Position } from "@vue-flow/core";
 import { v4 as uuid } from "uuid";
 import { DefineComponent, markRaw, ref } from "vue";
+import { player } from "@/logic/player";
 
 export interface IAmethystNodeProperties {
   name: string,
@@ -165,8 +165,8 @@ export class AmethystAudioNode<T extends AudioNode> {
   public disconnect() {
     // Disconnect descendants
     this.connections.forEach(connection => {
-      const source = usePlayer().nodeManager.nodes.find(node => node.connections.some(connection => connection.target === this.properties.id));
-      const target = usePlayer().nodeManager.nodes.find(node => node.properties.id === connection.target);
+      const source = player.nodeManager.nodes.find(node => node.connections.some(connection => connection.target === this.properties.id));
+      const target = player.nodeManager.nodes.find(node => node.properties.id === connection.target);
       target && this.disconnectFrom(target);
       
       // And this node from it's current target
@@ -181,7 +181,7 @@ export class AmethystAudioNode<T extends AudioNode> {
   }
 
   public getParentNode(){
-    return usePlayer().nodeManager.nodes.find(node => node.connectedTo.some(node => node.properties.id === this.properties.id));
+    return player.nodeManager.nodes.find(node => node.connectedTo.some(node => node.properties.id === this.properties.id));
   }
 
   public updatePosition(newPosition: {x: number, y: number}) {

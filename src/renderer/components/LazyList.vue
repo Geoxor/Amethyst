@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { usePlayer, useShortcuts, useState } from "@/amethyst";
+import { useShortcuts, useState } from "@/amethyst";
 import { Track } from "@/logic/track";
 import BaseChip from "@/components/BaseChip.vue";
 import { BroomIcon, PlayIcon, ExternalLinkIcon, RestartIcon, LoadingIcon, ErrorIcon } from "@/icons/plumpy";
 import Cover from "@/components/CoverArt.vue";
+import { player } from "@/logic/player";
 
 defineProps<{tracks: Track[]}>();
 const state = useState();
-const player = usePlayer();
 const isHoldingControl = useShortcuts().isControlPressed;
 const invoke = window.electron.ipcRenderer.invoke;
 

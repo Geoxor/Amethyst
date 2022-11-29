@@ -8,7 +8,7 @@ export interface IContextMenuOption {
 	action: () => any;
 }
 
-export class AppState {
+export class Store {
 	public state = reactive({
 		allowedExtensions: [] as string[],
 		cpuUsage: {

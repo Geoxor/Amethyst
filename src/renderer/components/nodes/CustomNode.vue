@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { usePlayer, useShortcuts, useState } from "@/amethyst";
+import { useShortcuts, useState } from "@/amethyst";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import QuickMenu from "@/components/nodes/QuickMenu.vue";
 import { ResetIcon, RemoveIcon, DisconnectIcon } from "@/icons/material";
-
+import { player } from "@/logic/player";
 import { AmethystAudioNode } from "@/logic/audio";
 import { Handle, Position } from "@vue-flow/core";
 const props = defineProps<{ title: string, icon: any, description?: string, node: AmethystAudioNode<any>, meterless?: boolean }>();
-const player = usePlayer();
 const state = useState();
 
 // Context Menu options for this component 

@@ -1,5 +1,5 @@
 import { useElectron } from "@/amethyst";
-import type { Player } from "@/logic/player";
+import { player } from "@/logic/player";
 import { onKeyStroke, useKeyModifier, UseKeyModifierReturn, useLocalStorage } from "@vueuse/core";
 
 export type ShortcutBindings = Record<string, [string[], (e: KeyboardEvent) => void]>;
@@ -12,24 +12,24 @@ export class Shortcuts {
 
   // TODO: somehow link this logic to each function in the components so they render automatically in dropdown menus
   public DEFAULT_BINDINGS: ShortcutBindings = {
-    "audio.play.pause": [[" "], () => this.player.isPlaying.value ? this.player.pause() : this.player.play()],
-    "audio.next": [["ArrowDown"], () => this.player.next()],
-    "audio.previous": [["ArrowUp"], () => this.player.previous()],
-    "audio.seek.forward": [["ArrowRight"], () => this.player.seekForward()],
-    "audio.seek.backward": [["ArrowLeft"], () => this.player.seekBackward()],
-    "audio.volume.up": [["PageUp"], () => this.player.volumeUp()],
-    "audio.volume.down": [["PageDown"], () => this.player.volumeDown()],
+    "audio.play.pause": [[" "], () => player.isPlaying.value ? player.pause() : player.play()],
+    "audio.next": [["ArrowDown"], () => player.next()],
+    "audio.previous": [["ArrowUp"], () => player.previous()],
+    "audio.seek.forward": [["ArrowRight"], () => player.seekForward()],
+    "audio.seek.backward": [["ArrowLeft"], () => player.seekBackward()],
+    "audio.volume.up": [["PageUp"], () => player.volumeUp()],
+    "audio.volume.down": [["PageDown"], () => player.volumeDown()],
     "queue.add.file": [["o"], () => this.isControlPressed.value && useElectron().openFileDialog()],
     "queue.add.folder": [["O"], () => this.isControlPressed.value && useElectron().openFolderDialog()],
-    "queue.clear": [["X"], () => this.isControlPressed.value && this.player.queue.clear()],
-    "queue.clear.errored": [["Z"], () => this.isControlPressed.value && this.player.queue.clearErrored()],
-    "queue.force.refresh.meta": [["r"], () => this.isControlPressed.value && this.isAltPressed.value && this.player.queue.fetchAsyncData(true)]
+    "queue.clear": [["X"], () => this.isControlPressed.value && player.queue.clear()],
+    "queue.clear.errored": [["Z"], () => this.isControlPressed.value && player.queue.clearErrored()],
+    "queue.force.refresh.meta": [["r"], () => this.isControlPressed.value && this.isAltPressed.value && player.queue.fetchAsyncData(true)]
   };
 
   public bindings = this.DEFAULT_BINDINGS;
   public customBindings = useLocalStorage<CustomShortcutBindings>("customShortcuts", {}).value;
 
-  public constructor(public player: Player) {
+  public constructor() {
     this.registerShortcuts();
   }
 

@@ -158,3 +158,5 @@ export class Player extends EventEmitter<{
 		return colinNotation ? secondsToColinHuman(this.currentTime.value) : secondsToHuman(this.currentTime.value);
 	}
 }
+
+export const player = new Player();

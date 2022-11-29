@@ -1,10 +1,10 @@
 import { ElectronEventManager } from "@/electronEventManager";
 import { CPUUsageMonitor } from "@/logic/CPUUsageMonitor";
-import { Player } from "@/logic/player";
+import { player } from "@/logic/player";
 import { Track } from "@/logic/track";
 import { MediaSession } from "@/mediaSession";
 import { Shortcuts } from "@/shortcuts";
-import { AppState } from "@/state";
+import { Store } from "@/state";
 import { watch } from "vue";
 import { flattenArray } from "./logic/math";
 
@@ -22,24 +22,23 @@ export const useFs = () => ({
 });
 
 export class Amethyst {
-  public appState: AppState = new AppState();
-  public electron: ElectronEventManager = new ElectronEventManager(this.appState.state);
-  public player: Player = new Player();
-  public shortcuts: Shortcuts = new Shortcuts(this.player);
-  public mediaSession: MediaSession = new MediaSession(this.player);
-  public cpuUsageMonitor: CPUUsageMonitor = new CPUUsageMonitor(this.appState, this.electron);
+  public store: Store = new Store();
+  public electron: ElectronEventManager = new ElectronEventManager(this.store.state);
+  public shortcuts: Shortcuts = new Shortcuts();
+  public mediaSession: MediaSession = new MediaSession();
+  public cpuUsageMonitor: CPUUsageMonitor = new CPUUsageMonitor(this.store, this.electron);
   
   private richPresenceTimer: NodeJS.Timer | undefined;
 
   constructor() {
-		this.electron.ipc.on<string>("play-file", path => path !== "--require" && this.player.queue.add(path).then(() => {
-      this.player.play(this.player.queue.getList().findIndex(track => track.path == path));
+		this.electron.ipc.on<string>("play-file", path => path !== "--require" && player.queue.add(path).then(() => {
+      player.play(player.queue.getList().findIndex(track => track.path == path));
     }));
-    this.electron.ipc.on<(string)[]>("play-folder", paths => this.player.queue.add(flattenArray(paths)));
+    this.electron.ipc.on<(string)[]>("play-folder", paths => player.queue.add(flattenArray(paths)));
 
-    watch(() => this.appState.settings.useDiscordRichPresence, value => {
+    watch(() => this.store.settings.useDiscordRichPresence, value => {
       if (value) {
-        const currentTrack = this.player.getCurrentTrack();
+        const currentTrack = player.getCurrentTrack();
         currentTrack && this.updateRichPresence(currentTrack);
         return;
       };
@@ -50,7 +49,7 @@ export class Amethyst {
     document.addEventListener("drop", event => {
       event.preventDefault();
       event.stopPropagation();
-      this.player.queue.add(Array.from(event.dataTransfer!.files).map(f => f.path));
+      player.queue.add(Array.from(event.dataTransfer!.files).map(f => f.path));
     });
 
     document.addEventListener("dragover", e => {
@@ -58,10 +57,10 @@ export class Amethyst {
       e.stopPropagation();
     });
 
-    this.player.on("*", console.log);
+    player.on("*", console.log);
 
-    this.player.on("play", track => {
-      if (this.appState.settings.useDiscordRichPresence) {
+    player.on("play", track => {
+      if (this.store.settings.useDiscordRichPresence) {
         this.updateRichPresence(track);
       }
    });
@@ -72,7 +71,7 @@ export class Amethyst {
       this.electron.updateRichPresence([
         `${track.getArtistsFormatted() || "unknown artist"} - ${track.getTitleFormatted() || "unknown title"}`,
         track.getDurationFormatted(true),
-        this.player.currentTimeFormatted(true),
+        player.currentTimeFormatted(true),
         track.metadata.data?.format.container?.toLowerCase()
       ]);
     };
@@ -84,7 +83,6 @@ export class Amethyst {
 
 const amethyst = new Amethyst();
 
-export const useState = () => amethyst.appState;
+export const useState = () => amethyst.store;
 export const useElectron = () => amethyst.electron;
 export const useShortcuts = () => amethyst.shortcuts;
-export const usePlayer = () => amethyst.player;

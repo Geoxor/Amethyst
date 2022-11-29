@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { usePlayer, useState } from "@/amethyst";
+import { useState } from "@/amethyst";
 import TopBar from "@/components/TopBar.vue";
 
 import ContextMenu from "@/components/input/ContextMenu.vue";
@@ -14,9 +14,9 @@ import {HideIcon} from "@/icons/plumpy";
 import GPUSpectrumAnalyzer from "@/components/visualizers/GPUSpectrumAnalyzer.vue";
 import { onMounted, onUnmounted, ref } from "vue";
 import { Track } from "@/logic/track";
+import { player } from "@/logic/player";
 
 const state = useState();
-const player = usePlayer();
 const ambientBackgroundImage = ref("");
 
 const setAmbientCover = async (track: Track) => {
@@ -91,7 +91,7 @@ onUnmounted(() => {
           v-if="state.settings.showSpectrum && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
           class="h-76px w-152px min-h-76px min-w-152px"
-          :node="usePlayer().nodeManager.master.audioNode"
+          :node="player.nodeManager.master.audioNode"
           @contextmenu="state.openContextMenuAt($event.x, $event.y, [
             { title: 'Hide Spectrum', icon: HideIcon, action: () => state.settings.showSpectrum = false },
           ]);"

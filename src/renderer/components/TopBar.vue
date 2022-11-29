@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useElectron, usePlayer, useState } from "@/amethyst";
+import { useElectron, useState } from "@/amethyst";
 import ControlButtons from "@/components/input/ControlButtons.vue";
 import UpdateButton from "@/components/input/UpdateButton.vue";
 import Menu from "@/components/menu/MenuContainer.vue";
@@ -8,6 +8,7 @@ import MenuSplitter from "@/components/menu/MenuSplitter.vue";
 import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
 import { AudioFileIcon, BroomIcon, DiscordIcon, GitHubIcon, MusicFolderIcon, RestartIcon, ZoomInIcon, ZoomOutIcon, ZoomToExtentsIcon, InstallingUpdatesIcon, SettingsIcon, } from "@/icons/plumpy";
 import { useFps } from "@vueuse/core";
+import { player } from "@/logic/player";
 import { onMounted, ref } from "vue";
 const min = ref(1000);
 const max = ref(0);
@@ -24,7 +25,6 @@ onMounted(() => {
 
 const state = useState();
 const electron = useElectron();
-const player = usePlayer();
 const refreshWindow = () => location.reload();
 </script>
 

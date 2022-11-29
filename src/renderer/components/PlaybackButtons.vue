@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { usePlayer, useState } from "@/amethyst";
+import { useState } from "@/amethyst";
 import Cover from "@/components/CoverArt.vue";
 import Slider from "@/components/input/BaseSlider.vue";
 import {NextIcon, PauseIcon, PlayIcon, RepeatIcon, RepeatOneIcon, ShuffleIcon, FileIcon, BitrateIcon } from "@/icons/plumpy";
@@ -9,9 +9,9 @@ import WaveSurfer from "wavesurfer.js";
 import { getThemeColorHex } from "@/logic/color";
 import { Track } from "@/logic/track";
 import BaseChip from "@/components/BaseChip.vue";
+import { player } from "@/logic/player";
 
 const state = useState();
-const player = usePlayer();
 let wavesurfer: WaveSurfer;
 const createWaveSurfer = () => {
   return WaveSurfer.create({
