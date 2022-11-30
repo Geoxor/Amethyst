@@ -1,16 +1,20 @@
 /* eslint-disable no-console */
 const start = performance.now();
-import { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
 import fs from "fs";
 import os from "os";
 import path from "path";
+import { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
 import { Discord, FormatIcons } from "../../plugins/amethyst.discord";
 import { ALLOWED_EXTENSIONS, APP_VERSION, IS_DEV, RESOURCES_PATH } from "./main";
-import { resolveHTMLPath } from "./util";
+console.log(`Imports took: ${(performance.now() - start).toFixed(2)}ms`);
+
+const METADATA_CACHE_PATH = path.join(app.getPath("appData"), "/amethyst/Metadata Cache");
+const TOTAL_CORES = os.cpus().length;
+
+fs.statSync(METADATA_CACHE_PATH) || fs.promises.mkdir(METADATA_CACHE_PATH);
 
 const icon = () => path.join(RESOURCES_PATH, "icon.png");
-
-fs.promises.mkdir(path.join(app.getPath("appData"), "/amethyst/Metadata Cache"));
+export type FileTree = (string | string[])[];
 
 const notifications = {
 	showUpdateInstallingNotification: () => {
@@ -19,7 +23,7 @@ const notifications = {
 		new Notification({
 			icon: icon(),
 			title,
-			body,
+			body, 
 		}).show();
 	},
 
@@ -91,8 +95,21 @@ export class MainWindow {
 		).toString("base64");
 	}
 
+	private resolveHTMLPath(htmlFileName: string) {
+    if (process.env.NODE_ENV === "development") {
+        const url = new URL(`http://localhost:${1337}`);
+
+		url.pathname = htmlFileName;
+
+        return url.href;
+    }
+    else {
+        return `file://${path.resolve(__dirname, "../renderer/", htmlFileName + ".html")}`;
+    }
+}
+
 	public show(): void {
-		this.window.loadURL(resolveHTMLPath("index"));
+		this.window.loadURL(this.resolveHTMLPath("index"));
 
 		this.window.on("ready-to-show", () => {
 			console.log(`Startup took: ${(performance.now() - start).toFixed(2)}ms`);
@@ -158,6 +175,28 @@ export class MainWindow {
 		});
 	}
 
+	private async loadFolder(inputPath: string) {
+		return new Promise((resolve, reject) => {
+			fs.readdir(inputPath, (error, files) => {
+				if (error) {
+					reject(error);
+				}
+				else {
+					Promise.all(
+						files.map(async file => {
+							const filePath = path.join(inputPath, file);
+							const stats = await fs.promises.stat(filePath);
+							if (stats.isDirectory())
+								return this.loadFolder(filePath);
+							else if (stats.isFile() && ALLOWED_EXTENSIONS.includes(path.extname(filePath).slice(1)))
+								return filePath;
+						}),
+					).then(files => resolve(files.filter(file => !!file)));
+				}
+			});
+		});
+	}
+
 	private setIpcEvents(): void {
 
 		Object.entries({
@@ -192,8 +231,7 @@ export class MainWindow {
 				});
 
 				if (!response.canceled) {
-					const { loadFolder } = await import ("./handles");
-					this.window.webContents.send("play-folder", await loadFolder(response.filePaths[0]));
+					this.window.webContents.send("play-folder", await this.loadFolder(response.filePaths[0]));
 				}
 			},
 
@@ -212,7 +250,7 @@ export class MainWindow {
 				return {
 
 					node: process.getCPUUsage().percentCPUUsage,
-					renderer: windowStats.cpu / os.cpus().length
+					renderer: windowStats.cpu / TOTAL_CORES
 				};
 			},
 
@@ -230,11 +268,10 @@ export class MainWindow {
 			},
 
 			"drop-file": async (_: Event, [paths]: string[][]) => {
-				const { loadFolder } = await import ("./handles");
 				paths.forEach(async path => {
 					const stat = await fs.promises.stat(path);
 					if (stat.isDirectory()) {
-						this.window.webContents.send("load-folder", await loadFolder(path));
+						this.window.webContents.send("load-folder", await this.loadFolder(path));
 					}
 					else
 						this.playAudio(path);
