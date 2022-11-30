@@ -8,11 +8,7 @@ import { Connection, EdgeMouseEvent, NodeDragEvent, VueFlow } from "@vue-flow/co
 import { onKeyStroke } from "@vueuse/core";
 import { computed, onMounted, ref } from "vue";
 import { player } from "@/logic/player";
-import { AmethystPannerNode } from "@/nodes/PannerNode";
-import { AmethystGainNode } from "@/nodes/GainNode";
-import { AmethystSpectrumNode } from "@/nodes/SpectrumNode";
-import { AmethystHighPassNode } from "@/nodes/HighPassNode";
-import { AmethystLowPassNode } from "@/nodes/LowPassNode";
+import { AmethystPannerNode, AmethystGainNode, AmethystSpectrumNode, AmethystHighPassNode, AmethystLowPassNode } from "@/nodes";
 const dash = ref();
 const nodeEditor = ref();
 const fs = useFs();
