@@ -7,14 +7,9 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import { app } from "electron";
-import path from "path";
-
 import { checkForUpdatesAndInstall, MainWindow } from "./mainWindow";
 
 export const IS_DEV = process.env.NODE_ENV === "development" || process.env.DEBUG_PROD === "true";
-export const RESOURCES_PATH = path.join(__dirname, "../".repeat(+app.isPackaged * 2 + 2), "assets");
-export const ALLOWED_EXTENSIONS = ["ogg", "flac", "wav", "opus", "aac", "aiff", "mp3", "m4a"];
-export const APP_VERSION = app.isPackaged ? app.getVersion() : process.env.npm_package_version ?? "0.0.0";
 if (process.env.NODE_ENV === "production")
 	import("source-map-support").then(smc => smc.install());
 

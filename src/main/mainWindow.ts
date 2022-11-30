@@ -1,22 +1,37 @@
 /* eslint-disable no-console */
-const start = performance.now();
 import fs from "fs";
 import os from "os";
 import path from "path";
 import { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
 import { Discord, FormatIcons } from "../../plugins/amethyst.discord";
-import { ALLOWED_EXTENSIONS, APP_VERSION, IS_DEV, RESOURCES_PATH } from "./main";
-console.log(`Imports took: ${(performance.now() - start).toFixed(2)}ms`);
+import { IS_DEV } from "./main";
+import packageJson from "../../package.json";
 
-const METADATA_CACHE_PATH = path.join(app.getPath("appData"), "/amethyst/Metadata Cache");
-const TOTAL_CORES = os.cpus().length;
+export const APP_VERSION = app.isPackaged ? app.getVersion() : process.env.npm_package_version ?? "0.0.0";
+export const METADATA_CACHE_PATH = path.join(app.getPath("appData"), "/amethyst/Metadata Cache");
+export const TOTAL_CORES = os.cpus().length;
+export const RESOURCES_PATH = path.join(__dirname, "../".repeat(+app.isPackaged * 2 + 2), "assets");
+export const ALLOWED_EXTENSIONS = packageJson.build.fileAssociations.map(association => association.ext);
 
 fs.statSync(METADATA_CACHE_PATH) || fs.promises.mkdir(METADATA_CACHE_PATH);
 
-const icon = () => path.join(RESOURCES_PATH, "icon.png");
-export type FileTree = (string | string[])[];
+export const icon = () => path.join(RESOURCES_PATH, "icon.png");
+export const checkForUpdatesAndInstall = () => {
+	!IS_DEV && import("electron-updater").then(({ autoUpdater }) => autoUpdater.checkForUpdatesAndNotify());
+};
 
-const notifications = {
+const LOGO = `
+    ___                   __  __               __ 
+   /   |  ____ ___  ___  / /_/ /_  __  _______/ /_
+  / /| | / __ \`__ \\/ _ \\/ __/ __ \\/ / / / ___/ __/
+ / ___ |/ / / / / /  __/ /_/ / / / /_/ (__  ) /_  
+/_/  |_/_/ /_/ /_/\\___/\\__/_/ /_/\\__, /____/\\__/  
+ v${APP_VERSION}                        /____/            
+		`;
+
+import("chalk").then(({default: chalk}) => console.log(chalk.hex("868aff")(LOGO)));
+
+const notifications: Record<string, Function> = {
 	showUpdateInstallingNotification: () => {
 		const title = "Update Installing";
 		const body = "The application will restart once the update is complete.";
@@ -62,15 +77,6 @@ export class MainWindow {
 	constructor() {
 		this.window = new BrowserWindow(this.windowOptions);
 		this.discord = new Discord();
-		// eslint-disable-next-line no-console
-		console.log(`
-    ___                   __  __               __ 
-   /   |  ____ ___  ___  / /_/ /_  __  _______/ /_
-  / /| | / __ \`__ \\/ _ \\/ __/ __ \\/ / / / ___/ __/
- / ___ |/ / / / / /  __/ /_/ / / / /_/ (__  ) /_  
-/_/  |_/_/ /_/ /_/\\___/\\__/_/ /_/\\__, /____/\\__/  
- v${APP_VERSION}                        /____/            
-		`);
 
 		this.setIpcEvents();
 		this.setWindowEvents();
@@ -88,7 +94,7 @@ export class MainWindow {
 		if (!cover)
 			return;
 
-		const sharp = (await import("sharp")).default;
+		const {default: sharp} = await import("sharp");
 
 		return (
 			await sharp(cover).resize(resizeTo, resizeTo).webp().toBuffer()
@@ -98,9 +104,7 @@ export class MainWindow {
 	private resolveHTMLPath(htmlFileName: string) {
     if (process.env.NODE_ENV === "development") {
         const url = new URL(`http://localhost:${1337}`);
-
-		url.pathname = htmlFileName;
-
+				url.pathname = htmlFileName;
         return url.href;
     }
     else {
@@ -112,9 +116,7 @@ export class MainWindow {
 		this.window.loadURL(this.resolveHTMLPath("index"));
 
 		this.window.on("ready-to-show", () => {
-			console.log(`Startup took: ${(performance.now() - start).toFixed(2)}ms`);
-			
-			import("electron-updater").then(({ autoUpdater }) => {
+			!IS_DEV && import("electron-updater").then(({ autoUpdater }) => {
 				import("electron-log").then(log => {
 					// Autoupdates
 					// Remove this if your app does not use auto updates
@@ -200,7 +202,7 @@ export class MainWindow {
 	private setIpcEvents(): void {
 
 		Object.entries({
-			"test-notification": (_: Event, [notification]: string) => (notifications as { [key: string]: any })[notification](),
+			"test-notification": (_: Event, [notification]: string) => (notifications)[notification](),
 			"minimize": () => this.window.minimize(),
 			"maximize": () => this.window.maximize(),
 			"unmaximize": () => this.window.unmaximize(),
@@ -244,7 +246,7 @@ export class MainWindow {
 			},
 
 			"percent-cpu-usage": async () => {
-				const pidusage = (await import("pidusage")).default;
+				const {default: pidusage} = await import("pidusage");
 				const windowStats = await pidusage(this.window.webContents.getOSProcessId());
 
 				return {
@@ -300,8 +302,4 @@ export class MainWindow {
 			}
 		}).forEach(([channel, handler]) => ipcMain.handle(channel, handler));
 	}
-}
-
-export async function checkForUpdatesAndInstall() {
-	import("electron-updater").then(({ autoUpdater }) => autoUpdater.checkForUpdatesAndNotify());
 }
