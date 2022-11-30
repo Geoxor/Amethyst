@@ -11,7 +11,7 @@ import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 import CoverArt from "@/components/CoverArt.vue";
 
 import {HideIcon} from "@/icons/plumpy";
-import GPUSpectrumAnalyzer from "@/components/visualizers/GPUSpectrumAnalyzer.vue";
+import {SpectrumAnalyzer} from "@/components/visualizers/SpectrumAnalyzer";
 import { onMounted, onUnmounted, ref } from "vue";
 import { Track } from "@/logic/track";
 import { player } from "@/logic/player";
@@ -87,7 +87,7 @@ onUnmounted(() => {
 
         <playback-buttons :player="player" />
 
-        <GPUSpectrumAnalyzer
+        <SpectrumAnalyzer
           v-if="state.settings.showSpectrum && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
           class="h-76px w-152px min-h-76px min-w-152px"

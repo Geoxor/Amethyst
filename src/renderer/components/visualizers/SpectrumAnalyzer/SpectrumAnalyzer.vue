@@ -3,7 +3,6 @@ import { scaleLog, interpolateArray } from "@/logic/math";
 import { ref, Ref, onMounted, watch, onUnmounted } from "vue";
 import * as THREE from "three";
 import { useState } from "@/amethyst";
-import {SpectrumFrag, SpectrumVertex} from "@/shaders";
 
 const props = defineProps<{ node: AudioNode }>();
 let shouldStopRendering = false;
@@ -90,8 +89,8 @@ onMounted(async () => {
     wireframe: false,
     transparent: true,
     uniforms: uniformData,
-    fragmentShader: await loader.loadAsync(SpectrumFrag) as string,
-    vertexShader: await loader.loadAsync(SpectrumVertex) as string,
+    fragmentShader: await loader.loadAsync(new URL("./SpectrumFrag.glsl", import.meta.url).toString()) as string,
+    vertexShader: await loader.loadAsync(new URL("./SpectrumVertex.glsl", import.meta.url).toString()) as string,
   });
 
   const mesh = new THREE.Mesh(geometry, material);
