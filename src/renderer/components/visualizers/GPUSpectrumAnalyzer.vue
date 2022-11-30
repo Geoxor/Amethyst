@@ -51,9 +51,6 @@ onMounted(async () => {
   const loader = new THREE.FileLoader();
   const camera = new THREE.OrthographicCamera(0, width, -height * 1.25 , 0, 0, 10000 );
   camera.position.set( 0, 0, 1);
-  // camera.position.z = 1;
-  // camera.position.x = 5;
-  // camera.position.y = 1.5;
   const scene = new THREE.Scene();
   // init
 

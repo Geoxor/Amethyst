@@ -2,13 +2,17 @@
 import { useState, useFs } from "@/amethyst";
 import SquareButton from "@/components/input/SquareButton.vue";
 import { MagnetIcon, SaveIcon, AdjustIcon, AzimuthIcon, FilterIcon, SelectNoneIcon, WaveIcon } from "@/icons/material";
-import { AmethystLowPassNode, AmethystGainNode, AmethystPannerNode, AmethystSpectrumNode, AmethystHighPassNode } from "@/logic/audio";
 import { getThemeColorHex } from "@/logic/color";
 import { Background, BackgroundVariant } from "@vue-flow/additional-components";
 import { Connection, EdgeMouseEvent, NodeDragEvent, VueFlow } from "@vue-flow/core";
 import { onKeyStroke } from "@vueuse/core";
 import { computed, onMounted, ref } from "vue";
 import { player } from "@/logic/player";
+import { AmethystPannerNode } from "@/nodes/PannerNode";
+import { AmethystGainNode } from "@/nodes/GainNode";
+import { AmethystSpectrumNode } from "@/nodes/SpectrumNode";
+import { AmethystHighPassNode } from "@/nodes/HighPassNode";
+import { AmethystLowPassNode } from "@/nodes/LowPassNode";
 const dash = ref();
 const nodeEditor = ref();
 const fs = useFs();

@@ -2,12 +2,12 @@
 import Slider from "@/components/input/BaseSlider.vue";
 import CustomNode from "@/components/nodes/CustomNode.vue";
 import {FilterIcon} from "@/icons/material";
-import { AmethystLowPassNode } from "@/logic/audio";
+import { AmethystHighPassNode } from ".";
 import { percentToLog } from "@/logic/math";
 import { computed, ref, watch } from "vue";
 
-const props = defineProps<{ node: AmethystLowPassNode }>();
-const frequency = ref(100);
+const props = defineProps<{ node: AmethystHighPassNode }>();
+const frequency = ref(0);
 const Q = ref(props.node.audioNode.Q.value);
 const frequencyLog = computed(() => percentToLog(frequency.value, 20, 22050));
 
@@ -20,7 +20,7 @@ watch(() => Q.value, value => props.node.audioNode.Q.value = value);
 <template>
   <CustomNode
     :node="node"
-    title="Lowpass Filter"
+    title="Highpass Filter"
     :icon="FilterIcon"
   >
     <p class="font-aseprite">

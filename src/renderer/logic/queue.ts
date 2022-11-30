@@ -1,10 +1,10 @@
+import { Store } from "@/state";
 import PromisePool from "@supercharge/promise-pool";
 import { useLocalStorage } from "@vueuse/core";
 import { ref } from "vue";
 import { bytesToHuman, secondsToHuman } from "./formating";
 import { fisherYatesShuffle } from "./math";
 import { Track } from "./track";
-// import { ICommonTagsResult } from "music-metadata";
 
 export class Queue {
   private savedQueue = useLocalStorage<string[]>("queuev2", []);
@@ -68,11 +68,9 @@ export class Queue {
    * Fetches all async data for each track concurrently
    */
   public async fetchAsyncData(force?: boolean){
-    const { useState } = await import("@/amethyst");
-    
     return PromisePool
 			.for(force ? this.getList() : this.getList().filter(track => !track.isLoaded))
-			.withConcurrency(useState().settings.processingConcurrency || 3)
+			.withConcurrency(new Store().settings.processingConcurrency || 3)
 			.process(async track => {
         await track.fetchAsyncData(force);
         this.updateTotalSize();

@@ -4,6 +4,7 @@ import SettingsBinarySwitch from "@/components/settings/SettingsBinarySwitch.vue
 import SettingsCategorySplitter from "@/components/settings/SettingsCategorySplitter.vue";
 import SettingsModifier from "@/components/settings/SettingsModifier.vue";
 import Splitter from "@/components/SplitterLine.vue";
+import GeoxorLogo from "@/icons/GeoxorLogo.vue";
 const state = useState();
 
 </script>
@@ -137,12 +138,10 @@ const state = useState();
 
         <div class="flex-col flex gap-2">
           <splitter />
-          <div class="opacity-20 flex justify-between items-center">
-            Made by: <img
-              src="../geoxor_logo.svg"
-              class="h-2"
-              alt=""
-            >
+          <div class="flex w-full text-primary-1000 text-opacity-25 justify-between items-center">
+            Made by: <geoxor-logo 
+              class="h-2 w-min"
+            />
           </div>
         </div>
       </div>

@@ -18,8 +18,8 @@ const route = useRoute();
 
     <navigation-button
       :icon="ListIcon"
-      :active="route.name == 'queue-list'"
-      @click="router.push({ name: 'queue-list' })"
+      :active="route.name == 'queue'"
+      @click="router.push({ name: 'queue' })"
     />
 
     <!-- <navigation-button -->

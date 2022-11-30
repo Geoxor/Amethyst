@@ -1,25 +1,12 @@
 import { ElectronEventManager } from "@/electronEventManager";
 import { CPUUsageMonitor } from "@/logic/CPUUsageMonitor";
-import { player } from "@/logic/player";
+import { Player, player } from "@/logic/player";
 import { Track } from "@/logic/track";
 import { MediaSession } from "@/mediaSession";
 import { Shortcuts } from "@/shortcuts";
 import { Store } from "@/state";
 import { watch } from "vue";
 import { flattenArray } from "./logic/math";
-
-export const useFs = () => ({
-  save: async (data: string | NodeJS.ArrayBufferView) => {
-    const {canceled, filePath} = await useElectron().showSaveDialog();
-    if (canceled) return;
-    return window.fs.writeFile(filePath, data, {encoding: "utf8"});
-  },
-  open: async () => {
-    const {canceled, filePath} = await useElectron().openFileDialog();
-    if (canceled) return;
-    return window.fs.readFile(filePath);
-  }
-});
 
 export class Amethyst {
   public store: Store = new Store();
@@ -57,8 +44,6 @@ export class Amethyst {
       e.stopPropagation();
     });
 
-    player.on("*", console.log);
-
     player.on("play", track => {
       if (this.store.settings.useDiscordRichPresence) {
         this.updateRichPresence(track);
@@ -86,3 +71,28 @@ const amethyst = new Amethyst();
 export const useState = () => amethyst.store;
 export const useElectron = () => amethyst.electron;
 export const useShortcuts = () => amethyst.shortcuts;
+export const useFs = () => ({
+  save: async (data: string | NodeJS.ArrayBufferView) => {
+    const {canceled, filePath} = await useElectron().showSaveDialog();
+    if (canceled) return;
+    return window.fs.writeFile(filePath, data, {encoding: "utf8"});
+  },
+  open: async () => {
+    const {canceled, filePath} = await useElectron().openFileDialog();
+    if (canceled) return;
+    return window.fs.readFile(filePath);
+  }
+});
+
+// interface IPluginDefinitionParameters {
+//   store: Store, 
+//   electron: ElectronEventManager, 
+//   shortcuts: Shortcuts, 
+//   player: Player
+// }
+
+// export const definePlugin = (register: (options: IPluginDefinitionParameters) => any) => {
+//   const {store, electron, shortcuts} = amethyst;
+//   const plugin = register({store, electron, shortcuts, player});
+//   console.log(plugin);
+// };

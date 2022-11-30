@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AmethystLogo from "@/icons/AmethysLogo.vue";
+import AmethystLogo from "@/icons/AmethystLogo.vue";
 </script>
 
 <template>

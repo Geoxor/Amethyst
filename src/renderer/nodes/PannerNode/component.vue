@@ -2,7 +2,7 @@
 import Slider from "@/components/input/BaseSlider.vue";
 import CustomNode from "@/components/nodes/CustomNode.vue";
 import {AzimuthIcon} from "@/icons/material";
-import { AmethystPannerNode } from "@/logic/audio";
+import { AmethystPannerNode } from ".";
 import { ref, watch } from "vue";
 const props = defineProps<{ node: AmethystPannerNode }>();
 const pan = ref(props.node.audioNode.pan.value);

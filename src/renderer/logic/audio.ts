@@ -1,11 +1,6 @@
-import AnalyzerNode from "@/components/nodes/AnalyzerNode.vue";
-import GainNode from "@/components/nodes/GainNode.vue";
-import HighpassFilterNode from "@/components/nodes/HighpassFilterNode.vue";
 import InputNode from "@/components/nodes/InputNode.vue";
-import LowpassFilterNode from "@/components/nodes/LowpassFilterNode.vue";
 import MasterNode from "@/components/nodes/MasterNode.vue";
 import OutputNode from "@/components/nodes/OutputNode.vue";
-import PannerNode from "@/components/nodes/PannerNode.vue";
 import { Position } from "@vue-flow/core";
 import { v4 as uuid } from "uuid";
 import { DefineComponent, markRaw, ref } from "vue";
@@ -191,68 +186,4 @@ export class AmethystAudioNode<T extends AudioNode> {
   public reset(){
     throw new Error("Not implemented");
   };
-}
-
-export class AmethystLowPassNode extends AmethystAudioNode<BiquadFilterNode> {
-  public constructor(context: AudioContext, name: string, position: IAmethystNodeProperties["position"]) {
-    const filter = context.createBiquadFilter();
-    
-    filter.type = "lowpass";
-    filter.frequency.value = 22050;
-    filter.Q.value = -3;
-
-    super(filter, name, LowpassFilterNode, position);
-  }
-
-  public override reset(){
-    this.audioNode.frequency.value = 22050;
-    this.audioNode.gain.value = 0;
-  }
-}
-
-export class AmethystHighPassNode extends AmethystAudioNode<BiquadFilterNode> {
-  public constructor(context: AudioContext, name: string, position: IAmethystNodeProperties["position"]) {
-    const filter = context.createBiquadFilter().context.createBiquadFilter().context.createBiquadFilter().context.createBiquadFilter();
-    
-    filter.type = "highpass";
-    filter.frequency.value = 20;
-    filter.Q.value = -3;
-
-    super(filter, name, HighpassFilterNode, position);
-  }
-
-  public override reset(){
-    this.audioNode.frequency.value = 20;
-  }
-}
-
-export class AmethystSpectrumNode extends AmethystAudioNode<AudioNode> {
-  public constructor(context: AudioContext, name: string, position: IAmethystNodeProperties["position"]) {
-    super(context.createGain(), name, AnalyzerNode, position);
-  }
-
-  public reset(){};
-}
-
-export class AmethystPannerNode extends AmethystAudioNode<StereoPannerNode> {
-  public constructor(context: AudioContext, name: string, position: IAmethystNodeProperties["position"]) {
-    const panner = context.createStereoPanner();
-    panner.pan.value = 0;
-
-    super(panner, name, PannerNode, position);
-  }
-
-  public override reset() {
-    this.audioNode.pan.value = 0;
-  }
-}
-
-export class AmethystGainNode extends AmethystAudioNode<GainNode> {
-  public constructor(context: AudioContext, name: string, position: IAmethystNodeProperties["position"]) {
-    super(context.createGain(), name, GainNode, position);
-  }
-
-  public override reset() {
-    this.audioNode.gain.value = 1;
-  }
 }

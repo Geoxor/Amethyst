@@ -9,6 +9,7 @@ import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
 import { AudioFileIcon, BroomIcon, DiscordIcon, GitHubIcon, MusicFolderIcon, RestartIcon, ZoomInIcon, ZoomOutIcon, ZoomToExtentsIcon, InstallingUpdatesIcon, SettingsIcon, } from "@/icons/plumpy";
 import { useFps } from "@vueuse/core";
 import { player } from "@/logic/player";
+import AmethystLogo from "@/icons/AmethystLogo.vue";
 import { onMounted, ref } from "vue";
 const min = ref(1000);
 const max = ref(0);
@@ -35,10 +36,9 @@ const refreshWindow = () => location.reload();
   >
     <div class="flex no-drag h-full items-center">
       <div class="logo px-2.25 mr-0.5 cursor-heart-pointer">
-        <img
+        <amethyst-logo
           class="w-4 h-4 min-h-4 min-w-4"
-          src="../icon.svg"
-        >
+        />
       </div>
       <Menu title="File">
         <menu-option
