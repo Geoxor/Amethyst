@@ -12,7 +12,9 @@ jobs:
     name: Check for lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
       - uses: actions/setup-node@v2
         with:
           node-version: 16.10.0
@@ -31,7 +33,9 @@ jobs:
     name: Run unit tests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
       - uses: actions/setup-node@v2
         with:
           node-version: 16.10.0
@@ -52,7 +56,9 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
       - uses: actions/setup-node@v2
         with:
           node-version: 16.10.0
@@ -78,7 +84,7 @@ jobs:
   #   permissions:
   #     contents: write
   #   steps:
-  #     - uses: actions/checkout@v2
+  #     - uses: actions/checkout@v3
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 16.10.0
@@ -105,7 +111,7 @@ jobs:
   #   permissions:
   #     contents: write
   #   steps:
-  #     - uses: actions/checkout@v2
+  #     - uses: actions/checkout@v3
   #     - uses: actions/setup-node@v2
   #       with:
   #         node-version: 16.10.0

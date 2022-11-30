@@ -1,6 +1,6 @@
 import { ElectronEventManager } from "@/electronEventManager";
 import { CPUUsageMonitor } from "@/logic/CPUUsageMonitor";
-import { Player, player } from "@/logic/player";
+import { player } from "@/logic/player";
 import { Track } from "@/logic/track";
 import { MediaSession } from "@/mediaSession";
 import { Shortcuts } from "@/shortcuts";
