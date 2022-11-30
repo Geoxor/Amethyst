@@ -1,10 +1,10 @@
 import { ElectronEventManager } from "@/electronEventManager";
-import { AppState } from "@/state";
+import { Store } from "@/state";
 
 export class CPUUsageMonitor {
   public timer: NodeJS.Timer | undefined;
 
-  constructor(public state: AppState, public electron: ElectronEventManager) {
+  constructor(public state: Store, public electron: ElectronEventManager) {
     this.start();
   }
 

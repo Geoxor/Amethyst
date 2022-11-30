@@ -1,11 +1,11 @@
-import type { AppState } from "@/state";
+import type { Store } from "@/state";
 import { IMetadata } from "../main/metadata";
 
 export class ElectronEventManager {
   public ipc = window.electron.ipcRenderer;
   public APPDATA_PATH = "";
 
-  public constructor(public state: AppState["state"]) {
+  public constructor(public state: Store["state"]) {
     this.ipc.invoke<string>("get-appdata-path").then(path => this.APPDATA_PATH = path);
 
     // These are constant state syncs that get emitted on startup from the main process

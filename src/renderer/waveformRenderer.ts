@@ -16,15 +16,15 @@
 //     this.currentWorker = null;
 
 //     this.player.on("metadata", async metadata => {
-//       this.player.appState.state.processQueue.add(metadata.file);
+//       this.player.Store.state.processQueue.add(metadata.file);
 //       // TODO: refactor this system so amethyst automatically determines when processing has finished from child plugins
 //       await this.handlePlayAudio(metadata);
-//       this.player.appState.state.processQueue.delete(metadata.file);
+//       this.player.Store.state.processQueue.delete(metadata.file);
 //     });
 //   }
 
 //   private handlePlayAudio = async (metadata: { file: string } & IAudioMetadata) => {
-//     const existingRender = this.player.appState.state.waveformCache[metadata.file];
+//     const existingRender = this.player.Store.state.waveformCache[metadata.file];
 //     if (existingRender) return this.drawImage(existingRender);
 
 //     const currentSound = this.player.state.currentlyPlayingFilePath;
@@ -116,7 +116,7 @@
 //       this.currentWorker.postMessage({ canvas: offscreen, audioData }, [offscreen]);
 //       this.currentWorker.onmessage = ({ data }) => {
 //         this.drawImage(data);
-//         this.player.appState.state.waveformCache[filePath] = data;
+//         this.player.Store.state.waveformCache[filePath] = data;
 //         this.currentWorker = null;
 //         resolve();
 //       };
