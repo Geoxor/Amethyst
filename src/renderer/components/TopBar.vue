@@ -11,8 +11,8 @@ import { useFps } from "@vueuse/core";
 import { player } from "@/logic/player";
 import AmethystLogo from "@/icons/AmethystLogo.vue";
 import { onMounted, ref } from "vue";
-const min = ref(1000);
-const max = ref(0);
+const min = ref(Number.POSITIVE_INFINITY);
+const max = ref(Number.NEGATIVE_INFINITY);
 const fpsCounter = useFps({every: 60});
 const fps = ref(0);
 
@@ -155,12 +155,12 @@ const refreshWindow = () => location.reload();
       </Menu>
     </div>
 
-    <p>
+    <p class="absolute left-1/2 transform-gpu -translate-x-1/2">
       Amethyst v{{ state.state.version }}
     </p>
 
     <div class="flex gap-1.25 items-center overflow-hidden font-aseprite">
-      <div class="w-30 flex gap-1 justify-end">
+      <div class="w-40 flex gap-1 justify-end">
         <div 
           :class="[
             fps < 30 && 'text-red-500',
@@ -172,8 +172,8 @@ const refreshWindow = () => location.reload();
           {{ fps }}fps
         </div>
         <div
-          class="no-drag font-aseprite text-primary-900 text-opacity-50"
-          @click="min = 0; max = 0;"
+          class="hidden lg:inline no-drag font-aseprite text-primary-900 text-opacity-50"
+          @click="min = Number.POSITIVE_INFINITY; max = Number.NEGATIVE_INFINITY;"
         >
           <strong class="text-primary-900 text-opacity-25">min</strong> {{ min }} <strong class="text-primary-900 text-opacity-25">max</strong> {{ max }}
         </div>

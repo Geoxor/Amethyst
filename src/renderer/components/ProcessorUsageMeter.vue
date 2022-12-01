@@ -3,7 +3,7 @@ defineProps<{value: number; }>();
 </script>
 
 <template>
-  <div class=" flex justify-center relative items-center bg-surface-600 text-primary-800 w-12 h-3.5 box-content ">
+  <div class="flex justify-center relative items-center bg-surface-600 text-primary-800 duration-250 w-6 sm:w-12 h-3.5 box-content ">
     <p class="font-aseprite z-10">
       {{ value.toFixed(0) }}%
     </p>
