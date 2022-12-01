@@ -54,7 +54,7 @@
   "build": {
     "productName": "Amethyst",
     "appId": "org.Amethyst",
-    "asar": false,
+    "asar": true,
     "asarUnpack": "**\\*.{node,dll}",
     "fileAssociations": [
       {
