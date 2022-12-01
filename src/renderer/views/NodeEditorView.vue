@@ -75,8 +75,9 @@ const computeNodePosition = (x: number, y: number) => {
   return { x: -dashX + x , y: -dashY + y };
 };
 
-const handleContextMenu = ({y, x}: MouseEvent) => {
-  state.openContextMenuAt(x, y, [
+type Coords = {x: number, y: number};
+
+const nodeMenu = ({x, y}: Coords) => [
     {title: "Add AmethystLowPassNode", icon: FilterIcon, action: () => {
       player.nodeManager.addNode(new AmethystLowPassNode(player.nodeManager.context, "filter", computeNodePosition(x, y)));
     }},
@@ -92,7 +93,10 @@ const handleContextMenu = ({y, x}: MouseEvent) => {
     {title: "Add AmethystSpectrumNode", icon: WaveIcon, action: () => {
       player.nodeManager.addNode(new AmethystSpectrumNode(player.nodeManager.context, "spectrum", computeNodePosition(x, y)));
     }},
-  ]);
+  ];
+
+const handleContextMenu = ({y, x}: MouseEvent) => {
+  state.openContextMenuAt(x, y, nodeMenu({x, y}));
 };
 
 const handleEdgeContextMenu = (e: EdgeMouseEvent) => {
@@ -102,21 +106,7 @@ const handleEdgeContextMenu = (e: EdgeMouseEvent) => {
   const {x, y} = e.event;
   state.openContextMenuAt(x, y, [
     {title: "Remove connection", icon: FilterIcon, action: () => sourceNode.disconnectFrom(targetNode)},
-    {title: "Add AmethystLowPassNode", icon: FilterIcon, action: () => {
-      player.nodeManager.addNode(new AmethystLowPassNode(player.nodeManager.context, "filter", computeNodePosition(x, y)), [sourceNode, targetNode]);
-    }},
-    {title: "Add AmethystHighPassNode", icon: FilterIcon, action: () => {
-      player.nodeManager.addNode(new AmethystHighPassNode(player.nodeManager.context, "filter", computeNodePosition(x, y)), [sourceNode, targetNode]);
-    }},
-    {title: "Add AmethystPannerNode", icon: AzimuthIcon, action: () => {
-      player.nodeManager.addNode(new AmethystPannerNode(player.nodeManager.context, "panner", computeNodePosition(x, y)), [sourceNode, targetNode]);
-    }},
-    {title: "Add AmethystGainNode", icon: AdjustIcon, action: () => {
-      player.nodeManager.addNode(new AmethystGainNode(player.nodeManager.context, "gain", computeNodePosition(x, y)), [sourceNode, targetNode]);
-    }},
-    {title: "Add AmethystSpectrumNode", icon: WaveIcon, action: () => {
-      player.nodeManager.addNode(new AmethystSpectrumNode(player.nodeManager.context, "spectrum", computeNodePosition(x, y)), [sourceNode, targetNode]);
-    }},
+    ...nodeMenu({x, y}),
   ]);
 };
 
