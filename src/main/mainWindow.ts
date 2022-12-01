@@ -101,7 +101,6 @@ export class MainWindow {
 	}
 
 	private resolveHTMLPath(htmlFileName: string) {
-		console.log(`file://${path.resolve(app.getAppPath(), "../renderer", htmlFileName + ".html")}`);
     if (process.env.NODE_ENV === "development") {
         const url = new URL(`http://localhost:${1337}`);
 				url.pathname = htmlFileName;
@@ -109,9 +108,7 @@ export class MainWindow {
     }
 		
     else {
-			// C:\Users\Geoxor\AppData\Local\Programs\amethyst\resources\app\release\dist\renderer
-			// C:/Users/Geoxor/AppData/Local/Programs/amethyst/resources/app/release/dist/main/main/src/renderer/index.html
-        return `file://${path.resolve(app.getAppPath(), "../app/release/dist/renderer", htmlFileName + ".html")}`;
+      return `file://${path.resolve(app.getAppPath(), "../app/release/dist/renderer", htmlFileName + ".html")}`;
     }
 }
 
