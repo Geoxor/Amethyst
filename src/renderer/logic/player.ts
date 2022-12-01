@@ -4,7 +4,7 @@ import { useLocalStorage } from "@vueuse/core";
 import { ref } from "vue";
 import { AmethystAudioNodeManager } from "./audio";
 import { EventEmitter } from "./eventEmitter";
-import { secondsToColinHuman, secondsToHuman } from "./formating";
+import { secondsToColinHuman, secondsToHuman } from "../../shared/formating";
 
 export enum LoopMode {
 	None,

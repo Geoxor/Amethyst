@@ -1,12 +1,6 @@
 import fs from "fs";
 import * as mm from "music-metadata/lib/core";
-import { ICommonTagsResult, IFormat } from "music-metadata/lib/type";
-
-export interface IMetadata {
-	format: IFormat;
-	common: ICommonTagsResult & {[key: string]: any};
-	size: number;
-}
+import { IMetadata } from "../shared/types";
 
 export class Metadata {
 	public static async getMetadata(path?: string): Promise<IMetadata | undefined> {

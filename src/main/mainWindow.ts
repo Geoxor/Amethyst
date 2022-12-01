@@ -4,14 +4,13 @@ import os from "os";
 import path from "path";
 import { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
 import { Discord, FormatIcons } from "../../plugins/amethyst.discord";
+import {ALLOWED_AUDIO_EXTENSIONS} from "../shared/constants";
 import { IS_DEV } from "./main";
-import packageJson from "../../package.json";
 
 export const APP_VERSION = app.isPackaged ? app.getVersion() : process.env.npm_package_version ?? "0.0.0";
 export const METADATA_CACHE_PATH = path.join(app.getPath("appData"), "/amethyst/Metadata Cache");
 export const TOTAL_CORES = os.cpus().length;
 export const RESOURCES_PATH = path.join(__dirname, "../".repeat(+app.isPackaged * 2 + 2), "assets");
-export const ALLOWED_EXTENSIONS = packageJson.build.fileAssociations.map(association => association.ext);
 
 fs.statSync(METADATA_CACHE_PATH) || fs.promises.mkdir(METADATA_CACHE_PATH);
 
@@ -102,13 +101,17 @@ export class MainWindow {
 	}
 
 	private resolveHTMLPath(htmlFileName: string) {
+		console.log(`file://${path.resolve(app.getAppPath(), "../renderer", htmlFileName + ".html")}`);
     if (process.env.NODE_ENV === "development") {
         const url = new URL(`http://localhost:${1337}`);
 				url.pathname = htmlFileName;
         return url.href;
     }
+		
     else {
-        return `file://${path.resolve(__dirname, "../renderer/", htmlFileName + ".html")}`;
+			// C:\Users\Geoxor\AppData\Local\Programs\amethyst\resources\app\release\dist\renderer
+			// C:/Users/Geoxor/AppData/Local/Programs/amethyst/resources/app/release/dist/main/main/src/renderer/index.html
+        return `file://${path.resolve(app.getAppPath(), "../app/release/dist/renderer", htmlFileName + ".html")}`;
     }
 }
 
@@ -160,14 +163,14 @@ export class MainWindow {
 			if (process.argv[1])
 				this.playAudio(process.argv[1]);
 
-			this.window.webContents.send("default-cover", await fs.promises.readFile(
-				path.join(RESOURCES_PATH, "/images/audio.png"),
-			));
+			// this.window.webContents.send("default-cover", await fs.promises.readFile(
+			// 	path.join(RESOURCES_PATH, "/images/audio.png"),
+			// ));
 			this.window.webContents.send(
 				"version",
 				APP_VERSION + (IS_DEV ? " dev" : ""),
 			);
-			this.window.webContents.send("acceptable-extensions", ALLOWED_EXTENSIONS);
+			this.window.webContents.send("acceptable-extensions", ALLOWED_AUDIO_EXTENSIONS);
 		});
 		// Open urls in the user's browser
 		this.window.webContents.setWindowOpenHandler(data => {
@@ -190,7 +193,7 @@ export class MainWindow {
 							const stats = await fs.promises.stat(filePath);
 							if (stats.isDirectory())
 								return this.loadFolder(filePath);
-							else if (stats.isFile() && ALLOWED_EXTENSIONS.includes(path.extname(filePath).slice(1)))
+							else if (stats.isFile() && ALLOWED_AUDIO_EXTENSIONS.includes(path.extname(filePath).slice(1)))
 								return filePath;
 						}),
 					).then(files => resolve(files.filter(file => !!file)));
@@ -215,7 +218,7 @@ export class MainWindow {
 				const response = await dialog.showOpenDialog({
 					properties: ["openFile"],
 					filters: [
-						{ name: "Audio", extensions: ALLOWED_EXTENSIONS },
+						{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS },
 					],
 				});
 

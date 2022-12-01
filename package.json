@@ -2,7 +2,7 @@
   "name": "amethyst",
   "author": "Geoxor <geoxor123@outlook.com>",
   "productName": "Amethyst",
-  "version": "1.8.17",
+  "version": "1.8.18",
   "main": "./release/dist/main/src/main/main.js",
   "licenses": [
     {
@@ -54,7 +54,7 @@
   "build": {
     "productName": "Amethyst",
     "appId": "org.Amethyst",
-    "asar": true,
+    "asar": false,
     "asarUnpack": "**\\*.{node,dll}",
     "fileAssociations": [
       {

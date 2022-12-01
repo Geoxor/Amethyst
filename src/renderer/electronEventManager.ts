@@ -1,6 +1,5 @@
 import type { Store } from "@/state";
-import { IMetadata } from "../main/metadata";
-
+import { IMetadata } from "../shared/types";
 export class ElectronEventManager {
   public ipc = window.electron.ipcRenderer;
   public APPDATA_PATH = "";
@@ -10,7 +9,6 @@ export class ElectronEventManager {
 
     // These are constant state syncs that get emitted on startup from the main process
     this.ipc.on<string>("version", version => state.version = version);
-    this.ipc.on<string[]>("allowed-extensions", allowedExtensions => state.allowedExtensions = allowedExtensions);
     this.ipc.on<Buffer>("default-cover", image => state.defaultCover = URL.createObjectURL(new Blob([image], { type: "image/png" })));
 
     // These are state syncs that get emitted on every state change
@@ -44,7 +42,7 @@ export class ElectronEventManager {
   public close = () => this.requestWindowStateChange("close");
 
   public logPrint = (messages: any[]) => this.ipc.invoke("log-print", [messages]);
-  
+
   public logError = (messages: any[]) => this.ipc.invoke("log-error", [messages]);
 
   public getCpuUsage = () => this.ipc.invoke("percent-cpu-usage");
@@ -54,13 +52,13 @@ export class ElectronEventManager {
   public openFolderDialog = () => this.ipc.invoke("open-folder-dialog");
 
   public showSaveDialog = () => this.ipc.invoke<{canceled: boolean, filePath: string}>("show-save-dialog");
-  
+
   public dropFiles = (paths: string[]) => this.ipc.invoke("drop-file", [paths]);
 
   public checkForUpdates = () => this.ipc.invoke("check-for-updates");
 
   public testNotification = (name: string) => this.ipc.invoke("test-notification",[name]);
-  
+
   public open = (url: string) => this.ipc.invoke("open-external", [url]);
 
   public getCover = (path: string) => this.ipc.invoke<string>("get-cover", [path]);
@@ -71,5 +69,5 @@ export class ElectronEventManager {
   public clearRichPresence = () => this.ipc.invoke("clear-rich-presence");
 
   public showDevTools = () => this.ipc.invoke("dev-tools");
-  
+
 }

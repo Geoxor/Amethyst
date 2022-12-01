@@ -1,26 +1,13 @@
-import { IMetadata } from "src/main/metadata";
 import { ref } from "vue";
 import { useElectron } from "../amethyst";
-import { bytesToHuman, secondsToColinHuman, secondsToHuman } from "./formating";
-
-export enum LoadStatus {
-  Loading,
-  Loaded
-}
-
-export type LoadState<T> = {
-  state: LoadStatus.Loading,
-  data: undefined
-} | {
-  state: LoadStatus.Loaded,
-  data: T
-};
+import { bytesToHuman, secondsToColinHuman, secondsToHuman } from "../../shared/formating";
+import { ALLOWED_AUDIO_EXTENSIONS } from "../../shared/constants";
+import { IMetadata, LoadState, LoadStatus } from "../../shared/types";
 
 /**
  * Each playable audio file is an instance of this class
  */
 export class Track {
-  public static ALLOWED_EXTENSIONS = ["ogg", "ogv", "oga", "ogx", "ogm", "spx", "opus", "wav", "wave", "m4a", "m4b", "m4p", "m4r", "m4v", "3gp", "flac", "opus", "aac", "aiff", "mp3", "m4a"];
   public metadata: LoadState<IMetadata> = { state: LoadStatus.Loading, data: undefined };
   public cover: { state: LoadStatus, data: string | undefined } = { state: LoadStatus.Loading, data: undefined };
   public isLoading = ref(false);
@@ -28,8 +15,8 @@ export class Track {
   public hasErrored = ref(false);
 
   public constructor(public path: string) {
-    if (!Track.ALLOWED_EXTENSIONS.some(ext => path.endsWith(ext)))
-      throw new Error(`Given file extension does not match any of the allowed types [${Track.ALLOWED_EXTENSIONS.join(", ")}]`);
+    if (!ALLOWED_AUDIO_EXTENSIONS.some(ext => path.endsWith(ext)))
+      throw new Error(`Given file extension does not match any of the allowed types [${ALLOWED_AUDIO_EXTENSIONS.join(", ")}]`);
   }
 
   private getCachePath() {
