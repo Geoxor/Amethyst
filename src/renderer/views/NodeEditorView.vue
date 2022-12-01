@@ -9,6 +9,7 @@ import { onKeyStroke } from "@vueuse/core";
 import { computed, onMounted, ref } from "vue";
 import { player } from "@/logic/player";
 import { AmethystPannerNode, AmethystGainNode, AmethystSpectrumNode, AmethystHighPassNode, AmethystLowPassNode } from "@/nodes";
+import { Coords } from "../../shared/types";
 const dash = ref();
 const nodeEditor = ref();
 const fs = useFs();
@@ -70,33 +71,31 @@ const getDashCoords = () => {
   };
 };
 
-const computeNodePosition = (x: number, y: number) => {
+const computeNodePosition = ({x, y}: Coords) => {
   const {x: dashX, y: dashY} = getDashCoords();
   return { x: -dashX + x , y: -dashY + y };
 };
 
-type Coords = {x: number, y: number};
-
 const nodeMenu = ({x, y}: Coords) => [
     {title: "Add AmethystLowPassNode", icon: FilterIcon, action: () => {
-      player.nodeManager.addNode(new AmethystLowPassNode(player.nodeManager.context, "filter", computeNodePosition(x, y)));
+      player.nodeManager.addNode(new AmethystLowPassNode(player.nodeManager.context, "filter", computeNodePosition({x, y})));
     }},
     {title: "Add AmethystHighPassNode", icon: FilterIcon, action: () => {
-      player.nodeManager.addNode(new AmethystHighPassNode(player.nodeManager.context, "filter", computeNodePosition(x, y)));
+      player.nodeManager.addNode(new AmethystHighPassNode(player.nodeManager.context, "filter", computeNodePosition({x, y})));
     }},
     {title: "Add AmethystPannerNode", icon: AzimuthIcon, action: () => {
-      player.nodeManager.addNode(new AmethystPannerNode(player.nodeManager.context, "panner", computeNodePosition(x, y)));
+      player.nodeManager.addNode(new AmethystPannerNode(player.nodeManager.context, "panner", computeNodePosition({x, y})));
     }},
     {title: "Add AmethystGainNode", icon: AdjustIcon, action: () => {
-      player.nodeManager.addNode(new AmethystGainNode(player.nodeManager.context, "gain", computeNodePosition(x, y)));
+      player.nodeManager.addNode(new AmethystGainNode(player.nodeManager.context, "gain", computeNodePosition({x, y})));
     }},
     {title: "Add AmethystSpectrumNode", icon: WaveIcon, action: () => {
-      player.nodeManager.addNode(new AmethystSpectrumNode(player.nodeManager.context, "spectrum", computeNodePosition(x, y)));
+      player.nodeManager.addNode(new AmethystSpectrumNode(player.nodeManager.context, "spectrum", computeNodePosition({x, y})));
     }},
   ];
 
 const handleContextMenu = ({y, x}: MouseEvent) => {
-  state.openContextMenuAt(x, y, nodeMenu({x, y}));
+  state.openContextMenuAt({x, y}, nodeMenu({x, y}));
 };
 
 const handleEdgeContextMenu = (e: EdgeMouseEvent) => {
@@ -104,7 +103,7 @@ const handleEdgeContextMenu = (e: EdgeMouseEvent) => {
   const targetNode = player.nodeManager.nodes.find(node => node.properties.id === e.edge.target)!;
 
   const {x, y} = e.event;
-  state.openContextMenuAt(x, y, [
+  state.openContextMenuAt({x, y}, [
     {title: "Remove connection", icon: FilterIcon, action: () => sourceNode.disconnectFrom(targetNode)},
     ...nodeMenu({x, y}),
   ]);

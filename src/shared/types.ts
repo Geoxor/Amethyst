@@ -5,6 +5,8 @@ export enum LoadStatus {
   Loaded
 }
 
+export type Coords = {x: number, y: number};
+
 export type LoadState<T> = {
   state: LoadStatus.Loading,
   data: undefined
