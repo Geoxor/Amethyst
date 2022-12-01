@@ -5,7 +5,7 @@ import { Position } from "@vue-flow/core";
 import { v4 as uuid } from "uuid";
 import { DefineComponent, markRaw, ref } from "vue";
 import { player } from "@/logic/player";
-import { Coords } from "../../shared/types";
+import { Coords } from "@shared/types";
 
 export interface IAmethystNodeProperties {
   name: string,

@@ -9,7 +9,9 @@ import { onKeyStroke } from "@vueuse/core";
 import { computed, onMounted, ref } from "vue";
 import { player } from "@/logic/player";
 import { AmethystPannerNode, AmethystGainNode, AmethystSpectrumNode, AmethystHighPassNode, AmethystLowPassNode } from "@/nodes";
-import { Coords } from "../../shared/types";
+import { Coords } from "@shared/types";
+import { useContextMenu } from "@/components/ContextMenu";
+
 const dash = ref();
 const nodeEditor = ref();
 const fs = useFs();
@@ -95,7 +97,7 @@ const nodeMenu = ({x, y}: Coords) => [
   ];
 
 const handleContextMenu = ({y, x}: MouseEvent) => {
-  state.openContextMenuAt({x, y}, nodeMenu({x, y}));
+  useContextMenu().open({x, y}, nodeMenu({x, y}));
 };
 
 const handleEdgeContextMenu = (e: EdgeMouseEvent) => {
@@ -103,7 +105,7 @@ const handleEdgeContextMenu = (e: EdgeMouseEvent) => {
   const targetNode = player.nodeManager.nodes.find(node => node.properties.id === e.edge.target)!;
 
   const {x, y} = e.event;
-  state.openContextMenuAt({x, y}, [
+  useContextMenu().open({x, y}, [
     {title: "Remove connection", icon: FilterIcon, action: () => sourceNode.disconnectFrom(targetNode)},
     ...nodeMenu({x, y}),
   ]);

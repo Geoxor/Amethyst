@@ -5,6 +5,7 @@ import BaseChip from "@/components/BaseChip.vue";
 import { BroomIcon, PlayIcon, ExternalLinkIcon, RestartIcon, LoadingIcon, ErrorIcon } from "@/icons/plumpy";
 import Cover from "@/components/CoverArt.vue";
 import { player } from "@/logic/player";
+import { useContextMenu } from "@/components/ContextMenu";
 
 defineProps<{tracks: Track[]}>();
 const state = useState();
@@ -12,8 +13,8 @@ const isHoldingControl = useShortcuts().isControlPressed;
 const invoke = window.electron.ipcRenderer.invoke;
 
 // Context Menu options for this component 
-const handleContextMenu = (e: MouseEvent, track: Track) => {
-  state.openContextMenuAt(e.x, e.y, [
+const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
+  useContextMenu().open({x, y}, [
     { title: "Play", icon: PlayIcon, action: () => player.play(track) },
     { title: "Open in Explorer...", icon: ExternalLinkIcon, action: () => invoke("show-item", [track.path]) },
     { title: "Render cover art", icon: RestartIcon, action: () => track.path },

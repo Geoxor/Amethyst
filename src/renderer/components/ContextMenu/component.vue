@@ -1,24 +1,24 @@
 <script setup lang="ts">
-import { useState } from "@/amethyst";
 import MenuOption from "@/components/menu/MenuOption.vue";
 import { IContextMenuOption } from "@/state";
 import { onClickOutside } from "@vueuse/core";
 import { onMounted, ref, watch } from "vue";
-const state = useState();
-const contextMenu = ref<HTMLElement>();
-onClickOutside(contextMenu, () => state.state.contextMenu.isVisible = false);
+import { useContextMenu } from ".";
+const menu = ref<HTMLElement>();
+const contextMenu = useContextMenu();
+onClickOutside(menu, () => contextMenu.state.isVisible = false);
 onMounted(() => updatePositon());
-watch(() => state.state.contextMenu.position.x, () => updatePositon());
+watch(() => contextMenu.state.position.x, () => updatePositon());
 
 const runAction = (option: IContextMenuOption) => {
   option.action();
-  state.state.contextMenu.isVisible = false;
+  contextMenu.state.isVisible = false;
 };
 
 const updatePositon = () => {
-  contextMenu.value && Object.assign(contextMenu.value.style, {
-    left: `${state.state.contextMenu.position.x}px`,
-    top: `${state.state.contextMenu.position.y}px`,
+  menu.value && Object.assign(menu.value.style, {
+    left: `${contextMenu.state.position.x}px`,
+    top: `${contextMenu.state.position.y}px`,
   });
 };
 
@@ -27,13 +27,13 @@ const updatePositon = () => {
 <template>
   <div
     id="contextMenu"
-    ref="contextMenu"
+    ref="menu"
     role="contextMenu"
     class="absolute text-primary-900 py-1 shadow-xl border-1 border-surface-600 bg-surface-800 z-100"
   >
     <ul class="flex flex-col min-w-48">
       <menu-option
-        v-for="option of state.state.contextMenu.options"
+        v-for="option of contextMenu.state.options"
         :key="option.title"
         :icon="option.icon"
         :title="option.title"

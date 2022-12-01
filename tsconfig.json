@@ -18,6 +18,9 @@
       "@/*": [
         "./src/renderer/*"
       ],
+      "@shared/*": [
+        "./src/shared/*"
+      ],
       // more path aliases here
     },
     "sourceMap": true,

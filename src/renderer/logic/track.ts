@@ -1,8 +1,8 @@
 import { ref } from "vue";
 import { useElectron } from "../amethyst";
-import { bytesToHuman, secondsToColinHuman, secondsToHuman } from "../../shared/formating";
-import { ALLOWED_AUDIO_EXTENSIONS } from "../../shared/constants";
-import { IMetadata, LoadState, LoadStatus } from "../../shared/types";
+import { bytesToHuman, secondsToColinHuman, secondsToHuman } from "@shared/formating";
+import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
+import { IMetadata, LoadState, LoadStatus } from "@shared/types";
 
 /**
  * Each playable audio file is an instance of this class

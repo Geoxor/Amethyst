@@ -2,7 +2,7 @@ import { Store } from "@/state";
 import PromisePool from "@supercharge/promise-pool";
 import { useLocalStorage } from "@vueuse/core";
 import { ref } from "vue";
-import { bytesToHuman, secondsToHuman } from "../../shared/formating";
+import { bytesToHuman, secondsToHuman } from "@shared/formating";
 import { fisherYatesShuffle } from "./math";
 import { Track } from "./track";
 

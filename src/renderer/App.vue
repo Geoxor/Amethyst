@@ -2,14 +2,13 @@
 import { useState } from "@/amethyst";
 import TopBar from "@/components/TopBar.vue";
 
-import ContextMenu from "@/components/input/ContextMenu.vue";
 import SettingsBar from "@/components/SettingsBar.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import NavigationBar from "@/components/NavigationBar.vue";
 import PlaybackButtons from "@/components/PlaybackButtons.vue";
 import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 import CoverArt from "@/components/CoverArt.vue";
-
+import { ContextMenu, useContextMenu } from "@/components/ContextMenu";
 import {HideIcon} from "@/icons/plumpy";
 import {SpectrumAnalyzer} from "@/components/visualizers/SpectrumAnalyzer";
 import { onMounted, onUnmounted, ref } from "vue";
@@ -57,7 +56,7 @@ onUnmounted(() => {
       />
     </div>
     <top-bar />
-    <context-menu v-if="state.state.contextMenu.isVisible" />
+    <context-menu v-if="useContextMenu().state.isVisible" />
     <div class="h-full whitespace-nowrap flex flex-col justify-between overflow-hidden">
       <div class="flex-1 flex h-full max-h-full overflow-hidden">
         <navigation-bar />
@@ -71,7 +70,7 @@ onUnmounted(() => {
           :key="player.nodeManager.getNodeConnectinsString()"
           :node="player.nodeManager.master.audioNode"
           :channels="player.getCurrentTrack()?.getChannels() || 2"
-          @contextmenu="state.openContextMenuAt($event.x, $event.y, [
+          @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide dB Meter', icon: HideIcon, action: () => state.settings.showDbMeter = false },
           ]);"
         />
@@ -80,7 +79,7 @@ onUnmounted(() => {
           v-if="state.settings.showVectorscope && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
           :node="player.nodeManager.master.audioNode"
-          @contextmenu="state.openContextMenuAt($event.x, $event.y, [
+          @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide Vectorscope', icon: HideIcon, action: () => state.settings.showVectorscope = false },
           ]);"
         />
@@ -92,7 +91,7 @@ onUnmounted(() => {
           :key="player.nodeManager.getNodeConnectinsString()"
           class="h-76px w-152px min-h-76px min-w-152px"
           :node="player.nodeManager.master.audioNode"
-          @contextmenu="state.openContextMenuAt($event.x, $event.y, [
+          @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide Spectrum', icon: HideIcon, action: () => state.settings.showSpectrum = false },
           ]);"
         />

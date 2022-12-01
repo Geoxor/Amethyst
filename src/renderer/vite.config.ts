@@ -17,11 +17,12 @@ export default defineConfig({
 			provider: "istanbul" // or 'c8'
 		},
 		reporters: ["verbose"],
-		environment: "happy-dom"
+		environment: "happy-dom",
 	},
 	resolve: {
 		alias: {
 			"@/": `${join(PACKAGE_ROOT, "./")}/`,
+			"@shared/": `${join(PACKAGE_ROOT, "../shared")}/`,
 		},
 	},
 	plugins: [
