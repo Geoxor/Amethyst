@@ -108,7 +108,7 @@ export class MainWindow {
     }
 		
     else {
-      return `file://${path.resolve(app.getAppPath(), "../app/release/dist/renderer", htmlFileName + ".html")}`;
+			return `file://${path.resolve(__dirname, "../renderer/", htmlFileName + ".html")}`;
     }
 }
 
