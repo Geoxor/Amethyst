@@ -3,7 +3,7 @@
   "author": "Geoxor <geoxor123@outlook.com>",
   "productName": "Amethyst",
   "version": "1.8.19",
-  "main": "./release/dist/main/src/main/main.js",
+  "main": "./release/dist/main/main/main.js",
   "licenses": [
     {
       "type": "MIT",
@@ -54,7 +54,7 @@
   "build": {
     "productName": "Amethyst",
     "appId": "org.Amethyst",
-    "asar": true,
+    "asar": false,
     "asarUnpack": "**\\*.{node,dll}",
     "fileAssociations": [
       {
@@ -97,10 +97,6 @@
       },
       {
         "ext": "spx",
-        "icon": "./assets/images/audio.ico"
-      },
-      {
-        "ext": "opus",
         "icon": "./assets/images/audio.ico"
       },
       {

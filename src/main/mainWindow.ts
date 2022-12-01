@@ -3,7 +3,7 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
-import { Discord, FormatIcons } from "../../plugins/amethyst.discord";
+import { Discord, FormatIcons } from "../plugins/amethyst.discord";
 import {ALLOWED_AUDIO_EXTENSIONS} from "../shared/constants";
 import { IS_DEV } from "./main";
 
