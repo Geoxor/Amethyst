@@ -10,7 +10,8 @@ vi.stubGlobal("electron", electron);
 vi.stubGlobal("fs", fs);
 vi.stubGlobal("path", path);
 
-import { LoadStatus, Track } from "../logic/track";
+import { Track } from "../logic/track";
+import { LoadStatus } from "../../shared/types";
 
 describe.concurrent("class Track", () => {
   let track: Track; 
