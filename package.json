@@ -58,10 +58,10 @@
     "asarUnpack": "**\\*.{node,dll}",
     "fileAssociations": [
       {
-        "ext": "ant",
-        "icon": "./assets/images/ant.ico",
-        "name": "Amethyst Node Table",
-        "description": "Amethyst Node Table"
+        "ext": "ang",
+        "icon": "./assets/images/ang.ico",
+        "name": "Amethyst Node Graph",
+        "description": "Amethyst Node Graph"
       },
       {
         "ext": "acf",

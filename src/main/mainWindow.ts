@@ -238,7 +238,7 @@ export class MainWindow {
 			},
 
 			"show-save-dialog": () => dialog.showSaveDialog({filters: [
-				{ name: "Amethyst Node Table", extensions: ["ant"] },
+				{ name: "Amethyst Node Graph", extensions: ["ang"] },
 			]}),
 			
 			"dev-tools": () => {
