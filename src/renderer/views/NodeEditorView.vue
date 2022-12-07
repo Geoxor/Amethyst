@@ -88,17 +88,17 @@ const computeNodePosition = ({x, y}: Coords) => {
 };
 
 const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
-  {title: "Add AmethystFilterNode", icon: FilterIcon, action: () => {
-    player.nodeManager.addNode(new AmethystFilterNode(player.nodeManager.context, "filter", computeNodePosition({x, y})), source && target && [source, target]);
+  {title: "Add FilterNode", icon: FilterIcon, action: () => {
+    player.nodeManager.addNode(new AmethystFilterNode(player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
   }},
-  {title: "Add AmethystPannerNode", icon: AzimuthIcon, action: () => {
-    player.nodeManager.addNode(new AmethystPannerNode(player.nodeManager.context, "panner", computeNodePosition({x, y})), source && target && [source, target]);
+  {title: "Add PannerNode", icon: AzimuthIcon, action: () => {
+    player.nodeManager.addNode(new AmethystPannerNode(player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
   }},
-  {title: "Add AmethystGainNode", icon: AdjustIcon, action: () => {
-    player.nodeManager.addNode(new AmethystGainNode(player.nodeManager.context, "gain", computeNodePosition({x, y})), source && target && [source, target]);
+  {title: "Add GainNode", icon: AdjustIcon, action: () => {
+    player.nodeManager.addNode(new AmethystGainNode(player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
   }},
   {title: "Add AmethystSpectrumNode", icon: WaveIcon, action: () => {
-    player.nodeManager.addNode(new AmethystSpectrumNode(player.nodeManager.context, "spectrum", computeNodePosition({x, y})), source && target && [source, target]);
+    player.nodeManager.addNode(new AmethystSpectrumNode(player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
   }},
 ];
 
@@ -107,8 +107,8 @@ const handleContextMenu = ({y, x}: MouseEvent) => {
 };
 
 const handleEdgeContextMenu = (e: EdgeMouseEvent) => {
-  const source = player.nodeManager.nodes.find(node => node.properties.id === e.edge.source)!;
-  const target = player.nodeManager.nodes.find(node => node.properties.id === e.edge.target)!;
+  const source = player.nodeManager.nodes.value.find(node => node.properties.id === e.edge.source)!;
+  const target = player.nodeManager.nodes.value.find(node => node.properties.id === e.edge.target)!;
 
   const {x, y} = e.event;
   useContextMenu().open({x, y}, [
@@ -118,22 +118,27 @@ const handleEdgeContextMenu = (e: EdgeMouseEvent) => {
 };
 
 const handleNodeDragStop = (e: NodeDragEvent) => {
-  player.nodeManager.nodes.find(node => node.properties.id === e.node.id)?.updatePosition(e.node.position);
+  player.nodeManager.nodes.value.find(node => node.properties.id === e.node.id)?.updatePosition(e.node.position);
 };
 
 const handleConnect = (e: Connection) => {
-  const from = player.nodeManager.nodes.find(node => node.properties.id === e.source);
-  const to = player.nodeManager.nodes.find(node => node.properties.id === e.target);
+  const from = player.nodeManager.nodes.value.find(node => node.properties.id === e.source);
+  const to = player.nodeManager.nodes.value.find(node => node.properties.id === e.target);
 
   if (from && to) {
     from.connectTo(to);
   }
 };
 
+const handleOpenFile = async () => {
+  const file = await fs.open();
+  file && player.nodeManager.loadGraph(JSON.parse(file.toString("utf8")));
+};
+
 const fitToView = () => dash.value.fitView();
 onKeyStroke("Delete", () => {
   dash.value.getSelectedNodes.forEach((nodeElement: any) => {
-    const node = player.nodeManager.nodes
+    const node = player.nodeManager.nodes.value
       .find(node => node.properties.id === nodeElement.id);
 
     node && player.nodeManager.removeNode(node);
@@ -149,10 +154,10 @@ onKeyStroke("Delete", () => {
     <div
       class="flex flex-col gap-2 absolute bottom-2 right-2 z-10 "
     >
-      <!-- <SquareButton
+      <SquareButton
         :icon="SaveIcon"
-        @click="fs.open().then()"
-      /> -->
+        @click="handleOpenFile"
+      />
       <SquareButton
         :icon="SaveIcon"
         @click="fs.save(player.nodeManager.serialize())"
@@ -189,7 +194,7 @@ onKeyStroke("Delete", () => {
       />
 
       <template
-        v-for="node of player.nodeManager.nodes"
+        v-for="node of player.nodeManager.nodes.value"
         :key="node.properties.id"
         #[node.getSlotName()]
       >

@@ -220,11 +220,19 @@ export class MainWindow {
 					properties: ["openFile"],
 					filters: [
 						{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS },
+						{ name: "Amethyst Node Graph", extensions: ["ang"]}
 					],
 				});
 
+				const file = response.filePaths[0];
+
+				// TODO: fix these returns types being incosistent 
+				if (file.endsWith(".ang")) {
+					return {canceled: response.canceled, filePath: file};
+				}
+
 				if (!response.canceled)
-					this.playAudio(response.filePaths[0]);
+					return this.playAudio(file);
 			},
 
 			"open-external": async (_: Event, [path]: string[]) => {

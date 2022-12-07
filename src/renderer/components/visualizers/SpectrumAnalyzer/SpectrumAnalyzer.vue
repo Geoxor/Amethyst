@@ -105,6 +105,8 @@ onMounted(async () => {
   const context = props.node.context;
   const analyser = context.createAnalyser();
   const gain = context.createGain();
+  console.log(props.node);
+  
 	props.node.connect(gain);
   gain.gain.value = 24;
 	gain.connect(analyser);

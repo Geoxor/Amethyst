@@ -2,7 +2,7 @@ import { Queue } from "@/logic/queue";
 import { Track } from "@/logic/track";
 import { useLocalStorage } from "@vueuse/core";
 import { ref } from "vue";
-import { AmethystAudioNodeManager } from "./audio";
+import { AmethystAudioNodeManager } from "./audioManager";
 import { EventEmitter } from "./eventEmitter";
 import { secondsToColinHuman, secondsToHuman } from "@shared/formating";
 

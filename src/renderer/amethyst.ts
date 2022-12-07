@@ -7,6 +7,7 @@ import { Shortcuts } from "@/shortcuts";
 import { Store } from "@/state";
 import { watch } from "vue";
 import { flattenArray } from "./logic/math";
+import {Buffer} from "buffer";
 
 export class Amethyst {
   public store: Store = new Store();
@@ -80,7 +81,7 @@ export const useFs = () => ({
   open: async () => {
     const {canceled, filePath} = await useElectron().openFileDialog();
     if (canceled) return;
-    return window.fs.readFile(filePath);
+    return Buffer.from(await window.fs.readFile(filePath));
   }
 });
 

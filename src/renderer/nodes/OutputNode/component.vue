@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import CustomNode from "@/components/nodes/CustomNode.vue";
 import {StepOutIcon} from "@/icons/material";
-import { AmethystAudioNode } from "@/logic/audio";
-defineProps<{ node: AmethystAudioNode<any> }>();
+import { AmethystOutputNode } from ".";
+defineProps<{ node: AmethystOutputNode }>();
 
 </script>
 

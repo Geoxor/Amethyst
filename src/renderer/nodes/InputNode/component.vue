@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import CustomNode from "@/components/nodes/CustomNode.vue";
 import {StepIntoIcon} from "@/icons/material";
-import { AmethystAudioNode } from "@/logic/audio";
-defineProps<{ node: AmethystAudioNode<any> }>();
+import { AmethystInputNode } from ".";
+defineProps<{ node: AmethystInputNode }>();
 
 </script>
 

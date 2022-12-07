@@ -8,7 +8,7 @@ defineProps<{ node: AmethystAudioNode<any> }>();
 
 <template>
   <CustomNode
-    meterless
+    
     :node="node"
     title="Master"
     description="To Outputs"

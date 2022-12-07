@@ -11,7 +11,7 @@ import CoverArt from "@/components/CoverArt.vue";
 import { ContextMenu, useContextMenu } from "@/components/ContextMenu";
 import {HideIcon} from "@/icons/plumpy";
 import {SpectrumAnalyzer} from "@/components/visualizers/SpectrumAnalyzer";
-import { onMounted, onUnmounted, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 import { Track } from "@/logic/track";
 import { player } from "@/logic/player";
 
@@ -30,6 +30,8 @@ onMounted(() => {
 onUnmounted(() => {
   player.off("play", setAmbientCover);
 });
+
+const masterNode = computed(() => player.nodeManager.master.audioNode);
 
 </script>
 
@@ -68,7 +70,7 @@ onUnmounted(() => {
         <db-meter
           v-if="state.settings.showDbMeter && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
-          :node="player.nodeManager.master.audioNode"
+          :node="masterNode"
           :channels="player.getCurrentTrack()?.getChannels() || 2"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide dB Meter', icon: HideIcon, action: () => state.settings.showDbMeter = false },
@@ -78,19 +80,18 @@ onUnmounted(() => {
         <vectorscope
           v-if="state.settings.showVectorscope && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
-          :node="player.nodeManager.master.audioNode"
+          :node="masterNode"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide Vectorscope', icon: HideIcon, action: () => state.settings.showVectorscope = false },
           ]);"
         />
 
         <playback-buttons :player="player" />
-
         <SpectrumAnalyzer
           v-if="state.settings.showSpectrum && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
           class="h-76px w-152px min-h-76px min-w-152px"
-          :node="player.nodeManager.master.audioNode"
+          :node="masterNode"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide Spectrum', icon: HideIcon, action: () => state.settings.showSpectrum = false },
           ]);"
