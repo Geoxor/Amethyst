@@ -133,6 +133,7 @@ const handleConnect = (e: Connection) => {
 const handleOpenFile = async () => {
   const buffer = await fs.open();
   buffer && player.nodeManager.loadGraph(JSON.parse(buffer.toString("utf8")));
+  fitToView();
 };
 
 const fitToView = () => dash.value.fitView();
