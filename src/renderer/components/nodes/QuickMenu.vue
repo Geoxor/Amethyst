@@ -9,21 +9,21 @@ const props = defineProps<{node: AmethystAudioNode<AudioNode>}>();
 <template>
   <div class="minimenu absolute cursor-pointer items-center -top-8 text-primary-1000 left-1/2 transform-gpu text-8px -translate-x-1/2 flex rounded-4px overflow-hidden bg-surface-800">
     <button
-      class=" hover:bg-surface-600 text-purple-400"
+      class="unhook"
       @click="node.disconnect()"
     >
       <DisconnectIcon class="w-3" />
       Unhook
     </button>
     <button
-      class="hover:bg-surface-600 hover:text-primary-800"
+      class="reset"
       @click="node.reset()"
     >
       <ResetIcon class="w-3" />
     </button>
     <button
       v-if="props.node.isRemovable"
-      class="hover:bg-rose-600 hover:text-black"
+      class="hover:bg-rose-600  hover:text-black"
     >
       <RemoveIcon
         class="w-3"
@@ -37,6 +37,27 @@ const props = defineProps<{node: AmethystAudioNode<AudioNode>}>();
 .minimenu {
   button {
     @apply px-2 gap-1 flex items-center justify-center border-surface-500;
+    &.unhook {
+      @apply text-purple-400;
+
+      &:hover{
+        @apply bg-surface-600;
+      }
+
+      &:active {
+        @apply active:bg-purple-400 active:text-surface-600;
+      }
+    }
+
+    &.reset {
+      &:hover:not(:active){
+        @apply bg-surface-600 text-primary-800;
+      }
+
+      &:active {
+        @apply bg-primary-800 text-surface-600;
+      }
+    }
   }
   button:not(:last-child) {
     @apply border-r-1;

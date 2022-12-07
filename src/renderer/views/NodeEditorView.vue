@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useState, useFs } from "@/amethyst";
 import SquareButton from "@/components/input/SquareButton.vue";
-import { MagnetIcon, SaveIcon, AdjustIcon, AzimuthIcon, FilterIcon, SelectNoneIcon, WaveIcon } from "@/icons/material";
+import { MagnetIcon, SaveIcon, AdjustIcon, AzimuthIcon, FilterIcon, SelectNoneIcon, WaveIcon, RemoveIcon } from "@/icons/material";
 import { getThemeColorHex } from "@/logic/color";
 import { Background, BackgroundVariant } from "@vue-flow/additional-components";
 import { Connection, EdgeMouseEvent, NodeDragEvent, VueFlow } from "@vue-flow/core";
@@ -112,7 +112,7 @@ const handleEdgeContextMenu = (e: EdgeMouseEvent) => {
 
   const {x, y} = e.event;
   useContextMenu().open({x, y}, [
-    {title: "Remove connection", icon: FilterIcon, action: () => source.disconnectFrom(target)},
+    {title: "Remove connection", icon: RemoveIcon, red: true, action: () => source.disconnectFrom(target)},
     ...nodeMenu({x, y, source, target}),
   ]);
 };

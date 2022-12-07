@@ -2,9 +2,10 @@ import { useLocalStorage } from "@vueuse/core";
 import { computed, reactive } from "vue";
 
 export interface IContextMenuOption {
-	title: string,
-	icon?: any,
-	shortcuts?: string[]
+	title: string;
+	icon?: any;
+	shortcuts?: string[];
+	red?: boolean;
 	action: () => any;
 }
 

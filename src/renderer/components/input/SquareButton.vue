@@ -17,7 +17,7 @@ defineProps<{ active?: boolean, icon?: any }>();
 <style scoped lang="postcss">
 button {
   &.active {
-    @apply bg-cyan-500 hover:bg-cyan-400;
+    @apply bg-cyan-500 hover:bg-cyan-400 text-black;
   }
 
   &:not(.active) {

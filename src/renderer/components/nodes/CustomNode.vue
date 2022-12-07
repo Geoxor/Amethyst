@@ -7,6 +7,7 @@ import { player } from "@/logic/player";
 import { AmethystAudioNode } from "@/logic/audio";
 import { Handle, Position } from "@vue-flow/core";
 import { useContextMenu } from "@/components/ContextMenu";
+import { IContextMenuOption } from "@/state";
 
 const props = defineProps<{ title: string, icon: any, description?: string, node: AmethystAudioNode<any>, meterless?: boolean }>();
 
@@ -15,8 +16,8 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
   useContextMenu().open({x, y}, [
     { title: "Unhook", icon: DisconnectIcon, action: () => props.node.disconnect() },
     { title: "Reset", icon: ResetIcon, action: () => props.node.reset() },
-    { title: "Remove", icon: RemoveIcon, action: () => player.nodeManager.removeNode(props.node) },
-  ]);
+    props.node.isRemovable ? { title: "Remove", icon: RemoveIcon, red: true, action: () => player.nodeManager.removeNode(props.node) } : undefined,
+  ].filter(o => !!o) as IContextMenuOption[]);
 };
 
 </script>

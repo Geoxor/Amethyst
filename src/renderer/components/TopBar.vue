@@ -35,7 +35,7 @@ const refreshWindow = () => location.reload();
     :class="[state.state.isFocused ? 'text-primary-1000' : 'text-primary-900']"
   >
     <div class="flex no-drag h-full items-center">
-      <div class="logo px-2.25 mr-0.5 cursor-heart-pointer">
+      <div class="logo w-40px items-center flex justify-center cursor-heart-pointer">
         <amethyst-logo
           class="w-4 h-4 min-h-4 min-w-4"
         />

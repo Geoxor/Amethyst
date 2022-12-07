@@ -4,14 +4,18 @@ import BaseKeyboardButton from "../input/BaseKeyboardButton.vue";
 defineProps<{
   title: string
   icon?: any
+  red?: boolean,
   shortcuts?: string[]
 }>();
 </script>
 
 <template>
   <button
-    :class="[title.includes('...') && 'cursor-pointer']"
-    class="text-left hover:text-primary-800 hover:bg-surface-600 text-11px py-1.5 px-6 w-full flex justify-between items-center"
+    :class="[
+      title.includes('...') && 'cursor-pointer',
+      red ? 'hover:bg-rose-600 hover:text-black hover:font-bold' : 'hover:bg-surface-600 hover:text-primary-800 '
+    ]"
+    class="text-left text-11px py-1.5 px-6 w-full flex justify-between items-center"
   >
     <div class="flex gap-2 items-center">
       <component

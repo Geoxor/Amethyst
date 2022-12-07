@@ -2,10 +2,11 @@
 import { useShortcuts, useState } from "@/amethyst";
 import { Track } from "@/logic/track";
 import BaseChip from "@/components/BaseChip.vue";
-import { BroomIcon, PlayIcon, ExternalLinkIcon, RestartIcon, LoadingIcon, ErrorIcon } from "@/icons/plumpy";
+import { PlayIcon, ExternalLinkIcon, LoadingIcon, ErrorIcon } from "@/icons/plumpy";
 import Cover from "@/components/CoverArt.vue";
 import { player } from "@/logic/player";
 import { useContextMenu } from "@/components/ContextMenu";
+import { RemoveIcon, ResetIcon } from "@/icons/material";
 
 defineProps<{tracks: Track[]}>();
 const state = useState();
@@ -17,8 +18,8 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
   useContextMenu().open({x, y}, [
     { title: "Play", icon: PlayIcon, action: () => player.play(track) },
     { title: "Open in Explorer...", icon: ExternalLinkIcon, action: () => invoke("show-item", [track.path]) },
-    { title: "Render cover art", icon: RestartIcon, action: () => track.path },
-    { title: "Remove from queue", icon: BroomIcon, action: () => player.queue.remove(track) },
+    { title: "Reload metadata", icon: ResetIcon, action: () => track.fetchAsyncData(true) },
+    { title: "Remove from queue", icon: RemoveIcon, red: true, action: () => player.queue.remove(track) },
   ]);
 };
 

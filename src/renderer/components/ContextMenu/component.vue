@@ -37,6 +37,7 @@ const updatePositon = () => {
         :key="option.title"
         :icon="option.icon"
         :title="option.title"
+        :red="option.red"
         :shortcuts="option.shortcuts"
         @click="runAction(option)"
       />
