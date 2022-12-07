@@ -12,7 +12,11 @@ export const METADATA_CACHE_PATH = path.join(app.getPath("appData"), "/amethyst/
 export const TOTAL_CORES = os.cpus().length;
 export const RESOURCES_PATH = path.join(__dirname, "../".repeat(+app.isPackaged * 2 + 2), "assets");
 
-fs.statSync(METADATA_CACHE_PATH) || fs.promises.mkdir(METADATA_CACHE_PATH);
+try {
+	fs.statSync(METADATA_CACHE_PATH);
+} catch (e) {
+	fs.promises.mkdir(METADATA_CACHE_PATH);
+}
 
 export const icon = () => path.join(RESOURCES_PATH, "icon.png");
 export const checkForUpdatesAndInstall = () => {
