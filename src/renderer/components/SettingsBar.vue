@@ -63,7 +63,6 @@ const state = useState();
         />
 
         <settings-category-splitter text="Queue List" />
-
         <settings-modifier
           v-model="state.settings.processingConcurrency"
           text="Processing concurrency"
@@ -71,6 +70,12 @@ const state = useState();
           :max="32"
           :step="1"
           :def="state.defaultSettings.processingConcurrency"
+        />
+
+        <settings-category-splitter text="Playback Controls" />
+        <settings-binary-switch
+          v-model="state.settings.showPlaybackControls"
+          text="Show"
         />
 
         <settings-category-splitter text="Vectorscope" />

@@ -41,6 +41,7 @@ export class Store {
 		spectrumSmoothing: 0.8,
 		ambientBackgroundSpinSpeed: 24,
 		vectorscopeLineThickness: 1,
+		showPlaybackControls: true,
 		followQueue: false,
 		isSnappingToGrid: false,
 		diagonalVectorscope: true,

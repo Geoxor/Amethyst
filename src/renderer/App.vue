@@ -11,7 +11,7 @@ import CoverArt from "@/components/CoverArt.vue";
 import { ContextMenu, useContextMenu } from "@/components/ContextMenu";
 import {HideIcon} from "@/icons/plumpy";
 import {SpectrumAnalyzer} from "@/components/visualizers/SpectrumAnalyzer";
-import { computed, onMounted, onUnmounted, ref } from "vue";
+import { watch, onMounted, onUnmounted, ref } from "vue";
 import { Track } from "@/logic/track";
 import { player } from "@/logic/player";
 
@@ -30,8 +30,6 @@ onMounted(() => {
 onUnmounted(() => {
   player.off("play", setAmbientCover);
 });
-
-const masterNode = computed(() => player.nodeManager.master.audioNode);
 
 </script>
 
@@ -66,11 +64,14 @@ const masterNode = computed(() => player.nodeManager.master.audioNode);
         <settings-bar v-if="state.settings.showSettings" />
       </div>
 
-      <div class="flex gap-2 items-center p-2 bg-surface-800 borderTop">
+      <div
+        v-if="state.settings.showPlaybackControls"
+        class="flex gap-2 items-center p-2 bg-surface-800 borderTop"
+      >
         <db-meter
           v-if="state.settings.showDbMeter && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
-          :node="masterNode"
+          :node="player.nodeManager.master.audioNode"
           :channels="player.getCurrentTrack()?.getChannels() || 2"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide dB Meter', icon: HideIcon, action: () => state.settings.showDbMeter = false },
@@ -80,7 +81,7 @@ const masterNode = computed(() => player.nodeManager.master.audioNode);
         <vectorscope
           v-if="state.settings.showVectorscope && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
-          :node="masterNode"
+          :node="player.nodeManager.master.audioNode"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide Vectorscope', icon: HideIcon, action: () => state.settings.showVectorscope = false },
           ]);"
@@ -91,7 +92,7 @@ const masterNode = computed(() => player.nodeManager.master.audioNode);
           v-if="state.settings.showSpectrum && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
           class="h-76px w-152px min-h-76px min-w-152px"
-          :node="masterNode"
+          :node="player.nodeManager.master.audioNode"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide Spectrum', icon: HideIcon, action: () => state.settings.showSpectrum = false },
           ]);"

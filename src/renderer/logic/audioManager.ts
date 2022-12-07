@@ -102,13 +102,16 @@ export class AmethystAudioNodeManager {
       let nodeInstance: AmethystAudioNode<any> | null = null;
       switch (node.name) {
         case "AmethystInputNode":
-          nodeInstance = new AmethystInputNode(this.inputAudio, node.position);
+          this.input = new AmethystInputNode(this.inputAudio, node.position);
+          nodeInstance = this.input;
           break;
         case "AmethystMasterNode":
-          nodeInstance = new AmethystMasterNode(this.context.createGain(), node.position);
+          this.master = new AmethystMasterNode(this.context.createGain(), node.position);
+          nodeInstance = this.master;
           break;
-        case "AmethystOutputNode":
-          nodeInstance = new AmethystOutputNode(this.context.destination, node.position);
+         case "AmethystOutputNode":
+          this.output = new AmethystOutputNode(this.context.destination, node.position);
+          nodeInstance = this.output;
           break;
         default:
           nodeInstance = new audioNodes[node.name](this.context, node.position);
