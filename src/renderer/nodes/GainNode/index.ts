@@ -6,7 +6,15 @@ export class AmethystGainNode extends AmethystAudioNode<GainNode> {
     super(context.createGain(), name, component, position);
   }
 
+  public get gain () {
+    return this.audioNode.gain.value;
+  }
+
+  public set gain(gain: number) {
+    this.audioNode.gain.value = gain;
+  }
+
   public override reset() {
-    this.audioNode.gain.value = 1;
+    this.gain = 1;
   }
 }

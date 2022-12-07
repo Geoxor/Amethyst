@@ -7,6 +7,7 @@ const value = useVModel(props, "modelValue", emits);
   
 <template>
   <input
+    v-bind="$attrs"
     v-model="value"
     type="range"
   >

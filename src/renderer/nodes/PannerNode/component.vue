@@ -3,10 +3,14 @@ import Slider from "@/components/input/BaseSlider.vue";
 import CustomNode from "@/components/nodes/CustomNode.vue";
 import {AzimuthIcon} from "@/icons/material";
 import { AmethystPannerNode } from ".";
-import { ref, watch } from "vue";
-const props = defineProps<{ node: AmethystPannerNode }>();
-const pan = ref(props.node.audioNode.pan.value);
-watch(() => pan.value, () => props.node.audioNode.pan.value = pan.value);
+defineProps<{ node: AmethystPannerNode }>();
+function clamp(input: number, min: number, max: number): number {
+  return input < min ? min : input > max ? max : input;
+}
+function map(current: number, in_min: number, in_max: number, out_min: number, out_max: number): number {
+  const mapped: number = ((current - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min;
+  return clamp(mapped, out_min, out_max);
+}
 </script>
 
 <template>
@@ -16,11 +20,11 @@ watch(() => pan.value, () => props.node.audioNode.pan.value = pan.value);
     :icon="AzimuthIcon"
   >
     <p class="font-aseprite">
-      {{ pan }}
+      {{ map(node.pan, -1, 1,-180, 180).toFixed(2) }}°
     </p>
     <Slider
-      v-model="pan"
-      step="0.01"
+      v-model="node.pan"
+      step="0.001"
       max="1"
       min="-1"
       @mousedown.stop

@@ -9,7 +9,15 @@ export class AmethystPannerNode extends AmethystAudioNode<StereoPannerNode> {
     super(panner, name, component, position);
   }
 
+  public get pan () {
+    return this.audioNode.pan.value;
+  }
+
+  public set pan(pan: number) {
+    this.audioNode.pan.value = pan;
+  }
+
   public override reset() {
-    this.audioNode.pan.value = 0;
+    this.pan = 0;
   }
 }

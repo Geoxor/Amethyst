@@ -34,12 +34,12 @@ export class Queue {
     for (let i = 0; i < words.length; i++) {
       const word = words[i].toLowerCase();
       results = results
-      .filter(track => word ? !track.hasErrored : track)
-      .filter(track => 
-        track.getFilename().toLowerCase().includes(word)
-        || track.getArtistsFormatted()?.toLowerCase().includes(word)
-        || track.getTitle()?.toLowerCase().includes(word)
-        || track.getAlbumFormatted()?.toLowerCase().includes(word));
+        .filter(track => word ? !track.hasErrored : track)
+        .filter(track => 
+          track.getFilename().toLowerCase().includes(word)
+          || track.getArtistsFormatted()?.toLowerCase().includes(word)
+          || track.getTitle()?.toLowerCase().includes(word)
+          || track.getAlbumFormatted()?.toLowerCase().includes(word));
     }
 
     return results;

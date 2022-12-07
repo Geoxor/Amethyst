@@ -2,15 +2,13 @@
 // import { AmethystPannerNode, AmethystGainNode } from "@/nodes";
 
 import { AmethystGainNode } from "./GainNode";
-import { AmethystHighPassNode } from "./HighPassNode";
-import { AmethystLowPassNode } from "./LowPassNode";
+import { AmethystFilterNode } from "./FilterNode";
 import { AmethystPannerNode } from "./PannerNode";
 import { AmethystSpectrumNode } from "./SpectrumNode";
 
 export {
   AmethystGainNode,
-  AmethystHighPassNode,
-  AmethystLowPassNode,
+  AmethystFilterNode,
   AmethystPannerNode,
   AmethystSpectrumNode,
 };

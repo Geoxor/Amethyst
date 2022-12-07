@@ -3,10 +3,7 @@ import Slider from "@/components/input/BaseSlider.vue";
 import CustomNode from "@/components/nodes/CustomNode.vue";
 import {AdjustIcon} from "@/icons/material";
 import { AmethystGainNode } from ".";
-import { ref, watch } from "vue";
-const props = defineProps<{ node: AmethystGainNode }>();
-const gain = ref(props.node.audioNode.gain.value);
-watch(() => gain.value, () => props.node.audioNode.gain.value = gain.value);
+defineProps<{ node: AmethystGainNode }>();
 </script>
 
 <template>
@@ -16,10 +13,10 @@ watch(() => gain.value, () => props.node.audioNode.gain.value = gain.value);
     :icon="AdjustIcon"
   >
     <p class="font-aseprite">
-      {{ ~~(gain * 100) }} %
+      {{ (20 * Math.log10( node.gain)).toFixed(2) }} dB
     </p>
     <Slider
-      v-model="gain"
+      v-model="node.gain"
       step="0.01"
       max="3"
       min="0"
