@@ -109,7 +109,7 @@ export class AmethystAudioNodeManager {
           this.master = new AmethystMasterNode(this.context.createGain(), node.position);
           nodeInstance = this.master;
           break;
-         case "AmethystOutputNode":
+        case "AmethystOutputNode":
           this.output = new AmethystOutputNode(this.context.destination, node.position);
           nodeInstance = this.output;
           break;

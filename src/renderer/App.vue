@@ -11,7 +11,7 @@ import CoverArt from "@/components/CoverArt.vue";
 import { ContextMenu, useContextMenu } from "@/components/ContextMenu";
 import {HideIcon} from "@/icons/plumpy";
 import {SpectrumAnalyzer} from "@/components/visualizers/SpectrumAnalyzer";
-import { watch, onMounted, onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted, ref } from "vue";
 import { Track } from "@/logic/track";
 import { player } from "@/logic/player";
 
