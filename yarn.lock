@@ -4911,10 +4911,10 @@ vue-tsc@^1.0.11:
     "@volar/vue-language-core" "1.0.11"
     "@volar/vue-typescript" "1.0.11"
 
-vue-virtual-scroller@^2.0.0-beta.3:
-  version "2.0.0-beta.3"
-  resolved "https://registry.yarnpkg.com/vue-virtual-scroller/-/vue-virtual-scroller-2.0.0-beta.3.tgz#ae95ce97adf511d5e18b95d3e53e932c73461f3c"
-  integrity sha512-k0hTAkZRmm3TXpfhW5Ig1fd8VV7+CmgnkebbQ4Uw6wnuQF52YJoaMQTFD3IV/Qi2WNadDB4ETrLUbVdnWboSjg==
+vue-virtual-scroller@^2.0.0-beta.4:
+  version "2.0.0-beta.4"
+  resolved "https://registry.yarnpkg.com/vue-virtual-scroller/-/vue-virtual-scroller-2.0.0-beta.4.tgz#52e89351d7e18264150a95bb16bebbc7345654c7"
+  integrity sha512-JfFRyMCUzjPg+lbDXP4SpWy1aE8lpCbe1AZgwXmQPHZr1eayX5n8GgEuntUi0ixFCzBQzdH7WQwPpchp8UgjtA==
   dependencies:
     mitt "^2.1.0"
     vue-observe-visibility "^2.0.0-alpha.1"
