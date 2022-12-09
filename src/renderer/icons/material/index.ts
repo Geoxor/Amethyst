@@ -22,8 +22,30 @@ import StepOutIcon from "./StepOutIcon.vue";
 import WaveIcon from "./WaveIcon.vue";
 import AudioFileIcon from "./AudioFileIcon.vue";
 import MusicFolderIcon from "./MusicFolderIcon.vue";
+import DiscordIcon from "./DiscordIcon.vue";
+import GitHubIcon from "./GitHubIcon.vue";
+import LoadingIcon from "./LoadingIcon.vue";
+import ZoomInIcon from "./ZoomInIcon.vue";
+import ZoomOutIcon from "./ZoomOutIcon.vue";
+import ResizeIcon from "./ResizeIcon.vue";
+import HideIcon from "./HideIcon.vue";
+import DownloadingUpdatesIcon from "./DownloadingUpdatesIcon.vue";
+import PlayIcon from "./PlayIcon.vue";
+import ErrorIcon from "./ErrorIcon.vue";
+import ExternalLinkIcon from "./ExternalLinkIcon.vue";
 
 export {
+  DiscordIcon,
+  LoadingIcon,
+  GitHubIcon,
+  ZoomInIcon,
+  ZoomOutIcon,
+  ExternalLinkIcon,
+  ResizeIcon,
+  HideIcon,
+  ErrorIcon,
+  PlayIcon,
+  DownloadingUpdatesIcon,
   MusicFolderIcon,
   AudioFileIcon,
   AdjustIcon,
