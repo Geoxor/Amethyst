@@ -104,6 +104,10 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
         <div class="flex flex-col gap-2 transform-gpu -translate-y-1 items-center">
           <div class="flex text-primary-800 gap-2">
             <!-- <playlist-icon class="opacity-75 hover:opacity-100 hover:text-white" /> -->
+            <shuffle-icon
+              class="opacity-75 hover:opacity-100 hover:text-white"
+              @click="player.shuffle()"
+            />
             <next-icon
               class="opacity-75 hover:opacity-100 hover:text-white transform-gpu rotate-180"
               @click="player.previous()"
@@ -121,10 +125,6 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
             <next-icon
               class="opacity-75 hover:opacity-100 hover:text-white"
               @click="player.next()"
-            />
-            <shuffle-icon
-              class="opacity-75 hover:opacity-100 hover:text-white"
-              @click="player.shuffle()"
             />
             <repeat-icon
               v-if="player.loopMode.value == LoopMode.None"
