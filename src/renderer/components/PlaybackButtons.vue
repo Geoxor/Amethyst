@@ -2,13 +2,12 @@
 import { useState } from "@/amethyst";
 import Cover from "@/components/CoverArt.vue";
 import Slider from "@/components/input/BaseSlider.vue";
-import {NextIcon, PauseIcon, PlayIcon, RepeatIcon, RepeatOneIcon, ShuffleIcon, FileIcon, BitrateIcon } from "@/icons/plumpy";
+import {NextIcon, PauseIcon, PlayIcon, RepeatIcon, RepeatOneIcon, ShuffleIcon } from "@/icons/plumpy";
 import { LoopMode } from "@/logic/player";
 import { onMounted } from "vue";
 import WaveSurfer from "wavesurfer.js";
 import { getThemeColorHex } from "@/logic/color";
 import { Track } from "@/logic/track";
-import BaseChip from "@/components/BaseChip.vue";
 import { player } from "@/logic/player";
 
 const state = useState();
@@ -105,6 +104,10 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
         <div class="flex flex-col gap-2 transform-gpu -translate-y-1 items-center">
           <div class="flex text-primary-800 gap-2">
             <!-- <playlist-icon class="opacity-75 hover:opacity-100 hover:text-white" /> -->
+            <shuffle-icon
+              class="opacity-75 hover:opacity-100 hover:text-white"
+              @click="player.shuffle()"
+            />
             <next-icon
               class="opacity-75 hover:opacity-100 hover:text-white transform-gpu rotate-180"
               @click="player.previous()"
@@ -122,10 +125,6 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
             <next-icon
               class="opacity-75 hover:opacity-100 hover:text-white"
               @click="player.next()"
-            />
-            <shuffle-icon
-              class="opacity-75 hover:opacity-100 hover:text-white"
-              @click="player.shuffle()"
             />
             <repeat-icon
               v-if="player.loopMode.value == LoopMode.None"
@@ -161,34 +160,6 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
             @input="player.setVolume(player.volume.value)"
             @wheel.passive="handleVolumeMouseScroll"
           />
-
-          <div
-            class="flex gap-1 text-8px font-bold"
-          >
-            <!-- <chip :icon="MetronomeIcon">
-              128<strong class="opacity-50">bpm</strong>
-            </chip>
-            <chip :icon="KeyClefIcon">
-              D# Pentatonic
-            </chip> -->
-            <base-chip
-              v-if="player.getCurrentTrack()?.getMetadata()?.format.container"
-              :icon="FileIcon"
-            >
-              {{ player.getCurrentTrack()?.getMetadata()?.format.container }}
-            </base-chip>
-            <base-chip
-              v-if="player.getCurrentTrack()?.getMetadata()?.format.bitrate"
-              :icon="BitrateIcon"
-            >
-              {{ ((player.getCurrentTrack()?.getMetadata()?.format.bitrate || 0) / 1000).toFixed(2) }}<strong
-                class="opacity-50"
-              > kbps</strong>
-            </base-chip>
-            <!-- <chip :icon="StorageIcon">
-              {{(player.getFileSize())}}<strong class="opacity-50"> MB</strong>
-            </chip> -->
-          </div>
         </div>
       </div>
       <div

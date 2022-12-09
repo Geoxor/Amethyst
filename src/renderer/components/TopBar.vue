@@ -6,7 +6,7 @@ import Menu from "@/components/menu/MenuContainer.vue";
 import MenuOption from "@/components/menu/MenuOption.vue";
 import MenuSplitter from "@/components/menu/MenuSplitter.vue";
 import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
-import { AudioFileIcon, BroomIcon, DiscordIcon, GitHubIcon, MusicFolderIcon, RestartIcon, ZoomInIcon, ZoomOutIcon, ZoomToExtentsIcon, InstallingUpdatesIcon, SettingsIcon, } from "@/icons/plumpy";
+import { AudioFileIcon, DiscordIcon, GitHubIcon, MusicFolderIcon, ResetIcon, ZoomInIcon, ZoomOutIcon, RemoveIcon, ResizeIcon, DownloadingUpdatesIcon, SettingsIcon } from "@/icons/material";
 import { useFps } from "@vueuse/core";
 import { player } from "@/logic/player";
 import AmethystLogo from "@/icons/AmethystLogo.vue";
@@ -67,7 +67,7 @@ const refreshWindow = () => location.reload();
         />
         <menu-option
           title="Reset zoom"
-          :icon="ZoomToExtentsIcon"
+          :icon="ResizeIcon"
           :shortcuts="['CTRL', '0']"
         />
 
@@ -75,33 +75,33 @@ const refreshWindow = () => location.reload();
         <menu-option
           :shortcuts="['CTRL', 'SHIFT', 'X']"
           title="Clear queue"
-          :icon="BroomIcon"
+          :icon="RemoveIcon"
           @click="player.queue.clear()"
         />
         <menu-option
           :shortcuts="['CTRL', 'SHIFT', 'Z']"
           title="Clear errored"
-          :icon="BroomIcon"
+          :icon="RemoveIcon"
           @click="player.queue.clearErrored()"
         />
         <menu-splitter />
         <menu-option
           :shortcuts="['CTRL', 'ALT', 'R']"
           title="Refresh all metadata"
-          :icon="RestartIcon"
+          :icon="ResetIcon"
           @click="player.queue.fetchAsyncData(true)"
         />
         <menu-option
           :shortcuts="['CTRL', 'R']"
           title="Refresh window"
-          :icon="RestartIcon"
+          :icon="ResetIcon"
           @click="refreshWindow"
         />
 
         <menu-splitter />
         <menu-option
           :title="`Check for updates`"
-          :icon="InstallingUpdatesIcon"
+          :icon="DownloadingUpdatesIcon"
           @click="electron.checkForUpdates()"
         />
       </Menu>

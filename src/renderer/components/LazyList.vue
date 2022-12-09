@@ -2,7 +2,7 @@
 import { useShortcuts, useState } from "@/amethyst";
 import { Track } from "@/logic/track";
 import BaseChip from "@/components/BaseChip.vue";
-import { PlayIcon, ExternalLinkIcon, LoadingIcon, ErrorIcon } from "@/icons/plumpy";
+import { PlayIcon, ExternalLinkIcon, LoadingIcon, ErrorIcon } from "@/icons/material";
 import Cover from "@/components/CoverArt.vue";
 import { player } from "@/logic/player";
 import { useContextMenu } from "@/components/ContextMenu";
