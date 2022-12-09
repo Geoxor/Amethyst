@@ -6,7 +6,7 @@ import Menu from "@/components/menu/MenuContainer.vue";
 import MenuOption from "@/components/menu/MenuOption.vue";
 import MenuSplitter from "@/components/menu/MenuSplitter.vue";
 import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
-import { AudioFileIcon, BroomIcon, DiscordIcon, GitHubIcon, MusicFolderIcon, RestartIcon, ZoomInIcon, ZoomOutIcon, ZoomToExtentsIcon, InstallingUpdatesIcon, SettingsIcon, } from "@/icons/plumpy";
+import { AudioFileIcon, DiscordIcon, GitHubIcon, MusicFolderIcon, RestartIcon, ZoomInIcon, ZoomOutIcon, ZoomToExtentsIcon, InstallingUpdatesIcon, SettingsIcon } from "@/icons/material";
 import { useFps } from "@vueuse/core";
 import { player } from "@/logic/player";
 import AmethystLogo from "@/icons/AmethystLogo.vue";

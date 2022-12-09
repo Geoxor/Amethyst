@@ -20,8 +20,12 @@ import SettingsIcon from "./SettingsIcon.vue";
 import StepIntoIcon from "./StepIntoIcon.vue";
 import StepOutIcon from "./StepOutIcon.vue";
 import WaveIcon from "./WaveIcon.vue";
+import AudioFileIcon from "./AudioFileIcon.vue";
+import MusicFolderIcon from "./MusicFolderIcon.vue";
 
 export {
+  MusicFolderIcon,
+  AudioFileIcon,
   AdjustIcon,
   MagnetIcon,
   DuplicateIcon,
