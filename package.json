@@ -294,7 +294,7 @@
     "eslint-plugin-vue": "^9.8.0",
     "happy-dom": "^7.7.2",
     "postcss": "^8.4.19",
-    "prettier": "^2.8.0",
+    "prettier": "^2.8.1",
     "rimraf": "^3.0.2",
     "standardized-audio-context-mock": "^9.6.8",
     "tailwindcss": "^3.2.4",
