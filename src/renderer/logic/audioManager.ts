@@ -61,14 +61,21 @@ export interface NodeGraph {
 }
 
 export class AmethystAudioNodeManager {
-  private input: AmethystInputNode;
-  private output: AmethystOutputNode;
-  public master: AmethystMasterNode;
+  private input!: AmethystInputNode;
+  private output!: AmethystOutputNode;
+  public master!: AmethystMasterNode;
 
   public nodes: Ref<AmethystAudioNode<AudioNode>[]> = ref([]);
 
   public constructor(public inputAudio: AudioNode, public context: AudioContext) {
-    this.input = new AmethystInputNode(inputAudio, { x: 0, y: 0 });
+    this.reset();
+  }
+
+  public reset () {
+    this.nodes.value.forEach(node => node.disconnect());
+    this.nodes.value = [];
+
+    this.input = new AmethystInputNode(this.inputAudio, { x: 0, y: 0 });
     this.master = new AmethystMasterNode(this.context.createGain(), { x: 300, y: 0 });
     this.output = new AmethystOutputNode(this.context.destination, { x: 450, y: 0 });
 

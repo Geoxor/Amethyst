@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useState, useFs } from "@/amethyst";
 import SquareButton from "@/components/input/SquareButton.vue";
-import { MagnetIcon, SaveIcon, AdjustIcon, AzimuthIcon, FilterIcon, SelectNoneIcon, WaveIcon, RemoveIcon } from "@/icons/material";
+import { MagnetIcon, SaveIcon, AdjustIcon, AzimuthIcon, FilterIcon, SelectNoneIcon, WaveIcon, RemoveIcon, LoadingIcon, ResetIcon } from "@/icons/material";
 import { getThemeColorHex } from "@/logic/color";
 import { Background, BackgroundVariant } from "@vue-flow/additional-components";
 import { Connection, EdgeMouseEvent, NodeDragEvent, VueFlow } from "@vue-flow/core";
@@ -145,6 +145,7 @@ onKeyStroke("Delete", () => {
     node && player.nodeManager.removeNode(node);
   });
 });
+
 </script>
 
 <template>
@@ -156,7 +157,11 @@ onKeyStroke("Delete", () => {
       class="flex flex-col gap-2 absolute bottom-2 right-2 z-10 "
     >
       <SquareButton
-        :icon="SaveIcon"
+        :icon="ResetIcon"
+        @click="player.nodeManager.reset()"
+      />
+      <SquareButton
+        :icon="LoadingIcon"
         @click="handleOpenFile"
       />
       <SquareButton
