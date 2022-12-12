@@ -5078,19 +5078,7 @@ vite-plugin-windicss@^1.8.4:
     kolorist "^1.5.1"
     windicss "^3.5.6"
 
-vite@^3.0.0, vite@^3.2.5:
-  version "3.2.5"
-  resolved "https://registry.yarnpkg.com/vite/-/vite-3.2.5.tgz#dee5678172a8a0ab3e547ad4148c3d547f90e86a"
-  integrity sha512-4mVEpXpSOgrssFZAOmGIr85wPHKvaDAcXqxVxVRZhljkJOMZi1ibLibzjLHzJvcok8BMguLc7g1W6W/GqZbLdQ==
-  dependencies:
-    esbuild "^0.15.9"
-    postcss "^8.4.18"
-    resolve "^1.22.1"
-    rollup "^2.79.1"
-  optionalDependencies:
-    fsevents "~2.3.2"
-
-vite@^4.0.0:
+"vite@^3.0.0 || ^4.0.0", vite@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/vite/-/vite-4.0.0.tgz#b81b88349a06b2faaa53ae14cf96c942548e3454"
   integrity sha512-ynad+4kYs8Jcnn8J7SacS9vAbk7eMy0xWg6E7bAhS1s79TK+D7tVFGXVZ55S7RNLRROU1rxoKlvZ/qjaB41DGA==
@@ -5099,6 +5087,18 @@ vite@^4.0.0:
     postcss "^8.4.19"
     resolve "^1.22.1"
     rollup "^3.7.0"
+  optionalDependencies:
+    fsevents "~2.3.2"
+
+vite@^3.2.5:
+  version "3.2.5"
+  resolved "https://registry.yarnpkg.com/vite/-/vite-3.2.5.tgz#dee5678172a8a0ab3e547ad4148c3d547f90e86a"
+  integrity sha512-4mVEpXpSOgrssFZAOmGIr85wPHKvaDAcXqxVxVRZhljkJOMZi1ibLibzjLHzJvcok8BMguLc7g1W6W/GqZbLdQ==
+  dependencies:
+    esbuild "^0.15.9"
+    postcss "^8.4.18"
+    resolve "^1.22.1"
+    rollup "^2.79.1"
   optionalDependencies:
     fsevents "~2.3.2"
 
@@ -5117,10 +5117,10 @@ vitepress@^1.0.0-alpha.31:
     vite "^4.0.0"
     vue "^3.2.45"
 
-vitest@^0.25.5:
-  version "0.25.5"
-  resolved "https://registry.yarnpkg.com/vitest/-/vitest-0.25.5.tgz#efb8bf0dc0438af11346cb8ecde47cd5ad830934"
-  integrity sha512-lFKSTZV+AjuL44/yNC0aDPKTiasYSqOQ97Gg2G4P2LnjyzQ21ZUs4rQOscHK3lrSnVuir3+1QavHzbDgH4tWQA==
+vitest@^0.25.7:
+  version "0.25.7"
+  resolved "https://registry.yarnpkg.com/vitest/-/vitest-0.25.7.tgz#dbb384907a56265fe0ce95149803a4c839388174"
+  integrity sha512-lJ+Ue+v8kHl2JzjaKHJ9u5Yo/loU7zrWK2/Whn8OKQjtq5G7nkeWfXuq3elZaC8xKdkdIuWiiIicaNBG1F5yzg==
   dependencies:
     "@types/chai" "^4.3.3"
     "@types/chai-subset" "^1.3.3"
@@ -5135,7 +5135,7 @@ vitest@^0.25.5:
     tinybench "^2.3.1"
     tinypool "^0.3.0"
     tinyspy "^1.0.2"
-    vite "^3.0.0"
+    vite "^3.0.0 || ^4.0.0"
 
 vscode-oniguruma@^1.6.1:
   version "1.7.0"
