@@ -4,6 +4,9 @@ export default defineConfig({
   title: "Amethyst",
   description: "Amethyst Documentation",
   lang: 'en-US',
+  head: [
+    ["link", {rel: "icon", href: "https://github.com/Geoxor/amethyst/raw/master/assets/icon.svg"}]
+  ],
   appearance: "dark",
   themeConfig: {
     socialLinks: [
