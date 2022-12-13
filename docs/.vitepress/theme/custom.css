@@ -5,6 +5,7 @@
   --vp-button-brand-border: var(--vp-c-brand);
   --vp-button-brand-hover-border: #a3a3d1;
   --vp-button-brand-hover-bg: var(--vp-c-brand-dark);
+  --vp-button-brand-active-border: var(--vp-c-brand-dark);
 }
 
 :root.dark {
@@ -19,4 +20,5 @@
   --vp-button-alt-border: var(--vp-c-divider-dark-1);
   --vp-button-alt-hover-border: #5f5f85;
   --vp-button-alt-hover-bg: var(--vp-c-divider-dark-1);
+  --vp-button-alt-active-border: var(--vp-c-divider-dark-1);
 }

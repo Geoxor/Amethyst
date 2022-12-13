@@ -51,10 +51,10 @@ export default defineConfig({
         text: 'Audio Nodes',
         collapsible: true,
         items: [
-          { text: "Input Node", link: "/nodes/input_node"},
-          { text: "Master Node", link: "/nodes/master_node"},
-          { text: "Output Node", link: "/nodes/output_node"},
-          { text: "Filter Node", link: "/nodes/filter_node"},
+          { text: "<img align='left' src='/input_icon.svg' style='margin-right: 6px;' width='20'/> Input Node", link: "/nodes/input_node"},
+          { text: "<img align='left' src='/master_icon.svg' style='margin-right: 6px;' width='20'/> Master Node", link: "/nodes/master_node"},
+          { text: "<img align='left' src='/output_icon.svg' style='margin-right: 6px;' width='20'/> Output Node", link: "/nodes/output_node"},
+          { text: "<img align='left' src='/filter_icon.svg' style='margin-right: 6px;' width='20'/> Filter Node", link: "/nodes/filter_node"},
         ]
       }
     ]
