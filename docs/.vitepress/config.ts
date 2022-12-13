@@ -4,7 +4,12 @@ export default defineConfig({
   title: "Amethyst",
   description: "Amethyst Documentation",
   lang: 'en-US',
+  appearance: "dark",
   themeConfig: {
+
+    editLink: {
+      pattern: 'https://github.com/Geoxor/amethyst/tree/master/docs/:path'
+    },
     siteTitle: "Amethyst",
     logo: "https://raw.githubusercontent.com/Geoxor/amethyst/master/assets/icon.svg",
     sidebar: [{

@@ -27,7 +27,7 @@
     "install:windows": "yarn install:system && explorer release\\build",
     "clean": "git clean -f && rimraf ./release && rimraf ./node_modules",
     "test": "vitest --config ./src/renderer/vite.config.ts",
-    "docs:dev": "vitepress dev docs",
+    "docs:dev": "vitepress dev docs --host",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs"
   },
