@@ -6,7 +6,7 @@ import Menu from "@/components/menu/MenuContainer.vue";
 import MenuOption from "@/components/menu/MenuOption.vue";
 import MenuSplitter from "@/components/menu/MenuSplitter.vue";
 import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
-import { AudioFileIcon, DiscordIcon, GitHubIcon, MusicFolderIcon, ResetIcon, ZoomInIcon, ZoomOutIcon, RemoveIcon, ResizeIcon, DownloadingUpdatesIcon, SettingsIcon } from "@/icons/material";
+import { AudioFileIcon, DiscordIcon, GitHubIcon, MusicFolderIcon, ResetIcon, ZoomInIcon, ZoomOutIcon, RemoveIcon, ResizeIcon, DownloadingUpdatesIcon, SettingsIcon, BookshelfIcon } from "@/icons/material";
 import { useFps } from "@vueuse/core";
 import { player } from "@/logic/player";
 import AmethystLogo from "@/icons/AmethystLogo.vue";
@@ -120,6 +120,11 @@ const refreshWindow = () => location.reload();
       </Menu>
 
       <Menu title="About">
+        <menu-option
+          title="Documentation"
+          :icon="BookshelfIcon"
+          @click="electron.open('https://amethyst.pages.dev/')"
+        />
         <menu-option
           title="GitHub Repository"
           :icon="GitHubIcon"

@@ -36,7 +36,7 @@ const props = defineProps<{node: AmethystAudioNode<AudioNode>}>();
 <style scoped lang="postcss">
 .minimenu {
   button {
-    @apply px-2 gap-1 flex items-center justify-center border-surface-500;
+    @apply px-2 py-1 gap-1 flex items-center justify-center border-surface-500;
     &.unhook {
       @apply text-purple-400;
 
