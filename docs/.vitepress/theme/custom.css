@@ -16,4 +16,7 @@
   --vp-c-bg-alpha-with-backdrop: #0c0f2350;
   --vp-c-divider-dark-1: #383854;
   --vp-code-block-bg: #141621;
+  --vp-button-alt-border: var(--vp-c-divider-dark-1);
+  --vp-button-alt-hover-border: #5f5f85;
+  --vp-button-alt-hover-bg: var(--vp-c-divider-dark-1);
 }
