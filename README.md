@@ -27,7 +27,7 @@ brew install amethyst
 git clone --recurse-submodules https://github.com/geoxor/amethyst && cd amethyst && yarn && yarn test --run && yarn package
 ```
 
-![Amethyst](https://cdn.discordapp.com/attachments/667464431562653706/1043343748593107004/image.png)
+![Amethyst](https://cdn.discordapp.com/attachments/897569464684535860/1052188532975861850/image.png)
 
 ## ✨ Features
 - Custom cursors
