@@ -34,3 +34,29 @@ features:
   - icon: 🔌
     title: Plugins
     details: Support for plugins to add more features
+
+# Meta property
+head:
+  - - meta
+    - property: og:type
+      content: website
+  - - meta
+    - property: og:title
+      content: Amethyst
+  - - meta
+    - property: og:image
+      content: site_preview.png
+  - - meta
+    - property: og:url
+      content: https://github.com/Geoxor/amethyst
+  - - meta
+    - name: title
+      content: Amethyst
+  - - meta
+    - name: twitter:card
+      content: site_preview.png
+  - - link
+    - rel: icon
+      type: image/svg
+      href: icon.svg
+---

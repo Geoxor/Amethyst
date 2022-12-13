@@ -4,10 +4,6 @@ export default defineConfig({
   title: "Amethyst",
   description: "Amethyst Documentation",
   lang: 'en-US',
-  
-  head: [
-    ["link", {rel: "icon", href: "/icon.svg"}]
-  ],
   appearance: "dark",
   themeConfig: {
     footer: {
