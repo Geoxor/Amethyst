@@ -48,7 +48,10 @@ onUnmounted(() => {
       @click="state.settings.followQueue = !state.settings.followQueue;"
     />
 
-    <lazy-list :tracks="player.queue.search(filterText)" />
+    <lazy-list
+      :key="filterText.length"
+      :tracks="player.queue.search(filterText)"
+    />
   </droppable-container>
 </template>
 
