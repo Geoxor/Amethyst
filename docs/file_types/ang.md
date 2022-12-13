@@ -1,6 +1,6 @@
 # Amethyst Node Graph (.ang)
 
-<img align="right" src="https://github.com/Geoxor/amethyst/raw/master/assets/images/ang.png" alt=".ang" width="64"/>
+<img align="right" src="https://github.com/Geoxor/amethyst/raw/master/assets/images/ang.png" alt=".ang" width="128"/>
 
 This is a file that stores position, connections, and parameter 
 values for multiple nodes within a Node Graph

@@ -6,6 +6,16 @@ export default defineConfig({
   lang: 'en-US',
   appearance: "dark",
   themeConfig: {
+    socialLinks: [
+      {
+        link: "https://discord.gg/geoxor",
+        icon: "discord"
+      },
+      {
+        link: "https://github.com/Geoxor/amethyst",
+        icon: "github"
+      },
+    ],
     editLink: {
       pattern: 'https://github.com/Geoxor/amethyst/tree/master/docs/:path'
     },
@@ -30,13 +40,10 @@ export default defineConfig({
         text: 'Audio Nodes',
         collapsible: true,
         items: [
-          { text: "Gain Node", link: "/nodes/gain_node"},
-          { text: "Filter Node", link: "/nodes/filter_node"},
-          { text: "Panner Node", link: "/nodes/panner_node"},
           { text: "Input Node", link: "/nodes/input_node"},
           { text: "Master Node", link: "/nodes/master_node"},
           { text: "Output Node", link: "/nodes/output_node"},
-          { text: "Spectrum Node", link: "/nodes/spectrum_node"} 
+          { text: "Filter Node", link: "/nodes/filter_node"},
         ]
       }
     ]
