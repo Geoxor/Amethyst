@@ -6,7 +6,7 @@ export default defineConfig({
   lang: 'en-US',
   
   head: [
-    ["link", {rel: "icon", href: "https://github.com/Geoxor/amethyst/raw/master/assets/icon.svg"}]
+    ["link", {rel: "icon", href: "/icon.svg"}]
   ],
   appearance: "dark",
   themeConfig: {
@@ -27,7 +27,7 @@ export default defineConfig({
       pattern: 'https://github.com/Geoxor/amethyst/tree/master/docs/:path'
     },
     siteTitle: "Amethyst",
-    logo: "https://raw.githubusercontent.com/Geoxor/amethyst/master/assets/icon.svg",
+    logo: "/icon.svg",
     nav: [
       { text: "Documentation", link: "/introduction" },
       { text: "Download", link: "/installation/package_managers"},
