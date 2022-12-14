@@ -22,3 +22,9 @@
   --vp-button-alt-hover-bg: var(--vp-c-divider-dark-1);
   --vp-button-alt-active-border: var(--vp-c-divider-dark-1);
 }
+
+p > a:hover,
+li > a:hover,
+.edit-link-button:hover {
+  text-decoration: underline;
+}
