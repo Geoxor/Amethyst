@@ -2,9 +2,9 @@
 
 <img align="right" src="https://cdn.discordapp.com/attachments/667464431562653706/1052202046369054720/filter_node.png" alt=".node" width="256"/>
 
-A very basic two pole [filter](https://en.wikipedia.org/wiki/Filter_(signal_processing)) `(12dB/oct)` it has multiple [filter types](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) supported by the [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) with adjustable [`Gain`](https://en.wikipedia.org/wiki/Gain_(electronics)), [`Frequency`](https://en.wikipedia.org/wiki/Frequency) and [`Q`](https://en.wikipedia.org/wiki/Q_factor)
+The filter node holds a very basic two pole [filter](https://en.wikipedia.org/wiki/Filter_(signal_processing))`(12dB/oct)`, it has multiple [filter types](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) supported by the [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) with adjustable [`Gain`](https://en.wikipedia.org/wiki/Gain_(electronics)), [`Frequency`](https://en.wikipedia.org/wiki/Frequency) and [`Q`](https://en.wikipedia.org/wiki/Q_factor)
 
-These filters can be duplicated and chained in [series](https://en.wikipedia.org/wiki/Daisy_chain_(electrical_engineering)) to create a steeper [rolloff](https://en.wikipedia.org/wiki/Roll-off) filter, for example to create a classic `48dB/oct` [rolloff](https://en.wikipedia.org/wiki/Roll-off) filter you need to chain 4 of them
+Each of the filters can be duplicated and chained in [series](https://en.wikipedia.org/wiki/Daisy_chain_(electrical_engineering)) to create a steeper [rolloff](https://en.wikipedia.org/wiki/Roll-off) filter. For example, to create a classic `48dB/oct` [rolloff](https://en.wikipedia.org/wiki/Roll-off) filter, you need to chain 4 of them together.
 
 ## Filter Types
 
