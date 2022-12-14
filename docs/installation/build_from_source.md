@@ -1,5 +1,5 @@
 # ⚒️ Building from source
-If you're on this page that probably means you know what you're doing
+People who are taking this approach are expected to be familiar with how this is done (cloning, building, etc.)
 
 This command will build Amethyst for your system in the `./release/build` folder
 
