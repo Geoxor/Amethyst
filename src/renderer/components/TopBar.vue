@@ -168,7 +168,7 @@ const refreshWindow = () => location.reload();
       <div class="w-40 flex gap-1 justify-end">
         <div 
           :class="[
-            fps < 30 && 'text-red-500',
+            fps < 30 && 'text-rose-500',
             fps >= 30 && fps < 155 && 'text-yellow-300',
             fps >= (155*0.8) && 'text-green-500',
           ]"
