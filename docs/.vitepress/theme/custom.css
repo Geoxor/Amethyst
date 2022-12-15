@@ -25,9 +25,6 @@
 
 ::selection {
   color: white;
-}
-
-p::selection {
   background: var(--vp-c-brand);
 }
 
