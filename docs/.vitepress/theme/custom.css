@@ -23,6 +23,21 @@
   --vp-button-alt-active-border: var(--vp-c-divider-dark-1);
 }
 
+::selection {
+  color: white;
+}
+
+p::selection {
+  background: var(--vp-c-brand);
+}
+
+a::selection {
+  background: #646ac3;
+}
+a:hover::selection {
+  background: #a3a3d1;
+}
+
 p > a:hover,
 li > a:hover,
 .edit-link-button:hover {
