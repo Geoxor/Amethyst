@@ -8,7 +8,6 @@ import { AmethystInputNode } from "./InputNode";
 import { AmethystSpectrumNode } from "./SpectrumNode";
 import { AmethystOutputNode } from "./OutputNode";
 import { AmethystMasterNode } from "./MasterNode";
-import { WEQ8Node } from "./WEQ8Node";
 
 export {
   AmethystGainNode,
@@ -18,5 +17,4 @@ export {
   AmethystMasterNode,
   AmethystOutputNode,
   AmethystSpectrumNode,
-  WEQ8Node,
 };
