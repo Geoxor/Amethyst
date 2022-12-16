@@ -8,7 +8,7 @@ import { Connection, EdgeMouseEvent, NodeDragEvent, VueFlow } from "@vue-flow/co
 import { onKeyStroke } from "@vueuse/core";
 import { computed, onMounted, onUnmounted, ref } from "vue";
 import { player } from "@/logic/player";
-import { AmethystPannerNode, AmethystGainNode, AmethystSpectrumNode, AmethystFilterNode } from "@/nodes";
+import { AmethystPannerNode, AmethystGainNode, AmethystSpectrumNode, AmethystFilterNode, WEQ8Node } from "@/nodes";
 import { AmethystAudioNode } from "@/logic/audio";
 import { Coords } from "@shared/types";
 import { useContextMenu } from "@/components/ContextMenu";
@@ -99,6 +99,9 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   }},
   {title: "Add AmethystSpectrumNode", icon: WaveIcon, action: () => {
     player.nodeManager.addNode(new AmethystSpectrumNode(player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
+  }},
+  {title: "Add WEQ8Node", icon: WaveIcon, action: () => {
+    player.nodeManager.addNode(new WEQ8Node(player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
   }},
 ];
 

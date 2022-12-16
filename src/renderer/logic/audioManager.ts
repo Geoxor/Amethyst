@@ -3,13 +3,14 @@ import { AmethystGainNode,
   AmethystPannerNode,
   AmethystInputNode,
   AmethystMasterNode,
+  WEQ8Node,
   AmethystOutputNode,
   AmethystSpectrumNode, } from "@/nodes";
 import { Coords } from "@shared/types";
 import { Position as SourcePosition } from "@vue-flow/core";
 import { Ref, ref } from "vue";
+import { WEQ8Spec } from "weq8/dist/spec";
 import { AmethystAudioNode } from "./audio";
-
 const audioNodes: Record<string, any> = {
   AmethystGainNode,
   AmethystFilterNode,
@@ -18,6 +19,7 @@ const audioNodes: Record<string, any> = {
   AmethystMasterNode,
   AmethystOutputNode,
   AmethystSpectrumNode,
+  WEQ8Node,
 };
 
 export interface NodeProperties {
@@ -45,7 +47,7 @@ export type Paramaters = Partial<{
   Q: number;
   type: string;
   pan: number;
-}>; 
+} | WEQ8Spec>; 
 
 export interface Node {
   name: string;
@@ -126,13 +128,9 @@ export class AmethystAudioNodeManager {
       }
 
       if (!nodeInstance) return; 
-    
-      // overwrite the id to the .ang file
-      nodeInstance.properties.id = node.id;
-      // @ts-ignore Set the parameters 
-      node.paramaters && Object.entries(node.paramaters).forEach(([key, value]) => nodeInstance[key] = value);
-      // edge line connections
-      nodeInstance.connections = node.connections;
+
+      nodeInstance.loadPropertiesFromJSON(node);
+
       // connect webaudio nodes from edge line connections
       this.nodes.value.push(nodeInstance);
     });
