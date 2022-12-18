@@ -29,6 +29,7 @@ export default defineConfig({
 					700: cssVarRgbHelper("primary-700"),
 				},
 				surface: {
+					1000: cssVarRgbHelper("surface-1000"),
 					900: cssVarRgbHelper("surface-900"),
 					800: cssVarRgbHelper("surface-800"),
 					700: cssVarRgbHelper("surface-700"),

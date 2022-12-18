@@ -33,12 +33,16 @@ import DownloadingUpdatesIcon from "./DownloadingUpdatesIcon.vue";
 import PlayIcon from "./PlayIcon.vue";
 import ErrorIcon from "./ErrorIcon.vue";
 import ExternalLinkIcon from "./ExternalLinkIcon.vue";
+import BinocularsIcon from "./BinocularsIcon.vue";
+import ImageIcon from "./ImageIcon.vue";
 
 export {
   DiscordIcon,
   LoadingIcon,
   GitHubIcon,
+  BinocularsIcon,
   ZoomInIcon,
+  ImageIcon,
   ZoomOutIcon,
   ExternalLinkIcon,
   ResizeIcon,

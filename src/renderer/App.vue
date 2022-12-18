@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useState } from "@/amethyst";
 import TopBar from "@/components/TopBar.vue";
-
+import {InspectorBar, useInspector} from "@/components/Inspector";
 import SettingsBar from "@/components/SettingsBar.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import NavigationBar from "@/components/NavigationBar.vue";
@@ -58,9 +58,10 @@ onUnmounted(() => {
     <top-bar />
     <context-menu v-if="useContextMenu().state.isVisible" />
     <div class="h-full whitespace-nowrap flex flex-col justify-between overflow-hidden">
-      <div class="flex-1 flex h-full max-h-full overflow-hidden">
+      <div class="flex-1 flex h-full max-h-full relative overflow-hidden">
         <navigation-bar />
         <router-view />
+        <inspector-bar v-if="useInspector().state.isVisible" />
         <settings-bar v-if="state.settings.showSettings" />
       </div>
 

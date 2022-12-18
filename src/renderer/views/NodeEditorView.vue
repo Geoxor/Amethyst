@@ -154,7 +154,7 @@ onKeyStroke("Delete", () => {
     class="flex-1 h-full w-full borderRight flex flex-col relative"
   >
     <div
-      class="flex flex-col gap-2 absolute bottom-2 right-2 z-10 "
+      class="flex flex-col gap-2 absolute bottom-2 left-2 z-10 "
     >
       <SquareButton
         :icon="ResetIcon"
@@ -182,7 +182,7 @@ onKeyStroke("Delete", () => {
     <VueFlow
       ref="dash"
       v-model="elements"
-      class="bg-black bg-opacity-25 p-2"
+      class="bg-surface-1000 p-2"
       :snap-to-grid="state.settings.isSnappingToGrid"
       :max-zoom="2.00"
       :connection-line-style="{ stroke: getThemeColorHex('--primary-700') }"

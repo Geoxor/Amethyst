@@ -44,6 +44,7 @@ export class Store {
 		vectorscopeLineThickness: 1,
 		showPlaybackControls: true,
 		followQueue: false,
+		showInspector: true,
 		isSnappingToGrid: false,
 		diagonalVectorscope: true,
 		useLogarithmicSpectrum: true,

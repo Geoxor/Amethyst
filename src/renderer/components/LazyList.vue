@@ -2,11 +2,12 @@
 import { useShortcuts, useState } from "@/amethyst";
 import { Track } from "@/logic/track";
 import BaseChip from "@/components/BaseChip.vue";
-import { PlayIcon, ExternalLinkIcon, LoadingIcon, ErrorIcon } from "@/icons/material";
+import { PlayIcon, ExternalLinkIcon, LoadingIcon, BinocularsIcon, ErrorIcon } from "@/icons/material";
 import Cover from "@/components/CoverArt.vue";
 import { player } from "@/logic/player";
 import { useContextMenu } from "@/components/ContextMenu";
 import { RemoveIcon, ResetIcon } from "@/icons/material";
+import { useInspector } from "./Inspector";
 
 defineProps<{tracks: Track[]}>();
 const state = useState();
@@ -17,6 +18,7 @@ const invoke = window.electron.ipcRenderer.invoke;
 const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
   useContextMenu().open({x, y}, [
     { title: "Play", icon: PlayIcon, action: () => player.play(track) },
+    { title: "Inspect", icon: BinocularsIcon, action: () => useInspector().inspect(track) },
     { title: "Open in Explorer...", icon: ExternalLinkIcon, action: () => invoke("show-item", [track.path]) },
     { title: "Reload metadata", icon: ResetIcon, action: () => track.fetchAsyncData(true) },
     { title: "Remove from queue", icon: RemoveIcon, red: true, action: () => player.queue.remove(track) },
