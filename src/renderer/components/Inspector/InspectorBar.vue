@@ -2,6 +2,7 @@
 import { useElectron, useState } from "@/amethyst";
 import { CloseIcon } from "@/icons/fluency";
 import { AudioFileIcon, ExternalLinkIcon, ImageIcon, ListIcon, PlaystationButtonsIcon, BinocularsIcon } from "@/icons/material";
+import ResetIcon from "@/icons/material/ResetIcon.vue";
 import { Track } from "@/logic/track";
 import { bitsToHuman } from "@shared/formating";
 import { computed } from "vue";
@@ -68,6 +69,10 @@ const state = useState();
             }}
           </p>
         </li>
+        <button @click="currentItem.fetchAsyncData()">
+          Refresh metadata
+          <ResetIcon />
+        </button>
       </section>
       <section>
         <h1>
@@ -93,10 +98,7 @@ const state = useState();
           <h1>Filesize</h1>
           <p> {{ currentItem.getFilesizeFormatted() }}</p>
         </li>
-        <button
-          class="bg-surface-00 items-center flex justify-center gap-2 w-full cursor-pointer hover:bg-primary-800 hover:bg-opacity-10 hover:text-primary-800 rounded-4px py-2 px-3"
-          @click="useElectron().ipc.invoke('show-item', [ currentItem.path])"
-        >
+        <button @click="useElectron().ipc.invoke('show-item', [ currentItem.path])">
           Show in explorer
           <ExternalLinkIcon />
         </button>
@@ -104,7 +106,7 @@ const state = useState();
       <section>
         <h1>
           <PlaystationButtonsIcon />
-          Audio properties
+          Audio Properties
         </h1>
         <li>
           <h1>Channels</h1>
@@ -141,7 +143,7 @@ const state = useState();
           State
         </h1>
         <li>
-          <h1>Has errored</h1>
+          <h1>Errored</h1>
           <p> {{ currentItem.hasErrored ? "Yes" : "No" }}</p>
         </li>
         <li>
@@ -152,6 +154,10 @@ const state = useState();
           <h1>Loading</h1>
           <p> {{ currentItem.isLoading ? "Yes" : "No" }}</p>
         </li>
+        <button @click="useElectron().ipc.invoke('show-item', [ currentItem.getCachePath()])">
+          Show .amf
+          <ExternalLinkIcon />
+        </button>
       </section>
     </div>
   </div>
@@ -166,6 +172,10 @@ section {
   @apply flex flex-col gap-1 p-2 px-3;
   /* border */
   @apply border-b-1 border-b-surface-600 border-t-transparent border-r-transparent border-l-transparent;
+
+  & button {
+    @apply bg-surface-900 items-center flex justify-center gap-2 w-full cursor-pointer hover:bg-primary-800 hover:bg-opacity-10 hover:text-primary-800 rounded-4px py-2 px-3;
+  }
 
   &:hover {
     @apply bg-surface-900;

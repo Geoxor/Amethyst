@@ -19,7 +19,7 @@ export class Track {
       throw new Error(`Given file extension does not match any of the allowed types [${ALLOWED_AUDIO_EXTENSIONS.join(", ")}]`);
   }
 
-  private getCachePath() {
+  public getCachePath() {
     return window.path.join(useElectron().APPDATA_PATH || "" , "/amethyst/Metadata Cache", this.getFilename() + ".amf");
   }
   
