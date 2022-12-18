@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { useState } from "@/amethyst";
 import NavigationButton from "@/components/NavigationButton.vue";
-import { ListIcon, SettingsIcon, SelectNoneIcon, PlaystationButtonsIcon, } from "@/icons/material";
+import { ListIcon, SettingsIcon, SelectNoneIcon, PlaystationButtonsIcon, BinocularsIcon, } from "@/icons/material";
 import { useRoute, useRouter } from "vue-router";
+import { useInspector } from "./Inspector";
 const state = useState();
 const router = useRouter();
 const route = useRoute();
@@ -36,7 +37,11 @@ const route = useRoute();
     />
 
     <div class="flex-1" />
-
+    <navigation-button
+      :icon="BinocularsIcon"
+      :active="useInspector().state.isVisible"
+      @click="useInspector().state.isVisible = !useInspector().state.isVisible"
+    />
     <navigation-button
       :icon="SettingsIcon"
       :active="state.settings.showSettings"

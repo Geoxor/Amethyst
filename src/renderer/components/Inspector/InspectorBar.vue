@@ -4,9 +4,10 @@ import { CloseIcon } from "@/icons/fluency";
 import { AudioFileIcon, ExternalLinkIcon, ImageIcon, ListIcon, PlaystationButtonsIcon, BinocularsIcon } from "@/icons/material";
 import ResetIcon from "@/icons/material/ResetIcon.vue";
 import { AmethystAudioNode } from "@/logic/audio";
+import { player } from "@/logic/player";
 import { Track } from "@/logic/track";
 import { bitsToHuman, bytesToHuman } from "@shared/formating";
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import { useInspector } from ".";
 import BaseChip from "../BaseChip.vue";
 import CoverArt from "../CoverArt.vue";
@@ -19,6 +20,13 @@ const type = (item: any) => {
   if (item instanceof AmethystAudioNode) return "node";
   return;
 };
+
+player.on("play", track => inspector.inspect(track));
+
+onMounted(() => {
+  const currentTrack = player.getCurrentTrack();
+  if (!currentItem.value && currentTrack) inspector.inspect(currentTrack);
+});
 
 </script>
 

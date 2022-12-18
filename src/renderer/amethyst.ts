@@ -38,6 +38,7 @@ export class Amethyst {
       event.preventDefault();
       event.stopPropagation();
       player.queue.add(Array.from(event.dataTransfer!.files).map(f => f.path));
+      player.play(player.queue.getList()[ player.queue.getList().length - 1]);
     });
 
     document.addEventListener("dragover", e => {
