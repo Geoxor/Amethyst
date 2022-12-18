@@ -34,10 +34,6 @@ export class AmethystAudioNode<T extends AudioNode> {
       if (!target) return;
       this.connectedTo.push(target);
       this.audioNode.connect(target.audioNode);
-
-      console.log("connecting", this.properties.name, "to", target.properties.name);
-      console.log(edge);
-
     });
   }
 
@@ -50,8 +46,6 @@ export class AmethystAudioNode<T extends AudioNode> {
       target: target.properties.id 
     });
     this.audioNode.connect(target.audioNode);
-    console.log(this.connections);
-
   }
 
   public disconnectFrom(target: AmethystAudioNode<AudioNode>) {

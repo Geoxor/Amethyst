@@ -81,7 +81,7 @@ const type = (item: any) => {
             }}
           </p>
         </li>
-        <button @click="currentItem.fetchAsyncData()">
+        <button @click="currentItem.fetchAsyncData(true)">
           Refresh metadata
           <ResetIcon />
         </button>
@@ -93,7 +93,7 @@ const type = (item: any) => {
         </h1>
         <div
           v-for="(picture, i) of currentItem.getMetadata()?.common.picture"
-          :key="picture.type"
+          :key="picture.data.byteLength"
           class="flex gap-2 py-1 borderBottom last:border-none"
         >
           <CoverArt 

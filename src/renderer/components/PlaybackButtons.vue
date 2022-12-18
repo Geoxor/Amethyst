@@ -9,6 +9,9 @@ import WaveSurfer from "wavesurfer.js";
 import { getThemeColorHex } from "@/logic/color";
 import { Track } from "@/logic/track";
 import { player } from "@/logic/player";
+import { useInspector } from "./Inspector";
+import { BinocularsIcon } from "@/icons/material";
+import { useContextMenu } from "./ContextMenu";
 
 const state = useState();
 let wavesurfer: WaveSurfer;
@@ -73,6 +76,12 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
   delta > 0 ? player.volumeDown() : player.volumeUp();
 };
 
+const handleContextCoverMenu = ({x, y}: MouseEvent) => {
+  useContextMenu().open({x, y}, [
+    { title: "Inspect", icon: BinocularsIcon, action: () => player.getCurrentTrack() && useInspector().inspect(player.getCurrentTrack()!) },
+  ]);
+};
+
 // const handleSeekMouseScroll = (e: WheelEvent) => {
 //   const delta = Math.sign(e.deltaY);
 //   delta < 0 ? player.seekForward() : player.seekBackward();
@@ -86,6 +95,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       v-if="state.settings.showCoverArt" 
       class="rounded-4px h-19 w-19"
       :url="player.getCurrentTrack()?.getCover() || state.state.defaultCover"
+      @contextmenu="handleContextCoverMenu"
     />
     <div class="flex flex-col justify-between h-full w-full">
       <div class="flex flex py-1 gap-2 items-start justify-between">
