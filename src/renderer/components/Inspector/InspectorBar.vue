@@ -81,7 +81,10 @@ const type = (item: any) => {
             }}
           </p>
         </li>
-        <button @click="currentItem.fetchAsyncData(true)">
+        <button
+          class="cursor-pointer"
+          @click="currentItem.fetchAsyncData(true)"
+        >
           Refresh metadata
           <ResetIcon />
         </button>
@@ -125,14 +128,17 @@ const type = (item: any) => {
         </h1>
 
         <li>
-          <h1>Filename</h1>
+          <h1>Name</h1>
           <p> {{ currentItem.getFilename() }}</p>
         </li>
         <li>
-          <h1>Filesize</h1>
+          <h1>Size</h1>
           <p> {{ currentItem.getFilesizeFormatted() }}</p>
         </li>
-        <button @click="useElectron().ipc.invoke('show-item', [ currentItem.path])">
+        <button
+          class="cursor-pointer"
+          @click="useElectron().ipc.invoke('show-item', [ currentItem.path])"
+        >
           Show in explorer
           <ExternalLinkIcon />
         </button>
@@ -188,7 +194,10 @@ const type = (item: any) => {
           <h1>Loading</h1>
           <p> {{ currentItem.isLoading ? "Yes" : "No" }}</p>
         </li>
-        <button @click="useElectron().ipc.invoke('show-item', [ currentItem.getCachePath()])">
+        <button
+          class="cursor-pointer"
+          @click="useElectron().ipc.invoke('show-item', [ currentItem.getCachePath()])"
+        >
           Show .amf
           <ExternalLinkIcon />
         </button>
@@ -209,7 +218,6 @@ section {
 
   & button {
     @apply bg-surface-800 items-center flex justify-center gap-2 w-full hover:bg-primary-800 hover:bg-opacity-10 hover:text-primary-800 rounded-4px py-2 px-3;
-    cursor: url("./cursors/pointer.png") 4 0, auto !important;
   }
 
   &:hover {
