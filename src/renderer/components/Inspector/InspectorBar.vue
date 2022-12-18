@@ -3,14 +3,22 @@ import { useElectron, useState } from "@/amethyst";
 import { CloseIcon } from "@/icons/fluency";
 import { AudioFileIcon, ExternalLinkIcon, ImageIcon, ListIcon, PlaystationButtonsIcon, BinocularsIcon } from "@/icons/material";
 import ResetIcon from "@/icons/material/ResetIcon.vue";
+import { AmethystAudioNode } from "@/logic/audio";
 import { Track } from "@/logic/track";
 import { bitsToHuman } from "@shared/formating";
 import { computed } from "vue";
 import { useInspector } from ".";
+import BaseChip from "../BaseChip.vue";
 import CoverArt from "../CoverArt.vue";
 const inspector = useInspector();
 const currentItem = computed(() => inspector.state.currentItem);
 const state = useState();
+
+const type = (item: any) => {
+  if (item instanceof Track) return "track";
+  if (item instanceof AmethystAudioNode) return "node";
+};
+
 </script>
 
 <template>
@@ -22,6 +30,9 @@ const state = useState();
       <div class="flex gap-2 items-center">
         <BinocularsIcon />
         <h1>Inspector</h1>
+        <BaseChip>
+          {{ type(currentItem) }}
+        </BaseChip>
       </div>
       <button
         class="p-3 cursor-pointer hover:text-white"
@@ -174,16 +185,17 @@ section {
   @apply border-b-1 border-b-surface-600 border-t-transparent border-r-transparent border-l-transparent;
 
   & button {
-    @apply bg-surface-900 items-center flex justify-center gap-2 w-full cursor-pointer hover:bg-primary-800 hover:bg-opacity-10 hover:text-primary-800 rounded-4px py-2 px-3;
+    @apply bg-surface-800 items-center flex justify-center gap-2 w-full hover:bg-primary-800 hover:bg-opacity-10 hover:text-primary-800 rounded-4px py-2 px-3;
+    cursor: url("./cursors/pointer.png") 4 0, auto !important;
   }
 
   &:hover {
-    @apply bg-surface-900;
+    @apply bg-surface-800;
     & p {
-      @apply bg-surface-700;
+      @apply bg-surface-600;
     }
-    & button:not(:hover):not(:active) {
-      @apply bg-surface-700;
+    & button:not(:hover) {
+      @apply bg-surface-600;
     }
   }
 
@@ -198,9 +210,8 @@ section {
   }
 
   & p {
-    @apply px-2 py-1.5 text-7px bg-surface-900 rounded-4px overflow-hidden overflow-ellipsis;
+    @apply px-2 py-1.5 text-7px bg-surface-800 rounded-4px overflow-hidden overflow-ellipsis;
     font-family: "aseprite";
   }
-  
 }
 </style>
