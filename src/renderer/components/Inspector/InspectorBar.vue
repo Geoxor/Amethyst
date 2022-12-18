@@ -94,7 +94,7 @@ const state = useState();
           <p> {{ currentItem.getFilesizeFormatted() }}</p>
         </li>
         <button
-          class="bg-surface-900 items-center flex justify-center gap-2 w-full cursor-pointer hover:bg-primary-800 hover:bg-opacity-10 active:bg-primary-700 active:text-white active:bg-opacity-100 hover:text-primary-800 rounded-4px py-2 px-3"
+          class="bg-surface-00 items-center flex justify-center gap-2 w-full cursor-pointer hover:bg-primary-800 hover:bg-opacity-10 hover:text-primary-800 rounded-4px py-2 px-3"
           @click="useElectron().ipc.invoke('show-item', [ currentItem.path])"
         >
           Show in explorer
@@ -179,6 +179,9 @@ section {
 
   & li {
     @apply flex justify-between gap-2 items-center;
+    & h1 {
+      @apply text-primary-1000;
+    }
   }
   & > h1 {
     @apply text-primary-800 py-2 flex gap-2 items-center;
