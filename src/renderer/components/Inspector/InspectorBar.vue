@@ -5,7 +5,7 @@ import { AudioFileIcon, ExternalLinkIcon, ImageIcon, ListIcon, PlaystationButton
 import ResetIcon from "@/icons/material/ResetIcon.vue";
 import { AmethystAudioNode } from "@/logic/audio";
 import { Track } from "@/logic/track";
-import { bitsToHuman } from "@shared/formating";
+import { bitsToHuman, bytesToHuman } from "@shared/formating";
 import { computed } from "vue";
 import { useInspector } from ".";
 import BaseChip from "../BaseChip.vue";
@@ -91,10 +91,32 @@ const type = (item: any) => {
           <ImageIcon />
           Covers
         </h1>
-        <CoverArt
-          class="w-16 rounded-4px"
-          :url="currentItem.getCover()"
-        />
+        <div
+          v-for="(picture, i) of currentItem.getMetadata()?.common.picture"
+          :key="picture.type"
+          class="flex gap-2 py-1 borderBottom last:border-none"
+        >
+          <CoverArt 
+            class="w-16 rounded-4px"
+            :url="currentItem.getCoverByFace(i)"
+          />
+          <div class="flex flex-col gap-1 w-full">
+            <li class="flex justify-between gap-2">
+              <h1>Face</h1>
+              <p>
+                {{ picture.type === "Media (e.g. label side of CD)" ? 'Disc' : picture.type }}
+              </p>
+            </li>
+            <li class="flex justify-between gap-2">
+              <h1>Format</h1>
+              <p> {{ picture.format }} </p>
+            </li>
+            <li class="flex justify-between gap-2">
+              <h1>Size</h1>
+              <p> {{ bytesToHuman(picture.data.byteLength || 0) }} </p>
+            </li>
+          </div>
+        </div>
       </section>
       <section>
         <h1 class="">

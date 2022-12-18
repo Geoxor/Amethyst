@@ -36,6 +36,12 @@ export class Track {
     return (await fetch(this.getCachePath())).json();
   }
 
+  public getCoverByFace(face = 0) {
+    const picture = this.metadata.data?.common.picture?.[face];
+    if (!picture) return;
+    return URL.createObjectURL(new Blob([new Uint8Array(picture.data)], { type: picture.type }));
+  }
+
   /**
    * Fetches the metadata for a given track
    */
