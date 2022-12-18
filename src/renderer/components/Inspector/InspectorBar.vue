@@ -17,6 +17,7 @@ const state = useState();
 const type = (item: any) => {
   if (item instanceof Track) return "track";
   if (item instanceof AmethystAudioNode) return "node";
+  return;
 };
 
 </script>
