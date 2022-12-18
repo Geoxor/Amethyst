@@ -13,7 +13,7 @@ defineProps<{
   <button
     :class="[
       title.includes('...') && 'cursor-pointer',
-      red ? 'hover:bg-rose-600 hover:text-black hover:font-bold' : 'hover:bg-surface-600 hover:text-primary-800 '
+      red ? 'hover:bg-rose-600 hover:text-black hover:font-bold' : 'hover:bg-surface-600 hover:text-primary-800'
     ]"
     class="text-left text-11px py-1.5 px-6 w-full flex justify-between items-center"
   >

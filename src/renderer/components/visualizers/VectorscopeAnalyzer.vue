@@ -79,6 +79,6 @@ onUnmounted(() => shouldStopRendering = true);
 
 <style scoped lang="postcss">
 .diagonal {
-	@apply transform rotate-45 scale-66 rounded-4px bg-black bg-opacity-20;
+	@apply transform rotate-45 scale-66 rounded-4px bg-surface-1000;
 }
 </style>

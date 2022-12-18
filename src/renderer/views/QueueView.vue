@@ -36,7 +36,7 @@ onUnmounted(() => {
     <input
       v-model="filterText"
       type="text"
-      class="border-2 z-30 select-none w-full bg-surface-800 border-surface-600 text-white py-0.25 placeholder-primary-900 placeholder-opacity-75 hover:placeholder-opacity-100 indent-xs text-12px mb-2"
+      class="border-1 z-30 select-none w-full bg-surface-800 border-surface-600 text-white py-0.25 placeholder-primary-900 placeholder-opacity-75 hover:placeholder-opacity-100 indent-xs text-12px mb-2"
       placeholder="name, album & artist..."
       @keydown.stop
     >
