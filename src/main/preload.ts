@@ -7,7 +7,6 @@ import * as path from "path";
 contextBridge.exposeInMainWorld("fs", fs);
 contextBridge.exposeInMainWorld("os", os);
 contextBridge.exposeInMainWorld("path", path);
-contextBridge.exposeInMainWorld("id3", id3);
 
 export type Channels =
 	"minimize" |
