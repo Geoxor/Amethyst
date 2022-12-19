@@ -78,7 +78,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
 
 const handleContextCoverMenu = ({x, y}: MouseEvent) => {
   useContextMenu().open({x, y}, [
-    { title: "Inspect", icon: BinocularsIcon, action: () => player.getCurrentTrack() && useInspector().inspect(player.getCurrentTrack()!) },
+    { title: "Inspect", icon: BinocularsIcon, action: () => player.getCurrentTrack() && useInspector().inspectAndShow(player.getCurrentTrack()!) },
   ]);
 };
 

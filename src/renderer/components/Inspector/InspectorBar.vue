@@ -1,31 +1,33 @@
 <script setup lang="ts">
 import { useElectron, useState } from "@/amethyst";
 import { CloseIcon } from "@/icons/fluency";
-import { AudioFileIcon, ExternalLinkIcon, ImageIcon, ListIcon, PlaystationButtonsIcon, BinocularsIcon } from "@/icons/material";
+import { AudioFileIcon, ExternalLinkIcon, ImageIcon, ListIcon, PlaystationButtonsIcon, BinocularsIcon, LoadingIcon, SaveIcon } from "@/icons/material";
 import ResetIcon from "@/icons/material/ResetIcon.vue";
-import { AmethystAudioNode } from "@/logic/audio";
+
 import { player } from "@/logic/player";
 import { Track } from "@/logic/track";
-import { bitsToHuman, bytesToHuman } from "@shared/formating";
-import { computed, onMounted } from "vue";
-import { useInspector } from ".";
+import { bytesToHuman } from "@shared/formating";
+import { computed, onMounted, onUnmounted } from "vue";
+import { useInspector, getInspectableItemType } from ".";
 import BaseChip from "../BaseChip.vue";
 import CoverArt from "../CoverArt.vue";
 const inspector = useInspector();
 const currentItem = computed(() => inspector.state.currentItem);
 const state = useState();
 
-const type = (item: any) => {
-  if (item instanceof Track) return "track";
-  if (item instanceof AmethystAudioNode) return "node";
-  return;
+const handlePlay = (track: Track) => {
+  inspector.inspect(track);
 };
 
-player.on("play", track => inspector.inspect(track));
-
 onMounted(() => {
+  player.on("play", handlePlay);
   const currentTrack = player.getCurrentTrack();
-  if (!currentItem.value && currentTrack) inspector.inspect(currentTrack);
+  if (!currentTrack) return;
+  if (!currentItem.value) inspector.inspect(currentTrack);
+});
+
+onUnmounted(() => {
+  player.off("play", handlePlay);
 });
 
 </script>
@@ -40,12 +42,12 @@ onMounted(() => {
         <BinocularsIcon />
         <h1>Inspector</h1>
         <BaseChip>
-          {{ type(currentItem) }}
+          {{ getInspectableItemType(currentItem) }}
         </BaseChip>
       </div>
       <button
         class="p-3 cursor-pointer hover:text-white"
-        @click="inspector.state.isVisible = false"
+        @click="inspector.hide()"
       >
         <CloseIcon class="w-4 h-4" />
       </button>
@@ -59,35 +61,30 @@ onMounted(() => {
         <h1>
           <ListIcon />
           Metadata
+          <loading-icon
+            v-if="!currentItem.isLoaded"
+            class="h-3 animate-spin w-3 min-h-3 min-w-3"
+          />
         </h1>
         <li>
           <h1>Artist</h1>
-          <p> {{ currentItem.getArtistsFormatted() }}</p>
+          <input :value="currentItem.getArtistsFormatted()">
         </li>
         <li>
           <h1>Title</h1>
-          <p> {{ currentItem.getTitleFormatted() }}</p>
+          <input :value="currentItem.getTitleFormatted()">
         </li>
         <li>
           <h1>Album</h1>
-          <p> {{ currentItem.getAlbumFormatted() }}</p>
+          <input :value="currentItem.getAlbumFormatted()">
         </li>
         <li>
           <h1>Year</h1>
-          <p> {{ currentItem.getMetadata()?.common.year }}</p>
+          <input :value="currentItem.getMetadata()?.common.year">
         </li>
         <li>
           <h1>Track Number</h1>
-          <p> {{ currentItem.getMetadata()?.common.track.no }}</p>
-        </li>
-        <li>
-          <h1>Total Tracks</h1>
-          <p>
-            {{ currentItem.getMetadata()?.common.totaltracks 
-              || currentItem.getMetadata()?.common.track.of 
-              || currentItem.getMetadata()?.common.track.no 
-            }}
-          </p>
+          <input :value="currentItem.getMetadata()?.common.track.no">
         </li>
         <button
           class="cursor-pointer"
@@ -101,6 +98,10 @@ onMounted(() => {
         <h1>
           <ImageIcon />
           Covers
+          <loading-icon
+            v-if="!currentItem.isLoaded"
+            class="h-3 animate-spin w-3 min-h-3 min-w-3"
+          />
         </h1>
         <div
           v-for="(picture, i) of currentItem.getMetadata()?.common.picture"
@@ -174,7 +175,7 @@ onMounted(() => {
         </li>
         <li>
           <h1>Bitrate</h1>
-          <p> {{ bitsToHuman(currentItem.getMetadata()?.format.bitrate || 0) }}</p>
+          <p> {{ (((currentItem.getMetadata()?.format.bitrate) || 0) / 1000).toFixed(2) }} Kbps</p>
         </li>
         <li>
           <h1>Bits</h1>
@@ -220,16 +221,17 @@ onMounted(() => {
 }
 
 section {
-  @apply flex flex-col gap-1 p-2 px-3;
+  @apply flex flex-col gap-1 p-3;
   /* border */
   @apply border-b-1 border-b-surface-600 border-t-transparent border-r-transparent border-l-transparent;
 
   & button {
-    @apply bg-surface-800 items-center flex justify-center gap-2 w-full hover:bg-primary-800 hover:bg-opacity-10 hover:text-primary-800 rounded-4px py-2 px-3;
+    @apply bg-surface-800 mt-2 items-center flex justify-center gap-2 w-full hover:bg-primary-800 hover:bg-opacity-10 hover:text-primary-800 rounded-4px py-1.5;
   }
 
   &:hover {
     @apply bg-surface-800;
+    & input,
     & p {
       @apply bg-surface-600;
     }
@@ -245,12 +247,24 @@ section {
     }
   }
   & > h1 {
-    @apply text-primary-800 py-2 flex gap-2 items-center;
+    @apply text-primary-800 pb-2 flex gap-2 items-center;
   }
 
+  & input,
   & p {
     @apply px-2 py-1.5 text-7px bg-surface-800 rounded-4px overflow-hidden overflow-ellipsis;
     font-family: "aseprite";
   }
+
+  input {
+    @apply border-1 border-transparent;
+    &:hover {
+      @apply bg-primary-800 bg-opacity-25 text-white;
+    }
+    &:focus {
+      @apply bg-primary-800 bg-opacity-25 border-1 border-primary-800 text-white;
+    }
+  }
 }
+
 </style>

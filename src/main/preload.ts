@@ -3,10 +3,12 @@ import { contextBridge, ipcRenderer } from "electron";
 import * as fs from "fs/promises";
 import * as os from "os";
 import * as path from "path";
+import * as id3 from "node-id3";
 
 contextBridge.exposeInMainWorld("fs", fs);
 contextBridge.exposeInMainWorld("os", os);
 contextBridge.exposeInMainWorld("path", path);
+contextBridge.exposeInMainWorld("id3", id3);
 
 export type Channels =
 	"minimize" |

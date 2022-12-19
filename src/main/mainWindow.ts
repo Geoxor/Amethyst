@@ -6,6 +6,7 @@ import { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from 
 import { Discord, FormatIcons } from "../plugins/amethyst.discord";
 import {ALLOWED_AUDIO_EXTENSIONS} from "../shared/constants";
 import { IS_DEV } from "./main";
+import NodeID3 from "node-id3";
 
 export const APP_VERSION = app.isPackaged ? app.getVersion() : process.env.npm_package_version ?? "0.0.0";
 export const METADATA_CACHE_PATH = path.join(app.getPath("appData"), "/amethyst/Metadata Cache");
@@ -275,6 +276,12 @@ export class MainWindow {
 			"get-metadata": async (_: Event, [path]: string[]) => {
 				const { Metadata } = await import("./metadata");
 				return Metadata.getMetadata(path);
+			},
+
+			"id3-update": async (_: Event, [tags, path]: any) => {
+				console.log(tags, path);
+				
+				return NodeID3.update(tags, path);
 			},
 
 			"show-item": (_: Event, [fullPath]: string[]) => {

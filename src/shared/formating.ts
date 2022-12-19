@@ -9,14 +9,6 @@ export const bytesToHuman = (bytes: number): string => {
   return `${parseFloat((bytes / Math.pow(1024, i)).toFixed(2))} ${sizes[i]}`;
 };
 
-export const bitsToHuman = (bits: number): string => {
-  const sizes = ["bps", "Kbps", "Mbps", "Gbps", "Tbps"];
-  if (bits === 0)
-    return "0 bps";
-  const i = ~~(Math.log(bits) / Math.log(1024));
-  return `${parseFloat((bits / Math.pow(1024, i)).toFixed(2))} ${sizes[i]}`;
-};
-
 // Turns seconds from 80 to 1:20
 export const secondsToHuman = (time: number): string => {
   return prettyMilliseconds(time * 1000,{secondsDecimalDigits: 0});
