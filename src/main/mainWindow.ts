@@ -277,12 +277,6 @@ export class MainWindow {
 				return Metadata.getMetadata(path);
 			},
 
-			"id3-update": async (_: Event, [tags, path]: any) => {
-				console.log(tags, path);
-				
-				return NodeID3.update(tags, path);
-			},
-
 			"show-item": (_: Event, [fullPath]: string[]) => {
 				shell.showItemInFolder(path.normalize(fullPath));
 			},
