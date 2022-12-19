@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useElectron, useState } from "@/amethyst";
 import { CloseIcon } from "@/icons/fluency";
-import { AudioFileIcon, ExternalLinkIcon, ImageIcon, ListIcon, PlaystationButtonsIcon, BinocularsIcon, LoadingIcon, SaveIcon } from "@/icons/material";
+import { AudioFileIcon, ExternalLinkIcon, ImageIcon, ListIcon, PlaystationButtonsIcon, BinocularsIcon, LoadingIcon } from "@/icons/material";
 import ResetIcon from "@/icons/material/ResetIcon.vue";
 
 import { player } from "@/logic/player";

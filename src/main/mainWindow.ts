@@ -6,7 +6,6 @@ import { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from 
 import { Discord, FormatIcons } from "../plugins/amethyst.discord";
 import {ALLOWED_AUDIO_EXTENSIONS} from "../shared/constants";
 import { IS_DEV } from "./main";
-import NodeID3 from "node-id3";
 
 export const APP_VERSION = app.isPackaged ? app.getVersion() : process.env.npm_package_version ?? "0.0.0";
 export const METADATA_CACHE_PATH = path.join(app.getPath("appData"), "/amethyst/Metadata Cache");
