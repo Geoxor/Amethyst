@@ -2904,13 +2904,6 @@ iconv-corefoundation@^1.1.7:
     cli-truncate "^2.1.0"
     node-addon-api "^1.6.3"
 
-iconv-lite@0.6.2:
-  version "0.6.2"
-  resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.6.2.tgz#ce13d1875b0c3a674bd6a04b7f76b01b1b6ded01"
-  integrity sha512-2y91h5OpQlolefMPmUlivelittSWy0rP+oYVpn6A7GwVHNE8AWzoYOBNmlwks3LobaJxgHCYZAnyNo2GgpNRNQ==
-  dependencies:
-    safer-buffer ">= 2.1.2 < 3.0.0"
-
 iconv-lite@0.6.3, iconv-lite@^0.6.2:
   version "0.6.3"
   resolved "https://registry.yarnpkg.com/iconv-lite/-/iconv-lite-0.6.3.tgz#a52f80bf38da1952eb5c681790719871a1a72501"
@@ -3616,13 +3609,6 @@ node-fetch@^2.6.1, node-fetch@^2.x.x:
   integrity sha512-ZjMPFEfVx5j+y2yF35Kzx5sF7kDzxuDj6ziH4FFbOp87zKDZNx8yExJIb05OGF4Nlt9IHFIMBkRl41VdvcNdbQ==
   dependencies:
     whatwg-url "^5.0.0"
-
-node-id3@^0.2.5:
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/node-id3/-/node-id3-0.2.5.tgz#00254f3b7ab8fbff2ea012f1546f2755bc59c96b"
-  integrity sha512-JxxZPKhquip9b2U4z3B/FhNzPwYTPIzOD0i0C9KTK2mqIWv3fdqLOnTSaLrybor0J4+QA8nXJRlw24Fp8lFeGw==
-  dependencies:
-    iconv-lite "0.6.2"
 
 normalize-path@^2.1.1:
   version "2.1.1"
