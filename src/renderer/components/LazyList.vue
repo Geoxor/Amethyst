@@ -166,13 +166,17 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
 }
 
 .row {
-  @apply hover:text-white text-primary-900 h-4 w-full flex;
+  @apply text-primary-900 h-4 w-full flex;
+
+  &:hover {
+    @apply text-white;
+  }
 
   &.control:hover {
     @apply underline;
   } 
 
-  &.active {
+  &.active:not(:hover) {
     @apply text-primary-800;
   }
 }
