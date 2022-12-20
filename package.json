@@ -331,7 +331,7 @@
     "sharp": "^0.31.2",
     "three": "^0.147.0",
     "uuidv4": "^6.2.13",
-    "vite": "^4.0.1",
+    "vite": "^4.0.2",
     "vite-plugin-windicss": "^1.8.10",
     "vue": "^3.2.45",
     "vue-router": "4",
