@@ -9,11 +9,12 @@ import PlaybackButtons from "@/components/PlaybackButtons.vue";
 import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 import CoverArt from "@/components/CoverArt.vue";
 import { ContextMenu, useContextMenu } from "@/components/ContextMenu";
-import { HideIcon } from "@/icons/material";
+import { ExternalLinkIcon, HideIcon } from "@/icons/material";
 import {SpectrumAnalyzer} from "@/components/visualizers/SpectrumAnalyzer";
 import { onMounted, onUnmounted, ref } from "vue";
 import { Track } from "@/logic/track";
 import { player } from "@/logic/player";
+import { CloseIcon } from "./icons/fluency";
 
 const state = useState();
 const ambientBackgroundImage = ref("");
@@ -60,7 +61,29 @@ onUnmounted(() => {
     <div class="h-full whitespace-nowrap flex flex-col justify-between overflow-hidden">
       <div class="flex-1 flex h-full max-h-full relative overflow-hidden">
         <navigation-bar />
-        <router-view />
+        <div class="flex flex-col w-full">
+          <router-view class="overflow-hidden" />
+          <div
+            v-if="state.settings.showBigSpectrum && player.source"
+            class="p-2 pt-0 relative"
+          >
+            <button
+              class="p-3 absolute z-10 top-1 right-3 cursor-pointer text-primary-1000 hover:text-white"
+              @click="state.settings.showBigSpectrum = false"
+            >
+              <CloseIcon class="w-4 h-4" />
+            </button>
+            <SpectrumAnalyzer
+              
+              :key="player.nodeManager.getNodeConnectinsString()"
+              class="h-64 min-h-64 w-full bg-surface-1000"
+              :node="player.nodeManager.master.audioNode"
+              @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
+                { title: 'Hide', icon: HideIcon, action: () => state.settings.showBigSpectrum = false },
+              ]);"
+            />
+          </div>
+        </div>
         <inspector-bar v-if="useInspector().state.isVisible" />
         <settings-bar v-if="state.settings.showSettings" />
       </div>
@@ -92,10 +115,17 @@ onUnmounted(() => {
         <SpectrumAnalyzer
           v-if="state.settings.showSpectrum && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
-          class="h-76px w-152px min-h-76px min-w-152px"
+          class="h-76px w-152px min-h-76px min-w-152px cursor-pointer border-1 border-transparent hover:bg-primary-700 hover:bg-opacity-10"
+          :class="[
+            state.settings.showBigSpectrum && 'border-primary-700 bg-primary-700 bg-opacity-10 hover:bg-opacity-20'
+          ]"
           :node="player.nodeManager.master.audioNode"
+          @click="state.settings.showBigSpectrum = !state.settings.showBigSpectrum"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide Spectrum', icon: HideIcon, action: () => state.settings.showSpectrum = false },
+            state.settings.showBigSpectrum 
+              ? { title: 'Minimize', icon: ExternalLinkIcon, action: () => state.settings.showBigSpectrum = false }
+              : { title: 'Expand', icon: ExternalLinkIcon, action: () => state.settings.showBigSpectrum = true },
           ]);"
         />
       </div>

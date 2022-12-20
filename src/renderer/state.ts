@@ -29,6 +29,7 @@ export class Store {
 		showSettings: false,
 		showCoverArt: true,
 		showSpectrum: true,
+		showBigSpectrum: false,
 		showVectorscope: true,
 		processingConcurrency: 3,
 		showDbMeter: true,
