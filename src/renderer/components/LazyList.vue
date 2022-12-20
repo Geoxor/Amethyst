@@ -154,7 +154,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
 
 .th,
 .td {
-  @apply flex-1;
+  @apply flex-1 overflow-hidden;
 
   & strong {
     @apply text-primary-900 text-9px text-opacity-50;
