@@ -17,7 +17,6 @@ export type Channels =
 	"read-file" |
 	"close" |
 	"dev-tools" |
-	"get-cover-pixelized" |
 	"open-file-dialog" |
 	"log-print" |
 	"clear-rich-presence" |
@@ -32,8 +31,6 @@ export type Channels =
 	"sync-window-state" |
 	"drop-file" |
 	"update" |
-	"get-cover-colors" |
-	"open-preferences" |
 	"test-notification" |
 	"check-for-updates";
 
