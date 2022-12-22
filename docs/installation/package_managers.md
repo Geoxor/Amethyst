@@ -8,6 +8,12 @@ Amethyst is available on the [Winget Repository](https://github.com/microsoft/wi
 winget install -e --id Geoxor.Amethyst
 ```
 
+## Scoop
+Amethyst is installable via [Scoop](https://scoop.sh/)
+```powershell
+scoop install https://raw.githubusercontent.com/Geoxor/Amethyst/master/scripts/scoop/amethyst.json
+```
+
 ## Pacman
 Amethyst is also available on the [Aur Repository](https://aur.archlinux.org/packages/amethyst-player)
 ```sh
