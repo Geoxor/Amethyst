@@ -9,6 +9,7 @@ music
 *.seed
 preload.js
 
+
 # Coverage directory used by tools like istanbul
 coverage
 .eslintcache

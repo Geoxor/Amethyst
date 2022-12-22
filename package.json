@@ -29,7 +29,8 @@
     "test": "vitest --config ./src/renderer/vite.config.ts",
     "docs:dev": "vitepress dev docs --host",
     "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs:preview": "vitepress preview docs",
+    "gen:scoop": "yarn ts-node -T ./scripts/generate_scoop_manifest.ts"
   },
   "electronmon": {
     "patterns": [

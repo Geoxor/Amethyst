@@ -13,4 +13,3 @@ Amethyst is also available on the [Aur Repository](https://aur.archlinux.org/pac
 ```sh
 yay -S amethyst-player
 ```
-
