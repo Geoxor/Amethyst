@@ -1,0 +1,17 @@
+
+pkgbase = amethyst-player
+pkgdesc = Amethyst is an Electron-based audio player with a node-based audio routing system, the main goal of this project is to make a music player in Typescript that has pro-level features as most DAWs / DAEs, while also providing useful tools and customizability to the end-user to deal with audio.
+pkgver = 1.8.35
+pkgrel = 1
+url = https://github.com/Geoxor/amethyst
+arch = x86_64
+license = MIT
+makedepends = gcc-multilib
+makedepends = git
+makedepends = gendesk
+makedepends = yarn
+makedepends = libxcrypt-compat
+source = git+https://github.com/Geoxor/amethyst/#tag=v1.8.35
+md5sums = SKIP
+
+pkgname = amethyst-player

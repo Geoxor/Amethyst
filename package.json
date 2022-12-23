@@ -30,7 +30,10 @@
     "docs:dev": "vitepress dev docs --host",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "gen:scoop": "yarn ts-node -T ./scripts/generate_scoop_manifest.ts"
+    "gen:all": "concurrently -p none \"yarn gen:scoop\" \"yarn gen:aur\"",
+    "gen:scoop": "yarn ts-node -T ./scripts/generate_scoop_manifest.ts",
+    "gen:aur": "yarn ts-node -T ./scripts/generate_aur_manifest.ts"
+
   },
   "electronmon": {
     "patterns": [
@@ -332,7 +335,6 @@
     "pretty-ms": "^8.0.0",
     "sharp": "^0.31.2",
     "three": "^0.147.0",
-    "uuidv4": "^6.2.13",
     "vite": "^4.0.2",
     "vite-plugin-windicss": "^1.8.10",
     "vue": "^3.2.45",

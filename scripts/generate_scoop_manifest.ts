@@ -4,13 +4,13 @@ import {version, description, license} from "../package.json";
 const INSTALL_BINARY = `Amethyst-Setup-${version}.exe`;
 
 try {
-  fs.statSync("./scripts/scoop/");
+  fs.statSync("./manifests/scoop/");
   
 } catch (error) {
-  fs.mkdirSync("./scripts/scoop/", {recursive: true});
+  fs.mkdirSync("./manifests/scoop/", {recursive: true});
 }
 
-fs.writeFileSync("./scripts/scoop/amethyst.json", JSON.stringify({
+fs.writeFileSync("./manifests/scoop/amethyst.json", JSON.stringify({
   version,
   description,
   license,

@@ -20,6 +20,6 @@
     "Remove-Item \"$dir\\Amethyst-Setup-1.8.35.exe\""
   ],
   "uninstaller": {
-    "script": "Invoke-ExternalCommand \"C:\\Users\\$env:username\\AppData\\Local\\Programs\\amethyst\\Uninstall Amethyst.exe\""
+    "script": "Invoke-ExternalCommand \"C:\\Users\\$env:username\\AppData\\Local\\Programs\\amethyst\\Uninstall Amethyst.exe\" | Out-Null"
   }
 }

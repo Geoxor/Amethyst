@@ -1,5 +1,4 @@
 import { Position } from "@vue-flow/core";
-import { v4 as uuid } from "uuid";
 import { DefineComponent, markRaw } from "vue";
 import { player } from "@/logic/player";
 import { Connection, NodeProperties, Paramaters } from "./audioManager";
@@ -12,7 +11,7 @@ export class AmethystAudioNode<T extends AudioNode> {
   public component: DefineComponent<{}, {}, any>;
 
   public constructor(public audioNode: T, name: string, component: DefineComponent<{}, {}, any>, position: NodeProperties["position"], public isRemovable: boolean = true) {
-    const id = uuid();
+    const id = crypto.randomUUID();
     
     this.properties = {
       name,
@@ -41,7 +40,7 @@ export class AmethystAudioNode<T extends AudioNode> {
     if (this.connectedTo.includes(target)) return;
     this.connectedTo.push(target);
     this.connections.push({ 
-      id: uuid(), 
+      id: crypto.randomUUID(), 
       source: this.properties.id, 
       target: target.properties.id 
     });
