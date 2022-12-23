@@ -17,7 +17,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-node@v2
         with:
-          node-version: 16.10.0
+          node-version: 19.1.0
           cache: 'yarn'
 
       - name: Install gcc dependencies
@@ -38,7 +38,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-node@v2
         with:
-          node-version: 16.10.0
+          node-version: 19.1.0
           cache: 'yarn'
 
       - name: Install gcc dependencies
@@ -61,7 +61,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-node@v2
         with:
-          node-version: 16.10.0
+          node-version: 19.1.0
           cache: 'yarn'
 
       - name: Install Dependencies
@@ -87,7 +87,7 @@ jobs:
   #     - uses: actions/checkout@v3
   #     - uses: actions/setup-node@v2
   #       with:
-  #         node-version: 16.10.0
+  #         node-version: 19.1.0
 
   #     - name: Install Dependencies
   #       run: yarn install
@@ -114,7 +114,7 @@ jobs:
   #     - uses: actions/checkout@v3
   #     - uses: actions/setup-node@v2
   #       with:
-  #         node-version: 16.10.0
+  #         node-version: 19.1.0
   #         cache: 'yarn'
 
   #     - name: Install linux dependencies
