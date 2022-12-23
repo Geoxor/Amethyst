@@ -9,43 +9,9 @@ Amethyst is an [Electron-based](https://electronjs.org/) audio player with a [no
 ## ⚠️ This is an unfinished application
 Please do not write reviews yet as I have not finished implementing everything required for me to call this app "complete", things may suddenly change and the current state of the repository might not represent the complete version faithfully
 
-## 📦 Installation
-```bash
-# Windows
-winget install amethyst
+## [📥 Download](https://amethyst.pages.dev/installation/package_managers.html)
+## [📃 Documentation](https://amethyst.pages.dev/introduction.html)
 
-# Arch
-yay -S amethyst-player
-
-# Debian (soon hopefully)
-apt install amethyst
-
-# MacOS (soon hopefully)
-brew install amethyst
-
-# Oneliner Build From Source
-git clone --recurse-submodules https://github.com/geoxor/amethyst && cd amethyst && yarn && yarn test --run && yarn package
-```
-
-![Amethyst](https://cdn.discordapp.com/attachments/897569464684535860/1052188532975861850/image.png)
-
-## ✨ Features
-- Custom cursors
-- Support for animated [GIF](https://en.wikipedia.org/wiki/GIF) cover art
-- [Multichannel](https://en.wikipedia.org/wiki/Surround_sound) (up to 9.1.2) dB meters
-- High FPS customizable [spectrum](https://en.wikipedia.org/wiki/Spectrum_analyzer)
-- High FPS customizable [vectorscope](https://en.wikipedia.org/wiki/Vectorscope)
-- [Discord RPC](https://discord.com/developers/docs/topics/rpc)
-- [Node based](https://en.wikipedia.org/wiki/Node_graph_architecture) audio routing system
-- Support for playing 
-  - [ogg](https://en.wikipedia.org/wiki/Ogg)
-  - [flac](https://en.wikipedia.org/wiki/FLAC)
-  - [wav](https://en.wikipedia.org/wiki/WAV)
-  - [opus](https://en.wikipedia.org/wiki/Opus_(audio_format))
-  - [aac](https://en.wikipedia.org/wiki/Advanced_Audio_Coding)
-  - [aiff](https://en.wikipedia.org/wiki/Audio_Interchange_File_Format)
-  - [mp3](https://en.wikipedia.org/wiki/MP3)
-  - [m4a](https://en.wikipedia.org/wiki/MP4_file_format)
 
 ## 📝 Contributing
 - Use `Node.js 1.16.10`
