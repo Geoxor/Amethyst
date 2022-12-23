@@ -34,3 +34,4 @@ npm-debug.log.*
 
 release
 dist
+**/.vitepress/cache
