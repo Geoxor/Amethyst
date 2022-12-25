@@ -128,9 +128,9 @@ export class MainWindow {
 					autoUpdater.logger = log;
 					autoUpdater.checkForUpdatesAndNotify();
 
-					// Check for updates every 10 minutes
+					// Check for updates every 1 hour
 					this.updateCheckerTimer && clearInterval(this.updateCheckerTimer);
-					this.updateCheckerTimer = setInterval(() => autoUpdater.checkForUpdatesAndNotify(), 600 * 1000);
+					this.updateCheckerTimer = setInterval(() => autoUpdater.checkForUpdatesAndNotify(), 3600 * 1000);
 
 					autoUpdater.on("update-downloaded", () => this.window.webContents.send("update"));
 				});
