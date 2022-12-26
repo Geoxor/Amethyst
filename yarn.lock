@@ -891,10 +891,10 @@
     d3-selection "^3.0.0"
     d3-zoom "^3.0.0"
 
-"@vue-flow/core@^1.8.0":
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/@vue-flow/core/-/core-1.8.0.tgz#86bb18f862e9908e551c2867d52a9a099ee2924b"
-  integrity sha512-fZ4xNhNu0h/zdbz14/PhcZdFh2Jqbc3Mk1SceHfSl4LRS4JujFLJ10dNMoJy1HKpYmdoElS1MW8Z48qpuFUzyg==
+"@vue-flow/core@^1.9.1":
+  version "1.9.1"
+  resolved "https://registry.yarnpkg.com/@vue-flow/core/-/core-1.9.1.tgz#579ee228f74194a0c322cefc160f1c70c8356684"
+  integrity sha512-bV7pIeZVScb/8w0LAF9EYTjODLQfX+PNm4udCQw8Pm/z9NOeGzxcVJowZJjG5AMQqLMVZ20gCQxBDx21UTEc1g==
   dependencies:
     "@vueuse/core" "^9.6.0"
     d3-drag "^3.0.0"
