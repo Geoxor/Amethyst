@@ -1,5 +1,5 @@
 import fs from "fs";
-import {version, description, license, author, name} from "../package.json";
+import {version, license } from "../package.json";
 
 try {
   fs.statSync("./manifests/winget/");
@@ -7,7 +7,7 @@ try {
 } catch (error) {
   fs.mkdirSync("./manifests/winget/", {recursive: true});
 }
-
+// TODO: Get SHA256 for the installer
 fs.writeFileSync("./manifests/winget/Geoxor.Amethyst.installer.yaml", `
 # Automatically updated by generate_winget_manifest.ts
 # Created using wingetcreate 1.0.4.0
@@ -17,6 +17,10 @@ PackageIdentifier: Geoxor.Amethyst
 PackageVersion: ${version}
 Installers:
 - Architecture: x64
+  InstallerType: nullsoft
+  InstallerUrl: https://github.com/Geoxor/Amethyst/releases/download/v${version}/Amethyst-Setup-${version}.exe
+  InstallerSha256: 7F973E9B821B772C6DF0362C5DB37899E556823BDB1ACB7CBF1F42868159AD26
+- Architecture: x32
   InstallerType: nullsoft
   InstallerUrl: https://github.com/Geoxor/Amethyst/releases/download/v${version}/Amethyst-Setup-${version}.exe
   InstallerSha256: 7F973E9B821B772C6DF0362C5DB37899E556823BDB1ACB7CBF1F42868159AD26
