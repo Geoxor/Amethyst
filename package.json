@@ -13,7 +13,7 @@
   "description": "Amethyst is an Electron-based audio player with a node-based audio routing system, the main goal of this project is to make a music player in Typescript that has pro-level features as most DAWs / DAEs, while also providing useful tools and customizability to the end-user to deal with audio.",
   "scripts": {
     "dev": "concurrently -p none \"yarn start:main\" \"yarn start:renderer\" ",
-    "build": "concurrently -p none \"yarn build:main\" \"yarn build:renderer\"",
+    "build": "concurrently -p none \"yarn build:main\" \"yarn build:renderer\" \"yarn gen:all\"",
     "build:main": "concurrently -p none \"tsc ./src/main/preload.ts\" \"tsc -p ./src/main/tsconfig.json\" ",
     "build:renderer": "vite build --config ./src/renderer/vite.config.ts",
     "start:main": "yarn build:main && cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only ./src/main/main.ts",

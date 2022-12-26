@@ -1,5 +1,6 @@
 import fs from "fs";
 import {version, description, license, author, name} from "../package.json";
+import chalk from "chalk";
 
 try {
   fs.statSync("./manifests/aur/");
@@ -26,6 +27,8 @@ md5sums = SKIP
 
 pkgname = amethyst-player
 `);
+
+console.log(chalk.bgCyan("[AUR Manifest]"), chalk.cyan("Generated .SRCINFO"));
 
 fs.writeFileSync("./manifests/aur/PKGBUILD", `
 # Maintainer: ${author}
@@ -71,3 +74,5 @@ package() {
 	install -Dm644 LICENSE -t "$pkgdir/usr/share/licenses/$appname"
 }
 `);
+
+console.log(chalk.bgCyan("[AUR Manifest]"), chalk.cyan("Generated .PKGBUILD"));

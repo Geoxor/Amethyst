@@ -1,5 +1,6 @@
 import fs from "fs";
 import {version, license } from "../package.json";
+import chalk from "chalk";
 
 try {
   fs.statSync("./manifests/winget/");
@@ -28,6 +29,8 @@ ManifestType: installer
 ManifestVersion: 1.1.0
 `);
 
+console.log(chalk.bgCyan("[Winget Manifest]"), chalk.cyan("Generated Geoxor.Amethyst.installer.yaml"));
+
 fs.writeFileSync("./manifests/winget/Geoxor.Amethyst.locale.en-US.yaml", `
 # Automatically updated by generate_winget_manifest.ts
 # Created using wingetcreate 1.0.4.0
@@ -44,6 +47,7 @@ ShortDescription: A music player made with the web platform.
 ManifestType: defaultLocale
 ManifestVersion: 1.1.0
 `);
+console.log(chalk.bgCyan("[Winget Manifest]"), chalk.cyan("Generated Geoxor.Amethyst.locale.en-US.yaml"));
 
 fs.writeFileSync("./manifests/winget/Geoxor.Amethyst.yaml", `
 # Automatically updated by generate_winget_manifest.ts
@@ -56,3 +60,4 @@ DefaultLocale: en-US
 ManifestType: version
 ManifestVersion: 1.1.0
 `);
+console.log(chalk.bgCyan("[Winget Manifest]"), chalk.cyan("Generated Geoxor.Amethyst.yaml"));

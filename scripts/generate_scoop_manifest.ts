@@ -1,5 +1,6 @@
 import fs from "fs";
 import {version, description, license} from "../package.json";
+import chalk from "chalk";
 
 const INSTALL_BINARY = `Amethyst-Setup-${version}.exe`;
 
@@ -36,3 +37,5 @@ fs.writeFileSync("./manifests/scoop/amethyst.json", JSON.stringify({
   }
 
 }, null, 2));
+
+console.log(chalk.bgCyan("[Scoop Manifest]"), chalk.cyan("Generated amethyst.json"));
