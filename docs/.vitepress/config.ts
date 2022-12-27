@@ -1,11 +1,30 @@
-import {defineConfig} from "vitepress";
+import { defineConfig } from "vitepress";
 
-export default defineConfig({ 
+export default defineConfig({
   title: "Amethyst",
   description: "Amethyst Documentation",
   lang: 'en-US',
   appearance: "dark",
+  locales: {
+    '/': {
+      lang: 'en-US',
+      title: "Amethyst",
+      description: "A powerful node-based audio player written in the Web Platform."
+    },
+    '/zh/': {
+      lang: 'zh-Hans',
+      title: "Amethyst | 紫水晶",
+      description: "一个基于 node 和 Electron 的强大音频播放器。"
+    },
+  },
   themeConfig: {
+    localeLinks: {
+      text: "",
+      items: [
+        { link: "/", text: "English" },
+        { link: "/zh/", text: "简体中文" }
+      ],
+    },
     footer: {
       message: "Made with the loss of multiple braincells 🧠"
     },
@@ -26,7 +45,7 @@ export default defineConfig({
     logo: "/icon.svg",
     nav: [
       { text: "Documentation", link: "/introduction" },
-      { text: "Download", link: "/installation/package_managers"},
+      { text: "Download", link: "/installation/package_managers" },
     ],
     sidebar: [
       {
@@ -47,10 +66,10 @@ export default defineConfig({
         text: 'Audio Nodes',
         collapsible: true,
         items: [
-          { text: "<img align='left' src='/input_icon.svg' style='margin-right: 6px;' width='20'/> Input Node", link: "/nodes/input_node"},
-          { text: "<img align='left' src='/master_icon.svg' style='margin-right: 6px;' width='20'/> Master Node", link: "/nodes/master_node"},
-          { text: "<img align='left' src='/output_icon.svg' style='margin-right: 6px;' width='20'/> Output Node", link: "/nodes/output_node"},
-          { text: "<img align='left' src='/filter_icon.svg' style='margin-right: 6px;' width='20'/> Filter Node", link: "/nodes/filter_node"},
+          { text: "<img align='left' src='/input_icon.svg' style='margin-right: 6px;' width='20'/> Input Node", link: "/nodes/input_node" },
+          { text: "<img align='left' src='/master_icon.svg' style='margin-right: 6px;' width='20'/> Master Node", link: "/nodes/master_node" },
+          { text: "<img align='left' src='/output_icon.svg' style='margin-right: 6px;' width='20'/> Output Node", link: "/nodes/output_node" },
+          { text: "<img align='left' src='/filter_icon.svg' style='margin-right: 6px;' width='20'/> Filter Node", link: "/nodes/filter_node" },
         ]
       }
     ]

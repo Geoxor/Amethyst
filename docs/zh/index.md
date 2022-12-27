@@ -12,10 +12,10 @@ hero:
   actions:
     - theme: brand
       text: 下载
-      link: /installation/package_managers
+      link: /zh/installation/package_managers
     - theme: alt
       text: 文档
-      link: /introduction
+      link: /zh/introduction
     - theme: alt
       text: 在 GitHub 上查看
       link: https://github.com/Geoxor/Amethyst
