@@ -27,7 +27,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
       class="transform-gpu duration-50 cursor-pointer hover:scale-105 w-full col-span-1 rounded-4px"
       :url="track.getCover()"
       @click="player.play(track)"
-      @context.menu="handleContextMenu($event, track)"
+      @contextmenu="handleContextMenu($event, track)"
     />
   </div>
 </template>
