@@ -26,10 +26,15 @@ export default defineConfig({
       title: "Amethyst | Αμέθυστος",
       description: "Ένα ισχυρό πρόγραμμα αναπαραγωγής ήχου με συστημα κόμβο γραμμένο στην πλατφόρμα Web."
     },
+    '/ru/': {
+      lang: 'ru',
+      title: "Amethyst | Аметист",
+      description: "Мощный аудиоплеер на базе node, написанный на web-платформе."
+    },
     '/bg/': {
       lang: 'bg',
       title: "Amethyst | Аметист",
-      description: "A powerful node-based audio player written in the Web Platform."
+      description: "Мощен Node аудио плейър, направен в уеб платформата."
     },
   },
   themeConfig: {
@@ -38,9 +43,10 @@ export default defineConfig({
       items: [
         { link: "/", text: "English" },
         { link: "/de/", text: "Deutsch" },
+        { link: "/ru/", text: "Русский" },
+        { link: "/bg/", text: "Български" },
         { link: "/el/", text: "Ελληνικά" },
         { link: "/zh/", text: "简体中文" },
-        { link: "/bg/", text: "Български" },
       ],
     },
     footer: {
