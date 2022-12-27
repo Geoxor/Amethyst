@@ -15,4 +15,3 @@ within Amethyst from the dropdown menu or with the shortcut `CTRL + ALT + R`.
 
 ## Deletion
 As mentioned above, all metadata caches are stored in `%appdata%/amethyst/Metadata Cache`. Simply deleting the files within the folder will achieve cache deletion.
-
