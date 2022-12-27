@@ -1,15 +1,13 @@
-# Amethyst Node Graph (.ang)
+# Amethyst 节点图 (.ang)
 
 <img align="right" src="https://github.com/Geoxor/amethyst/raw/master/assets/images/ang.png" alt=".ang" width="128"/>
 
-This is a file that stores the positions, connections, and parameter 
-values for all nodes within a Node Graph.
+节点图储存所有节点的位置、连接和参数值的。
 
-It's realistically a serialized [JSON](https://en.wikipedia.org/wiki/JSON) file with a fancy icon and extension,
-it can be edited with any text editor if you fancy suffering.
+它实际上是一个序列化的 [JSON](https://en.wikipedia.org/wiki/JSON) 文件，有一个漂亮的图标和扩展名,你可以用任何文本编辑器来编辑。
 
-## Default Node Graph
-The example below is what Amethyst's default Node Graph looks like if saved into a file:
+## 默认的节点图
+下面的节点图示例文件是 Amethyst 将其保存到文件中的样子。
 ```json
 {
   "version": 1,
