@@ -10,14 +10,14 @@ Node фильтр содержит очень простой двухполюс�
 
 Возможными [типами фильтров](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) являются следующие: 
 
-- [`allpass`](https://en.wikipedia.org/wiki/All-pass_filter)
-- [`notch` (band-stop)](https://en.wikipedia.org/wiki/Band-stop_filter)
+- [`allpass`](https://ru.wikipedia.org/wiki/Фазовый_фильтр)
+- [`notch` (band-stop)](https://ru.wikipedia.org/wiki/Полосно-заграждающий_фильтр)
 - `peaking` (bell)
 - `highshelf`
 - `lowshelf`
-- [`bandpass` (band)](https://en.wikipedia.org/wiki/Band-pass_filter)
-- [`highpass` (lowcut)](https://en.wikipedia.org/wiki/High-pass_filter)
-- [`lowpass` (highcut)](https://en.wikipedia.org/wiki/Low-pass_filter)
+- [`bandpass` (band)](https://ru.wikipedia.org/wiki/Полосовой_фильтр)
+- [`highpass` (lowcut)](https://ru.wikipedia.org/wiki/Фильтр_верхних_частот)
+- [`lowpass` (highcut)](https://ru.wikipedia.org/wiki/Фильтр_нижних_частот)
 
 ### Замечение
 ⚠️ [`Добротность`](https://ru.wikipedia.org/wiki/Добротность) и/или [`усиление`](https://ru.wikipedia.org/wiki/Коэффициент_передачи) может не иметь эффекта с определенными типами, и/или некоторые фильтры требуют от[`добротности`](https://ru.wikipedia.org/wiki/Добротность) значение `+1` для работы, как ожидалось.
