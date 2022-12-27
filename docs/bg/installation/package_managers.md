@@ -15,7 +15,7 @@ $ scoop install https://raw.githubusercontent.com/Geoxor/Amethyst/master/manifes
 ```
 
 ## Pacman
-Amethyst is also available on the [Aur Repository](https://aur.archlinux.org/packages/amethyst-player)
+Amethyst is available on the [Aur Repository](https://aur.archlinux.org/packages/amethyst-player)
 ```sh
 $ yay -S amethyst-player
 ```

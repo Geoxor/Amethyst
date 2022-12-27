@@ -1,21 +1,21 @@
-# Installation through package managers
+# Εγκατάσταση μέσω διαχειριστή πακέτων
 
-For those who want a quick and easy installation, Amethyst is available on the repositories below
+Για αυτούς που θέλουν έναν γρήγορο και εύκολο τρόπο εγκατάστασης, το Amethyst είναι διαθέσιμο στης βιβλιοθήκες παρακάτω
 
 ## Winget
-Amethyst is available on the [Winget Repository](https://github.com/microsoft/winget-pkgs/tree/master/manifests/g/Geoxor/Amethyst)
+Το Amethyst είναι διαθέσιμο στο [Winget Repository](https://github.com/microsoft/winget-pkgs/tree/master/manifests/g/Geoxor/Amethyst)
 ```powershell
 $ winget install -e --id Geoxor.Amethyst
 ```
 
 ## Scoop
-Amethyst is installable via [Scoop](https://scoop.sh/)
+Το Amethyst είναι διαθέσιμο μέσω [Scoop](https://scoop.sh/)
 ```powershell
 $ scoop install https://raw.githubusercontent.com/Geoxor/Amethyst/master/manifests/scoop/amethyst.json
 ```
 
 ## Pacman
-Amethyst is also available on the [Aur Repository](https://aur.archlinux.org/packages/amethyst-player)
+Το Amethyst είναι διαθέσιμο στο [Aur Repository](https://aur.archlinux.org/packages/amethyst-player)
 ```sh
 $ yay -S amethyst-player
 ```
