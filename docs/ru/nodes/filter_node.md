@@ -8,7 +8,7 @@ Node фильтр содержит очень простой двухполюс�
 
 ## Типы фильтров
 
-The possible [filter types](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) являются следующие: 
+Возможными [типами фильтров](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) являются следующие: 
 
 - [`allpass`](https://en.wikipedia.org/wiki/All-pass_filter)
 - [`notch` (band-stop)](https://en.wikipedia.org/wiki/Band-stop_filter)
