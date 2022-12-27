@@ -87,6 +87,12 @@ export default defineConfig({
         ]
       },
       {
+        text: 'Components',
+        items: [
+          { text: 'Vectorscope', link: '/components/vectorscope' },
+        ]
+      },
+      {
         text: 'Audio Nodes',
         collapsible: true,
         items: [
