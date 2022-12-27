@@ -50,6 +50,5 @@
     "**/.settings": true,
     "**/.factorypath": true
   },
-  "testing.automaticallyOpenPeekView": "never",
-  "hide-files.files": []
+  "testing.automaticallyOpenPeekView": "never"
 }
