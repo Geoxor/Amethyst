@@ -36,6 +36,11 @@ export default defineConfig({
       title: "Amethyst | Аметист",
       description: "Мощен Node аудио плейър, направен в уеб платформата."
     },
+    '/pl/': {
+      lang: 'pl',
+      title: "Amethyst | Ametyst",
+      description: "Amethyst to bazujący na Elektronie odtwarzacz audio z węzłowym systemem routingu audio"
+    },
   },
   themeConfig: {
     localeLinks: {
@@ -47,6 +52,7 @@ export default defineConfig({
         { link: "/bg/", text: "Български" },
         { link: "/el/", text: "Ελληνικά" },
         { link: "/zh/", text: "简体中文" },
+        { link: "/pl/", text: "Polski" },
       ],
     },
     footer: {
