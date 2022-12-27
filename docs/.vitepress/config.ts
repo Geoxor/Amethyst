@@ -52,7 +52,7 @@ export default defineConfig({
         { link: "/bg/", text: "Български" },
         { link: "/el/", text: "Ελληνικά" },
         { link: "/zh/", text: "简体中文" },
-        { link: "/pl/", text: "Polish" },
+        { link: "/pl/", text: "Polski" },
       ],
     },
     footer: {
