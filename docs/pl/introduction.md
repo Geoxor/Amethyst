@@ -9,7 +9,7 @@ Amethyst to bazujący na [Elektronie](https://electronjs.org/) odtwarzacz audio 
 - Obsługa animowanych okładek graficznych [GIF](https://en.wikipedia.org/wiki/GIF)
 - [Wielokanałowe](https://en.wikipedia.org/wiki/Surround_sound) (nawet do 9.1.2) wskaźniki dB
 - Płynne i dostosowywalne [spectrum](https://en.wikipedia.org/wiki/Spectrum_analyzer)
-- Płynny i dostosowywalny [wektoroskop](https://en.wikipedia.org/wiki/Vectorscope)
+- Płynny i dostosowywalny [wektoroskop](/pl/components/vectorscope)
 - [Discord RPC](https://discord.com/developers/docs/topics/rpc)
 - bazujący na [węzłach](https://en.wikipedia.org/wiki/Node_graph_architecture) system routingu audio
 - Wspierane formaty:

@@ -50,9 +50,9 @@ export default defineConfig({
         { link: "/de/", text: "Deutsch" },
         { link: "/ru/", text: "Русский" },
         { link: "/bg/", text: "Български" },
+        { link: "/pl/", text: "Polski" },
         { link: "/el/", text: "Ελληνικά" },
         { link: "/zh/", text: "简体中文" },
-        { link: "/pl/", text: "Polski" },
       ],
     },
     footer: {
