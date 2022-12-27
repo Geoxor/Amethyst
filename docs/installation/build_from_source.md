@@ -30,6 +30,4 @@ $ yarn package --linux deb # builds into a deb package
 $ yarn package --linux appimage # builds into an appimage
 ```
 
-
 More information about manual packaging arguments can be found in the [electron-builder documentation](https://www.electron.build/configuration/linux.html)
-

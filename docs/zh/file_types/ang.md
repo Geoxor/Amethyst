@@ -2,7 +2,7 @@
 
 <img align="right" src="https://github.com/Geoxor/amethyst/raw/master/assets/images/ang.png" alt=".ang" width="128"/>
 
-节点图储存所有节点的位置、连接和参数值的。
+节点图储存所有可视化节点的位置、连接和参数值的。
 
 它实际上是一个序列化的 [JSON](https://en.wikipedia.org/wiki/JSON) 文件，有一个漂亮的图标和扩展名,你可以用任何文本编辑器来编辑。
 
