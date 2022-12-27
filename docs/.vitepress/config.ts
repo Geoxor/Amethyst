@@ -16,6 +16,11 @@ export default defineConfig({
       title: "Amethyst | 紫水晶",
       description: "一个基于可视化节点和 Electron 的强大音频播放器。"
     },
+    '/de/': {
+      lang: 'de',
+      title: "Amethyst",
+      description: "Ein leistungsstarker Node-basierter Audio Player geschrieben in der Web-Plattform."
+    },
     '/el/': {
       lang: 'el-GR',
       title: "Amethyst | Αμέθυστος",
@@ -32,9 +37,10 @@ export default defineConfig({
       text: "",
       items: [
         { link: "/", text: "English" },
+        { link: "/de/", text: "Deutsch" },
+        { link: "/el/", text: "Ελληνικά" },
         { link: "/zh/", text: "简体中文" },
         { link: "/bg/", text: "Български" },
-        { link: "/el/", text: "Ελληνικά" },
       ],
     },
     footer: {
