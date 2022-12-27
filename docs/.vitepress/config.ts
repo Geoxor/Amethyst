@@ -14,7 +14,12 @@ export default defineConfig({
     '/zh/': {
       lang: 'zh-Hans',
       title: "Amethyst | 紫水晶",
-      description: "一个基于 node 和 Electron 的强大音频播放器。"
+      description: "一个基于可视化节点和 Electron 的强大音频播放器。"
+    },
+    '/el/': {
+      lang: 'el-GR',
+      title: "Amethyst | Αμέθυστος",
+      description: "Ένα ισχυρό πρόγραμμα αναπαραγωγής ήχου με συστημα κόμβο γραμμένο στην πλατφόρμα Web."
     },
     '/bg/': {
       lang: 'bg',
@@ -28,7 +33,8 @@ export default defineConfig({
       items: [
         { link: "/", text: "English" },
         { link: "/zh/", text: "简体中文" },
-        { link: "/bg/", text: "Български" }
+        { link: "/bg/", text: "Български" },
+        { link: "/el/", text: "Ελληνικά" },
       ],
     },
     footer: {
