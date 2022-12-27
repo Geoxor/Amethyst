@@ -1,4 +1,4 @@
-# Filter Node
+# 过滤 Node
 
 <img align="right" style="margin-left: 8px;" src="https://cdn.discordapp.com/attachments/667464431562653706/1052202046369054720/filter_node.png" alt=".node" width="256"/>
 
