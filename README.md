@@ -16,7 +16,7 @@ Please do not write reviews yet as I have not finished implementing everything r
 
 
 ## 📝 Contributing
-- Use `Node.js 1.16.10`
+- Use `Node.js v19.1.0`
 - Use the `recommended extensions`
 - Have `libvips` installed for linux
 - Have `yarn` installed
