@@ -16,13 +16,19 @@ export default defineConfig({
       title: "Amethyst | 紫水晶",
       description: "一个基于 node 和 Electron 的强大音频播放器。"
     },
+    '/bg/': {
+      lang: 'bg',
+      title: "Amethyst | Аметист",
+      description: "A powerful node-based audio player written in the Web Platform."
+    },
   },
   themeConfig: {
     localeLinks: {
       text: "",
       items: [
         { link: "/", text: "English" },
-        { link: "/zh/", text: "简体中文" }
+        { link: "/zh/", text: "简体中文" },
+        { link: "/bg/", text: "Български" }
       ],
     },
     footer: {
