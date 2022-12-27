@@ -21,6 +21,11 @@ export default defineConfig({
       title: "Amethyst | Αμέθυστος",
       description: "Ένα ισχυρό πρόγραμμα αναπαραγωγής ήχου με συστημα κόμβο γραμμένο στην πλατφόρμα Web."
     },
+    '/bg/': {
+      lang: 'bg',
+      title: "Amethyst | Аметист",
+      description: "A powerful node-based audio player written in the Web Platform."
+    },
   },
   themeConfig: {
     localeLinks: {
@@ -28,7 +33,8 @@ export default defineConfig({
       items: [
         { link: "/", text: "English" },
         { link: "/zh/", text: "简体中文" },
-        { link: "/el/", text: "Ελληνικά" }
+        { link: "/bg/", text: "Български" },
+        { link: "/el/", text: "Ελληνικά" },
       ],
     },
     footer: {
