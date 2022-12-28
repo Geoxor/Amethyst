@@ -9,7 +9,7 @@ Amethyst è un [A base di elettroni](https://electronjs.org/) lettore audio con 
 - Supporto per animato [GIF](https://it.wikipedia.org/wiki/Graphics_Interchange_Format) copertine artistiche
 - [Multicanale](https://it.wikipedia.org/wiki/Surround) (fino a 9.1.2) dB metri
 - Alto FPS personalizzabile [spettro](https://it.wikipedia.org/wiki/Analizzatore_di_spettro)
-- Elevati FPS componenti [vectorscope](/personalizzabili/vectorscope)
+- Elevati FPS componenti [vectorscope](/components/vectorscope)
 - [Discord RPC](https://discord.com/developers/docs/topics/rpc)
 - [basato su nodo](https://en.wikipedia.org/wiki/Node_graph_architecture) sistema di instradamento audio
 - Supported formats:
