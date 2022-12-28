@@ -2,7 +2,7 @@
 
 <img align="right" style="margin-left: 8px;" src="/vectorscope.png" alt=".node" width="128"/>
 
-[矢量示波器](https://en.wikipedia.org/wiki/Vectorscope) 是一套强大的[立体声](https://en.wikipedia.org/wiki/Stereophonic_sound) 信号可视化工具，将信号的振幅绘制在[二维](https://zh.wikipedia.org/zh-cn/%E4%BA%8C%E7%BB%B4%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2) 的[X-Y坐标图](https://zh.wikipedia.org/zh-cn/%E7%A4%BA%E6%B3%A2%E5%99%A8#X-Y%E6%A8%A1%E5%BC%8F)上。X作为横向通道1，Y作为纵向通道2， 这样就能体现出两组信号之间的关联性。 ([相关性](#相关性)).
+[矢量示波器](https://en.wikipedia.org/wiki/Vectorscope) 是一套强大的[立体声](https://zh.wikipedia.org/zh-cn/%E7%AB%8B%E9%AB%94%E8%81%B2) 信号可视化工具，将信号的振幅绘制在[二维](https://zh.wikipedia.org/zh-cn/%E4%BA%8C%E7%BB%B4%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2) 的[X-Y坐标图](https://zh.wikipedia.org/zh-cn/%E7%A4%BA%E6%B3%A2%E5%99%A8#X-Y%E6%A8%A1%E5%BC%8F)上。X作为横向通道1，Y作为纵向通道2， 这样就能体现出两组信号之间的关联性。 ([相关性](#相关性)).
 
 ## 简述
 简单说，矢量示波器能够显示出信号的“长”和“宽”。
