@@ -18,6 +18,7 @@ export class Player extends EventEmitter<{
   volume: number;
   shuffle: void;
   stop: void;
+  timeupdate: number;
 }> {
   private currentTrack = ref<Track>();
   private currentTrackIndex = ref(0);
@@ -130,7 +131,7 @@ export class Player extends EventEmitter<{
 
         this.input.src = track.path;
         this.currentTrack.value = track;
-        this.currentTime.value = 0;
+        this.seekTo(0);
         if (!track.isLoaded) {
           track.fetchAsyncData();
         }
@@ -154,6 +155,8 @@ export class Player extends EventEmitter<{
 
   public seekTo(time: number) {
 		this.input.currentTime = time;
+
+    this.emit("timeupdate", this.input.currentTime);
 	}
 
 	public seekForward(step = 5) {

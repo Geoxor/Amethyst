@@ -69,10 +69,13 @@ onMounted(() => {
 
   player.on("pause", () => {
     wavesurfer.pause();
+  });
 
-    // Sync the track progress with the player. 
-    // Needed when queue reached end and the player pauses at start of queue
-    wavesurfer.seekTo(player.currentTime.value / player.getCurrentTrack()!.getDurationSeconds());
+  player.on("timeupdate", (newTime) => {
+    // prevent an endless loop of seekTo's
+    hasSeekFiredOnce = false;
+
+    wavesurfer.seekTo(newTime / player.getCurrentTrack()!.getDurationSeconds()); 
   });
 });
 
