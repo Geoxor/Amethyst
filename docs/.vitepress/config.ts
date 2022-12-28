@@ -38,8 +38,18 @@ export default defineConfig({
     },
     '/pl/': {
       lang: 'pl',
-      title: "Amethyst | Ametyst",
+      title: "Amethyst | Amethyst",
       description: "Amethyst to bazujący na Elektronie odtwarzacz audio z węzłowym systemem routingu audio"
+    },
+    '/ro/': {
+      lang: 'ro',
+      title: "Amethyst | Amethyst",
+      description: " Un player audio bazat pe noduri scris pe Platforma Web."
+    },
+    '/jp/': {
+      lang: 'jp',
+      title: "Amethyst | Amethyst",
+      description: "Webプラットフォームで記述された強力なノードベースのオーディオプレーヤー。"
     },
   },
   themeConfig: {
@@ -51,7 +61,9 @@ export default defineConfig({
         { link: "/ru/", text: "Русский" },
         { link: "/bg/", text: "Български" },
         { link: "/pl/", text: "Polski" },
+        { link: "/ro/", text: "Română" },
         { link: "/el/", text: "Ελληνικά" },
+        { link: "/jp/", text: "日本語" },
         { link: "/zh/", text: "简体中文" },
       ],
     },
