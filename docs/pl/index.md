@@ -4,7 +4,7 @@ layout: home
 # Hero section
 hero:
   name: Amethyst
-  text: Odtwarzacz
+  text: Odtwarzacz Muzyki
   image:
     src: /icon.svg
     alt: Logo Amethyst
