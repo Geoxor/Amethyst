@@ -144,6 +144,11 @@ export class Player extends EventEmitter<{
 
   public previous() {
     this.currentTrackIndex.value--;
+
+    if (this.currentTrackIndex.value < 0) {
+      this.currentTrackIndex.value = this.queue.getList().length - 1;
+    }
+
     this.play(this.currentTrackIndex.value);
   }
 
