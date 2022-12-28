@@ -26,7 +26,6 @@ const createWaveSurfer = () => {
     hideScrollbar: true,
     cursorWidth: 0,
     normalize: true,
-    
   });
 };
 
@@ -58,16 +57,23 @@ onMounted(() => {
     
     oldTrack = track;
   });
-  
+
   wavesurfer.on("seek", value => {
     // Fixes odd stutter when syncing seek
-    if (!hasSeekFiredOnce ) {
+    if (!hasSeekFiredOnce) {
       hasSeekFiredOnce = true;
       return; 
     }
     player.seekTo(wavesurfer.getDuration() * value);
   });
-  player.on("pause", () => wavesurfer.pause());
+
+  player.on("pause", () => {
+    wavesurfer.pause();
+
+    // Sync the track progress with the player. 
+    // Needed when queue reached end and the player pauses at start of queue
+    wavesurfer.seekTo(player.currentTime.value / player.getCurrentTrack()!.getDurationSeconds());
+  });
 });
 
 const invoke = window.electron.ipcRenderer.invoke;
@@ -134,7 +140,7 @@ const handleContextCoverMenu = ({x, y}: MouseEvent) => {
             />
             <next-icon
               class="opacity-75 hover:opacity-100 hover:text-white"
-              @click="player.next()"
+              @click="player.skip()"
             />
             <repeat-icon
               v-if="player.loopMode.value == LoopMode.None"

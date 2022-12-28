@@ -92,7 +92,7 @@ export class Track {
     this.isLoaded.value = false;
     this.isLoading.value = true;
     const [cover, metadata] = await Promise.all([this.fetchCover(force), this.fetchMetadata(force)]);
-    
+
     if (metadata) {
       metadata.common.picture = [];
     }
