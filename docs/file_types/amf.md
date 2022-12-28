@@ -14,4 +14,4 @@ These files are generated when Amethyst analyzes a file for metadata. They can b
 within Amethyst from the dropdown menu or with the shortcut `CTRL + ALT + R`.
 
 ## Deletion
-As mentioned above, all metadata caches are stored in `%appdata%/amethyst/Metadata Cache`. Simply deleting the files within the folder will achieve cache deletion.
+As mentioned above, all metadata caches are stored in `%appdata%/Amethyst/Metadata Cache`. Simply deleting the files within the folder will achieve cache deletion.
