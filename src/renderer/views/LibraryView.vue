@@ -20,7 +20,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
 </script>
 
 <template>
-  <div class="p-2 grid grid-cols-6 md:grid-cols-8 lg:grid-cols-12 xl:grid-cols-16 h-min gap-1 w-full">
+  <div class="p-2 grid grid-cols-6 md:grid-cols-8 lg:grid-cols-12 xl:grid-cols-16 h-min gap-1 w-full overflow-y-auto">
     <CoverArt
       v-for="track of player.queue.getList()"
       :key="track.path"
