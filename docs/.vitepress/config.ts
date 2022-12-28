@@ -51,6 +51,11 @@ export default defineConfig({
       title: "Amethyst | Amethyst",
       description: "Webプラットフォームで記述された強力なノードベースのオーディオプレーヤー。"
     },
+    '/it/': {
+      lang: 'it',
+      title: "Amethyst | Amethyst",
+      description: "Amethyst è un A base di elettroni lettore audio con un grafico dei nodi instradamento audio sistema."
+    },
   },
   themeConfig: {
     localeLinks: {
@@ -65,6 +70,7 @@ export default defineConfig({
         { link: "/el/", text: "Ελληνικά" },
         { link: "/jp/", text: "日本語" },
         { link: "/zh/", text: "简体中文" },
+        { link: "/it/", text: "Italiano" },
       ],
     },
     footer: {
