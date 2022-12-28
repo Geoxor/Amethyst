@@ -194,7 +194,7 @@ export class MainWindow {
 							const stats = await fs.promises.stat(filePath);
 							if (stats.isDirectory())
 								return this.loadFolder(filePath);
-							else if (stats.isFile() && ALLOWED_AUDIO_EXTENSIONS.includes(path.extname(filePath).slice(1)))
+							else if (stats.isFile() && ALLOWED_AUDIO_EXTENSIONS.includes(path.extname(filePath).slice(1).toLowerCase()))
 								return filePath;
 						}),
 					).then(files => resolve(files.filter(file => !!file)));

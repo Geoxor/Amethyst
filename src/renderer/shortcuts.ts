@@ -13,7 +13,7 @@ export class Shortcuts {
   // TODO: somehow link this logic to each function in the components so they render automatically in dropdown menus
   public DEFAULT_BINDINGS: ShortcutBindings = {
     "audio.play.pause": [[" "], () => player.isPlaying.value ? player.pause() : player.play()],
-    "audio.next": [["ArrowDown"], () => player.next()],
+    "audio.next": [["ArrowDown"], () => player.skip()],
     "audio.previous": [["ArrowUp"], () => player.previous()],
     "audio.seek.forward": [["ArrowRight"], () => player.seekForward()],
     "audio.seek.backward": [["ArrowLeft"], () => player.seekBackward()],

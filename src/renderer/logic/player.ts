@@ -18,6 +18,7 @@ export class Player extends EventEmitter<{
   volume: number;
   shuffle: void;
   stop: void;
+  timeupdate: number;
 }> {
   private currentTrack = ref<Track>();
   private currentTrackIndex = ref(0);
@@ -61,7 +62,7 @@ export class Player extends EventEmitter<{
    * @param target the index or instace of a Track
    */
   public play(target?: number | Track) {
-    if (target) {
+    if (target !== undefined) {
       const track = target instanceof Track ? target : this.queue.getTrack(target);
       if (track.hasErrored) return;
       this.setPlayingTrack(track);
@@ -71,7 +72,7 @@ export class Player extends EventEmitter<{
       // Find the first non-errored track
       const track = this.queue.getList().find(track => !track.hasErrored);
       track && this.setPlayingTrack(track);
-    } 
+    }
     this.input.play();
     this.isPlaying.value = true;
     this.isPaused.value = false;
@@ -102,18 +103,60 @@ export class Player extends EventEmitter<{
     this.emit("shuffle");
   }
 
-  public next(){
+  /*
+  * Should be called when a track ended
+  */
+  public next() {
+    if (this.loopMode.value === LoopMode.One) {
+      this.play(this.currentTrackIndex.value);
+      return;
+    }
+
+    this.skip();
+  }
+
+  /*
+  * Should be called when the user skips a track
+  */
+  public skip() {
     this.currentTrackIndex.value++;
+
+    // Check if we reached the end of the queue
+    if (!this.queue.getTrack(this.currentTrackIndex.value)) {
+      this.currentTrackIndex.value = 0;
+
+      // If we don't loop: go to the start of the queue and pause the player
+      if (this.loopMode.value === LoopMode.None) {
+        const track = this.queue.getTrack(this.currentTrackIndex.value);
+
+        this.input.src = track.path;
+        this.currentTrack.value = track;
+        this.seekTo(0);
+        if (!track.isLoaded) {
+          track.fetchAsyncData();
+        }
+        this.pause();
+        return;
+      }
+    }
+
     this.play(this.currentTrackIndex.value);
   }
 
-  public previous(){
+  public previous() {
     this.currentTrackIndex.value--;
+
+    if (this.currentTrackIndex.value < 0) {
+      this.currentTrackIndex.value = this.queue.getList().length - 1;
+    }
+
     this.play(this.currentTrackIndex.value);
   }
 
   public seekTo(time: number) {
 		this.input.currentTime = time;
+
+    this.emit("timeupdate", this.input.currentTime);
 	}
 
 	public seekForward(step = 5) {

@@ -20,6 +20,23 @@ describe.concurrent("class Track", () => {
     vi.restoreAllMocks();
   });
 
+  describe.concurrent("Will check file extension", () => {
+    it("should be able to create track with normal file extension", () => {
+      const track = new Track(mockResource("my-track.mp3"));
+      expect(track.metadata.state).toBe(LoadStatus.Loading);
+    });
+
+    it("should be able to create track with uppercase file extension", () => {
+      const track = new Track(mockResource("my-track.MP3"));
+      expect(track.metadata.state).toBe(LoadStatus.Loading);
+    });
+
+    it("will throw error with invalid extension", () => {
+      expect(() => new Track(mockResource("not-a-track.pptx")))
+        .toThrowError('Given file extension does not match any of the allowed types')
+    });
+  });
+
   describe.concurrent("track.fetchMetadata()", () => {
     const track = new Track(mockResource("House - Zenith v1.mp3"));
 
