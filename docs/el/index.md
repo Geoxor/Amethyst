@@ -3,8 +3,8 @@ layout: home
 
 # Hero section
 hero:
-  name: Amethyst | Αμέθυστος
-  text: Aναπαραγωγέας
+  name: Amethyst
+  text: Αναπαραγωγέας ήχου
   image:
     src: /icon.svg
     alt: Amethyst logo
@@ -26,14 +26,14 @@ features:
     title: Γρήγορο και πολυνηματικό
     details: Το Amethyst χρησιμοποιεί GLSL και πολυνηματοψία
   - icon: ⚒️
-    title: Ισχυρό σύστημα κόμβον
-    details: Δημιουργήσε σύνθετες δρομολογήσεις ήχου και εφέ για να ρυθμίσης τον εξοπλισμό σου
+    title: Ισχυρό Node-Editor
+    details: Δημιουργήσε σύνθετες δρομολογήσεις ήχου και εφέ για να ρυθμίσεις τον εξοπλισμό σου
   - icon: 💎
     title: Όμορφη διεπαφή
     details: Απλή και κατανοητή διεπαφή χρήστη εμπνευσμένη από την Ableton
   - icon: 🔌
     title: Πρόσθετα
-    details: Υποστήριξη πρόσθετον για προσθήκη περισσότερων δυνατοτήτων
+    details: Υποστήριξη πρόσθετων για προσθήκη περισσότερων δυνατοτήτων
 
 # Meta property
 head:
