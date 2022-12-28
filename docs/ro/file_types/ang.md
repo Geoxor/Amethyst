@@ -1,13 +1,14 @@
-# Amethyst Node Graph (.ang)
+# Grafic de noduri Amethyst (.ang)
 
 <img align="right" src="https://github.com/Geoxor/amethyst/raw/master/assets/images/ang.png" alt=".ang" width="128"/>
 
-This is a file that stores the positions, connections, and parameter values for all nodes within a Node Graph.
+Acest fișier stochează pozițiile, conexiunile și valorile parametrilor pentru toate nodurile dintr-un grafic de noduri.
 
-It's realistically a serialized [JSON](https://en.wikipedia.org/wiki/JSON) file with a fancy icon and extension; it can be edited with any text editor if you fancy suffering.
+În realitate este un fișier serializat [JSON](https://en.wikipedia.org/wiki/JSON) cu un simbol ciudat și o extensie ciudată; poate fi editat cu orice editor de text dacă doriți să suferiți.
+It's realistically a serialized [JSON](https://en.wikipedia.org/wiki/JSON) file with a fancy icon and extension, it can be edited with any text editor if you fancy suffering.
 
-## Default Node Graph
-The example below is what Amethyst's default Node Graph looks like if saved into a file:
+## Grafic de noduri implicit
+Exemplul de mai jos exemplifică cum arată graficul de noduri implicit al Amethyst dacă este salvat într-un fișier:
 ```json
 {
   "version": 1,
