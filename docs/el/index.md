@@ -11,7 +11,7 @@ hero:
   tagline: Ένα ισχυρό πρόγραμμα αναπαραγωγής ήχου με σύστημα κόμβον γραμμένο στην πλατφόρμα Web.
   actions:
     - theme: brand
-      text: Λύψη
+      text: Λήψη
       link: /el/installation/package_managers
     - theme: alt
       text: Εγχειρίδιο
