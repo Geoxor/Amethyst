@@ -1,16 +1,16 @@
-# Vectorscope
+# Вектороскоп
 
 <img align="right" style="margin-left: 8px;" src="/vectorscope.png" alt=".node" width="128"/>
 
-A [vectorscope](https://en.wikipedia.org/wiki/Vectorscope) is a useful visualization tool that plots the amplitude of a [stereo](https://en.wikipedia.org/wiki/Stereophonic_sound) signal in a [two-dimensional](https://en.wikipedia.org/wiki/2D_computer_graphics) [X-Y graph](https://en.wikipedia.org/wiki/Oscilloscope#X-Y_mode), with
-X being channel one horizontally and Y being channel two vertically, thus revealing the relationship between the two signals ([correlation](#correlation)).
+[Вектороскоп](https://ru.wikipedia.org/wiki/Вектороскоп) - это полезный инструмент визуализации, который отображает амплитуду [стерео](https://ru.wikipedia.org/wiki/Стереофония) сигнала в [двумерном](https://en.wikipedia.org/wiki/2D_computer_graphics) [X-Y графике](https://en.wikipedia.org/wiki/Oscilloscope#X-Y_mode), при этом
+X является первым каналом по горизонтали, а Y - вторым каналом по вертикали, таким образом, выявляется взаимосвязь между двумя сигналами ([корреляция](Корреляция)).
 
-## Simplification
-Simply put, the vectorscope shows how "wide" or "stereo" the signal is.
+## Упрощение
+Проще говоря, вектороскоп показывает, насколько "широким" или "стерео" является сигнал.
 
-## Correlation
+## Корреляция
 
-[Correlation](https://www.beis.de/Elektronik/Correlation/CorrelationCorrectAndWrong.html#:~:text=Audio%20Correlation%20Measurement%20Basics&text=In%20our%20case%20correlation%20means,levels%20may%20be%20completely%20different) is an arbitrary value that defines how 'similar' the two signals are, meaning a stereo signal of an identical [sinewave](https://en.wikipedia.org/wiki/Sine_wave)
-with synchronized [phase](https://en.wikipedia.org/wiki/Phase_(waves)) would result in a correlation value of `+1` whereas a signal with one of the [phases](https://en.wikipedia.org/wiki/Phase_(waves)) inverted (180°) would result in a correlation of `-1`.
+[Корреляция](https://www.beis.de/Elektronik/Correlation/CorrelationCorrectAndWrong.html#:~:text=Audio%20Correlation%20Measurement%20Basics&text=In%20our%20case%20correlation%20means,levels%20may%20be%20completely%20different) является произвольным значением, которое определяет, насколько "похожи" два сигнала, что означает стереосигнал идентичной [синусоидальной волны](https://ru.wikipedia.org/wiki/Синусоида)
+с синхронизированной [фазой](https://ru.wikipedia.org/wiki/Фаза_колебаний) приведет к значению корреляции `+1`, тогда как сигнал с одной из [фаз](https://ru.wikipedia.org/wiki/Фаза_колебаний) перевернутых (на 180°), приведет к корреляции `-1`.
 
-Visually we can understand what the vectorscope is showing us by understanding that when the lines are mostly vertical we have a correlation near `+1` versus when the lines are horizontal which means we are near `-1`.
+Визуально мы можем понять, что показывает нам вектороскоп, понимая, что, когда линии в основном вертикальные, у нас есть корреляция около `+1` по сравнению с тем, когда линии горизонтальные, что означает, что мы находимся около `-1`.
