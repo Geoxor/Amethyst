@@ -6,7 +6,7 @@ export class MediaSession {
       ["play", () => player.isPlaying.value ? player.pause() : player.play()],
       ["pause", () => !player.isPlaying.value ? player.play() : player.pause()],
       ["previoustrack", () => player.previous()],
-      ["nexttrack", () => player.next()],
+      ["nexttrack", () => player.skip()],
       ["seekbackward", details => { player.seekBackward(details.seekOffset || undefined); }],
       ["seekforward", details => { player.seekForward(details.seekOffset || undefined); }],
       ["seekto", details => { details.seekTime && player.seekTo(details.seekTime); }],

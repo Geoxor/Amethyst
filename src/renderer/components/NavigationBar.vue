@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useState } from "@/amethyst";
 import NavigationButton from "@/components/NavigationButton.vue";
-import { ListIcon, SettingsIcon, SelectNoneIcon, PlaystationButtonsIcon, BinocularsIcon, } from "@/icons/material";
+import { ListIcon, SettingsIcon, SelectNoneIcon, PlaystationButtonsIcon, BinocularsIcon } from "@/icons/material";
 import { useRoute, useRouter } from "vue-router";
 import { useInspector } from "./Inspector";
 const state = useState();
@@ -23,11 +23,11 @@ const route = useRoute();
       @click="router.push({ name: 'queue' })"
     />
 
-    <!-- <navigation-button -->
-    <!-- :icon="BookshelfIcon" -->
-    <!-- :active="route.name == 'library'" -->
-    <!-- @click="router.push({name: 'library'})" -->
-    <!-- /> -->
+    <!-- <navigation-button
+      :icon="BookshelfIcon"
+      :active="route.name == 'library'"
+      @click="router.push({name: 'library'})"
+    /> -->
 
     <navigation-button
       v-if="state.isDev.value"

@@ -15,12 +15,15 @@ const min = ref(Number.POSITIVE_INFINITY);
 const max = ref(Number.NEGATIVE_INFINITY);
 const fpsCounter = useFps({every: 60});
 const fps = ref(0);
+const domSize = ref(0);
 
 onMounted(() => {
   setInterval(() => {
     fps.value = fpsCounter.value;
     if (fps.value > max.value) max.value = fps.value;
     if (fps.value < min.value) min.value = fps.value;
+    domSize.value = document.getElementsByTagName('*').length;
+
   }, 1000);
 });
 
@@ -165,7 +168,10 @@ const refreshWindow = () => location.reload();
     </p>
 
     <div class="flex gap-1.25 items-center overflow-hidden font-aseprite">
-      <div class="w-40 flex gap-1 justify-end">
+      <div class="w-56 flex gap-1 justify-end">
+        <div class="hidden lg:inline no-drag font-aseprite text-primary-900 text-opacity-50">
+          <strong class="text-primary-900 text-opacity-25">DOM </strong> {{ domSize }}
+        </div>
         <div 
           :class="[
             fps < 30 && 'text-rose-500',

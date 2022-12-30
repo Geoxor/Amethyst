@@ -16,15 +16,45 @@ export default defineConfig({
       title: "Amethyst | 紫水晶",
       description: "一个基于可视化节点和 Electron 的强大音频播放器。"
     },
+    '/de/': {
+      lang: 'de',
+      title: "Amethyst",
+      description: "Ein leistungsstarker Node-basierter Audio Player geschrieben in der Web-Plattform."
+    },
     '/el/': {
       lang: 'el-GR',
       title: "Amethyst | Αμέθυστος",
       description: "Ένα ισχυρό πρόγραμμα αναπαραγωγής ήχου με συστημα κόμβο γραμμένο στην πλατφόρμα Web."
     },
+    '/ru/': {
+      lang: 'ru',
+      title: "Amethyst | Аметист",
+      description: "Мощный аудиоплеер на базе node, написанный на web-платформе."
+    },
     '/bg/': {
       lang: 'bg',
       title: "Amethyst | Аметист",
-      description: "A powerful node-based audio player written in the Web Platform."
+      description: "Мощен Node аудио плейър, направен в уеб платформата."
+    },
+    '/pl/': {
+      lang: 'pl',
+      title: "Amethyst | Amethyst",
+      description: "Amethyst to bazujący na Elektronie odtwarzacz audio z węzłowym systemem routingu audio"
+    },
+    '/it/': {
+      lang: 'it',
+      title: "Amethyst | Ametista",
+      description: "Un potente lettore audio basato su nodi scritto nella piattaforma Web."
+    },
+    '/ro/': {
+      lang: 'ro',
+      title: "Amethyst | Amethyst",
+      description: " Un player audio bazat pe noduri scris pe Platforma Web."
+    },
+    '/jp/': {
+      lang: 'jp',
+      title: "Amethyst | Amethyst",
+      description: "Webプラットフォームで記述された強力なノードベースのオーディオプレーヤー。"
     },
   },
   themeConfig: {
@@ -32,9 +62,15 @@ export default defineConfig({
       text: "",
       items: [
         { link: "/", text: "English" },
-        { link: "/zh/", text: "简体中文" },
+        { link: "/de/", text: "Deutsch" },
+        { link: "/ru/", text: "Русский" },
         { link: "/bg/", text: "Български" },
+        { link: "/pl/", text: "Polski" },
+        { link: "/it/", text: "Italiano" },
+        { link: "/ro/", text: "Română" },
         { link: "/el/", text: "Ελληνικά" },
+        { link: "/jp/", text: "日本語" },
+        { link: "/zh/", text: "简体中文" },
       ],
     },
     footer: {
@@ -72,6 +108,12 @@ export default defineConfig({
         items: [
           { text: 'Amethyst Node Graph (.ang)', link: '/file_types/ang' },
           { text: 'Amethyst Metadata File (.amf)', link: '/file_types/amf' },
+        ]
+      },
+      {
+        text: 'Components',
+        items: [
+          { text: 'Vectorscope', link: '/components/vectorscope' },
         ]
       },
       {

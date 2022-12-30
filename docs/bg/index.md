@@ -3,7 +3,7 @@ layout: home
 
 # Hero section
 hero:
-  name: Аметист
+  name: Amethyst | Аметист
   text: Плеър
   image:
     src: /icon.svg
