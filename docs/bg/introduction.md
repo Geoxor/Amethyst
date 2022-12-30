@@ -1,18 +1,19 @@
 <img align="right" src="https://media.discordapp.net/attachments/667464431562653706/1025732056124235826/icon.png?width=128&height=128">
 
-# Amethyst 
-Amethyst is an [Electron-based](https://electronjs.org/) audio player with a [node-graph](https://en.wikipedia.org/wiki/Node_graph_architecture) [audio routing](https://en.wikipedia.org/wiki/Audio_signal_flow) system. The main goal of this project is to make a [music player](https://en.wikipedia.org/wiki/Media_player_software) in [Typescript](https://www.typescriptlang.org/) to see how far we can stretch the language to prove it's possible to provide pro-level features as most [DAWs](https://en.wikipedia.org/wiki/Digital_audio_workstation) / [DAEs](https://en.wikipedia.org/wiki/Audio_editing_software), while also providing useful tools and customizability to the [end-user](https://en.wikipedia.org/wiki/End_user) to experience audio they ways they want to.
-![Amethyst](https://cdn.discordapp.com/attachments/667464431562653706/1043343748593107004/image.png)
+# Аметист 
+Аметист е аудио плеър [основан на Electron](https://electronjs.org/) с [node-граф](https://en.wikipedia.org/wiki/Node_graph_architecture) [аудио маршрутизирана](https://en.wikipedia.org/wiki/Audio_signal_flow) система. Главната цел на този проект е да създадем [музикален плеър](https://en.wikipedia.org/wiki/Media_player_software) в [Typescript](https://www.typescriptlang.org/), за да видим докъде можем да достигнем с този език, за да докажем, че е възможно да предоставим функции на професионално ниво, подобно на повечето [DAW](https://en.wikipedia.org/wiki/Digital_audio_workstation) / [DAE](https://en.wikipedia.org/wiki/Audio_editing_software), докато предоставяме полезни инструменти и възможност за персонализиране на [крайния потребител](https://en.wikipedia.org/wiki/End_user), за да може да изживеят аудио по начинът по който желаят.
+![Аметист](https://cdn.discordapp.com/attachments/667464431562653706/1043343748593107004/image.png)
+  
 
-## Features
-- Custom cursors
-- Support for animated [GIF](https://en.wikipedia.org/wiki/GIF) art covers
-- [Multichannel](https://en.wikipedia.org/wiki/Surround_sound) (up to 9.1.2) dB meters
-- High FPS customizable [spectrum](https://en.wikipedia.org/wiki/Spectrum_analyzer)
-- High FPS customizable [vectorscope](https://en.wikipedia.org/wiki/Vectorscope)
-- [Discord RPC](https://discord.com/developers/docs/topics/rpc)
-- [Node based](https://en.wikipedia.org/wiki/Node_graph_architecture) audio routing system
-- Supported formats:
+## Функции
+- Персонализирани курсори 
+- Поддържа анимирани [GIF](https://en.wikipedia.org/wiki/GIF) арт корици
+- [Многоканален](https://en.wikipedia.org/wiki/Surround_sound) (до 9.1.2) децибел метри
+- Персонализиран висок FPS [спектър](https://en.wikipedia.org/wiki/Spectrum_analyzer)
+- Персонализиран висок FPS [вектороскоп](https://en.wikipedia.org/wiki/Vectorscope)
+- [Дискорд RPC](https://discord.com/developers/docs/topics/rpc)
+- [Основан на Node](https://en.wikipedia.org/wiki/Node_graph_architecture) аудио система за маршрутизиране
+- Поддържани формати:
   - [ogg](https://en.wikipedia.org/wiki/Ogg)
   - [flac](https://en.wikipedia.org/wiki/FLAC)
   - [wav](https://en.wikipedia.org/wiki/WAV)

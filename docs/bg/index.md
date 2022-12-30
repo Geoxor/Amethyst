@@ -7,7 +7,7 @@ hero:
   text: Плеър
   image:
     src: /icon.svg
-    alt: Amethyst logo
+    alt: Аметист лого
   tagline: Мощен Node аудио плейър, направен в уеб платформата.
   actions:
     - theme: brand
