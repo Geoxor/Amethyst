@@ -1,7 +1,7 @@
 <img align="right" src="https://media.discordapp.net/attachments/667464431562653706/1025732056124235826/icon.png?width=128&height=128">
 
 # Amethyst 
-Amethyst 是一个基于 [Electron](https://electronjs.org/) 的音频播放器。她拥有基于 [node](https://en.wikipedia.org/wiki/Node_graph_architecture) 的[音乐路由](https://en.wikipedia.org/wiki/Audio_signal_flow)系统，这个项目的主要目标是制作一个基于 [TypeScript](https://www.typescriptlang.org/) 的[音乐播放器](https://en.wikipedia.org/wiki/Media_player_software) 来看看目前为止我们能把语言延伸到什么程度，证明有可能像大多数 [DAWs](https://en.wikipedia.org/wiki/Digital_audio_workstation) / [DAEs](https://en.wikipedia.org/wiki/Audio_editing_software) 那样提供专业级功能，同时还为处理音频提供有用的工具和可定制的功能，以满足[终端用户](https://en.wikipedia.org/wiki/End_user)，让他们以自己想要的方式体验音频。。
+Amethyst 是一个基于 [Electron](https://electronjs.org/) 的音频播放器。她拥有基于[可视化节点](https://en.wikipedia.org/wiki/Node_graph_architecture)的[音轨系统](https://en.wikipedia.org/wiki/Audio_signal_flow)，这个项目的主要目标是制作一个基于 [TypeScript](https://www.typescriptlang.org/) 的[音乐播放器](https://en.wikipedia.org/wiki/Media_player_software) 来看看目前为止我们能把语言延伸到什么程度，证明有可能像大多数 [DAWs](https://en.wikipedia.org/wiki/Digital_audio_workstation) / [DAEs](https://en.wikipedia.org/wiki/Audio_editing_software) 那样提供专业级功能，同时还为处理音频提供有用的工具和可定制的功能，以满足[终端用户](https://en.wikipedia.org/wiki/End_user)，让他们以自己想要的方式体验音频。
 
 ## 特点
 - 自定义光标
@@ -10,7 +10,7 @@ Amethyst 是一个基于 [Electron](https://electronjs.org/) 的音频播放器�
 - 可定制的高 FPS [频谱分析仪](https://en.wikipedia.org/wiki/Spectrum_analyzer)
 - 可定制的高 FPS [矢量显示器](https://en.wikipedia.org/wiki/Vectorscope)
 - [Discord RPC](https://discord.com/developers/docs/topics/rpc)
-- 基于 [Node](https://en.wikipedia.org/wiki/Node_graph_architecture) 的音轨系统
+- 基于[可视化节点](https://en.wikipedia.org/wiki/Node_graph_architecture)的音轨系统
 - 支持的音频格式：
   - [ogg](https://en.wikipedia.org/wiki/Ogg)
   - [flac](https://en.wikipedia.org/wiki/FLAC)
