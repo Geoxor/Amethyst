@@ -85,6 +85,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: recursive
       - uses: actions/setup-node@v2
         with:
           node-version: 19.1.0
@@ -112,6 +114,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: recursive
       - uses: actions/setup-node@v2
         with:
           node-version: 19.1.0
