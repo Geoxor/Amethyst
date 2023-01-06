@@ -209,13 +209,6 @@
           ]
         },
         {
-          "target": "rpm",
-          "arch": [
-            "x64",
-            "arm64"
-          ]
-        },
-        {
           "target": "snap",
           "arch": [
             "x64"
