@@ -41,6 +41,11 @@ export default defineConfig({
       title: "Amethyst | Amethyst",
       description: "Amethyst to bazujący na Elektronie odtwarzacz audio z węzłowym systemem routingu audio"
     },
+    '/tl/': {
+      lang: 'tl',
+      title: "Amethyst | Amethyst",
+      description: "Isang malakas na node-based audio player na nakasulat sa Web Platform."
+    },
     '/it/': {
       lang: 'it',
       title: "Amethyst | Ametista",
@@ -66,6 +71,7 @@ export default defineConfig({
         { link: "/ru/", text: "Русский" },
         { link: "/bg/", text: "Български" },
         { link: "/pl/", text: "Polski" },
+        { link: "/tl/", text: "Tagalog" },
         { link: "/it/", text: "Italiano" },
         { link: "/ro/", text: "Română" },
         { link: "/el/", text: "Ελληνικά" },
