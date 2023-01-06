@@ -61,6 +61,7 @@ export class MainWindow {
 	public updateCheckerTimer: NodeJS.Timer | undefined;
 
 	private readonly windowOptions: Electron.BrowserWindowConstructorOptions = {
+		titleBarStyle: "hidden",
 		show: false,
 		width: 1280,
 		height: 720,
