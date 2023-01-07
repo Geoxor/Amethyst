@@ -107,44 +107,44 @@ jobs:
             release/build/*.zip
             release/build/*.zip.*
 
-  build-linux:
-    name: Build Linux
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: recursive
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 19.1.0
-          cache: 'yarn'
+  # build-linux:
+  #   name: Build Linux
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: write
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         submodules: recursive
+  #     - uses: actions/setup-node@v2
+  #       with:
+  #         node-version: 19.1.0
+  #         cache: 'yarn'
 
-      - name: Install linux dependencies
-        run: sudo apt install rpm snapd libarchive-tools && sudo snap install snapcraft --classic && sudo snap install multipass --beta --classic
+  #     - name: Install linux dependencies
+  #       run: sudo apt install rpm snapd libarchive-tools && sudo snap install snapcraft --classic && sudo snap install multipass --beta --classic
 
-      - name: Install Dependencies
-        run: yarn install
+  #     - name: Install Dependencies
+  #       run: yarn install
 
-      - name: Build Amethyst
-        run: yarn package
+  #     - name: Build Amethyst
+  #       run: yarn package
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          path: |
-            release/build/*.yml
-            release/build/*.yaml
-            release/build/*.AppImage
-            release/build/*.rpm
-            release/build/*.deb
-            release/build/*.pacman
-            release/build/*.snap
+  #     - name: Upload Artifacts
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         path: |
+  #           release/build/*.yml
+  #           release/build/*.yaml
+  #           release/build/*.AppImage
+  #           release/build/*.rpm
+  #           release/build/*.deb
+  #           release/build/*.pacman
+  #           release/build/*.snap
 
   publish-releases:
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [build-windows, build-linux, build-macos, lint, tests]
+    needs: [build-windows, build-macos, lint, tests]
     name: Publish Releases
     runs-on: ubuntu-latest
     permissions:
