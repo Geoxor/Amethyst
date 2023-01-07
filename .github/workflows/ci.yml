@@ -90,6 +90,7 @@ jobs:
       - uses: actions/setup-node@v2
         with:
           node-version: 19.1.0
+          cache: 'yarn'
 
       - name: Install Dependencies
         run: yarn install
