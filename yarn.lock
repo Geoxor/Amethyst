@@ -3742,10 +3742,10 @@ muggle-string@^0.1.0:
   resolved "https://registry.yarnpkg.com/muggle-string/-/muggle-string-0.1.0.tgz#1fda8a281c8b27bb8b70466dbc9f27586a8baa6c"
   integrity sha512-Tr1knR3d2mKvvWthlk7202rywKbiOm4rVFLsfAaSIhJ6dt9o47W4S+JMtWhd/PW9Wrdew2/S2fSvhz3E2gkfEg==
 
-music-metadata@7.13.0:
-  version "7.13.0"
-  resolved "https://registry.yarnpkg.com/music-metadata/-/music-metadata-7.13.0.tgz#796415621f274e17f5ec04d7224d5503f18157ef"
-  integrity sha512-EoDmAoK84Z9xarNEgjE7YQ4x7cIwHI9kOI3RdA2QlEHCsqBvBuBbIcP3vONGO/SBiPhXe5FF+IVAW+1T2owjEA==
+music-metadata@7.13.1:
+  version "7.13.1"
+  resolved "https://registry.yarnpkg.com/music-metadata/-/music-metadata-7.13.1.tgz#2311f89a61594867d68a9ac7aeee0163d3a41fdd"
+  integrity sha512-sV/V+1CaeiEF/gNCTEwPr+KOskuOsZLY/2Ub+w7AefKHAvXHWsTx1OEn6PEVlgGywY9bc+Fs7kD5JG9mPYnD7w==
   dependencies:
     "@tokenizer/token" "^0.3.0"
     content-type "^1.0.4"
