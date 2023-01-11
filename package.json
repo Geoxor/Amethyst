@@ -321,7 +321,7 @@
     "electron-updater": "^5.3.0",
     "ffmpeg-static": "^5.1.0",
     "mitt": "^3.0.0",
-    "music-metadata": "7.13.1",
+    "music-metadata": "8.1.2",
     "musicbrainz-api": "^0.10.1",
     "open": "^8.4.0",
     "pako": "^2.1.0",
