@@ -738,10 +738,10 @@
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-4.0.2.tgz#6286b4c7228d58ab7866d19716f3696e03a09397"
   integrity sha512-Q5vtl1W5ue16D+nIaW8JWebSSraJVlK+EthKn7e7UcD4KWsaSJ8BqGPXNaPghgtcn/fhvrN17Tv8ksUsQpiplw==
 
-"@types/uuid@^8.3.0":
-  version "8.3.4"
-  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-8.3.4.tgz#bd86a43617df0594787d38b735f55c805becf1bc"
-  integrity sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==
+"@types/uuid@^9.0.0":
+  version "9.0.0"
+  resolved "https://registry.yarnpkg.com/@types/uuid/-/uuid-9.0.0.tgz#53ef263e5239728b56096b0a869595135b7952d2"
+  integrity sha512-kr90f+ERiQtKWMz5rP32ltJ/BtULDI5RVO0uavn1HQUOwjx0R1h0rnDYNL0CepF1zL5bSY6FISAfd9tOdDhU5Q==
 
 "@types/verror@^1.10.3":
   version "1.10.6"
@@ -3755,14 +3755,14 @@ music-metadata@7.13.1:
     strtok3 "^6.3.0"
     token-types "^4.2.1"
 
-musicbrainz-api@^0.10.1:
-  version "0.10.1"
-  resolved "https://registry.yarnpkg.com/musicbrainz-api/-/musicbrainz-api-0.10.1.tgz#98020c9f4eaeed1c1d59c800e5399f9e9244a485"
-  integrity sha512-Du9YYA4GWE/iRZzDw3FsVX+zf0Qo/3OvPW0BHGbPWtUojvihMuWiRcdtMPgY914VDa600y3N5KjSAvGtmMzPiA==
+musicbrainz-api@^0.10.2:
+  version "0.10.2"
+  resolved "https://registry.yarnpkg.com/musicbrainz-api/-/musicbrainz-api-0.10.2.tgz#1e6640abc7903354bffc7e8a99e9f09e8645864f"
+  integrity sha512-XabMVs3YKu7FM3agNI71JNaG8aLG1jkiU44xF9FwdnpVEUTgChvkQydiRQu6G7J2IKDZkqmUsh4zDSvofFW+2w==
   dependencies:
     "@types/caseless" "^0.12.1"
     "@types/request-promise-native" "^1.0.17"
-    "@types/uuid" "^8.3.0"
+    "@types/uuid" "^9.0.0"
     caseless "^0.12.0"
     debug "^4.1.1"
     got "^11.8.5"

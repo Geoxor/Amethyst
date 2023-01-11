@@ -322,7 +322,7 @@
     "ffmpeg-static": "^5.1.0",
     "mitt": "^3.0.0",
     "music-metadata": "7.13.1",
-    "musicbrainz-api": "^0.10.1",
+    "musicbrainz-api": "^0.10.2",
     "open": "^8.4.0",
     "pako": "^2.1.0",
     "pidusage": "^3.0.2",
