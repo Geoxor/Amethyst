@@ -924,10 +924,10 @@
     d3-selection "^3.0.0"
     d3-zoom "^3.0.0"
 
-"@vue-flow/core@^1.11.1":
-  version "1.11.1"
-  resolved "https://registry.yarnpkg.com/@vue-flow/core/-/core-1.11.1.tgz#bcb84d0993cd9610f477e56ca4bdd9e544b503e0"
-  integrity sha512-x7ww+e6g9OQUhki4j0wgZo3hYUQtSFfW4PZ6UTtSjK3vTCwePbRdK8eGQuMEHmOc5kEEwYzONuxH3h2x9UQfvQ==
+"@vue-flow/core@^1.12.0":
+  version "1.12.0"
+  resolved "https://registry.yarnpkg.com/@vue-flow/core/-/core-1.12.0.tgz#14a6c01eb376178fc7b6afaef7c6bfffc48d1880"
+  integrity sha512-kxfQNd/Vx9H3kMG+lBbJzwhXX4CVkfBwb7sdi5Bk64bRilLfzZIo90f842yohhLuKx3I7VQ7Xx2aO+9iUETUjQ==
   dependencies:
     "@vueuse/core" "^9.6.0"
     d3-drag "^3.0.0"
