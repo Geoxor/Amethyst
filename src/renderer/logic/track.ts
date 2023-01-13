@@ -3,6 +3,8 @@ import { useElectron } from "../amethyst";
 import { bytesToHuman, secondsToColinHuman, secondsToHuman } from "@shared/formating";
 import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
 import { IMetadata, LoadState, LoadStatus } from "@shared/types";
+import FileSaver from "file-saver";
+import mime from "mime-types";
 
 /**
  * Each playable audio file is an instance of this class
@@ -106,6 +108,11 @@ export class Track {
     this.isLoaded.value = true;
   };
 
+  public async exportCover(coverIdx?: number) {
+    const blob = await this.getCoverAsBlob(coverIdx);
+    FileSaver.saveAs(blob, `cover.${mime.extension(blob.type)}`);
+  }
+
   /**
    * @returns The metadata object for this tune if it's loaded
    * @throws Error message if the object hasn't loaded yet
@@ -122,6 +129,13 @@ export class Track {
   public getCover() {
     if (this.cover.state != LoadStatus.Loaded) return;
     return this.cover.data;
+  };
+
+  public getCoverAsBlob = async (coverIdx = 0) => {
+    const cover = (await this.fetchMetadata(true))?.common.picture?.[coverIdx];
+    return cover 
+      ? Promise.resolve(new Blob([new Uint8Array(cover.data)], {type: cover.format}) )
+      : Promise.reject("Failed to fetch cover, possibly no cover?");
   };
 
   public getTitle(){

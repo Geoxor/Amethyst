@@ -10,7 +10,7 @@ import { getThemeColorHex } from "@/logic/color";
 import { Track } from "@/logic/track";
 import { player } from "@/logic/player";
 import { useInspector } from "./Inspector";
-import { BinocularsIcon } from "@/icons/material";
+import { BinocularsIcon, ExternalLinkIcon, HideIcon } from "@/icons/material";
 import { useContextMenu } from "./ContextMenu";
 
 const state = useState();
@@ -71,7 +71,7 @@ onMounted(() => {
     wavesurfer.pause();
   });
 
-  player.on("timeupdate", (newTime) => {
+  player.on("timeupdate", newTime => {
     // prevent an endless loop of seekTo's
     hasSeekFiredOnce = false;
 
@@ -88,6 +88,10 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
 const handleContextCoverMenu = ({x, y}: MouseEvent) => {
   useContextMenu().open({x, y}, [
     { title: "Inspect", icon: BinocularsIcon, action: () => player.getCurrentTrack() && useInspector().inspectAndShow(player.getCurrentTrack()!) },
+    { title: "Export cover...", icon: ExternalLinkIcon, action: () => player.getCurrentTrack()?.exportCover() },
+    state.state.isShowingBigCover 
+      ? { title: "Hide", icon: HideIcon, action: () => state.state.isShowingBigCover = false }
+      : { title: "Expand", icon: ExternalLinkIcon, action: () => state.state.isShowingBigCover = true },
   ]);
 };
 
@@ -102,9 +106,13 @@ const handleContextCoverMenu = ({x, y}: MouseEvent) => {
   <div class="flex gap-2 justify-between items-center h-full w-full">
     <cover
       v-if="state.settings.showCoverArt" 
-      class="rounded-4px h-19 w-19"
+      class="rounded-4px h-19 w-19 border-1 border-transparent cursor-pointer hover:border-primary-800"
+      :class="[
+        state.state.isShowingBigCover && 'border-primary-700'
+      ]"
       :url="player.getCurrentTrack()?.getCover() || state.state.defaultCover"
       @contextmenu="handleContextCoverMenu"
+      @click="state.state.isShowingBigCover = !state.state.isShowingBigCover"
     />
     <div class="flex flex-col justify-between h-full w-full">
       <div class="flex flex py-1 gap-2 items-start justify-between">

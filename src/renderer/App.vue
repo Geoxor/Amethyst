@@ -20,8 +20,7 @@ const state = useState();
 const ambientBackgroundImage = ref("");
 
 const setAmbientCover = async (track: Track) => {
-  const cover = (await track.fetchMetadata(true))?.common.picture?.[0];
-  cover && (ambientBackgroundImage.value = URL.createObjectURL(new Blob([new Uint8Array(cover.data)], { type: "image/png" })));
+  (ambientBackgroundImage.value = URL.createObjectURL(await track.getCoverAsBlob()));
 };
 
 onMounted(() => {
@@ -36,6 +35,26 @@ onUnmounted(() => {
 
 <template>
   <div class="flex fixed flex-col bg-surface-900">
+    <div
+      class="absolute select-none rounded-8px h-3/4 overflow-hidden top-1/2 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2 z-50"
+    >
+      <cover-art 
+        v-if="state.state.isShowingBigCover"
+        :url="ambientBackgroundImage"
+        class="h-full"
+        @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
+          { title: 'Export cover...', icon: ExternalLinkIcon, action: () => player.getCurrentTrack()?.exportCover() },
+        ]);"
+      />
+
+      <button
+        class="p-3 absolute top-1 right-1 cursor-pointer hover:text-white"
+        @click="state.state.isShowingBigCover = false"
+      >
+        <CloseIcon class="w-4 h-4" />
+      </button>
+    </div>
+
     <div
       v-if="state.settings.showAmbientBackground"
       :style="`

@@ -19,6 +19,7 @@ export class Store {
 		isMinimized: false,
 		isFocused: true,
 		isMaximized: false,
+		isShowingBigCover: false,
 		updateReady: false,
 		defaultCover: "",
 		theme: "amethyst-dark",

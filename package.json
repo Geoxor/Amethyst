@@ -2,7 +2,7 @@
   "name": "amethyst",
   "author": "Geoxor <geoxor123@outlook.com>",
   "productName": "Amethyst",
-  "version": "1.8.39",
+  "version": "1.8.40",
   "main": "./release/dist/main/main.js",
   "licenses": [
     {
@@ -271,6 +271,8 @@
   "homepage": "https://github.com/Geoxor/amethyst#readme",
   "devDependencies": {
     "@types/discord-rpc": "^4.0.3",
+    "@types/file-saver": "^2.0.5",
+    "@types/mime-types": "^2.1.1",
     "@types/node": "^18.11.18",
     "@types/sharp": "^0.31.1",
     "@types/source-map-support": "^0.5.6",
@@ -320,6 +322,8 @@
     "electron-log": "^4.4.6",
     "electron-updater": "^5.3.0",
     "ffmpeg-static": "^5.1.0",
+    "file-saver": "^2.0.5",
+    "mime-types": "^2.1.35",
     "mitt": "^3.0.0",
     "music-metadata": "7.13.1",
     "musicbrainz-api": "^0.10.2",

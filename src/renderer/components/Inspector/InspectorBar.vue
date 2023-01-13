@@ -10,11 +10,11 @@ import { bytesToHuman } from "@shared/formating";
 import { computed, onMounted, onUnmounted } from "vue";
 import { useInspector, getInspectableItemType } from ".";
 import BaseChip from "../BaseChip.vue";
+import { useContextMenu } from "../ContextMenu";
 import CoverArt from "../CoverArt.vue";
 const inspector = useInspector();
 const currentItem = computed(() => inspector.state.currentItem);
 const state = useState();
-
 const handlePlay = (track: Track) => {
   inspector.inspect(track);
 };
@@ -111,6 +111,9 @@ onUnmounted(() => {
           <CoverArt 
             class="w-16 rounded-4px"
             :url="currentItem.getCoverByFace(i)"
+            @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
+              { title: 'Export cover...', icon: ExternalLinkIcon, action: () => currentItem.exportCover(i) },
+            ]);"
           />
           <div class="flex flex-col gap-1 w-full">
             <li class="flex justify-between gap-2">
