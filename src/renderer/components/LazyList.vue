@@ -19,7 +19,8 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
   useContextMenu().open({x, y}, [
     { title: "Play", icon: PlayIcon, action: () => player.play(track) },
     { title: "Inspect", icon: BinocularsIcon, action: () => useInspector().inspectAndShow(track) },
-    { title: "Open in Explorer...", icon: ExternalLinkIcon, action: () => invoke("show-item", [track.path]) },
+    { title: "Show in Explorer...", icon: ExternalLinkIcon, action: () => invoke("show-item", [track.path]) },
+    { title: "Export cover...", icon: ExternalLinkIcon, action: () => track.exportCover() },
     { title: "Reload metadata", icon: ResetIcon, action: () => track.fetchAsyncData(true) },
     { title: "Remove from queue", icon: RemoveIcon, red: true, action: () => player.queue.remove(track) },
   ]);

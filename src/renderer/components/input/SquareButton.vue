@@ -5,7 +5,7 @@ defineProps<{ active?: boolean, icon?: any }>();
 <template>
   <button
     :class="active && 'active'"
-    class="select-none p-1 bg-surface-700 border-1 border-surface-500"
+    class="select-none text-primary-1000 hover:text-white p-1 bg-surface-700 border-1 border-surface-500"
   >
     <component
       :is="icon"

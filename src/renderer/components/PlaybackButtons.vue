@@ -90,8 +90,8 @@ const handleContextCoverMenu = ({x, y}: MouseEvent) => {
     { title: "Inspect", icon: BinocularsIcon, action: () => player.getCurrentTrack() && useInspector().inspectAndShow(player.getCurrentTrack()!) },
     { title: "Export cover...", icon: ExternalLinkIcon, action: () => player.getCurrentTrack()?.exportCover() },
     state.state.isShowingBigCover 
-      ? { title: "Hide", icon: HideIcon, action: () => state.state.isShowingBigCover = false }
-      : { title: "Expand", icon: ExternalLinkIcon, action: () => state.state.isShowingBigCover = true },
+      ? { title: "Hide cover", icon: HideIcon, action: () => state.state.isShowingBigCover = false }
+      : { title: "View cover", icon: ExternalLinkIcon, action: () => state.state.isShowingBigCover = true },
   ]);
 };
 
