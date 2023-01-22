@@ -293,7 +293,7 @@
     "eslint": "^8.31.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.27.4",
-    "eslint-plugin-vue": "^9.8.0",
+    "eslint-plugin-vue": "^9.9.0",
     "happy-dom": "^8.1.5",
     "postcss": "^8.4.21",
     "prettier": "^2.8.2",
