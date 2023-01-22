@@ -1,7 +1,7 @@
-# Building from source
-People who are taking this approach are expected to be familiar with how this is done (cloning, building, etc.)
+# Erstellen aus Quellcode
+Es wird erwartet, dass Personen, die diesen Ansatz verfolgen, mit dem Erstellen aus Quellcode vertraut sind (clonen, bauen, usw.)
 
-This command will build Amethyst for your system in the `./release/build` folder
+Dieser Befehl baut Amethyst für Ihr System im Ordner "./release/build"
 
 ## Windows
 ```sh
@@ -12,24 +12,22 @@ $ git clone --recurse-submodules https://github.com/geoxor/amethyst \
 ```
 
 ## Linux
-⚠️ If you're on Linux the command above will attempt to compile for 
-`AppImage`, `deb`, `rpm` and `snap`, It will most likely fail as you're going to be missing the
-dependencies required to build them.
+⚠️ Wenn Sie unter Linux sind, wird der oben genannte Befehl versuchen, für
+`AppImage`, `deb`, `rpm` und `snap` zu kompilieren. Es wird wahrscheinlich fehlschlagen, da die
+Abhängigkeiten, die zum Erstellen erforderlich sind, fehlen.
 
-**You should do something like the following:**
-
+**Sie sollten etwas wie das Folgende tun:**
 ```sh
-$ yarn package --linux dir # builds into "release/build/linux-unpacked"
+$ yarn package --linux dir # Erstellt in "release/build/linux-unpacked"
 ```
 
 ```sh
-$ yarn package --linux deb # builds into a deb package
+$ yarn package --linux deb # Erstellt ein deb-Paket
 ```
 
 ```sh
-$ yarn package --linux appimage # builds into an appimage
+$ yarn package --linux appimage # Erstellt ein AppImage
 ```
 
-
-More information about manual packaging arguments can be found in the [electron-builder documentation](https://www.electron.build/configuration/linux.html)
+Weitere Informationen zu manuellen Packaging-Argumenten finden Sie in der [electron-builder Dokumentation](https://www.electron.build/configuration/linux.html)
 

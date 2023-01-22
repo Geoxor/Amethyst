@@ -1,18 +1,13 @@
-# Amethyst Metadata File (.amf)
+# Amethyst Metadatendatei (.amf)
 
 <img align="right" src="https://github.com/Geoxor/amethyst/raw/master/assets/images/amf.png" alt=".amf" width="128"/>
 
-This file is stored in the `Metadata Cache` folder within `%appdata%/amethyst` and it's a [JSON](https://en.wikipedia.org/wiki/JSON) file containing
-the metadata of the given audio file, the filename is gonna be the same same as the name of the audio file it stores metadata for
-If the file is renamed amethyst will have to re-cache the metadata, meaning there may be copies of cached files.
+Diese Datei wird im Ordner `Metadata Cache` innerhalb von `%appdata%/amethyst` gespeichert und ist eine [JSON](https://de.wikipedia.org/wiki/JavaScript_Object_Notation)-Datei, die die Metadaten der gegebenen Audiodatei enthält. Der Dateiname ist der gleiche wie der Name der Audiodatei, für die er Metadaten speichert. Wenn die Datei umbenannt wird, muss Amethyst die Metadaten erneut cachen, was bedeutet, dass es Kopien von gecachten Dateien geben kann.
 
-eg. `enjoii - Never Say Goodbye.flac` => `enjoii - Never Say Goodbye.flac.amf`
+z.B. `enjoii - Never Say Goodbye.flac` => `enjoii - Never Say Goodbye.flac.amf`
 
+## Erneuerung
+Diese Dateien werden erstellt, wenn Amethyst eine Datei auf Metadaten analysiert. Sie können durch erzwingen des Aktualisierens der Metadaten innerhalb von Amethyst aus dem Dropdown-Menü oder mit dem Tastenkürzel `STRG + ALT + R` neu geschrieben werden.
 
-## Regeneration
-These files are generated when Amethyst analyzes a file for metadata. They can be rewritten by forcefully refreshing metadata
-within Amethyst from the dropdown menu or with the shortcut `CTRL + ALT + R`.
-
-## Deletion
-As mentioned above, all metadata caches are stored in `%appdata%/amethyst/Metadata Cache`. Simply deleting the files within the folder will achieve cache deletion.
-
+## Löschung
+Wie oben erwähnt, werden alle Metadaten-Caches in `%appdata%/amethyst/Metadata Cache` gespeichert. Durch einfaches Löschen der Dateien innerhalb des Ordners kann der Cache gelöscht werden.

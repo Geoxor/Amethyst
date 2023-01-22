@@ -1,15 +1,14 @@
-# Amethyst Node Graph (.ang)
+# Amethyst Knotengraph (.ang)
 
 <img align="right" src="https://github.com/Geoxor/amethyst/raw/master/assets/images/ang.png" alt=".ang" width="128"/>
 
-This is a file that stores the positions, connections, and parameter 
-values for all nodes within a Node Graph.
+Dies ist eine Datei, die die Positionen, Verbindungen und Parameterwerte für alle Knoten innerhalb eines Knotengraphen speichert.
 
-It's realistically a serialized [JSON](https://en.wikipedia.org/wiki/JSON) file with a fancy icon and extension,
-it can be edited with any text editor if you fancy suffering.
+Es ist realistisch gesehen eine serialisierte [JSON](https://en.wikipedia.org/wiki/JSON)-Datei mit einem schicken Symbol und Erweiterung,
+sie kann mit jedem Texteditor bearbeitet werden, wenn Sie Lust haben, zu leiden.
 
-## Default Node Graph
-The example below is what Amethyst's default Node Graph looks like if saved into a file:
+## Standardknotengraph
+Das unten stehende Beispiel zeigt, wie Amethysts Standardknotengraph aussieht, wenn er in eine Datei gespeichert wird:
 ```json
 {
   "version": 1,
