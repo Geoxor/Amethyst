@@ -1,18 +1,54 @@
 <script setup lang="ts">
-import { useState } from "@/amethyst";
-import SettingsBinarySwitch from "@/components/settings/SettingsBinarySwitch.vue";
-import SettingsCategorySplitter from "@/components/settings/SettingsCategorySplitter.vue";
-import SettingsModifier from "@/components/settings/SettingsModifier.vue";
-import Splitter from "@/components/SplitterLine.vue";
-import GeoxorLogo from "@/icons/GeoxorLogo.vue";
-const state = useState();
-
+import NavigationBar from "@/components/NavigationBar.vue";
+import NavigationButton from "@/components/NavigationButton.vue";
+import { MagnetIcon, MusicFolderIcon } from "@/icons/material";
 </script>
 
 <template>
-  <div class="borderLeft w-64 p-2 text-primary-900 min-w-64 ml-0 text-12px whitespace-nowrap">
+  <div class="h-full flex w-full">
+    <navigation-bar class="w-56">
+      <navigation-button
+        :icon="MagnetIcon"
+        :active="$route.name == 'settings.appearance'"
+        text="Appearance"
+        description="background, themes, visability"
+        @click="$router.push({ name: 'settings.appearance' })"
+      />
+      <navigation-button
+        :icon="MagnetIcon"
+        :active="$route.name == 'settings.metering'"
+        text="Metering"
+        description="spectrums, vectorscopes, db meters"
+        @click="$router.push({ name: 'settings.metering' })"
+      />
+      <navigation-button
+        :icon="MusicFolderIcon"
+        :active="$route.name == 'settings.behaviour'"
+        text="Behaviour"
+        description="concurrency, startup actions, defaults"
+        @click="$router.push({ name: 'settings.behaviour' })"
+      />
+      
+      <navigation-button
+        :icon="MusicFolderIcon"
+        :active="$route.name == 'settings.integration'"
+        text="Integrations"
+        description="discord, app integrations, etc"
+        @click="$router.push({ name: 'settings.integration' })"
+      />
+    </navigation-bar>
+    <div class="p-2 text-11px w-full h-full flex flex-col gap-2">
+      <router-view />
+    </div>
+  </div>
+  <!-- <div class="p-2 text-primary-900 text-12px whitespace-nowrap">
+
     <div class="overflow-hidden overflow-y-auto h-full ">
-      <div class="pr-2 flex flex-col gap-2 relative">
+      <h1 class="text-xl">
+        Settings
+      </h1>
+
+      <div class="pr-2 flex flex-col gap-3 relative">
         <settings-category-splitter text="Ambient Background" />
         <settings-binary-switch
           v-model="state.settings.showAmbientBackground"
@@ -151,5 +187,5 @@ const state = useState();
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>

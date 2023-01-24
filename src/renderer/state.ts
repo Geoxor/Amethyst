@@ -27,7 +27,6 @@ export class Store {
 
 	public defaultSettings = {
 		showQueue: true,
-		showSettings: false,
 		showCoverArt: true,
 		showSpectrum: true,
 		showBigSpectrum: false,

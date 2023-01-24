@@ -2,7 +2,6 @@
 import { useState } from "@/amethyst";
 import TopBar from "@/components/TopBar.vue";
 import {InspectorBar, useInspector} from "@/components/Inspector";
-import SettingsBar from "@/components/SettingsBar.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import NavigationBar from "@/components/NavigationBar.vue";
 import PlaybackButtons from "@/components/PlaybackButtons.vue";
@@ -15,6 +14,8 @@ import { onMounted, onUnmounted, ref } from "vue";
 import { Track } from "@/logic/track";
 import { player } from "@/logic/player";
 import { CloseIcon } from "./icons/fluency";
+import NavigationButton from "@/components/NavigationButton.vue";
+import { ListIcon, SettingsIcon, SelectNoneIcon, PlaystationButtonsIcon, BinocularsIcon } from "@/icons/material";
 
 const state = useState();
 const ambientBackgroundImage = ref("");
@@ -79,7 +80,46 @@ onUnmounted(() => {
     <context-menu v-if="useContextMenu().state.isVisible" />
     <div class="h-full whitespace-nowrap flex flex-col justify-between overflow-hidden">
       <div class="flex-1 flex h-full max-h-full relative overflow-hidden">
-        <navigation-bar />
+        <navigation-bar>
+          <navigation-button
+            :icon="SelectNoneIcon"
+            :active="$route.name == 'node-editor'"
+            @click="$router.push({ name: 'node-editor' })"
+          />
+
+          <navigation-button
+            :icon="ListIcon"
+            :active="$route.name == 'queue'"
+            @click="$router.push({ name: 'queue' })"
+          />
+
+          <!-- <navigation-button
+      :icon="BookshelfIcon"
+      :active="$route.name == 'library'"
+      @click="$router.push({name: 'library'})"
+    /> -->
+
+          <navigation-button
+            v-if="state.isDev.value"
+            :icon="PlaystationButtonsIcon"
+            :active="$route.name == 'playground'"
+            @click="$router.push({ name: 'playground' })"
+          />
+
+          <div class="flex-1" />
+          <navigation-button
+            :icon="BinocularsIcon"
+            :active="useInspector().state.isVisible"
+            @click="useInspector().state.isVisible = !useInspector().state.isVisible"
+          />
+
+          <navigation-button
+            :icon="SettingsIcon"
+            :active="$route.name?.toString().startsWith('settings') || false"
+      
+            @click="$router.push({ name: 'settings' })"
+          />
+        </navigation-bar>
         <div class="flex flex-col w-full">
           <router-view class="overflow-hidden" />
           <div
@@ -104,7 +144,6 @@ onUnmounted(() => {
           </div>
         </div>
         <inspector-bar v-if="useInspector().state.isVisible" />
-        <settings-bar v-if="state.settings.showSettings" />
       </div>
 
       <div

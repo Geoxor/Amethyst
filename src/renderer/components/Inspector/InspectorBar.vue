@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useElectron, useState } from "@/amethyst";
+import { useElectron } from "@/amethyst";
 import { CloseIcon } from "@/icons/fluency";
 import { AudioFileIcon, ExternalLinkIcon, ImageIcon, ListIcon, PlaystationButtonsIcon, BinocularsIcon, LoadingIcon } from "@/icons/material";
 import ResetIcon from "@/icons/material/ResetIcon.vue";
@@ -14,7 +14,6 @@ import { useContextMenu } from "../ContextMenu";
 import CoverArt from "../CoverArt.vue";
 const inspector = useInspector();
 const currentItem = computed(() => inspector.state.currentItem);
-const state = useState();
 const handlePlay = (track: Track) => {
   inspector.inspect(track);
 };
@@ -34,8 +33,7 @@ onUnmounted(() => {
 
 <template>
   <div
-    :class="state.settings.showSettings ? 'right-66' : 'right-2'"
-    class="inspector absolute text-12px top-2 overflow-hidden w-min-64 rounded-4px z-30 text-primary-900 border-1 bg-surface-1000 border-surface-600"
+    class="inspector absolute text-12px top-2 right-2 overflow-hidden w-min-64 rounded-4px z-30 text-primary-900 border-1 border-surface-600 bg-surface-1000"
   >
     <div class="h-10 pl-3 flex w-full borderBottom justify-between items-center">
       <div class="flex gap-2 items-center">

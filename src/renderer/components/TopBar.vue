@@ -22,7 +22,7 @@ onMounted(() => {
     fps.value = fpsCounter.value;
     if (fps.value > max.value) max.value = fps.value;
     if (fps.value < min.value) min.value = fps.value;
-    domSize.value = document.getElementsByTagName('*').length;
+    domSize.value = document.getElementsByTagName("*").length;
 
   }, 1000);
 });
@@ -112,7 +112,7 @@ const refreshWindow = () => location.reload();
         <menu-option
           title="Settings"
           :icon="SettingsIcon"
-          @click="state.settings.showSettings = !state.settings.showSettings"
+          @click="$router.push({ name: 'settings.appearance' })"
         />
         <menu-option
           title="Show dev tools"
