@@ -1,4 +1,5 @@
 import AdjustIcon from "./AdjustIcon.vue";
+import GeometryIcon from "./GeometryIcon.vue";
 import AzimuthIcon from "./AzimuthIcon.vue";
 import BookshelfIcon from "./BookshelfIcon.vue";
 import CircleToggleIcon from "./CircleToggleIcon.vue";
@@ -9,7 +10,9 @@ import HeartIcon from "./HeartIcon.vue";
 import ListIcon from "./ListIcon.vue";
 import MagnetIcon from "./MagnetIcon.vue";
 import MasterIcon from "./MasterIcon.vue";
+import PuzzleIcon from "./PuzzleIcon.vue";
 import MyLocationIcon from "./MyLocationIcon.vue";
+import PaintBrushIcon from "./PaintBrushIcon.vue";
 import PlaystationButtonsIcon from "./PlaystationButtonsIcon.vue";
 import RemoveIcon from "./RemoveIcon.vue";
 import RenameIcon from "./RenameIcon.vue";
@@ -66,6 +69,7 @@ export {
   FilterIcon,
   HeartIcon,
   ListIcon,
+  GeometryIcon,
   MasterIcon,
   MyLocationIcon,
   PlaystationButtonsIcon,
@@ -74,4 +78,6 @@ export {
   StepIntoIcon,
   StepOutIcon,
   WaveIcon,
+  PuzzleIcon,
+  PaintBrushIcon
 };

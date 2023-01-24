@@ -1,28 +1,28 @@
 <script setup lang="ts">
 import NavigationBar from "@/components/NavigationBar.vue";
 import NavigationButton from "@/components/NavigationButton.vue";
-import { MagnetIcon, MusicFolderIcon } from "@/icons/material";
+import { PaintBrushIcon, GeometryIcon, PuzzleIcon, WaveIcon } from "@/icons/material";
 </script>
 
 <template>
   <div class="h-full flex w-full">
     <navigation-bar class="w-56">
       <navigation-button
-        :icon="MagnetIcon"
+        :icon="PaintBrushIcon"
         :active="$route.name == 'settings.appearance'"
         text="Appearance"
         description="background, themes, visability"
         @click="$router.push({ name: 'settings.appearance' })"
       />
       <navigation-button
-        :icon="MagnetIcon"
+        :icon="WaveIcon"
         :active="$route.name == 'settings.metering'"
         text="Metering"
         description="spectrums, vectorscopes, db meters"
         @click="$router.push({ name: 'settings.metering' })"
       />
       <navigation-button
-        :icon="MusicFolderIcon"
+        :icon="GeometryIcon"
         :active="$route.name == 'settings.behaviour'"
         text="Behaviour"
         description="concurrency, startup actions, defaults"
@@ -30,7 +30,7 @@ import { MagnetIcon, MusicFolderIcon } from "@/icons/material";
       />
       
       <navigation-button
-        :icon="MusicFolderIcon"
+        :icon="PuzzleIcon"
         :active="$route.name == 'settings.integration'"
         text="Integrations"
         description="discord, app integrations, etc"
