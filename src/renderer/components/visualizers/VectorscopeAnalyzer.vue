@@ -2,15 +2,14 @@
 import { useState } from "@/amethyst";
 import { getThemeColorHex } from "@/logic/color";
 import { computed, onMounted, onUnmounted, watch } from "vue";
-const props = defineProps<{ node: AudioNode }>();
+const props = defineProps<{ node: AudioNode, width: number, height: number }>();
 const FFT_SIZE = 512;
-const WIDTH = 76;
-const HEIGHT = WIDTH;
 const state = useState();
 let shouldStopRendering = false;
 let randomId = Date.now();
 
 onMounted(() => {
+	const {width, height} = props;
 	const vectorscope = document.querySelector(`#vectorscope-${randomId}`) as HTMLCanvasElement;
 	const canvasCtx = computed(() => {
 		const canvas = vectorscope.getContext("2d")!;
@@ -35,7 +34,7 @@ onMounted(() => {
 	canvasCtx.value.lineWidth = state.settings.vectorscopeLineThickness;
 	watch(() => state.settings.vectorscopeLineThickness, () => canvasCtx.value.lineWidth = state.settings.vectorscopeLineThickness);
 
-	let lastPosition = [WIDTH / 2, HEIGHT / 2];
+	let lastPosition = [width / 2, height / 2];
 
 	function draw() {
 		analyzerX.getFloatTimeDomainData(bufferX);
@@ -46,8 +45,8 @@ onMounted(() => {
 			canvasCtx.value.beginPath();
 			canvasCtx.value.moveTo(lastPosition[0], lastPosition[1]);
 
-			const x = bufferX[i] * 32 + WIDTH / 2;
-			const y = bufferY[i] * 32 + HEIGHT / 2;
+			const x = bufferX[i] * (width / 2.25) + width / 2;
+			const y = bufferY[i] * (height / 2.25) + height / 2;
 
 			canvasCtx.value.lineTo(x, y);
 			canvasCtx.value.stroke();
@@ -65,20 +64,20 @@ onUnmounted(() => shouldStopRendering = true);
 
 <template>
   <div
-    :style="`min-width: ${WIDTH}px;`"
+    :style="`min-width: ${width}px;`"
     class="flex flex-col bg-surface-900 rounded-4px overflow-hidden"
   >
     <canvas
       :id="`vectorscope-${randomId}`"
       :class="[!state.settings.diagonalVectorscope && 'diagonal']"
-      :width="WIDTH"
-      :height="HEIGHT"
+      :width="width"
+      :height="height"
     />
   </div>
 </template>
 
 <style scoped lang="postcss">
 .diagonal {
-	@apply transform rotate-45 scale-66 rounded-4px bg-surface-1000;
+	@apply transform rotate-45 scale-66 rounded-4px bg-black bg-opacity-25;
 }
 </style>

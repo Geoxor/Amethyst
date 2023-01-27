@@ -123,25 +123,49 @@ onUnmounted(() => {
         </navigation-bar>
         <div class="flex flex-col w-full">
           <router-view class="overflow-hidden" />
-          <div
-            v-if="state.settings.showBigSpectrum && player.source"
-            class="p-2 pt-0 relative"
-          >
-            <button
-              class="p-3 absolute z-10 top-1 right-3 cursor-pointer text-primary-1000 hover:text-white"
-              @click="state.settings.showBigSpectrum = false"
+          <div class="flex justify-end w-full p-2 gap-2">
+            <div
+              v-if="state.settings.showBigSpectrum && player.source"
+              class="w-full relative"
             >
-              <CloseIcon class="w-4 h-4" />
-            </button>
-            <SpectrumAnalyzer
+              <button
+                class="p-3 absolute z-10 top-1 right-3 cursor-pointer text-primary-1000 hover:text-white"
+                @click="state.settings.showBigSpectrum = false"
+              >
+                <CloseIcon class="w-4 h-4" />
+              </button>
+              <SpectrumAnalyzer
               
-              :key="player.nodeManager.getNodeConnectinsString()"
-              class="h-64 min-h-64 w-full bg-surface-1000"
-              :node="player.nodeManager.master.audioNode"
-              @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-                { title: 'Hide', icon: HideIcon, action: () => state.settings.showBigSpectrum = false },
-              ]);"
-            />
+                :key="player.nodeManager.getNodeConnectinsString()"
+                class="h-64 min-h-64 w-full bg-surface-1000"
+                :node="player.nodeManager.master.audioNode"
+                @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
+                  { title: 'Hide', icon: HideIcon, action: () => state.settings.showBigSpectrum = false },
+                ]);"
+              />
+            </div>
+
+            <div
+              v-if="state.settings.showBigVectorscope && player.source"
+              class="relative"
+            >
+              <button
+                class="p-3 absolute z-10 top-1 right-3 cursor-pointer text-primary-1000 hover:text-white"
+                @click="state.settings.showBigVectorscope = false"
+              >
+                <CloseIcon class="w-4 h-4" />
+              </button>
+              <Vectorscope
+                :key="player.nodeManager.getNodeConnectinsString()"
+                :width="256"
+                :height="256"
+                class="h-64 w-64 bg-surface-1000"
+                :node="player.nodeManager.master.audioNode"
+                @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
+                  { title: 'Hide', icon: HideIcon, action: () => state.settings.showBigVectorscope = false },
+                ]);"
+              />
+            </div>
           </div>
         </div>
         <inspector-bar v-if="useInspector().state.isVisible" />
@@ -171,14 +195,21 @@ onUnmounted(() => {
           v-if="state.settings.showVectorscope && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
           :node="player.nodeManager.master.audioNode"
+          :width="76"
+          :height="76"
+          class="clickable"
+          :class="[
+            state.settings.showBigVectorscope && 'border-primary-700 bg-primary-700 bg-opacity-10 hover:bg-opacity-20'
+          ]"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide Vectorscope', icon: HideIcon, action: () => state.settings.showVectorscope = false },
           ]);"
+          @click="state.settings.showBigVectorscope = !state.settings.showBigVectorscope"
         />
         <SpectrumAnalyzer
           v-if="state.settings.showSpectrum && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
-          class="h-76px w-152px min-h-76px min-w-152px cursor-pointer border-1 border-transparent hover:bg-primary-700 hover:bg-opacity-10"
+          class="clickable h-76px w-152px min-h-76px min-w-152px "
           :class="[
             state.settings.showBigSpectrum && 'border-primary-700 bg-primary-700 bg-opacity-10 hover:bg-opacity-20'
           ]"
@@ -311,6 +342,10 @@ body,
 
 .no-drag {
   -webkit-app-region: no-drag;
+}
+
+.clickable {
+  @apply cursor-pointer border-1 border-transparent hover:bg-primary-700 hover:bg-opacity-10;
 }
 
 </style>
