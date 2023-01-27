@@ -6,7 +6,7 @@ import { player } from "@/logic/player";
 
 const props = defineProps<{ node: AudioNode }>();
 
-const MINIMUM_LUFS = -64;
+const MINIMUM_LUFS = -20;
 
 const shortTerm = ref(MINIMUM_LUFS);
 const momentary = ref(MINIMUM_LUFS);
@@ -65,6 +65,7 @@ onMounted(() => {
 const computeWidth = (value: number): number => {
   const MAX = 0;
   const MIN = MINIMUM_LUFS;
+  if (value < MINIMUM_LUFS) return 0; // if below threashold don't default to 100
   return ((value - MIN) / (MAX - MIN)) * 100;
 };
 
@@ -129,10 +130,10 @@ const computeWidth = (value: number): number => {
   @apply flex flex-col gap-1.5;
 }
 .barBg {
-  @apply bg-surface-600 w-full rounded-2px;
+  @apply bg-surface-600 w-full overflow-hidden rounded-2px;
 }
 .bar {
-  @apply h-1 duration-500 rounded-2px p-0.5 bg-cyan-400;
+  @apply h-1 duration-250 rounded-2px bg-cyan-400;
 }
 
 </style>

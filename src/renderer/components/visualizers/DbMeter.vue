@@ -81,7 +81,10 @@ onUnmounted(() => shouldStopRendering = true);
 <template>
   <div
     class="relative h-full"
-    :style="`width: ${(width + (width / 2)) * nChannels + 6}px`"
+    :style="`
+			width: ${(width + (width / 2)) * nChannels + 2}px;
+			min-width: ${(width + (width / 2)) * nChannels + 2}px;
+		`"
   >
     <div
       v-for="i of nChannels"
