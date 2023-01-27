@@ -195,6 +195,11 @@
     "@docsearch/css" "3.3.1"
     algoliasearch "^4.0.0"
 
+"@domchristie/needles@^0.0.2-1":
+  version "0.0.2-1"
+  resolved "https://registry.yarnpkg.com/@domchristie/needles/-/needles-0.0.2-1.tgz#23cdfda244175846b27349be1974b8817a29c483"
+  integrity sha512-Ba7QEJ/FgcD6sVzT6d31gefF+TZYWO24egtGttsPi0AQtEpeTWuNv23CNqPH6BaJdacc/GvK3a4WM/vLiboJag==
+
 "@electron/get@^1.14.1":
   version "1.14.1"
   resolved "https://registry.yarnpkg.com/@electron/get/-/get-1.14.1.tgz#16ba75f02dffb74c23965e72d617adc721d27f40"

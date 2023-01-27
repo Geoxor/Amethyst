@@ -16,6 +16,7 @@ import { player } from "@/logic/player";
 import { CloseIcon } from "./icons/fluency";
 import NavigationButton from "@/components/NavigationButton.vue";
 import { ListIcon, SettingsIcon, SelectNoneIcon, PlaystationButtonsIcon, BinocularsIcon } from "@/icons/material";
+import LoudnessMeter from "./components/visualizers/LoudnessMeter.vue";
 
 const state = useState();
 const ambientBackgroundImage = ref("");
@@ -160,6 +161,12 @@ onUnmounted(() => {
           ]);"
         />
 
+        <loudness-meter 
+          v-if="state.settings.showLoudnessMeter && player.source"
+          :node="player.nodeManager.master.audioNode"
+        />
+
+        <playback-buttons :player="player" />
         <vectorscope
           v-if="state.settings.showVectorscope && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
@@ -168,8 +175,6 @@ onUnmounted(() => {
             { title: 'Hide Vectorscope', icon: HideIcon, action: () => state.settings.showVectorscope = false },
           ]);"
         />
-
-        <playback-buttons :player="player" />
         <SpectrumAnalyzer
           v-if="state.settings.showSpectrum && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"

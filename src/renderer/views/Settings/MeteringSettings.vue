@@ -7,6 +7,12 @@ const state = useState();
 </script>
 
 <template>
+  <settings-category-splitter text="Loudness Meter" />
+  <settings-binary-switch
+    v-model="state.settings.showLoudnessMeter"
+    text="Enabled"
+  />
+
   <settings-category-splitter text="Vectorscope" />
   <settings-binary-switch
     v-model="state.settings.showVectorscope"

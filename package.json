@@ -308,6 +308,7 @@
     "vue-tsc": "^1.0.24"
   },
   "dependencies": {
+    "@domchristie/needles": "^0.0.2-1",
     "@supercharge/promise-pool": "^2.3.2",
     "@types/pako": "^2.0.0",
     "@types/pidusage": "^2.0.2",
