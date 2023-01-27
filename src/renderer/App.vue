@@ -123,7 +123,10 @@ onUnmounted(() => {
         </navigation-bar>
         <div class="flex flex-col w-full">
           <router-view class="overflow-hidden" />
-          <div class="flex justify-end w-full p-2 gap-2">
+          <div
+            class="flex justify-end w-full gap-2"
+            :class="[(state.settings.showBigSpectrum || state.settings.showBigVectorscope) && 'p-2']"
+          >
             <div
               v-if="state.settings.showBigSpectrum && player.source"
               class="w-full relative"
