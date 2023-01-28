@@ -52,12 +52,8 @@ onMounted(() => {
   loudnessMeter.start();
 
   player.on("play", () => {
+    loudnessMeter.reset();
     loudnessMeter.resume();
-    // Reset max values on play
-    momentaryMax.value = MINIMUM_LUFS;
-    shortTermMax.value = MINIMUM_LUFS;
-    integratedMax.value = MINIMUM_LUFS;
-    integrated.value = MINIMUM_LUFS;
   });
   player.on("pause", () => loudnessMeter.pause());
 });
@@ -66,6 +62,7 @@ const computeWidth = (value: number): number => {
   const MAX = 0;
   const MIN = MINIMUM_LUFS;
   if (value < MINIMUM_LUFS) return 0; // if below threashold don't default to 100
+  if (value > MAX) return 100; // if above 0 LUFs default to 100
   return ((value - MIN) / (MAX - MIN)) * 100;
 };
 
@@ -76,7 +73,7 @@ const computeWidth = (value: number): number => {
     <div class="meter">
       <div class="barBg">
         <div
-          class="bar"
+          class="bar bg-cyan-400 duration-150"
           :style="`width: ${computeWidth(momentary)}%`"
         />
       </div>
@@ -93,7 +90,7 @@ const computeWidth = (value: number): number => {
     <div class="meter">
       <div class="barBg">
         <div
-          class="bar"
+          class="bar bg-cyan-400 duration-500"
           :style="`width: ${computeWidth(shortTerm)}%`"
         />
       </div>
@@ -109,7 +106,7 @@ const computeWidth = (value: number): number => {
     <div class="meter">
       <div class="barBg">
         <div
-          class="bar"
+          class="bar bg-cyan-400 duration-1000"
           :style="`width: ${computeWidth(integrated)}%`"
         />
       </div>
@@ -133,7 +130,7 @@ const computeWidth = (value: number): number => {
   @apply bg-surface-600 w-full overflow-hidden rounded-2px;
 }
 .bar {
-  @apply h-1 duration-250 rounded-2px bg-cyan-400;
+  @apply h-1 rounded-2px ;
 }
 
 </style>
