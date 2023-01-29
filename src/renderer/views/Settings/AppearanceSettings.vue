@@ -25,12 +25,12 @@ const state = useState();
     :def="state.defaultSettings.ambientBackgroundSpinSpeed"
   />
   <settings-modifier
-    v-model="state.settings.abmientBackgroundBlurStrength"
+    v-model="state.settings.ambientBackgroundBlurStrength"
     text="Blur strength"
     :min="0"
     :max="256"
     :step="1"
-    :def="state.defaultSettings.abmientBackgroundBlurStrength"
+    :def="state.defaultSettings.ambientBackgroundBlurStrength"
   />
   <settings-modifier
     v-model="state.settings.ambientBackgroundOpacity"
