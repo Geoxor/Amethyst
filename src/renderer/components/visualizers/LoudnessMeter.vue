@@ -25,7 +25,7 @@ onMounted(() => {
     workerUri: new URL("../../workers/needlesWorker.js", import.meta.url).toString()
   });
 
-  loudnessMeter.on("dataavailable", function (event) {
+  loudnessMeter.on("dataavailable", function (event: { data: { mode: any; value: any; }; }) {
     let {mode, value} = event.data; // momentary | short-term | integrated
 
     value = infinityClamp(value, MINIMUM_LUFS);

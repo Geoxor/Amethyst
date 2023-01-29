@@ -61,8 +61,9 @@ onUnmounted(() => {
       v-if="state.settings.showAmbientBackground"
       :style="`
         transform: translate(-50%, -50%) scale(${state.settings.ambientBackgroundZoom}%);
+        mix-blend-mode: ${state.settings.ambientBackgroundBlendMode};
       `"
-      class="absolute z-1000 select-none mix-blend-soft-light pointer-events-none top-1/2 transform-gpu -translate-y-1/2 left-1/2 -translate-x-1/2 w-full"
+      class="absolute z-1000 select-none pointer-events-none top-1/2 transform-gpu -translate-y-1/2 left-1/2 -translate-x-1/2 w-full"
     >
       <cover-art 
         class="w-full h-full" 

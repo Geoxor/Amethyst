@@ -4,6 +4,27 @@ import SettingsBinarySwitch from "@/components/settings/SettingsBinarySwitch.vue
 import SettingsCategorySplitter from "@/components/settings/SettingsCategorySplitter.vue";
 import SettingsModifier from "@/components/settings/SettingsModifier.vue";
 const state = useState();
+
+const BLEND_MODES = [
+  "normal",
+  "multiply",
+  "screen",
+  "overlay",
+  "darken",
+  "lighten",
+  "color-dodge",
+  "color-burn",
+  "hard-light",
+  "soft-light",
+  "difference",
+  "exclusion",
+  "hue",
+  "saturation",
+  "color",
+  "luminosity",
+
+];
+
 </script>
 
 <template>
@@ -32,6 +53,23 @@ const state = useState();
     :step="1"
     :def="state.defaultSettings.ambientBackgroundBlurStrength"
   />
+
+  Mix Blend Mode
+  <select
+    v-model="state.settings.ambientBackgroundBlendMode"
+    class="bg-surface-600 w-full font-aseprite font-thin py-2"
+    @keydown.stop
+  >
+    <option
+      v-for="mode of BLEND_MODES"
+      :key="mode"
+      class="text-10px"
+      :value="mode"
+    >
+      {{ mode }}
+    </option>
+  </select>
+
   <settings-modifier
     v-model="state.settings.ambientBackgroundOpacity"
     text="Opacity"
