@@ -72,7 +72,7 @@ onUnmounted(() => {
         :style="`
         animation-duration: ${state.settings.ambientBackgroundSpinSpeed}s;
         opacity: ${state.settings.ambientBackgroundOpacity}%;
-        filter: blur(${state.settings.abmientBackgroundBlurStrength}px);
+        filter: blur(${state.settings.ambientBackgroundBlurStrength}px);
       `"
         :url="ambientBackgroundImage"
       />

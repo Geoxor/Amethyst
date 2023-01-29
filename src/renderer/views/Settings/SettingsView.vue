@@ -84,12 +84,12 @@ import { PaintBrushIcon, GeometryIcon, PuzzleIcon, WaveIcon } from "@/icons/mate
           :def="state.defaultSettings.ambientBackgroundZoom"
         />
         <settings-modifier
-          v-model="state.settings.abmientBackgroundBlurStrength"
+          v-model="state.settings.ambientBackgroundBlurStrength"
           text="Blur strength"
           :min="0"
           :max="256"
           :step="1"
-          :def="state.defaultSettings.abmientBackgroundBlurStrength"
+          :def="state.defaultSettings.ambientBackgroundBlurStrength"
         />
 
         <settings-category-splitter text="Covers" />
