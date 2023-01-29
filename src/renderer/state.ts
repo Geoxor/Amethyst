@@ -51,6 +51,7 @@ export class Store {
 		diagonalVectorscope: true,
 		showLoudnessMeter: true,
 		useLogarithmicSpectrum: true,
+		useVsync: true,
 		showBigVectorscope: false,
 		useDiscordRichPresence: true,
 		smoothScrollSpeed: 0.075,

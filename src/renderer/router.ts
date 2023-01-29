@@ -11,6 +11,7 @@ const routes: RouteRecordRaw[] = [
       { path: "/metering", name: "settings.metering", component: () => import("@/views/Settings/MeteringSettings.vue") },
       { path: "/behaviour", name: "settings.behaviour", component: () => import("@/views/Settings/BehaviourSettings.vue") },
       { path: "/integration", name: "settings.integration", component: () => import("@/views/Settings/IntegrationSettings.vue") },
+      { path: "/performance", name: "settings.performance", component: () => import("@/views/Settings/PerformanceSettings.vue") },
     ]
   },
   { path: "/playground", name: "playground", component: () => import("@/views/PlaygroundView.vue") },

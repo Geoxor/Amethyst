@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import NavigationBar from "@/components/NavigationBar.vue";
 import NavigationButton from "@/components/NavigationButton.vue";
-import { PaintBrushIcon, GeometryIcon, PuzzleIcon, WaveIcon } from "@/icons/material";
+import { PaintBrushIcon, GeometryIcon, CircusRingOfFireIcon, PuzzleIcon, WaveIcon } from "@/icons/material";
 </script>
 
 <template>
@@ -13,6 +13,13 @@ import { PaintBrushIcon, GeometryIcon, PuzzleIcon, WaveIcon } from "@/icons/mate
         text="Appearance"
         description="background, themes, visability"
         @click="$router.push({ name: 'settings.appearance' })"
+      />
+      <navigation-button
+        :icon="CircusRingOfFireIcon"
+        :active="$route.name == 'settings.performance'"
+        text="Performance"
+        description="vsync, animations, rendering"
+        @click="$router.push({ name: 'settings.performance' })"
       />
       <navigation-button
         :icon="WaveIcon"

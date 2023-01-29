@@ -2,7 +2,7 @@
   "name": "amethyst",
   "author": "Geoxor <geoxor123@outlook.com>",
   "productName": "Amethyst",
-  "version": "1.8.48",
+  "version": "1.8.49",
   "main": "./release/dist/main/main.js",
   "licenses": [
     {
@@ -321,7 +321,9 @@
     "discord-rpc": "^4.0.1",
     "electron-debug": "^3.2.0",
     "electron-log": "^4.4.6",
+    "electron-store": "^8.1.0",
     "electron-updater": "^5.3.0",
+    "electron-window-state": "^5.0.3",
     "ffmpeg-static": "^5.1.0",
     "file-saver": "^2.0.5",
     "mime-types": "^2.1.35",

@@ -34,6 +34,7 @@ import ResizeIcon from "./ResizeIcon.vue";
 import HideIcon from "./HideIcon.vue";
 import DownloadingUpdatesIcon from "./DownloadingUpdatesIcon.vue";
 import PlayIcon from "./PlayIcon.vue";
+import CircusRingOfFireIcon from "./CircusRingOfFireIcon.vue";
 import ErrorIcon from "./ErrorIcon.vue";
 import ExternalLinkIcon from "./ExternalLinkIcon.vue";
 import BinocularsIcon from "./BinocularsIcon.vue";
@@ -62,6 +63,7 @@ export {
   RenameIcon,
   ResetIcon,
   RemoveIcon,
+  CircusRingOfFireIcon,
   DisconnectIcon,
   AzimuthIcon,
   BookshelfIcon,

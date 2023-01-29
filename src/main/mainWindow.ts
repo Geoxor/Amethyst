@@ -5,7 +5,8 @@ import path from "path";
 import { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
 import { Discord, FormatIcons } from "../plugins/amethyst.discord";
 import {ALLOWED_AUDIO_EXTENSIONS} from "../shared/constants";
-import { IS_DEV } from "./main";
+import { IS_DEV, store } from "./main";
+import windowStateKeeper from "electron-window-state";
 
 export const APP_VERSION = app.isPackaged ? app.getVersion() : process.env.npm_package_version ?? "0.0.0";
 export const METADATA_CACHE_PATH = path.join(app.getPath("appData"), "/amethyst/Metadata Cache");
@@ -59,31 +60,42 @@ const notifications: Record<string, Function> = {
 export class MainWindow {
 	public readonly window: BrowserWindow;
 	public updateCheckerTimer: NodeJS.Timer | undefined;
-
-	private readonly windowOptions: Electron.BrowserWindowConstructorOptions = {
-		titleBarStyle: "hidden",
-		show: false,
-		width: 1280,
-		height: 720,
-		minHeight: 500,
-		minWidth: 800,
-		icon: icon(),
-		frame: false,
-		webPreferences: {
-			preload: path.join(__dirname, "preload.js"),
-			webSecurity: false,
-			nodeIntegration: true,
-		},
-	};
-
+	private windowState = windowStateKeeper({
+		defaultWidth: 1280,
+		defaultHeight: 720,
+	});
 	private readonly discord: Discord;
 
 	constructor() {
-		this.window = new BrowserWindow(this.windowOptions);
+
+		this.window = new BrowserWindow({
+			titleBarStyle: "hidden",
+			show: false,
+			x: this.windowState.x,
+			y: this.windowState.y,
+			width: this.windowState.width,
+			height: this.windowState.height,
+			minHeight: 500,
+			minWidth: 800,
+			icon: icon(),
+			frame: false,
+			webPreferences: {
+				preload: path.join(__dirname, "preload.js"),
+				webSecurity: false,
+				nodeIntegration: true,
+			},
+		});
+
+		this.windowState.manage(this.window);
+
 		this.discord = new Discord();
+	
+		// Let us register listeners on the window, so we can update the state
+		// automatically (the listeners will be removed when the window is closed)
+		// and restore the maximized or full screen state
 
 		this.setIpcEvents();
-		this.setWindowEvents();
+		this.setWindowEvents();  
 	}
 
 	public async getCover(path: string): Promise<Buffer | undefined> {
@@ -304,6 +316,13 @@ export class MainWindow {
 				const [title, duration, seek, format] = args;
 
 				this.discord.updateCurrentSong(title, duration, seek, format as FormatIcons);
+			},
+
+			"set-vsync": (_: Event, [useVsync]: string[]) => {
+				store.set("useVsync", useVsync);
+				console.log(`Set store 'frameRateLimit' to ${useVsync}`);
+				app.relaunch();
+				app.exit();
 			},
 
 			"clear-rich-presence": () => {
