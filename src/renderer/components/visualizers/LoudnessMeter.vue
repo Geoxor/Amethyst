@@ -3,25 +3,25 @@ import { onMounted, ref } from "vue";
 // @ts-ignore no types
 import { LoudnessMeter } from "@domchristie/needles";
 import { player } from "@/logic/player";
+import { infinityClamp, computeWidthPercentage } from "@/logic/math";
 
 const props = defineProps<{ node: AudioNode }>();
 
 const MINIMUM_LUFS = -20;
 
-const shortTerm = ref(MINIMUM_LUFS);
-const momentary = ref(MINIMUM_LUFS);
-const integrated = ref(MINIMUM_LUFS);
-
-const momentaryMax = ref(MINIMUM_LUFS);
-const shortTermMax = ref(MINIMUM_LUFS);
-const integratedMax = ref(MINIMUM_LUFS);
+const 
+  shortTerm = ref(MINIMUM_LUFS),
+  momentary = ref(MINIMUM_LUFS),
+  integrated = ref(MINIMUM_LUFS),
+  momentaryMax = ref(MINIMUM_LUFS),
+  shortTermMax = ref(MINIMUM_LUFS),
+  integratedMax = ref(MINIMUM_LUFS);
 
 onMounted(() => {
 
-  const infinityClamp = (num: number, min: number) => Number.isFinite(num) ? num : min;
-
   const loudnessMeter = new LoudnessMeter({
     source: props.node,
+    // @ts-ignore
     workerUri: new URL("../../workers/needlesWorker.js", import.meta.url).toString()
   });
 
@@ -58,14 +58,6 @@ onMounted(() => {
   player.on("pause", () => loudnessMeter.pause());
 });
 
-const computeWidth = (value: number): number => {
-  const MAX = 0;
-  const MIN = MINIMUM_LUFS;
-  if (value < MINIMUM_LUFS) return 0; // if below threashold don't default to 100
-  if (value > MAX) return 100; // if above 0 LUFs default to 100
-  return ((value - MIN) / (MAX - MIN)) * 100;
-};
-
 </script>
 
 <template>
@@ -74,7 +66,7 @@ const computeWidth = (value: number): number => {
       <div class="barBg">
         <div
           class="bar bg-cyan-400 duration-150"
-          :style="`width: ${computeWidth(momentary)}%`"
+          :style="`width: ${computeWidthPercentage(MINIMUM_LUFS, 0, momentary)}%`"
         />
       </div>
       
@@ -91,7 +83,7 @@ const computeWidth = (value: number): number => {
       <div class="barBg">
         <div
           class="bar bg-cyan-400 duration-500"
-          :style="`width: ${computeWidth(shortTerm)}%`"
+          :style="`width: ${computeWidthPercentage(MINIMUM_LUFS, 0, shortTerm)}%`"
         />
       </div>
       <div class="flex justify-between w-full">
@@ -107,7 +99,7 @@ const computeWidth = (value: number): number => {
       <div class="barBg">
         <div
           class="bar bg-cyan-400 duration-1000"
-          :style="`width: ${computeWidth(integrated)}%`"
+          :style="`width: ${computeWidthPercentage(MINIMUM_LUFS, 0, integrated)}%`"
         />
       </div>
       <div class="flex justify-between w-full">

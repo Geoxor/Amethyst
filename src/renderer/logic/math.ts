@@ -86,3 +86,11 @@ export const percentToLog = (percentage: number, min: number, max: number) => {
 
   return Math.exp(minv + scale * (percentage - minp));
 };
+
+export const infinityClamp = (num: number, min: number) => Number.isFinite(num) ? num : min;
+
+export const computeWidthPercentage = (min: number, max: number, value: number): number => {
+  if (value < min) return 0; // if below threashold don't default to 100
+  if (value > max) return 100; // if above 0 LUFs default to 100
+  return ((value - min) / (max - min)) * 100;
+};

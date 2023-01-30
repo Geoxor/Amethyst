@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { fisherYatesShuffle, flattenArray, interpolateArray, scaleLog } from "./math";
+import { computeWidthPercentage, fisherYatesShuffle, flattenArray, infinityClamp, interpolateArray, percentToLog, scaleLog } from "./math";
 
 describe.concurrent("scaleLog()", () => {
   const start = new Uint8Array([
@@ -52,5 +52,95 @@ describe.concurrent("interpolateArray()", () => {
 
   it("should have length of 5", () => {
     expect(result.length).toEqual(targetLength);
+  });
+});
+
+describe("infinityClamp()", () => {
+  it("returns the number if it is finite", () => {
+    const num = 3;
+    const min = -5;
+    const result = infinityClamp(num, min);
+    expect(result).toBe(num);
+  });
+
+  it("returns the min if the number is infinite", () => {
+    const num = Infinity;
+    const min = -5;
+    const result = infinityClamp(num, min);
+    expect(result).toBe(min);
+  });
+
+  it("returns the min if the number is negative infinite", () => {
+    const num = -Infinity;
+    const min = -5;
+    const result = infinityClamp(num, min);
+    expect(result).toBe(min);
+  });
+});
+
+describe("computeWidthPercentage", () => {
+  it("returns 0 when value is less than min", () => {
+    const min = 10;
+    const max = 20;
+    const value = 5;
+    const result = computeWidthPercentage(min, max, value);
+    expect(result).toBe(0);
+  });
+
+  it("returns 100 when value is greater than max", () => {
+    const min = 10;
+    const max = 20;
+    const value = 25;
+    const result = computeWidthPercentage(min, max, value);
+    expect(result).toBe(100);
+  });
+
+  it("returns correct percentage when value is between min and max", () => {
+    const min = 10;
+    const max = 20;
+    const value = 15;
+    const result = computeWidthPercentage(min, max, value);
+    expect(result).toBe(50);
+  });
+  it("returns 0 when value is equal to min", () => {
+    const min = 10;
+    const max = 20;
+    const value = 10;
+    const result = computeWidthPercentage(min, max, value);
+    expect(result).toBe(0);
+  });
+
+  it("returns 100 when value is equal to max", () => {
+    const min = 10;
+    const max = 20;
+    const value = 20;
+    const result = computeWidthPercentage(min, max, value);
+    expect(result).toBe(100);
+  });
+
+  it("handles negative numbers correctly", () => {
+    const min = -20;
+    const max = -10;
+    const value = -15;
+    const result = computeWidthPercentage(min, max, value);
+    expect(result).toBe(50);
+  });
+});
+
+describe("percentToLog", () => {
+  it("returns the correct value for 0%", () => {
+    const percentage = 0;
+    const min = 10;
+    const max = 20;
+    const result = percentToLog(percentage, min, max);
+    expect(result).toBeCloseTo(min);
+  });
+
+  it("returns the correct value for 100%", () => {
+    const percentage = 100;
+    const min = 10;
+    const max = 20;
+    const result = percentToLog(percentage, min, max);
+    expect(result).toBeCloseTo(max);
   });
 });
