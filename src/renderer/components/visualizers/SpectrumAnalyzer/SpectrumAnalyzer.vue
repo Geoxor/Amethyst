@@ -94,7 +94,9 @@ onMounted(async () => {
     wireframe: false,
     transparent: true,
     uniforms: uniformData,
+    // @ts-ignore
     fragmentShader: await loader.loadAsync(new URL("./SpectrumFrag.glsl", import.meta.url).toString()) as string,
+    // @ts-ignore
     vertexShader: await loader.loadAsync(new URL("./SpectrumVertex.glsl", import.meta.url).toString()) as string,
   });
 
