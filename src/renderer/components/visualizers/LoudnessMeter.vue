@@ -25,29 +25,34 @@ onMounted(() => {
     workerUri: new URL("../../workers/needlesWorker.js", import.meta.url).toString()
   });
 
-  loudnessMeter.on("dataavailable", function (event: { data: { mode: any; value: any; }; }) {
-    let {mode, value} = event.data; // momentary | short-term | integrated
-
-    value = infinityClamp(value, MINIMUM_LUFS);
+  const handleData = (event: { data: { mode: any; value: any; }}) => {
+    let {mode, value} = event.data;
+    let refToUpdate;
+    let maxRef;
 
     switch (mode) {
       case "momentary":
-        momentary.value = value;
-        momentaryMax.value < value && (momentaryMax.value = value);
+        refToUpdate = momentary;
+        maxRef = momentaryMax;
         break;
       case "short-term":
-        shortTerm.value = value;
-        shortTermMax.value < value && (shortTermMax.value = value);
+        refToUpdate = shortTerm;
+        maxRef = shortTermMax;
         break;
       case "integrated":
-        integrated.value = value;
-        integratedMax.value < value && (integratedMax.value = value);
+        refToUpdate = integrated;
+        maxRef = integratedMax;
         break;
       default:
-        break;
+        return;
     }
-    
-  });
+
+    value = infinityClamp(value, MINIMUM_LUFS);
+    refToUpdate.value = value;
+    maxRef.value < value && (maxRef.value = value);
+  };
+
+  loudnessMeter.on("dataavailable", handleData);
 
   loudnessMeter.start();
 
