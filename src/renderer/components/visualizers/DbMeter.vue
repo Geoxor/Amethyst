@@ -5,37 +5,22 @@ const FLOOR = -60;
 const RANGE = 30;
 const FFT_SIZE = 1024;
 
-// Tuple of insta and average per channel
-const channels = [
-	[ref(FLOOR), ref(FLOOR)], // left channel
-	[ref(FLOOR), ref(FLOOR)], // right channel
-	[ref(FLOOR), ref(FLOOR)], // center channel
-	[ref(FLOOR), ref(FLOOR)], // sub channel
-	[ref(FLOOR), ref(FLOOR)], // left surround channel
-	[ref(FLOOR), ref(FLOOR)], // right surround channel
-	[ref(FLOOR), ref(FLOOR)], // 
-	[ref(FLOOR), ref(FLOOR)], // 
-	[ref(FLOOR), ref(FLOOR)], // 
-	[ref(FLOOR), ref(FLOOR)], // 
-	[ref(FLOOR), ref(FLOOR)], // 
-];
-
 const nChannels = props.channels || 2;
 const width = 4;
 
 let shouldStopRendering = false;
 
+const channelData = Array.from({ length: nChannels }, () => [ref(FLOOR), ref(FLOOR)]);
+
 onMounted(() => {
 	const { context } = props.node;
 
-	const splitter = context.createChannelSplitter(channels.length);
-
-	const analyzers = channels.map(() => {
+	const splitter = context.createChannelSplitter(channelData.length);
+	const analyzers = channelData.map(() => {
 		const analyzer = context.createAnalyser();
 		analyzer.fftSize = FFT_SIZE;
 		return analyzer;
 	});
-
 	const buffers = analyzers.map(analyzer => new Float32Array(analyzer.fftSize));
 
 	props.node.connect(splitter);
@@ -44,22 +29,18 @@ onMounted(() => {
 	function draw() {
 		buffers.forEach((buffer, i) => analyzers[i].getFloatTimeDomainData(buffer));
 
-		// Compute peak instantaneous power over the interval.
-		let peaks = channels.map(() => 0);
-		let sumOfSquares = channels.map(() => 0);
+		let peaks = channelData.map(() => 0);
+		let sumOfSquares = channelData.map(() => 0);
 
 		for (let i = 0; i < buffers[0].length; i++) {
 			const powers = buffers.map(buffer => buffer[i] ** 2);
-
-			for (let k = 0; k < channels.length; k++) {
-				// Average
+			for (let k = 0; k < channelData.length; k++) {
 				sumOfSquares[k] += powers[k];
-				// Instantenious
 				peaks[k] = Math.max(peaks[k], powers[k]);
 			}
 		}
 
-		channels.forEach((channel, i) => {
+		channelData.forEach((channel, i) => {
 			channel[0].value = 10 * Math.log10(peaks[i]);
 			channel[1].value = 10 * Math.log10(sumOfSquares[i] / buffers[0].length);
 		});
@@ -102,14 +83,14 @@ onUnmounted(() => shouldStopRendering = true);
       />
 
       <div
-        :class="channels[i - 1][0].value > 0 ? 'bg-rose-600' : 'bg-green-600'"
+        :class="channelData[i - 1][0].value > 0 ? 'bg-rose-600' : 'bg-green-600'"
         class="rounded-full duration-50 transition-all absolute bottom-0"
-        :style="`width: ${width}px; height: ${computedWidth(channels[i - 1][0].value)}%`"
+        :style="`width: ${width}px; height: ${computedWidth(channelData[i - 1][0].value)}%`"
       />
       <div
-        :class="channels[i - 1][0].value > 0 ? 'bg-rose-500' : 'bg-green-500'"
+        :class="channelData[i - 1][0].value > 0 ? 'bg-rose-500' : 'bg-green-500'"
         class="absolute duration-50 transition-all bottom-0 rounded-full"
-        :style="`width: ${width}px; height: ${computedWidth(channels[i - 1][1].value)}%`"
+        :style="`width: ${width}px; height: ${computedWidth(channelData[i - 1][1].value)}%`"
       />
     </div>
 
