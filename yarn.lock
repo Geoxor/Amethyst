@@ -3094,10 +3094,10 @@ grapheme-splitter@^1.0.4:
   resolved "https://registry.yarnpkg.com/grapheme-splitter/-/grapheme-splitter-1.0.4.tgz#9cf3a665c6247479896834af35cf1dbb4400767e"
   integrity sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==
 
-happy-dom@^8.1.5:
-  version "8.1.5"
-  resolved "https://registry.yarnpkg.com/happy-dom/-/happy-dom-8.1.5.tgz#ed601a20e77b7baefa313338f9e261331b5a6bd5"
-  integrity sha512-/UXAJ2fHTs4H3vy7TS7c9PKFvPyaNialk2Er9NdXfpBKNaCITMOH03rkjHXp5jnJnSmRBa+av8E08PUAaIB1jQ==
+happy-dom@^8.2.0:
+  version "8.2.0"
+  resolved "https://registry.yarnpkg.com/happy-dom/-/happy-dom-8.2.0.tgz#e97aa2cf0ead13bf69e9aa1829529815e8c87805"
+  integrity sha512-SBMi/ht8zvtXNuSVpXJu+hOEJtNEbM4CxQukcHMm7FCd1sMuitfESwUMX83gl3C2JcEGLcpx/+JnF+rjGl27+A==
   dependencies:
     css.escape "^1.5.1"
     he "^1.2.0"
