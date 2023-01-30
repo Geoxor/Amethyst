@@ -1,4 +1,5 @@
 const RT60_CONSTANT = 0.161;
+const SPEED_OF_SOUND_IN_AIR_AT_25_DEGREES_CELCIUS = 346;
 
 export interface RoomDimensions {
   width: number;
@@ -14,7 +15,7 @@ export const calculateRT60 = (volume: number, absorptionCoefficient: number) => 
   return RT60_CONSTANT * volume / absorptionCoefficient;
 };
 
-// The width, length, and height parameters are the dimensions of the room in meters 
+// The width, length and height parameters are the dimensions of the room in meters 
 // and the absorptionCoefficient is the same value used in the calculateRT60 function.
 
 // This function calculates the volume of the room by multiplying the width, length and height 
@@ -24,19 +25,21 @@ export const calculateRT60ByDimensions = ({width, length, height}: RoomDimension
   return calculateRT60(volume, absorptionCoefficient);
 };
 
-// The width, length, and height parameters are the dimensions of the room in meters. 
-// The function loops over i, j, and k values from 1 to 50 to calculate the room modes. 
+// The width, length and height parameters are the dimensions of the room in meters. 
+// The function loops over i, j and k values from 1 to 50 to calculate the room modes. 
 // The frequency of each mode is calculated using the formula (i * j * k * 340) / (2 * width * length), 
 // where 340 is the speed of sound in air.
 
 // The function returns an array of objects, where each object represents a room mode with the values 
-// for i, j, k, and the frequency of the mode. The frequency values are in hertz (Hz).
-export const calculateRoomModes = ({width, length, height}: RoomDimensions) => {
+// for i, j, k and the frequency of the mode. The frequency values are in hertz (Hz).
+
+// The number of modes to calculate is specified by the modeCount parameter.
+export const calculateRoomModes = ({width, length, height}: RoomDimensions, modeCount = 50) => {
   const modes = [];
-  for (let i = 1; i <= 50; i++) {
-    for (let j = 1; j <= 50; j++) {
-      for (let k = 1; k <= 50; k++) {
-        const frequency = (2 * i * j * k * 340) / (width * length * height);
+  for (let i = 1; i <= modeCount; i++) {
+    for (let j = 1; j <= modeCount; j++) {
+      for (let k = 1; k <= modeCount; k++) {
+        const frequency = (2 * i * j * k * SPEED_OF_SOUND_IN_AIR_AT_25_DEGREES_CELCIUS) / (width * length * height);
         modes.push({ i, j, k, frequency });
       }
     }
