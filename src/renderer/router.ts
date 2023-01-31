@@ -1,4 +1,4 @@
-import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
+import { createRouter, createWebHashHistory, createWebHistory, RouteRecordRaw } from "vue-router";
 
 const routes: RouteRecordRaw[] = [
   { path: "/", redirect: { name: "gate" } },
@@ -20,12 +20,12 @@ const routes: RouteRecordRaw[] = [
   ]},
 ];
 
+const isElectron = navigator.userAgent.includes("Electron");
+
 export const router = createRouter({
-  history: createWebHashHistory(),
+  history: isElectron ? createWebHashHistory() : createWebHistory(),
   routes,
 });
-
-const isElectron = navigator.userAgent.includes("Electron");
 
 let isFirstLoad = true;
 
