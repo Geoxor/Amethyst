@@ -40,6 +40,8 @@ onMounted(() => {
       return;
     };
 
+    console.log("wavesurfer loading url: ", track.path);
+    
     wavesurfer.load(track.path);
     wavesurfer.on("ready", () => {
       // Check if they paused before the waveform loaded

@@ -5,6 +5,7 @@ import { ref } from "vue";
 import { bytesToHuman, secondsToHuman } from "@shared/formating";
 import { fisherYatesShuffle } from "./math";
 import { Track } from "./track";
+import { useState } from "../amethyst";
 
 export class Queue {
   private savedQueue = useLocalStorage<string[]>("queuev2", []);
@@ -69,7 +70,10 @@ export class Queue {
    * Saves the current queue to local storage for persistance
    */
   private syncLocalStorage() {
-    this.savedQueue.value = this.getList().map(t => t.path);
+    // Only store if we're in electron because File blobs are ephemeral on Web
+    if (useState().isElectron) {
+      this.savedQueue.value = this.getList().map(t => t.path);
+    }
   }
 
   /**
@@ -94,13 +98,24 @@ export class Queue {
    * Adds a track to the queue
    * @param path A filepath to the track
    */
-  public async add(path: string | string[]) {
-    if (path instanceof Array) {
-      path.forEach(path => this.list.value.set(path, new Track(path)));
+  public async add(input: string | string[] | File | File[]) {
+    const addTrack = (input: string | File) => {
+      let track: Track;
+      if (input instanceof File) {
+        track = new Track(input);
+        this.list.value.set(input.path, track);
+      } else {
+        track = new Track(input);
+        this.list.value.set(input, track);
+      }
+      return track;
+    };
+
+    if (input instanceof Array) {
+      input.forEach(file => addTrack(file));
       await this.fetchAsyncData();
     } else {
-      const track = new Track(path);
-      this.list.value.set(path, track);
+      const track = addTrack(input);
       await track.fetchAsyncData();
     }
 

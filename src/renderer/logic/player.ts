@@ -51,7 +51,6 @@ export class Player extends EventEmitter<{
     this.input.src = track.path;
     this.currentTrack.value = track;
     this.currentTrackIndex.value = this.queue.getList().indexOf(track);
-    this.input.play();
     if (!track.isLoaded) {
       track.fetchAsyncData();
     }
@@ -128,7 +127,6 @@ export class Player extends EventEmitter<{
       // If we don't loop: go to the start of the queue and pause the player
       if (this.loopMode.value === LoopMode.None) {
         const track = this.queue.getTrack(this.currentTrackIndex.value);
-
         this.input.src = track.path;
         this.currentTrack.value = track;
         this.seekTo(0);

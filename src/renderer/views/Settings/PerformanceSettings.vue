@@ -6,15 +6,10 @@ const state = useState();
 </script>
 
 <template>
-  <div>
-    <settings-binary-switch
-      v-model="state.settings.useVsync"
-      text="VSync"
-      @change="useElectron().ipc.invoke('set-vsync', [state.settings.useVsync])"
-    />
-  </div>
+  <settings-binary-switch
+    v-if="state.isElectron"
+    v-model="state.settings.useVsync"
+    text="VSync"
+    @change="useElectron()?.ipc.invoke('set-vsync', [state.settings.useVsync])"
+  />
 </template>
-
-<style scoped lang="postcss">
-
-</style>

@@ -30,6 +30,30 @@ onMounted(() => {
 const state = useState();
 const electron = useElectron();
 const refreshWindow = () => location.reload();
+
+function getAudioFilePaths(): Promise<FileList> {
+  return new Promise(resolve => {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = "audio/*";
+    input.multiple = true;
+    input.style.display = "none";
+    document.body.appendChild(input);
+    input.click();
+    input.addEventListener("change", function () {
+      document.body.removeChild(input);
+      resolve(input.files as FileList);
+    });
+  });
+}
+
+const handleOpenAudio = async () => {
+  // await electron?.openFileDialog();
+  const files = await getAudioFilePaths();
+  console.log(files);
+  player.queue.add(files[0]);
+};
+
 </script>
 
 <template>
@@ -48,7 +72,7 @@ const refreshWindow = () => location.reload();
           :shortcuts="['CTRL', 'O']"
           title="Open audio..."
           :icon="AudioFileIcon"
-          @click="() => electron?.openFileDialog()"
+          @click="handleOpenAudio"
         />
         <menu-option
           :shortcuts="['CTRL', 'SHIFT', 'O']"
@@ -167,7 +191,10 @@ const refreshWindow = () => location.reload();
       Amethyst v{{ state.state.version }}
     </p>
 
-    <div class="flex gap-1.25 items-center overflow-hidden font-aseprite">
+    <div
+      class="flex gap-1.25 items-center h-6 overflow-hidden font-aseprite"
+      :class="[!state.isElectron && 'pr-2']"
+    >
       <div class="w-56 flex gap-1 justify-end">
         <div class="hidden lg:inline no-drag font-aseprite text-primary-900 text-opacity-50">
           <strong class="text-primary-900 text-opacity-25">DOM </strong> {{ domSize }}
@@ -190,16 +217,19 @@ const refreshWindow = () => location.reload();
         </div>
       </div>
       <update-button
-        v-if="state.state.updateReady"
+        v-if="state.isElectron && state.state.updateReady"
         @click="electron?.close()"
       />
       <processor-usage-meter
+        v-if="state.isElectron"
         :value="state.state.cpuUsage.renderer"
       />
       <processor-usage-meter
+        v-if="state.isElectron"
         :value="state.state.cpuUsage.node"
       />
       <control-buttons
+        v-if="state.isElectron"
         :is-maximized="state.state.isMaximized"
         @close="electron?.close"
         @minimize="electron?.minimize"

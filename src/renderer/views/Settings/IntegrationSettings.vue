@@ -8,6 +8,7 @@ const state = useState();
 <template>
   <settings-category-splitter text="Integrations" />
   <settings-binary-switch
+    v-if="state.isElectron"
     v-model="state.settings.useDiscordRichPresence"
     text="Discord Rich Presence"
   />

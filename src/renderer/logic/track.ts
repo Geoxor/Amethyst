@@ -15,14 +15,22 @@ export class Track {
   public isLoading = ref(false);
   public isLoaded = ref(false);
   public hasErrored = ref(false);
+  public path = "";
 
-  public constructor(public path: string) {
-    if (!ALLOWED_AUDIO_EXTENSIONS.some(ext => path.toLowerCase().endsWith(ext)))
-      throw new Error(`Given file extension does not match any of the allowed types [${ALLOWED_AUDIO_EXTENSIONS.join(", ")}]`);
+  public constructor(public file: string | File) {
+    this.path = file instanceof File ? URL.createObjectURL(file) : file;
+
+    // if (file instanceof File) {
+    //   if (!ALLOWED_AUDIO_EXTENSIONS.some(ext => file.name.toLowerCase().endsWith(ext)))
+    //     throw new Error(`Given file extension ${file.name} does not match any of the allowed types [${ALLOWED_AUDIO_EXTENSIONS.join(", ")}]`);
+    // } else {
+    //   if (!ALLOWED_AUDIO_EXTENSIONS.some(ext => file.toLowerCase().endsWith(ext)))
+    //     throw new Error(`Given file extension ${file} does not match any of the allowed types [${ALLOWED_AUDIO_EXTENSIONS.join(", ")}]`);
+    // }
   }
 
   public getCachePath() {
-    return window.path.join(useElectron().APPDATA_PATH || "" , "/amethyst/Metadata Cache", this.getFilename() + ".amf");
+    return window.path.join(useElectron()?.APPDATA_PATH || "" , "/amethyst/Metadata Cache", this.getFilename() + ".amf");
   }
  
   private async isCached() {
@@ -48,6 +56,8 @@ export class Track {
    * Fetches the metadata for a given track
    */
   public fetchMetadata = async (force = false) => {
+    if (this.file instanceof File) return;
+
     try {
       if (!force && await this.isCached()) {
         this.metadata.data = (await this.fetchCache()).metadata;
@@ -55,7 +65,7 @@ export class Track {
         return this.metadata.data;
       }
       const amethyst = await import("../amethyst");
-      this.metadata.data = await amethyst.useElectron().getMetadata(this.path);
+      this.metadata.data = await amethyst.useElectron()?.getMetadata(this.file);
       this.metadata.state = LoadStatus.Loaded;
       return this.metadata.data;
     } catch (error) {
@@ -69,6 +79,8 @@ export class Track {
    * Fetches the resized cover art in base64
    */
   public fetchCover = async (force = false) => {
+    if (this.file instanceof File) return;
+    
     try {
       if (!force && await this.isCached()) {
         this.cover.data = (await this.fetchCache()).cover;
@@ -76,7 +88,7 @@ export class Track {
         return this.cover.data;
       }
       const amethyst = await import("../amethyst");
-      const data = await amethyst.useElectron().getCover(this.path);
+      const data = await amethyst.useElectron()?.getCover(this.file);
       this.cover.data = data ? `data:image/webp;base64,${data}` : undefined;
       this.cover.state = LoadStatus.Loaded;
       return this.cover.data;
@@ -99,7 +111,7 @@ export class Track {
       metadata.common.picture = [];
     }
     
-    window.fs.writeFile(this.getCachePath(), JSON.stringify({
+    window.fs?.writeFile(this.getCachePath(), JSON.stringify({
       cover,
       metadata,
     }, null, 2)).catch(console.log);
@@ -147,7 +159,8 @@ export class Track {
    * @example "02. Daft Punk - Get Lucky.flac"
    */
   public getFilename() {
-    return this.path.substring(Math.max(this.path.lastIndexOf("\\"), this.path.lastIndexOf("/")) + 1);
+    if (this.file instanceof File) return this.file.name;
+    return this.file.substring(Math.max(this.file.lastIndexOf("\\"), this.file.lastIndexOf("/")) + 1);
   };
 
   /**
