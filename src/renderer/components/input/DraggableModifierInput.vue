@@ -73,7 +73,7 @@ const onMove = (e: MouseEvent) => {
 
   model.value = Math.min(
     Math.max(
-      initialValue + roundNearestStep(((distance * scale) / 200)),
+      initialValue + roundNearestStep(((distance * scale) * (props.step / 100))),
       props.min,
     ),
     props.max,

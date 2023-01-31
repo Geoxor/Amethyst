@@ -3,6 +3,7 @@ const RT60_CONSTANT = 0.161;
 const ABSOLUTE_ZERO = 273.15;
 // Speed of sound in air at 20°C (68°F)
 const SPEED_OF_SOUND = 340.29;
+const AVERAGE_ABSORPTION_COEFFICIENT = 0.16;
 
 export interface RoomDimensions {
   width: number;
@@ -32,7 +33,8 @@ export const calculateRT60 = (volume: number, absorptionCoefficient: number) => 
 
 // This function calculates the volume of the room by multiplying the width, length and height 
 // and then uses the calculateRT60 function to calculate RT60 based on
-export const calculateRT60ByDimensions = ({width, length, height}: RoomDimensions, absorptionCoefficient: number) => {
+// and returns it in milliseconds.
+export const calculateRT60ByDimensions = ({width, length, height}: RoomDimensions, absorptionCoefficient = AVERAGE_ABSORPTION_COEFFICIENT) => {
   const volume = width * length * height;
   return calculateRT60(volume, absorptionCoefficient);
 };
