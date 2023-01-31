@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { calculateRT60ByDimensions } from "@/logic/acoustics";
+import { calculateRT60ByDimensions, calculateRoomModes } from "@/logic/acoustics";
 import * as THREE from "three";
 import { OrbitControls } from "@three-ts/orbit-controls";
 import { onMounted, Ref, ref, watch } from "vue";

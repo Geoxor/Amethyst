@@ -48,13 +48,13 @@ const refreshWindow = () => location.reload();
           :shortcuts="['CTRL', 'O']"
           title="Open audio..."
           :icon="AudioFileIcon"
-          @click="() => electron.openFileDialog()"
+          @click="() => electron?.openFileDialog()"
         />
         <menu-option
           :shortcuts="['CTRL', 'SHIFT', 'O']"
           title="Open folder..."
           :icon="MusicFolderIcon"
-          @click="() => electron.openFolderDialog()"
+          @click="() => electron?.openFolderDialog()"
         />
       </Menu>
       <Menu title="Utility">
@@ -105,7 +105,7 @@ const refreshWindow = () => location.reload();
         <menu-option
           :title="`Check for updates`"
           :icon="DownloadingUpdatesIcon"
-          @click="electron.checkForUpdates()"
+          @click="electron?.checkForUpdates()"
         />
       </Menu>
       <Menu title="View">
@@ -118,7 +118,7 @@ const refreshWindow = () => location.reload();
           title="Show dev tools"
           :icon="SettingsIcon"
           :shortcuts="['CTRL', 'SHIFT', 'I']"
-          @click="electron.showDevTools()"
+          @click="electron?.showDevTools()"
         />
       </Menu>
 
@@ -126,17 +126,17 @@ const refreshWindow = () => location.reload();
         <menu-option
           title="Documentation"
           :icon="BookshelfIcon"
-          @click="electron.open('https://amethyst.pages.dev/')"
+          @click="electron?.open('https://amethyst.pages.dev/')"
         />
         <menu-option
           title="GitHub Repository"
           :icon="GitHubIcon"
-          @click="electron.open('https://github.com/geoxor/amethyst')"
+          @click="electron?.open('https://github.com/geoxor/amethyst')"
         />
         <menu-option
           title="Discord Server"
           :icon="DiscordIcon"
-          @click="electron.open('https://discord.gg/geoxor')"
+          @click="electron?.open('https://discord.gg/geoxor')"
         />
       </Menu>
       <Menu
@@ -154,11 +154,11 @@ const refreshWindow = () => location.reload();
         <menu-splitter />
         <menu-option
           title="Test 'UpdateInstallingNotification'"
-          @click="electron.testNotification('showUpdateInstallingNotification')"
+          @click="electron?.testNotification('showUpdateInstallingNotification')"
         />
         <menu-option
           title="Test 'UpdateAvailableNotification'"
-          @click="electron.testNotification('showUpdateAvailableNotification')"
+          @click="electron?.testNotification('showUpdateAvailableNotification')"
         />
       </Menu>
     </div>
@@ -191,7 +191,7 @@ const refreshWindow = () => location.reload();
       </div>
       <update-button
         v-if="state.state.updateReady"
-        @click="electron.close()"
+        @click="electron?.close()"
       />
       <processor-usage-meter
         :value="state.state.cpuUsage.renderer"
@@ -201,10 +201,10 @@ const refreshWindow = () => location.reload();
       />
       <control-buttons
         :is-maximized="state.state.isMaximized"
-        @close="electron.close"
-        @minimize="electron.minimize"
-        @maximize="electron.maximize"
-        @unmaximize="electron.unmaximize"
+        @close="electron?.close"
+        @minimize="electron?.minimize"
+        @maximize="electron?.maximize"
+        @unmaximize="electron?.unmaximize"
       />
     </div>
   </div>

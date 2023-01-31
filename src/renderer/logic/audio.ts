@@ -2,6 +2,7 @@ import { Position } from "@vue-flow/core";
 import { DefineComponent, markRaw } from "vue";
 import { player } from "@/logic/player";
 import { Connection, NodeProperties, Paramaters } from "./audioManager";
+import { v4 as uuidv4 } from "uuid";
 
 export class AmethystAudioNode<T extends AudioNode> {
   public properties: NodeProperties;
@@ -11,7 +12,8 @@ export class AmethystAudioNode<T extends AudioNode> {
   public component: DefineComponent<{}, {}, any>;
 
   public constructor(public audioNode: T, name: string, component: DefineComponent<{}, {}, any>, position: NodeProperties["position"], public isRemovable: boolean = true) {
-    const id = crypto.randomUUID();
+    // cant use crypto.randomUUID() because chrome doesn't support it yet
+    const id = uuidv4();
     
     this.properties = {
       name,
@@ -40,7 +42,7 @@ export class AmethystAudioNode<T extends AudioNode> {
     if (this.connectedTo.includes(target)) return;
     this.connectedTo.push(target);
     this.connections.push({ 
-      id: crypto.randomUUID(), 
+      id: uuidv4(), 
       source: this.properties.id, 
       target: target.properties.id 
     });

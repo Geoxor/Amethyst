@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useState } from "@/amethyst";
+import { useElectron, useState } from "@/amethyst";
 import Cover from "@/components/CoverArt.vue";
 import Slider from "@/components/input/BaseSlider.vue";
 import {NextIcon, PauseIcon, PlayIcon, RepeatIcon, RepeatOneIcon, ShuffleIcon } from "@/icons/plumpy";
@@ -79,7 +79,6 @@ onMounted(() => {
   });
 });
 
-const invoke = window.electron.ipcRenderer.invoke;
 const handleVolumeMouseScroll = (e: WheelEvent) => {
   const delta = Math.sign(e.deltaY);
   delta > 0 ? player.volumeDown() : player.volumeUp();
@@ -119,7 +118,7 @@ const handleContextCoverMenu = ({x, y}: MouseEvent) => {
         <div class="flex flex-col w-full py-1 font-bold gap-1 ">
           <h1
             class="text-12px hover:underline cursor-pointer"
-            @click="invoke('show-item', [player.getCurrentTrack()?.path])"
+            @click="useElectron()?.ipc.invoke('show-item', [player.getCurrentTrack()?.path])"
           >
             {{ player.getCurrentTrack()?.getTitleFormatted() }}
           </h1>

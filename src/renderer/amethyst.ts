@@ -11,18 +11,18 @@ import {Buffer} from "buffer";
 
 export class Amethyst {
   public store: Store = new Store();
-  public electron: ElectronEventManager = new ElectronEventManager(this.store.state);
+  public electron: ElectronEventManager | undefined = window.electron ? new ElectronEventManager(this.store.state) : undefined;
   public shortcuts: Shortcuts = new Shortcuts();
   public mediaSession: MediaSession = new MediaSession();
-  public cpuUsageMonitor: CPUUsageMonitor = new CPUUsageMonitor(this.store, this.electron);
+  public cpuUsageMonitor: CPUUsageMonitor | undefined = this.electron ? new CPUUsageMonitor(this.store, this.electron) : undefined;
   
   private richPresenceTimer: NodeJS.Timer | undefined;
 
   constructor() {
-		this.electron.ipc.on<string>("play-file", path => path !== "--require" && player.queue.add(path).then(() => {
+		this.electron?.ipc.on<string>("play-file", path => path !== "--require" && player.queue.add(path).then(() => {
       player.play(player.queue.getList().findIndex(track => track.path == path));
     }));
-    this.electron.ipc.on<(string)[]>("play-folder", paths => player.queue.add(flattenArray(paths)));
+    this.electron?.ipc.on<(string)[]>("play-folder", paths => player.queue.add(flattenArray(paths)));
 
     watch(() => this.store.settings.useDiscordRichPresence, value => {
       if (value) {
@@ -31,7 +31,7 @@ export class Amethyst {
         return;
       };
       this.richPresenceTimer && clearInterval(this.richPresenceTimer);
-      this.electron.clearRichPresence();
+      this.electron?.clearRichPresence();
     });
 
     document.addEventListener("drop", event => {
@@ -55,7 +55,7 @@ export class Amethyst {
 
   private updateRichPresence(track: Track){
     const sendData = () => {
-      this.electron.updateRichPresence([
+      this.electron?.updateRichPresence([
         `${track.getArtistsFormatted() || "unknown artist"} - ${track.getTitleFormatted() || "unknown title"}`,
         track.getDurationFormatted(true),
         player.currentTimeFormatted(true),
@@ -73,18 +73,23 @@ const amethyst = new Amethyst();
 export const useState = () => amethyst.store;
 export const useElectron = () => amethyst.electron;
 export const useShortcuts = () => amethyst.shortcuts;
-export const useFs = () => ({
-  save: async (data: string | NodeJS.ArrayBufferView) => {
-    const {canceled, filePath} = await useElectron().showSaveDialog();
-    if (canceled) return;
-    return window.fs.writeFile(filePath, data, {encoding: "utf8"});
-  },
-  open: async () => {
-    const {canceled, filePath} = await useElectron().openFileDialog();
-    if (canceled) return;
-    return Buffer.from(await window.fs.readFile(filePath));
-  }
-});
+export const useFs = () => {
+  const electron = useElectron();
+  if (!electron) return;
+
+  return {
+    save: async (data: string | NodeJS.ArrayBufferView) => {
+      const {canceled, filePath} = await electron.showSaveDialog();
+      if (canceled) return;
+      return window.fs.writeFile(filePath, data, {encoding: "utf8"});
+    },
+    open: async () => {
+      const {canceled, filePath} = await electron.openFileDialog();
+      if (canceled) return;
+      return Buffer.from(await window.fs.readFile(filePath));
+    }
+  };
+};
 
 // interface IPluginDefinitionParameters {
 //   store: Store, 
