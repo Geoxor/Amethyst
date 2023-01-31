@@ -48,10 +48,13 @@ function getAudioFilePaths(): Promise<FileList> {
 }
 
 const handleOpenAudio = async () => {
-  // await electron?.openFileDialog();
-  const files = await getAudioFilePaths();
-  console.log(files);
-  player.queue.add(files[0]);
+  if (useState().isElectron) {
+    await electron?.openFileDialog();
+  } else {
+    const files = await getAudioFilePaths();
+    console.log(files);
+    player.queue.add(files[0]);
+  }
 };
 
 </script>
