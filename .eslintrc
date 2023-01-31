@@ -21,7 +21,7 @@
       "warn",
       "always"
     ],
-    "no-console": "warn",
+    "no-console": "off",
     "no-multiple-empty-lines": [
       "warn",
       {

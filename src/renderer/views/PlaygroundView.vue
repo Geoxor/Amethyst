@@ -19,7 +19,7 @@ const length = ref(defaultLength);
 onMounted(() => {
 const {width: canvasWidth, height: canvasHeight} = getCanvasDimensions();
 
-  // Create scene
+// Create scene
 const scene = new THREE.Scene();
 
 // Create camera
@@ -28,7 +28,6 @@ const camera = new THREE.OrthographicCamera( canvasWidth / - 2, canvasWidth / 2,
 camera.position.x = (width.value + length.value + 1000) / 2;
 camera.position.y = (width.value + length.value + 1000) / 2;
 camera.position.z = (width.value + length.value + 1000) / 2;
-
 camera.rotation.x = -Math.PI / 4;
 camera.rotation.y = Math.PI / 4;
 

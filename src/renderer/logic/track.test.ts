@@ -33,7 +33,7 @@ describe.concurrent("class Track", () => {
 
     it("will throw error with invalid extension", () => {
       expect(() => new Track(mockResource("not-a-track.pptx")))
-        .toThrowError('Given file extension does not match any of the allowed types')
+        .toThrowError("Given file extension does not match any of the allowed types");
     });
   });
 
