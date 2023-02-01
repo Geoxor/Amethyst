@@ -1088,7 +1088,7 @@
   resolved "https://registry.yarnpkg.com/@vue/test-utils/-/test-utils-2.2.7.tgz#0d93d635031a4cca2de70b825aef3fe20a41e702"
   integrity sha512-BMuoruUFTEqhLoOgsMcgNVMiByYbfHCKGr2C4CPdGtz/affUtDVX5zr1RnPuq0tYSiaqq+Enw5voUpG6JY8Q7g==
 
-"@vueuse/core@^9.11.0", "@vueuse/core@^9.11.1", "@vueuse/core@^9.12.0":
+"@vueuse/core@^9.11.0", "@vueuse/core@^9.12.0":
   version "9.12.0"
   resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-9.12.0.tgz#e5b20f901e081c7ae5fe0e5f3af217929034eefe"
   integrity sha512-h/Di8Bvf6xRcvS/PvUVheiMYYz3U0tH3X25YxONSaAUBa841ayMwxkuzx/DGUMCW/wHWzD8tRy2zYmOC36r4sg==
@@ -1234,6 +1234,11 @@ ansi-regex@^6.0.1:
   version "6.0.1"
   resolved "https://registry.yarnpkg.com/ansi-regex/-/ansi-regex-6.0.1.tgz#3183e38fae9a65d7cb5e53945cd5897d0260a06a"
   integrity sha512-n5M855fKb2SsfMIiFFoVrABHJC8QtHwVx+mHWP3QcEqBHYienj5dHSgjbxtC0WEZXYt4wcD6zrQElDPhFuZgfA==
+
+ansi-sequence-parser@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/ansi-sequence-parser/-/ansi-sequence-parser-1.1.0.tgz#4d790f31236ac20366b23b3916b789e1bde39aed"
+  integrity sha512-lEm8mt52to2fT8GhciPCGeCXACSz2UwIN4X2e2LJSnZ5uAbn2/dsYdOmUXq0AtWS5cpAupysIneExOgH0Vd2TQ==
 
 ansi-styles@^4.0.0, ansi-styles@^4.1.0:
   version "4.3.0"
@@ -4678,11 +4683,12 @@ shell-quote@^1.7.3:
   resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.7.4.tgz#33fe15dee71ab2a81fcbd3a52106c5cfb9fb75d8"
   integrity sha512-8o/QEhSSRb1a5i7TFR0iM4G16Z0vYB2OQVs4G3aAFXjn3T6yEx8AZxy1PgDF7I00LZHYA3WxaSYIf5e5sAX8Rw==
 
-shiki@^0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/shiki/-/shiki-0.13.0.tgz#8e9aaca36bce49480f8f0ff014a31887190d1246"
-  integrity sha512-QucKtRFyoHgivnde/6tXu+7ZfUhcg02qiFlUSa4X0jQvHVKdtrimWPlbg+q06H2EeNSuj9DcMhtB18GgtDLsmw==
+shiki@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/shiki/-/shiki-0.14.0.tgz#83bb5cc308a8d28d33757038c8f3228805cbcfbb"
+  integrity sha512-fb9Fg1Yx/ElVJcTqPQIEOSfn7mSZlrT1W3CkymY08lL2Jsi+t7jPcZzKO1lCsQwlSDuyNhHvolnyA2OI4EgJNg==
   dependencies:
+    ansi-sequence-parser "^1.1.0"
     jsonc-parser "^3.2.0"
     vscode-oniguruma "^1.7.0"
     vscode-textmate "^8.0.0"
@@ -5356,18 +5362,18 @@ vite-plugin-windicss@^1.8.10:
   optionalDependencies:
     fsevents "~2.3.2"
 
-vitepress@1.0.0-alpha.43:
-  version "1.0.0-alpha.43"
-  resolved "https://registry.yarnpkg.com/vitepress/-/vitepress-1.0.0-alpha.43.tgz#56b4000815d6f5186c3f6f4957209fcd46f498c6"
-  integrity sha512-bguPWYojF371vIfTY8jGmKeFroRe6UVGmDp3+PjTnVq57wTlz9x88OKm6KKF4l/1D7GugkHex5X9wNcOdCmCiQ==
+vitepress@1.0.0-alpha.45:
+  version "1.0.0-alpha.45"
+  resolved "https://registry.yarnpkg.com/vitepress/-/vitepress-1.0.0-alpha.45.tgz#cabcee6e8cc4f59dc598a939a162b161d6501ad9"
+  integrity sha512-8AVWdymQqBUPmXmAbpapDDg18iDmkNJ47l5eOklBlAjj3n8P3zDAsBhOWSQ6+Nvm6+/GaZATyAvsrg47JD5Idw==
   dependencies:
     "@docsearch/css" "^3.3.2"
     "@docsearch/js" "^3.3.2"
     "@vitejs/plugin-vue" "^4.0.0"
     "@vue/devtools-api" "^6.5.0"
-    "@vueuse/core" "^9.11.1"
+    "@vueuse/core" "^9.12.0"
     body-scroll-lock "4.0.0-beta.0"
-    shiki "^0.13.0"
+    shiki "^0.14.0"
     vite "^4.0.4"
     vue "^3.2.45"
 
