@@ -1,6 +1,5 @@
 import { AmethystAudioNode } from "@/logic/audio";
 import { NodeProperties } from "@/logic/audioManager";
-import { player } from "@/logic/player";
 import { ref } from "vue";
 import component from "./component.vue";
 
@@ -10,7 +9,7 @@ export class AmethystFilterNode extends AmethystAudioNode<BiquadFilterNode> {
   // The typecasting is a small hack because this is passed into a reactive object as markRaw()
   public frequencyPercent = ref(100) as unknown as number;
   public MIN_FREQUENCY = 20;
-  public MAX_FREQUENCY = player.nodeManager.context.sampleRate / 2;
+  public MAX_FREQUENCY = this.audioNode.context.sampleRate / 2;
 
   public constructor(context: AudioContext, position: NodeProperties["position"]) {
     const filter = context.createBiquadFilter();
