@@ -227,7 +227,7 @@ section {
   @apply border-b-1 border-b-surface-600 border-t-transparent border-r-transparent border-l-transparent;
 
   & button {
-    @apply bg-surface-800 mt-2 items-center flex justify-center gap-2 w-full hover:bg-primary-800 hover:bg-opacity-10 hover:text-primary-800 rounded-4px py-1.5;
+    @apply bg-surface-800 mt-2 items-center flex justify-center gap-2 w-full hover:bg-purple-400 hover:bg-opacity-10 hover:text-purple-400 rounded-4px py-1.5;
   }
 
   &:hover {
@@ -248,7 +248,7 @@ section {
     }
   }
   & > h1 {
-    @apply text-primary-800 pb-2 flex gap-2 items-center;
+    @apply text-purple-400 pb-2 flex gap-2 items-center;
   }
 
   & input,
@@ -260,10 +260,10 @@ section {
   input {
     @apply border-1 border-transparent;
     &:hover {
-      @apply bg-primary-800 bg-opacity-25 text-white;
+      @apply bg-purple-400 bg-opacity-25 text-white;
     }
     &:focus {
-      @apply bg-primary-800 bg-opacity-25 border-1 border-primary-800 text-white;
+      @apply bg-purple-400 bg-opacity-25 border-1 border-purple-400 text-white;
     }
   }
 }
