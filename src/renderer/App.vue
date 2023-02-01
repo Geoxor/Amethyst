@@ -191,6 +191,7 @@ onUnmounted(() => {
 
         <loudness-meter 
           v-if="state.settings.showLoudnessMeter && player.source"
+          :key="player.nodeManager.getNodeConnectinsString()"
           :node="player.nodeManager.master.audioNode"
         />
 
