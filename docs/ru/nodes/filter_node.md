@@ -4,7 +4,7 @@
 
 Фильтр узел содержит очень простой двухполюсный [фильтр](https://en.wikipedia.org/wiki/Filter_(signal_processing))`(12дБ/окт)`, он имеет несколько [типов фильтров](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) поддерживается [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) с регулируемым [`усилением`](https://ru.wikipedia.org/wiki/Коэффициент_передачи)), [`частотой`](https://ru.wikipedia.org/wiki/Частота) и [`добротностью`](https://ru.wikipedia.org/wiki/Добротность).
 
-Каждый из фильтров может быть продублирован и соединен в цепочку в [серии](https://en.wikipedia.org/wiki/Daisy_chain_(electrical_engineering)) для создания более резкого [rolloff](https://en.wikipedia.org/wiki/Roll-off) фильтра. Например, для создания классического "48 дБ/окт" [rolloff](https://en.wikipedia.org/wiki/Roll-off) фильтра, вам нужно соединить 4 из них вместе.
+Каждый из фильтров может быть продублирован и объединен в [серии](https://en.wikipedia.org/wiki/Daisy_chain_(electrical_engineering)) для создания более резкого [rolloff](https://en.wikipedia.org/wiki/Roll-off) фильтра. Например, для создания классического "48 дБ/окт" [rolloff](https://en.wikipedia.org/wiki/Roll-off) фильтра, вам нужно соединить 4 из них вместе.
 
 ## Типы фильтров
 
@@ -20,4 +20,4 @@
 - [`lowpass` (highcut)](https://ru.wikipedia.org/wiki/Фильтр_нижних_частот)
 
 ### Замечение
-⚠️ [`Добротность`](https://ru.wikipedia.org/wiki/Добротность) и/или [`усиление`](https://ru.wikipedia.org/wiki/Коэффициент_передачи) может не иметь эффекта с определенными типами, и/или некоторые фильтры требуют от[`добротности`](https://ru.wikipedia.org/wiki/Добротность) значение `+1` для работы, как ожидалось.
+⚠️ [`Добротность`](https://ru.wikipedia.org/wiki/Добротность) и/или [`усиление`](https://ru.wikipedia.org/wiki/Коэффициент_передачи) может не иметь эффекта с фильтрами определенных типов, и/или некоторые фильтры требуют значение [`добротности`](https://ru.wikipedia.org/wiki/Добротность) равное `+1` для получения ожидаемого эффекта.
