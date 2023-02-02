@@ -11,7 +11,7 @@ Amethyst ist ein [Electron-basierter](https://electronjs.org/) Audiospieler mit 
 - Hohe FPS anpassbarer [Spektrum](https://de.wikipedia.org/wiki/Spektrumanalysator)
 - Hohe FPS anpassbarer [Vectorskop](/de/components/vectorscope)
 - [Discord-RPC](https://discord.com/developers/docs/topics/rpc)
-- [Node basiertes](https://en.wikipedia.org/wiki/Node_graph_architecture) Audio-Routing-System
+- [Knotenbasiertes](https://en.wikipedia.org/wiki/Node_graph_architecture) Audio-Routing-System
 - Unterstützte Formate:
   - [ogg](https://de.wikipedia.org/wiki/Ogg)
   - [flac](https://de.wikipedia.org/wiki/Free_Lossless_Audio_Codec)
