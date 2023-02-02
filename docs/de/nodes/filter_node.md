@@ -1,26 +1,24 @@
-# Filter Node
+# Filterknoten
 
 <img align="right" style="margin-left: 8px;" src="https://cdn.discordapp.com/attachments/667464431562653706/1052202046369054720/filter_node.png" alt=".node" width="256"/>
 
-The filter node holds a very basic two pole [filter](https://en.wikipedia.org/wiki/Filter_(signal_processing))`(12dB/oct)`, it has multiple [filter types](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) supported by the [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) with adjustable [`Gain`](https://en.wikipedia.org/wiki/Gain_(electronics)), [`Frequency`](https://en.wikipedia.org/wiki/Frequency) and [`Q`](https://en.wikipedia.org/wiki/Q_factor)
+Der Filterknoten enthält einen sehr einfachen zweipöligen [Filter](https://en.wikipedia.org/wiki/Filter_(signal_processing)), er hat mehrere [Filtertypen](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type), die von der [Web-Audio-API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) mit einstellbarer [`Verstärkung`](https://en.wikipedia.org/wiki/Gain_(electronics)), [`Frequenz`](https://de.wikipedia.org/wiki/Frequenz) und [`Q`](https://de.wikipedia.org/wiki/G%C3%BCtefaktor) unterstützt werden.
 
-Each of the filters can be duplicated and chained in [series](https://en.wikipedia.org/wiki/Daisy_chain_(electrical_engineering)) to create a steeper [rolloff](https://en.wikipedia.org/wiki/Roll-off) filter. For example, to create a classic `48dB/oct` [rolloff](https://en.wikipedia.org/wiki/Roll-off) filter, you need to chain 4 of them together.
+Jeder der Filter kann dupliziert werden und in [Serien](https://de.wikipedia.org/wiki/Daisy_Chain) verbunden werden, um einen steileren [Rolloff](https://en.wikipedia.org/wiki/Roll-off)-Filter zu erzeugen. Um beispielsweise einen klassischen [Rolloff](https://en.wikipedia.org/wiki/Roll-off)-Filter mit 48 dB/Okt. zu erstellen, muss man 4 davon miteinander verbinden.
 
-## Filter Types
+## Filtertypen
 
-The possible [filter types](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) are the following: 
+Die möglichen [Filtertypen](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) sind die folgenden: 
 
-- [`allpass`](https://en.wikipedia.org/wiki/All-pass_filter)
-- [`notch` (band-stop)](https://en.wikipedia.org/wiki/Band-stop_filter)
+- [`Allpass`](https://de.wikipedia.org/wiki/Allpassfilter)
+- [`notch` (Bandsperre)](https://de.wikipedia.org/wiki/Bandsperre)
 - `peaking` (bell)
 - `highshelf`
 - `lowshelf`
-- [`bandpass` (band)](https://en.wikipedia.org/wiki/Band-pass_filter)
-- [`highpass` (lowcut)](https://en.wikipedia.org/wiki/High-pass_filter)
-- [`lowpass` (highcut)](https://en.wikipedia.org/wiki/Low-pass_filter)
+- [`Bandpass` (Band)](https://de.wikipedia.org/wiki/Bandpass)
+- [`Hochpass` (Tiefschnitt)](https://de.wikipedia.org/wiki/Hochpass)
+- [`Tiefpass` (Hochschnitt)](https://de.wikipedia.org/wiki/Tiefpass)
 
 
-### Notice
-⚠️ The [`Q`](https://en.wikipedia.org/wiki/Q_factor) and/or [`Gain`](https://en.wikipedia.org/wiki/Gain_(electronics)) may not have an affect with certain types, and/or certain filters
-require a [`Q`](https://en.wikipedia.org/wiki/Q_factor) value of `+1` to work as expected
-
+### Hinweis
+⚠️ Bei bestimmten Typen haben [`Q`](https://de.wikipedia.org/wiki/G%C3%BCtefaktor) und/oder [`Verstärkung`](https://en.wikipedia.org/wiki/Gain_(electronics)) möglicherweise keinen Einfluss, und/oder bestimmte Filter erfordern einen [`Q-Wert`](https://de.wikipedia.org/wiki/G%C3%BCtefaktor) von `+1`, um wie erwartet zu funktionieren.
