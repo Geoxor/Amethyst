@@ -313,9 +313,9 @@ export class MainWindow {
 			},
 
 			"update-rich-presence": (_: Event, [args]: string[]) => {
-				const [title, duration, seek, format] = args;
+				const [title, time, format] = args;
 
-				this.discord.updateCurrentSong(title, duration, seek, format as FormatIcons);
+				this.discord.updateCurrentSong(title, time, format as FormatIcons);
 			},
 
 			"set-vsync": (_: Event, [useVsync]: string[]) => {
