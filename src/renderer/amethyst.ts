@@ -50,18 +50,18 @@ export class Amethyst {
       if (this.store.settings.useDiscordRichPresence) {
         this.updateRichPresence(track);
       }
-   });
+    });
   }
 
   private updateRichPresence(track: Track){
     const sendData = () => {
       this.electron.updateRichPresence([
         `${track.getArtistsFormatted() || "unknown artist"} - ${track.getTitleFormatted() || "unknown title"}`,
-        track.getDurationFormatted(true),
-        player.currentTimeFormatted(true),
+        player.isPaused.value ? "Paused" : `${player.currentTimeFormatted(true)} - ${track.getDurationFormatted(true)}`,
         track.metadata.data?.format.container?.toLowerCase()
       ]);
     };
+
     this.richPresenceTimer && clearInterval(this.richPresenceTimer);
     sendData();
     this.richPresenceTimer = setInterval(() => sendData(), 1000);
