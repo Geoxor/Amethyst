@@ -13,47 +13,46 @@ let shouldStopRendering = false;
 const channelData = Array.from({ length: nChannels }, () => [ref(FLOOR), ref(FLOOR)]);
 
 onMounted(() => {
-	const { context } = props.node;
+  const { context } = props.node;
 
-	const splitter = context.createChannelSplitter(channelData.length);
-	const analyzers = channelData.map(() => {
-		const analyzer = context.createAnalyser();
-		analyzer.fftSize = FFT_SIZE;
-		return analyzer;
-	});
-	const buffers = analyzers.map(analyzer => new Float32Array(analyzer.fftSize));
+  const splitter = context.createChannelSplitter(nChannels);
+  const analyzers = Array.from({ length: nChannels }, () => {
+    const analyzer = context.createAnalyser();
+    analyzer.fftSize = FFT_SIZE;
+    return analyzer;
+  });
+  const buffers = analyzers.map(analyzer => new Float32Array(analyzer.fftSize));
 
-	props.node.connect(splitter);
-	analyzers.forEach((analyzer, i) => splitter.connect(analyzer, i, 0));
+  props.node.connect(splitter);
+  analyzers.forEach((analyzer, i) => splitter.connect(analyzer, i, 0));
 
-	function draw() {
-		buffers.forEach((buffer, i) => analyzers[i].getFloatTimeDomainData(buffer));
+  function draw() {
+    buffers.forEach((buffer, i) => analyzers[i].getFloatTimeDomainData(buffer));
 
-		let peaks = channelData.map(() => 0);
-		let sumOfSquares = channelData.map(() => 0);
+    const peaks = Array.from({ length: nChannels }, () => 0);
+    const sumOfSquares = Array.from({ length: nChannels }, () => 0);
 
-		for (let i = 0; i < buffers[0].length; i++) {
-			const powers = buffers.map(buffer => buffer[i] ** 2);
-			for (let k = 0; k < channelData.length; k++) {
-				sumOfSquares[k] += powers[k];
-				peaks[k] = Math.max(peaks[k], powers[k]);
-			}
-		}
+    for (let i = 0; i < buffers[0].length; i++) {
+      const powers = buffers.map(buffer => buffer[i] ** 2);
+      powers.forEach((power, k) => {
+        sumOfSquares[k] += power;
+        peaks[k] = Math.max(peaks[k], power);
+      });
+    }
 
-		channelData.forEach((channel, i) => {
-			channel[0].value = 10 * Math.log10(peaks[i]);
-			channel[1].value = 10 * Math.log10(sumOfSquares[i] / buffers[0].length);
-		});
+    channelData.forEach((channel, i) => {
+      channel[0].value = 10 * Math.log10(peaks[i]);
+      channel[1].value = 10 * Math.log10(sumOfSquares[i] / buffers[0].length);
+    });
 
-		!shouldStopRendering && requestAnimationFrame(draw);
-	}
-	draw();
+    !shouldStopRendering && requestAnimationFrame(draw);
+  }
+  draw();
 });
 
 const computedWidth = (value: number): number => {
-	const width = (1 + value / RANGE) * 90;
-	// this fixes the animation jump from 0 to the first value
-	return Math.min(100, Math.max(0.01, width));
+  const width = (1 + value / RANGE) * 90;
+  return Math.min(100, Math.max(0.01, width));
 };
 
 onUnmounted(() => shouldStopRendering = true);
