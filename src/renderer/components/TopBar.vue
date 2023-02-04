@@ -168,8 +168,11 @@ const refreshWindow = () => location.reload();
     </p>
 
     <div class="flex gap-1.25 items-center overflow-hidden font-aseprite">
-      <div class="w-56 flex gap-1 justify-end">
-        <div class="hidden lg:inline no-drag font-aseprite text-primary-900 text-opacity-50">
+      <div
+        class="w-56 flex gap-1 justify-end no-drag" 
+        @click="min = Number.POSITIVE_INFINITY; max = Number.NEGATIVE_INFINITY;"
+      >
+        <div class="hidden lg:inline font-aseprite text-primary-900 text-opacity-50">
           <strong class="text-primary-900 text-opacity-25">DOM </strong> {{ domSize }}
         </div>
         <div 
@@ -183,8 +186,7 @@ const refreshWindow = () => location.reload();
           {{ fps }}fps
         </div>
         <div
-          class="hidden lg:inline no-drag font-aseprite text-primary-900 text-opacity-50"
-          @click="min = Number.POSITIVE_INFINITY; max = Number.NEGATIVE_INFINITY;"
+          class="hidden lg:inline font-aseprite text-primary-900 text-opacity-50"
         >
           <strong class="text-primary-900 text-opacity-25">min</strong> {{ min }} <strong class="text-primary-900 text-opacity-25">max</strong> {{ max }}
         </div>

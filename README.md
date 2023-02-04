@@ -6,11 +6,10 @@
 **English** | [简体中文](./README-zh.md) | [Русский](./README-ru.md) | [Polski](./README-pl.md)
 
 # 💎 Amethyst 
+
 Amethyst is an [Electron-based](https://electronjs.org/) audio player with a [node-based](https://en.wikipedia.org/wiki/Node_graph_architecture) [audio routing](https://en.wikipedia.org/wiki/Audio_signal_flow) system, the main goal of this project is to make a [music player](https://en.wikipedia.org/wiki/Media_player_software) in [TypeScript](https://www.typescriptlang.org/) to see how far we can stretch language today to prove it's possible to provide pro-level features as most [DAWs](https://en.wikipedia.org/wiki/Digital_audio_workstation) / [DAEs](https://en.wikipedia.org/wiki/Audio_editing_software), while also providing useful tools and customizability to the [end-user](https://en.wikipedia.org/wiki/End_user) to deal with audio.
 
-## ⚠️ This is an unfinished application
-Please do not write reviews yet as I have not finished implementing everything required for me to call this app "complete", things may suddenly change and the current state of the repository might not represent the complete version faithfully.
-
+![Amethyst](https://cdn.discordapp.com/attachments/667464431562653706/1071476078817845278/image.png)
 ## [📥 Download](https://amethyst.pages.dev/installation/package_managers.html)
 ## [📃 Documentation](https://amethyst.pages.dev/introduction.html)
 

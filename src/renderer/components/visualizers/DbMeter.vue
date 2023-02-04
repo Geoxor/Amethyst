@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onUnmounted, ref } from "vue";
-const props = defineProps<{ node: AudioNode, channels: number }>();
+const props = defineProps<{ node: AudioNode, channels?: number }>();
 const FLOOR = -60;
 const RANGE = 30;
 const FFT_SIZE = 1024;
