@@ -118,7 +118,7 @@ const handleContextCoverMenu = ({x, y}: MouseEvent) => {
       <div class="flex flex py-1 gap-2 items-start justify-between">
         <div class="flex flex-col w-full py-1 font-bold gap-1 ">
           <h1
-            class="text-12px hover:underline cursor-pointer"
+            class="text-12px hover:underline cursor-pointer w-24 overflow-hidden overflow-ellipsis"
             @click="invoke('show-item', [player.getCurrentTrack()?.path])"
           >
             {{ player.getCurrentTrack()?.getTitleFormatted() }}
