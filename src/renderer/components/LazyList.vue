@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useShortcuts, useState } from "@/amethyst";
+import { useElectron, useShortcuts, useState } from "@/amethyst";
 import { Track } from "@/logic/track";
 import BaseChip from "@/components/BaseChip.vue";
 import { PlayIcon, ExternalLinkIcon, LoadingIcon, BinocularsIcon, ErrorIcon } from "@/icons/material";
@@ -12,14 +12,13 @@ import { useInspector } from "./Inspector";
 defineProps<{tracks: Track[]}>();
 const state = useState();
 const isHoldingControl = useShortcuts().isControlPressed;
-const invoke = window.electron.ipcRenderer.invoke;
 
 // Context Menu options for this component 
 const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
   useContextMenu().open({x, y}, [
     { title: "Play", icon: PlayIcon, action: () => player.play(track) },
     { title: "Inspect", icon: BinocularsIcon, action: () => useInspector().inspectAndShow(track) },
-    { title: "Show in Explorer...", icon: ExternalLinkIcon, action: () => invoke("show-item", [track.path]) },
+    { title: "Show in Explorer...", icon: ExternalLinkIcon, action: () => useElectron().ipc.invoke("show-item", [track.path]) },
     { title: "Export cover...", icon: ExternalLinkIcon, action: () => track.exportCover() },
     { title: "Reload metadata", icon: ResetIcon, action: () => track.fetchAsyncData(true) },
     { title: "Remove from queue", icon: RemoveIcon, red: true, action: () => player.queue.remove(track) },
@@ -74,7 +73,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           class="row"
           @contextmenu="handleContextMenu($event, item)"
           @keypress.prevent
-          @click="isHoldingControl ? invoke('show-item', [item.path]) : player.play(item)"
+          @click="isHoldingControl ? useElectron().ipc.invoke('show-item', [item.path]) : player.play(item)"
         >
           <div
             class="td max-w-4"

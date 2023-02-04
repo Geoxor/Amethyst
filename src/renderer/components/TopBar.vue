@@ -11,6 +11,7 @@ import { useFps } from "@vueuse/core";
 import { player } from "@/logic/player";
 import AmethystLogo from "@/icons/AmethystLogo.vue";
 import { onMounted, ref } from "vue";
+import { countDomElements, refreshWindow } from "@/logic/dom";
 const min = ref(Number.POSITIVE_INFINITY);
 const max = ref(Number.NEGATIVE_INFINITY);
 const fpsCounter = useFps({every: 60});
@@ -22,14 +23,13 @@ onMounted(() => {
     fps.value = fpsCounter.value;
     if (fps.value > max.value) max.value = fps.value;
     if (fps.value < min.value) min.value = fps.value;
-    domSize.value = document.getElementsByTagName("*").length;
+    domSize.value = countDomElements();
 
   }, 1000);
 });
 
 const state = useState();
 const electron = useElectron();
-const refreshWindow = () => location.reload();
 </script>
 
 <template>

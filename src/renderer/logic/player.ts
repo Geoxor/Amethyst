@@ -34,18 +34,18 @@ export class Player extends EventEmitter<{
   public input = new Audio();
   protected context = new window.AudioContext();
   public source = this.context.createMediaElementSource(this.input);
-
-  public nodeManager = new AmethystAudioNodeManager(this.source, this.context);
+  public nodeManager: AmethystAudioNodeManager;
 
   public constructor(){
     super();
-    
     // Set multichannel support
     this.context.destination.channelCount = 8;
-    
+
     this.input.addEventListener("timeupdate", () => this.currentTime.value = this.input.currentTime);
     this.input.onended = () => this.next();
 
+    this.nodeManager = new AmethystAudioNodeManager(this.source, this.context);
+    
     // Set the volume on first load
     this.nodeManager.master.audioNode.gain.value = this.volume.value;
   }

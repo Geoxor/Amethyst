@@ -174,7 +174,3 @@ onUnmounted(() => shouldStopRendering = true);
     />
   </div>
 </template>
-
-<style scoped lang="postcss">
-
-</style>
