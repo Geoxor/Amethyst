@@ -37,6 +37,7 @@ onMounted(() => {
     // Don't regenerate the waveform if we are playing again from a pause
     if (track == oldTrack) {
       wavesurfer.play();
+      wavesurfer.seekTo(0);
       return;
     };
 
