@@ -8,7 +8,7 @@ hero:
   image:
     src: /icon.svg
     alt: Amethyst logo
-  tagline: Мощный аудиоплеер на базе node, написанный на web-платформе.
+  tagline: Мощный аудиоплеер на базе архитектуры граф узлов, написанный на web-платформе.
   actions:
     - theme: brand
       text: Загрузить

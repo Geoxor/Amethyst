@@ -12,9 +12,9 @@ $ git clone --recurse-submodules https://github.com/geoxor/amethyst \
 ```
 
 ## Linux
-⚠️ Если вы используете Linux, приведенная выше команда попытается скомпилировать для 
-`AppImage`, `deb`, `rpm` и `snap`, скорее всего, это завершится неудачей, поскольку вам будут не хватать
-зависимостей, необходимых для их создания.
+⚠️ Если вы используете Linux, приведенная выше команда попытается скомпилировать для
+`AppImage`, `deb`, `rpm` и `snap`. Скорее всего, это завершится неудачей, поскольку
+необходимые для их сборки зависимости не будут найдены.
 
 **Вы должны сделать что-то вроде следующего:**
 
@@ -30,4 +30,4 @@ $ yarn package --linux deb # builds into a deb package
 $ yarn package --linux appimage # builds into an appimage
 ```
 
-Более подробную информацию о аргументах ручной упаковки можно найти в [документации electron-builder](https://www.electron.build/configuration/linux.html)
+Более подробную информацию об аргументах ручной упаковки можно найти в [документации electron-builder](https://www.electron.build/configuration/linux.html)
