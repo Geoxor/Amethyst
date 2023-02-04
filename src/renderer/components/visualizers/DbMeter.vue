@@ -5,7 +5,7 @@ const FLOOR = -60;
 const RANGE = 30;
 const FFT_SIZE = 1024;
 
-const nChannels = props.channels || 2;
+const nChannels = props.channels || 8;
 const width = 4;
 
 let shouldStopRendering = false;
