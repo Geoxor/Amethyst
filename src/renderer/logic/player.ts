@@ -39,7 +39,7 @@ export class Player extends EventEmitter<{
   public constructor(){
     super();
     // Set multichannel support
-    this.context.destination.channelCount = 8;
+    this.context.destination.channelCount = this.context.destination.maxChannelCount;
 
     this.input.addEventListener("timeupdate", () => this.currentTime.value = this.input.currentTime);
     this.input.onended = () => this.next();
