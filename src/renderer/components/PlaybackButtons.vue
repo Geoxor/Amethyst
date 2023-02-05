@@ -74,7 +74,6 @@ onMounted(() => {
   player.on("timeupdate", newTime => {
     // prevent an endless loop of seekTo's
     hasSeekFiredOnce = false;
-
     wavesurfer.seekTo(newTime / player.getCurrentTrack()!.getDurationSeconds()); 
   });
 });
