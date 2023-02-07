@@ -278,7 +278,7 @@
     "@types/source-map-support": "^0.5.6",
     "@types/three": "^0.149.0",
     "@typescript-eslint/eslint-plugin": "^5.50.0",
-    "@typescript-eslint/parser": "^5.50.0",
+    "@typescript-eslint/parser": "^5.51.0",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vue/eslint-config-typescript": "^11.0.2",
     "@vue/test-utils": "^2.2.7",
