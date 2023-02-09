@@ -208,6 +208,9 @@ onUnmounted(() => {
           ]"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide Vectorscope', icon: HideIcon, action: () => state.settings.showVectorscope = false },
+            state.settings.showBigVectorscope 
+              ? { title: 'Minimize', icon: ExternalLinkIcon, action: () => state.settings.showBigVectorscope = false }
+              : { title: 'Expand', icon: ExternalLinkIcon, action: () => state.settings.showBigVectorscope = true },
           ]);"
           @click="state.settings.showBigVectorscope = !state.settings.showBigVectorscope"
         />
