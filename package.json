@@ -341,7 +341,7 @@
     "vite-plugin-windicss": "^1.8.10",
     "vue": "^3.2.47",
     "vue-router": "4",
-    "vue-virtual-scroller": "^2.0.0-beta.7",
+    "vue-virtual-scroller": "^2.0.0-beta.8",
     "wavesurfer.js": "^6.4.0",
     "windicss": "^3.5.6"
   },
