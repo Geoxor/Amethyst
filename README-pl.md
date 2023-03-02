@@ -6,14 +6,10 @@
 [English](./README.md) | [简体中文](./README-zh.md) |  [Русский](./README-ru.md) | **Polski**
 
 # 💎 Amethyst 
-Amethyst to bazujący na [Elektronie](https://electronjs.org/) odtwarzacz audio z [węzłowym](https://en.wikipedia.org/wiki/Node_graph_architecture) systemem [routingu audio](https://en.wikipedia.org/wiki/Audio_signal_flow), głównym celem tego projektu jest stworzenie [odtwarzacza muzyki](https://en.wikipedia.org/wiki/Media_player_software) w języku [TypeScript](https://www.typescriptlang.org/) aby zobaczyć, jak dobrze możemy wykorzystać ten język dzisiaj, i również udowodnić, że możliwe jest zapewnienie funkcji na poziomie pro, jak większość [DAW](https://en.wikipedia.org/wiki/Digital_audio_workstation) / [DAE](https://en.wikipedia.org/wiki/Audio_editing_software), zapewniając jednocześnie użyteczne narzędzia i możliwość dostosowania do potrzeb [użytkownika końcowego](https://en.wikipedia.org/wiki/End_user) do zajmowania się dźwiękiem.
-
-## ⚠️ To nie jest gotowa aplikacja
-Proszę nie pisać jeszcze recenzji, ponieważ nie skończyliśmy wdrażać wszystkiego, co jest wymagane, abym mógł nazwać tę aplikację "kompletną", rzeczy mogą się nagle zmienić i obecny stan repozytorium może nie reprezentować wiernie kompletnej wersji.
+Amethyst to bazujący na [Electronie](https://electronjs.org/) odtwarzacz audio z [węzłowym](https://en.wikipedia.org/wiki/Node_graph_architecture) systemem [routingu audio](https://en.wikipedia.org/wiki/Audio_signal_flow), głównym celem tego projektu jest stworzenie [odtwarzacza muzyki](https://en.wikipedia.org/wiki/Media_player_software) w języku [TypeScript](https://www.typescriptlang.org/) aby zobaczyć, jak dobrze możemy wykorzystać ten język dzisiaj, i również udowodnić, że możliwe jest zapewnienie funkcji na poziomie pro, jak większość [DAW](https://en.wikipedia.org/wiki/Digital_audio_workstation) / [DAE](https://en.wikipedia.org/wiki/Audio_editing_software), zapewniając jednocześnie użyteczne narzędzia i możliwość dostosowania do potrzeb [użytkownika końcowego](https://en.wikipedia.org/wiki/End_user) do zajmowania się dźwiękiem.
 
 ## [📥 Pobierz](https://amethyst.pages.dev/pl/installation/package_managers.html)
 ## [📃 Dokumentacja](https://amethyst.pages.dev/pl/introduction.html)
-
 
 ## 📝 Wkład własny
 - Korzystaj z `Node.js v19.1.0`
