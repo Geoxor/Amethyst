@@ -44,7 +44,7 @@ import { PaintBrushIcon, GeometryIcon, CircusRingOfFireIcon, PuzzleIcon, WaveIco
         @click="$router.push({ name: 'settings.integration' })"
       />
     </navigation-bar>
-    <div class="p-2 text-11px w-full h-full flex flex-col gap-2">
+    <div class="p-2 text-11px w-full h-full flex flex-col gap-2 overflow-y-auto">
       <router-view />
     </div>
   </div>
