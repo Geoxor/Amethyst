@@ -183,7 +183,7 @@ onUnmounted(() => {
           v-if="state.settings.showDbMeter && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
           :node="player.nodeManager.master.audioNode"
-          :channels="player.getCurrentTrack()?.getChannels()"
+          :channels="player.getCurrentTrack()?.getChannels() || 2"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide dB Meter', icon: HideIcon, action: () => state.settings.showDbMeter = false },
           ]);"

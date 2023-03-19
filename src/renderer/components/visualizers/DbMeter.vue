@@ -1,22 +1,25 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 const props = defineProps<{ node: AudioNode, channels?: number }>();
 const FLOOR = -60;
 const RANGE = 30;
 const FFT_SIZE = 1024;
+
+const MAX_CHANNELS = 8;
+const currentChannels = computed(() => props.channels || MAX_CHANNELS);
 
 const nChannels = props.channels || 8;
 const width = 4;
 
 let shouldStopRendering = false;
 
-const channelData = Array.from({ length: nChannels }, () => [ref(FLOOR), ref(FLOOR)]);
+const channelData = Array.from({ length: MAX_CHANNELS }, () => [ref(FLOOR), ref(FLOOR)]);
 
 onMounted(() => {
   const { context } = props.node;
 
-  const splitter = context.createChannelSplitter(nChannels);
-  const analyzers = Array.from({ length: nChannels }, () => {
+  const splitter = context.createChannelSplitter(MAX_CHANNELS);
+  const analyzers = Array.from({ length: MAX_CHANNELS }, () => {
     const analyzer = context.createAnalyser();
     analyzer.fftSize = FFT_SIZE;
     return analyzer;
@@ -29,8 +32,8 @@ onMounted(() => {
   function draw() {
     buffers.forEach((buffer, i) => analyzers[i].getFloatTimeDomainData(buffer));
 
-    const peaks = Array.from({ length: nChannels }, () => 0);
-    const sumOfSquares = Array.from({ length: nChannels }, () => 0);
+    const peaks = Array.from({ length: MAX_CHANNELS }, () => 0);
+    const sumOfSquares = Array.from({ length: MAX_CHANNELS }, () => 0);
 
     for (let i = 0; i < buffers[0].length; i++) {
       const powers = buffers.map(buffer => buffer[i] ** 2);
@@ -62,12 +65,12 @@ onUnmounted(() => shouldStopRendering = true);
   <div
     class="relative h-full"
     :style="`
-			width: ${(width + (width / 2)) * nChannels + 2}px;
-			min-width: ${(width + (width / 2)) * nChannels + 2}px;
+			width: ${(width + (width / 2)) * (currentChannels) + 2}px;
+			min-width: ${(width + (width / 2)) * (currentChannels) + 2}px;
 		`"
   >
     <div
-      v-for="i of nChannels"
+      v-for="i of currentChannels"
       :key="i"
       class="absolute h-full overflow-hidden rounded-full"
       :style="`width: ${width}px; left: ${(width * 3 / 2) * i - (width * 3 / 2)}px;`"
