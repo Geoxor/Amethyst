@@ -8,7 +8,6 @@ const FFT_SIZE = 1024;
 const MAX_CHANNELS = 8;
 const currentChannels = computed(() => props.channels || MAX_CHANNELS);
 
-const nChannels = props.channels || 8;
 const width = 4;
 
 let shouldStopRendering = false;
@@ -98,7 +97,7 @@ onUnmounted(() => shouldStopRendering = true);
 
     <svg
       class="absolute h-full stroke-3px w-4px"
-      :style="`left: ${((width + 2) * nChannels + 1)}px;`"
+      :style="`left: ${((width + 2) * currentChannels + 1)}px;`"
     >
       <line
         class="stroke-cap-round stroke-surface-500"

@@ -104,11 +104,11 @@ const handleContextCoverMenu = ({x, y}: MouseEvent) => {
   <div class="flex gap-2 justify-between items-center h-full w-full">
     <cover
       v-if="state.settings.showCoverArt" 
-      class="rounded-4px h-19 w-19 border-1 border-transparent cursor-pointer hover:border-primary-800"
+      class="rounded-4px h-19 w-19 min-h-19 min-w-19 text-primary-900 border-1 border-transparent cursor-pointer hover:border-primary-800"
       :class="[
         state.state.isShowingBigCover && 'border-primary-700'
       ]"
-      :url="player.getCurrentTrack()?.getCover() || state.state.defaultCover"
+      :url="player.getCurrentTrack()?.getCover()"
       @contextmenu="handleContextCoverMenu"
       @click="state.state.isShowingBigCover = !state.state.isShowingBigCover"
     />

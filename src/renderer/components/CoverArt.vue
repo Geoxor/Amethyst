@@ -1,9 +1,17 @@
 <script setup lang="ts">
-import { useState } from "@/amethyst";
+import {NoImageIcon } from "@/icons/material";
 defineProps<{ url?: string }>();
-const state = useState();
 </script>
 
 <template>
-  <img :src="url || state.state.defaultCover">
+  <img
+    v-if="url"
+    :src="url"
+  >
+  <div
+    v-else
+    class="flex items-center justify-center bg-surface-1000"
+  >
+    <NoImageIcon />
+  </div>
 </template>
