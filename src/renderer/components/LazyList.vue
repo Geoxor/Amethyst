@@ -2,7 +2,7 @@
 import { useElectron, useShortcuts, useState } from "@/amethyst";
 import { Track } from "@/logic/track";
 import BaseChip from "@/components/BaseChip.vue";
-import { PlayIcon, ExternalLinkIcon, LoadingIcon, BinocularsIcon, ErrorIcon } from "@/icons/material";
+import { PlayIcon, ExternalLinkIcon, LoadingIcon, ProcessIcon, BinocularsIcon, ErrorIcon } from "@/icons/material";
 import Cover from "@/components/CoverArt.vue";
 import { player } from "@/logic/player";
 import { useContextMenu } from "@/components/ContextMenu";
@@ -20,7 +20,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
   useContextMenu().open({x, y}, [
     { title: "Play", icon: PlayIcon, action: () => player.play(track) },
     { title: "Inspect", icon: BinocularsIcon, action: () => useInspector().inspectAndShow(track) },
-    { title: "Encode to .dfpwm", icon: BinocularsIcon, action: async () => {
+    { title: "Encode to .dfpwm...", icon: ProcessIcon, action: async () => {
       saveArrayBufferToFile(
         await convertDfpwm(await track.getArrayBuffer()), 
         {

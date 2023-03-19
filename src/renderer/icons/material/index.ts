@@ -40,9 +40,11 @@ import ExternalLinkIcon from "./ExternalLinkIcon.vue";
 import BinocularsIcon from "./BinocularsIcon.vue";
 import ImageIcon from "./ImageIcon.vue";
 import NoImageIcon from "./NoImageIcon.vue";
+import ProcessIcon from "./ProcessIcon.vue";
 
 export {
   DiscordIcon,
+  ProcessIcon,
   LoadingIcon,
   GitHubIcon,
   BinocularsIcon,
