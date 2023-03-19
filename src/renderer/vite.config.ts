@@ -12,11 +12,6 @@ const PACKAGE_ROOT = __dirname;
 export default defineConfig({
 	mode: process.env.MODE,
 	root: PACKAGE_ROOT,
-	
-	optimizeDeps: {
-    include: ["stream"],
-    exclude: ["stream-browserify"],
-  },
 	test: {
 		coverage: {
 			provider: "istanbul"
