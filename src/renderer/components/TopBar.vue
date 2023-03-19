@@ -83,7 +83,7 @@ const electron = useElectron();
         />
         <menu-option
           :shortcuts="['CTRL', 'SHIFT', 'Z']"
-          title="Clear errored"
+          title="Clear errored / deleted"
           :icon="RemoveIcon"
           @click="player.queue.clearErrored()"
         />

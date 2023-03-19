@@ -32,6 +32,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
     { title: "Export cover...", icon: ExternalLinkIcon, action: () => track.exportCover() },
     { title: "Reload metadata", icon: ResetIcon, action: () => track.fetchAsyncData(true) },
     { title: "Remove from queue", icon: RemoveIcon, red: true, action: () => player.queue.remove(track) },
+    { title: "Delete from disk", icon: RemoveIcon, red: true, action: () => track.delete() },
   ]);
 };
 
@@ -77,6 +78,8 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           :class="[
             isHoldingControl && 'control cursor-external-pointer', 
             item.hasErrored && 'opacity-50 not-allowed',
+            item.deleted && 'opacity-50 !text-rose-400 not-allowed',
+
             player.getCurrentTrack()?.path == item.path && 'currentlyPlaying',
             useInspector().state.isVisible && useInspector().state.currentItem == item && 'currentlyInspecting'
           ]"
@@ -94,6 +97,11 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
             />
             <error-icon
               v-else-if="item.hasErrored"
+              class="h-3 w-3 min-h-3 min-w-3"
+            />
+
+            <RemoveIcon
+              v-else-if="item.deleted"
               class="h-3 w-3 min-h-3 min-w-3"
             />
     

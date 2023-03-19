@@ -15,6 +15,7 @@ export class Track {
   public isLoading = ref(false);
   public isLoaded = ref(false);
   public hasErrored = ref(false);
+  public deleted: boolean = false;
 
   public constructor(public path: string) {
     if (!ALLOWED_AUDIO_EXTENSIONS.some(ext => path.toLowerCase().endsWith(ext)))
@@ -36,6 +37,13 @@ export class Track {
 
   private async fetchCache() {
     return (await fetch(this.getCachePath())).json();
+  }
+
+  public async delete() {
+    return window.fs.unlink(this.path).then(() => {
+      this.deleted = true;
+      window.fs.unlink(this.getCachePath()).catch();
+    });
   }
 
   public getCoverByFace(face = 0) {

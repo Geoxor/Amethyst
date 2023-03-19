@@ -122,7 +122,7 @@ export class Queue {
   }
 
   public clearErrored(){
-    this.getList().filter(t => t.hasErrored).forEach(t => this.remove(t));
+    this.getList().filter(t => t.hasErrored || t.deleted).forEach(t => this.remove(t));
     this.syncLocalStorage();
   }
 
