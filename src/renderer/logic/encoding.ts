@@ -41,6 +41,42 @@ export const encodeDfpwm = async (input: Float32Array): Promise<Int8Array> => {
   return out;
 };
 
+export const decodeDfpwm = async (input: Int8Array): Promise<Float32Array> => {
+  let charge = 0;
+  let strength = 0;
+  let previousBit = false;
+
+  const out = new Float32Array(input.length * 8);
+
+  for (let i = 0; i < input.length; i++) {
+    let thisByte = input[i];
+
+    for (let j = 0; j < 8; j++) {
+      const currentBit = !!(thisByte & 0x80);
+      const target = currentBit ? 127 : -128;
+
+      let nextCharge = charge + ((strength * (target - charge) + (1 << (PREC - 1))) >> PREC);
+      if (nextCharge == charge && nextCharge != target) nextCharge += currentBit ? 1 : -1;
+
+      const z = currentBit == previousBit ? (1 << PREC) - 1 : 0;
+      let nextStrength = strength;
+      if (strength != z) nextStrength += currentBit == previousBit ? 1 : -1;
+      if (nextStrength < 2 << (PREC - 8)) nextStrength = 2 << (PREC - 8);
+
+      charge = nextCharge;
+      strength = nextStrength;
+      previousBit = currentBit;
+
+      const level = charge / 127;
+      out[i * 8 + j] = level;
+
+      thisByte = thisByte << 1;
+    }
+  }
+
+  return out;
+};
+
 /// Credit goes to https://github.com/SquidDev-CC/music.madefor.cc
 export const convertDfpwm = async (inputAudio: ArrayBuffer): Promise<ArrayBuffer> => {
 
