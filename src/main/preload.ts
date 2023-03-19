@@ -21,6 +21,7 @@ export type Channels =
 	"open-file-dialog" |
 	"log-print" |
 	"clear-rich-presence" |
+	"encode-to-dfpwm" |
 	"open-external" |
 	"log-error" |
 	"open-folder-dialog" |

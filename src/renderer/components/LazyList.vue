@@ -8,6 +8,8 @@ import { player } from "@/logic/player";
 import { useContextMenu } from "@/components/ContextMenu";
 import { RemoveIcon, ResetIcon } from "@/icons/material";
 import { useInspector } from "./Inspector";
+import { saveArrayBufferToFile } from "@/logic/dom";
+import { convertDfpwm } from "@/logic/encoding";
 
 defineProps<{tracks: Track[]}>();
 const state = useState();
@@ -18,6 +20,14 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
   useContextMenu().open({x, y}, [
     { title: "Play", icon: PlayIcon, action: () => player.play(track) },
     { title: "Inspect", icon: BinocularsIcon, action: () => useInspector().inspectAndShow(track) },
+    { title: "Encode to .dfpwm", icon: BinocularsIcon, action: async () => {
+      saveArrayBufferToFile(
+        await convertDfpwm(await track.getArrayBuffer()), 
+        {
+          filename: track.getFilenameWithoutExtension(), 
+          extension: "dfpwm"
+      });
+    }},
     { title: "Show in Explorer...", icon: ExternalLinkIcon, action: () => useElectron().ipc.invoke("show-item", [track.path]) },
     { title: "Export cover...", icon: ExternalLinkIcon, action: () => track.exportCover() },
     { title: "Reload metadata", icon: ResetIcon, action: () => track.fetchAsyncData(true) },

@@ -142,13 +142,32 @@ export class Track {
     return this.metadata.data?.common.title;
   }
 
+  public async getArrayBuffer() {
+    const response = await fetch(this.path);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch file: ${response.statusText}`);
+    }
+    const buffer = await response.arrayBuffer();
+    return buffer;
+  }
+
   /**
    * @returns The filename of a file from the full path
    * @example "02. Daft Punk - Get Lucky.flac"
    */
   public getFilename() {
-    return this.path.substring(Math.max(this.path.lastIndexOf("\\"), this.path.lastIndexOf("/")) + 1);
-  };
+    const { base } = window.path.parse(this.path);
+    return base;
+  }
+
+  /**
+   * @returns The filename of a file from the full path without its extension
+   * @example "02. Daft Punk - Get Lucky"
+   */
+  public getFilenameWithoutExtension() {
+    const { name } = window.path.parse(this.path);
+    return name;
+  }
 
   /**
    * @returns The filesize in a human readable string

@@ -42,7 +42,7 @@ const BLEND_MODES = [
     text="Spin speed"
     :min="1"
     :max="64"
-    :step="0.01"
+    :step="1"
     :def="state.defaultSettings.ambientBackgroundSpinSpeed"
   />
   <settings-modifier
@@ -52,6 +52,15 @@ const BLEND_MODES = [
     :max="256"
     :step="1"
     :def="state.defaultSettings.ambientBackgroundBlurStrength"
+  />
+
+  <settings-modifier
+    v-model="state.settings.ambientBackgroundZoom"
+    text="Zoom"
+    :min="0"
+    :max="1000"
+    :step="1"
+    :def="state.defaultSettings.ambientBackgroundZoom"
   />
 
   Mix Blend Mode
