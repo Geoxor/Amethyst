@@ -12,7 +12,7 @@ const state = useState();
   <settings-group
     text="Decibel Meter"
     :icon="WaveIcon"
-    description="Displays a visual representation of the sound level of the audio signal in decibels (dB). It displays the current sound level of the audio signal using a graph, where the x-axis represents time and the y-axis represents the sound level in decibels. The decibel meter can be used to monitor the overall loudness of the audio signal and to ensure that it is within safe listening levels."
+    description="Displays a visual representation of the sound level of the audio signal in decibels (dB). It displays the current sound level of the audio signal using a graph, where the y-axis represents the sound level in decibels. The decibel meter can be used to monitor the overall loudness of the audio signal and to ensure that it is within safe listening levels."
   >
     <template #main>
       <base-switch v-model="state.settings.showDbMeter" />
