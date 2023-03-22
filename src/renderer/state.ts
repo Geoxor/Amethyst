@@ -48,7 +48,7 @@ export class Store {
 		followQueue: false,
 		showInspector: true,
 		isSnappingToGrid: false,
-		diagonalVectorscope: true,
+		lissajousVectorscope: true,
 		showLoudnessMeter: true,
 		useLogarithmicSpectrum: true,
 		useVsync: true,
@@ -56,6 +56,9 @@ export class Store {
 		useDiscordRichPresence: true,
 		smoothScrollSpeed: 0.075,
 		playOnStartup: false,
+		decibelMeterMinimumDb: -60,
+		decibelMeterFftSize: 1024,
+		vectorscopeFftSize: 512,
 	};
 
 	public settings = useLocalStorage("settings", this.defaultSettings, { writeDefaults: true }).value;

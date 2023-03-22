@@ -7,7 +7,7 @@ const value = useModelValue(props, "modelValue", emits);
 
 <template>
   <label
-    class="relative inline-block w-8 min-w-8 h-2.5 no-drag"
+    class="relative inline-block w-10 min-w-10 h-3 no-drag"
   >
     <input
       v-model="value"
@@ -17,7 +17,7 @@ const value = useModelValue(props, "modelValue", emits);
     <span class="slider" />
     <p
       :class="[value ? 'text-surface-1000' : 'text-primary-700']"
-      class="absolute pointer-events-none  text-7px font-bold top-1/2 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2"
+      class="absolute pointer-events-none  text-8px font-bold top-1/2 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2"
     >{{ value ? 'ON' : 'OFF' }}</p>
   </label>
 </template>

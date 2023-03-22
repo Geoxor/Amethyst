@@ -1,13 +1,10 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, ref } from "vue";
+import { useState } from "@/amethyst";
+import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 const props = defineProps<{ node: AudioNode, channels?: number }>();
-const FLOOR = -60;
-const RANGE = 30;
-const FFT_SIZE = 1024;
-
+const FLOOR = -120;
 const MAX_CHANNELS = 8;
 const currentChannels = computed(() => props.channels || MAX_CHANNELS);
-
 const width = 4;
 
 let shouldStopRendering = false;
@@ -20,10 +17,16 @@ onMounted(() => {
   const splitter = context.createChannelSplitter(MAX_CHANNELS);
   const analyzers = Array.from({ length: MAX_CHANNELS }, () => {
     const analyzer = context.createAnalyser();
-    analyzer.fftSize = FFT_SIZE;
+    analyzer.fftSize = useState().settings.decibelMeterFftSize;
     return analyzer;
   });
-  const buffers = analyzers.map(analyzer => new Float32Array(analyzer.fftSize));
+
+  let buffers = analyzers.map(analyzer => new Float32Array(analyzer.fftSize));
+  
+  watch(() => useState().settings.decibelMeterFftSize, value => {
+    analyzers.forEach(a => a.fftSize = value);
+    buffers = analyzers.map(() => new Float32Array(value));
+  });
 
   props.node.connect(splitter);
   analyzers.forEach((analyzer, i) => splitter.connect(analyzer, i, 0));
@@ -53,7 +56,7 @@ onMounted(() => {
 });
 
 const computedWidth = (value: number): number => {
-  const width = (1 + value / RANGE) * 90;
+  const width = (1 + value / Math.abs(useState().settings.decibelMeterMinimumDb)) * 90;
   return Math.min(100, Math.max(0.01, width));
 };
 

@@ -5,7 +5,6 @@ import { onMounted, onUnmounted, watch } from "vue";
 
 const props = defineProps<{ node: AudioNode, width: number, height: number }>();
 const state = useState();
-const FFT_SIZE = 512;
 const randomId = Date.now();
 let canvasCtx: CanvasRenderingContext2D;
 let shouldStopRendering = false;
@@ -20,16 +19,22 @@ onMounted(() => {
   const { context } = props.node;
   const analyzerX = context.createAnalyser();
   const analyzerY = context.createAnalyser();
-  analyzerX.fftSize = FFT_SIZE;
-  analyzerY.fftSize = FFT_SIZE;
+  analyzerX.fftSize = useState().settings.vectorscopeFftSize;
+  analyzerY.fftSize = useState().settings.vectorscopeFftSize;
+  let bufferX = new Float32Array(analyzerX.fftSize);
+  let bufferY = new Float32Array(analyzerY.fftSize);
+
+	watch(() => useState().settings.vectorscopeFftSize, value => {
+    analyzerX.fftSize = value;
+    analyzerY.fftSize = value;
+    bufferX = new Float32Array(value);
+    bufferY = new Float32Array(value);
+  });
 
   const splitter = context.createChannelSplitter(2);
   props.node.connect(splitter);
   splitter.connect(analyzerX, 0, 0);
   splitter.connect(analyzerY, 1, 0);
-
-  const bufferX = new Float32Array(analyzerX.fftSize);
-  const bufferY = new Float32Array(analyzerY.fftSize);
 
   let lastPosition = [props.width / 2, props.height / 2];
 
@@ -66,7 +71,7 @@ onUnmounted(() => shouldStopRendering = true);
   >
     <canvas
       :id="`vectorscope-${randomId}`"
-      :class="[!state.settings.diagonalVectorscope && 'diagonal']"
+      :class="[state.settings.lissajousVectorscope && 'lissajous']"
       :width="width"
       :height="height"
     />
@@ -74,7 +79,7 @@ onUnmounted(() => shouldStopRendering = true);
 </template>
 
 <style scoped lang="postcss">
-.diagonal {
+.lissajous {
 	@apply transform rotate-45 scale-66 rounded-4px bg-black bg-opacity-25;
 }
 </style>

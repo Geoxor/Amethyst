@@ -5,7 +5,7 @@ defineProps<{ icon: any, active: boolean, notifs?: number, text?: string, descri
 <template>
   <div
     :class="[
-      active ? 'text-black bg-primary-800 font-semibold' : 'text-primary-900 hover:bg-surface-700 hover:text-primary-800',
+      active ? 'text-black bg-primary-800 font-semibold' : 'text-primary-900 hover:text-primary-800 hover:bg-surface-700 ',
       text ? 'px-2 py-2 gap-2.5 ' : 'p-3'
     ]"
     class="items-center gap-2 text-11px flex relative "
@@ -23,10 +23,7 @@ defineProps<{ icon: any, active: boolean, notifs?: number, text?: string, descri
       {{ text }}
       <p 
         v-if="description"
-        class="text-9px text-opacity-50"
-        :class="[
-          active ? 'text-black' : 'text-primary-900',
-        ]"
+        class="text-9px opacity-50"
       >
         {{ description }}
       </p>

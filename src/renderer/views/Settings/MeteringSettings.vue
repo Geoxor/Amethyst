@@ -17,6 +17,20 @@ const state = useState();
     <template #main>
       <base-switch v-model="state.settings.showDbMeter" />
     </template>
+    <settings-modifier
+      v-model="state.settings.decibelMeterMinimumDb"
+      :def="state.defaultSettings.decibelMeterMinimumDb"
+      text="Minimum dB"
+      :min="-120"
+      :max="0"
+      :step="1"
+    />
+    <settings-modifier
+      v-model="state.settings.decibelMeterFftSize"
+      :def="state.defaultSettings.decibelMeterFftSize"
+      text="FFT size"
+      :range="[32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768]"
+    />
   </settings-group>
   <settings-group
     text="Loudness Meter"
@@ -37,9 +51,16 @@ const state = useState();
       <base-switch v-model="state.settings.showVectorscope" />
     </template>
     
+    <settings-modifier
+      v-model="state.settings.vectorscopeFftSize"
+      :def="state.defaultSettings.vectorscopeFftSize"
+      text="FFT size"
+      :range="[32, 64, 128, 256, 512, 1024]"
+    />
+
     <settings-binary-switch
-      v-model="state.settings.diagonalVectorscope"
-      text="Diagonal"
+      v-model="state.settings.lissajousVectorscope"
+      text="Lissajous"
     />
     <settings-modifier
       v-model="state.settings.vectorscopeLineThickness"
