@@ -1,20 +1,29 @@
 <script setup lang="ts">
-defineProps<{ text: string, description?: string, icon?: any }>();
+import BaseChip from "@/components/BaseChip.vue";
+
+defineProps<{ text: string, description?: string, warning?: string, icon?: any }>();
 </script>
 
 <template>
-  <div class="flex flex-col">
+  <div class="flex flex-col select-none">
     <div class="flex items-center bg-surface-800 p-3 gap-2 justify-between rounded-4px text-primary-900 hover:text-primary-800 hover:bg-surface-700 ">
-      <div class="flex gap-3 items-center">
+      <div class="flex gap-3 items-center ">
         <component
           :is="icon"
           v-if="icon"
           class="min-w-4 min-h-4 w-4 h-4"
         />
         <div class="flex flex-col gap-1">
-          <p class="capitalize">
-            {{ text }}
-          </p>
+          <div class="flex gap-2 items-center">
+            <p class="capitalize">
+              {{ text }}
+            </p>
+            <BaseChip
+              v-if="warning"
+            >
+              {{ warning }}
+            </BaseChip>
+          </div>
           <p
             v-if="description"
             class="opacity-50 text-9px whitespace-pre-line"

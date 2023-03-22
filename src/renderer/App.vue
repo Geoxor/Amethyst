@@ -185,7 +185,7 @@ onUnmounted(() => {
           :node="player.nodeManager.master.audioNode"
           :channels="player.getCurrentTrack()?.getChannels()"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-            { title: 'Hide dB Meter', icon: HideIcon, action: () => state.settings.showDbMeter = false },
+            { title: 'Hide decibel meter', icon: HideIcon, action: () => state.settings.showDbMeter = false },
           ]);"
         />
 

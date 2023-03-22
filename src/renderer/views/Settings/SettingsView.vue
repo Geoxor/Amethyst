@@ -172,7 +172,7 @@ import { PaintBrushIcon, GeometryIcon, CircusRingOfFireIcon, PuzzleIcon, WaveIco
           :def="state.defaultSettings.spectrumFftSize"
         />
 
-        <settings-group text="dB Meter" />
+        <settings-group text="decibel meter" />
         <settings-binary-switch
           v-model="state.settings.showDbMeter"
           text="Enabled"
