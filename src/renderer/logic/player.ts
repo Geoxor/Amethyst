@@ -131,11 +131,21 @@ export class Player extends EventEmitter<{
   * Should be called when the user skips a track
   */
   public skip() {
-    this.currentTrackIndex.value++;
+    const filterText = useLocalStorage("filterText", "");
+    let startOfQueue = 0;
+
+    if (filterText.value) {
+      const searchResults = this.queue.search(filterText.value);
+      startOfQueue = this.queue.getList().indexOf(searchResults[0]);
+      const nextInSearch = searchResults[searchResults.indexOf(this.getCurrentTrack()!) + 1];
+      this.currentTrackIndex.value = this.queue.getList().indexOf(nextInSearch);
+    } else {
+      this.currentTrackIndex.value++;
+    }
 
     // Check if we reached the end of the queue
     if (!this.queue.getTrack(this.currentTrackIndex.value)) {
-      this.currentTrackIndex.value = 0;
+      this.currentTrackIndex.value = startOfQueue;
 
       // If we don't loop: go to the start of the queue and pause the player
       if (this.loopMode.value === LoopMode.None) {
@@ -156,7 +166,15 @@ export class Player extends EventEmitter<{
   }
 
   public previous() {
-    this.currentTrackIndex.value--;
+    const filterText = useLocalStorage("filterText", "");
+
+    if (filterText.value) {
+      const searchResults = this.queue.search(filterText.value);
+      const nextInSearch = searchResults[searchResults.indexOf(this.getCurrentTrack()!) - 1];
+      this.currentTrackIndex.value = this.queue.getList().indexOf(nextInSearch);
+    } else {
+      this.currentTrackIndex.value--;
+    }
 
     if (this.currentTrackIndex.value < 0) {
       this.currentTrackIndex.value = this.queue.getList().length - 1;
