@@ -341,7 +341,7 @@
     "vue": "^3.2.47",
     "vue-router": "4",
     "vue-virtual-scroller": "^2.0.0-beta.8",
-    "wavesurfer.js": "^6.4.0",
+    "wavesurfer.js": "^6.6.1",
     "windicss": "^3.5.6"
   },
   "devEngines": {
