@@ -43,7 +43,7 @@ defineProps<{ text: string, description?: string, warning?: string, icon?: any }
       v-if="$slots['default']"
       class="px-3"
     >   
-      <div class="bg-surface-1000 p-3 flex flex-col gap-1 rounded-b-4px">
+      <div class="bg-surface-1000 p-3 flex flex-col gap-2 rounded-b-4px">
         <slot />
       </div>
     </div>
