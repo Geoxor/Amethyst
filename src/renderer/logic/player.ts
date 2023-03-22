@@ -32,12 +32,13 @@ export class Player extends EventEmitter<{
   public queue = new Queue();
 
   public input = new Audio();
-  protected context = new window.AudioContext();
+  protected context = new AudioContext({latencyHint: "interactive"});
   public source = this.context.createMediaElementSource(this.input);
   public nodeManager: AmethystAudioNodeManager;
 
   public constructor(){
     super();
+
     // Set multichannel support
     this.context.destination.channelCount = this.context.destination.maxChannelCount;
 
@@ -58,6 +59,14 @@ export class Player extends EventEmitter<{
     if (!track.isLoaded) {
       track.fetchAsyncData();
     }
+  }
+  
+  public getBufferSize() {
+    return ~~(this.context.baseLatency * this.context.sampleRate);
+  }
+
+  public async getLatency(){
+    return this.context.baseLatency;
   }
 
   /**

@@ -17,6 +17,7 @@ const max = ref(Number.NEGATIVE_INFINITY);
 const fpsCounter = useFps({every: 60});
 const fps = ref(0);
 const domSize = ref(0);
+const latency = ref(0);
 
 onMounted(() => {
   setInterval(() => {
@@ -24,7 +25,7 @@ onMounted(() => {
     if (fps.value > max.value) max.value = fps.value;
     if (fps.value < min.value) min.value = fps.value;
     domSize.value = countDomElements();
-
+    player.getLatency().then(l => latency.value = l);
   }, 1000);
 });
 
@@ -167,13 +168,15 @@ const electron = useElectron();
       Amethyst v{{ state.state.version }}
     </p>
 
-    <div class="flex gap-1.25 items-center overflow-hidden font-aseprite">
+    <div class="flex gap-1.25 items-center overflow-hidden font-aseprite whitespace-nowrap">
       <div
         class="w-56 flex gap-1 justify-end no-drag" 
         @click="min = Number.POSITIVE_INFINITY; max = Number.NEGATIVE_INFINITY;"
       >
         <div class="hidden lg:inline font-aseprite text-primary-900 text-opacity-50">
-          <strong class="text-primary-900 text-opacity-25">DOM </strong> {{ domSize }}
+          {{ domSize }}<strong class="text-primary-900 text-opacity-25">DOM </strong>
+          {{ player.getBufferSize() }}<strong class="text-primary-900 text-opacity-25">smp</strong>
+          {{ latency }}<strong class="text-primary-900 text-opacity-25">ms</strong>
         </div>
         <div 
           :class="[
@@ -188,7 +191,7 @@ const electron = useElectron();
         <div
           class="hidden lg:inline font-aseprite text-primary-900 text-opacity-50"
         >
-          <strong class="text-primary-900 text-opacity-25">min</strong> {{ min }} <strong class="text-primary-900 text-opacity-25">max</strong> {{ max }}
+          {{ min }}<strong class="text-primary-900 text-opacity-25">min</strong> {{ max }}<strong class="text-primary-900 text-opacity-25">max</strong>
         </div>
       </div>
       <update-button
