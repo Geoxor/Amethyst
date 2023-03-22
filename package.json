@@ -284,7 +284,7 @@
     "@vue/test-utils": "^2.2.7",
     "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
-    "electron": "23.1.3",
+    "electron": "23.1.4",
     "electron-builder": "^23.6.0",
     "electron-devtools-installer": "^3.2.0",
     "electron-mock-ipc": "^0.3.12",
@@ -296,7 +296,7 @@
     "eslint-plugin-vue": "^9.9.0",
     "happy-dom": "^8.2.6",
     "postcss": "^8.4.21",
-    "prettier": "^2.8.4",
+    "prettier": "^2.8.6",
     "rimraf": "^4.1.2",
     "standardized-audio-context-mock": "^9.6.13",
     "tailwindcss": "^3.2.7",
@@ -305,7 +305,7 @@
     "typescript": "^4.9.5",
     "vitepress": "1.0.0-alpha.45",
     "vitest": "^0.29.2",
-    "vue-tsc": "^1.0.24"
+    "vue-tsc": "^1.2.0"
   },
   "dependencies": {
     "@domchristie/needles": "^0.0.2-1",
@@ -341,7 +341,7 @@
     "vue": "^3.2.47",
     "vue-router": "4",
     "vue-virtual-scroller": "^2.0.0-beta.8",
-    "wavesurfer.js": "^6.4.0",
+    "wavesurfer.js": "^6.6.1",
     "windicss": "^3.5.6"
   },
   "devEngines": {
