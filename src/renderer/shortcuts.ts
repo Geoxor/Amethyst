@@ -1,4 +1,4 @@
-import { useElectron } from "@/amethyst";
+import { useElectron, useState } from "@/amethyst";
 import { player } from "@/logic/player";
 import { onKeyStroke, useKeyModifier, UseKeyModifierReturn, useLocalStorage } from "@vueuse/core";
 
@@ -23,7 +23,8 @@ export class Shortcuts {
     "queue.add.folder": [["O"], () => this.isControlPressed.value && useElectron().openFolderDialog()],
     "queue.clear": [["X"], () => this.isControlPressed.value && player.queue.clear()],
     "queue.clear.errored": [["Z"], () => this.isControlPressed.value && player.queue.clearErrored()],
-    "queue.force.refresh.meta": [["r"], () => this.isControlPressed.value && this.isAltPressed.value && player.queue.fetchAsyncData(true)]
+    "queue.force.refresh.meta": [["r"], () => this.isControlPressed.value && this.isAltPressed.value && player.queue.fetchAsyncData(true)],
+    "appearance.toggle.playback_controlls": [["F10"], () => useState().settings.showPlaybackControls = !useState().settings.showPlaybackControls],
   };
 
   public bindings = this.DEFAULT_BINDINGS;

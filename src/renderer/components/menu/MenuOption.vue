@@ -29,7 +29,7 @@ defineProps<{
       />
       <p>{{ title }}</p>
     </div>
-    <div class="text-7px font-aseprite flex gap-1">
+    <div class="flex gap-1">
       <base-keyboard-button
         v-for="(shortcut) of shortcuts"
         :key="shortcut"

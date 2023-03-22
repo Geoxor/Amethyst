@@ -1,20 +1,23 @@
 <script setup lang="ts">
 import { useElectron, useState } from "@/amethyst";
-import SettingsBinarySwitch from "@/components/settings/SettingsBinarySwitch.vue";
+import {ProcessIcon} from "@/icons/material";
+import BaseSwitch from "@/components/input/BaseSwitch.vue";
+import SettingsGroup from "@/components/settings/SettingsGroup.vue";
 
 const state = useState();
 </script>
 
 <template>
-  <div>
-    <settings-binary-switch
-      v-model="state.settings.useVsync"
-      text="VSync"
-      @change="useElectron().ipc.invoke('set-vsync', [state.settings.useVsync])"
-    />
-  </div>
+  <settings-group
+    :icon="ProcessIcon"
+    description="Constrain the user interface (UI) framerate of Amethyst to the refresh rate of the active display."
+    text="VSync"
+  >
+    <template #main>
+      <base-switch
+        v-model="state.settings.useVsync" 
+        @change="useElectron().ipc.invoke('set-vsync', [state.settings.useVsync])"
+      />
+    </template>
+  </settings-group>
 </template>
-
-<style scoped lang="postcss">
-
-</style>

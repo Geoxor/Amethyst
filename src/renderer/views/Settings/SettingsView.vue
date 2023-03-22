@@ -25,14 +25,14 @@ import { PaintBrushIcon, GeometryIcon, CircusRingOfFireIcon, PuzzleIcon, WaveIco
         :icon="WaveIcon"
         :active="$route.name == 'settings.metering'"
         text="Metering"
-        description="spectrums, vectorscopes, db meters"
+        description="spectrums, vectorscopes, meters"
         @click="$router.push({ name: 'settings.metering' })"
       />
       <navigation-button
         :icon="GeometryIcon"
         :active="$route.name == 'settings.behaviour'"
         text="Behaviour"
-        description="concurrency, startup actions, defaults"
+        description="concurrency, startup, defaults"
         @click="$router.push({ name: 'settings.behaviour' })"
       />
       
@@ -44,7 +44,7 @@ import { PaintBrushIcon, GeometryIcon, CircusRingOfFireIcon, PuzzleIcon, WaveIco
         @click="$router.push({ name: 'settings.integration' })"
       />
     </navigation-bar>
-    <div class="p-2 text-11px w-full h-full flex flex-col gap-2 overflow-y-auto">
+    <div class="p-4 text-11px w-full h-full flex flex-col gap-2 overflow-y-auto">
       <router-view />
     </div>
   </div>
@@ -56,7 +56,7 @@ import { PaintBrushIcon, GeometryIcon, CircusRingOfFireIcon, PuzzleIcon, WaveIco
       </h1>
 
       <div class="pr-2 flex flex-col gap-3 relative">
-        <settings-category-splitter text="Ambient Background" />
+        <settings-group text="Ambient Background" />
         <settings-binary-switch
           v-model="state.settings.showAmbientBackground"
           text="Enabled"
@@ -99,13 +99,13 @@ import { PaintBrushIcon, GeometryIcon, CircusRingOfFireIcon, PuzzleIcon, WaveIco
           :def="state.defaultSettings.ambientBackgroundBlurStrength"
         />
 
-        <settings-category-splitter text="Covers" />
+        <settings-group text="Covers" />
         <settings-binary-switch
           v-model="state.settings.showCoverArt"
           text="Show cover art"
         />
 
-        <settings-category-splitter text="Queue List" />
+        <settings-group text="Queue List" />
         <settings-modifier
           v-model="state.settings.processingConcurrency"
           text="Processing concurrency"
@@ -115,13 +115,13 @@ import { PaintBrushIcon, GeometryIcon, CircusRingOfFireIcon, PuzzleIcon, WaveIco
           :def="state.defaultSettings.processingConcurrency"
         />
 
-        <settings-category-splitter text="Playback Controls" />
+        <settings-group text="Playback Controls" />
         <settings-binary-switch
           v-model="state.settings.showPlaybackControls"
           text="Show"
         />
 
-        <settings-category-splitter text="Vectorscope" />
+        <settings-group text="Vectorscope" />
         <settings-binary-switch
           v-model="state.settings.showVectorscope"
           text="Enabled"
@@ -140,7 +140,7 @@ import { PaintBrushIcon, GeometryIcon, CircusRingOfFireIcon, PuzzleIcon, WaveIco
           :def="state.defaultSettings.vectorscopeLineThickness"
         />
 
-        <settings-category-splitter text="Spectrum" />
+        <settings-group text="Spectrum" />
         <settings-binary-switch
           v-model="state.settings.showSpectrum"
           text="Show spectrum"
@@ -167,18 +167,18 @@ import { PaintBrushIcon, GeometryIcon, CircusRingOfFireIcon, PuzzleIcon, WaveIco
         />
         <settings-modifier
           v-model="state.settings.spectrumFftSize"
-          text="FFT Size"
+          text="FFT size"
           :range="[32, 64, 128, 256, 512, 1024, 2048, 4096, 8192, 16384, 32768]"
           :def="state.defaultSettings.spectrumFftSize"
         />
 
-        <settings-category-splitter text="dB Meter" />
+        <settings-group text="dB Meter" />
         <settings-binary-switch
           v-model="state.settings.showDbMeter"
           text="Enabled"
         />
 
-        <settings-category-splitter text="Integrations" />
+        <settings-group text="Integrations" />
         <settings-binary-switch
           v-model="state.settings.useDiscordRichPresence"
           text="Discord Rich Presence"
