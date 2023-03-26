@@ -129,6 +129,12 @@ const BLEND_MODES = [
     description="Show numbers such as samples, fps, processor usage and more at the top bar."
   >
     <template #main>
+      <base-keyboard-button
+        :button="'F9'"
+      >
+        F9
+      </base-keyboard-button>
+
       <base-switch v-model="state.settings.showDebugStats" />
     </template>
   </settings-group>

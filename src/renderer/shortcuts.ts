@@ -25,6 +25,7 @@ export class Shortcuts {
     "queue.clear.errored": [["Z"], () => this.isControlPressed.value && player.queue.clearErrored()],
     "queue.force.refresh.meta": [["r"], () => this.isControlPressed.value && this.isAltPressed.value && player.queue.fetchAsyncData(true)],
     "appearance.toggle.playback_controlls": [["F10"], () => useState().settings.showPlaybackControls = !useState().settings.showPlaybackControls],
+    "appearance.toggle.debug_statistics": [["F9"], () => useState().settings.showDebugStats = !useState().settings.showDebugStats],
   };
 
   public bindings = this.DEFAULT_BINDINGS;
