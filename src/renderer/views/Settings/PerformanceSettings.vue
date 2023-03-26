@@ -14,6 +14,7 @@ const state = useState();
     description="Constrain the user interface (UI) framerate of Amethyst to the refresh rate of the active display."
     text="VSync"
     warning="Restart Required"
+    :platforms="['desktop']"
   >
     <template #main>
       <base-switch

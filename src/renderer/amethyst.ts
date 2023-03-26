@@ -9,12 +9,14 @@ import { Store } from "@/state";
 import { Capacitor } from "@capacitor/core";
 import { IMetadata } from "@shared/types";
 
+export type AmethystPlatforms = ReturnType<typeof amethyst.getCurrentPlatform>;
+
 /**
  * Handles interfacing with operating system and unifies methods 
  * to a simple form for all the platforms
  */
 class AmethystBackend {
-  public currentPlatform: ReturnType<typeof this.getCurrentPlatform> = this.getCurrentPlatform();
+  public currentPlatform: AmethystPlatforms = this.getCurrentPlatform();
 
   public constructor() {
     console.log(`Current platform: ${this.currentPlatform}`);
@@ -26,7 +28,7 @@ class AmethystBackend {
 
   private static isPlatformWeb = !AmethystBackend.isPlatformMobile && !AmethystBackend.isPlatformDesktop;
 
-  private getCurrentPlatform() {
+  public getCurrentPlatform() {
     if (Amethyst.isPlatformDesktop) return "desktop"; // aka Electron
     if (Amethyst.isPlatformMobile) return "mobile"; // aka Capacitor
     if (Amethyst.isPlatformWeb) return "web"; // aka Webapp

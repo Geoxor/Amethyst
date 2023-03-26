@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { AmethystPlatforms } from "@/amethyst";
 import BaseChip from "@/components/BaseChip.vue";
+import ElectronLogo from "@/icons/ElectronLogo.vue";
 
-defineProps<{ text: string, description?: string, warning?: string, icon?: any }>();
+defineProps<{ text: string, description?: string, warning?: string, icon?: any, platforms?: AmethystPlatforms[] }>();
 </script>
 
 <template>
@@ -18,6 +20,10 @@ defineProps<{ text: string, description?: string, warning?: string, icon?: any }
             <p class="capitalize">
               {{ text }}
             </p>
+            <ElectronLogo
+              v-if="platforms?.includes('desktop')"
+              class="h-3 w-3"
+            />
             <BaseChip
               v-if="warning"
             >
