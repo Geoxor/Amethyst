@@ -6,6 +6,7 @@ import CircleToggleIcon from "./CircleToggleIcon.vue";
 import DisconnectIcon from "./DisconnectIcon.vue";
 import DuplicateIcon from "./DuplicateIcon.vue";
 import FilterIcon from "./FilterIcon.vue";
+import FlickerFreeIcon from "./FlickerFreeIcon.vue";
 import HeartIcon from "./HeartIcon.vue";
 import ListIcon from "./ListIcon.vue";
 import MagnetIcon from "./MagnetIcon.vue";
@@ -41,12 +42,17 @@ import BinocularsIcon from "./BinocularsIcon.vue";
 import ImageIcon from "./ImageIcon.vue";
 import NoImageIcon from "./NoImageIcon.vue";
 import ProcessIcon from "./ProcessIcon.vue";
+import BugIcon from "./BugIcon.vue";
+import SineIcon from "./SineIcon.vue";
 
 export {
   DiscordIcon,
   ProcessIcon,
+  SineIcon,
+  BugIcon,
   LoadingIcon,
   GitHubIcon,
+  FlickerFreeIcon,
   BinocularsIcon,
   ZoomInIcon,
   ImageIcon,
