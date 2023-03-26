@@ -125,10 +125,10 @@ const state = useState();
         />
 
         <menu-splitter 
-          v-if="amethyst.CURRENT_PLATFORM == 'desktop'"
+          v-if="amethyst.currentPlatform == 'desktop'"
         />
         <menu-option
-          v-if="amethyst.CURRENT_PLATFORM == 'desktop'"
+          v-if="amethyst.currentPlatform == 'desktop'"
           :title="`Check for updates`"
           :icon="DownloadingUpdatesIcon"
           @click="amethyst.checkForUpdates()"
@@ -180,7 +180,7 @@ const state = useState();
         class="h-3 animate-spin w-3 min-h-3 min-w-3"
       />
       Amethyst 
-      <strong class="opacity-50 font-normal capitalize">{{ amethyst.CURRENT_PLATFORM }}</strong>
+      <strong class="opacity-50 font-normal capitalize">{{ amethyst.currentPlatform }}</strong>
       <BaseChip v-if="amethyst.IS_DEV">
         dev
       </BaseChip>
@@ -222,11 +222,11 @@ const state = useState();
         :value="state.state.cpuUsage.renderer"
       />
       <processor-usage-meter
-        v-if="amethyst.CURRENT_PLATFORM === 'desktop'"
+        v-if="amethyst.currentPlatform === 'desktop'"
         :value="state.state.cpuUsage.node"
       />
       <control-buttons
-        v-if="amethyst.CURRENT_PLATFORM === 'desktop'"
+        v-if="amethyst.currentPlatform === 'desktop'"
         :is-maximized="state.state.isMaximized"
         @close="amethyst.performWindowAction('close')"
         @minimize="amethyst.performWindowAction('minimize')"
