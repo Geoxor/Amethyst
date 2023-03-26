@@ -198,12 +198,17 @@ export class Amethyst extends AmethystBackend {
 
   public async checkForUpdates() {
     this.store.state.isCheckingForUpdates = true;
-    switch (this.CURRENT_PLATFORM) {
-      case "desktop":
-        await window.electron.ipcRenderer.invoke("check-for-updates");
-        break; 
-      default:
-        break;
+    try {
+      switch (this.CURRENT_PLATFORM) {
+        case "desktop":
+          await window.electron.ipcRenderer.invoke("check-for-updates");
+          break; 
+        default:
+          break;
+      }
+        
+    } catch (error) {
+      console.log(error);
     }
     this.store.state.isCheckingForUpdates = false;
   }
