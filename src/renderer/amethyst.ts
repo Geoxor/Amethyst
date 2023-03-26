@@ -1,14 +1,12 @@
-import { ElectronEventManager } from "@/electronEventManager";
-import { CPUUsageMonitor } from "@/logic/CPUUsageMonitor";
+// import { ElectronEventManager } from "@/electronEventManager";
+// import { CPUUsageMonitor } from "@/logic/CPUUsageMonitor";
 import { player } from "@/logic/player";
-import { Track } from "@/logic/track";
+// import { Track } from "@/logic/track";
 import { MediaSession } from "@/mediaSession";
 import { Shortcuts } from "@/shortcuts";
 import { Store } from "@/state";
-import { watch } from "vue";
-import { flattenArray } from "./logic/math";
+// import { watch } from "vue";
 import { Capacitor } from "@capacitor/core";
-import { Buffer } from "buffer";
 import { IMetadata } from "@shared/types";
 
 /**
@@ -67,12 +65,47 @@ class AmethystBackend {
     }
   }
 
-  public openFileDialog(filters?: Electron.FileFilter[]) {
+  private filesToBlobs(files: FileList): Promise<Blob>[] {
+    const promises: Promise<Blob>[] = [];
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const promise = new Promise<Blob>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const blob = new Blob([reader.result as ArrayBuffer]);
+          resolve(blob);
+        };
+        reader.onerror = () => {
+          reject(new Error(`Failed to read file "${file.name}"`));
+        };
+        reader.readAsArrayBuffer(file);
+      });
+      promises.push(promise);
+    }
+    return promises;
+  }
+
+  public async openFileDialog(filters?: Electron.FileFilter[]): Promise<Electron.OpenDialogReturnValue> {
     switch (this.CURRENT_PLATFORM) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<Electron.OpenDialogReturnValue>("open-file-dialog", [filters]);
+      case "web":
+        const fileInput = document.createElement("input");
+          fileInput.type = "file";
+          fileInput.multiple = true;
+          fileInput.click();
+
+        return new Promise((res, rej) => {
+          fileInput.addEventListener("change", async event => {
+            const files = (event.target as HTMLInputElement).files;
+            if (!files) rej("no files");
+            const blobs = await Promise.all(this.filesToBlobs(files!));
+            const paths = blobs.map(blob => URL.createObjectURL(blob));
+            files ? res({canceled: false, filePaths: paths}) : rej();
+          });
+        });
       default:
-        return;
+        return Promise.reject();
     }
   }
   public openFolderDialog(filter?: string[]) {
@@ -114,7 +147,7 @@ export class Amethyst extends AmethystBackend {
   public mediaSession: MediaSession = new MediaSession();
   // public cpuUsageMonitor: CPUUsageMonitor = new CPUUsageMonitor(this.store, this.electron);
 
-  private richPresenceTimer: NodeJS.Timer | undefined;
+  // private richPresenceTimer: NodeJS.Timer | undefined;
 
   public constructor() {
     super();
@@ -153,12 +186,6 @@ export class Amethyst extends AmethystBackend {
       e.preventDefault();
       e.stopPropagation();
     });
-
-    // player.on("play", track => {
-    //   if (this.store.settings.useDiscordRichPresence) {
-    //     this.updateRichPresence(track);
-    //   }
-    // });
   }
 
   public performWindowAction(action: "close" | "maximize" | "unmaximize" | "minimize"): void {
@@ -194,18 +221,6 @@ export const amethyst = new Amethyst();
 
 export const useState = () => amethyst.store;
 export const useShortcuts = () => amethyst.shortcuts;
-// export const useFs = () => ({
-//   save: async (data: string | NodeJS.ArrayBufferView) => {
-//     const {canceled, filePath} = await useElectron().showSaveDialog();
-//     if (canceled) return;
-//     return window.fs.writeFile(filePath, data, {encoding: "utf8"});
-//   },
-//   open: async () => {
-//     const {canceled, filePath} = await useElectron().openFileDialog();
-//     if (canceled) return;
-//     return Buffer.from(await window.fs.readFile(filePath));
-//   }
-// });
 
 // interface IPluginDefinitionParameters {
 //   store: Store, 

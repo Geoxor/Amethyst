@@ -36,6 +36,8 @@ onMounted(() => {
 const openFile = () => {
   amethyst.openFileDialog([{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }])?.then(result => {
     if (result.canceled) return;
+    console.log(result);
+    
     player.queue.add(result.filePaths);
   });
 };

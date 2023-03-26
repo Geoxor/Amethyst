@@ -17,10 +17,7 @@ export class Track {
   public hasErrored = ref(false);
   public deleted: boolean = false;
 
-  public constructor(public path: string) {
-    if (!ALLOWED_AUDIO_EXTENSIONS.some(ext => path.toLowerCase().endsWith(ext)))
-      throw new Error(`Given file extension does not match any of the allowed types [${ALLOWED_AUDIO_EXTENSIONS.join(", ")}]`);
-  }
+  public constructor(public path: string) {}
 
   public getCachePath() {
     return window.path.join(amethyst.APPDATA_PATH || "" , "/amethyst/Metadata Cache", this.getFilename() + ".amf");
@@ -162,8 +159,12 @@ export class Track {
    * @example "02. Daft Punk - Get Lucky.flac"
    */
   public getFilename() {
-    const { base } = window.path.parse(this.path);
-    return base;
+    if (amethyst.CURRENT_PLATFORM === "desktop") {
+      const { base } = window.path.parse(this.path);
+      return base;
+    }
+
+    return this.path;
   }
 
   /**

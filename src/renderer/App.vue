@@ -78,6 +78,17 @@ onUnmounted(() => {
         :url="ambientBackgroundImage"
       />
     </div>
+    <div
+      v-if="amethyst.CURRENT_PLATFORM == 'web'"
+      class="h-6 bg-yellow-500 text-black items-center flex gap-1 justify-center select-none w-full text-12px"
+    >
+      Amethyst Web is heavily disfunctional due to Chrome's security policies regarding filesystem access, for the best experience <a
+        href="https://github.com/Geoxor/amethyst/releases/latest"
+        target="_blank"
+      > <strong
+        class="underline cursor-pointer"
+      >download the native app</strong> </a> 
+    </div>
     <top-bar v-if="amethyst.CURRENT_PLATFORM !== 'mobile'" />
     <context-menu v-if="useContextMenu().state.isVisible" />
     <div class="h-full whitespace-nowrap flex flex-col justify-between overflow-hidden">
