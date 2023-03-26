@@ -124,8 +124,11 @@ const state = useState();
           @click="refreshWindow"
         />
 
-        <menu-splitter />
+        <menu-splitter 
+          v-if="amethyst.CURRENT_PLATFORM == 'desktop'"
+        />
         <menu-option
+          v-if="amethyst.CURRENT_PLATFORM == 'desktop'"
           :title="`Check for updates`"
           :icon="DownloadingUpdatesIcon"
           @click="amethyst.checkForUpdates()"
