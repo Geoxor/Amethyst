@@ -95,6 +95,7 @@ class AmethystBackend {
           fileInput.multiple = true;
           fileInput.click();
 
+        // TODO: make a AmethystFile and AmethystAudioFile classes to manage this bullshit easily
         return new Promise((res, rej) => {
           fileInput.addEventListener("change", async event => {
             const files = (event.target as HTMLInputElement).files;
