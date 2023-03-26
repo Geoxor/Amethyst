@@ -40,7 +40,8 @@ class AmethystBackend {
   public checkForUpdates() {
     switch (this.CURRENT_PLATFORM) {
       case "desktop":
-        return window.electron.ipcRenderer.invoke("check-for-updates");
+        window.electron.ipcRenderer.invoke("check-for-updates");
+        return; 
       default:
         return;
     }
@@ -159,6 +160,8 @@ export class Amethyst extends AmethystBackend {
       window.electron.ipcRenderer.on("minimize", () => this.store.state.isMinimized = true);
       window.electron.ipcRenderer.on("focus", () => this.store.state.isFocused = true);
       window.electron.ipcRenderer.on("unfocus", () => this.store.state.isFocused = false);
+
+      window.electron.ipcRenderer.on("update", () => this.store.state.updateReady = true);
     }
 
     // this.electron.ipc.on<string>("play-file", path => path !== "--require" && player.queue.add(path).then(() => {
