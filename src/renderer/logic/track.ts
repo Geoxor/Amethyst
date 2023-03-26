@@ -1,6 +1,5 @@
 import { ref } from "vue";
 import { bytesToHuman, secondsToColinHuman, secondsToHuman } from "@shared/formating";
-import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
 import { IMetadata, LoadState, LoadStatus } from "@shared/types";
 import FileSaver from "file-saver";
 import mime from "mime-types";

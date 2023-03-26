@@ -22,7 +22,7 @@ const state = useState();
 const ambientBackgroundImage = ref("");
 
 const setAmbientCover = async (track: Track) => {
-  (ambientBackgroundImage.value = URL.createObjectURL(await track.getCoverAsBlob()));
+  track.getCoverAsBlob().then(blob => ambientBackgroundImage.value = URL.createObjectURL(blob));
 };
 
 onMounted(() => {
