@@ -23,8 +23,6 @@ try {
 export const icon = () => path.join(RESOURCES_PATH, "icon.png");
 export const checkForUpdatesAndInstall = async () => {
 	if (IS_DEV) return await sleep(2000);
-	console.log("cock");
-	
 	const { autoUpdater } = await import("electron-updater");
 	await autoUpdater.checkForUpdatesAndNotify();
 };
