@@ -15,12 +15,19 @@ import { countDomElements, refreshWindow } from "@/logic/dom";
 import BaseChip from "./BaseChip.vue";
 import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
 import { flattenArray } from "@/logic/math";
+
 const min = ref(Number.POSITIVE_INFINITY);
 const max = ref(Number.NEGATIVE_INFINITY);
 const fpsCounter = useFps({every: 60});
 const fps = ref(0);
 const domSize = ref(0);
 const latency = ref(0);
+const cpuUsage = ref({
+  node: 0,
+  renderer: 0
+});
+
+type ProcessorUsage = {node: number, renderer: number};
 
 onMounted(() => {
   setInterval(() => {
@@ -29,6 +36,7 @@ onMounted(() => {
     if (fps.value < min.value) min.value = fps.value;
     domSize.value = countDomElements();
     player.getLatency().then(l => latency.value = l);
+    window.electron.ipcRenderer.invoke<ProcessorUsage>("percent-cpu-usage").then(usage => cpuUsage.value = usage);
   }, 1000);
 });
 
@@ -219,11 +227,9 @@ const state = useState();
         @click="amethyst.performWindowAction('close')"
       />
       <processor-usage-meter
-        :value="state.state.cpuUsage.renderer"
-      />
-      <processor-usage-meter
-        v-if="amethyst.currentPlatform === 'desktop'"
-        :value="state.state.cpuUsage.node"
+        v-for="value of Object.values(cpuUsage)"
+        :key="value"
+        :value="value"
       />
       <control-buttons
         v-if="amethyst.currentPlatform === 'desktop'"

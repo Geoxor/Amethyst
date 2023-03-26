@@ -7,7 +7,7 @@ import { Shortcuts } from "@/shortcuts";
 import { Store } from "@/state";
 // import { watch } from "vue";
 import { Capacitor } from "@capacitor/core";
-import { StatusBar, Style } from "@capacitor/status-bar";
+import { StatusBar } from "@capacitor/status-bar";
 import { IMetadata } from "@shared/types";
 import { FileFilter, OpenDialogReturnValue } from "electron";
 import { getThemeColorHex } from "./logic/color";
@@ -140,7 +140,6 @@ export class Amethyst extends AmethystBackend {
   public store: Store = new Store();
   public shortcuts: Shortcuts = new Shortcuts();
   public mediaSession: MediaSession = new MediaSession();
-  // public cpuUsageMonitor: CPUUsageMonitor = new CPUUsageMonitor(this.store, this.electron);
 
   // private richPresenceTimer: NodeJS.Timer | undefined;
 

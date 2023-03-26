@@ -11,18 +11,12 @@ export interface IContextMenuOption {
 
 export class Store {
 	public state = reactive({
-		cpuUsage: {
-			node: 0,
-			renderer: 0
-		},
-		version: "",
 		isMinimized: false,
 		isFocused: true,
 		isCheckingForUpdates: false,
 		isMaximized: false,
 		isShowingBigCover: false,
 		updateReady: false,
-		defaultCover: "",
 		theme: "amethyst-dark",
 	});
 
