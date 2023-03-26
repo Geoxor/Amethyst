@@ -19,6 +19,9 @@ export default defineConfig({
 		reporters: ["verbose"],
 		environment: "happy-dom",
 	},
+	define: {
+    VERSION: JSON.stringify(process.env.npm_package_version),
+  },
 	resolve: {
 		alias: {
 			"@/": `${join(PACKAGE_ROOT, "./")}/`,

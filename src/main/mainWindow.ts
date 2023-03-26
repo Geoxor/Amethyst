@@ -75,6 +75,7 @@ export class MainWindow {
 			y: this.windowState.y,
 			width: this.windowState.width,
 			height: this.windowState.height,
+			
 			minHeight: 116,
 			minWidth: 836,
 			icon: icon(),
@@ -82,6 +83,7 @@ export class MainWindow {
 			webPreferences: {
 				preload: path.join(__dirname, "preload.js"),
 				webSecurity: false,
+				zoomFactor: 1.25,
 				nodeIntegration: true,
 			},
 		});
@@ -194,7 +196,7 @@ export class MainWindow {
 		});
 	}
 
-	private async loadFolder(inputPath: string) {
+	private async loadFolder(inputPath: string, filter: string[]) {
 		return new Promise((resolve, reject) => {
 			fs.readdir(inputPath, (error, files) => {
 				if (error) {
@@ -206,8 +208,8 @@ export class MainWindow {
 							const filePath = path.join(inputPath, file);
 							const stats = await fs.promises.stat(filePath);
 							if (stats.isDirectory())
-								return this.loadFolder(filePath);
-							else if (stats.isFile() && ALLOWED_AUDIO_EXTENSIONS.includes(path.extname(filePath).slice(1).toLowerCase()))
+								return this.loadFolder(filePath, filter);
+							else if (stats.isFile() && filter.includes(path.extname(filePath).slice(1).toLowerCase()))
 								return filePath;
 						}),
 					).then(files => resolve(files.filter(file => !!file)));
@@ -228,38 +230,25 @@ export class MainWindow {
 				return fs.promises.readFile(path);
 			},
 			"get-appdata-path": () => app.getPath("appData"),
-			"open-file-dialog": async () => {
-				const response = await dialog.showOpenDialog({
+			"open-file-dialog": async (_: Event, [filters]: [Electron.FileFilter[]]) => {
+				return dialog.showOpenDialog({
 					properties: ["openFile"],
-					filters: [
-						{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS },
-						{ name: "Amethyst Node Graph", extensions: ["ang"]}
-					],
+					filters,
+				});
+			},
+
+			"open-folder-dialog": async (_: Event, [filter]: [string[]]) => {
+				const result = await dialog.showOpenDialog({
+					properties: ["openDirectory"],
 				});
 
-				const file = response.filePaths[0];
+				if (result.canceled) return result;
 
-				// TODO: fix these returns types being incosistent 
-				if (file.endsWith(".ang")) {
-					return {canceled: response.canceled, filePath: file};
-				}
-
-				if (!response.canceled)
-					return this.playAudio(file);
+				return {canceled: false, filePaths: await this.loadFolder(result.filePaths[0], filter) };
 			},
 
 			"open-external": async (_: Event, [path]: string[]) => {
 				(await import("open")).default(path);
-			},
-
-			"open-folder-dialog": async () => {
-				const response = await dialog.showOpenDialog({
-					properties: ["openDirectory"],
-				});
-
-				if (!response.canceled) {
-					this.window.webContents.send("play-folder", await this.loadFolder(response.filePaths[0]));
-				}
 			},
 
 			"show-save-dialog": () => dialog.showSaveDialog({filters: [
@@ -298,7 +287,7 @@ export class MainWindow {
 				paths.forEach(async path => {
 					const stat = await fs.promises.stat(path);
 					if (stat.isDirectory()) {
-						this.window.webContents.send("load-folder", await this.loadFolder(path));
+						this.window.webContents.send("load-folder", await this.loadFolder(path, ALLOWED_AUDIO_EXTENSIONS));
 					}
 					else
 						this.playAudio(path);

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useState, useFs } from "@/amethyst";
+import { useState } from "@/amethyst";
 import SquareButton from "@/components/input/SquareButton.vue";
 import { MagnetIcon, SaveIcon, AdjustIcon, AzimuthIcon, FilterIcon, SelectNoneIcon, WaveIcon, RemoveIcon, LoadingIcon, ResetIcon } from "@/icons/material";
 import { getThemeColorHex } from "@/logic/color";
@@ -15,7 +15,6 @@ import { useContextMenu } from "@/components/ContextMenu";
 
 const dash = ref();
 const nodeEditor = ref();
-const fs = useFs();
 type NodeMenuOptions = Coords & {source?: AmethystAudioNode<AudioNode>, target?: AmethystAudioNode<AudioNode>};
 
 let resizeObserver: ResizeObserver;

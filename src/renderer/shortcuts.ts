@@ -1,4 +1,4 @@
-import { useElectron, useState } from "@/amethyst";
+import { useState } from "@/amethyst";
 import { player } from "@/logic/player";
 import { onKeyStroke, useKeyModifier, UseKeyModifierReturn, useLocalStorage } from "@vueuse/core";
 
@@ -19,8 +19,8 @@ export class Shortcuts {
     "audio.seek.backward": [["ArrowLeft"], () => player.seekBackward()],
     "audio.volume.up": [["PageUp"], () => player.volumeUp()],
     "audio.volume.down": [["PageDown"], () => player.volumeDown()],
-    "queue.add.file": [["o"], () => this.isControlPressed.value && useElectron().openFileDialog()],
-    "queue.add.folder": [["O"], () => this.isControlPressed.value && useElectron().openFolderDialog()],
+    // "queue.add.file": [["o"], () => this.isControlPressed.value && useElectron().openFileDialog()],
+    // "queue.add.folder": [["O"], () => this.isControlPressed.value && useElectron().openFolderDialog()],
     "queue.clear": [["X"], () => this.isControlPressed.value && player.queue.clear()],
     "queue.clear.errored": [["Z"], () => this.isControlPressed.value && player.queue.clearErrored()],
     "queue.force.refresh.meta": [["r"], () => this.isControlPressed.value && this.isAltPressed.value && player.queue.fetchAsyncData(true)],

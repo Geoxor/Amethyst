@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useElectron, useState } from "@/amethyst";
+import { useState } from "@/amethyst";
 import {ProcessIcon} from "@/icons/material";
 import BaseSwitch from "@/components/input/BaseSwitch.vue";
 import SettingsGroup from "@/components/settings/SettingsGroup.vue";

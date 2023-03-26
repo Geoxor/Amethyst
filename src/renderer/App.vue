@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useState } from "@/amethyst";
+import { amethyst, useState } from "@/amethyst";
 import TopBar from "@/components/TopBar.vue";
 import {InspectorBar, useInspector} from "@/components/Inspector";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
@@ -78,7 +78,7 @@ onUnmounted(() => {
         :url="ambientBackgroundImage"
       />
     </div>
-    <top-bar />
+    <top-bar v-if="amethyst.CURRENT_PLATFORM !== 'mobile'" />
     <context-menu v-if="useContextMenu().state.isVisible" />
     <div class="h-full whitespace-nowrap flex flex-col justify-between overflow-hidden">
       <div class="flex-1 flex h-full max-h-full relative overflow-hidden">
@@ -102,7 +102,7 @@ onUnmounted(() => {
     /> -->
 
           <navigation-button
-            v-if="state.isDev.value"
+            v-if="amethyst.IS_DEV"
             :icon="PlaystationButtonsIcon"
             :active="$route.name == 'playground'"
             @click="$router.push({ name: 'playground' })"

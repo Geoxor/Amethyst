@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { useElectron, useState } from "@/amethyst";
+import { amethyst, useState } from "@/amethyst";
 import ControlButtons from "@/components/input/ControlButtons.vue";
 import UpdateButton from "@/components/input/UpdateButton.vue";
 import Menu from "@/components/menu/MenuContainer.vue";
@@ -12,6 +12,9 @@ import { player } from "@/logic/player";
 import AmethystLogo from "@/icons/AmethystLogo.vue";
 import { onMounted, ref } from "vue";
 import { countDomElements, refreshWindow } from "@/logic/dom";
+import BaseChip from "./BaseChip.vue";
+import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
+import { flattenArray } from "@/logic/math";
 const min = ref(Number.POSITIVE_INFINITY);
 const max = ref(Number.NEGATIVE_INFINITY);
 const fpsCounter = useFps({every: 60});
@@ -29,8 +32,25 @@ onMounted(() => {
   }, 1000);
 });
 
+// TODO: move this to queue or something
+const openFile = () => {
+  amethyst.openFileDialog([{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }])?.then(result => {
+    if (result.canceled) return;
+    player.queue.add(result.filePaths);
+  });
+};
+
+const openFolder = () => {
+  amethyst.openFolderDialog(ALLOWED_AUDIO_EXTENSIONS)?.then(result => {
+    console.log("result: ", result);
+    
+    if (result.canceled) return;
+    player.queue.add(flattenArray(result.filePaths));
+  });
+};
+
 const state = useState();
-const electron = useElectron();
+// const electron = useElectron();
 </script>
 
 <template>
@@ -49,13 +69,13 @@ const electron = useElectron();
           :shortcuts="['CTRL', 'O']"
           title="Open audio..."
           :icon="AudioFileIcon"
-          @click="() => electron.openFileDialog()"
+          @click="openFile"
         />
         <menu-option
           :shortcuts="['CTRL', 'SHIFT', 'O']"
-          title="Open folder..."
+          title="Open audio folder..."
           :icon="MusicFolderIcon"
-          @click="() => electron.openFolderDialog()"
+          @click="openFolder"
         />
       </Menu>
       <Menu title="Utility">
@@ -106,7 +126,7 @@ const electron = useElectron();
         <menu-option
           :title="`Check for updates`"
           :icon="DownloadingUpdatesIcon"
-          @click="electron.checkForUpdates()"
+          @click="amethyst.checkForUpdates()"
         />
       </Menu>
       <Menu title="View">
@@ -115,33 +135,27 @@ const electron = useElectron();
           :icon="SettingsIcon"
           @click="$router.push({ name: 'settings.appearance' })"
         />
-        <menu-option
-          title="Show dev tools"
-          :icon="SettingsIcon"
-          :shortcuts="['CTRL', 'SHIFT', 'I']"
-          @click="electron.showDevTools()"
-        />
       </Menu>
 
       <Menu title="About">
         <menu-option
           title="Documentation"
           :icon="BookshelfIcon"
-          @click="electron.open('https://amethyst.pages.dev/')"
+          @click="amethyst.openLink('https://amethyst.pages.dev/')"
         />
         <menu-option
           title="GitHub Repository"
           :icon="GitHubIcon"
-          @click="electron.open('https://github.com/geoxor/amethyst')"
+          @click="amethyst.openLink('https://github.com/geoxor/amethyst')"
         />
         <menu-option
           title="Discord Server"
           :icon="DiscordIcon"
-          @click="electron.open('https://discord.gg/geoxor')"
+          @click="amethyst.openLink('https://discord.gg/geoxor')"
         />
       </Menu>
       <Menu
-        v-if="state.isDev.value"
+        v-if="amethyst.IS_DEV"
         title="Debug"
       >
         <menu-option
@@ -152,23 +166,19 @@ const electron = useElectron();
           title="Set 'updateReady' to 'false'"
           @click="state.state.updateReady = false;"
         />
-        <menu-splitter />
-        <menu-option
-          title="Test 'UpdateInstallingNotification'"
-          @click="electron.testNotification('showUpdateInstallingNotification')"
-        />
-        <menu-option
-          title="Test 'UpdateAvailableNotification'"
-          @click="electron.testNotification('showUpdateAvailableNotification')"
-        />
       </Menu>
     </div>
 
-    <p class="absolute left-1/2 transform-gpu -translate-x-1/2">
-      Amethyst v{{ state.state.version }}
+    <p class="absolute flex items-center gap-1 left-1/2 transform-gpu -translate-x-1/2">
+      Amethyst 
+      <strong class="opacity-50 font-normal capitalize">{{ amethyst.CURRENT_PLATFORM }}</strong>
+      <BaseChip v-if="amethyst.IS_DEV">
+        dev
+      </BaseChip>
+      <strong class="opacity-50 font-normal">v{{ amethyst.VERSION }}</strong>
     </p>
 
-    <div class="flex gap-1.25 items-center overflow-hidden font-aseprite whitespace-nowrap">
+    <div class="flex gap-1.25 h-6 px-1 items-center overflow-hidden font-aseprite whitespace-nowrap">
       <div
         class="w-56 flex gap-1 justify-end no-drag" 
         @click="min = Number.POSITIVE_INFINITY; max = Number.NEGATIVE_INFINITY;"
@@ -196,20 +206,22 @@ const electron = useElectron();
       </div>
       <update-button
         v-if="state.state.updateReady"
-        @click="electron.close()"
+        @click="amethyst.performWindowAction('close')"
       />
       <processor-usage-meter
         :value="state.state.cpuUsage.renderer"
       />
       <processor-usage-meter
+        v-if="amethyst.CURRENT_PLATFORM === 'desktop'"
         :value="state.state.cpuUsage.node"
       />
       <control-buttons
+        v-if="amethyst.CURRENT_PLATFORM === 'desktop'"
         :is-maximized="state.state.isMaximized"
-        @close="electron.close"
-        @minimize="electron.minimize"
-        @maximize="electron.maximize"
-        @unmaximize="electron.unmaximize"
+        @close="amethyst.performWindowAction('close')"
+        @minimize="amethyst.performWindowAction('minimize')"
+        @maximize="amethyst.performWindowAction('maximize')"
+        @unmaximize="amethyst.performWindowAction('unmaximize')"
       />
     </div>
   </div>

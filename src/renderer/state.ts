@@ -62,7 +62,6 @@ export class Store {
 	};
 
 	public settings = useLocalStorage("settings", this.defaultSettings, { writeDefaults: true }).value;
-	public isDev = computed(() => this.state.version.includes("dev"));
 
 	// TODO: Refactor context menus to its own class & manager
 

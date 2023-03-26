@@ -1,10 +1,10 @@
 import { ref } from "vue";
-import { useElectron } from "../amethyst";
 import { bytesToHuman, secondsToColinHuman, secondsToHuman } from "@shared/formating";
 import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
 import { IMetadata, LoadState, LoadStatus } from "@shared/types";
 import FileSaver from "file-saver";
 import mime from "mime-types";
+import { amethyst } from "@/amethyst";
 
 /**
  * Each playable audio file is an instance of this class
@@ -23,7 +23,7 @@ export class Track {
   }
 
   public getCachePath() {
-    return window.path.join(useElectron().APPDATA_PATH || "" , "/amethyst/Metadata Cache", this.getFilename() + ".amf");
+    return window.path.join(amethyst.APPDATA_PATH || "" , "/amethyst/Metadata Cache", this.getFilename() + ".amf");
   }
  
   private async isCached() {
@@ -62,8 +62,7 @@ export class Track {
         this.metadata.state = LoadStatus.Loaded;
         return this.metadata.data;
       }
-      const amethyst = await import("../amethyst");
-      this.metadata.data = await amethyst.useElectron().getMetadata(this.path);
+      this.metadata.data = await amethyst.getMetadata(this.path);
       this.metadata.state = LoadStatus.Loaded;
       return this.metadata.data;
     } catch (error) {
@@ -83,8 +82,7 @@ export class Track {
         this.cover.state = LoadStatus.Loaded;
         return this.cover.data;
       }
-      const amethyst = await import("../amethyst");
-      const data = await amethyst.useElectron().getCover(this.path);
+      const data = await amethyst.getCover(this.path);
       this.cover.data = data ? `data:image/webp;base64,${data}` : undefined;
       this.cover.state = LoadStatus.Loaded;
       return this.cover.data;
