@@ -37,16 +37,6 @@ class AmethystBackend {
     throw new Error("Unknown platform");
   }
 
-  public checkForUpdates() {
-    switch (this.CURRENT_PLATFORM) {
-      case "desktop":
-        window.electron.ipcRenderer.invoke("check-for-updates");
-        return; 
-      default:
-        return;
-    }
-  }
-
   // Useful only for web version
   private openLinkInNewTab(url: string) {
     const newWindow = window.open(url, "_blank", "noopener,noreferrer");
@@ -205,6 +195,18 @@ export class Amethyst extends AmethystBackend {
     this.store.state.isMinimized = windowState.isMinimized;
     this.store.state.isMaximized = windowState.isMaximized;
   };
+
+  public async checkForUpdates() {
+    this.store.state.isCheckingForUpdates = true;
+    switch (this.CURRENT_PLATFORM) {
+      case "desktop":
+        await window.electron.ipcRenderer.invoke("check-for-updates");
+        break; 
+      default:
+        break;
+    }
+    this.store.state.isCheckingForUpdates = false;
+  }
 
   // private updateRichPresence(track: Track){
   //   const sendData = () => {

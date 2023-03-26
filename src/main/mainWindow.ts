@@ -5,6 +5,7 @@ import path from "path";
 import { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
 import { Discord, FormatIcons } from "../plugins/amethyst.discord";
 import {ALLOWED_AUDIO_EXTENSIONS} from "../shared/constants";
+import {sleep} from "../shared/logic";
 import { IS_DEV, store } from "./main";
 import windowStateKeeper from "electron-window-state";
 
@@ -20,8 +21,12 @@ try {
 }
 
 export const icon = () => path.join(RESOURCES_PATH, "icon.png");
-export const checkForUpdatesAndInstall = () => {
-	!IS_DEV && import("electron-updater").then(({ autoUpdater }) => autoUpdater.checkForUpdatesAndNotify());
+export const checkForUpdatesAndInstall = async () => {
+	if (IS_DEV) return await sleep(2000);
+	console.log("cock");
+	
+	const { autoUpdater } = await import("electron-updater");
+	await autoUpdater.checkForUpdatesAndNotify();
 };
 
 const LOGO = `
@@ -319,7 +324,7 @@ export class MainWindow {
 			},
 
 			"check-for-updates": () => {
-				checkForUpdatesAndInstall();
+				return checkForUpdatesAndInstall();
 			}
 		}).forEach(([channel, handler]) => ipcMain.handle(channel, handler));
 	}

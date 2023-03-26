@@ -6,7 +6,7 @@ import Menu from "@/components/menu/MenuContainer.vue";
 import MenuOption from "@/components/menu/MenuOption.vue";
 import MenuSplitter from "@/components/menu/MenuSplitter.vue";
 import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
-import { AudioFileIcon, DiscordIcon, GitHubIcon, MusicFolderIcon, ResetIcon, ZoomInIcon, ZoomOutIcon, RemoveIcon, ResizeIcon, DownloadingUpdatesIcon, SettingsIcon, BookshelfIcon } from "@/icons/material";
+import { AudioFileIcon, DiscordIcon, GitHubIcon, MusicFolderIcon, ResetIcon, ZoomInIcon, ZoomOutIcon, RemoveIcon, ResizeIcon, DownloadingUpdatesIcon, SettingsIcon, BookshelfIcon, LoadingIcon } from "@/icons/material";
 import { useFps } from "@vueuse/core";
 import { player } from "@/logic/player";
 import AmethystLogo from "@/icons/AmethystLogo.vue";
@@ -172,6 +172,10 @@ const state = useState();
     </div>
 
     <p class="absolute flex items-center gap-1 left-1/2 transform-gpu -translate-x-1/2">
+      <LoadingIcon
+        v-if="state.state.isCheckingForUpdates"
+        class="h-3 animate-spin w-3 min-h-3 min-w-3"
+      />
       Amethyst 
       <strong class="opacity-50 font-normal capitalize">{{ amethyst.CURRENT_PLATFORM }}</strong>
       <BaseChip v-if="amethyst.IS_DEV">
@@ -206,6 +210,7 @@ const state = useState();
           {{ min }}<strong class="text-primary-900 text-opacity-25">min</strong> {{ max }}<strong class="text-primary-900 text-opacity-25">max</strong>
         </div>
       </div>
+    
       <update-button
         v-if="state.state.updateReady"
         @click="amethyst.performWindowAction('close')"

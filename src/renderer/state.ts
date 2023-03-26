@@ -18,6 +18,7 @@ export class Store {
 		version: "",
 		isMinimized: false,
 		isFocused: true,
+		isCheckingForUpdates: false,
 		isMaximized: false,
 		isShowingBigCover: false,
 		updateReady: false,
