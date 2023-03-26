@@ -20,7 +20,7 @@ export default defineConfig({
 		environment: "happy-dom",
 	},
 	define: {
-    VERSION: JSON.stringify(process.env.npm_package_version),
+    APP_VERSION: JSON.stringify(process.env.npm_package_version),
   },
 	resolve: {
 		alias: {

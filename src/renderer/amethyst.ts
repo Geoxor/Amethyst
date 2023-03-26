@@ -105,7 +105,7 @@ class AmethystBackend {
 }
 
 export class Amethyst extends AmethystBackend {
-  public VERSION = VERSION;
+  public VERSION = APP_VERSION;
   // @ts-ignore
   public IS_DEV = import.meta.env.DEV;
 
