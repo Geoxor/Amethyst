@@ -7,7 +7,10 @@ import { Shortcuts } from "@/shortcuts";
 import { Store } from "@/state";
 // import { watch } from "vue";
 import { Capacitor } from "@capacitor/core";
+import { StatusBar, Style } from "@capacitor/status-bar";
 import { IMetadata } from "@shared/types";
+import { FileFilter, OpenDialogReturnValue } from "electron";
+import { getThemeColorHex } from "./logic/color";
 
 export type AmethystPlatforms = ReturnType<typeof amethyst.getCurrentPlatform>;
 
@@ -74,10 +77,10 @@ class AmethystBackend {
     return promises;
   }
 
-  public async openFileDialog(filters?: Electron.FileFilter[]): Promise<Electron.OpenDialogReturnValue> {
+  public async openFileDialog(filters?: FileFilter[]): Promise<OpenDialogReturnValue> {
     switch (this.currentPlatform) {
       case "desktop":
-        return window.electron.ipcRenderer.invoke<Electron.OpenDialogReturnValue>("open-file-dialog", [filters]);
+        return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-file-dialog", [filters]);
       case "web":
         const fileInput = document.createElement("input");
           fileInput.type = "file";
@@ -102,7 +105,7 @@ class AmethystBackend {
   public openFolderDialog(filter?: string[]) {
     switch (this.currentPlatform) {
       case "desktop":
-        return window.electron.ipcRenderer.invoke<Electron.OpenDialogReturnValue>("open-folder-dialog", [filter]);
+        return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-folder-dialog", [filter]);
       default:
         return;
     }
@@ -154,6 +157,10 @@ export class Amethyst extends AmethystBackend {
       window.electron.ipcRenderer.on("unfocus", () => this.store.state.isFocused = false);
 
       window.electron.ipcRenderer.on("update", () => this.store.state.updateReady = true);
+    }
+
+    if (this.currentPlatform === "mobile") {
+      StatusBar.setBackgroundColor({color: getThemeColorHex("--surface-800")});
     }
 
     // this.electron.ipc.on<string>("play-file", path => path !== "--require" && player.queue.add(path).then(() => {
