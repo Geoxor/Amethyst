@@ -36,6 +36,7 @@ onMounted(() => {
     if (fps.value < min.value) min.value = fps.value;
     domSize.value = countDomElements();
     player.getLatency().then(l => latency.value = l);
+    // TODO: multiplatform support
     window.electron.ipcRenderer.invoke<ProcessorUsage>("percent-cpu-usage").then(usage => cpuUsage.value = usage);
   }, 1000);
 });
@@ -197,6 +198,7 @@ const state = useState();
 
     <div class="flex gap-1.25 h-6 px-1 items-center overflow-hidden font-aseprite whitespace-nowrap">
       <div
+        v-if="state.settings.showDebugStats"
         class="w-56 flex gap-1 justify-end no-drag" 
         @click="min = Number.POSITIVE_INFINITY; max = Number.NEGATIVE_INFINITY;"
       >
@@ -226,11 +228,14 @@ const state = useState();
         v-if="state.state.updateReady"
         @click="amethyst.performWindowAction('close')"
       />
-      <processor-usage-meter
-        v-for="value of Object.values(cpuUsage)"
-        :key="value"
-        :value="value"
-      />
+        
+      <template v-if="state.settings.showDebugStats">
+        <processor-usage-meter
+          v-for="value of Object.values(cpuUsage)"
+          :key="value"
+          :value="value"
+        />
+      </template>
       <control-buttons
         v-if="amethyst.currentPlatform === 'desktop'"
         :is-maximized="state.state.isMaximized"

@@ -49,6 +49,7 @@ export class Store {
 		useVsync: true,
 		showBigVectorscope: false,
 		useDiscordRichPresence: true,
+		showDebugStats: false,
 		smoothScrollSpeed: 0.075,
 		playOnStartup: false,
 		decibelMeterMinimumDb: -60,

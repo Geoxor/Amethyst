@@ -122,4 +122,14 @@ const BLEND_MODES = [
       <base-switch v-model="state.settings.showPlaybackControls" />
     </template>
   </settings-group>
+
+  <settings-group
+    :icon="ImageIcon"
+    text="Debug Statistics"
+    description="Show numbers such as samples, fps, processor usage and more at the top bar."
+  >
+    <template #main>
+      <base-switch v-model="state.settings.showDebugStats" />
+    </template>
+  </settings-group>
 </template>
