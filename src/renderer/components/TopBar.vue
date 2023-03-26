@@ -186,7 +186,7 @@ const state = useState();
         <div class="hidden lg:inline font-aseprite text-primary-900 text-opacity-50">
           {{ domSize }}<strong class="text-primary-900 text-opacity-25">DOM </strong>
           {{ player.getBufferSize() }}<strong class="text-primary-900 text-opacity-25">smp</strong>
-          {{ latency }}<strong class="text-primary-900 text-opacity-25">ms</strong>
+          {{ latency.toFixed(2) }}<strong class="text-primary-900 text-opacity-25">ms</strong>
         </div>
         <div 
           :class="[

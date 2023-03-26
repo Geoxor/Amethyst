@@ -66,7 +66,7 @@ export class Player extends EventEmitter<{
   }
 
   public async getLatency(){
-    return this.context.baseLatency;
+    return this.context.baseLatency * 1000;
   }
 
   /**
