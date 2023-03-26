@@ -15,22 +15,18 @@ import { IMetadata } from "@shared/types";
  */
 class AmethystBackend {
   public CURRENT_PLATFORM: ReturnType<typeof this.getCurrentPlatform> = this.getCurrentPlatform();
-  public APPDATA_PATH = "";
 
   public constructor() {
     console.log(`Current platform: ${this.CURRENT_PLATFORM}`);
-
-    if (AmethystBackend.isPlatformDesktop)
-      window.electron.ipcRenderer.invoke<string>("get-appdata-path").then(path => this.APPDATA_PATH = path);
   }
 
-  public static isPlatformMobile = Capacitor.isNativePlatform();
+  private static isPlatformMobile = Capacitor.isNativePlatform();
 
-  public static isPlatformDesktop = navigator.userAgent.indexOf("Electron") >= 0;
+  private static isPlatformDesktop = navigator.userAgent.indexOf("Electron") >= 0;
 
-  public static isPlatformWeb = !AmethystBackend.isPlatformMobile && !AmethystBackend.isPlatformDesktop;
+  private static isPlatformWeb = !AmethystBackend.isPlatformMobile && !AmethystBackend.isPlatformDesktop;
 
-  public getCurrentPlatform() {
+  private getCurrentPlatform() {
     if (Amethyst.isPlatformDesktop) return "desktop"; // aka Electron
     if (Amethyst.isPlatformMobile) return "mobile"; // aka Capacitor
     if (Amethyst.isPlatformWeb) return "web"; // aka Webapp
@@ -100,6 +96,7 @@ class AmethystBackend {
         return Promise.reject();
     }
   }
+  
   public openFolderDialog(filter?: string[]) {
     switch (this.CURRENT_PLATFORM) {
       case "desktop":
@@ -133,6 +130,7 @@ export class Amethyst extends AmethystBackend {
   public VERSION = APP_VERSION;
   // @ts-ignore
   public IS_DEV = import.meta.env.DEV;
+  public APPDATA_PATH: string | undefined;
 
   public store: Store = new Store();
   public shortcuts: Shortcuts = new Shortcuts();
@@ -145,6 +143,8 @@ export class Amethyst extends AmethystBackend {
     super();
 
     if (this.CURRENT_PLATFORM === "desktop") {
+      window.electron.ipcRenderer.invoke<string>("get-appdata-path").then(path => this.APPDATA_PATH = path);
+
       window.electron.ipcRenderer.on("maximize", () => this.store.state.isMaximized = true);
       window.electron.ipcRenderer.on("unmaximize", () => this.store.state.isMaximized = false);
       window.electron.ipcRenderer.on("minimize", () => this.store.state.isMinimized = true);
