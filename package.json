@@ -284,7 +284,7 @@
     "@vue/test-utils": "^2.2.7",
     "concurrently": "^7.6.0",
     "cross-env": "^7.0.3",
-    "electron": "23.1.4",
+    "electron": "23.2.0",
     "electron-builder": "^23.6.0",
     "electron-devtools-installer": "^3.2.0",
     "electron-mock-ipc": "^0.3.12",
