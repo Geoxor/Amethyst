@@ -145,7 +145,7 @@ export class Track {
   }
 
   public async getArrayBuffer() {
-    const response = await fetch(this.path);
+    const response = await fetch(new URL(`file://${this.path}`).href);
     if (!response.ok) {
       throw new Error(`Failed to fetch file: ${response.statusText}`);
     }
