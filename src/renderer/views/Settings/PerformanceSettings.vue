@@ -5,6 +5,9 @@ import BaseSwitch from "@/components/input/BaseSwitch.vue";
 import SettingsGroup from "@/components/settings/SettingsGroup.vue";
 
 const state = useState();
+const handleToggleVsync = () => {
+  window.electron.ipcRenderer.invoke("set-vsync", [state.settings.useVsync]);
+};
 </script>
 
 <template>
@@ -19,7 +22,7 @@ const state = useState();
     <template #main>
       <base-switch
         v-model="state.settings.useVsync" 
-        @change="window.electron.ipcRenderer.invoke('set-vsync', [state.settings.useVsync])"
+        @change="handleToggleVsync"
       />
     </template>
   </settings-group>
