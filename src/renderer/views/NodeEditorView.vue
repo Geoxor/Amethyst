@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useState, useFs } from "@/amethyst";
+import { amethyst, useState } from "@/amethyst";
 import SquareButton from "@/components/input/SquareButton.vue";
 import { MagnetIcon, SaveIcon, AdjustIcon, AzimuthIcon, FilterIcon, SelectNoneIcon, WaveIcon, RemoveIcon, LoadingIcon, ResetIcon } from "@/icons/material";
 import { getThemeColorHex } from "@/logic/color";
@@ -8,15 +8,14 @@ import { Connection, EdgeMouseEvent, NodeDragEvent, VueFlow } from "@vue-flow/co
 import { onKeyStroke } from "@vueuse/core";
 import { computed, onMounted, onUnmounted, ref } from "vue";
 import { player } from "@/logic/player";
-import { AmethystPannerNode, AmethystGainNode, AmethystSpectrumNode, AmethystFilterNode } from "@/nodes";
+import { AmethystPannerNode, AmethystGainNode, AmethystSpectrumNode, AmethystFilterNode, AmethystEightBandEqualiserNode } from "@/nodes";
 import { AmethystAudioNode } from "@/logic/audio";
 import { Coords } from "@shared/types";
 import { useContextMenu } from "@/components/ContextMenu";
 
 const dash = ref();
 const nodeEditor = ref();
-const fs = useFs();
-type NodeMenuOptions = Coords & {source?: AmethystAudioNode<AudioNode>, target?: AmethystAudioNode<AudioNode>};
+type NodeMenuOptions = Coords & {source?: AmethystAudioNode, target?: AmethystAudioNode};
 
 let resizeObserver: ResizeObserver;
 
@@ -91,6 +90,13 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   {title: "Add FilterNode", icon: FilterIcon, action: () => {
     player.nodeManager.addNode(new AmethystFilterNode(player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
   }},
+  {
+    title: "Add EightBandEqualiserNode", 
+    icon: FilterIcon, 
+    action: () => {
+      player.nodeManager.addNode(new AmethystEightBandEqualiserNode(player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
+    }
+  },
   {title: "Add PannerNode", icon: AzimuthIcon, action: () => {
     player.nodeManager.addNode(new AmethystPannerNode(player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
   }},
@@ -131,9 +137,23 @@ const handleConnect = (e: Connection) => {
 };
 
 const handleOpenFile = async () => {
-  const buffer = await fs.open();
-  buffer && player.nodeManager.loadGraph(JSON.parse(buffer.toString("utf8")));
+  const result = await amethyst.openFileDialog([{name: "Amethyst Node Graph", extensions: ["ang"]}]);
+  if (result.canceled) return;
   
+  fetch(result.filePaths[0])
+  .then(response => response.blob())
+  .then(blob => {
+    return new Promise<ArrayBuffer>(resolve => {
+      const reader = new FileReader();
+      reader.onloadend = () => resolve(reader.result);
+      reader.readAsArrayBuffer(blob);
+    });
+  })
+  .then(buffer => {
+    // Use the loaded buffer
+    player.nodeManager.loadGraph(JSON.parse(buffer.toString()));
+  });
+
   // Fixes volume resetting to 100% when loading a new graph
   player.setVolume(player.volume.value);
 
@@ -170,7 +190,7 @@ onKeyStroke("Delete", () => {
       />
       <SquareButton
         :icon="SaveIcon"
-        @click="fs.save(player.nodeManager.serialize())"
+        @click="handleSaveFile"
       />
       <SquareButton
         :icon="SelectNoneIcon"

@@ -48,7 +48,7 @@ export class Player extends EventEmitter<{
     this.nodeManager = new AmethystAudioNodeManager(this.source, this.context);
     
     // Set the volume on first load
-    this.nodeManager.master.audioNode.gain.value = this.volume.value;
+    this.nodeManager.master.post.gain.value = this.volume.value;
   }
 
   private setPlayingTrack(track: Track) {
@@ -66,7 +66,7 @@ export class Player extends EventEmitter<{
   }
 
   public async getLatency(){
-    return this.context.baseLatency;
+    return this.context.baseLatency * 1000;
   }
 
   /**
@@ -211,7 +211,7 @@ export class Player extends EventEmitter<{
 
   public setVolume(volume: number) {
 		this.volume.value = Math.max(0, Math.min(1, volume));
-    this.nodeManager.master.audioNode.gain.value = this.volume.value;
+    this.nodeManager.master.post.gain.value = this.volume.value;
     this.emit("volume", this.volume.value);
 	}
 

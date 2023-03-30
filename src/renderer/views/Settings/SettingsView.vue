@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import NavigationBar from "@/components/NavigationBar.vue";
 import NavigationButton from "@/components/NavigationButton.vue";
-import { PaintBrushIcon, GeometryIcon, CircusRingOfFireIcon, PuzzleIcon, WaveIcon } from "@/icons/material";
+import { PaintBrushIcon, GeometryIcon, CircusRingOfFireIcon, PuzzleIcon, SineIcon } from "@/icons/material";
 </script>
 
 <template>
@@ -22,7 +22,7 @@ import { PaintBrushIcon, GeometryIcon, CircusRingOfFireIcon, PuzzleIcon, WaveIco
         @click="$router.push({ name: 'settings.performance' })"
       />
       <navigation-button
-        :icon="WaveIcon"
+        :icon="SineIcon"
         :active="$route.name == 'settings.metering'"
         text="Metering"
         description="spectrums, vectorscopes, meters"

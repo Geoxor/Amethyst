@@ -9,7 +9,7 @@ import { Handle, Position } from "@vue-flow/core";
 import { useContextMenu } from "@/components/ContextMenu";
 import { IContextMenuOption } from "@/state";
 
-const props = defineProps<{ title: string, icon: any, description?: string, node: AmethystAudioNode<any>, meterless?: boolean }>();
+const props = defineProps<{ title: string, icon: any, description?: string, node: AmethystAudioNode, meterless?: boolean }>();
 
 // Context Menu options for this component 
 const handleContextMenu = ({x, y}: MouseEvent) => {
@@ -29,6 +29,15 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
     @contextmenu.stop="handleContextMenu"
   >
     <quick-menu :node="node" />
+
+    <div class="flex ">
+      <db-meter
+        v-if="!meterless"
+        pre
+        :node="node.pre"
+        :channels="player.getCurrentTrack()?.getChannels() || 2"
+      />
+    </div>
 
     <div class="flex flex-col gap-2">
       <div class="flex gap-2 items-center">
@@ -59,7 +68,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
     <div class="flex ">
       <db-meter
         v-if="!meterless"
-        :node="node.audioNode"
+        :node="node.post"
         :channels="player.getCurrentTrack()?.getChannels() || 2"
       />
     </div>

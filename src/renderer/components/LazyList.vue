@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useElectron, useShortcuts, useState } from "@/amethyst";
+import { useShortcuts, useState } from "@/amethyst";
 import { Track } from "@/logic/track";
 import BaseChip from "@/components/BaseChip.vue";
 import { PlayIcon, ExternalLinkIcon, LoadingIcon, ProcessIcon, BinocularsIcon, ErrorIcon } from "@/icons/material";

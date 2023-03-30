@@ -65,7 +65,7 @@ export class AmethystAudioNodeManager {
   private output!: AmethystOutputNode;
   public master!: AmethystMasterNode;
 
-  public nodes: Ref<AmethystAudioNode<AudioNode>[]> = ref([]);
+  public nodes: Ref<AmethystAudioNode[]> = ref([]);
 
   public constructor(public inputAudio: AudioNode, public context: AudioContext) {
     this.reset();
@@ -76,8 +76,8 @@ export class AmethystAudioNodeManager {
     this.nodes.value = [];
 
     this.input = new AmethystInputNode(this.inputAudio, { x: 0, y: 0 });
-    this.master = new AmethystMasterNode(this.context.createGain(), { x: 300, y: 0 });
-    this.output = new AmethystOutputNode(this.context.destination, { x: 450, y: 0 });
+    this.master = new AmethystMasterNode(this.context, { x: 300, y: 0 });
+    this.output = new AmethystOutputNode(this.context, { x: 450, y: 0 });
 
     // navigator.mediaDevices.enumerateDevices().then(devices => {
     //   console.log("🚀 ~ file: audio.ts ~ line 43 ~ AmethystAudioNodeManager ~ constructor ~ devices", devices);
@@ -106,18 +106,18 @@ export class AmethystAudioNodeManager {
 
     this.nodes.value = [];
     graph.nodes.forEach(node => {
-      let nodeInstance: AmethystAudioNode<any> | null = null;
+      let nodeInstance: AmethystAudioNode | null = null;
       switch (node.name) {
         case "AmethystInputNode":
           this.input = new AmethystInputNode(this.inputAudio, node.position);
           nodeInstance = this.input;
           break;
         case "AmethystMasterNode":
-          this.master = new AmethystMasterNode(this.context.createGain(), node.position);
+          this.master = new AmethystMasterNode(this.context, node.position);
           nodeInstance = this.master;
           break;
         case "AmethystOutputNode":
-          this.output = new AmethystOutputNode(this.context.destination, node.position);
+          this.output = new AmethystOutputNode(this.context, node.position);
           nodeInstance = this.output;
           break;
         default:
@@ -144,7 +144,6 @@ export class AmethystAudioNodeManager {
   }
 
   public serialize() {
-
     const nodeGraph: NodeGraph = {
       version: 1,
       nodes: this.nodes.value.map(node => ({
@@ -152,20 +151,19 @@ export class AmethystAudioNodeManager {
         id: node.properties.id,
         position: node.properties.position,
         connections: node.connections,
-        paramaters: node.getParameters(),
       }))
     };
 
     return JSON.stringify(nodeGraph, null, 2);
   }
 
-  public removeNode(node: AmethystAudioNode<AudioNode>) {
+  public removeNode(node: AmethystAudioNode) {
     if (!node.isRemovable) return;
     node.disconnect();
     this.nodes.value.splice(this.nodes.value.findIndex(n => n.properties.id === node.properties.id), 1);
   }
 
-  public addNode(node: AmethystAudioNode<AudioNode>, betweenNodes?: [AmethystAudioNode<AudioNode>, AmethystAudioNode<AudioNode>]) {
+  public addNode(node: AmethystAudioNode, betweenNodes?: [AmethystAudioNode, AmethystAudioNode]) {
     // If the user right clicked a connection line, add the node inbetween the 2 nodes that were connected
     if (betweenNodes) {
       const [source, target] = betweenNodes;

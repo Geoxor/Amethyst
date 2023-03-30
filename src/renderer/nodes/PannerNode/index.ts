@@ -1,30 +1,32 @@
 import { AmethystAudioNode } from "@/logic/audio";
-import { NodeProperties, Paramaters } from "@/logic/audioManager";
+import { NodeProperties } from "@/logic/audioManager";
 import component from "./component.vue";
 
-export class AmethystPannerNode extends AmethystAudioNode<StereoPannerNode> {
-  public constructor(context: AudioContext, position: NodeProperties["position"]) {
-    const panner = context.createStereoPanner();
-    panner.pan.value = 0;
+export class AmethystPannerNode extends AmethystAudioNode {
+  public panner: StereoPannerNode;
 
-    super(panner, "AmethystPannerNode", component, position);
+  public constructor(context: AudioContext, position: NodeProperties["position"]) {
+    const pre = context.createGain();
+    const post = context.createGain();
+    super(pre, post, "AmethystPannerNode", component, position);
+
+    this.panner = context.createStereoPanner();
+    this.panner.pan.value = 0;
+
+    pre.connect(this.panner);
+    this.panner.connect(post);
   }
 
   public get pan () {
-    return this.audioNode.pan.value;
+    return this.panner.pan.value;
   }
 
   public set pan(pan: number) {
-    this.audioNode.pan.value = pan;
+    this.panner.pan.value = pan;
   }
 
   public override reset() {
     this.pan = 0;
   }
 
-  public getParameters(): Paramaters {
-    return {
-      pan: this.pan,
-    };
-  }
 }

@@ -1,10 +1,9 @@
 import { ref } from "vue";
-import { useElectron } from "../amethyst";
 import { bytesToHuman, secondsToColinHuman, secondsToHuman } from "@shared/formating";
-import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
 import { IMetadata, LoadState, LoadStatus } from "@shared/types";
 import FileSaver from "file-saver";
 import mime from "mime-types";
+import { amethyst } from "@/amethyst";
 
 /**
  * Each playable audio file is an instance of this class
@@ -17,13 +16,10 @@ export class Track {
   public hasErrored = ref(false);
   public deleted: boolean = false;
 
-  public constructor(public path: string) {
-    if (!ALLOWED_AUDIO_EXTENSIONS.some(ext => path.toLowerCase().endsWith(ext)))
-      throw new Error(`Given file extension does not match any of the allowed types [${ALLOWED_AUDIO_EXTENSIONS.join(", ")}]`);
-  }
+  public constructor(public path: string) {}
 
   public getCachePath() {
-    return window.path.join(useElectron().APPDATA_PATH || "" , "/amethyst/Metadata Cache", this.getFilename() + ".amf");
+    return window.path.join(amethyst.APPDATA_PATH || "" , "/amethyst/Metadata Cache", this.getFilename() + ".amf");
   }
  
   private async isCached() {
@@ -62,8 +58,7 @@ export class Track {
         this.metadata.state = LoadStatus.Loaded;
         return this.metadata.data;
       }
-      const amethyst = await import("../amethyst");
-      this.metadata.data = await amethyst.useElectron().getMetadata(this.path);
+      this.metadata.data = await amethyst.getMetadata(this.path);
       this.metadata.state = LoadStatus.Loaded;
       return this.metadata.data;
     } catch (error) {
@@ -83,8 +78,7 @@ export class Track {
         this.cover.state = LoadStatus.Loaded;
         return this.cover.data;
       }
-      const amethyst = await import("../amethyst");
-      const data = await amethyst.useElectron().getCover(this.path);
+      const data = await amethyst.getCover(this.path);
       this.cover.data = data ? `data:image/webp;base64,${data}` : undefined;
       this.cover.state = LoadStatus.Loaded;
       return this.cover.data;
@@ -151,7 +145,7 @@ export class Track {
   }
 
   public async getArrayBuffer() {
-    const response = await fetch(this.path);
+    const response = await fetch(new URL(`file://${this.path}`).href);
     if (!response.ok) {
       throw new Error(`Failed to fetch file: ${response.statusText}`);
     }
@@ -164,8 +158,12 @@ export class Track {
    * @example "02. Daft Punk - Get Lucky.flac"
    */
   public getFilename() {
-    const { base } = window.path.parse(this.path);
-    return base;
+    if (amethyst.currentPlatform === "desktop") {
+      const { base } = window.path.parse(this.path);
+      return base;
+    }
+
+    return this.path;
   }
 
   /**

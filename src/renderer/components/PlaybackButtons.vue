@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useState, useElectron } from "@/amethyst";
+import { useState } from "@/amethyst";
 import Cover from "@/components/CoverArt.vue";
 import Slider from "@/components/input/BaseSlider.vue";
 import {NextIcon, PauseIcon, PlayIcon, RepeatIcon, RepeatOneIcon, ShuffleIcon } from "@/icons/plumpy";

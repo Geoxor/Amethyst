@@ -11,17 +11,12 @@ export interface IContextMenuOption {
 
 export class Store {
 	public state = reactive({
-		cpuUsage: {
-			node: 0,
-			renderer: 0
-		},
-		version: "",
 		isMinimized: false,
 		isFocused: true,
+		isCheckingForUpdates: false,
 		isMaximized: false,
 		isShowingBigCover: false,
 		updateReady: false,
-		defaultCover: "",
 		theme: "amethyst-dark",
 	});
 
@@ -54,6 +49,7 @@ export class Store {
 		useVsync: true,
 		showBigVectorscope: false,
 		useDiscordRichPresence: true,
+		showDebugStats: false,
 		smoothScrollSpeed: 0.075,
 		playOnStartup: false,
 		decibelMeterMinimumDb: -60,
@@ -62,7 +58,6 @@ export class Store {
 	};
 
 	public settings = useLocalStorage("settings", this.defaultSettings, { writeDefaults: true }).value;
-	public isDev = computed(() => this.state.version.includes("dev"));
 
 	// TODO: Refactor context menus to its own class & manager
 

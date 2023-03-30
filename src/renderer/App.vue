@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useState } from "@/amethyst";
+import { amethyst, useState } from "@/amethyst";
 import TopBar from "@/components/TopBar.vue";
 import {InspectorBar, useInspector} from "@/components/Inspector";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
@@ -22,7 +22,7 @@ const state = useState();
 const ambientBackgroundImage = ref("");
 
 const setAmbientCover = async (track: Track) => {
-  (ambientBackgroundImage.value = URL.createObjectURL(await track.getCoverAsBlob()));
+  track.getCoverAsBlob().then(blob => ambientBackgroundImage.value = URL.createObjectURL(blob));
 };
 
 onMounted(() => {
@@ -78,7 +78,18 @@ onUnmounted(() => {
         :url="ambientBackgroundImage"
       />
     </div>
-    <top-bar />
+    <div
+      v-if="amethyst.currentPlatform == 'web'"
+      class="h-6 bg-yellow-500 text-black items-center flex gap-1 justify-center select-none w-full text-12px"
+    >
+      Amethyst Web is heavily disfunctional due to Chrome's security policies regarding filesystem access, for the best experience <a
+        href="https://github.com/Geoxor/amethyst/releases/latest"
+        target="_blank"
+      > <strong
+        class="underline cursor-pointer"
+      >download the native app</strong> </a> 
+    </div>
+    <top-bar v-if="amethyst.currentPlatform !== 'mobile'" />
     <context-menu v-if="useContextMenu().state.isVisible" />
     <div class="h-full whitespace-nowrap flex flex-col justify-between overflow-hidden">
       <div class="flex-1 flex h-full max-h-full relative overflow-hidden">
@@ -102,7 +113,7 @@ onUnmounted(() => {
     /> -->
 
           <navigation-button
-            v-if="state.isDev.value"
+            v-if="amethyst.IS_DEV"
             :icon="PlaystationButtonsIcon"
             :active="$route.name == 'playground'"
             @click="$router.push({ name: 'playground' })"
@@ -142,7 +153,7 @@ onUnmounted(() => {
               
                 :key="player.nodeManager.getNodeConnectinsString()"
                 class="h-64 min-h-64 w-full bg-surface-1000"
-                :node="player.nodeManager.master.audioNode"
+                :node="player.nodeManager.master.post"
                 @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
                   { title: 'Hide', icon: HideIcon, action: () => state.settings.showBigSpectrum = false },
                 ]);"
@@ -164,7 +175,7 @@ onUnmounted(() => {
                 :width="256"
                 :height="256"
                 class="h-64 w-64 bg-surface-1000"
-                :node="player.nodeManager.master.audioNode"
+                :node="player.nodeManager.master.post"
                 @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
                   { title: 'Hide', icon: HideIcon, action: () => state.settings.showBigVectorscope = false },
                 ]);"
@@ -182,7 +193,17 @@ onUnmounted(() => {
         <db-meter
           v-if="state.settings.showDbMeter && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
-          :node="player.nodeManager.master.audioNode"
+          :node="player.nodeManager.master.pre"
+          pre
+          :channels="player.getCurrentTrack()?.getChannels()"
+          @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
+            { title: 'Hide decibel meter', icon: HideIcon, action: () => state.settings.showDbMeter = false },
+          ]);"
+        />
+        <db-meter
+          v-if="state.settings.showDbMeter && player.source"
+          :key="player.nodeManager.getNodeConnectinsString()"
+          :node="player.nodeManager.master.post"
           :channels="player.getCurrentTrack()?.getChannels()"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide decibel meter', icon: HideIcon, action: () => state.settings.showDbMeter = false },
@@ -192,14 +213,14 @@ onUnmounted(() => {
         <loudness-meter 
           v-if="state.settings.showLoudnessMeter && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
-          :node="player.nodeManager.master.audioNode"
+          :node="player.nodeManager.master.pre"
         />
 
         <playback-buttons :player="player" />
         <vectorscope
           v-if="state.settings.showVectorscope && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
-          :node="player.nodeManager.master.audioNode"
+          :node="player.nodeManager.master.pre"
           :width="76"
           :height="76"
           class="clickable"
@@ -221,7 +242,7 @@ onUnmounted(() => {
           :class="[
             state.settings.showBigSpectrum && 'border-primary-700 bg-primary-700 bg-opacity-10 hover:bg-opacity-20'
           ]"
-          :node="player.nodeManager.master.audioNode"
+          :node="player.nodeManager.master.pre"
           @click="state.settings.showBigSpectrum = !state.settings.showBigSpectrum"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide Spectrum', icon: HideIcon, action: () => state.settings.showSpectrum = false },

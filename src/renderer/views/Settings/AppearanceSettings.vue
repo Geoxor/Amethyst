@@ -5,7 +5,7 @@ import BaseSwitch from "@/components/input/BaseSwitch.vue";
 import SettingsBinarySwitch from "@/components/settings/SettingsBinarySwitch.vue";
 import SettingsGroup from "@/components/settings/SettingsGroup.vue";
 import SettingsModifier from "@/components/settings/SettingsModifier.vue";
-import {PlayIcon, ImageIcon} from "@/icons/material";
+import {PlayIcon, ImageIcon, BugIcon} from "@/icons/material";
 const state = useState();
 
 const BLEND_MODES = [
@@ -120,6 +120,22 @@ const BLEND_MODES = [
       </base-keyboard-button>
 
       <base-switch v-model="state.settings.showPlaybackControls" />
+    </template>
+  </settings-group>
+
+  <settings-group
+    :icon="BugIcon"
+    text="Debug Statistics"
+    description="Show numbers such as samples, fps, processor usage and more at the top bar."
+  >
+    <template #main>
+      <base-keyboard-button
+        :button="'F9'"
+      >
+        F9
+      </base-keyboard-button>
+
+      <base-switch v-model="state.settings.showDebugStats" />
     </template>
   </settings-group>
 </template>
