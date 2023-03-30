@@ -10,7 +10,7 @@ const commonConfig: CapacitorConfig = {
 const devConfig: CapacitorConfig = {
   ...commonConfig,
   server: {
-    url: "http://192.168.0.26:1337",
+    url: "http://192.168.1.68:1337",
     cleartext: true,
   },
 };

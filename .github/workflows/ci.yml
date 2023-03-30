@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: recursive
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: 19.1.0
           cache: 'yarn'
@@ -36,7 +36,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: recursive
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: 19.1.0
           cache: 'yarn'
@@ -59,7 +59,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: recursive
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: 19.1.0
           cache: 'yarn'
@@ -87,7 +87,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           submodules: recursive
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: 19.1.0
           cache: 'yarn'
@@ -117,7 +117,7 @@ jobs:
   #     - uses: actions/checkout@v3
   #       with:
   #         submodules: recursive
-  #     - uses: actions/setup-node@v2
+  #     - uses: actions/setup-node@v3
   #       with:
   #         node-version: 19.1.0
   #         cache: 'yarn'
