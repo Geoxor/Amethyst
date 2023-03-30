@@ -30,6 +30,15 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
   >
     <quick-menu :node="node" />
 
+    <div class="flex ">
+      <db-meter
+        v-if="!meterless"
+        blue
+        :node="node.pre"
+        :channels="player.getCurrentTrack()?.getChannels() || 2"
+      />
+    </div>
+
     <div class="flex flex-col gap-2">
       <div class="flex gap-2 items-center">
         <component

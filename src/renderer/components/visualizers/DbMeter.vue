@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useState } from "@/amethyst";
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
-const props = defineProps<{ node: AudioNode, channels?: number }>();
+const props = defineProps<{ node: AudioNode, channels?: number, blue?: boolean }>();
 const FLOOR = -120;
 const MAX_CHANNELS = 8;
 const currentChannels = computed(() => props.channels || MAX_CHANNELS);
@@ -87,12 +87,12 @@ onUnmounted(() => shouldStopRendering = true);
       />
 
       <div
-        :class="channelData[i - 1][0].value > 0 ? 'bg-rose-600' : 'bg-green-600'"
+        :class="channelData[i - 1][0].value > 0 ? 'bg-rose-600' : blue ? 'bg-cyan-600' : 'bg-green-600'"
         class="rounded-full duration-50 transition-all absolute bottom-0"
         :style="`width: ${width}px; height: ${computedWidth(channelData[i - 1][0].value)}%`"
       />
       <div
-        :class="channelData[i - 1][0].value > 0 ? 'bg-rose-500' : 'bg-green-500'"
+        :class="channelData[i - 1][0].value > 0 ? 'bg-rose-500' : blue ? 'bg-cyan-500' : 'bg-green-500'"
         class="absolute duration-50 transition-all bottom-0 rounded-full"
         :style="`width: ${width}px; height: ${computedWidth(channelData[i - 1][1].value)}%`"
       />
