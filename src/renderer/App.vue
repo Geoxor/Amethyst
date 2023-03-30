@@ -193,6 +193,16 @@ onUnmounted(() => {
         <db-meter
           v-if="state.settings.showDbMeter && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
+          :node="player.nodeManager.master.pre"
+          pre
+          :channels="player.getCurrentTrack()?.getChannels()"
+          @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
+            { title: 'Hide decibel meter', icon: HideIcon, action: () => state.settings.showDbMeter = false },
+          ]);"
+        />
+        <db-meter
+          v-if="state.settings.showDbMeter && player.source"
+          :key="player.nodeManager.getNodeConnectinsString()"
           :node="player.nodeManager.master.post"
           :channels="player.getCurrentTrack()?.getChannels()"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
@@ -203,14 +213,14 @@ onUnmounted(() => {
         <loudness-meter 
           v-if="state.settings.showLoudnessMeter && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
-          :node="player.nodeManager.master.post"
+          :node="player.nodeManager.master.pre"
         />
 
         <playback-buttons :player="player" />
         <vectorscope
           v-if="state.settings.showVectorscope && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
-          :node="player.nodeManager.master.post"
+          :node="player.nodeManager.master.pre"
           :width="76"
           :height="76"
           class="clickable"
@@ -232,7 +242,7 @@ onUnmounted(() => {
           :class="[
             state.settings.showBigSpectrum && 'border-primary-700 bg-primary-700 bg-opacity-10 hover:bg-opacity-20'
           ]"
-          :node="player.nodeManager.master.post"
+          :node="player.nodeManager.master.pre"
           @click="state.settings.showBigSpectrum = !state.settings.showBigSpectrum"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide Spectrum', icon: HideIcon, action: () => state.settings.showSpectrum = false },
