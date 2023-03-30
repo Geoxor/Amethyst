@@ -32,6 +32,7 @@ const FILTER_TYPES = [
 
 const componentKey = ref(0);
 
+// hack to get it to refresh
 const forceRerender = () => {
   componentKey.value += 1;
 };

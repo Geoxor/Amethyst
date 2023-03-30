@@ -2,7 +2,7 @@
 # Maintainer: Geoxor <geoxor123@outlook.com>
 appname=amethyst
 pkgname=$appname-player
-pkgver=1.9.3
+pkgver=1.9.4
 pkgrel=1
 pkgdesc="Amethyst is an Electron-based audio player with a node-based audio routing system, the main goal of this project is to make a music player in Typescript that has pro-level features as most DAWs / DAEs, while also providing useful tools and customizability to the end-user to deal with audio."
 arch=('x86_64')
