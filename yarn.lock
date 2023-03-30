@@ -237,12 +237,12 @@
     ajv "^6.12.0"
     ajv-keywords "^3.4.1"
 
-"@docsearch/css@3.3.3", "@docsearch/css@^3.3.2":
+"@docsearch/css@3.3.3", "@docsearch/css@^3.3.3":
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/@docsearch/css/-/css-3.3.3.tgz#f9346c9e24602218341f51b8ba91eb9109add434"
   integrity sha512-6SCwI7P8ao+se1TUsdZ7B4XzL+gqeQZnBc+2EONZlcVa0dVrk0NjETxozFKgMv0eEGH8QzP1fkN+A1rH61l4eg==
 
-"@docsearch/js@^3.3.2":
+"@docsearch/js@^3.3.3":
   version "3.3.3"
   resolved "https://registry.yarnpkg.com/@docsearch/js/-/js-3.3.3.tgz#70725a7a8fe92d221fcf0593263b936389d3728f"
   integrity sha512-2xAv2GFuHzzmG0SSZgf8wHX0qZX8n9Y1ZirKUk5Wrdc+vH9CL837x2hZIUdwcPZI9caBA+/CzxsS68O4waYjUQ==
@@ -1033,7 +1033,7 @@
     "@typescript-eslint/types" "5.57.0"
     eslint-visitor-keys "^3.3.0"
 
-"@vitejs/plugin-vue@^4.0.0", "@vitejs/plugin-vue@^4.1.0":
+"@vitejs/plugin-vue@^4.1.0":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@vitejs/plugin-vue/-/plugin-vue-4.1.0.tgz#b6a9d83cd91575f7ee15593f6444397f68751073"
   integrity sha512-++9JOAFdcXI3lyer9UKUV4rfoQ3T1RN8yDqoCLar86s0xQct5yblxAE+yWgRnU5/0FOlVCpTZpYSBV/bGWrSrQ==
@@ -4935,7 +4935,7 @@ shell-quote@^1.7.3:
   resolved "https://registry.yarnpkg.com/shell-quote/-/shell-quote-1.8.0.tgz#20d078d0eaf71d54f43bd2ba14a1b5b9bfa5c8ba"
   integrity sha512-QHsz8GgQIGKlRi24yFc6a6lN69Idnx634w49ay6+jA5yFh7a1UY+4Rp6HPx/L/1zcEDPEij8cIsiqR6bQsE5VQ==
 
-shiki@^0.14.0:
+shiki@^0.14.1:
   version "0.14.1"
   resolved "https://registry.yarnpkg.com/shiki/-/shiki-0.14.1.tgz#9fbe082d0a8aa2ad63df4fbf2ee11ec924aa7ee1"
   integrity sha512-+Jz4nBkCBe0mEDqo1eKRcCdjRtrCjozmcbTUjbPTX7OOJfEbTZzlUWlZtGe3Gb5oV1/jnojhG//YZc3rs9zSEw==
@@ -5686,7 +5686,7 @@ vite-plugin-windicss@^1.8.10:
     kolorist "^1.6.0"
     windicss "^3.5.6"
 
-"vite@^3.0.0 || ^4.0.0", vite@^4.0.4, vite@^4.2.1:
+"vite@^3.0.0 || ^4.0.0", vite@^4.2.1:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/vite/-/vite-4.2.1.tgz#6c2eb337b0dfd80a9ded5922163b94949d7fc254"
   integrity sha512-7MKhqdy0ISo4wnvwtqZkjke6XN4taqQ2TBaTccLIpOKv7Vp2h4Y+NpmWCnGDeSvvn45KxvWgGyb0MkHvY1vgbg==
@@ -5698,20 +5698,20 @@ vite-plugin-windicss@^1.8.10:
   optionalDependencies:
     fsevents "~2.3.2"
 
-vitepress@1.0.0-alpha.45:
-  version "1.0.0-alpha.45"
-  resolved "https://registry.yarnpkg.com/vitepress/-/vitepress-1.0.0-alpha.45.tgz#cabcee6e8cc4f59dc598a939a162b161d6501ad9"
-  integrity sha512-8AVWdymQqBUPmXmAbpapDDg18iDmkNJ47l5eOklBlAjj3n8P3zDAsBhOWSQ6+Nvm6+/GaZATyAvsrg47JD5Idw==
+vitepress@1.0.0-alpha.64:
+  version "1.0.0-alpha.64"
+  resolved "https://registry.yarnpkg.com/vitepress/-/vitepress-1.0.0-alpha.64.tgz#da7fdebbcb35c84cc711029b4eb885027a5c72f0"
+  integrity sha512-u12wcDH4VzgxxkQfVQWkXumrL3WRetpenz4VuAtiMWXeZSCayWcJtieWOFxmX/RzS2KEuTJpXGbtJAXORyyJBQ==
   dependencies:
-    "@docsearch/css" "^3.3.2"
-    "@docsearch/js" "^3.3.2"
-    "@vitejs/plugin-vue" "^4.0.0"
+    "@docsearch/css" "^3.3.3"
+    "@docsearch/js" "^3.3.3"
+    "@vitejs/plugin-vue" "^4.1.0"
     "@vue/devtools-api" "^6.5.0"
-    "@vueuse/core" "^9.12.0"
+    "@vueuse/core" "^9.13.0"
     body-scroll-lock "4.0.0-beta.0"
-    shiki "^0.14.0"
-    vite "^4.0.4"
-    vue "^3.2.45"
+    shiki "^0.14.1"
+    vite "^4.2.1"
+    vue "^3.2.47"
 
 vitest@^0.29.7:
   version "0.29.8"
@@ -5813,7 +5813,7 @@ vue-virtual-scroller@^2.0.0-beta.8:
     vue-observe-visibility "^2.0.0-alpha.1"
     vue-resize "^2.0.0-alpha.1"
 
-vue@^3.2.45, vue@^3.2.47:
+vue@^3.2.47:
   version "3.2.47"
   resolved "https://registry.yarnpkg.com/vue/-/vue-3.2.47.tgz#3eb736cbc606fc87038dbba6a154707c8a34cff0"
   integrity sha512-60188y/9Dc9WVrAZeUVSDxRQOZ+z+y5nO2ts9jWXSTkMvayiWxCWOWtBQoYjLeccfXkiiPZWAHcV+WTPhkqJHQ==
