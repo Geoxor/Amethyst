@@ -15,7 +15,7 @@ export class AmethystEightBandEqualizerNode extends AmethystAudioNode {
   public constructor(context: AudioContext, position: NodeProperties["position"]) {
     const pre = context.createGain();
     const post = context.createGain();
-    super(pre, post,"8BandequalizerNode", component, position);
+    super(pre, post,"AmethystEightBandEqualizerNode", component, position);
     
     for (let i = 0; i < 8; i++) {
       const eq = context.createBiquadFilter();
