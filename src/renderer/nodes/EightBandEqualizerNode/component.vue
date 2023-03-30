@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import CustomNode from "@/components/nodes/CustomNode.vue";
 import EqualizerBand from "./EqualizerBand.vue";
-import { AmethystEightBandEqualiserNode } from ".";
+import { AmethystEightBandEqualizerNode } from ".";
 import { FilterIcon,
 
 HighShelfIcon,
@@ -13,7 +13,7 @@ BandpassIcon,
 
 } from "@/icons/material";
 import { ref } from "vue";
-const props = defineProps<{ node: AmethystEightBandEqualiserNode }>();
+const props = defineProps<{ node: AmethystEightBandEqualizerNode }>();
 
 // watch(() => props.node.frequencyPercent, percent => {
 //   props.node.frequency = percentToLog(percent, props.node.MIN_FREQUENCY, props.node.MAX_FREQUENCY);
@@ -42,7 +42,7 @@ const forceRerender = () => {
 <template>
   <CustomNode
     :node="node"
-    title="8-Band Equaliser"
+    title="8-Band equalizer"
     :icon="FilterIcon"
   >
     <div

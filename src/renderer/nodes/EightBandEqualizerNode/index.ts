@@ -3,7 +3,7 @@ import { NodeProperties } from "@/logic/audioManager";
 import { ref } from "vue";
 import component from "./component.vue";
 
-export class AmethystEightBandEqualiserNode extends AmethystAudioNode {
+export class AmethystEightBandEqualizerNode extends AmethystAudioNode {
   // Used to remember the state for onMounted state 
   // for the slider
   // The typecasting is a small hack because this is passed into a reactive object as markRaw()
@@ -15,7 +15,7 @@ export class AmethystEightBandEqualiserNode extends AmethystAudioNode {
   public constructor(context: AudioContext, position: NodeProperties["position"]) {
     const pre = context.createGain();
     const post = context.createGain();
-    super(pre, post,"8BandEqualiserNode", component, position);
+    super(pre, post,"8BandequalizerNode", component, position);
     
     for (let i = 0; i < 8; i++) {
       const eq = context.createBiquadFilter();
