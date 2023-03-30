@@ -52,7 +52,7 @@ const forceRerender = () => {
       <div
         v-for="(filter, i) of node.filters"
         :key="i"
-        class="div flex flex-col h-min font-aseprite bg-surface-1000 p-2 rounded-4px gap-2"
+        class="div flex flex-col h-min w-min font-aseprite bg-surface-1000 p-2 rounded-4px gap-2"
         @mousedown.stop
       >
         <equalizer-band
@@ -78,7 +78,7 @@ const forceRerender = () => {
           v-model="filter.Q.value"
           :param="filter.Q"
           log
-          :min="0"
+          :min="0.01"
           :max="10"
           :step="0.01"
           suffix="Q"

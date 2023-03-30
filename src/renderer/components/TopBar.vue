@@ -177,7 +177,7 @@ const state = useState();
       <strong class="opacity-50 font-normal">v{{ amethyst.VERSION }}</strong>
     </p>
 
-    <div class="flex gap-1.25 h-6 px-1 items-center overflow-hidden font-aseprite whitespace-nowrap">
+    <div class="flex gap-1.25 h-6 items-center overflow-hidden font-aseprite whitespace-nowrap">
       <div
         v-if="state.settings.value.showDebugStats"
         class="w-56 flex gap-1 justify-end no-drag" 

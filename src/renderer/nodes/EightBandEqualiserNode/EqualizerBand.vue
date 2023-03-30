@@ -40,7 +40,7 @@ function antilog10(value: number) {
     {{ (log ? antilog10(paramValue) : paramValue).toFixed(digits) }} {{ suffix }}
     <BaseSlider 
       v-model="paramValue"
-      class="w-32"
+      class="w-24"
       type="range"
       :min="log ? log10(min) : min"
       :max="log ? log10(max) : max"
