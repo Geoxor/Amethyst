@@ -50,7 +50,7 @@ const handleChange = (idx: number, event: Event, key: string) => {
         <equalizer-band
           v-model="filter.frequency.value"
           :param="filter.frequency"
-          :min="1"
+          :min="0.01"
           log
           :max="22050"
           :step="0.01"

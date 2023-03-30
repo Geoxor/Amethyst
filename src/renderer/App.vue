@@ -153,7 +153,7 @@ onUnmounted(() => {
               
                 :key="player.nodeManager.getNodeConnectinsString()"
                 class="h-64 min-h-64 w-full bg-surface-1000"
-                :node="player.nodeManager.master.post"
+                :node="player.nodeManager.master.pre"
                 @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
                   { title: 'Hide', icon: HideIcon, action: () => state.settings.showBigSpectrum = false },
                 ]);"
@@ -175,7 +175,7 @@ onUnmounted(() => {
                 :width="256"
                 :height="256"
                 class="h-64 w-64 bg-surface-1000"
-                :node="player.nodeManager.master.post"
+                :node="player.nodeManager.master.pre"
                 @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
                   { title: 'Hide', icon: HideIcon, action: () => state.settings.showBigVectorscope = false },
                 ]);"

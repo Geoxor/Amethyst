@@ -86,7 +86,6 @@ export class MainWindow {
 			webPreferences: {
 				preload: path.join(__dirname, "preload.js"),
 				webSecurity: false,
-				zoomFactor: 1.25,
 				nodeIntegration: true,
 			},
 		});
@@ -138,6 +137,8 @@ export class MainWindow {
 		this.window.loadURL(this.resolveHTMLPath("index"));
 
 		this.window.on("ready-to-show", () => {
+			this.window.webContents.setZoomFactor(1.25);
+	
 			!IS_DEV && import("electron-updater").then(({ autoUpdater }) => {
 				import("electron-log").then(log => {
 					// Autoupdates
