@@ -8,9 +8,11 @@ import { Store } from "@/state";
 // import { watch } from "vue";
 import { Capacitor } from "@capacitor/core";
 import { StatusBar } from "@capacitor/status-bar";
+import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
 import { IMetadata } from "@shared/types";
 import { FileFilter, OpenDialogReturnValue } from "electron";
 import { getThemeColorHex } from "./logic/color";
+import { flattenArray } from "./logic/math";
 
 export type AmethystPlatforms = ReturnType<typeof amethyst.getCurrentPlatform>;
 
@@ -110,6 +112,18 @@ class AmethystBackend {
         return;
     }
   }
+
+  public openAudioFilesAndAddToQueue = () => {
+    amethyst.openFileDialog([{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }])?.then(result => {
+      !result.canceled && player.queue.add(result.filePaths);
+    });
+  };
+  
+  public openAudioFoldersAndAddToQueue = () => {
+    amethyst.openFolderDialog(ALLOWED_AUDIO_EXTENSIONS)?.then(result => {
+      !result.canceled && player.queue.add(flattenArray(result.filePaths));
+    });
+  };
 
   // TODO: get rid of this stupid logic and make it be part of when loading a track
   public getMetadata(path: string) {

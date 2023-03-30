@@ -13,8 +13,6 @@ import AmethystLogo from "@/icons/AmethystLogo.vue";
 import { onMounted, ref } from "vue";
 import { countDomElements, refreshWindow } from "@/logic/dom";
 import BaseChip from "./BaseChip.vue";
-import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
-import { flattenArray } from "@/logic/math";
 
 const min = ref(Number.POSITIVE_INFINITY);
 const max = ref(Number.NEGATIVE_INFINITY);
@@ -42,23 +40,6 @@ onMounted(() => {
 });
 
 // TODO: move this to queue or something
-const openFile = () => {
-  amethyst.openFileDialog([{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }])?.then(result => {
-    if (result.canceled) return;
-    console.log(result);
-    
-    player.queue.add(result.filePaths);
-  });
-};
-
-const openFolder = () => {
-  amethyst.openFolderDialog(ALLOWED_AUDIO_EXTENSIONS)?.then(result => {
-    console.log("result: ", result);
-    
-    if (result.canceled) return;
-    player.queue.add(flattenArray(result.filePaths));
-  });
-};
 
 const state = useState();
 // const electron = useElectron();
@@ -80,13 +61,13 @@ const state = useState();
           :shortcuts="['CTRL', 'O']"
           title="Open audio..."
           :icon="AudioFileIcon"
-          @click="openFile"
+          @click="amethyst.openAudioFilesAndAddToQueue"
         />
         <menu-option
           :shortcuts="['CTRL', 'SHIFT', 'O']"
           title="Open audio folder..."
           :icon="MusicFolderIcon"
-          @click="openFolder"
+          @click="amethyst.openAudioFoldersAndAddToQueue"
         />
       </Menu>
       <Menu title="Utility">
