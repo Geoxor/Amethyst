@@ -13,7 +13,7 @@ const state = useState();
     :icon="ListIcon"
   >
     <settings-modifier
-      v-model="state.settings.processingConcurrency"
+      v-model="state.settings.value.processingConcurrency"
       text="Processing concurrency"
       :min="1"
       :max="32"

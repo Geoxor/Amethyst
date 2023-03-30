@@ -52,6 +52,7 @@ const onMouseDown = (e: MouseEvent) => {
   }
   else {
     currentIdx = props.range.indexOf(model.value || props.default);
+    
     dragging.value = true;
     startY = e.clientY;
     initialValue = model.value;
@@ -67,7 +68,10 @@ const onMove = (e: MouseEvent) => {
   const distance = startY - e.clientY;
 
   if (props.range.length != 0) {
-    model.value = (props.range as number[])[Math.max(0, Math.min(props.range.length - 1, currentIdx + ~~(distance / 10)))];
+    const nextValue = (props.range as number[])[Math.max(0, Math.min(props.range.length - 1, currentIdx + ~~(distance / 10)))];
+    if (nextValue != model.value) {
+      model.value = nextValue;
+    }
     return;
   }
 

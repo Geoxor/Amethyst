@@ -108,7 +108,7 @@ const handleContextCoverMenu = ({x, y}: MouseEvent) => {
 <template>
   <div class="flex gap-2 justify-between items-center h-full w-full">
     <cover
-      v-if="state.settings.showCoverArt" 
+      v-if="state.settings.value.showCoverArt" 
       class="rounded-4px h-19 w-19 min-h-19 min-w-19 text-primary-900 border-1 border-transparent cursor-pointer hover:border-primary-800"
       :class="[
         state.state.isShowingBigCover && 'border-primary-700'

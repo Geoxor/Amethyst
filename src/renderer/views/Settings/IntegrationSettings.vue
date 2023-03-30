@@ -15,7 +15,7 @@ const state = useState();
     :icon="DiscordIcon"
   >
     <template #main>
-      <base-switch v-model="state.settings.useDiscordRichPresence" />
+      <base-switch v-model="state.settings.value.useDiscordRichPresence" />
     </template>
   </settings-group>
 </template>

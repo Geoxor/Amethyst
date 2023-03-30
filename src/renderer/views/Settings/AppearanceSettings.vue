@@ -36,15 +36,15 @@ const BLEND_MODES = [
     description="Presents an overlay of the cover art for the currently playing song on the user interface."
   >
     <template #main>
-      <base-switch v-model="state.settings.showAmbientBackground" />
+      <base-switch v-model="state.settings.value.showAmbientBackground" />
     </template>
 
     <settings-binary-switch
-      v-model="state.settings.ambientBackgroundSpin"
+      v-model="state.settings.value.ambientBackgroundSpin"
       text="Spin"
     />
     <settings-modifier
-      v-model="state.settings.ambientBackgroundSpinSpeed"
+      v-model="state.settings.value.ambientBackgroundSpinSpeed"
       text="Spin speed"
       :min="1"
       :max="64"
@@ -52,7 +52,7 @@ const BLEND_MODES = [
       :def="state.defaultSettings.ambientBackgroundSpinSpeed"
     />
     <settings-modifier
-      v-model="state.settings.ambientBackgroundBlurStrength"
+      v-model="state.settings.value.ambientBackgroundBlurStrength"
       text="Blur strength"
       :min="0"
       :max="256"
@@ -61,7 +61,7 @@ const BLEND_MODES = [
     />
 
     <settings-modifier
-      v-model="state.settings.ambientBackgroundZoom"
+      v-model="state.settings.value.ambientBackgroundZoom"
       text="Zoom"
       :min="0"
       :max="1000"
@@ -70,7 +70,7 @@ const BLEND_MODES = [
     />
     
     <settings-modifier
-      v-model="state.settings.ambientBackgroundOpacity"
+      v-model="state.settings.value.ambientBackgroundOpacity"
       text="Opacity"
       :min="0"
       :max="100"
@@ -81,7 +81,7 @@ const BLEND_MODES = [
     <div class="text-primary-900 w-full gap-2 flex items-center justify-between hover:text-primary-800">
       Mix Blend Mode
       <select
-        v-model="state.settings.ambientBackgroundBlendMode"
+        v-model="state.settings.value.ambientBackgroundBlendMode"
         class="bg-surface-600 w-full max-w-24 h-6 font-aseprite font-thin py-2"
         @keydown.stop
       >
@@ -103,7 +103,7 @@ const BLEND_MODES = [
     text="Cover art"
   >
     <template #main>
-      <base-switch v-model="state.settings.showCoverArt" />
+      <base-switch v-model="state.settings.value.showCoverArt" />
     </template>
   </settings-group>
 
@@ -119,7 +119,7 @@ const BLEND_MODES = [
         F10
       </base-keyboard-button>
 
-      <base-switch v-model="state.settings.showPlaybackControls" />
+      <base-switch v-model="state.settings.value.showPlaybackControls" />
     </template>
   </settings-group>
 
@@ -135,7 +135,7 @@ const BLEND_MODES = [
         F9
       </base-keyboard-button>
 
-      <base-switch v-model="state.settings.showDebugStats" />
+      <base-switch v-model="state.settings.value.showDebugStats" />
     </template>
   </settings-group>
 </template>

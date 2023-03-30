@@ -13,18 +13,18 @@ onMounted(() => {
   const vectorscope = document.querySelector(`#vectorscope-${randomId}`) as HTMLCanvasElement;
   canvasCtx = vectorscope.getContext("2d")!;
   canvasCtx.strokeStyle = `${getThemeColorHex("--primary-800")}99`;
-  canvasCtx.lineWidth = state.settings.vectorscopeLineThickness;
-  watch(() => state.settings.vectorscopeLineThickness, () => canvasCtx.lineWidth = state.settings.vectorscopeLineThickness);
+  canvasCtx.lineWidth = state.settings.value.vectorscopeLineThickness;
+  watch(() => state.settings.value.vectorscopeLineThickness, () => canvasCtx.lineWidth = state.settings.value.vectorscopeLineThickness);
 
   const { context } = props.node;
   const analyzerX = context.createAnalyser();
   const analyzerY = context.createAnalyser();
-  analyzerX.fftSize = useState().settings.vectorscopeFftSize;
-  analyzerY.fftSize = useState().settings.vectorscopeFftSize;
+  analyzerX.fftSize = state.settings.value.vectorscopeFftSize;
+  analyzerY.fftSize = state.settings.value.vectorscopeFftSize;
   let bufferX = new Float32Array(analyzerX.fftSize);
   let bufferY = new Float32Array(analyzerY.fftSize);
 
-	watch(() => useState().settings.vectorscopeFftSize, value => {
+	watch(() => state.settings.value.vectorscopeFftSize, value => {
     analyzerX.fftSize = value;
     analyzerY.fftSize = value;
     bufferX = new Float32Array(value);
@@ -71,7 +71,7 @@ onUnmounted(() => shouldStopRendering = true);
   >
     <canvas
       :id="`vectorscope-${randomId}`"
-      :class="[state.settings.lissajousVectorscope && 'lissajous']"
+      :class="[state.settings.value.lissajousVectorscope && 'lissajous']"
       :width="width"
       :height="height"
     />

@@ -65,7 +65,7 @@ onMounted(async () => {
   const uniformData = {
     u_vertical_zoom: {
       type: "f",
-      value: useState().settings.spectrumVerticalZoom
+      value: useState().settings.value.spectrumVerticalZoom
     },
     u_amplitude:  {        
       type: "iv1", 
@@ -125,11 +125,11 @@ onMounted(async () => {
   gain.gain.value = 24;
 	gain.connect(analyser);
 
-  analyser.fftSize = useState().settings.spectrumFftSize;
-	analyser.smoothingTimeConstant = useState().settings.spectrumSmoothing;
-	watch(() => useState().settings.spectrumFftSize, () => analyser.fftSize = useState().settings.spectrumFftSize);
-	watch(() => useState().settings.spectrumSmoothing, () => analyser.smoothingTimeConstant = useState().settings.spectrumSmoothing);
-	watch(() => useState().settings.spectrumVerticalZoom, v => uniformData.u_vertical_zoom.value = v);
+  analyser.fftSize = useState().settings.value.spectrumFftSize;
+	analyser.smoothingTimeConstant = useState().settings.value.spectrumSmoothing;
+	watch(() => useState().settings.value.spectrumFftSize, () => analyser.fftSize = useState().settings.value.spectrumFftSize);
+	watch(() => useState().settings.value.spectrumSmoothing, () => analyser.smoothingTimeConstant = useState().settings.value.spectrumSmoothing);
+	watch(() => useState().settings.value.spectrumVerticalZoom, v => uniformData.u_vertical_zoom.value = v);
 
 	// Don't change these
 	analyser.maxDecibels = 30;
@@ -140,7 +140,7 @@ onMounted(async () => {
 
 		analyser.getByteFrequencyData(dataArray);
 
-		const points = useState().settings.useLogarithmicSpectrum ? scaleLog(dataArray) : dataArray;
+		const points = useState().settings.value.useLogarithmicSpectrum ? scaleLog(dataArray) : dataArray;
     interpolateArray(Array.from(points), TOTAL_BARS).forEach((point, i) => {
       uniformData.u_amplitude.value[i] = point;
     }); 

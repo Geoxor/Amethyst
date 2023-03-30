@@ -17,13 +17,13 @@ onMounted(() => {
   const splitter = context.createChannelSplitter(MAX_CHANNELS);
   const analyzers = Array.from({ length: MAX_CHANNELS }, () => {
     const analyzer = context.createAnalyser();
-    analyzer.fftSize = useState().settings.decibelMeterFftSize;
+    analyzer.fftSize = useState().settings.value.decibelMeterFftSize;
     return analyzer;
   });
 
   let buffers = analyzers.map(analyzer => new Float32Array(analyzer.fftSize));
   
-  watch(() => useState().settings.decibelMeterFftSize, value => {
+  watch(() => useState().settings.value.decibelMeterFftSize, value => {
     analyzers.forEach(a => a.fftSize = value);
     buffers = analyzers.map(() => new Float32Array(value));
   });
@@ -56,7 +56,7 @@ onMounted(() => {
 });
 
 const computedWidth = (value: number): number => {
-  const width = (1 + value / Math.abs(useState().settings.decibelMeterMinimumDb)) * 90;
+  const width = (1 + value / Math.abs(useState().settings.value.decibelMeterMinimumDb)) * 90;
   return Math.min(100, Math.max(0.01, width));
 };
 

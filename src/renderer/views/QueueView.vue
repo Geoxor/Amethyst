@@ -21,8 +21,8 @@ const scrollToCurrentElement = (track?: Track) => {
   active.scrollTo({ top: estimatedPosition, behavior: "smooth" });
 };
 
-const autoscroll = () => state.settings.followQueue && scrollToCurrentElement();
-watch(() => state.settings.followQueue, () => autoscroll());
+const autoscroll = () => state.settings.value.followQueue && scrollToCurrentElement();
+watch(() => state.settings.value.followQueue, () => autoscroll());
 onMounted(() => {
   player.on("play", autoscroll);
 });
@@ -46,8 +46,8 @@ onUnmounted(() => {
     <square-button
       class="absolute bottom-2 right-4.5 z-10 "
       :icon="MyLocationIcon"
-      :active="state.settings.followQueue"
-      @click="state.settings.followQueue = !state.settings.followQueue;"
+      :active="state.settings.value.followQueue"
+      @click="state.settings.value.followQueue = !state.settings.value.followQueue;"
     />
 
     <lazy-list

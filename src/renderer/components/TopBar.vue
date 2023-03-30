@@ -179,7 +179,7 @@ const state = useState();
 
     <div class="flex gap-1.25 h-6 px-1 items-center overflow-hidden font-aseprite whitespace-nowrap">
       <div
-        v-if="state.settings.showDebugStats"
+        v-if="state.settings.value.showDebugStats"
         class="w-56 flex gap-1 justify-end no-drag" 
         @click="min = Number.POSITIVE_INFINITY; max = Number.NEGATIVE_INFINITY;"
       >
@@ -210,7 +210,7 @@ const state = useState();
         @click="amethyst.performWindowAction('close')"
       />
         
-      <template v-if="state.settings.showDebugStats">
+      <template v-if="state.settings.value.showDebugStats">
         <processor-usage-meter
           v-for="value of Object.values(cpuUsage)"
           :key="value"

@@ -57,7 +57,7 @@ export class Store {
 		vectorscopeFftSize: 512,
 	};
 
-	public settings = useLocalStorage("settings", this.defaultSettings, { writeDefaults: true }).value;
+	public settings = useLocalStorage("settings", this.defaultSettings, { writeDefaults: true, mergeDefaults: true });
 
 	// TODO: Refactor context menus to its own class & manager
 

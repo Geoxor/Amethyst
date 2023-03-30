@@ -32,7 +32,7 @@ const state = useState();
 const elements = computed(() => [...player.nodeManager.getNodeProperties(), ...player.nodeManager.getNodeConnections()]);
 
 const handleClick = () => {
-  state.settings.isSnappingToGrid = !state.settings.isSnappingToGrid;
+  state.settings.value.isSnappingToGrid = !state.settings.value.isSnappingToGrid;
 };
 
 const getDashCoords = () => {
@@ -198,7 +198,7 @@ onKeyStroke("Delete", () => {
       />
       <SquareButton
         :icon="MagnetIcon"
-        :active="state.settings.isSnappingToGrid"
+        :active="state.settings.value.isSnappingToGrid"
         @click="handleClick"
       />
     </div>
@@ -207,7 +207,7 @@ onKeyStroke("Delete", () => {
       ref="dash"
       v-model="elements"
       class="bg-surface-1000 p-2"
-      :snap-to-grid="state.settings.isSnappingToGrid"
+      :snap-to-grid="state.settings.value.isSnappingToGrid"
       :max-zoom="2.00"
       :connection-line-style="{ stroke: getThemeColorHex('--primary-700') }"
       :fit-view-on-init="true"
