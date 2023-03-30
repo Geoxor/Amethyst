@@ -59,6 +59,15 @@ class AmethystBackend {
     }
   }
 
+  public showItem(path: string) {
+    switch (this.currentPlatform) {
+      case "desktop":
+        return window.electron.ipcRenderer.invoke("show-item", [path]); 
+      default:
+        return;
+    }
+  }
+
   private filesToBlobs(files: FileList): Promise<Blob>[] {
     const promises: Promise<Blob>[] = [];
     for (let i = 0; i < files.length; i++) {

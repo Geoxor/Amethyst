@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useState } from "@/amethyst";
+import { useState, amethyst } from "@/amethyst";
 import Cover from "@/components/CoverArt.vue";
 import Slider from "@/components/input/BaseSlider.vue";
 import {NextIcon, PauseIcon, PlayIcon, RepeatIcon, RepeatOneIcon, ShuffleIcon } from "@/icons/plumpy";
@@ -103,9 +103,6 @@ const handleContextCoverMenu = ({x, y}: MouseEvent) => {
 //   delta < 0 ? player.seekForward() : player.seekBackward();
 // };
 
-const handleOpenFileLocation = () => {
-  window.electron.ipcRenderer.invoke("show-item", [player.getCurrentTrack()?.path]);
-};
 </script>
 
 <template>
@@ -125,7 +122,7 @@ const handleOpenFileLocation = () => {
         <div class="flex flex-col w-full py-1 font-bold gap-1 ">
           <h1
             class="text-12px hover:underline cursor-pointer w-24 overflow-hidden overflow-ellipsis"
-            @click="handleOpenFileLocation"
+            @click=" amethyst.showItem(player.getCurrentTrack()?.path!)"
           >
             {{ player.getCurrentTrack()?.getTitleFormatted() }}
           </h1>

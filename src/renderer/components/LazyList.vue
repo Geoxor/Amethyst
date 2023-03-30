@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useShortcuts, useState } from "@/amethyst";
+import { amethyst, useShortcuts } from "@/amethyst";
 import { Track } from "@/logic/track";
 import BaseChip from "@/components/BaseChip.vue";
 import { PlayIcon, ExternalLinkIcon, LoadingIcon, ProcessIcon, BinocularsIcon, ErrorIcon } from "@/icons/material";
@@ -12,7 +12,6 @@ import { saveArrayBufferToFile } from "@/logic/dom";
 import { convertDfpwm } from "@/logic/encoding";
 
 defineProps<{tracks: Track[]}>();
-const state = useState();
 const isHoldingControl = useShortcuts().isControlPressed;
 
 // Context Menu options for this component 
@@ -28,7 +27,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           extension: "dfpwm"
       });
     }},
-    { title: "Show in Explorer...", icon: ExternalLinkIcon, action: () => window.electron.ipcRenderer.invoke("show-item", [track.path]) },
+    { title: "Show in Explorer...", icon: ExternalLinkIcon, action: () => amethyst.showItem(track.path) },
     { title: "Export cover...", icon: ExternalLinkIcon, action: () => track.exportCover() },
     { title: "Reload metadata", icon: ResetIcon, action: () => track.fetchAsyncData(true) },
     { title: "Remove from queue", icon: RemoveIcon, red: true, action: () => player.queue.remove(track) },
@@ -86,7 +85,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           class="row"
           @contextmenu="handleContextMenu($event, item)"
           @keypress.prevent
-          @click="isHoldingControl ? window.electron.ipcRenderer.invoke('show-item', [item.path]) : player.play(item)"
+          @click="isHoldingControl ? amethyst.showItem(item.path) : player.play(item)"
         >
           <div
             class="td max-w-4"
@@ -108,7 +107,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
             <cover
               v-else
               class="w-3 h-3"
-              :url="(item.isLoaded ? item.getCover() : state.state.defaultCover) as string"
+              :url="(item.isLoaded && item.getCover()) as string"
             />
           </div>
           <div

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 // import { useElectron } from "@/amethyst";
+import { amethyst } from "@/amethyst";
 import { CloseIcon } from "@/icons/fluency";
 import { AudioFileIcon, ExternalLinkIcon, ImageIcon, ListIcon, PlaystationButtonsIcon, BinocularsIcon, LoadingIcon } from "@/icons/material";
 import ResetIcon from "@/icons/material/ResetIcon.vue";
@@ -28,10 +29,6 @@ onMounted(() => {
 onUnmounted(() => {
   player.off("play", handlePlay);
 });
-
-const handleShowInExplorer = (path:string) => {
-  window.electron.ipcRenderer.invoke("show-item", [ path]);
-};
 
 </script>
 
@@ -151,7 +148,7 @@ const handleShowInExplorer = (path:string) => {
         </li>
         <button
           class="cursor-pointer"
-          @click="handleShowInExplorer(currentItem.path)"
+          @click="amethyst.showItem(currentItem.path)"
         >
           Show in explorer
           <ExternalLinkIcon />
@@ -210,7 +207,7 @@ const handleShowInExplorer = (path:string) => {
         </li>
         <button
           class="cursor-pointer"
-          @click="handleShowInExplorer(currentItem.getCachePath())"
+          @click="amethyst.showItem(currentItem.getCachePath())"
         >
           Show .amf
           <ExternalLinkIcon />
