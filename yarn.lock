@@ -159,7 +159,7 @@
 
 "@capacitor/cli@^4.7.1":
   version "4.7.1"
-  resolved "https://registry.npmjs.org/@capacitor/cli/-/cli-4.7.1.tgz"
+  resolved "https://registry.yarnpkg.com/@capacitor/cli/-/cli-4.7.1.tgz#66a8f8664b6424a92968ebb9764c6c7457b99585"
   integrity sha512-cUEMci4KBb8gwIDXaO9F2Woz1wnugB/vVq2sRVy8+fzOfhmHlxweuH+h9RktDkpceVi+COfxYw/VPjg1wjC1tA==
   dependencies:
     "@ionic/cli-framework-output" "^2.2.5"
