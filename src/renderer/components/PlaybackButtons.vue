@@ -31,6 +31,11 @@ const createWaveSurfer = () => {
 
 onMounted(() => {
   wavesurfer = createWaveSurfer();
+
+  // Fix waveform not resizing when disabling/enabling meters
+  const resizeObserver = new ResizeObserver(() => wavesurfer.setHeight(wavesurfer.getHeight()));
+  resizeObserver.observe(document.getElementById("waveform")!);
+
   let oldTrack: Track;
   let hasSeekFiredOnce = true;
   player.on("play", track => {

@@ -78,7 +78,6 @@ export class MainWindow {
 			y: this.windowState.y,
 			width: this.windowState.width,
 			height: this.windowState.height,
-			
 			minHeight: 116,
 			minWidth: 836,
 			icon: icon(),
