@@ -7,7 +7,7 @@ export class AmethystFilterNode extends AmethystAudioNode {
   // Used to remember the state for onMounted state 
   // for the slider
   // The typecasting is a small hack because this is passed into a reactive object as markRaw()
-  public frequencyPercent = ref(100) as unknown as number;
+  public frequencyPercent = ref(35) as unknown as number;
   public MIN_FREQUENCY = 20;
   public MAX_FREQUENCY = 22050;
   public filter: BiquadFilterNode;
@@ -21,11 +21,11 @@ export class AmethystFilterNode extends AmethystAudioNode {
     pre.connect(this.filter);
     this.filter.connect(post);
     this.filter.type = "lowpass";
-    this.filter.frequency.value = this.MAX_FREQUENCY;
-    this.filter.Q.value = -3;
+    this.filter.frequency.value = 233;
+    this.filter.Q.value = 1;
   }
 
-  public get type () {
+  public get type (): BiquadFilterType {
     return this.filter.type;
   }
 
@@ -58,10 +58,10 @@ export class AmethystFilterNode extends AmethystAudioNode {
   }
 
   public override reset(){
-    this.frequencyPercent = 100;
-    this.gain = 0;
-    this.Q = -3;
-    this.type = "lowpass";
+    this.frequencyPercent = 35;
+    this.filter.gain.value = 0;
+    this.filter.Q.value = 1;
+    this.filter.type = "lowpass";
   }
 
 }

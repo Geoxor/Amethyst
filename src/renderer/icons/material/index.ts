@@ -44,14 +44,26 @@ import NoImageIcon from "./NoImageIcon.vue";
 import ProcessIcon from "./ProcessIcon.vue";
 import BugIcon from "./BugIcon.vue";
 import SineIcon from "./SineIcon.vue";
+import HighShelfIcon from "./HighShelfIcon.vue";
+import LowShelfIcon from "./LowShelfIcon.vue";
+import LowpassIcon from "./LowpassIcon.vue";
+import HighpassIcon from "./HighpassIcon.vue";
+import BellIcon from "./BellIcon.vue";
+import BandpassIcon from "./BandpassIcon.vue";
 
 export {
   DiscordIcon,
+  HighShelfIcon,
   ProcessIcon,
+  LowShelfIcon,
   SineIcon,
+  LowpassIcon,
   BugIcon,
+  HighpassIcon,
   LoadingIcon,
+  BellIcon,
   GitHubIcon,
+  BandpassIcon,
   FlickerFreeIcon,
   BinocularsIcon,
   ZoomInIcon,
