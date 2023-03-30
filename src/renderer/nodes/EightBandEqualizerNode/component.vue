@@ -48,6 +48,7 @@ const forceRerender = () => {
     <div
       :key="componentKey" 
       class="grid grid-cols-4 gap-2 text-primary-900"
+      @click=" forceRerender()"
     >
       <div
         v-for="(filter, i) of node.filters"
@@ -58,7 +59,7 @@ const forceRerender = () => {
         <equalizer-band
           v-model="filter.frequency.value"
           :param="filter.frequency"
-          :min="0.01"
+          :min="10"
           log
           :max="22050"
           :step="0.01"
@@ -91,7 +92,7 @@ const forceRerender = () => {
             class="text-10px cursor-pointer px-1 py-0.5 bg-surface-900"
             :class="[filter.type == filterType ? 'text-primary-800 bg-primary-800 bg-opacity-10' : 'text-surface-500']"
             @mousedown.stop
-            @click="filter.type = filterType; forceRerender()"
+            @click="filter.type = filterType;"
           >
             <HighShelfIcon
               v-if="filterType == 'highshelf'"
