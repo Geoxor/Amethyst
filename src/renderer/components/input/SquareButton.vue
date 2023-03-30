@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{ active?: boolean, icon?: any }>();
+defineProps<{ active?: boolean, icon?: any, text?: string }>();
 </script>
 
 <template>
@@ -11,6 +11,13 @@ defineProps<{ active?: boolean, icon?: any }>();
       :is="icon"
       v-if="icon"
     />
+
+    <p
+      v-if="text"
+      class="font-aseprite text-primary-900"
+    >
+      {{ text }}
+    </p>
   </button>
 </template>
 

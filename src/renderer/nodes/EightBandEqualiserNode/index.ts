@@ -20,8 +20,8 @@ export class AmethystEightBandEqualiserNode extends AmethystAudioNode {
     for (let i = 0; i < 8; i++) {
       const eq = context.createBiquadFilter();
       eq.type = "peaking";
-      eq.frequency.value = 1000 * i; 
-      eq.gain.value = -6.0;
+      eq.frequency.value = 20 * Math.pow(2, i); 
+      eq.gain.value = 0;
       eq.Q.value = 1;
       this.filters.push(eq);
     }
