@@ -3,53 +3,58 @@ import { NodeProperties } from "@/logic/audioManager";
 import { ref } from "vue";
 import component from "./component.vue";
 
-export class AmethystFilterNode extends AmethystAudioNode<BiquadFilterNode> {
+export class AmethystFilterNode extends AmethystAudioNode {
   // Used to remember the state for onMounted state 
   // for the slider
   // The typecasting is a small hack because this is passed into a reactive object as markRaw()
   public frequencyPercent = ref(100) as unknown as number;
   public MIN_FREQUENCY = 20;
-  public MAX_FREQUENCY = this.audioNode.context.sampleRate / 2;
+  public MAX_FREQUENCY = 22050;
+  public filter: BiquadFilterNode;
 
   public constructor(context: AudioContext, position: NodeProperties["position"]) {
-    const filter = context.createBiquadFilter();
-    super(filter, "AmethystFilterNode", component, position);
+    const pre = context.createGain();
+    const post = context.createGain();
+    super(pre, post, "AmethystFilterNode", component, position);
     
-    filter.type = "lowpass";
-    filter.frequency.value = this.MAX_FREQUENCY;
-    filter.Q.value = -3;
+    this.filter = context.createBiquadFilter();
+    pre.connect(this.filter);
+    this.filter.connect(post);
+    this.filter.type = "lowpass";
+    this.filter.frequency.value = this.MAX_FREQUENCY;
+    this.filter.Q.value = -3;
   }
 
   public get type () {
-    return this.audioNode.type;
+    return this.filter.type;
   }
 
   public set type(type: BiquadFilterType) {
-    this.audioNode.type = type;
+    this.filter.type = type;
   }
 
   public get frequency() {
-    return this.audioNode.frequency.value;
-  }
-
-  public get Q() {
-    return this.audioNode.Q.value;
-  }
-
-  public get gain() {
-    return this.audioNode.gain.value;
+    return this.filter.frequency.value;
   }
 
   public set frequency(freq: number) {
-    this.audioNode.frequency.value = freq;
+    this.filter.frequency.value = freq;
+  }
+  
+  public get Q() {
+    return this.filter.Q.value;
+  }
+
+  public get gain() {
+    return this.filter.gain.value;
   }
 
   public set Q(q: number) {
-    this.audioNode.Q.value = q;
+    this.filter.Q.value = q;
   }
 
   public set gain(gain: number) {
-    this.audioNode.gain.value = gain;
+    this.filter.gain.value = gain;
   }
 
   public override reset(){
@@ -59,13 +64,4 @@ export class AmethystFilterNode extends AmethystAudioNode<BiquadFilterNode> {
     this.type = "lowpass";
   }
 
-  public getParameters() {
-    return {
-      frequencyPercent: this.frequencyPercent,
-      frequency: this.frequency,
-      gain: this.gain,
-      Q: this.Q,
-      type: this.type,
-    };
-  }
 }

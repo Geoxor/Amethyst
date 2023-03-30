@@ -1,17 +1,17 @@
 import { Position } from "@vue-flow/core";
 import { DefineComponent, markRaw } from "vue";
 import { player } from "@/logic/player";
-import { Connection, NodeProperties, Paramaters } from "./audioManager";
+import { Connection, NodeProperties } from "./audioManager";
 import { v4 as uuidv4 } from "uuid";
  
-export class AmethystAudioNode<T extends AudioNode> {
+export class AmethystAudioNode {
   public properties: NodeProperties;
   public connections: Connection[] = [];
   public isDisabled: boolean = false;
-  private connectedTo: (AmethystAudioNode<AudioNode>)[] = [];
+  private connectedTo: AmethystAudioNode[] = [];
   public component: DefineComponent<{}, {}, any>;
 
-  public constructor(public audioNode: T, name: string, component: DefineComponent<{}, {}, any>, position: NodeProperties["position"], public isRemovable: boolean = true) {
+  public constructor(public pre: GainNode, public post: GainNode, name: string, component: DefineComponent<{}, {}, any>, position: NodeProperties["position"], public isRemovable: boolean = true) {
     const id = uuidv4();
     
     this.properties = {
@@ -33,11 +33,11 @@ export class AmethystAudioNode<T extends AudioNode> {
       const target = player.nodeManager.nodes.value.find(node => node.properties.id === edge.target);
       if (!target) return;
       this.connectedTo.push(target);
-      this.audioNode.connect(target.audioNode);
+      this.post.connect(target.pre);
     });
   }
 
-  public connectTo(target: AmethystAudioNode<AudioNode>) {
+  public connectTo(target: AmethystAudioNode) {
     if (this.connectedTo.includes(target)) return;
     this.connectedTo.push(target);
     this.connections.push({ 
@@ -45,14 +45,14 @@ export class AmethystAudioNode<T extends AudioNode> {
       source: this.properties.id, 
       target: target.properties.id 
     });
-    this.audioNode.connect(target.audioNode);
+    this.post.connect(target.pre);
   }
 
-  public disconnectFrom(target: AmethystAudioNode<AudioNode>) {
+  public disconnectFrom(target: AmethystAudioNode) {
     this.connectedTo.splice(this.connectedTo.indexOf(target), 1);
     // TODO: make this get the indexes of all target connections because it only disconnects the first target
     this.connections.splice(this.connections.findIndex(connection => connection.target === target.properties.id), 1);
-    this.audioNode.disconnect(target.audioNode);
+    this.post.disconnect(target.pre);
   }
 
   public disconnect() {
@@ -84,9 +84,4 @@ export class AmethystAudioNode<T extends AudioNode> {
   public reset(){
     throw new Error("Not implemented");
   };
-
-  public getParameters(): Paramaters | undefined {
-    console.log(`${this.properties.name} doesn't have any parameters`);
-    return;
-  }
 }

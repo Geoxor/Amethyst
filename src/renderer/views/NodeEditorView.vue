@@ -8,14 +8,14 @@ import { Connection, EdgeMouseEvent, NodeDragEvent, VueFlow } from "@vue-flow/co
 import { onKeyStroke } from "@vueuse/core";
 import { computed, onMounted, onUnmounted, ref } from "vue";
 import { player } from "@/logic/player";
-import { AmethystPannerNode, AmethystGainNode, AmethystSpectrumNode, AmethystFilterNode } from "@/nodes";
+import { AmethystPannerNode, AmethystGainNode, AmethystSpectrumNode, AmethystFilterNode, AmethystEightBandEqualiserNode } from "@/nodes";
 import { AmethystAudioNode } from "@/logic/audio";
 import { Coords } from "@shared/types";
 import { useContextMenu } from "@/components/ContextMenu";
 
 const dash = ref();
 const nodeEditor = ref();
-type NodeMenuOptions = Coords & {source?: AmethystAudioNode<AudioNode>, target?: AmethystAudioNode<AudioNode>};
+type NodeMenuOptions = Coords & {source?: AmethystAudioNode, target?: AmethystAudioNode};
 
 let resizeObserver: ResizeObserver;
 
@@ -90,6 +90,13 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   {title: "Add FilterNode", icon: FilterIcon, action: () => {
     player.nodeManager.addNode(new AmethystFilterNode(player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
   }},
+  {
+    title: "Add EightBandEqualiserNode", 
+    icon: FilterIcon, 
+    action: () => {
+      player.nodeManager.addNode(new AmethystEightBandEqualiserNode(player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
+    }
+  },
   {title: "Add PannerNode", icon: AzimuthIcon, action: () => {
     player.nodeManager.addNode(new AmethystPannerNode(player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
   }},

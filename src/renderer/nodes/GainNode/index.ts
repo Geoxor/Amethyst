@@ -2,26 +2,28 @@ import { AmethystAudioNode } from "@/logic/audio";
 import { NodeProperties } from "@/logic/audioManager";
 import component from "./component.vue";
 
-export class AmethystGainNode extends AmethystAudioNode<GainNode> {
+export class AmethystGainNode extends AmethystAudioNode {
+  private gainNode: GainNode;
+
   public constructor(context: AudioContext, position: NodeProperties["position"]) {
-    super(context.createGain(), "AmethystGainNode", component, position);
+    const pre = context.createGain();
+    const post = context.createGain();
+    super(pre, post, "AmethystGainNode", component, position);
+    
+    this.gainNode = context.createGain();;
+    pre.connect(this.gainNode);
+    this.gainNode.connect(post);
   }
 
   public get gain () {
-    return this.audioNode.gain.value;
+    return this.gainNode.gain.value;
   }
 
   public set gain(gain: number) {
-    this.audioNode.gain.value = gain;
+    this.gainNode.gain.value = gain;
   }
 
   public override reset() {
-    this.gain = 1;
-  }
-
-  public getParameters() {
-    return {
-      gain: this.gain,
-    };
+    this.gainNode.gain.value = 1.0;
   }
 }

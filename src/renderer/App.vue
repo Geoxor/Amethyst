@@ -153,7 +153,7 @@ onUnmounted(() => {
               
                 :key="player.nodeManager.getNodeConnectinsString()"
                 class="h-64 min-h-64 w-full bg-surface-1000"
-                :node="player.nodeManager.master.audioNode"
+                :node="player.nodeManager.master.post"
                 @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
                   { title: 'Hide', icon: HideIcon, action: () => state.settings.showBigSpectrum = false },
                 ]);"
@@ -175,7 +175,7 @@ onUnmounted(() => {
                 :width="256"
                 :height="256"
                 class="h-64 w-64 bg-surface-1000"
-                :node="player.nodeManager.master.audioNode"
+                :node="player.nodeManager.master.post"
                 @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
                   { title: 'Hide', icon: HideIcon, action: () => state.settings.showBigVectorscope = false },
                 ]);"
@@ -193,7 +193,7 @@ onUnmounted(() => {
         <db-meter
           v-if="state.settings.showDbMeter && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
-          :node="player.nodeManager.master.audioNode"
+          :node="player.nodeManager.master.post"
           :channels="player.getCurrentTrack()?.getChannels()"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide decibel meter', icon: HideIcon, action: () => state.settings.showDbMeter = false },
@@ -203,14 +203,14 @@ onUnmounted(() => {
         <loudness-meter 
           v-if="state.settings.showLoudnessMeter && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
-          :node="player.nodeManager.master.audioNode"
+          :node="player.nodeManager.master.post"
         />
 
         <playback-buttons :player="player" />
         <vectorscope
           v-if="state.settings.showVectorscope && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
-          :node="player.nodeManager.master.audioNode"
+          :node="player.nodeManager.master.post"
           :width="76"
           :height="76"
           class="clickable"
@@ -232,7 +232,7 @@ onUnmounted(() => {
           :class="[
             state.settings.showBigSpectrum && 'border-primary-700 bg-primary-700 bg-opacity-10 hover:bg-opacity-20'
           ]"
-          :node="player.nodeManager.master.audioNode"
+          :node="player.nodeManager.master.post"
           @click="state.settings.showBigSpectrum = !state.settings.showBigSpectrum"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide Spectrum', icon: HideIcon, action: () => state.settings.showSpectrum = false },
