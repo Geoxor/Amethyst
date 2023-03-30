@@ -29,6 +29,10 @@ onUnmounted(() => {
   player.off("play", handlePlay);
 });
 
+const handleShowInExplorer = (path:string) => {
+  window.electron.ipcRenderer.invoke("show-item", [ path]);
+};
+
 </script>
 
 <template>
@@ -147,7 +151,7 @@ onUnmounted(() => {
         </li>
         <button
           class="cursor-pointer"
-          @click="useElectron().ipc.invoke('show-item', [ currentItem.path])"
+          @click="handleShowInExplorer(currentItem.path)"
         >
           Show in explorer
           <ExternalLinkIcon />
@@ -206,7 +210,7 @@ onUnmounted(() => {
         </li>
         <button
           class="cursor-pointer"
-          @click="useElectron().ipc.invoke('show-item', [ currentItem.getCachePath()])"
+          @click="handleShowInExplorer(currentItem.getCachePath())"
         >
           Show .amf
           <ExternalLinkIcon />

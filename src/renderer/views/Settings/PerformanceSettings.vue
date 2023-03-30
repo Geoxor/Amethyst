@@ -19,7 +19,7 @@ const state = useState();
     <template #main>
       <base-switch
         v-model="state.settings.useVsync" 
-        @change="useElectron().ipc.invoke('set-vsync', [state.settings.useVsync])"
+        @change="window.electron.ipcRenderer.invoke('set-vsync', [state.settings.useVsync])"
       />
     </template>
   </settings-group>

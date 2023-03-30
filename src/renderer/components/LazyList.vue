@@ -28,7 +28,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           extension: "dfpwm"
       });
     }},
-    { title: "Show in Explorer...", icon: ExternalLinkIcon, action: () => useElectron().ipc.invoke("show-item", [track.path]) },
+    { title: "Show in Explorer...", icon: ExternalLinkIcon, action: () => window.electron.ipcRenderer.invoke("show-item", [track.path]) },
     { title: "Export cover...", icon: ExternalLinkIcon, action: () => track.exportCover() },
     { title: "Reload metadata", icon: ResetIcon, action: () => track.fetchAsyncData(true) },
     { title: "Remove from queue", icon: RemoveIcon, red: true, action: () => player.queue.remove(track) },
@@ -86,7 +86,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           class="row"
           @contextmenu="handleContextMenu($event, item)"
           @keypress.prevent
-          @click="isHoldingControl ? useElectron().ipc.invoke('show-item', [item.path]) : player.play(item)"
+          @click="isHoldingControl ? window.electron.ipcRenderer.invoke('show-item', [item.path]) : player.play(item)"
         >
           <div
             class="td max-w-4"
