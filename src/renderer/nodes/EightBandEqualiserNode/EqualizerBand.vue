@@ -36,14 +36,17 @@ function antilog10(value: number) {
 </script>
 
 <template>
-  <BaseSlider 
-    v-model="paramValue"
-    type="range"
-    :min="log ? log10(min) : min"
-    :max="log ? log10(max) : max"
-    :step="step"
-    @input="updateParamValue"
-    @mousedown.stop
-  />
-  {{ (log ? antilog10(paramValue) : paramValue).toFixed(digits) }} {{ suffix }}
+  <div class="flex gap-2 justify-between w-full">
+    {{ (log ? antilog10(paramValue) : paramValue).toFixed(digits) }} {{ suffix }}
+    <BaseSlider 
+      v-model="paramValue"
+      class="w-32"
+      type="range"
+      :min="log ? log10(min) : min"
+      :max="log ? log10(max) : max"
+      :step="step"
+      @input="updateParamValue"
+      @mousedown.stop
+    />
+  </div>
 </template>

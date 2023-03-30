@@ -1,8 +1,18 @@
 <script setup lang="ts">
 import CustomNode from "@/components/nodes/CustomNode.vue";
 import EqualizerBand from "./EqualizerBand.vue";
-import { FilterIcon } from "@/icons/material";
 import { AmethystEightBandEqualiserNode } from ".";
+import { FilterIcon,
+
+HighShelfIcon,
+LowShelfIcon,
+LowpassIcon,
+HighpassIcon,
+BellIcon,
+BandpassIcon,
+
+} from "@/icons/material";
+import { ref } from "vue";
 const props = defineProps<{ node: AmethystEightBandEqualiserNode }>();
 
 // watch(() => props.node.frequencyPercent, percent => {
@@ -10,27 +20,20 @@ const props = defineProps<{ node: AmethystEightBandEqualiserNode }>();
 // });
 
 const FILTER_TYPES = [
-  "allpass",
-   "bandpass",
-   "highpass",
-   "highshelf",
-   "lowpass",
-   "lowshelf",
-   "notch",
-   "peaking"
+  // "allpass",
+  "lowshelf",
+  "lowpass",
+  "bandpass",
+  // "notch",
+  "peaking",
+  "highpass",
+  "highshelf",
 ];
 
-const handleChange = (idx: number, event: Event, key: string) => {
-  const filter = props.node.filters[idx];
+const componentKey = ref(0);
 
-  switch(key) {
-    case "gain":
-      filter.gain.value = parseFloat((event.target as HTMLInputElement).value);
-      break;
-    case "type":
-      filter.type = (event.target as HTMLInputElement).value as BiquadFilterType;
-      break;
-  }
+const forceRerender = () => {
+  componentKey.value += 1;
 };
 
 </script>
@@ -41,11 +44,15 @@ const handleChange = (idx: number, event: Event, key: string) => {
     title="8-Band Equaliser"
     :icon="FilterIcon"
   >
-    <div class="flex gap-2 text-primary-900">
+    <div
+      :key="componentKey" 
+      class="grid grid-cols-4 gap-2 text-primary-900"
+    >
       <div
         v-for="(filter, i) of node.filters"
         :key="i"
-        class="div flex flex-col gap-1 h-min  font-aseprite"
+        class="div flex flex-col h-min font-aseprite bg-surface-1000 p-2 rounded-4px gap-2"
+        @mousedown.stop
       >
         <equalizer-band
           v-model="filter.frequency.value"
@@ -76,21 +83,41 @@ const handleChange = (idx: number, event: Event, key: string) => {
           suffix="Q"
           :digits="2"
         />
-        
-        <select
-          v-model="filter.type"
-          class="bg-surface-600 w-full font-aseprite font-thin py-2"
-          @change="handleChange(i, $event, 'type')"
-        >
-          <option
+        <div class="flex rounded-2px overflow-hidden">
+          <button
             v-for="filterType of FILTER_TYPES"
             :key="filterType"
-            class="text-10px"
-            :value="filterType"
+            class="text-10px cursor-pointer px-1 py-0.5 bg-surface-900"
+            :class="[filter.type == filterType ? 'text-primary-800 bg-primary-800 bg-opacity-10' : 'text-surface-500']"
+            @mousedown.stop
+            @click="filter.type = filterType; forceRerender()"
           >
-            {{ filterType }}
-          </option>
-        </select>
+            <HighShelfIcon
+              v-if="filterType == 'highshelf'"
+              class="h-4 w-4"
+            />
+            <LowShelfIcon
+              v-else-if="filterType == 'lowshelf'"
+              class="h-4 w-4"
+            />
+            <LowpassIcon
+              v-else-if="filterType == 'lowpass'"
+              class="h-4 w-4"
+            />
+            <HighpassIcon
+              v-else-if="filterType == 'highpass'"
+              class="h-4 w-4"
+            />
+            <BellIcon
+              v-else-if="filterType == 'peaking'"
+              class="h-4 w-4"
+            />
+            <BandpassIcon
+              v-else-if="filterType == 'bandpass'"
+              class="h-4 w-4"
+            />
+          </button>
+        </div>
       </div>
     </div>
   </CustomNode>
