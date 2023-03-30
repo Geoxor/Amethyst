@@ -103,6 +103,9 @@ const handleContextCoverMenu = ({x, y}: MouseEvent) => {
 //   delta < 0 ? player.seekForward() : player.seekBackward();
 // };
 
+const handleOpenFileLocation = () => {
+  window.electron.ipcRenderer.invoke("show-item", [player.getCurrentTrack()?.path]);
+};
 </script>
 
 <template>
@@ -122,7 +125,7 @@ const handleContextCoverMenu = ({x, y}: MouseEvent) => {
         <div class="flex flex-col w-full py-1 font-bold gap-1 ">
           <h1
             class="text-12px hover:underline cursor-pointer w-24 overflow-hidden overflow-ellipsis"
-            @click="useElectron().ipc.invoke('show-item', [player.getCurrentTrack()?.path])"
+            @click="handleOpenFileLocation"
           >
             {{ player.getCurrentTrack()?.getTitleFormatted() }}
           </h1>
