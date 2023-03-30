@@ -58,7 +58,7 @@ onUnmounted(() => {
     </div>
 
     <div
-      v-if="state.settings.value.showAmbientBackground"
+      v-if="state.settings.value.showAmbientBackground && ambientBackgroundImage"
       :style="`
         transform: translate(-50%, -50%) scale(${state.settings.value.ambientBackgroundZoom}%);
         mix-blend-mode: ${state.settings.value.ambientBackgroundBlendMode};
