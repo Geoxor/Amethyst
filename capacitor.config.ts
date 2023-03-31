@@ -5,6 +5,12 @@ const commonConfig: CapacitorConfig = {
   appName: "amethyst",
   webDir: "release/dist/renderer",
   bundledWebRuntime: false,
+  android: {
+    path: "src/android"
+  },
+  ios: {
+    path: "src/ios"
+  },
 };
 
 const devConfig: CapacitorConfig = {
