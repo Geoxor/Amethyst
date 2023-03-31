@@ -53,20 +53,18 @@ class AmethystBackend {
     throw new Error("Unknown operating system");
   }
 
-  // Useful only for web version
-  private openLinkInNewTab(url: string) {
-    const newWindow = window.open(url, "_blank", "noopener,noreferrer");
-    if (newWindow) {
-      newWindow.opener = null;
-    }
-  }
-
   public openLink(url: string) {
     switch (this.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke("open-external", [url]);
       case "web":
-        return this.openLinkInNewTab(url);
+        const openLinkInNewTab = (url: string) => {
+          const newWindow = window.open(url, "_blank", "noopener,noreferrer");
+          if (newWindow) {
+            newWindow.opener = null;
+          }
+        };
+        return openLinkInNewTab(url);
       default:
         return;
     }
