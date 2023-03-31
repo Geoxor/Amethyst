@@ -1,5 +1,4 @@
 // Lets us import multiple components in one line
-// import { PannerNode, GainNode } from "@/nodes";
 
 import { AmethystGainNode } from "./GainNode";
 import { AmethystFilterNode } from "./FilterNode";

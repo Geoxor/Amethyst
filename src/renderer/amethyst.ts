@@ -1,11 +1,7 @@
-// import { ElectronEventManager } from "@/electronEventManager";
-// import { CPUUsageMonitor } from "@/logic/CPUUsageMonitor";
 import { player } from "@/logic/player";
-// import { Track } from "@/logic/track";
 import { MediaSession } from "@/mediaSession";
 import { Shortcuts } from "@/shortcuts";
 import { Store } from "@/state";
-// import { watch } from "vue";
 import { Capacitor } from "@capacitor/core";
 import { StatusBar } from "@capacitor/status-bar";
 import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
