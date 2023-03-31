@@ -191,7 +191,7 @@ export class Amethyst extends AmethystBackend {
       const updateRichPresence = (track: Track) => {
         const sendData = () => {
         const args = [
-            `${track.getArtistsFormatted() || "unknown artist"} - ${track.getTitleFormatted() || "unknown title"}`,
+          track.getArtistsFormatted() && track.getTitleFormatted() ? `${track.getArtistsFormatted()} - ${track.getTitleFormatted()}` : track.getFilename(),
             player.isPaused.value ? "Paused" : `${player.currentTimeFormatted(true)} - ${track.getDurationFormatted(true)}`,
             track.metadata.data?.format.container?.toLowerCase() || "unknown format"
           ];
