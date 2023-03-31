@@ -289,7 +289,7 @@
     "@vitejs/plugin-vue": "^4.1.0",
     "@vue/eslint-config-typescript": "^11.0.2",
     "@vue/test-utils": "^2.2.7",
-    "concurrently": "^7.6.0",
+    "concurrently": "^8.0.1",
     "cross-env": "^7.0.3",
     "electron": "23.2.1",
     "electron-builder": "^23.6.0",
