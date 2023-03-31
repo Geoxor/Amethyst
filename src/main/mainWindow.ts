@@ -180,7 +180,7 @@ export class MainWindow {
 
 		this.window.webContents.on("dom-ready", async () => {
 			if (process.argv[1])
-				this.playAudio(process.argv[1]);
+				this.playAudio(path.join(process.argv[1]));
 
 			// this.window.webContents.send("default-cover", await fs.promises.readFile(
 			// 	path.join(RESOURCES_PATH, "/images/audio.png"),

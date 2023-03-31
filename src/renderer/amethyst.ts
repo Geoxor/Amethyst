@@ -185,7 +185,7 @@ export class Amethyst extends AmethystBackend {
 
       window.electron.ipcRenderer.on("update", () => this.store.state.updateReady = true);
 
-      window.electron.ipcRenderer.on<string>("play-file", path => path !== "--require" && player.queue.add(path).then(() => {
+      window.electron.ipcRenderer.on<string>("play-file", path => path !== "--require" && player.queue.add(amethyst.getCurrentOperatingSystem() == "linux" ? new URL(path).href : path).then(() => {
         player.play(player.queue.getList().findIndex(track => track.path == path));
       }));
       window.electron.ipcRenderer.on<(string)[]>("play-folder", paths => player.queue.add(flattenArray(paths)));

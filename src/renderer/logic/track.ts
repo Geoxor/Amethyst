@@ -15,16 +15,20 @@ export class Track {
   public isLoaded = ref(false);
   public hasErrored = ref(false);
   public deleted: boolean = false;
+  public path: string;
 
-  public constructor(public path: string) {}
+  public constructor(public absolutePath: string) {
+    this.path = `file://${absolutePath}`;
+  }
 
-  public getCachePath() {
-    return window.path.join(amethyst.APPDATA_PATH || "" , "/amethyst/Metadata Cache", this.getFilename() + ".amf");
+  public getCachePath(absolute?: boolean) {
+    const amfPath = window.path.join(amethyst.APPDATA_PATH || "" , "/amethyst/Metadata Cache", this.getFilename() + ".amf");
+    return absolute ? amfPath : `file://${amfPath}`;
   }
  
   private async isCached() {
     try {
-      await window.fs.stat(this.getCachePath());
+      await window.fs.stat(this.getCachePath(true));
       return true;
     } catch (error) {
       return false;
@@ -36,9 +40,9 @@ export class Track {
   }
 
   public async delete() {
-    return window.fs.unlink(this.path).then(() => {
+    return window.fs.unlink(this.absolutePath).then(() => {
       this.deleted = true;
-      window.fs.unlink(this.getCachePath()).catch();
+      window.fs.unlink(this.getCachePath(true)).catch();
     });
   }
 
@@ -58,7 +62,7 @@ export class Track {
         this.metadata.state = LoadStatus.Loaded;
         return this.metadata.data;
       }
-      this.metadata.data = await amethyst.getMetadata(this.path);
+      this.metadata.data = await amethyst.getMetadata(this.absolutePath);
       this.metadata.state = LoadStatus.Loaded;
       return this.metadata.data;
     } catch (error) {
@@ -78,7 +82,7 @@ export class Track {
         this.cover.state = LoadStatus.Loaded;
         return this.cover.data;
       }
-      const data = await amethyst.getCover(this.path);
+      const data = await amethyst.getCover(this.absolutePath);
       this.cover.data = data ? `data:image/webp;base64,${data}` : undefined;
       this.cover.state = LoadStatus.Loaded;
       return this.cover.data;
@@ -101,7 +105,7 @@ export class Track {
       metadata.common.picture = [];
     }
     
-    window.fs.writeFile(this.getCachePath(), JSON.stringify({
+    window.fs.writeFile(this.getCachePath(true), JSON.stringify({
       cover,
       metadata,
     }, null, 2)).catch(console.log);
@@ -145,7 +149,7 @@ export class Track {
   }
 
   public async getArrayBuffer() {
-    const response = await fetch(new URL(`file://${this.path}`).href);
+    const response = await fetch(this.path);
     if (!response.ok) {
       throw new Error(`Failed to fetch file: ${response.statusText}`);
     }
@@ -159,11 +163,11 @@ export class Track {
    */
   public getFilename() {
     if (amethyst.getCurrentPlatform() === "desktop") {
-      const { base } = window.path.parse(this.path);
+      const { base } = window.path.parse(this.absolutePath);
       return base;
     }
 
-    return this.path;
+    return this.absolutePath;
   }
 
   /**
@@ -171,7 +175,7 @@ export class Track {
    * @example "02. Daft Punk - Get Lucky"
    */
   public getFilenameWithoutExtension() {
-    const { name } = window.path.parse(this.path);
+    const { name } = window.path.parse(this.absolutePath);
     return name;
   }
 
