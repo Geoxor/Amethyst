@@ -11,8 +11,10 @@ import { StatusBar } from "@capacitor/status-bar";
 import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
 import { IMetadata } from "@shared/types";
 import { FileFilter, OpenDialogReturnValue } from "electron";
+import { watch } from "vue";
 import { getThemeColorHex } from "./logic/color";
 import { flattenArray } from "./logic/math";
+import { Track } from "./logic/track";
 
 export type AmethystPlatforms = ReturnType<typeof amethyst.getCurrentPlatform>;
 
@@ -164,8 +166,6 @@ export class Amethyst extends AmethystBackend {
   public shortcuts: Shortcuts = new Shortcuts();
   public mediaSession: MediaSession = new MediaSession();
 
-  // private richPresenceTimer: NodeJS.Timer | undefined;
-
   public constructor() {
     super();
 
@@ -179,26 +179,50 @@ export class Amethyst extends AmethystBackend {
       window.electron.ipcRenderer.on("unfocus", () => this.store.state.isFocused = false);
 
       window.electron.ipcRenderer.on("update", () => this.store.state.updateReady = true);
+
+      window.electron.ipcRenderer.on<string>("play-file", path => path !== "--require" && player.queue.add(path).then(() => {
+        player.play(player.queue.getList().findIndex(track => track.path == path));
+      }));
+      window.electron.ipcRenderer.on<(string)[]>("play-folder", paths => player.queue.add(flattenArray(paths)));
+  
+      // #region move this to the discord plugin
+      let richPresenceTimer: NodeJS.Timer | undefined;
+
+      const updateRichPresence = (track: Track) => {
+        const sendData = () => {
+        const args = [
+            `${track.getArtistsFormatted() || "unknown artist"} - ${track.getTitleFormatted() || "unknown title"}`,
+            player.isPaused.value ? "Paused" : `${player.currentTimeFormatted(true)} - ${track.getDurationFormatted(true)}`,
+            track.metadata.data?.format.container?.toLowerCase() || "unknown format"
+          ];
+          window.electron.ipcRenderer.invoke("update-rich-presence", [args]);
+        };
+
+        richPresenceTimer && clearInterval(richPresenceTimer);
+        sendData();
+        richPresenceTimer = setInterval(() => sendData(), 1000);
+      };
+
+      const updateWithCurrentTrack = () => {
+        const currentTrack = player.getCurrentTrack();
+        currentTrack && updateRichPresence(currentTrack);
+      };
+
+      if (this.store.settings.value.useDiscordRichPresence) {
+        player.on("play", () => {
+          updateWithCurrentTrack();
+        });
+      };
+
+      watch(() => this.store.settings.value.useDiscordRichPresence, value => {
+        value ? updateWithCurrentTrack() : richPresenceTimer && clearInterval(richPresenceTimer);
+      });
+      // #endregion
     }
 
     if (this.currentPlatform === "mobile") {
       StatusBar.setBackgroundColor({color: getThemeColorHex("--surface-800")});
     }
-
-    // this.electron.ipc.on<string>("play-file", path => path !== "--require" && player.queue.add(path).then(() => {
-    //   player.play(player.queue.getList().findIndex(track => track.path == path));
-    // }));
-    // this.electron.ipc.on<(string)[]>("play-folder", paths => player.queue.add(flattenArray(paths)));
-
-    // watch(() => this.store.settings.useDiscordRichPresence, value => {
-    //   if (value) {
-    //     const currentTrack = player.getCurrentTrack();
-    //     currentTrack && this.updateRichPresence(currentTrack);
-    //     return;
-    //   };
-    //   this.richPresenceTimer && clearInterval(this.richPresenceTimer);
-    //   this.electron.clearRichPresence();
-    // });
 
     document.addEventListener("drop", event => {
       event.preventDefault();
@@ -244,19 +268,6 @@ export class Amethyst extends AmethystBackend {
     this.store.state.isCheckingForUpdates = false;
   }
 
-  // private updateRichPresence(track: Track){
-  //   const sendData = () => {
-  //     this.electron.updateRichPresence([
-  //       `${track.getArtistsFormatted() || "unknown artist"} - ${track.getTitleFormatted() || "unknown title"}`,
-  //       player.isPaused.value ? "Paused" : `${player.currentTimeFormatted(true)} - ${track.getDurationFormatted(true)}`,
-  //       track.metadata.data?.format.container?.toLowerCase()
-  //     ]);
-  //   };
-
-  //   this.richPresenceTimer && clearInterval(this.richPresenceTimer);
-  //   sendData();
-  //   this.richPresenceTimer = setInterval(() => sendData(), 1000);
-  // }
 }
 
 export const amethyst = new Amethyst();

@@ -66,7 +66,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="font-aseprite text-primary-900 w-full max-w-40 flex flex-col justify-between h-full py-0.5">
+  <div class="text-9px text-primary-900 w-full max-w-40 flex flex-col justify-between h-full py-0.5">
     <div class="meter">
       <div class="barBg">
         <div

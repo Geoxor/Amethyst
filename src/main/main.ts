@@ -50,8 +50,8 @@ else {
 				// Someone tried to run a second instance, we should focus our window.
 				if (mainWindow.window.isMinimized())
 					mainWindow.window.restore();
-
-				mainWindow.playAudio(argv[2]);
+					console.log(argv);
+				mainWindow.playAudio(argv[3]);
 				mainWindow.window.focus();
 			});
 
