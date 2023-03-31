@@ -11,6 +11,9 @@ declare global {
     path: path;
     dialog: Electron.Dialog;
     electron: {
+			isMac: boolean, 
+			isWindows: boolean, 
+			isLinux: boolean,
 			ipcRenderer: {
 				invoke<T>(channel: Channels, args?: any[]): Promise<T>
 				send(channel: Channels, args: unknown[]): void

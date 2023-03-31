@@ -50,8 +50,14 @@ const state = useState();
     class="borderBottom z-100 font-main drag text-12px select-none flex justify-between items-center"
     :class="[state.state.isFocused ? 'text-primary-1000' : 'text-primary-900']"
   >
-    <div class="flex no-drag h-full items-center">
-      <div class="logo w-40px items-center flex justify-center cursor-heart-pointer">
+    <div
+      class="flex no-drag h-full items-center"
+    
+      :class="[amethyst.getCurrentOperatingSystem() == 'mac' && 'pl-16']"
+    >
+      <div
+        class="logo w-40px items-center flex justify-center cursor-heart-pointer"
+      >
         <amethyst-logo
           class="w-4 h-4 min-h-4 min-w-4"
         />
@@ -218,7 +224,7 @@ const state = useState();
         />
       </template>
       <control-buttons
-        v-if="amethyst.currentPlatform === 'desktop'"
+        v-if="amethyst.getCurrentPlatform() === 'desktop' && amethyst.getCurrentOperatingSystem() != 'mac'"
         :is-maximized="state.state.isMaximized"
         @close="amethyst.performWindowAction('close')"
         @minimize="amethyst.performWindowAction('minimize')"

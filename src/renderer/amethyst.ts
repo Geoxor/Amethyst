@@ -35,11 +35,24 @@ class AmethystBackend {
 
   private static isPlatformWeb = !AmethystBackend.isPlatformMobile && !AmethystBackend.isPlatformDesktop;
 
+  private static isOperatingSystemLinux = this.isPlatformDesktop && window.electron.isLinux;
+
+  private static isOperatingSystemWindows = this.isPlatformDesktop && window.electron.isWindows;
+
+  private static isOperatingSystemMac = this.isPlatformDesktop && window.electron.isMac;
+
   public getCurrentPlatform() {
     if (Amethyst.isPlatformDesktop) return "desktop"; // aka Electron
     if (Amethyst.isPlatformMobile) return "mobile"; // aka Capacitor
     if (Amethyst.isPlatformWeb) return "web"; // aka Webapp
     throw new Error("Unknown platform");
+  }
+
+  public getCurrentOperatingSystem() {
+    if (Amethyst.isOperatingSystemLinux) return "linux";
+    if (Amethyst.isOperatingSystemWindows) return "windows";
+    if (Amethyst.isOperatingSystemMac) return "mac";
+    throw new Error("Unknown operating system");
   }
 
   // Useful only for web version
