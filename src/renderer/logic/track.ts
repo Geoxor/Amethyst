@@ -158,7 +158,7 @@ export class Track {
    * @example "02. Daft Punk - Get Lucky.flac"
    */
   public getFilename() {
-    if (amethyst.currentPlatform === "desktop") {
+    if (amethyst.getCurrentPlatform() === "desktop") {
       const { base } = window.path.parse(this.path);
       return base;
     }

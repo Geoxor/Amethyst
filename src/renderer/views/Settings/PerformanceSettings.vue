@@ -12,7 +12,7 @@ const handleToggleVsync = () => {
 
 <template>
   <settings-group
-    v-if="amethyst.currentPlatform === 'desktop'"
+    v-if="amethyst.getCurrentPlatform() === 'desktop'"
     :icon="FlickerFreeIcon"
     description="Constrain the user interface (UI) framerate of Amethyst to the refresh rate of the active display."
     text="VSync"

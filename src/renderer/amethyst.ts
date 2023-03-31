@@ -23,10 +23,8 @@ export type AmethystPlatforms = ReturnType<typeof amethyst.getCurrentPlatform>;
  * to a simple form for all the platforms
  */
 class AmethystBackend {
-  public currentPlatform: AmethystPlatforms = this.getCurrentPlatform();
-
   public constructor() {
-    console.log(`Current platform: ${this.currentPlatform}`);
+    console.log(`Current platform: ${this.getCurrentPlatform()}`);
   }
 
   private static isPlatformMobile = Capacitor.isNativePlatform();
@@ -64,7 +62,7 @@ class AmethystBackend {
   }
 
   public openLink(url: string) {
-    switch (this.currentPlatform) {
+    switch (this.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke("open-external", [url]);
       case "web":
@@ -75,7 +73,7 @@ class AmethystBackend {
   }
 
   public showItem(path: string) {
-    switch (this.currentPlatform) {
+    switch (this.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke("show-item", [path]); 
       default:
@@ -104,7 +102,7 @@ class AmethystBackend {
   }
 
   public async openFileDialog(filters?: FileFilter[]): Promise<OpenDialogReturnValue> {
-    switch (this.currentPlatform) {
+    switch (this.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-file-dialog", [filters]);
       case "web":
@@ -129,7 +127,7 @@ class AmethystBackend {
   }
   
   public openFolderDialog(filter?: string[]) {
-    switch (this.currentPlatform) {
+    switch (this.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-folder-dialog", [filter]);
       default:
@@ -151,7 +149,7 @@ class AmethystBackend {
 
   // TODO: get rid of this stupid logic and make it be part of when loading a track
   public getMetadata(path: string) {
-    switch (this.currentPlatform) {
+    switch (this.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<IMetadata>("get-metadata", [path]);
       default:
@@ -160,7 +158,7 @@ class AmethystBackend {
   }
 
   public getCover(path: string) {
-    switch (this.currentPlatform) {
+    switch (this.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<IMetadata>("get-cover", [path]);
       default:
@@ -182,7 +180,7 @@ export class Amethyst extends AmethystBackend {
   public constructor() {
     super();
 
-    if (this.currentPlatform === "desktop") {
+    if (this.getCurrentPlatform() === "desktop") {
       window.electron.ipcRenderer.invoke<string>("get-appdata-path").then(path => this.APPDATA_PATH = path);
 
       window.electron.ipcRenderer.on("maximize", () => this.store.state.isMaximized = true);
@@ -233,7 +231,7 @@ export class Amethyst extends AmethystBackend {
       // #endregion
     }
 
-    if (this.currentPlatform === "mobile") {
+    if (this.getCurrentPlatform() === "mobile") {
       StatusBar.setBackgroundColor({color: getThemeColorHex("--surface-800")});
     }
 
@@ -251,7 +249,7 @@ export class Amethyst extends AmethystBackend {
   }
 
   public performWindowAction(action: "close" | "maximize" | "unmaximize" | "minimize"): void {
-    if (this.currentPlatform === "desktop") {
+    if (this.getCurrentPlatform() === "desktop") {
       window.electron.ipcRenderer.invoke(action).then(() => this.syncWindowState());
     } else {
       throw new Error(`${this.performWindowAction.name} can only be executed when running in 'desktop' (electron) client`);
@@ -267,7 +265,7 @@ export class Amethyst extends AmethystBackend {
   public async checkForUpdates() {
     this.store.state.isCheckingForUpdates = true;
     try {
-      switch (this.currentPlatform) {
+      switch (this.getCurrentPlatform()) {
         case "desktop":
           await window.electron.ipcRenderer.invoke("check-for-updates");
           break; 

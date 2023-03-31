@@ -121,10 +121,10 @@ const state = useState();
         />
 
         <menu-splitter 
-          v-if="amethyst.currentPlatform == 'desktop'"
+          v-if="amethyst.getCurrentPlatform() === 'desktop'"
         />
         <menu-option
-          v-if="amethyst.currentPlatform == 'desktop'"
+          v-if="amethyst.getCurrentPlatform() === 'desktop'"
           :title="`Check for updates`"
           :icon="DownloadingUpdatesIcon"
           @click="amethyst.checkForUpdates()"
@@ -176,7 +176,7 @@ const state = useState();
         class="h-3 animate-spin w-3 min-h-3 min-w-3"
       />
       Amethyst 
-      <strong class="opacity-50 font-normal capitalize">{{ amethyst.currentPlatform }}</strong>
+      <strong class="opacity-50 font-normal capitalize">{{ amethyst.getCurrentPlatform() }}</strong>
       <BaseChip v-if="amethyst.IS_DEV">
         dev
       </BaseChip>
