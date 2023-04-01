@@ -35,7 +35,6 @@ export class Store {
 		ambientBackgroundSpinSpeed: 64,
 		ambientBackgroundZoom: 125,
 		ambientBackgroundBlendMode: "color-dodge",
-		spectrumVerticalZoom: 1.4,
 		spectrumFftSize: 8192,
 		spectrumSmoothing: 0.7,
 		vectorscopeLineThickness: 1,

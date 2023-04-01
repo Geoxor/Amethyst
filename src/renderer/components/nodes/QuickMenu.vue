@@ -7,7 +7,7 @@ const props = defineProps<{node: AmethystAudioNode}>();
 </script>
 
 <template>
-  <div class="minimenu absolute cursor-pointer items-center -top-8 text-primary-1000 left-1/2 transform-gpu text-8px -translate-x-1/2 flex rounded-4px overflow-hidden bg-surface-800">
+  <div class="minimenu absolute cursor-pointer items-center -top-8 text-primary-1000 left-1/2 transform-gpu text-9px -translate-x-1/2 flex rounded-4px overflow-hidden bg-surface-800">
     <button
       class="unhook"
       @click="node.disconnect()"
@@ -16,6 +16,15 @@ const props = defineProps<{node: AmethystAudioNode}>();
       Unhook
     </button>
     <button
+      v-if="props.node.isBypassable"
+      class="reset"
+      @click="node.toggleBypass()"
+    >
+      <DisconnectIcon class="w-3" />
+      Bypass
+    </button>
+    <button
+      v-if="props.node.isResettable"
       class="reset"
       @click="node.reset()"
     >

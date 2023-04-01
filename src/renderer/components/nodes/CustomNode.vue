@@ -8,6 +8,7 @@ import { AmethystAudioNode } from "@/logic/audio";
 import { Handle, Position } from "@vue-flow/core";
 import { useContextMenu } from "@/components/ContextMenu";
 import { IContextMenuOption } from "@/state";
+import BaseChip from "../BaseChip.vue";
 
 const props = defineProps<{ title: string, icon: any, description?: string, node: AmethystAudioNode, meterless?: boolean }>();
 
@@ -15,6 +16,7 @@ const props = defineProps<{ title: string, icon: any, description?: string, node
 const handleContextMenu = ({x, y}: MouseEvent) => {
   useContextMenu().open({x, y}, [
     { title: "Unhook", icon: DisconnectIcon, action: () => props.node.disconnect() },
+    { title: "Bypass", icon: ResetIcon, action: () => props.node.toggleBypass() },
     { title: "Reset", icon: ResetIcon, action: () => props.node.reset() },
     props.node.isRemovable ? { title: "Remove", icon: RemoveIcon, red: true, action: () => player.nodeManager.removeNode(props.node) } : undefined,
   ].filter(o => !!o) as IContextMenuOption[]);
@@ -24,8 +26,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
 
 <template>
   <div
-    :class="node.isDisabled && 'disabled'"
-    class="flex select-none h-full gap-2 relative rounded-4px hover:border-primary-800 border-surface-500 duration-100 flex gap-2 bg-surface-800 border-1 p-2"
+    class="flex select-none h-full   gap-2 relative rounded-4px hover:border-primary-800 border-surface-500 duration-100 flex gap-2 bg-surface-800 border-1 p-2"
     @contextmenu.stop="handleContextMenu"
   >
     <quick-menu :node="node" />
@@ -46,7 +47,8 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
           class="text-green-400"
         />
         <h1 class="text-primary-600 uppercase text-9px flex-1">
-          {{ title }}
+          {{ title }} 
+
           <p
             v-if="useShortcuts().isAltPressed.value"
             class="mt-0.5 text-surface-400 text-4px font-aseprite"
@@ -54,6 +56,13 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
             {{ node.properties.id }}
           </p>
         </h1>
+        <BaseChip
+          v-if="node.isBypassed"
+          class="animate-pulse"
+          color="bg-red-500 text-red-500"
+        >
+          Bypassed
+        </BaseChip>
       </div>
 
       <slot />

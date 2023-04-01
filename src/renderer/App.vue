@@ -238,7 +238,7 @@ onUnmounted(() => {
         <SpectrumAnalyzer
           v-if="state.settings.value.showSpectrum && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
-          class="clickable h-76px w-152px min-h-76px min-w-152px "
+          class="clickable h-76px w-152px min-h-76px min-w-152px bg-surface-900"
           :class="[
             state.settings.value.showBigSpectrum && 'border-primary-700 bg-primary-700 bg-opacity-10 hover:bg-opacity-20'
           ]"

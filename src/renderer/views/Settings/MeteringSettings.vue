@@ -85,14 +85,7 @@ const state = useState();
       v-model="state.settings.value.useLogarithmicSpectrum"
       text="Logarithmic spectrum"
     />
-    <settings-modifier
-      v-model="state.settings.value.spectrumVerticalZoom"
-      text="Vertical zoom"
-      :min="0.5"
-      :max="2"
-      :step="0.1"
-      :def="state.defaultSettings.spectrumVerticalZoom"
-    />
+
     <settings-modifier
       v-model="state.settings.value.spectrumSmoothing"
       text="Smoothing"

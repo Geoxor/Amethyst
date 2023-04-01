@@ -7,6 +7,6 @@ export class AmethystOutputNode extends AmethystAudioNode {
     const pre = context.createGain();
     const post = context.destination;
     pre.connect(post);
-    super(pre, (post as any), "AmethystOutputNode", component, position, false);
+    super(pre, (post as any), "AmethystOutputNode", component, position, false, false, false);
   }
 }

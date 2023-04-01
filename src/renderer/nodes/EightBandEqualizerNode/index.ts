@@ -16,7 +16,7 @@ export class AmethystEightBandEqualizerNode extends AmethystAudioNode {
     const pre = context.createGain();
     const post = context.createGain();
     super(pre, post,"AmethystEightBandEqualizerNode", component, position);
-    
+
     for (let i = 0; i < 8; i++) {
       const eq = context.createBiquadFilter();
       eq.type = "peaking";
@@ -33,6 +33,7 @@ export class AmethystEightBandEqualizerNode extends AmethystAudioNode {
     }
     
     this.filters[this.filters.length - 1].connect(post);
+
   }
 
   public override reset(){
@@ -52,4 +53,16 @@ export class AmethystEightBandEqualizerNode extends AmethystAudioNode {
     return this.getFrequency(idx).value = freq;;
   }
 
+  public calculateFrequencies(canvas: HTMLCanvasElement): Float32Array {
+    const frequencies = new Float32Array(canvas.width);
+    const nyquist = this.post.context.sampleRate / 2;
+    const minLog = 1;
+    const maxLog = Math.log10(nyquist);
+    for (let x = 0; x < canvas.width; x++) {
+      const log = minLog + (x / canvas.width) * (maxLog - minLog);
+      const frequency = Math.pow(10, log);
+      frequencies[x] = frequency;
+    }
+    return frequencies;
+  }
 }

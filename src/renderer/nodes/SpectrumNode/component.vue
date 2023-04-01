@@ -15,7 +15,7 @@ defineProps<{ node: AmethystSpectrumNode }>();
   >
     <SpectrumAnalyzer
       class="h-76px w-152px"
-      :node="node.audioNode"
+      :node="node.post"
     />
   </CustomNode>
 </template>

@@ -2,33 +2,20 @@
 import CustomNode from "@/components/nodes/CustomNode.vue";
 import EqualizerBand from "./EqualizerBand.vue";
 import { AmethystEightBandEqualizerNode } from ".";
-import { FilterIcon,
-
-HighShelfIcon,
-LowShelfIcon,
-LowpassIcon,
-HighpassIcon,
-BellIcon,
-BandpassIcon,
+import {
+  FilterIcon,
+  HighShelfIcon,
+  LowShelfIcon,
+  LowpassIcon,
+  HighpassIcon,
+  BellIcon,
+  BandpassIcon,
 
 } from "@/icons/material";
-import { ref } from "vue";
+import { Ref, onMounted, ref, watch } from "vue";
+import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
+import { getThemeColorHex } from "@/logic/color";
 const props = defineProps<{ node: AmethystEightBandEqualizerNode }>();
-
-// watch(() => props.node.frequencyPercent, percent => {
-//   props.node.frequency = percentToLog(percent, props.node.MIN_FREQUENCY, props.node.MAX_FREQUENCY);
-// });
-
-const FILTER_TYPES = [
-  // "allpass",
-  "lowshelf",
-  "lowpass",
-  "bandpass",
-  // "notch",
-  "peaking",
-  "highpass",
-  "highshelf",
-];
 
 const componentKey = ref(0);
 
@@ -36,6 +23,69 @@ const componentKey = ref(0);
 const forceRerender = () => {
   componentKey.value += 1;
 };
+
+const frequencyResponseCanvas = ref() as Ref<HTMLCanvasElement>;
+
+onMounted(() => {
+  const ctx = frequencyResponseCanvas.value.getContext("2d")!,
+        w = frequencyResponseCanvas.value.width,
+        h = frequencyResponseCanvas.value.height,
+        frequencies = props.node.calculateFrequencies(frequencyResponseCanvas.value),
+        filterMagResponse = new Float32Array(frequencies.length),
+        filterPhaseResponse = new Float32Array(frequencies.length),
+        frequencyResponse = new Float32Array(frequencies.length);
+
+  const renderFrequencyResponse = () => {
+    frequencyResponse.fill(1);
+    props.node.filters.forEach(filter => {
+      filter.getFrequencyResponse(
+        frequencies,
+        filterMagResponse,
+        filterPhaseResponse
+      );
+      for (let j = 0; j < frequencyResponse.length; j++) {
+        frequencyResponse[j] *= filterMagResponse[j];
+      }
+    });
+  };
+
+  const draw = () => {
+    renderFrequencyResponse(); 
+    ctx.clearRect(0, 0, w, h);
+    ctx.strokeStyle = getThemeColorHex("--primary-1000");
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    const maxDb = 32;
+    const minDb = -32; 
+    for (let x = 0; x < frequencyResponse.length; x++) {
+      const gain = frequencyResponse[x];
+      const db = 20 * Math.log10(gain);
+      const y = h - ((db - minDb) / (maxDb - minDb)) * h;
+      x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.stroke();
+  };
+
+  draw();
+  watch(() => componentKey.value, () => {
+    console.log("cock");
+    draw();
+  });
+});
+// watch(() => props.node.frequencyPercent, percent => {
+//   props.node.frequency = percentToLog(percent, props.node.MIN_FREQUENCY, props.node.MAX_FREQUENCY);
+// });
+
+const FILTER_TYPES = [
+  // "allpass",
+  "lowshelf",
+  "highpass",
+  "bandpass",
+  // "notch",
+  "peaking",
+  "lowpass",
+  "highshelf",
+];
 
 </script>
 
@@ -46,9 +96,9 @@ const forceRerender = () => {
     :icon="FilterIcon"
   >
     <div
-      :key="componentKey" 
+      :key="componentKey"
       class="grid grid-cols-4 gap-2 text-primary-900"
-      @click=" forceRerender()"
+      @click="forceRerender()"
     >
       <div
         v-for="(filter, i) of node.filters"
@@ -121,6 +171,22 @@ const forceRerender = () => {
           </button>
         </div>
       </div>
+    </div>
+    <div class="relative w-full bg-surface-1000 rounded-4px">
+      <SpectrumAnalyzer
+        class="h-168px w-full opacity-25 "
+        :node="node.pre"
+      />
+      <div class="absolute top-0 left-0 right-0">
+        <SpectrumAnalyzer
+          class="h-168px w-full"
+          :node="node.post"
+        />
+      </div>
+      <canvas
+        ref="frequencyResponseCanvas" 
+        class="h-168px w-full absolute top-0 left-0"
+      />
     </div>
   </CustomNode>
 </template>

@@ -7,11 +7,11 @@ import { v4 as uuidv4 } from "uuid";
 export class AmethystAudioNode {
   public properties: NodeProperties;
   public connections: Connection[] = [];
-  public isDisabled: boolean = false;
+  public isBypassed: boolean = false;
   private connectedTo: AmethystAudioNode[] = [];
   public component: DefineComponent<{}, {}, any>;
 
-  public constructor(public pre: GainNode, public post: GainNode, name: string, component: DefineComponent<{}, {}, any>, position: NodeProperties["position"], public isRemovable: boolean = true) {
+  public constructor(public pre: GainNode, public post: GainNode, name: string, component: DefineComponent<{}, {}, any>, position: NodeProperties["position"], public isRemovable: boolean = true, public isBypassable: boolean = true, public isResettable: boolean = true) {
     const id = uuidv4();
     
     this.properties = {
@@ -56,6 +56,8 @@ export class AmethystAudioNode {
   }
 
   public disconnect() {
+    if (this.isBypassed) this.toggleBypass();
+
     // Disconnect descendants
     this.connections.forEach(connection => {
       const source = player.nodeManager.nodes.value.find(node => node.connections.some(connection => connection.target === this.properties.id));
@@ -71,6 +73,34 @@ export class AmethystAudioNode {
 
     // Disconnect parents
     this.getParentNode()?.disconnectFrom(this);
+  }
+
+  public toggleBypass() {
+    if (this.isBypassed) {
+      this.connections.forEach(connection => {
+        const parent = this.getParentNode();
+        const child = player.nodeManager.nodes.value.find(node => node.properties.id === connection.target);
+        
+        // Reconnect this node
+        child && this.post.connect(child.pre);
+        parent && parent.post.connect(this.pre);
+        parent && child && parent.post.disconnect(child.pre);
+
+        this.isBypassed = false;
+      });
+    } else {
+      this.connections.forEach(connection => {
+        const parent = this.getParentNode();
+        const child = player.nodeManager.nodes.value.find(node => node.properties.id === connection.target);
+        
+        // Bypass (disconnect) this node
+        child && this.post.disconnect(child.pre);
+        parent && parent.post.disconnect(this.pre);
+        parent && child && parent.post.connect(child.pre);
+
+        this.isBypassed = true;
+      });
+    }
   }
 
   public getParentNode(){

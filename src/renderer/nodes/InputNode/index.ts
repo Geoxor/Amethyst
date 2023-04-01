@@ -8,6 +8,6 @@ export class AmethystInputNode extends AmethystAudioNode {
     const post = node.context.createGain();
     node.connect(pre);
     pre.connect(post);
-    super(pre, post, "AmethystInputNode", component, position, false);
+    super(pre, post, "AmethystInputNode", component, position, false, false, false);
   }
 }
