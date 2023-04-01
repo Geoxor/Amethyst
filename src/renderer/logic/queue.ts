@@ -68,7 +68,7 @@ export class Queue {
    * Saves the current queue to local storage for persistance
    */
   private syncLocalStorage() {
-    this.savedQueue.value = this.getList().map(t => t.path);
+    this.savedQueue.value = this.getList().map(t => t.absolutePath);
   }
 
   /**
