@@ -322,7 +322,7 @@
     "@capacitor/dialog": "^4.1.0",
     "@capacitor/filesystem": "^4.1.4",
     "@capacitor/haptics": "^4.1.0",
-    "@capacitor/ios": "^4.7.1",
+    "@capacitor/ios": "^4.7.3",
     "@capacitor/local-notifications": "^4.1.5",
     "@capacitor/splash-screen": "^4.2.0",
     "@capacitor/status-bar": "^4.1.1",
