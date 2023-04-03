@@ -180,10 +180,10 @@
     tslib "^2.4.0"
     xml2js "^0.4.23"
 
-"@capacitor/core@^4.7.1":
-  version "4.7.1"
-  resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-4.7.1.tgz#8c9d8a098c55dbebe0374760caa1736fdce1cfdc"
-  integrity sha512-NZcsyPNt1avNELnKuD5OsL/O/ejQxlw9UkLUEuiptPPAEwS8WJ1gGabaEBbCb2wNA/nPfrGH+ZC2LGhlpMlLeg==
+"@capacitor/core@^4.7.3":
+  version "4.7.3"
+  resolved "https://registry.yarnpkg.com/@capacitor/core/-/core-4.7.3.tgz#d28dab05be7a390065cc92fab6f788c2a8dcf344"
+  integrity sha512-IDhJapHqfJNpSlq89M0quOZGb08uOUZhVhyRDdrGUrwa4ttFoWeX/Vi9F+b9bffsDRKkSLF0BhzA9TH7ko5c3A==
   dependencies:
     tslib "^2.1.0"
 
