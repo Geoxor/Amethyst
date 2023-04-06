@@ -3,7 +3,7 @@ import { useState } from "@/amethyst";
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 const props = defineProps<{ node: AudioNode, channels?: number, pre?: boolean }>();
 const FLOOR = -120;
-const MAX_CHANNELS = 8;
+const MAX_CHANNELS = 16;
 const currentChannels = computed(() => props.channels || MAX_CHANNELS);
 const width = 4;
 
@@ -68,8 +68,8 @@ onUnmounted(() => shouldStopRendering = true);
     <div
       class="relative h-full"
       :style="`
-			width: ${(width + (width / 2)) * (currentChannels) + 2}px;
-			min-width: ${(width + (width / 2)) * (currentChannels) + 2}px;
+			width: ${(width + (width / 2)) * (currentChannels) + currentChannels}px;
+			min-width: ${(width + (width / 2)) * (currentChannels) + currentChannels}px;
 		`"
     >
       <div
@@ -101,7 +101,7 @@ onUnmounted(() => shouldStopRendering = true);
 
       <svg
         class="absolute h-full stroke-3px w-4px"
-        :style="`left: ${((width + 2) * currentChannels + 1)}px;`"
+        :style="`left: ${((width + 2) * currentChannels + currentChannels)}px;`"
       >
         <line
           class="stroke-cap-round stroke-surface-500"
