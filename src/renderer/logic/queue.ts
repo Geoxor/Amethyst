@@ -1,6 +1,6 @@
 import PromisePool from "@supercharge/promise-pool";
 import { useLocalStorage } from "@vueuse/core";
-import { Ref, ref } from "vue";
+import { Ref, computed, ref } from "vue";
 import { bytesToHuman, secondsToHuman } from "@shared/formating";
 // import { fisherYatesShuffle } from "./math";
 import { Track } from "./track";
@@ -13,7 +13,6 @@ type Order = ({
 export class Queue {
   private savedQueue = useLocalStorage<string[]>("queuev3", []);
   private fullList = ref(new Map<string, Track>());
-  private _curList: Ref<Track[]> = ref([]);
   private filters = ref<((track: Track) => boolean)[]>([]);
   private sortedBy = ref<Order>([]);
 
@@ -26,12 +25,12 @@ export class Queue {
       : this.add(this.savedQueue.value);
   }
 
-  /**
-   * Get the current play queue with filters and sorting applied.
-   */
-  public getCurList(): Track[] {
-    return this._curList.value as Track[];
-  }
+  public curList = computed<Track[]>(() => {
+    console.log("Recompute curList");
+    const list = this.getFullList().filter(track => this.filters.value.every(filter => filter(track)));
+    list.sort(this.getComparator());
+    return list;
+  });
 
   /**
    * Get the full library.
@@ -41,7 +40,7 @@ export class Queue {
   }
 
   /**
-   * @deprecated Use either {@link getFullList} for the whole library or {@link getCurList} for the current playlist.
+   * @deprecated Use either {@link getFullList} for the whole library or {@link curList} for the current playlist.
    * Returns the whole library of tracks.
    */
   public getList() {
@@ -80,12 +79,10 @@ export class Queue {
 
   public clearFilters() {
     this.filters.value = [];
-    this.updateCurList();
   }
 
   public addFilter(query: string) {
     this.filters.value.push(this.filterFullText(query));
-    this.updateCurList();
   }
 
   public set filter(query: string) {
@@ -97,12 +94,10 @@ export class Queue {
     if(this.sortedBy.value === "random") 
       this.sortedBy.value = [];
     this.sortedBy.value.push({ by, order });
-    this.updateCurList();
   }
 
   public clearSort() {
     this.sortedBy.value = [];
-    this.updateCurList();
   }
 
   private evalProperty(track: Track, property: keyof Track) {
@@ -127,12 +122,6 @@ export class Queue {
         }
         return 0;
       };
-  }
-
-  private updateCurList() {
-    const list = this.getFullList().filter(track => this.filters.value.every(filter => filter(track)));
-    list.sort(this.getComparator());
-    this._curList.value = list;
   }
 
   public updateTotalSize() {
@@ -223,7 +212,6 @@ export class Queue {
    */
   public shuffle() {
     this.sortedBy.value = "random";
-    this.updateCurList();
   }
 
   public shuffleToggle() {

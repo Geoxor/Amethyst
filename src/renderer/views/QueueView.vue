@@ -59,7 +59,7 @@ const onFilterInput = (e: Event) => {
 
     <lazy-list
       :key="filterText.length"
-      :tracks="player.queue.getCurList()"
+      :tracks="player.queue.curList.value"
     />
   </droppable-container>
 </template>
