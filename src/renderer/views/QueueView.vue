@@ -30,15 +30,22 @@ onUnmounted(() => {
   player.off("play", autoscroll);
 });
 
+const onFilterInput = (e: Event) => {
+  filterText.value = (e.target as HTMLInputElement).value;
+  player.queue.filter = filterText.value;
+  scrollToCurrentElement();
+};
+
 </script>
 
 <template>
   <droppable-container class="flex-col p-1.5 flex w-full relative h-full">
     <input
-      v-model="filterText"
+      :value="filterText"
       type="text"
       class="border-1 z-30 select-none w-full bg-surface-800 border-surface-600 text-white py-0.25 placeholder-primary-900 placeholder-opacity-75 hover:placeholder-opacity-100 indent-xs text-12px mb-2"
       placeholder="name, album & artist..."
+      @input="onFilterInput"
       @keydown.stop
       @mousedown="$event.which == 3 && (filterText = '')"
     >
@@ -52,7 +59,7 @@ onUnmounted(() => {
 
     <lazy-list
       :key="filterText.length"
-      :tracks="player.queue.search(filterText)"
+      :tracks="player.queue.getCurList()"
     />
   </droppable-container>
 </template>

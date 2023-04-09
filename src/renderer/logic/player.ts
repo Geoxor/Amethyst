@@ -16,7 +16,7 @@ export class Player extends EventEmitter<{
   play: Track;
   pause: Track;
   volume: number;
-  shuffle: void;
+  shuffleToggle: void;
   stop: void;
   timeupdate: number;
 }> {
@@ -110,9 +110,9 @@ export class Player extends EventEmitter<{
     this.emit("stop");
   }
 
-  public shuffle() {
-    this.queue.shuffle();
-    this.emit("shuffle");
+  public shuffleToggle() {
+    this.queue.shuffleToggle();
+    this.emit("shuffleToggle");
   }
 
   /*

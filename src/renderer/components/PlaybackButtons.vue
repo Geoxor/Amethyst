@@ -136,7 +136,7 @@ const handleContextCoverMenu = ({x, y}: MouseEvent) => {
             <!-- <playlist-icon class="opacity-75 hover:opacity-100 hover:text-white" /> -->
             <shuffle-icon
               class="opacity-75 hover:opacity-100 hover:text-white"
-              @click="player.shuffle()"
+              @click="player.shuffleToggle()"
             />
             <next-icon
               class="opacity-75 hover:opacity-100 hover:text-white transform-gpu rotate-180"

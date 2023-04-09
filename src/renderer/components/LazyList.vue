@@ -41,25 +41,45 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
   <div class="text-12px min-h-0 h-full flex flex-col text-left relative select-none">
     <header class="flex text-primary-900 font-bold mb-2 mr-1">
       <div class="w-4" />
-      <div class="min-w-1/4">
+      <div
+        class="min-w-1/4 hover:text-primary-800"
+        @click="player.queue.sort('getFilename', 'ascending')"
+      >
         Filename
       </div>
-      <div class="th">
+      <div 
+        class="th hover:text-primary-800"
+        @click="player.queue.sort('getArtistsFormatted', 'ascending')"
+      >
         Artist
       </div>
-      <div class="th">
+      <div 
+        class="th hover:text-primary-800"
+        @click="player.queue.sort('getTitleFormatted', 'ascending')"
+      >
         Title
       </div>
-      <div class="th">
+      <div 
+        class="th hover:text-primary-800"
+        @click="player.queue.sort('getAlbumFormatted', 'ascending')"
+      >
         Album
       </div>
-      <div class="th max-w-16">
+      <div 
+        class="th max-w-16"
+      >
         Container
       </div>
-      <div class="th max-w-24">
+      <div 
+        class="th max-w-24 hover:text-primary-800"
+        @click="player.queue.sort('getFilesizeFormatted', 'ascending')"
+      >
         Size <strong>{{ player.queue.getTotalSizeFormatted() }}</strong>
       </div>
-      <div class="th max-w-32">
+      <div 
+        class="th max-w-32 hover:text-primary-800"
+        @click="player.queue.sort('getDurationFormatted', 'ascending')"
+      >
         Duration <strong>{{ player.queue.getTotalDurationFormatted() }}</strong>
       </div>
     </header>
