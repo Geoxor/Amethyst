@@ -222,7 +222,7 @@ export class Queue {
    * Shuffles the queue
    */
   public shuffle() {
-		this.sortedBy.value = "random";
+    this.sortedBy.value = "random";
     this.updateCurList();
   }
 
