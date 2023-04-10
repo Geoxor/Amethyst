@@ -5163,7 +5163,7 @@ simple-update-notifier@^1.0.7:
   dependencies:
     semver "~7.0.0"
 
-sinon@^15.0.1:
+sinon@^15.0.3:
   version "15.0.3"
   resolved "https://registry.yarnpkg.com/sinon/-/sinon-15.0.3.tgz#38005fcd80827177b6aa0245f82401d9ec88994b"
   integrity sha512-si3geiRkeovP7Iel2O+qGL4NrO9vbMf3KsrJEi0ghP1l5aBkB5UxARea5j0FUsSqH3HLBh0dQPAyQ8fObRUqHw==
@@ -5259,14 +5259,14 @@ stackback@0.0.2:
   resolved "https://registry.yarnpkg.com/stackback/-/stackback-0.0.2.tgz#1ac8a0d9483848d1695e418b6d031a3c3ce68e3b"
   integrity sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw==
 
-standardized-audio-context-mock@^9.6.13:
-  version "9.6.13"
-  resolved "https://registry.yarnpkg.com/standardized-audio-context-mock/-/standardized-audio-context-mock-9.6.13.tgz#f3dcb92685ab400af8418550c81e222ec69d8e82"
-  integrity sha512-1TS17vNAQZl3Vg9PUIwAmycwLZgQDg2l0glWsZjOrtyfdCnUzHCdove0cF3ED0g9gXa3zRNyk/PkTPw+fSUghQ==
+standardized-audio-context-mock@^9.6.14:
+  version "9.6.14"
+  resolved "https://registry.yarnpkg.com/standardized-audio-context-mock/-/standardized-audio-context-mock-9.6.14.tgz#2665f05ad9db5b6a61d7ac3c39802cce4849bfb9"
+  integrity sha512-4ijwMu5CaFgSD6nOmA9Y/eq/8HpgnRh7abo9G8Y0RPHHRqJlA5jcnCQdsgeZfoia2q7atYODd4YdQg2vs2p8tg==
   dependencies:
     "@babel/runtime" "^7.21.0"
     automation-events "^5.0.2"
-    sinon "^15.0.1"
+    sinon "^15.0.3"
     standardized-audio-context "^25.3.41"
     tslib "^2.5.0"
     vehicles "^8.0.2"
