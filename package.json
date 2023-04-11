@@ -316,7 +316,7 @@
   },
   "dependencies": {
     "@capacitor/action-sheet": "^4.1.0",
-    "@capacitor/android": "^4.7.1",
+    "@capacitor/android": "^4.7.3",
     "@capacitor/core": "^4.7.3",
     "@capacitor/device": "^4.1.0",
     "@capacitor/dialog": "^4.1.0",
