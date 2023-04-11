@@ -918,10 +918,10 @@
   resolved "https://registry.yarnpkg.com/@types/verror/-/verror-1.10.6.tgz#3e600c62d210c5826460858f84bcbb65805460bb"
   integrity sha512-NNm+gdePAX1VGvPcGZCDKQZKYSiAWigKhKaz5KF94hG6f2s8de9Ow5+7AbXoeKxL8gavZfk4UquSAygOF2duEQ==
 
-"@types/wavesurfer.js@^6.0.3":
-  version "6.0.3"
-  resolved "https://registry.yarnpkg.com/@types/wavesurfer.js/-/wavesurfer.js-6.0.3.tgz#92c26804700475d9273e91ee683a2ba17c50ac2d"
-  integrity sha512-5Sb5s3pEkOmDosaaP1DWp1Unnx8HhVorm5608TIVdT5jCMvJ6eqM19UD8n7DEbJ7rzreS9RqHmzR8TlcdQBvbA==
+"@types/wavesurfer.js@^6.0.4":
+  version "6.0.4"
+  resolved "https://registry.yarnpkg.com/@types/wavesurfer.js/-/wavesurfer.js-6.0.4.tgz#7ae92d5752dba5b96df27560484da3cb4ff380f4"
+  integrity sha512-TGWy48OTZc9fuedxBmtM5WGNK4WDloRzf6/mE+OXmM9JuLzshhWZXSbZHiGnzpYB19mfdwnoEE4/8PNvyr/JBQ==
   dependencies:
     "@types/debounce" "*"
 
@@ -6015,10 +6015,10 @@ watchboy@^0.4.3:
     pify "^4.0.1"
     unixify "^1.0.0"
 
-wavesurfer.js@^6.6.1:
-  version "6.6.2"
-  resolved "https://registry.yarnpkg.com/wavesurfer.js/-/wavesurfer.js-6.6.2.tgz#0175fb7ef9167c7be4b6c97bb4f3f89965f94fc8"
-  integrity sha512-aPAU4OADQsyH8mIw2nXmoni8KHo8s1f1bd5ZUrxhN4P/VMWd+oPDqEwA01XPSEfasAJW6mZ/EHQ2bZ9nOWRrNw==
+wavesurfer.js@^6.6.3:
+  version "6.6.3"
+  resolved "https://registry.yarnpkg.com/wavesurfer.js/-/wavesurfer.js-6.6.3.tgz#eadebf0542be702f1eef2f52c3e312b839030166"
+  integrity sha512-XqUOXe8+SOTe8uKCHaqW0vJ5etCCQvq/NgaPycn9HAX/nUi+2zoWD+w9i7H5vBT9UCDNawOia+vS5Ct3kZGQzA==
 
 webidl-conversions@^3.0.0:
   version "3.0.1"
