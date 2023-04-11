@@ -5879,10 +5879,10 @@ vite-plugin-windicss@^1.8.10:
   optionalDependencies:
     fsevents "~2.3.2"
 
-vitepress@1.0.0-alpha.64:
-  version "1.0.0-alpha.64"
-  resolved "https://registry.yarnpkg.com/vitepress/-/vitepress-1.0.0-alpha.64.tgz#da7fdebbcb35c84cc711029b4eb885027a5c72f0"
-  integrity sha512-u12wcDH4VzgxxkQfVQWkXumrL3WRetpenz4VuAtiMWXeZSCayWcJtieWOFxmX/RzS2KEuTJpXGbtJAXORyyJBQ==
+vitepress@1.0.0-alpha.65:
+  version "1.0.0-alpha.65"
+  resolved "https://registry.yarnpkg.com/vitepress/-/vitepress-1.0.0-alpha.65.tgz#785268010d3bd1cabeb18011e68d512c9f1d4e0e"
+  integrity sha512-iGWC0AQC6WrfRZTJf5+TiGG4o8PLhqIJNyai8NVxZCY9YpmMJhddvQeqqjJdQniF/LQK/hQ5nQZ9HgSZDGRPGQ==
   dependencies:
     "@docsearch/css" "^3.3.3"
     "@docsearch/js" "^3.3.3"
