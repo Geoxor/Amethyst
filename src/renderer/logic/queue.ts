@@ -25,7 +25,7 @@ export class Queue {
       : this.add(this.savedQueue.value);
   }
 
-  public curList = computed<Track[]>(() => {
+  public curList = computed<Track[]>(() => { // TODO: this has now become more of a playlist than a queue. Not sure if I should rename it.
     console.log("Recompute curList");
     const list = this.getFullList().filter(track => this.filters.value.every(filter => filter(track)));
     list.sort(this.getComparator());
@@ -167,8 +167,13 @@ export class Queue {
       });
   }
 
+  /**
+   * @deprecated Use {@link curList} for the whole current playlist or {@link getFullList} for the whole library.
+   * @param idx 
+   * @returns 
+   */
   public getTrack(idx: number){
-    return this.getList()[idx];
+    return this.curList.value[idx];
   }
 
   /**

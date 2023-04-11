@@ -1,7 +1,7 @@
 import { Queue } from "@/logic/queue";
 import { Track } from "@/logic/track";
 import { useLocalStorage } from "@vueuse/core";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 import { AmethystAudioNodeManager } from "./audioManager";
 import { EventEmitter } from "./eventEmitter";
 import { secondsToColinHuman, secondsToHuman } from "@shared/formating";
@@ -21,7 +21,10 @@ export class Player extends EventEmitter<{
   timeupdate: number;
 }> {
   private currentTrack = ref<Track>();
-  private currentTrackIndex = ref(0);
+  
+  private currentTrackIndex = computed<number>(() => {
+    return this.queue.curList.value.indexOf(this.currentTrack.value!);
+  });
 
   public isPlaying = ref(false);
   public isStopped = ref(true);
@@ -54,7 +57,6 @@ export class Player extends EventEmitter<{
   private setPlayingTrack(track: Track) {
     this.input.src = track.path;
     this.currentTrack.value = track;
-    this.currentTrackIndex.value = this.queue.getList().indexOf(track);
     this.input.play();
     if (!track.isLoaded) {
       track.fetchAsyncData();
@@ -73,16 +75,16 @@ export class Player extends EventEmitter<{
    * Changes the currenlty playing tune to the given input and plays it
    * @param target the index or instace of a Track
    */
-  public play(target?: number | Track) {
+  public play(target: number | Track | undefined) {
     if (target !== undefined) {
-      const track = target instanceof Track ? target : this.queue.getTrack(target);
+      const track = target instanceof Track ? target : this.queue.curList.value[target];
       if (track.hasErrored) return;
       this.setPlayingTrack(track);
     }
     // Play the first track by default
     if (!this.currentTrack.value) {
       // Find the first non-errored track
-      const track = this.queue.getList().find(track => !track.hasErrored);
+      const track = this.queue.curList.value.find(track => !track.hasErrored);
       track && this.setPlayingTrack(track);
     }
     this.input.play();
@@ -100,13 +102,12 @@ export class Player extends EventEmitter<{
     this.emit("pause", this.getCurrentTrack()!);
   }
 
-  public stop(){
+  public stop() {
 		this.input.pause();
     this.isPlaying.value = false;
     this.isPaused.value = false;
     this.isStopped.value = true;
     this.currentTrack.value = undefined;
-    this.currentTrackIndex.value = 0;
     this.emit("stop");
   }
 
@@ -131,38 +132,39 @@ export class Player extends EventEmitter<{
   * Should be called when the user skips a track
   */
   public skip() {
-    this.currentTrackIndex.value++;
+    console.log("Current track index: ", this.currentTrackIndex.value);
+    const curList = this.queue.curList.value;
+    const nextTrack: Track = curList[this.currentTrackIndex.value + 1];
+    console.log("Next track: ", nextTrack);
 
     // Check if we reached the end of the queue
-    if (!this.queue.getTrack(this.currentTrackIndex.value)) {
-      this.currentTrackIndex.value = 0;
-
+    if (nextTrack === undefined) {
       // If we don't loop: go to the start of the queue and pause the player
       if (this.loopMode.value === LoopMode.None) {
-        const track = this.queue.getTrack(this.currentTrackIndex.value);
-
-        this.input.src = track.path;
-        this.currentTrack.value = track;
-        this.seekTo(0);
-        if (!track.isLoaded) {
-          track.fetchAsyncData();
-        }
-        this.pause();
-        return;
+        console.log("Stopping player");
+        this.stop();
       }
+      // If we loop: go to the start of the queue and play the first track
+      else if (this.loopMode.value === LoopMode.All) {
+        this.play(this.getFirstTrack());
+      }
+    } else {
+      this.play(nextTrack);
     }
-
-    this.play(this.currentTrackIndex.value);
   }
 
   public previous() {
-    this.currentTrackIndex.value--;
+    let newIndex = this.currentTrackIndex.value - 1;
 
-    if (this.currentTrackIndex.value < 0) {
-      this.currentTrackIndex.value = this.queue.getList().length - 1;
+    if (newIndex < 0) {
+      newIndex = this.queue.curList.value.length - 1;
     }
 
-    this.play(this.currentTrackIndex.value);
+    this.play(newIndex);
+  }
+
+  private getFirstTrack() {
+    return this.queue.curList.value[0];
   }
 
   public seekTo(time: number) {
