@@ -17,6 +17,10 @@ const state = useState();
     <template #main>
       <base-switch v-model="state.settings.value.showDbMeter" />
     </template>
+    <settings-binary-switch
+      v-model="state.settings.value.decibelMeterSeperatePrePost"
+      text="Seperate PRE and POST"
+    />
     <settings-modifier
       v-model="state.settings.value.decibelMeterMinimumDb"
       :def="state.defaultSettings.decibelMeterMinimumDb"

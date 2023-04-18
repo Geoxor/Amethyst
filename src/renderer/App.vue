@@ -191,7 +191,7 @@ onUnmounted(() => {
         class="flex gap-2 items-center p-2 bg-surface-800 borderTop"
       >
         <db-meter
-          v-if="state.settings.value.showDbMeter && player.source"
+          v-if="state.settings.value.showDbMeter && state.settings.value.decibelMeterSeperatePrePost && player.source"
           :key="player.nodeManager.getNodeConnectinsString()"
           :node="player.nodeManager.master.pre"
           pre

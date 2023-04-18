@@ -119,7 +119,7 @@ onUnmounted(() => shouldStopRendering = true);
       PRE
     </div>
     <div
-      v-else
+      v-else-if="useState().settings.value.decibelMeterSeperatePrePost"
       class="div text-surface-600 w-full font-bold text-5px  bg-green-500 py-0.2 px-0.3 rounded-1px flex items-center justify-center"
     >
       POST

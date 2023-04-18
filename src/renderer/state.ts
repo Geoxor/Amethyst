@@ -52,6 +52,7 @@ export class Store {
 		smoothScrollSpeed: 0.075,
 		playOnStartup: false,
 		decibelMeterMinimumDb: -60,
+		decibelMeterSeperatePrePost: false,
 		decibelMeterFftSize: 1024,
 		vectorscopeFftSize: 512,
 	};

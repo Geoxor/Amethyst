@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useShortcuts } from "@/amethyst";
+import { useShortcuts, useState } from "@/amethyst";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import QuickMenu from "@/components/nodes/QuickMenu.vue";
 import { ResetIcon, RemoveIcon, DisconnectIcon } from "@/icons/material";
@@ -11,7 +11,6 @@ import { IContextMenuOption } from "@/state";
 import BaseChip from "../BaseChip.vue";
 
 const props = defineProps<{ title: string, icon: any, description?: string, node: AmethystAudioNode, meterless?: boolean }>();
-
 // Context Menu options for this component 
 const handleContextMenu = ({x, y}: MouseEvent) => {
   useContextMenu().open({x, y}, [
@@ -31,9 +30,11 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
   >
     <quick-menu :node="node" />
 
-    <div class="flex ">
+    <div
+      v-if="!meterless && useState().settings.value.decibelMeterSeperatePrePost"
+      class="flex "
+    >
       <db-meter
-        v-if="!meterless"
         pre
         :node="node.pre"
         :channels="player.getCurrentTrack()?.getChannels() || 2"
