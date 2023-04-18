@@ -270,10 +270,10 @@
     "vue"
   ],
   "workspaces": {
-      "nohoist": [
-        "**/@capacitor/ios"
-      ]
-    },
+    "nohoist": [
+      "**/@capacitor/ios"
+    ]
+  },
   "homepage": "https://github.com/Geoxor/amethyst#readme",
   "devDependencies": {
     "@capacitor/cli": "^4.7.1",
@@ -327,6 +327,8 @@
     "@capacitor/splash-screen": "^4.2.0",
     "@capacitor/status-bar": "^4.1.1",
     "@domchristie/needles": "^0.0.2-1",
+    "@floating-ui/core": "^1.2.6",
+    "@floating-ui/dom": "^1.2.6",
     "@supercharge/promise-pool": "^2.4.0",
     "@three-ts/orbit-controls": "^1.4.7",
     "@types/pako": "^2.0.0",

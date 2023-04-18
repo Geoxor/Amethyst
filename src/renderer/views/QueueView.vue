@@ -4,7 +4,7 @@ import { useState } from "@/amethyst";
 import LazyList from "@/components/LazyList.vue";
 import { MyLocationIcon } from "@/icons/material";
 import { onMounted, onUnmounted, watch } from "vue";
-import SquareButton from "@/components//input/SquareButton.vue";
+import SquareButton from "@/components/BaseToolbarButton.vue.js";
 import DroppableContainer from "@/components/DroppableContainer.vue";
 import { Track } from "@/logic/track";
 import { useLocalStorage } from "@vueuse/core";

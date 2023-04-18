@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { amethyst, useState } from "@/amethyst";
-import SquareButton from "@/components/input/SquareButton.vue";
-import { MagnetIcon, SaveIcon, AdjustIcon, AzimuthIcon, FilterIcon, SelectNoneIcon, WaveIcon, RemoveIcon, LoadingIcon, ResetIcon } from "@/icons/material";
+import BaseToolbarButton from "@/components/BaseToolbarButton.vue";
+import { MagnetIcon, SaveIcon, AdjustIcon, AzimuthIcon, FilterIcon, SelectNoneIcon, WaveIcon, RemoveIcon, LoadingIcon } from "@/icons/material";
 import { getThemeColorHex } from "@/logic/color";
 import { Background, BackgroundVariant } from "@vue-flow/additional-components";
 import { Connection, EdgeMouseEvent, NodeDragEvent, VueFlow } from "@vue-flow/core";
@@ -12,7 +12,8 @@ import { AmethystPannerNode, AmethystGainNode, AmethystSpectrumNode, AmethystFil
 import { AmethystAudioNode } from "@/logic/audio";
 import { Coords } from "@shared/types";
 import { useContextMenu } from "@/components/ContextMenu";
-
+import BaseToolbar from "@/components/BaseToolbar.vue";
+import BaseToolbarSplitter from "@/components/BaseToolbarSplitter.vue";
 const dash = ref();
 const nodeEditor = ref();
 type NodeMenuOptions = Coords & {source?: AmethystAudioNode, target?: AmethystAudioNode};
@@ -28,12 +29,11 @@ onUnmounted(() => {
   resizeObserver.disconnect();
 });
 
+// Proxy function because dash.value is innaccessible in template code
+const fitToView = () => dash.value.fitView();
+
 const state = useState();
 const elements = computed(() => [...player.nodeManager.getNodeProperties(), ...player.nodeManager.getNodeConnections()]);
-
-const handleClick = () => {
-  state.settings.value.isSnappingToGrid = !state.settings.value.isSnappingToGrid;
-};
 
 const getDashCoords = () => {
   const transformationPane = document.getElementsByClassName("vue-flow__transformationpane")[0]! as HTMLDivElement;
@@ -116,7 +116,7 @@ const handleEdgeContextMenu = (e: EdgeMouseEvent) => {
   const source = player.nodeManager.nodes.value.find(node => node.properties.id === e.edge.source)!;
   const target = player.nodeManager.nodes.value.find(node => node.properties.id === e.edge.target)!;
 
-  const {x, y} = e.event;
+  const {x, y} = (e.event as MouseEvent);
   useContextMenu().open({x, y}, [
     {title: "Remove connection", icon: RemoveIcon, red: true, action: () => source.disconnectFrom(target)},
     ...nodeMenu({x, y, source, target}),
@@ -143,9 +143,9 @@ const handleOpenFile = async () => {
   fetch(result.filePaths[0])
   .then(response => response.blob())
   .then(blob => {
-    return new Promise<ArrayBuffer>(resolve => {
+    return new Promise<ArrayBuffer>((resolve, reject) => {
       const reader = new FileReader();
-      reader.onloadend = () => resolve(reader.result);
+      reader.onloadend = () => reader.result ? resolve(reader.result as ArrayBuffer) : reject("reader null");
       reader.readAsArrayBuffer(blob);
     });
   })
@@ -157,10 +157,13 @@ const handleOpenFile = async () => {
   // Fixes volume resetting to 100% when loading a new graph
   player.setVolume(player.volume.value);
 
-  fitToView();
+  fitToView;
 };
 
-const fitToView = () => dash.value.fitView();
+const handleSaveFile = () => {
+  
+};
+
 onKeyStroke("Delete", () => {
   dash.value.getSelectedNodes.forEach((nodeElement: any) => {
     const node = player.nodeManager.nodes.value
@@ -175,33 +178,41 @@ onKeyStroke("Delete", () => {
 <template>
   <div
     ref="nodeEditor"
-    class="flex-1 h-full w-full borderRight flex flex-col relative"
+    class="flex-1 h-full w-full borderRight flex flex-col"
   >
-    <div
-      class="flex flex-col gap-2 absolute bottom-2 left-2 z-10 "
-    >
-      <SquareButton
-        :icon="ResetIcon"
-        @click="player.nodeManager.reset()"
-      />
-      <SquareButton
-        :icon="LoadingIcon"
-        @click="handleOpenFile"
-      />
-      <SquareButton
-        :icon="SaveIcon"
-        @click="handleSaveFile"
-      />
-      <SquareButton
+    <BaseToolbar>
+      <BaseToolbarButton
         :icon="SelectNoneIcon"
+        tooltip-text="Fit to View"
         @click="fitToView"
       />
-      <SquareButton
+      <BaseToolbarButton
         :icon="MagnetIcon"
         :active="state.settings.value.isSnappingToGrid"
-        @click="handleClick"
+        tooltip-text="Snap to Grid"
+        @click="state.settings.value.isSnappingToGrid = !state.settings.value.isSnappingToGrid"
       />
-    </div>
+
+      <BaseToolbarSplitter />
+
+      <BaseToolbarButton
+        :icon="LoadingIcon"
+        tooltip-text="Open File"
+        @click="handleOpenFile"
+      />
+
+      <BaseToolbarButton
+        :icon="SaveIcon"
+        tooltip-text="Save as"
+        @click="handleSaveFile"
+      />
+      
+      <BaseToolbarButton
+        :icon="RemoveIcon"
+        tooltip-text="Reset All"
+        @click="player.nodeManager.reset()"
+      />
+    </BaseToolbar>
 
     <VueFlow
       ref="dash"
