@@ -310,7 +310,7 @@
     "ts-node": "^10.7.0",
     "tsx": "^3.12.6",
     "typescript": "^5.0.4",
-    "vitepress": "1.0.0-alpha.64",
+    "vitepress": "1.0.0-alpha.72",
     "vitest": "^0.29.7",
     "vue-tsc": "^1.2.0"
   },
