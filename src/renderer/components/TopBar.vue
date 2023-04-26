@@ -35,7 +35,9 @@ onMounted(() => {
     domSize.value = countDomElements();
     player.getLatency().then(l => latency.value = l);
     // TODO: multiplatform support
-    window.electron.ipcRenderer.invoke<ProcessorUsage>("percent-cpu-usage").then(usage => cpuUsage.value = usage);
+    if (amethyst.getCurrentPlatform() === "desktop") {
+      window.electron.ipcRenderer.invoke<ProcessorUsage>("percent-cpu-usage").then(usage => cpuUsage.value = usage);
+    }
   }, 1000);
 });
 
@@ -78,25 +80,30 @@ const state = useState();
       </Menu>
       <Menu title="Utility">
         <menu-option
+          v-if="amethyst.getCurrentPlatform() === 'desktop'"
           title="Zoom in"
           :icon="ZoomInIcon"
           :shortcuts="['CTRL', 'SHIFT', '+']"
           @click="amethyst.zoom('in')"
         />
         <menu-option
+          v-if="amethyst.getCurrentPlatform() === 'desktop'"
           title="Zoom out"
           :icon="ZoomOutIcon"
           :shortcuts="['CTRL', '-']"
           @click="amethyst.zoom('out')"
         />
         <menu-option
+          v-if="amethyst.getCurrentPlatform() === 'desktop'"
           title="Reset zoom"
           :icon="ResizeIcon"
           :shortcuts="['CTRL', '0']"
           @click="amethyst.zoom('reset')"
         />
+        <menu-splitter 
+          v-if="amethyst.getCurrentPlatform() === 'desktop'"
+        />
 
-        <menu-splitter />
         <menu-option
           :shortcuts="['CTRL', 'SHIFT', 'X']"
           title="Clear queue"

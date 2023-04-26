@@ -21,6 +21,7 @@ export type AmethystPlatforms = ReturnType<typeof amethyst.getCurrentPlatform>;
 class AmethystBackend {
   public constructor() {
     console.log(`Current platform: ${this.getCurrentPlatform()}`);
+    console.log(`Current operating system: ${this.getCurrentOperatingSystem()}`);
   }
 
   private static isPlatformMobile = Capacitor.isNativePlatform();
@@ -43,9 +44,19 @@ class AmethystBackend {
   }
 
   public getCurrentOperatingSystem() {
-    if (Amethyst.isOperatingSystemLinux) return "linux";
-    if (Amethyst.isOperatingSystemWindows) return "windows";
-    if (Amethyst.isOperatingSystemMac) return "mac";
+    if (Amethyst.isPlatformDesktop) {
+      if (Amethyst.isOperatingSystemLinux) return "linux";
+      if (Amethyst.isOperatingSystemWindows) return "windows";
+      if (Amethyst.isOperatingSystemMac) return "mac";
+      throw new Error("Unknown operating system");
+    }
+    if (Amethyst.isPlatformWeb) {
+      if (window.navigator.userAgent.indexOf("Windows") != -1) return "windows";
+      if (window.navigator.userAgent.indexOf("Mac") != -1) return "mac";
+      if (window.navigator.userAgent.indexOf("X11") != -1) return "unix";
+      if (window.navigator.userAgent.indexOf("Linux") != -1) return "linux";
+      throw new Error("Unknown operating system");
+    }
     throw new Error("Unknown operating system");
   }
 
