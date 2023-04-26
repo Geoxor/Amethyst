@@ -290,6 +290,7 @@
     "@vue/eslint-config-typescript": "^11.0.2",
     "@vue/test-utils": "^2.2.7",
     "concurrently": "^8.0.1",
+    "cordova-res": "^0.15.4",
     "cross-env": "^7.0.3",
     "electron": "24.1.2",
     "electron-builder": "^23.6.0",
