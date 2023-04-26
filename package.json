@@ -333,7 +333,7 @@
     "@three-ts/orbit-controls": "^1.4.7",
     "@types/pako": "^2.0.0",
     "@types/pidusage": "^2.0.2",
-    "@types/wavesurfer.js": "^6.0.3",
+    "@types/wavesurfer.js": "^6.0.4",
     "@vue-flow/additional-components": "^1.3.3",
     "@vue-flow/core": "^1.18.1",
     "@vueuse/core": "^9.12.0",
@@ -362,7 +362,7 @@
     "vue": "^3.2.47",
     "vue-router": "4",
     "vue-virtual-scroller": "^2.0.0-beta.8",
-    "wavesurfer.js": "^6.6.1",
+    "wavesurfer.js": "^6.6.3",
     "windicss": "^3.5.6"
   },
   "devEngines": {
