@@ -81,16 +81,19 @@ const state = useState();
           title="Zoom in"
           :icon="ZoomInIcon"
           :shortcuts="['CTRL', 'SHIFT', '+']"
+          @click="amethyst.zoom('in')"
         />
         <menu-option
           title="Zoom out"
           :icon="ZoomOutIcon"
           :shortcuts="['CTRL', '-']"
+          @click="amethyst.zoom('out')"
         />
         <menu-option
           title="Reset zoom"
           :icon="ResizeIcon"
           :shortcuts="['CTRL', '0']"
+          @click="amethyst.zoom('reset')"
         />
 
         <menu-splitter />

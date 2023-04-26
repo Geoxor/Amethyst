@@ -1,5 +1,3 @@
-import type { Channels } from "../../main/preload";
-
 declare type fs = typeof import("fs/promises");
 declare type os = typeof import("os");
 declare type path = typeof import("path");
@@ -15,8 +13,8 @@ declare global {
 			isWindows: boolean, 
 			isLinux: boolean,
 			ipcRenderer: {
-				invoke<T>(channel: Channels, args?: any[]): Promise<T>
-				send(channel: Channels, args: unknown[]): void
+				invoke<T>(channel: string, args?: any[]): Promise<T>
+				send(channel: string, args: unknown[]): void
 				on<T>(
 					channel: string,
 					func: (...args: T[]) => void

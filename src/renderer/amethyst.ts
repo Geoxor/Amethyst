@@ -66,6 +66,15 @@ class AmethystBackend {
     }
   }
 
+  public zoom(action: "in" | "out" | "reset") {
+    switch (this.getCurrentPlatform()) {
+      case "desktop":
+        return window.electron.ipcRenderer.invoke(`zoom-${action}`); 
+      default:
+        return;
+    }
+  }
+
   public showItem(path: string) {
     switch (this.getCurrentPlatform()) {
       case "desktop":

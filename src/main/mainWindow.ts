@@ -240,6 +240,10 @@ export class MainWindow {
 				});
 			},
 
+			"zoom-in": () => this.window.webContents.setZoomLevel(this.window.webContents.getZoomLevel() + .5),
+			"zoom-out": () => this.window.webContents.setZoomLevel(this.window.webContents.getZoomLevel() - .5),
+			"zoom-reset": () => this.window.webContents.setZoomLevel(1.0),
+
 			"open-folder-dialog": async (_: Event, [filter]: [string[]]) => {
 				const result = await dialog.showOpenDialog({
 					properties: ["openDirectory"],

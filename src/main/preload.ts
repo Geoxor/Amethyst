@@ -8,53 +8,25 @@ contextBridge.exposeInMainWorld("fs", fs);
 contextBridge.exposeInMainWorld("os", os);
 contextBridge.exposeInMainWorld("path", path);
 
-export type Channels =
-	"minimize" |
-	"show-save-dialog" |
-	"maximize" | 
-	"set-vsync" |
-	"get-appdata-path" |
-	"unmaximize" |
-	"read-file" |
-	"close" |
-	"dev-tools" |
-	"open-file-dialog" |
-	"log-print" |
-	"clear-rich-presence" |
-	"encode-to-dfpwm" |
-	"open-external" |
-	"log-error" |
-	"open-folder-dialog" |
-	"get-cover" |
-	"get-metadata" |
-	"show-item" |
-	"percent-cpu-usage" |
-	"update-rich-presence" |
-	"sync-window-state" |
-	"drop-file" |
-	"update" |
-	"test-notification" |
-	"check-for-updates";
-
 contextBridge.exposeInMainWorld("electron", {
 	isMac: os.platform() === "darwin", 
 	isWindows: os.platform() === "win32", 
 	isLinux: os.platform() === "linux",
 	ipcRenderer: {
-		invoke(channel: Channels, args?: string[]) {
+		invoke(channel: string, args?: string[]) {
 			return ipcRenderer.invoke(channel, args);
 		},
-		send(channel: Channels, args: unknown[]) {
+		send(channel: string, args: unknown[]) {
 			ipcRenderer.send(channel, args);
 		},
-		on(channel: Channels, func: (...args: unknown[]) => void) {
+		on(channel: string, func: (...args: unknown[]) => void) {
 			const subscription = (_event: IpcRendererEvent, ...args: unknown[]) =>
 				func(...args);
 			ipcRenderer.on(channel, subscription);
 
 			return () => ipcRenderer.removeListener(channel, subscription);
 		},
-		once(channel: Channels, func: (...args: unknown[]) => void) {
+		once(channel: string, func: (...args: unknown[]) => void) {
 			ipcRenderer.once(channel, (_event, ...args) => func(...args));
 		},
 	},
