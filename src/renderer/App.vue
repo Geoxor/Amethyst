@@ -90,11 +90,11 @@ onUnmounted(() => {
         class="underline cursor-pointer duration-100 hover:text-primary-800"
       >download the native app</strong> </a> 
     </div>
-    <top-bar v-if="amethyst.getCurrentPlatform() !== 'mobile'" />
+    <top-bar />
     <context-menu v-if="useContextMenu().state.isVisible" />
     <div class="h-full whitespace-nowrap flex flex-col justify-between overflow-hidden">
       <div class="flex-1 flex h-full max-h-full relative overflow-hidden">
-        <navigation-bar>
+        <navigation-bar v-if="amethyst.getCurrentPlatform() !== 'mobile'">
           <navigation-button
             :icon="SelectNoneIcon"
             :active="$route.name == 'node-editor'"
@@ -134,6 +134,7 @@ onUnmounted(() => {
             @click="$router.push({ name: 'settings' })"
           />
         </navigation-bar>
+
         <div class="flex flex-col w-full">
           <router-view class="overflow-hidden" />
           <div
@@ -252,6 +253,39 @@ onUnmounted(() => {
               : { title: 'Expand', icon: ExternalLinkIcon, action: () => state.settings.value.showBigSpectrum = true },
           ]);"
         />
+      </div>
+
+      <div
+        v-if="amethyst.getCurrentPlatform() === 'mobile'"
+        class="p-2 w-full "
+      >
+        <div
+          class="p-2 px-8 rounded-full overflow-hidden flex bg-surface-700 justify-between"
+        >
+          <navigation-button
+            :icon="ListIcon"
+            :active="$route.name == 'queue'"
+            @click="$router.push({ name: 'queue' })"
+          />
+          <navigation-button
+            :icon="SelectNoneIcon"
+            :active="$route.name == 'node-editor'"
+            @click="$router.push({ name: 'node-editor' })"
+          />
+
+          <navigation-button
+            :icon="BinocularsIcon"
+            :active="useInspector().state.isVisible"
+            @click="useInspector().state.isVisible = !useInspector().state.isVisible"
+          />
+
+          <navigation-button
+            :icon="SettingsIcon"
+            :active="$route.name?.toString().startsWith('settings') || false"
+      
+            @click="$router.push({ name: 'settings' })"
+          />
+        </div>
       </div>
     </div>
   </div>

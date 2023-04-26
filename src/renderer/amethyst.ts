@@ -11,6 +11,7 @@ import { watch } from "vue";
 import { getThemeColorHex } from "./logic/color";
 import { flattenArray } from "./logic/math";
 import { Track } from "./logic/track";
+import { Directory } from "@capacitor/filesystem";
 
 export type AmethystPlatforms = ReturnType<typeof amethyst.getCurrentPlatform>;
 
@@ -56,6 +57,9 @@ class AmethystBackend {
       if (window.navigator.userAgent.indexOf("X11") != -1) return "unix";
       if (window.navigator.userAgent.indexOf("Linux") != -1) return "linux";
       throw new Error("Unknown operating system");
+    }
+    if (Amethyst.isPlatformMobile) {
+      return "android";
     }
     throw new Error("Unknown operating system");
   }
@@ -135,6 +139,36 @@ class AmethystBackend {
             files ? res({canceled: false, filePaths: paths}) : rej();
           });
         });
+      case "mobile":
+        const { Filesystem } = await import("@capacitor/filesystem");
+        const evalPermission = async () => {
+          const status = await Filesystem.requestPermissions();
+          if (status.publicStorage == "denied") evalPermission();
+        };
+
+        const evalMusicFolder = async () => {
+          Filesystem.stat({ directory: Directory.Documents, 
+            path: "Music" }).catch(() => {
+              Filesystem.mkdir({ directory: Directory.Documents, 
+                path: "Music", recursive: true })
+              .then(() => {
+                console.log("Created music folder in Documents/Music");
+              }).catch(err => {
+                console.log(err);
+              });
+            });
+        };
+
+        await evalPermission();
+        await evalMusicFolder();
+        const files = await Filesystem.readdir({
+          path: "Music",
+          directory: Directory.Documents,
+        });
+
+        console.log(files);
+        
+        return {canceled: false, filePaths: files.files.map(file => Capacitor.convertFileSrc(file.uri))};
       default:
         return Promise.reject();
     }
@@ -151,6 +185,8 @@ class AmethystBackend {
 
   public openAudioFilesAndAddToQueue = () => {
     amethyst.openFileDialog([{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }])?.then(result => {
+      console.log(result.filePaths);
+      
       !result.canceled && player.queue.add(result.filePaths);
     });
   };
@@ -189,7 +225,7 @@ export class Amethyst extends AmethystBackend {
 
   public store: Store = new Store();
   public shortcuts: Shortcuts = new Shortcuts();
-  public mediaSession: MediaSession = new MediaSession();
+  public mediaSession: MediaSession | undefined = this.getCurrentPlatform() === "desktop" && new MediaSession();
 
   public constructor() {
     super();
@@ -246,7 +282,7 @@ export class Amethyst extends AmethystBackend {
     }
 
     if (this.getCurrentPlatform() === "mobile") {
-      StatusBar.setBackgroundColor({color: getThemeColorHex("--surface-800")});
+      StatusBar.setBackgroundColor({color: "#141621"});
     }
 
     document.addEventListener("drop", event => {

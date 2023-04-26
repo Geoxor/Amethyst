@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { useState } from "@/amethyst";
+import { amethyst, useState } from "@/amethyst";
 
 import LazyList from "@/components/LazyList.vue";
-import { MyLocationIcon } from "@/icons/material";
+import { MusicFolderIcon, MyLocationIcon } from "@/icons/material";
 import { onMounted, onUnmounted, watch } from "vue";
 import DroppableContainer from "@/components/DroppableContainer.vue";
 import { Track } from "@/logic/track";
@@ -42,6 +42,12 @@ onUnmounted(() => {
       @keydown.stop
       @mousedown="$event.which == 3 && (filterText = '')"
     >
+
+    <base-toolbar-button
+      class="absolute bottom-24 bg-primary-800 text-white right-4.5 p-4 rounded-full z-10 "
+      :icon="MusicFolderIcon"
+      @click="amethyst.openAudioFilesAndAddToQueue();"
+    />
 
     <base-toolbar-button
       class="absolute bottom-2 right-4.5 z-10 "

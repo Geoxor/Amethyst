@@ -2,7 +2,7 @@ import { CapacitorConfig } from "@capacitor/cli";
 
 const commonConfig: CapacitorConfig = {
   appId: "com.example.app",
-  appName: "amethyst",
+  appName: "Amethyst",
   webDir: "release/dist/renderer",
   bundledWebRuntime: false,
   android: {

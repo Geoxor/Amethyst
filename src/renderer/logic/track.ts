@@ -18,7 +18,8 @@ export class Track {
   public path: string;
 
   public constructor(public absolutePath: string) {
-    this.path = `file://${absolutePath}`;
+    this.path = absolutePath;
+    console.log(this);
   }
 
   public getCachePath(absolute?: boolean) {
@@ -105,10 +106,12 @@ export class Track {
       metadata.common.picture = [];
     }
     
-    window.fs.writeFile(this.getCachePath(true), JSON.stringify({
-      cover,
-      metadata,
-    }, null, 2)).catch(console.log);
+    if (amethyst.getCurrentPlatform() === "desktop") {
+      window.fs.writeFile(this.getCachePath(true), JSON.stringify({
+        cover,
+        metadata,
+      }, null, 2)).catch(console.log);
+    }
 
     this.isLoading.value = false;
     this.isLoaded.value = true;
