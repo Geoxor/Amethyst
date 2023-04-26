@@ -7,27 +7,26 @@ import { onMounted, onUnmounted, watch } from "vue";
 import DroppableContainer from "@/components/DroppableContainer.vue";
 import { Track } from "@/logic/track";
 import { useLocalStorage } from "@vueuse/core";
-import { player } from "@/logic/player";
 import BaseToolbarButton from "@/components/BaseToolbarButton.vue";
 const state = useState();
 const filterText = useLocalStorage("filterText", "");
 
 const scrollToCurrentElement = (track?: Track) => {
   const active = document.querySelector(".vue-recycle-scroller");
-  const currentTrack = track || player.getCurrentTrack();
+  const currentTrack = track || amethyst.player.getCurrentTrack();
   if (!currentTrack || !active) return;
 
-  const estimatedPosition = player.queue.search(filterText.value).indexOf(currentTrack) * 16;
+  const estimatedPosition = amethyst.player.queue.search(filterText.value).indexOf(currentTrack) * 16;
   active.scrollTo({ top: estimatedPosition, behavior: "smooth" });
 };
 
 const autoscroll = () => state.settings.value.followQueue && scrollToCurrentElement();
 watch(() => state.settings.value.followQueue, () => autoscroll());
 onMounted(() => {
-  player.on("play", autoscroll);
+  amethyst.player.on("play", autoscroll);
 });
 onUnmounted(() => {
-  player.off("play", autoscroll);
+  amethyst.player.off("play", autoscroll);
 });
 
 </script>
@@ -58,7 +57,7 @@ onUnmounted(() => {
 
     <lazy-list
       :key="filterText.length"
-      :tracks="player.queue.search(filterText)"
+      :tracks="amethyst.player.queue.search(filterText)"
     />
   </droppable-container>
 </template>

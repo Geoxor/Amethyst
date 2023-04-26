@@ -8,7 +8,6 @@ import MenuSplitter from "@/components/menu/MenuSplitter.vue";
 import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
 import { AudioFileIcon, DiscordIcon, GitHubIcon, MusicFolderIcon, ResetIcon, ZoomInIcon, ZoomOutIcon, RemoveIcon, ResizeIcon, DownloadingUpdatesIcon, SettingsIcon, BookshelfIcon, LoadingIcon } from "@/icons/material";
 import { useFps } from "@vueuse/core";
-import { player } from "@/logic/player";
 import AmethystLogo from "@/icons/AmethystLogo.vue";
 import { onMounted, ref } from "vue";
 import { countDomElements, refreshWindow } from "@/logic/dom";
@@ -33,7 +32,7 @@ onMounted(() => {
     if (fps.value > max.value) max.value = fps.value;
     if (fps.value < min.value) min.value = fps.value;
     domSize.value = countDomElements();
-    player.getLatency().then(l => latency.value = l);
+    amethyst.player.getLatency().then(l => latency.value = l);
     // TODO: multiplatform support
     if (amethyst.getCurrentPlatform() === "desktop") {
       window.electron.ipcRenderer.invoke<ProcessorUsage>("percent-cpu-usage").then(usage => cpuUsage.value = usage);
@@ -108,20 +107,20 @@ const state = useState();
           :shortcuts="['CTRL', 'SHIFT', 'X']"
           title="Clear queue"
           :icon="RemoveIcon"
-          @click="player.queue.clear()"
+          @click="amethyst.player.queue.clear()"
         />
         <menu-option
           :shortcuts="['CTRL', 'SHIFT', 'Z']"
           title="Clear errored / deleted"
           :icon="RemoveIcon"
-          @click="player.queue.clearErrored()"
+          @click="amethyst.player.queue.clearErrored()"
         />
         <menu-splitter />
         <menu-option
           :shortcuts="['CTRL', 'ALT', 'R']"
           title="Refresh all metadata"
           :icon="ResetIcon"
-          @click="player.queue.fetchAsyncData(true)"
+          @click="amethyst.player.queue.fetchAsyncData(true)"
         />
         <menu-option
           :shortcuts="['CTRL', 'R']"
@@ -201,7 +200,7 @@ const state = useState();
       >
         <div class="hidden lg:inline font-aseprite text-primary-900 text-opacity-50">
           {{ domSize }}<strong class="text-primary-900 text-opacity-25">DOM </strong>
-          {{ player.getBufferSize() }}<strong class="text-primary-900 text-opacity-25">smp</strong>
+          {{ amethyst.player.getBufferSize() }}<strong class="text-primary-900 text-opacity-25">smp</strong>
           {{ latency.toFixed(2) }}<strong class="text-primary-900 text-opacity-25">ms</strong>
         </div>
         <div 

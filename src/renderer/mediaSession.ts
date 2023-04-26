@@ -1,16 +1,15 @@
-import { player } from "@/logic/player";
 
 export class MediaSession {
   public constructor() {
     const actionHandlers: ([MediaSessionAction, MediaSessionActionHandler])[] = [
-      ["play", () => player.isPlaying.value ? player.pause() : player.play()],
-      ["pause", () => !player.isPlaying.value ? player.play() : player.pause()],
-      ["previoustrack", () => player.previous()],
-      ["nexttrack", () => player.skip()],
-      ["seekbackward", details => { player.seekBackward(details.seekOffset || undefined); }],
-      ["seekforward", details => { player.seekForward(details.seekOffset || undefined); }],
-      ["seekto", details => { details.seekTime && player.seekTo(details.seekTime); }],
-      ["stop", () => player.stop()],
+      ["play", () => amethyst.player.isPlaying.value ? amethyst.player.pause() : amethyst.player.play()],
+      ["pause", () => !amethyst.player.isPlaying.value ? amethyst.player.play() : amethyst.player.pause()],
+      ["previoustrack", () => amethyst.player.previous()],
+      ["nexttrack", () => amethyst.player.skip()],
+      ["seekbackward", details => { amethyst.player.seekBackward(details.seekOffset || undefined); }],
+      ["seekforward", details => { amethyst.player.seekForward(details.seekOffset || undefined); }],
+      ["seekto", details => { details.seekTime && amethyst.player.seekTo(details.seekTime); }],
+      ["stop", () => amethyst.player.stop()],
     ];
 
     for (const [action, handler] of actionHandlers) {
@@ -21,10 +20,10 @@ export class MediaSession {
       }
     }
 
-    player.on("play", () => navigator.mediaSession.playbackState = "playing");
-    player.on("pause", () => navigator.mediaSession.playbackState = "paused");
+    amethyst.player.on("play", () => navigator.mediaSession.playbackState = "playing");
+    amethyst.player.on("pause", () => navigator.mediaSession.playbackState = "paused");
 
-    player.on("play", track => {
+    amethyst.player.on("play", track => {
       const cover = track.getMetadata()?.common.picture?.[0];
       let coverUrl: string = "";
 

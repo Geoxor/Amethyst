@@ -4,7 +4,6 @@ import { CloseIcon } from "@/icons/fluency";
 import { AudioFileIcon, ExternalLinkIcon, ImageIcon, ListIcon, PlaystationButtonsIcon, BinocularsIcon, LoadingIcon } from "@/icons/material";
 import ResetIcon from "@/icons/material/ResetIcon.vue";
 
-import { player } from "@/logic/player";
 import { Track } from "@/logic/track";
 import { bytesToHuman } from "@shared/formating";
 import { computed, onMounted, onUnmounted } from "vue";
@@ -19,14 +18,14 @@ const handlePlay = (track: Track) => {
 };
 
 onMounted(() => {
-  player.on("play", handlePlay);
-  const currentTrack = player.getCurrentTrack();
+  amethyst.player.on("play", handlePlay);
+  const currentTrack = amethyst.player.getCurrentTrack();
   if (!currentTrack) return;
   if (!currentItem.value) inspector.inspect(currentTrack);
 });
 
 onUnmounted(() => {
-  player.off("play", handlePlay);
+  amethyst.player.off("play", handlePlay);
 });
 
 </script>

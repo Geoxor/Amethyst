@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ResetIcon, RemoveIcon, DisconnectIcon } from "@/icons/material";
 import { AmethystAudioNode } from "@/logic/audio";
-import { player } from "@/logic/player";
 const props = defineProps<{node: AmethystAudioNode}>();
 
 </script>
@@ -33,7 +32,7 @@ const props = defineProps<{node: AmethystAudioNode}>();
     <button
       v-if="props.node.isRemovable"
       class="hover:bg-rose-600  hover:text-black"
-      @click="player.nodeManager.removeNode(props.node)"
+      @click="amethyst.player.nodeManager.removeNode(props.node)"
     >
       <RemoveIcon
         class="w-3"

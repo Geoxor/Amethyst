@@ -4,7 +4,6 @@ import { Track } from "@/logic/track";
 import BaseChip from "@/components/BaseChip.vue";
 import { PlayIcon, ExternalLinkIcon, LoadingIcon, ProcessIcon, BinocularsIcon, ErrorIcon } from "@/icons/material";
 import Cover from "@/components/CoverArt.vue";
-import { player } from "@/logic/player";
 import { useContextMenu } from "@/components/ContextMenu";
 import { RemoveIcon, ResetIcon } from "@/icons/material";
 import { useInspector } from "./Inspector";
@@ -17,7 +16,7 @@ const isHoldingControl = useShortcuts().isControlPressed;
 // Context Menu options for this component 
 const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
   useContextMenu().open({x, y}, [
-    { title: "Play", icon: PlayIcon, action: () => player.play(track) },
+    { title: "Play", icon: PlayIcon, action: () => amethyst.player.play(track) },
     { title: "Inspect", icon: BinocularsIcon, action: () => useInspector().inspectAndShow(track) },
     { title: "Encode to .dfpwm...", icon: ProcessIcon, action: async () => {
       saveArrayBufferToFile(
@@ -30,7 +29,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
     { title: "Show in Explorer...", icon: ExternalLinkIcon, action: () => amethyst.showItem(track.path) },
     { title: "Export cover...", icon: ExternalLinkIcon, action: () => track.exportCover() },
     { title: "Reload metadata", icon: ResetIcon, action: () => track.fetchAsyncData(true) },
-    { title: "Remove from queue", icon: RemoveIcon, red: true, action: () => player.queue.remove(track) },
+    { title: "Remove from queue", icon: RemoveIcon, red: true, action: () => amethyst.player.queue.remove(track) },
     { title: "Delete from disk", icon: RemoveIcon, red: true, action: () => track.delete() },
   ]);
 };
@@ -57,10 +56,10 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
         Container
       </div>
       <div class="th max-w-24">
-        Size <strong>{{ player.queue.getTotalSizeFormatted() }}</strong>
+        Size <strong>{{ amethyst.player.queue.getTotalSizeFormatted() }}</strong>
       </div>
       <div class="th max-w-32">
-        Duration <strong>{{ player.queue.getTotalDurationFormatted() }}</strong>
+        Duration <strong>{{ amethyst.player.queue.getTotalDurationFormatted() }}</strong>
       </div>
     </header>
     <RecycleScroller
@@ -79,13 +78,13 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
             item.hasErrored && 'opacity-50 not-allowed',
             item.deleted && 'opacity-50 !text-rose-400 not-allowed',
 
-            player.getCurrentTrack()?.path == item.path && 'currentlyPlaying',
+            amethyst.player.getCurrentTrack()?.path == item.path && 'currentlyPlaying',
             useInspector().state.isVisible && useInspector().state.currentItem == item && 'currentlyInspecting'
           ]"
           class="row"
           @contextmenu="handleContextMenu($event, item)"
           @keypress.prevent
-          @click="isHoldingControl ? amethyst.showItem(item.path) : player.play(item)"
+          @click="isHoldingControl ? amethyst.showItem(item.path) : amethyst.player.play(item)"
         >
           <div
             class="td max-w-4"
@@ -113,7 +112,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           <div
             class="td flex gap-1 min-w-1/4"
           >
-            {{ player.getCurrentTrack()?.path == item.path ? "⏵ " : "" }}
+            {{ amethyst.player.getCurrentTrack()?.path == item.path ? "⏵ " : "" }}
             <BinocularsIcon
               v-if="useInspector().state.isVisible && useInspector().state.currentItem == item"
               class="w-3 h-3"

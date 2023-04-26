@@ -3,7 +3,6 @@ import { useShortcuts, useState } from "@/amethyst";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import QuickMenu from "@/components/nodes/QuickMenu.vue";
 import { ResetIcon, RemoveIcon, DisconnectIcon } from "@/icons/material";
-import { player } from "@/logic/player";
 import { AmethystAudioNode } from "@/logic/audio";
 import { Handle, Position } from "@vue-flow/core";
 import { useContextMenu } from "@/components/ContextMenu";
@@ -17,7 +16,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
     { title: "Unhook", icon: DisconnectIcon, action: () => props.node.disconnect() },
     { title: "Bypass", icon: ResetIcon, action: () => props.node.toggleBypass() },
     { title: "Reset", icon: ResetIcon, action: () => props.node.reset() },
-    props.node.isRemovable ? { title: "Remove", icon: RemoveIcon, red: true, action: () => player.nodeManager.removeNode(props.node) } : undefined,
+    props.node.isRemovable ? { title: "Remove", icon: RemoveIcon, red: true, action: () => amethyst.player.nodeManager.removeNode(props.node) } : undefined,
   ].filter(o => !!o) as IContextMenuOption[]);
 };
 
@@ -37,7 +36,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
       <db-meter
         pre
         :node="node.pre"
-        :channels="player.getCurrentTrack()?.getChannels() || 2"
+        :channels="amethyst.player.getCurrentTrack()?.getChannels() || 2"
       />
     </div>
 
@@ -79,7 +78,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
       <db-meter
         v-if="!meterless"
         :node="node.post"
-        :channels="player.getCurrentTrack()?.getChannels() || 2"
+        :channels="amethyst.player.getCurrentTrack()?.getChannels() || 2"
       />
     </div>
   </div>

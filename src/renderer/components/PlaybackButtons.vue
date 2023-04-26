@@ -8,7 +8,6 @@ import { onMounted } from "vue";
 import WaveSurfer from "wavesurfer.js";
 import { getThemeColorHex } from "@/logic/color";
 import { Track } from "@/logic/track";
-import { player } from "@/logic/player";
 import { useInspector } from "./Inspector";
 import { BinocularsIcon, ExternalLinkIcon, HideIcon } from "@/icons/material";
 import { useContextMenu } from "./ContextMenu";
@@ -38,7 +37,7 @@ onMounted(() => {
 
   let oldTrack: Track;
   let hasSeekFiredOnce = true;
-  player.on("play", track => {
+  amethyst.player.on("play", track => {
     // Don't regenerate the waveform if we are playing again from a pause
     if (track == oldTrack) {
       wavesurfer.play();
@@ -48,7 +47,7 @@ onMounted(() => {
     wavesurfer.load(track.path);
     wavesurfer.on("ready", () => {
       // Check if they paused before the waveform loaded
-      if (player.isPaused.value) return;
+      if (amethyst.player.isPaused.value) return;
       wavesurfer.play();
       wavesurfer.setVolume(0);
 
@@ -56,7 +55,7 @@ onMounted(() => {
       // and we are already 7 seconds in lol
       if (track.isLoaded) {
         hasSeekFiredOnce = false;
-        wavesurfer.seekTo(player.currentTime.value / track.getDurationSeconds());
+        wavesurfer.seekTo(amethyst.player.currentTime.value / track.getDurationSeconds());
       }
     });
     
@@ -69,29 +68,29 @@ onMounted(() => {
       hasSeekFiredOnce = true;
       return; 
     }
-    player.seekTo(wavesurfer.getDuration() * value);
+    amethyst.player.seekTo(wavesurfer.getDuration() * value);
   });
 
-  player.on("pause", () => {
+  amethyst.player.on("pause", () => {
     wavesurfer.pause();
   });
 
-  player.on("timeupdate", newTime => {
+  amethyst.player.on("timeupdate", newTime => {
     // prevent an endless loop of seekTo's
     hasSeekFiredOnce = false;
-    wavesurfer.seekTo(newTime / player.getCurrentTrack()!.getDurationSeconds()); 
+    wavesurfer.seekTo(newTime / amethyst.player.getCurrentTrack()!.getDurationSeconds()); 
   });
 });
 
 const handleVolumeMouseScroll = (e: WheelEvent) => {
   const delta = Math.sign(e.deltaY);
-  delta > 0 ? player.volumeDown() : player.volumeUp();
+  delta > 0 ? amethyst.player.volumeDown() : amethyst.player.volumeUp();
 };
 
 const handleContextCoverMenu = ({x, y}: MouseEvent) => {
   useContextMenu().open({x, y}, [
-    { title: "Inspect", icon: BinocularsIcon, action: () => player.getCurrentTrack() && useInspector().inspectAndShow(player.getCurrentTrack()!) },
-    { title: "Export cover...", icon: ExternalLinkIcon, action: () => player.getCurrentTrack()?.exportCover() },
+    { title: "Inspect", icon: BinocularsIcon, action: () => amethyst.player.getCurrentTrack() && useInspector().inspectAndShow(amethyst.player.getCurrentTrack()!) },
+    { title: "Export cover...", icon: ExternalLinkIcon, action: () => amethyst.player.getCurrentTrack()?.exportCover() },
     state.state.isShowingBigCover 
       ? { title: "Hide cover", icon: HideIcon, action: () => state.state.isShowingBigCover = false }
       : { title: "View cover", icon: ExternalLinkIcon, action: () => state.state.isShowingBigCover = true },
@@ -100,7 +99,7 @@ const handleContextCoverMenu = ({x, y}: MouseEvent) => {
 
 // const handleSeekMouseScroll = (e: WheelEvent) => {
 //   const delta = Math.sign(e.deltaY);
-//   delta < 0 ? player.seekForward() : player.seekBackward();
+//   delta < 0 ? amethyst.player.seekForward() : amethyst.player.seekBackward();
 // };
 
 </script>
@@ -113,7 +112,7 @@ const handleContextCoverMenu = ({x, y}: MouseEvent) => {
       :class="[
         state.state.isShowingBigCover && 'border-primary-700'
       ]"
-      :url="player.getCurrentTrack()?.getCover()"
+      :url="amethyst.player.getCurrentTrack()?.getCover()"
       @contextmenu="handleContextCoverMenu"
       @click="state.state.isShowingBigCover = !state.state.isShowingBigCover"
     />
@@ -122,12 +121,12 @@ const handleContextCoverMenu = ({x, y}: MouseEvent) => {
         <div class="flex flex-col w-full py-1 font-bold gap-1 ">
           <h1
             class="text-12px hover:underline cursor-pointer w-24 overflow-hidden overflow-ellipsis"
-            @click=" amethyst.showItem(player.getCurrentTrack()?.path!)"
+            @click=" amethyst.showItem(amethyst.player.getCurrentTrack()?.path!)"
           >
-            {{ player.getCurrentTrack()?.getTitleFormatted() }}
+            {{ amethyst.player.getCurrentTrack()?.getTitleFormatted() }}
           </h1>
           <p class="text-8px text-primary-900">
-            {{ player.getCurrentTrack()?.getArtistsFormatted() }}
+            {{ amethyst.player.getCurrentTrack()?.getArtistsFormatted() }}
           </p>
         </div>
         
@@ -136,45 +135,45 @@ const handleContextCoverMenu = ({x, y}: MouseEvent) => {
             <!-- <playlist-icon class="opacity-75 hover:opacity-100 hover:text-white" /> -->
             <shuffle-icon
               class="opacity-75 hover:opacity-100 hover:text-white"
-              @click="player.shuffle()"
+              @click="amethyst.player.shuffle()"
             />
             <next-icon
               class="opacity-75 hover:opacity-100 hover:text-white transform-gpu rotate-180"
-              @click="player.previous()"
+              @click="amethyst.player.previous()"
             />
             <pause-icon
-              v-if="player.isPlaying.value"
+              v-if="amethyst.player.isPlaying.value"
               class="opacity-75 hover:opacity-100 hover:text-white"
-              @click="player.pause()"
+              @click="amethyst.player.pause()"
             />
             <play-icon
               v-else
               class="opacity-75 hover:opacity-100 hover:text-white"
-              @click="player.play()"
+              @click="amethyst.player.play()"
             />
             <next-icon
               class="opacity-75 hover:opacity-100 hover:text-white"
-              @click="player.skip()"
+              @click="amethyst.player.skip()"
             />
             <repeat-icon
-              v-if="player.loopMode.value == LoopMode.None"
+              v-if="amethyst.player.loopMode.value == LoopMode.None"
               class="opacity-75 hover:opacity-100 hover:text-white"
-              @click="player.loopAll()"
+              @click="amethyst.player.loopAll()"
             />
             <repeat-icon
-              v-if="player.loopMode.value == LoopMode.All"
+              v-if="amethyst.player.loopMode.value == LoopMode.All"
               class="opacity-100 text-gray-300 hover:text-white"
-              @click="player.loopOne()"
+              @click="amethyst.player.loopOne()"
             />
             <repeat-one-icon
-              v-if="player.loopMode.value == LoopMode.One"
+              v-if="amethyst.player.loopMode.value == LoopMode.One"
               class="opacity-100 text-gray-300 hover:text-white"
-              @click="player.loopNone()"
+              @click="amethyst.player.loopNone()"
             />
           </div>
           <p class="text-8px text-primary-900">
-            {{ player.currentTimeFormatted(true) }} /
-            {{ player.getCurrentTrack()?.getDurationFormatted(true) }}
+            {{ amethyst.player.currentTimeFormatted(true) }} /
+            {{ amethyst.player.getCurrentTrack()?.getDurationFormatted(true) }}
           </p>
         </div>
 
@@ -182,12 +181,12 @@ const handleContextCoverMenu = ({x, y}: MouseEvent) => {
           <slider
             id="volume"
             key="volume"
-            v-model="player.volume.value"
+            v-model="amethyst.player.volume.value"
             class="max-w-24"
             min="0"
             max="1"
             step="0.001"
-            @input="player.setVolume(player.volume.value)"
+            @input="amethyst.player.setVolume(amethyst.player.volume.value)"
             @wheel.passive="handleVolumeMouseScroll"
           />
         </div>

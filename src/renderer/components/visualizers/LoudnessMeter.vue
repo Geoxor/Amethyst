@@ -2,7 +2,6 @@
 import { onMounted, ref } from "vue";
 // @ts-ignore no types
 import { LoudnessMeter } from "@domchristie/needles";
-import { player } from "@/logic/player";
 import { infinityClamp, computeWidthPercentage } from "@/logic/math";
 
 const props = defineProps<{ node: AudioNode }>();
@@ -56,11 +55,11 @@ onMounted(() => {
 
   loudnessMeter.start();
 
-  player.on("play", () => {
+  amethyst.player.on("play", () => {
     loudnessMeter.reset();
     loudnessMeter.resume();
   });
-  player.on("pause", () => loudnessMeter.pause());
+  amethyst.player.on("pause", () => loudnessMeter.pause());
 });
 
 </script>

@@ -1,6 +1,5 @@
 import { Position } from "@vue-flow/core";
 import { DefineComponent, markRaw } from "vue";
-import { player } from "@/logic/player";
 import { Connection, NodeProperties } from "./audioManager";
 import { v4 as uuidv4 } from "uuid";
  
@@ -30,7 +29,7 @@ export class AmethystAudioNode {
 
   public autoConnectFromEdges() {
     this.connections.forEach(edge => {
-      const target = player.nodeManager.nodes.value.find(node => node.properties.id === edge.target);
+      const target = amethyst.player.nodeManager.nodes.value.find(node => node.properties.id === edge.target);
       if (!target) return;
       this.connectedTo.push(target);
       this.post.connect(target.pre);
@@ -60,8 +59,8 @@ export class AmethystAudioNode {
 
     // Disconnect descendants
     this.connections.forEach(connection => {
-      const source = player.nodeManager.nodes.value.find(node => node.connections.some(connection => connection.target === this.properties.id));
-      const target = player.nodeManager.nodes.value.find(node => node.properties.id === connection.target);
+      const source = amethyst.player.nodeManager.nodes.value.find(node => node.connections.some(connection => connection.target === this.properties.id));
+      const target = amethyst.player.nodeManager.nodes.value.find(node => node.properties.id === connection.target);
       target && this.disconnectFrom(target);
       
       // And this node from it's current target
@@ -79,7 +78,7 @@ export class AmethystAudioNode {
     if (this.isBypassed) {
       this.connections.forEach(connection => {
         const parent = this.getParentNode();
-        const child = player.nodeManager.nodes.value.find(node => node.properties.id === connection.target);
+        const child = amethyst.player.nodeManager.nodes.value.find(node => node.properties.id === connection.target);
         
         // Reconnect this node
         child && this.post.connect(child.pre);
@@ -91,7 +90,7 @@ export class AmethystAudioNode {
     } else {
       this.connections.forEach(connection => {
         const parent = this.getParentNode();
-        const child = player.nodeManager.nodes.value.find(node => node.properties.id === connection.target);
+        const child = amethyst.player.nodeManager.nodes.value.find(node => node.properties.id === connection.target);
         
         // Bypass (disconnect) this node
         child && this.post.disconnect(child.pre);
@@ -104,7 +103,7 @@ export class AmethystAudioNode {
   }
 
   public getParentNode(){
-    return player.nodeManager.nodes.value.find(node => node.connectedTo.some(node => node.properties.id === this.properties.id));
+    return amethyst.player.nodeManager.nodes.value.find(node => node.connectedTo.some(node => node.properties.id === this.properties.id));
   }
 
   public updatePosition(newPosition: {x: number, y: number}) {

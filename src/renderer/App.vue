@@ -12,7 +12,6 @@ import { ExternalLinkIcon, HideIcon } from "@/icons/material";
 import {SpectrumAnalyzer} from "@/components/visualizers/SpectrumAnalyzer";
 import { onMounted, onUnmounted, ref } from "vue";
 import { Track } from "@/logic/track";
-import { player } from "@/logic/player";
 import { CloseIcon } from "./icons/fluency";
 import NavigationButton from "@/components/NavigationButton.vue";
 import { ListIcon, SettingsIcon, SelectNoneIcon, PlaystationButtonsIcon, BinocularsIcon } from "@/icons/material";
@@ -26,11 +25,11 @@ const setAmbientCover = async (track: Track) => {
 };
 
 onMounted(() => {
-  player.on("play", setAmbientCover);
+  amethyst.player.on("play", setAmbientCover);
 });
 
 onUnmounted(() => {
-  player.off("play", setAmbientCover);
+  amethyst.player.off("play", setAmbientCover);
 });
 
 </script>
@@ -45,7 +44,7 @@ onUnmounted(() => {
         :url="ambientBackgroundImage"
         class="h-full"
         @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-          { title: 'Export cover...', icon: ExternalLinkIcon, action: () => player.getCurrentTrack()?.exportCover() },
+          { title: 'Export cover...', icon: ExternalLinkIcon, action: () => amethyst.player.getCurrentTrack()?.exportCover() },
         ]);"
       />
 
@@ -142,7 +141,7 @@ onUnmounted(() => {
             :class="[(state.settings.value.showBigSpectrum || state.settings.value.showBigVectorscope) && 'p-2']"
           >
             <div
-              v-if="state.settings.value.showBigSpectrum && player.source"
+              v-if="state.settings.value.showBigSpectrum && amethyst.player.source"
               class="w-full relative"
             >
               <button
@@ -153,9 +152,9 @@ onUnmounted(() => {
               </button>
               <SpectrumAnalyzer
               
-                :key="player.nodeManager.getNodeConnectinsString()"
+                :key="amethyst.player.nodeManager.getNodeConnectinsString()"
                 class="h-64 min-h-64 w-full bg-surface-1000"
-                :node="player.nodeManager.master.pre"
+                :node="amethyst.player.nodeManager.master.pre"
                 @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
                   { title: 'Hide', icon: HideIcon, action: () => state.settings.value.showBigSpectrum = false },
                 ]);"
@@ -163,7 +162,7 @@ onUnmounted(() => {
             </div>
 
             <div
-              v-if="state.settings.value.showBigVectorscope && player.source"
+              v-if="state.settings.value.showBigVectorscope && amethyst.player.source"
               class="relative"
             >
               <button
@@ -173,11 +172,11 @@ onUnmounted(() => {
                 <CloseIcon class="w-4 h-4" />
               </button>
               <Vectorscope
-                :key="player.nodeManager.getNodeConnectinsString()"
+                :key="amethyst.player.nodeManager.getNodeConnectinsString()"
                 :width="256"
                 :height="256"
                 class="h-64 w-64 bg-surface-1000"
-                :node="player.nodeManager.master.pre"
+                :node="amethyst.player.nodeManager.master.pre"
                 @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
                   { title: 'Hide', icon: HideIcon, action: () => state.settings.value.showBigVectorscope = false },
                 ]);"
@@ -193,36 +192,36 @@ onUnmounted(() => {
         class="flex gap-2 items-center p-2 bg-surface-800 borderTop"
       >
         <db-meter
-          v-if="state.settings.value.showDbMeter && state.settings.value.decibelMeterSeperatePrePost && player.source"
-          :key="player.nodeManager.getNodeConnectinsString()"
-          :node="player.nodeManager.master.pre"
+          v-if="state.settings.value.showDbMeter && state.settings.value.decibelMeterSeperatePrePost && amethyst.player.source"
+          :key="amethyst.player.nodeManager.getNodeConnectinsString()"
+          :node="amethyst.player.nodeManager.master.pre"
           pre
-          :channels="player.getCurrentTrack()?.getChannels()"
+          :channels="amethyst.player.getCurrentTrack()?.getChannels()"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide decibel meter', icon: HideIcon, action: () => state.settings.value.showDbMeter = false },
           ]);"
         />
         <db-meter
-          v-if="state.settings.value.showDbMeter && player.source"
-          :key="player.nodeManager.getNodeConnectinsString()"
-          :node="player.nodeManager.master.post"
-          :channels="player.getCurrentTrack()?.getChannels()"
+          v-if="state.settings.value.showDbMeter && amethyst.player.source"
+          :key="amethyst.player.nodeManager.getNodeConnectinsString()"
+          :node="amethyst.player.nodeManager.master.post"
+          :channels="amethyst.player.getCurrentTrack()?.getChannels()"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide decibel meter', icon: HideIcon, action: () => state.settings.value.showDbMeter = false },
           ]);"
         />
 
         <loudness-meter 
-          v-if="state.settings.value.showLoudnessMeter && player.source"
-          :key="player.nodeManager.getNodeConnectinsString()"
-          :node="player.nodeManager.master.pre"
+          v-if="state.settings.value.showLoudnessMeter && amethyst.player.source"
+          :key="amethyst.player.nodeManager.getNodeConnectinsString()"
+          :node="amethyst.player.nodeManager.master.pre"
         />
 
-        <playback-buttons :player="player" />
+        <playback-buttons :player="amethyst.player" />
         <vectorscope
-          v-if="state.settings.value.showVectorscope && player.source"
-          :key="player.nodeManager.getNodeConnectinsString()"
-          :node="player.nodeManager.master.pre"
+          v-if="state.settings.value.showVectorscope && amethyst.player.source"
+          :key="amethyst.player.nodeManager.getNodeConnectinsString()"
+          :node="amethyst.player.nodeManager.master.pre"
           :width="76"
           :height="76"
           class="clickable"
@@ -238,13 +237,13 @@ onUnmounted(() => {
           @click="state.settings.value.showBigVectorscope = !state.settings.value.showBigVectorscope"
         />
         <SpectrumAnalyzer
-          v-if="state.settings.value.showSpectrum && player.source"
-          :key="player.nodeManager.getNodeConnectinsString()"
+          v-if="state.settings.value.showSpectrum && amethyst.player.source"
+          :key="amethyst.player.nodeManager.getNodeConnectinsString()"
           class="clickable h-76px w-152px min-h-76px min-w-152px bg-surface-900"
           :class="[
             state.settings.value.showBigSpectrum && 'border-primary-700 bg-primary-700 bg-opacity-10 hover:bg-opacity-20'
           ]"
-          :node="player.nodeManager.master.pre"
+          :node="amethyst.player.nodeManager.master.pre"
           @click="state.settings.value.showBigSpectrum = !state.settings.value.showBigSpectrum"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide Spectrum', icon: HideIcon, action: () => state.settings.value.showSpectrum = false },

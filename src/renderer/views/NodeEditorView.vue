@@ -7,7 +7,6 @@ import { Background, BackgroundVariant } from "@vue-flow/additional-components";
 import { Connection, EdgeMouseEvent, NodeDragEvent, VueFlow } from "@vue-flow/core";
 import { onKeyStroke } from "@vueuse/core";
 import { computed, onMounted, onUnmounted, ref } from "vue";
-import { player } from "@/logic/player";
 import { AmethystPannerNode, AmethystGainNode, AmethystSpectrumNode, AmethystFilterNode, AmethystEightBandEqualizerNode } from "@/nodes";
 import { AmethystAudioNode } from "@/logic/audio";
 import { Coords } from "@shared/types";
@@ -33,7 +32,7 @@ onUnmounted(() => {
 const fitToView = () => dash.value.fitView();
 
 const state = useState();
-const elements = computed(() => [...player.nodeManager.getNodeProperties(), ...player.nodeManager.getNodeConnections()]);
+const elements = computed(() => [...amethyst.player.nodeManager.getNodeProperties(), ...amethyst.player.nodeManager.getNodeConnections()]);
 
 const getDashCoords = () => {
   const transformationPane = document.getElementsByClassName("vue-flow__transformationpane")[0]! as HTMLDivElement;
@@ -88,23 +87,23 @@ const computeNodePosition = ({x, y}: Coords) => {
 
 const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   {title: "Add FilterNode", icon: FilterIcon, action: () => {
-    player.nodeManager.addNode(new AmethystFilterNode(player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
+    amethyst.player.nodeManager.addNode(new AmethystFilterNode(amethyst.player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
   }},
   {
     title: "Add EightBandEqualizerNode", 
     icon: FilterIcon, 
     action: () => {
-      player.nodeManager.addNode(new AmethystEightBandEqualizerNode(player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
+      amethyst.player.nodeManager.addNode(new AmethystEightBandEqualizerNode(amethyst.player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
     }
   },
   {title: "Add PannerNode", icon: AzimuthIcon, action: () => {
-    player.nodeManager.addNode(new AmethystPannerNode(player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
+    amethyst.player.nodeManager.addNode(new AmethystPannerNode(amethyst.player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
   }},
   {title: "Add GainNode", icon: AdjustIcon, action: () => {
-    player.nodeManager.addNode(new AmethystGainNode(player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
+    amethyst.player.nodeManager.addNode(new AmethystGainNode(amethyst.player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
   }},
   {title: "Add AmethystSpectrumNode", icon: WaveIcon, action: () => {
-    player.nodeManager.addNode(new AmethystSpectrumNode(player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
+    amethyst.player.nodeManager.addNode(new AmethystSpectrumNode(amethyst.player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
   }},
 ];
 
@@ -113,8 +112,8 @@ const handleContextMenu = ({y, x}: MouseEvent) => {
 };
 
 const handleEdgeContextMenu = (e: EdgeMouseEvent) => {
-  const source = player.nodeManager.nodes.value.find(node => node.properties.id === e.edge.source)!;
-  const target = player.nodeManager.nodes.value.find(node => node.properties.id === e.edge.target)!;
+  const source = amethyst.player.nodeManager.nodes.value.find(node => node.properties.id === e.edge.source)!;
+  const target = amethyst.player.nodeManager.nodes.value.find(node => node.properties.id === e.edge.target)!;
 
   const {x, y} = (e.event as MouseEvent);
   useContextMenu().open({x, y}, [
@@ -124,12 +123,12 @@ const handleEdgeContextMenu = (e: EdgeMouseEvent) => {
 };
 
 const handleNodeDragStop = (e: NodeDragEvent) => {
-  player.nodeManager.nodes.value.find(node => node.properties.id === e.node.id)?.updatePosition(e.node.position);
+  amethyst.player.nodeManager.nodes.value.find(node => node.properties.id === e.node.id)?.updatePosition(e.node.position);
 };
 
 const handleConnect = (e: Connection) => {
-  const from = player.nodeManager.nodes.value.find(node => node.properties.id === e.source);
-  const to = player.nodeManager.nodes.value.find(node => node.properties.id === e.target);
+  const from = amethyst.player.nodeManager.nodes.value.find(node => node.properties.id === e.source);
+  const to = amethyst.player.nodeManager.nodes.value.find(node => node.properties.id === e.target);
 
   if (from && to) {
     from.connectTo(to);
@@ -151,11 +150,11 @@ const handleOpenFile = async () => {
   })
   .then(buffer => {
     // Use the loaded buffer
-    player.nodeManager.loadGraph(JSON.parse(buffer.toString()));
+    amethyst.player.nodeManager.loadGraph(JSON.parse(buffer.toString()));
   });
 
   // Fixes volume resetting to 100% when loading a new graph
-  player.setVolume(player.volume.value);
+  amethyst.player.setVolume(amethyst.player.volume.value);
 
   fitToView;
 };
@@ -166,10 +165,10 @@ const handleSaveFile = () => {
 
 onKeyStroke("Delete", () => {
   dash.value.getSelectedNodes.forEach((nodeElement: any) => {
-    const node = player.nodeManager.nodes.value
+    const node = amethyst.player.nodeManager.nodes.value
       .find(node => node.properties.id === nodeElement.id);
 
-    node && player.nodeManager.removeNode(node);
+    node && amethyst.player.nodeManager.removeNode(node);
   });
 });
 
@@ -210,7 +209,7 @@ onKeyStroke("Delete", () => {
       <BaseToolbarButton
         :icon="RemoveIcon"
         tooltip-text="Reset All"
-        @click="player.nodeManager.reset()"
+        @click="amethyst.player.nodeManager.reset()"
       />
     </BaseToolbar>
 
@@ -235,7 +234,7 @@ onKeyStroke("Delete", () => {
       />
 
       <template
-        v-for="node of player.nodeManager.nodes.value"
+        v-for="node of amethyst.player.nodeManager.nodes.value"
         :key="node.properties.id"
         #[node.getSlotName()]
       >

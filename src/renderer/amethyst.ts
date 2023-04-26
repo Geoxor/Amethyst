@@ -1,4 +1,4 @@
-import { player } from "@/logic/player";
+import { Player } from "@/logic/player";
 import { MediaSession } from "@/mediaSession";
 import { Shortcuts } from "@/shortcuts";
 import { Store } from "@/state";
@@ -8,7 +8,6 @@ import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
 import { IMetadata } from "@shared/types";
 import { FileFilter, OpenDialogReturnValue } from "electron";
 import { watch } from "vue";
-import { getThemeColorHex } from "./logic/color";
 import { flattenArray } from "./logic/math";
 import { Track } from "./logic/track";
 import { Directory } from "@capacitor/filesystem";
@@ -187,13 +186,13 @@ class AmethystBackend {
     amethyst.openFileDialog([{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }])?.then(result => {
       console.log(result.filePaths);
       
-      !result.canceled && player.queue.add(result.filePaths);
+      !result.canceled && amethyst.player.queue.add(result.filePaths);
     });
   };
   
   public openAudioFoldersAndAddToQueue = () => {
     amethyst.openFolderDialog(ALLOWED_AUDIO_EXTENSIONS)?.then(result => {
-      !result.canceled && player.queue.add(flattenArray(result.filePaths));
+      !result.canceled && amethyst.player.queue.add(flattenArray(result.filePaths));
     });
   };
 
@@ -226,7 +225,8 @@ export class Amethyst extends AmethystBackend {
   public store: Store = new Store();
   public shortcuts: Shortcuts = new Shortcuts();
   public mediaSession: MediaSession | undefined = this.getCurrentPlatform() === "desktop" && new MediaSession();
-
+  public player = new Player();
+  
   public constructor() {
     super();
 
@@ -241,10 +241,10 @@ export class Amethyst extends AmethystBackend {
 
       window.electron.ipcRenderer.on("update", () => this.store.state.updateReady = true);
 
-      window.electron.ipcRenderer.on<string>("play-file", path => path !== "--require" && player.queue.add(path).then(() => {
-        player.play(player.queue.getList().findIndex(track => track.path == path));
+      window.electron.ipcRenderer.on<string>("play-file", path => path !== "--require" && amethyst.player.queue.add(path).then(() => {
+        amethyst.player.play(amethyst.player.queue.getList().findIndex(track => track.path == path));
       }));
-      window.electron.ipcRenderer.on<(string)[]>("play-folder", paths => player.queue.add(flattenArray(paths)));
+      window.electron.ipcRenderer.on<(string)[]>("play-folder", paths => amethyst.player.queue.add(flattenArray(paths)));
   
       // #region move this to the discord plugin
       let richPresenceTimer: NodeJS.Timer | undefined;
@@ -253,7 +253,7 @@ export class Amethyst extends AmethystBackend {
         const sendData = () => {
         const args = [
           track.getArtistsFormatted() && track.getTitleFormatted() ? `${track.getArtistsFormatted()} - ${track.getTitleFormatted()}` : track.getFilename(),
-            player.isPaused.value ? "Paused" : `${player.currentTimeFormatted(true)} - ${track.getDurationFormatted(true)}`,
+            amethyst.player.isPaused.value ? "Paused" : `${amethyst.player.currentTimeFormatted(true)} - ${track.getDurationFormatted(true)}`,
             track.metadata.data?.format.container?.toLowerCase() || "unknown format"
           ];
           window.electron.ipcRenderer.invoke("update-rich-presence", [args]);
@@ -265,12 +265,12 @@ export class Amethyst extends AmethystBackend {
       };
 
       const updateWithCurrentTrack = () => {
-        const currentTrack = player.getCurrentTrack();
+        const currentTrack = amethyst.player.getCurrentTrack();
         currentTrack && updateRichPresence(currentTrack);
       };
 
       if (this.store.settings.value.useDiscordRichPresence) {
-        player.on("play", () => {
+        amethyst.player.on("play", () => {
           updateWithCurrentTrack();
         });
       };
@@ -288,8 +288,8 @@ export class Amethyst extends AmethystBackend {
     document.addEventListener("drop", event => {
       event.preventDefault();
       event.stopPropagation();
-      player.queue.add(Array.from(event.dataTransfer!.files).map(f => f.path));
-      player.play(player.queue.getList()[player.queue.getList().length - 1]);
+      amethyst.player.queue.add(Array.from(event.dataTransfer!.files).map(f => f.path));
+      amethyst.player.play(amethyst.player.queue.getList()[amethyst.player.queue.getList().length - 1]);
     });
 
     document.addEventListener("dragover", e => {

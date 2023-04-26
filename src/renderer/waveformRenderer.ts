@@ -15,24 +15,24 @@
 //     this.audioBuffer = null;
 //     this.currentWorker = null;
 
-//     this.player.on("metadata", async metadata => {
-//       this.player.Store.state.processQueue.add(metadata.file);
+//     this.amethyst.player.on("metadata", async metadata => {
+//       this.amethyst.player.Store.state.processQueue.add(metadata.file);
 //       // TODO: refactor this system so amethyst automatically determines when processing has finished from child plugins
 //       await this.handlePlayAudio(metadata);
-//       this.player.Store.state.processQueue.delete(metadata.file);
+//       this.amethyst.player.Store.state.processQueue.delete(metadata.file);
 //     });
 //   }
 
 //   private handlePlayAudio = async (metadata: { file: string } & IAudioMetadata) => {
-//     const existingRender = this.player.Store.state.waveformCache[metadata.file];
+//     const existingRender = this.amethyst.player.Store.state.waveformCache[metadata.file];
 //     if (existingRender) return this.drawImage(existingRender);
 
-//     const currentSound = this.player.state.currentlyPlayingFilePath;
-//     if (currentSound != this.player.state.currentlyPlayingFilePath) return;
+//     const currentSound = this.amethyst.player.state.currentlyPlayingFilePath;
+//     if (currentSound != this.amethyst.player.state.currentlyPlayingFilePath) return;
 
 //     const channels = metadata.format.numberOfChannels ?? 2;
 //     const duration = metadata.format.duration ?? 1;
-//     const sampleRate = this.player.state.source?.context.sampleRate ?? 44100;
+//     const sampleRate = this.amethyst.player.state.source?.context.sampleRate ?? 44100;
 
 //     const offlineAudioCtx = new OfflineAudioContext({
 //       numberOfChannels: channels,
@@ -40,12 +40,12 @@
 //       sampleRate
 //     });
 
-//     const tempBuffer = await this.fetchAudioBuffer(this.player.state.currentlyPlayingFilePath, offlineAudioCtx);
+//     const tempBuffer = await this.fetchAudioBuffer(this.amethyst.player.state.currentlyPlayingFilePath, offlineAudioCtx);
 //     if (!tempBuffer) {
 //       Promise.reject();
 //       return;
 //     }
-//     if (currentSound != this.player.state.currentlyPlayingFilePath) return;
+//     if (currentSound != this.amethyst.player.state.currentlyPlayingFilePath) return;
 
 //     this.audioBuffer = tempBuffer;
 //     await this.renderWaveform(metadata.file);
@@ -116,7 +116,7 @@
 //       this.currentWorker.postMessage({ canvas: offscreen, audioData }, [offscreen]);
 //       this.currentWorker.onmessage = ({ data }) => {
 //         this.drawImage(data);
-//         this.player.Store.state.waveformCache[filePath] = data;
+//         this.amethyst.player.Store.state.waveformCache[filePath] = data;
 //         this.currentWorker = null;
 //         resolve();
 //       };
@@ -124,7 +124,7 @@
 //   };
 
 //   public clean = () => {
-//     this.player.off("metadata");
+//     this.amethyst.player.off("metadata");
 //   };
 
 //   public drawImage = (data: ImageBitmap) => {
