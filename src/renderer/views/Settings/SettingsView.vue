@@ -32,7 +32,7 @@ import { PaintBrushIcon, GeometryIcon, CircusRingOfFireIcon, PuzzleIcon, SineIco
         :icon="GeometryIcon"
         :active="$route.name == 'settings.behaviour'"
         text="Behaviour"
-        description="concurrency, startup, defaults"
+        description="startup, defaults"
         @click="$router.push({ name: 'settings.behaviour' })"
       />
       

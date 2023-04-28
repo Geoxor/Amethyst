@@ -3,6 +3,7 @@ import { onMounted, ref } from "vue";
 // @ts-ignore no types
 import { LoudnessMeter } from "@domchristie/needles";
 import { infinityClamp, computeWidthPercentage } from "@/logic/math";
+import { amethyst } from "@/amethyst";
 
 const props = defineProps<{ node: AudioNode }>();
 

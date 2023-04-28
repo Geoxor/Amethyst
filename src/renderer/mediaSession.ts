@@ -1,15 +1,16 @@
+import { Player } from "./logic/player";
 
 export class MediaSession {
-  public constructor() {
+  public constructor(private player: Player) {
     const actionHandlers: ([MediaSessionAction, MediaSessionActionHandler])[] = [
-      ["play", () => amethyst.player.isPlaying.value ? amethyst.player.pause() : amethyst.player.play()],
-      ["pause", () => !amethyst.player.isPlaying.value ? amethyst.player.play() : amethyst.player.pause()],
-      ["previoustrack", () => amethyst.player.previous()],
-      ["nexttrack", () => amethyst.player.skip()],
-      ["seekbackward", details => { amethyst.player.seekBackward(details.seekOffset || undefined); }],
-      ["seekforward", details => { amethyst.player.seekForward(details.seekOffset || undefined); }],
-      ["seekto", details => { details.seekTime && amethyst.player.seekTo(details.seekTime); }],
-      ["stop", () => amethyst.player.stop()],
+      ["play", () => this.player.isPlaying.value ? this.player.pause() : this.player.play()],
+      ["pause", () => !this.player.isPlaying.value ? this.player.play() : this.player.pause()],
+      ["previoustrack", () => this.player.previous()],
+      ["nexttrack", () => this.player.skip()],
+      ["seekbackward", details => { this.player.seekBackward(details.seekOffset || undefined); }],
+      ["seekforward", details => { this.player.seekForward(details.seekOffset || undefined); }],
+      ["seekto", details => { details.seekTime && this.player.seekTo(details.seekTime); }],
+      ["stop", () => this.player.stop()],
     ];
 
     for (const [action, handler] of actionHandlers) {
@@ -20,10 +21,10 @@ export class MediaSession {
       }
     }
 
-    amethyst.player.on("play", () => navigator.mediaSession.playbackState = "playing");
-    amethyst.player.on("pause", () => navigator.mediaSession.playbackState = "paused");
+    this.player.on("play", () => navigator.mediaSession.playbackState = "playing");
+    this.player.on("pause", () => navigator.mediaSession.playbackState = "paused");
 
-    amethyst.player.on("play", track => {
+    this.player.on("play", track => {
       const cover = track.getMetadata()?.common.picture?.[0];
       let coverUrl: string = "";
 

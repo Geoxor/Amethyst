@@ -75,11 +75,9 @@ export class Queue {
    * Fetches all async data for each track concurrently
    */
   public async fetchAsyncData(force?: boolean){
-    const { amethyst } = await import("@/amethyst");
-
     return PromisePool
 			.for(force ? this.getList() : this.getList().filter(track => !track.isLoaded))
-			.withConcurrency(amethyst.store.settings.processingConcurrency || 3)
+			.withConcurrency(3)
 			.process(async track => {
         await track.fetchAsyncData(force);
         this.updateTotalSize();

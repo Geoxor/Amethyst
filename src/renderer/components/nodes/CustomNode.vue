@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useShortcuts, useState } from "@/amethyst";
+import { useShortcuts, useState, amethyst } from "@/amethyst";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import QuickMenu from "@/components/nodes/QuickMenu.vue";
 import { ResetIcon, RemoveIcon, DisconnectIcon } from "@/icons/material";
@@ -87,10 +87,12 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
     id="a"
     type="source"
     :position="Position.Right"
+    class=""
   />
   <Handle
     id="b"
     type="target"
     :position="Position.Left"
+    class=""
   />
 </template>

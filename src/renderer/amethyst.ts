@@ -10,7 +10,8 @@ import { FileFilter, OpenDialogReturnValue } from "electron";
 import { watch } from "vue";
 import { flattenArray } from "./logic/math";
 import { Track } from "./logic/track";
-import { Directory } from "@capacitor/filesystem";
+import { Directory, Encoding, Filesystem } from "@capacitor/filesystem";
+import * as mm from "music-metadata-browser";
 
 export type AmethystPlatforms = ReturnType<typeof amethyst.getCurrentPlatform>;
 
@@ -138,36 +139,6 @@ class AmethystBackend {
             files ? res({canceled: false, filePaths: paths}) : rej();
           });
         });
-      case "mobile":
-        const { Filesystem } = await import("@capacitor/filesystem");
-        const evalPermission = async () => {
-          const status = await Filesystem.requestPermissions();
-          if (status.publicStorage == "denied") evalPermission();
-        };
-
-        const evalMusicFolder = async () => {
-          Filesystem.stat({ directory: Directory.Documents, 
-            path: "Music" }).catch(() => {
-              Filesystem.mkdir({ directory: Directory.Documents, 
-                path: "Music", recursive: true })
-              .then(() => {
-                console.log("Created music folder in Documents/Music");
-              }).catch(err => {
-                console.log(err);
-              });
-            });
-        };
-
-        await evalPermission();
-        await evalMusicFolder();
-        const files = await Filesystem.readdir({
-          path: "Music",
-          directory: Directory.Documents,
-        });
-
-        console.log(files);
-        
-        return {canceled: false, filePaths: files.files.map(file => Capacitor.convertFileSrc(file.uri))};
       default:
         return Promise.reject();
     }
@@ -184,8 +155,6 @@ class AmethystBackend {
 
   public openAudioFilesAndAddToQueue = () => {
     amethyst.openFileDialog([{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }])?.then(result => {
-      console.log(result.filePaths);
-      
       !result.canceled && amethyst.player.queue.add(result.filePaths);
     });
   };
@@ -197,16 +166,24 @@ class AmethystBackend {
   };
 
   // TODO: get rid of this stupid logic and make it be part of when loading a track
-  public getMetadata(path: string) {
+  public async getMetadata(path: string) {
+    console.log(`getting metadata for path ${path}`);
+    
     switch (this.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<IMetadata>("get-metadata", [path]);
+      case "mobile":
+        const systemFilePath = path.substring(path.lastIndexOf("/Music/"));
+        const file = await Filesystem.readFile({path: systemFilePath, directory: Directory.Documents});
+        const buffer = Buffer.from(file.data, "base64");
+        const {format, common} = await mm.parseBuffer(buffer, undefined, {skipCovers: true});
+        return {format, common, size: buffer.length} as IMetadata;
       default:
         return;
     }
   }
 
-  public getCover(path: string) {
+  public async getCover(path: string) {
     switch (this.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<IMetadata>("get-cover", [path]);
@@ -224,8 +201,8 @@ export class Amethyst extends AmethystBackend {
 
   public store: Store = new Store();
   public shortcuts: Shortcuts = new Shortcuts();
-  public mediaSession: MediaSession | undefined = this.getCurrentPlatform() === "desktop" && new MediaSession();
   public player = new Player();
+  public mediaSession: MediaSession | undefined = this.getCurrentPlatform() === "desktop" ? new MediaSession(this.player) : undefined;
   
   public constructor() {
     super();
@@ -253,7 +230,7 @@ export class Amethyst extends AmethystBackend {
         const sendData = () => {
         const args = [
           track.getArtistsFormatted() && track.getTitleFormatted() ? `${track.getArtistsFormatted()} - ${track.getTitleFormatted()}` : track.getFilename(),
-            amethyst.player.isPaused.value ? "Paused" : `${amethyst.player.currentTimeFormatted(true)} - ${track.getDurationFormatted(true)}`,
+            this.player.isPaused.value ? "Paused" : `${this.player.currentTimeFormatted(true)} - ${track.getDurationFormatted(true)}`,
             track.metadata.data?.format.container?.toLowerCase() || "unknown format"
           ];
           window.electron.ipcRenderer.invoke("update-rich-presence", [args]);
@@ -265,12 +242,12 @@ export class Amethyst extends AmethystBackend {
       };
 
       const updateWithCurrentTrack = () => {
-        const currentTrack = amethyst.player.getCurrentTrack();
+        const currentTrack = this.player.getCurrentTrack();
         currentTrack && updateRichPresence(currentTrack);
       };
 
       if (this.store.settings.value.useDiscordRichPresence) {
-        amethyst.player.on("play", () => {
+        this.player.on("play", () => {
           updateWithCurrentTrack();
         });
       };
@@ -283,6 +260,7 @@ export class Amethyst extends AmethystBackend {
 
     if (this.getCurrentPlatform() === "mobile") {
       StatusBar.setBackgroundColor({color: "#141621"});
+      this.loadMusicFolder();
     }
 
     document.addEventListener("drop", event => {
@@ -310,6 +288,40 @@ export class Amethyst extends AmethystBackend {
     const windowState = await window.electron.ipcRenderer.invoke<{ isMinimized: boolean; isMaximized: boolean }>("sync-window-state");
     this.store.state.isMinimized = windowState.isMinimized;
     this.store.state.isMaximized = windowState.isMaximized;
+  };
+
+  /**
+   * Loads all the music in Documents/Music to the queue
+   * @mobile_only
+   */
+  private loadMusicFolder = async () => {
+    const { Filesystem } = await import("@capacitor/filesystem");
+    const evalPermission = async () => {
+      const status = await Filesystem.requestPermissions();
+      if (status.publicStorage == "denied") evalPermission();
+    };
+
+    const evalMusicFolder = async () => {
+      Filesystem.stat({ directory: Directory.Documents, 
+        path: "Music" }).catch(() => {
+          Filesystem.mkdir({ directory: Directory.Documents, 
+            path: "Music", recursive: true })
+          .then(() => {
+            console.log("Created music folder in Documents/Music");
+          }).catch(err => {
+            console.log(err);
+          });
+        });
+    };
+
+    await evalPermission();
+    await evalMusicFolder();
+    const {files} = await Filesystem.readdir({
+      path: "Music",
+      directory: Directory.Documents,
+    });
+
+    this.player.queue.add(files.map(file => Capacitor.convertFileSrc(file.uri)));
   };
 
   public async checkForUpdates() {

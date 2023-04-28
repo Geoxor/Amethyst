@@ -2,6 +2,7 @@ import { Position } from "@vue-flow/core";
 import { DefineComponent, markRaw } from "vue";
 import { Connection, NodeProperties } from "./audioManager";
 import { v4 as uuidv4 } from "uuid";
+import { amethyst } from "@/amethyst";
  
 export class AmethystAudioNode {
   public properties: NodeProperties;

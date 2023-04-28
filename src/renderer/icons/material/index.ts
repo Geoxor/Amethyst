@@ -11,6 +11,8 @@ import HeartIcon from "./HeartIcon.vue";
 import ListIcon from "./ListIcon.vue";
 import MagnetIcon from "./MagnetIcon.vue";
 import MasterIcon from "./MasterIcon.vue";
+import AddIcon from "./AddIcon.vue";
+import SplitIcon from "./SplitIcon.vue";
 import PuzzleIcon from "./PuzzleIcon.vue";
 import MyLocationIcon from "./MyLocationIcon.vue";
 import PaintBrushIcon from "./PaintBrushIcon.vue";
@@ -77,6 +79,8 @@ export {
   PlayIcon,
   DownloadingUpdatesIcon,
   MusicFolderIcon,
+  AddIcon,
+  SplitIcon,
   AudioFileIcon,
   AdjustIcon,
   MagnetIcon,

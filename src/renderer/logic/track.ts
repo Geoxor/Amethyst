@@ -19,7 +19,6 @@ export class Track {
 
   public constructor(public absolutePath: string) {
     this.path = absolutePath;
-    console.log(this);
   }
 
   public getCachePath(absolute?: boolean) {
@@ -165,12 +164,15 @@ export class Track {
    * @example "02. Daft Punk - Get Lucky.flac"
    */
   public getFilename() {
-    if (amethyst.getCurrentPlatform() === "desktop") {
-      const { base } = window.path.parse(this.absolutePath);
-      return base;
+    switch (amethyst.getCurrentPlatform()) {
+      case "desktop":
+        const { base } = window.path.parse(this.absolutePath);
+        return base;
+      case "mobile": 
+        return this.absolutePath.substring(this.absolutePath.lastIndexOf("/Music/") + "/Music/".length );
+      default:
+        return this.absolutePath;
     }
-
-    return this.absolutePath;
   }
 
   /**

@@ -26,7 +26,6 @@ export class Store {
 		showSpectrum: true,
 		showBigSpectrum: false,
 		showVectorscope: true,
-		processingConcurrency: 3,
 		showDbMeter: true,
 		showAmbientBackground: false,
 		ambientBackgroundOpacity: 32,

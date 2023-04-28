@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { amethyst, useState } from "@/amethyst";
 import BaseToolbarButton from "@/components/BaseToolbarButton.vue";
-import { MagnetIcon, SaveIcon, AdjustIcon, AzimuthIcon, FilterIcon, SelectNoneIcon, WaveIcon, RemoveIcon, LoadingIcon } from "@/icons/material";
+import { MagnetIcon, SaveIcon, AdjustIcon, AzimuthIcon, FilterIcon, SelectNoneIcon, AddIcon, WaveIcon, RemoveIcon, LoadingIcon, SplitIcon } from "@/icons/material";
 import { getThemeColorHex } from "@/logic/color";
 import { Background, BackgroundVariant } from "@vue-flow/additional-components";
 import { Connection, EdgeMouseEvent, NodeDragEvent, VueFlow } from "@vue-flow/core";
@@ -181,6 +181,14 @@ onKeyStroke("Delete", () => {
   >
     <BaseToolbar>
       <BaseToolbarButton
+        :icon="AddIcon"
+        tooltip-text="Add Node"
+        @click="useContextMenu().open({x: $event.clientX, y: $event.clientY}, nodeMenu({x: $event.clientX, y: $event.clientY}));"
+      />
+
+      <BaseToolbarSplitter />
+
+      <BaseToolbarButton
         :icon="SelectNoneIcon"
         tooltip-text="Fit to View"
         @click="fitToView"
@@ -206,6 +214,8 @@ onKeyStroke("Delete", () => {
         @click="handleSaveFile"
       />
       
+      <BaseToolbarSplitter />
+
       <BaseToolbarButton
         :icon="RemoveIcon"
         tooltip-text="Reset All"
@@ -218,7 +228,7 @@ onKeyStroke("Delete", () => {
       v-model="elements"
       class="bg-surface-1000 p-2"
       :snap-to-grid="state.settings.value.isSnappingToGrid"
-      :max-zoom="1.00"
+      :max-zoom="2.00"
       :connection-line-style="{ stroke: getThemeColorHex('--primary-700') }"
       :fit-view-on-init="true"
       :select-nodes-on-drag="false"
