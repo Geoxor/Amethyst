@@ -96,7 +96,7 @@ jobs:
         run: yarn install
 
       - name: Make gradlew executable
-        run: chmod +x ./gradlew
+        run: chmod +x ./src/android/gradlew
 
       - name: Build Amethyst
         run: yarn build:android
