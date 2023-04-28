@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ResetIcon, RemoveIcon, DisconnectIcon } from "@/icons/material";
 import { AmethystAudioNode } from "@/logic/audio";
+import {amethyst} from "@/amethyst";
 const props = defineProps<{node: AmethystAudioNode}>();
 
 </script>

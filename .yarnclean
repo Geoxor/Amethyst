@@ -10,10 +10,6 @@ doc
 website
 images
 
-# examples
-example
-examples
-
 # code coverage directories
 coverage
 .nyc_output

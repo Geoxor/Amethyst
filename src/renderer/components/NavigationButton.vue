@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 
-const props = defineProps<{ icon: any, routeName: string, active?: boolean, notifs?: number, text?: string, description?: string }>();
+const props = defineProps<{ icon: any, routeName: string, notifs?: number, text?: string, description?: string }>();
 const route = useRoute();
 const isActive = computed(() => route.name?.toString().startsWith(props.routeName) || props.routeName === route.name);
 </script>
