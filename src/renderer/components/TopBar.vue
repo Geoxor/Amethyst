@@ -40,10 +40,7 @@ onMounted(() => {
   }, 1000);
 });
 
-// TODO: move this to queue or something
-
 const state = useState();
-// const electron = useElectron();
 </script>
 
 <template>
