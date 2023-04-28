@@ -78,6 +78,32 @@ jobs:
             release/build/*.yaml
             release/build/*.exe*
 
+  build-android:
+    name: Build Android
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 19.1.0
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Build Amethyst
+        run: yarn build:android
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          path: |
+            release/build/android/*.apk
+
   build-macos:
     name: Build MacOS
     runs-on: macos-latest
@@ -145,7 +171,7 @@ jobs:
 
   publish-releases:
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [build-windows, build-macos, lint, tests]
+    needs: [build-windows, build-macos,  build-android, lint, tests]
     name: Publish Releases
     runs-on: ubuntu-latest
     permissions:
