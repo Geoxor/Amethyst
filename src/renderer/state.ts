@@ -58,8 +58,6 @@ export class Store {
 
 	public settings = useLocalStorage("settings", this.defaultSettings, { writeDefaults: true, mergeDefaults: true });
 
-	// TODO: Refactor context menus to its own class & manager
-
 	public applyCurrentTheme = () => {
 		if (typeof document !== "undefined") {
 			const dom = document.querySelector("html");
