@@ -14,7 +14,7 @@ import { onMounted, onUnmounted, ref } from "vue";
 import { Track } from "@/logic/track";
 import { CloseIcon } from "./icons/fluency";
 import NavigationButton from "@/components/NavigationButton.vue";
-import { ListIcon, SettingsIcon, SelectNoneIcon, PlaystationButtonsIcon, BinocularsIcon } from "@/icons/material";
+import { ListIcon, SettingsIcon, SelectNoneIcon, PlaystationButtonsIcon } from "@/icons/material";
 import LoudnessMeter from "./components/visualizers/LoudnessMeter.vue";
 
 const state = useState();
@@ -260,15 +260,8 @@ onUnmounted(() => {
           />
 
           <navigation-button
-            :icon="BinocularsIcon"
-            :active="useInspector().state.isVisible"
-            @click="useInspector().state.isVisible = !useInspector().state.isVisible"
-          />
-
-          <navigation-button
             :icon="SettingsIcon"
             :active="$route.name?.toString().startsWith('settings') || false"
-      
             route-name="settings"
           />
         </div>
