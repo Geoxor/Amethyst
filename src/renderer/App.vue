@@ -96,41 +96,30 @@ onUnmounted(() => {
         <navigation-bar v-if="amethyst.getCurrentPlatform() !== 'mobile'">
           <navigation-button
             :icon="SelectNoneIcon"
-            :active="$route.name == 'node-editor'"
-            @click="$router.push({ name: 'node-editor' })"
+            route-name="node-editor"
           />
 
           <navigation-button
             :icon="ListIcon"
-            :active="$route.name == 'queue'"
-            @click="$router.push({ name: 'queue' })"
+            route-name="queue"
           />
 
           <!-- <navigation-button
       :icon="BookshelfIcon"
-      :active="$route.name == 'library'"
       @click="$router.push({name: 'library'})"
     /> -->
 
           <navigation-button
             v-if="amethyst.IS_DEV"
             :icon="PlaystationButtonsIcon"
-            :active="$route.name == 'playground'"
-            @click="$router.push({ name: 'playground' })"
+            route-name="playground"
           />
 
           <div class="flex-1" />
-          <navigation-button
-            :icon="BinocularsIcon"
-            :active="useInspector().state.isVisible"
-            @click="useInspector().state.isVisible = !useInspector().state.isVisible"
-          />
 
           <navigation-button
             :icon="SettingsIcon"
-            :active="$route.name?.toString().startsWith('settings') || false"
-      
-            @click="$router.push({ name: 'settings' })"
+            route-name="settings"
           />
         </navigation-bar>
 
@@ -263,13 +252,11 @@ onUnmounted(() => {
         >
           <navigation-button
             :icon="ListIcon"
-            :active="$route.name == 'queue'"
-            @click="$router.push({ name: 'queue' })"
+            route-name="queue"
           />
           <navigation-button
             :icon="SelectNoneIcon"
-            :active="$route.name == 'node-editor'"
-            @click="$router.push({ name: 'node-editor' })"
+            route-name="node-editor"
           />
 
           <navigation-button
@@ -282,7 +269,7 @@ onUnmounted(() => {
             :icon="SettingsIcon"
             :active="$route.name?.toString().startsWith('settings') || false"
       
-            @click="$router.push({ name: 'settings' })"
+            route-name="settings"
           />
         </div>
       </div>

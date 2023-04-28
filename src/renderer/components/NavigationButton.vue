@@ -1,14 +1,20 @@
 <script setup lang="ts">
-defineProps<{ icon: any, active: boolean, notifs?: number, text?: string, description?: string }>();
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+
+const props = defineProps<{ icon: any, routeName: string, active?: boolean, notifs?: number, text?: string, description?: string }>();
+const route = useRoute();
+const isActive = computed(() => route.name?.toString().startsWith(props.routeName) || props.routeName === route.name);
 </script>
 
 <template>
   <div
     :class="[
-      active ? 'text-black bg-primary-800 font-semibold' : 'text-primary-900 hover:text-primary-800 hover:bg-surface-700 ',
+      isActive ? 'text-black bg-primary-800 font-semibold' : 'text-primary-900 hover:text-primary-800 hover:bg-surface-700 ',
       text ? 'px-2 py-2 gap-2.5 ' : 'p-3'
     ]"
     class="items-center gap-2 text-11px flex relative "
+    @click="$router.push({ name: routeName })"
   >
     <component
       :is="icon"
