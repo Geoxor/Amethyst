@@ -102,7 +102,7 @@ jobs:
         run: yarn build:renderer && yarn cap sync && yarn cap build android --keystorepath key.jks --androidreleasetype APK --keystorepass ${{ secrets.ANDROID_KEYSTORE_PASS }} --keystorealias key0 --keystorealiaspass ${{ secrets.ANDROID_KEYSTORE_ALIAS_PASS }}
 
       - name: Move build files
-        run: yarn cross-var move-file ./src/android/app/build/outputs/apk/release/app-release-signed.apk ./release/build/android/amethyst-v$npm_package_version.apk
+        run: yarn move-file ./src/android/app/build/outputs/apk/release/app-release-signed.apk ./release/build/android/amethyst-v$(node -p "require('./package.json').version").apk
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
