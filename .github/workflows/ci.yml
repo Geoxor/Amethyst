@@ -106,6 +106,7 @@ jobs:
         with:
           path: |
             release/build/android/*.apk
+            release/build/android/*.json
 
   build-macos:
     name: Build MacOS
