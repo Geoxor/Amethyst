@@ -28,13 +28,6 @@ import { PaintBrushIcon, GeometryIcon, CircusRingOfFireIcon, PuzzleIcon, SineIco
         description="spectrums, vectorscopes, meters"
         @click="$router.push({ name: 'settings.metering' })"
       />
-      <navigation-button
-        :icon="GeometryIcon"
-        :active="$route.name == 'settings.behaviour'"
-        text="Behaviour"
-        description="startup, defaults"
-        @click="$router.push({ name: 'settings.behaviour' })"
-      />
       
       <navigation-button
         :icon="PuzzleIcon"
