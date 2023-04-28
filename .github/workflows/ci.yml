@@ -96,7 +96,7 @@ jobs:
         run: yarn install
 
       - name: Build Amethyst
-        run: yarn build:android
+        run: sudo yarn build:android
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
