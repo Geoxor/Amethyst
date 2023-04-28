@@ -288,7 +288,7 @@
     "@typescript-eslint/eslint-plugin": "^5.55.0",
     "@typescript-eslint/parser": "^5.56.0",
     "@vitejs/plugin-vue": "^4.1.0",
-    "@vue/eslint-config-typescript": "^11.0.2",
+    "@vue/eslint-config-typescript": "^11.0.3",
     "@vue/test-utils": "^2.2.7",
     "concurrently": "^8.0.1",
     "cross-env": "^7.0.3",
