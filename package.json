@@ -17,7 +17,7 @@
     "build": "concurrently -p none \"yarn build:main\" \"yarn build:renderer\" \"yarn gen:all\" && yarn cap sync",
     "build:main": "concurrently -p none \"tsc ./src/main/preload.ts\" \"tsc -p ./src/main/tsconfig.json\" ",
     "build:renderer": "vite build --config ./src/renderer/vite.config.ts",
-    "build:android": "yarn build:renderer && cd ./src/android && ./gradlew wrapper assembleRelease && cd ../../ && yarn cross-var move-file ./src/android/app/build/outputs/apk/release/app-release-unsigned.apk ./release/build/android/amethyst-v$npm_package_version.apk",
+    "build:android": "yarn build:renderer && yarn cap sync && cd ./src/android && ./gradlew wrapper assembleRelease && cd ../../ && yarn cross-var move-file ./src/android/app/build/outputs/apk/release/app-release-unsigned.apk ./release/build/android/amethyst-v$npm_package_version.apk",
     "start:main": "yarn build:main && cross-env NODE_ENV=development electronmon -r ts-node/register/transpile-only ./src/main/main.ts",
     "start:renderer": "vite dev --config ./src/renderer/vite.config.ts",
     "package": "rimraf ./release && yarn build && electron-builder build --publish never",
