@@ -95,8 +95,11 @@ jobs:
       - name: Install Dependencies
         run: yarn install
 
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
       - name: Build Amethyst
-        run: sudo yarn build:android
+        run: yarn build:android
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
