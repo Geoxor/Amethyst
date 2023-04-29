@@ -2,7 +2,7 @@ import { CapacitorConfig } from "@capacitor/cli";
 
 const commonConfig: CapacitorConfig = {
   appId: "com.example.app",
-  backgroundColor: "#141621",
+  backgroundColor: "#0f1119",
   appName: "Amethyst",
   webDir: "release/dist/renderer",
   bundledWebRuntime: false,

@@ -37,12 +37,13 @@ onUnmounted(() => {
 <template>
   <div class="flex fixed flex-col bg-surface-900">
     <div
-      class="absolute select-none rounded-8px h-3/4 overflow-hidden top-1/2 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2 z-50"
+      v-if="state.state.isShowingBigCover"
+      class="absolute select-none rounded-8px w-full sm:w-auto max-w-3/4 max-h-3/4 overflow-hidden top-1/2 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2 z-50"
+      style="aspect-ratio: 1/1;"
     >
       <cover-art 
-        v-if="state.state.isShowingBigCover"
         :url="ambientBackgroundImage"
-        class="h-full"
+        class="w-full drop-shadow-2xl"
         @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
           { title: 'Export cover...', icon: ExternalLinkIcon, action: () => amethyst.player.getCurrentTrack()?.exportCover() },
         ]);"
@@ -89,26 +90,26 @@ onUnmounted(() => {
         class="underline cursor-pointer duration-100 hover:text-primary-800"
       >download the native app</strong> </a> 
     </div>
-    <top-bar />
+    <top-bar v-if="amethyst.getCurrentPlatform() === 'desktop'" />
     <context-menu v-if="useContextMenu().state.isVisible" />
     <div
       v-if="amethyst.getCurrentPlatform() === 'mobile'"
-      class="p-2 w-full absolute bottom-0 z-10 "
+      class="w-full absolute bottom-0 z-10 "
     >
       <div
-        class="p-2 rounded-full overflow-hidden drop-shadow-2xl flex bg-surface-700 justify-between"
-      >
-        <navigation-button
-          :icon="SelectNoneIcon"
-          route-name="node-editor"
-          text="Node Editor"
-          mobile
-        />
-
+        class="p-2 rounded-t-24px overflow-hidden drop-shadow-2xl flex bg-surface-700 justify-between"
+      > 
         <navigation-button
           :icon="ListIcon"
           route-name="queue"
           text="Queue"
+          mobile
+        />
+
+        <navigation-button
+          :icon="SelectNoneIcon"
+          route-name="node-editor"
+          text="Node Editor"
           mobile
         />
 
@@ -207,7 +208,8 @@ onUnmounted(() => {
 
       <div
         v-if="state.settings.value.showPlaybackControls"
-        class="flex gap-2 items-center p-2 bg-surface-800 borderTop"
+        class="flex gap-2 items-center p-2 bg-surface-800 borderTop relative"
+        :class="[amethyst.getCurrentPlatform() === 'mobile' && 'mb-8 pb-6']"
       >
         <db-meter
           v-if="state.settings.value.showDbMeter && state.settings.value.decibelMeterSeperatePrePost && amethyst.player.source"
@@ -235,7 +237,9 @@ onUnmounted(() => {
           :node="amethyst.player.nodeManager.master.pre"
         />
 
-        <playback-buttons :player="amethyst.player" />
+        <playback-buttons
+          :player="amethyst.player"
+        />
         <vectorscope
           v-if="state.settings.value.showVectorscope && amethyst.player.source"
           :key="amethyst.player.nodeManager.getNodeConnectinsString()"

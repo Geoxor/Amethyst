@@ -176,7 +176,7 @@ const state = useState();
       </Menu>
     </div>
 
-    <p class="absolute flex items-center gap-1 left-1/2 transform-gpu -translate-x-1/2">
+    <p class="absolute flex items-center gap-1 left-1/2 transform-gpu -translate-x-1/2 select-none ">
       <LoadingIcon
         v-if="state.state.isCheckingForUpdates"
         class="h-3 animate-spin w-3 min-h-3 min-w-3"

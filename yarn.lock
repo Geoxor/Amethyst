@@ -502,6 +502,11 @@
   dependencies:
     "@floating-ui/core" "^1.2.6"
 
+"@hugotomazi/capacitor-navigation-bar@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@hugotomazi/capacitor-navigation-bar/-/capacitor-navigation-bar-2.0.1.tgz#23588270266d1b9c3af0f6fc771df9c9c19012dc"
+  integrity sha512-Gq6vmAyOZLLHie/8wgGEs/V/aItJMXgivAcNItUDEfTpfXVAVbUdb0juOsXEqYgRCysksAmgHAEOg1WXE+L//Q==
+
 "@humanwhocodes/config-array@^0.11.8":
   version "0.11.8"
   resolved "https://registry.yarnpkg.com/@humanwhocodes/config-array/-/config-array-0.11.8.tgz#03595ac2075a4dc0f191cc2131de14fbd7d410b9"
@@ -824,11 +829,6 @@
   resolved "https://registry.yarnpkg.com/@types/chai/-/chai-4.3.4.tgz#e913e8175db8307d78b4e8fa690408ba6b65dee4"
   integrity sha512-KnRanxnpfpjUTqTCXslZSEdLfXExwgNxYPdiO2WGUj8+HDjFi8R3k5RVKPeSCzLjCcshCAtVO2QBbVuAV4kTnw==
 
-"@types/debounce@*":
-  version "1.2.1"
-  resolved "https://registry.yarnpkg.com/@types/debounce/-/debounce-1.2.1.tgz#79b65710bc8b6d44094d286aecf38e44f9627852"
-  integrity sha512-epMsEE85fi4lfmJUH/89/iV/LI+F5CvNIvmgs5g5jYFPfhO2S/ae8WSsLOKWdwtoaZw9Q2IhJ4tQ5tFCcS/4HA==
-
 "@types/debug@^4.1.6":
   version "4.1.7"
   resolved "https://registry.yarnpkg.com/@types/debug/-/debug-4.1.7.tgz#7cc0ea761509124709b8b2d1090d8f6c17aadb82"
@@ -1020,13 +1020,6 @@
   version "1.10.6"
   resolved "https://registry.yarnpkg.com/@types/verror/-/verror-1.10.6.tgz#3e600c62d210c5826460858f84bcbb65805460bb"
   integrity sha512-NNm+gdePAX1VGvPcGZCDKQZKYSiAWigKhKaz5KF94hG6f2s8de9Ow5+7AbXoeKxL8gavZfk4UquSAygOF2duEQ==
-
-"@types/wavesurfer.js@^6.0.5":
-  version "6.0.5"
-  resolved "https://registry.yarnpkg.com/@types/wavesurfer.js/-/wavesurfer.js-6.0.5.tgz#49136d3ee39833f3995b146e52359862d6e9fe99"
-  integrity sha512-ZAP/2pSyJ9jylK6bqejQTFZNJ8h5Ds1i7uaT0/22xsHSAiji83rxZcT92cNwomZ+mDpS++G9yXEU8CN2MYidSA==
-  dependencies:
-    "@types/debounce" "*"
 
 "@types/web-bluetooth@^0.0.16":
   version "0.0.16"
@@ -6570,11 +6563,6 @@ watchboy@^0.4.3:
     micromatch "^4.0.2"
     pify "^4.0.1"
     unixify "^1.0.0"
-
-wavesurfer.js@^6.6.3:
-  version "6.6.3"
-  resolved "https://registry.yarnpkg.com/wavesurfer.js/-/wavesurfer.js-6.6.3.tgz#eadebf0542be702f1eef2f52c3e312b839030166"
-  integrity sha512-XqUOXe8+SOTe8uKCHaqW0vJ5etCCQvq/NgaPycn9HAX/nUi+2zoWD+w9i7H5vBT9UCDNawOia+vS5Ct3kZGQzA==
 
 webidl-conversions@^3.0.0:
   version "3.0.1"

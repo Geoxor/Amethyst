@@ -4,13 +4,14 @@ import { Shortcuts } from "@/shortcuts";
 import { Store } from "@/state";
 import { Capacitor } from "@capacitor/core";
 import { StatusBar } from "@capacitor/status-bar";
+import {NavigationBar} from "@hugotomazi/capacitor-navigation-bar";
 import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
 import { IMetadata } from "@shared/types";
 import { FileFilter, OpenDialogReturnValue } from "electron";
 import { watch } from "vue";
 import { flattenArray } from "./logic/math";
 import { Track } from "./logic/track";
-import { Directory, Encoding, Filesystem } from "@capacitor/filesystem";
+import { Directory } from "@capacitor/filesystem";
 import * as mm from "music-metadata-browser";
 
 export type AmethystPlatforms = ReturnType<typeof amethyst.getCurrentPlatform>;
@@ -167,16 +168,15 @@ class AmethystBackend {
 
   // TODO: get rid of this stupid logic and make it be part of when loading a track
   public async getMetadata(path: string) {
-    
     switch (this.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<IMetadata>("get-metadata", [path]);
       case "mobile":
-        const systemFilePath = path.substring(path.lastIndexOf("/Music/"));
-        const file = await Filesystem.readFile({path: decodeURIComponent(systemFilePath), directory: Directory.Documents});
-        const buffer = Buffer.from(file.data, "base64");
-        const {format, common} = await mm.parseBuffer(buffer, undefined, {skipCovers: true});
-        return {format, common, size: buffer.length} as IMetadata;
+        const response = await fetch(decodeURIComponent(path));
+        const buffer = new Uint8Array(await response.arrayBuffer());
+        const {format, common} = await mm.parseBuffer(buffer, undefined);
+        const size = buffer.length;
+        return {format, common, size } as IMetadata;
       default:
         return;
     }
@@ -185,7 +185,15 @@ class AmethystBackend {
   public async getCover(path: string) {
     switch (this.getCurrentPlatform()) {
       case "desktop":
-        return window.electron.ipcRenderer.invoke<IMetadata>("get-cover", [path]);
+        return window.electron.ipcRenderer.invoke<string>("get-cover", [path]);
+        case "mobile":
+          const response = await fetch(decodeURIComponent(path));
+          const buffer = new Uint8Array(await response.arrayBuffer());
+          const {common} = await mm.parseBuffer(buffer, undefined);
+          if (common.picture) {
+            return common.picture[0].data.toString("base64") as string;
+          }
+          return;
       default:
         return;
     }
@@ -258,7 +266,9 @@ export class Amethyst extends AmethystBackend {
     }
 
     if (this.getCurrentPlatform() === "mobile") {
-      StatusBar.setBackgroundColor({color: "#141621"});
+      StatusBar.setBackgroundColor({color: "#0f1119"});
+      NavigationBar.setColor({color: "#181a27"});
+
       this.loadMusicFolder();
     }
 

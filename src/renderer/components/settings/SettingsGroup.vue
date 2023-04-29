@@ -7,7 +7,7 @@ defineProps<{ text: string, description?: string, warning?: string, icon?: any, 
 </script>
 
 <template>
-  <div class="flex flex-col select-none">
+  <div class="flex flex-col select-none w-full">
     <div class="flex items-center bg-surface-800 p-3 gap-2 justify-between rounded-4px text-primary-900 hover:text-primary-800 hover:bg-surface-700 ">
       <div class="flex gap-3 items-center ">
         <component

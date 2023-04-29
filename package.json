@@ -288,7 +288,6 @@
     "@types/sharp": "^0.31.1",
     "@types/source-map-support": "^0.5.6",
     "@types/three": "^0.150.0",
-    "@types/wavesurfer.js": "^6.0.5",
     "@typescript-eslint/eslint-plugin": "^5.59.1",
     "@typescript-eslint/parser": "^5.59.1",
     "@vitejs/plugin-vue": "^4.2.1",
@@ -336,6 +335,7 @@
     "@domchristie/needles": "^0.0.2-1",
     "@floating-ui/core": "^1.2.6",
     "@floating-ui/dom": "^1.2.7",
+    "@hugotomazi/capacitor-navigation-bar": "^2.0.1",
     "@supercharge/promise-pool": "^2.4.0",
     "@three-ts/orbit-controls": "^1.4.7",
     "@vue-flow/additional-components": "^1.3.3",
@@ -365,7 +365,6 @@
     "vue": "^3.2.47",
     "vue-router": "4",
     "vue-virtual-scroller": "^2.0.0-beta.8",
-    "wavesurfer.js": "^6.6.3",
     "windicss": "^3.5.6"
   },
   "devEngines": {

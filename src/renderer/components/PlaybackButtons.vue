@@ -5,81 +5,14 @@ import Slider from "@/components/input/BaseSlider.vue";
 import {NextIcon, PauseIcon, PlayIcon, RepeatIcon, RepeatOneIcon, ShuffleIcon } from "@/icons/plumpy";
 import { LoopMode } from "@/logic/player";
 import { onMounted } from "vue";
-import WaveSurfer from "wavesurfer.js";
-import { getThemeColorHex } from "@/logic/color";
-import { Track } from "@/logic/track";
 import { useInspector } from "./Inspector";
 import { BinocularsIcon, ExternalLinkIcon, HideIcon } from "@/icons/material";
 import { useContextMenu } from "./ContextMenu";
 
 const state = useState();
-let wavesurfer: WaveSurfer;
-const createWaveSurfer = () => {
-  return WaveSurfer.create({
-    container: "#waveform",
-    barWidth: 1,
-    responsive: true,
-    waveColor: getThemeColorHex("--surface-400"),
-    progressColor: getThemeColorHex("--primary-800"),
-    height: 32,
-    hideScrollbar: true,
-    cursorWidth: 0,
-    normalize: true,
-  });
-};
 
 onMounted(() => {
-  wavesurfer = createWaveSurfer();
 
-  // Fix waveform not resizing when disabling/enabling meters
-  const resizeObserver = new ResizeObserver(() => wavesurfer.setHeight(wavesurfer.getHeight()));
-  resizeObserver.observe(document.getElementById("waveform")!);
-
-  let oldTrack: Track;
-  let hasSeekFiredOnce = true;
-  amethyst.player.on("play", track => {
-    // Don't regenerate the waveform if we are playing again from a pause
-    if (track == oldTrack) {
-      wavesurfer.play();
-      return;
-    };
-
-    wavesurfer.load(track.path);
-    wavesurfer.on("ready", () => {
-      // Check if they paused before the waveform loaded
-      if (amethyst.player.isPaused.value) return;
-      wavesurfer.play();
-      wavesurfer.setVolume(0);
-
-      // Fix seek being off type on lowend pcs cus the waveform took too long to render
-      // and we are already 7 seconds in lol
-      if (track.isLoaded) {
-        hasSeekFiredOnce = false;
-        wavesurfer.seekTo(amethyst.player.currentTime.value / track.getDurationSeconds());
-      }
-    });
-    
-    oldTrack = track;
-  });
-
-  wavesurfer.on("seek", value => {
-    // Fixes odd stutter when syncing seek
-    if (!hasSeekFiredOnce) {
-      hasSeekFiredOnce = true;
-      return; 
-    }
-    amethyst.player.seekTo(wavesurfer.getDuration() * value);
-  });
-
-  amethyst.player.on("pause", () => {
-    wavesurfer.pause();
-  });
-
-  amethyst.player.on("timeupdate", newTime => {
-    // prevent an endless loop of seekTo's
-    hasSeekFiredOnce = false;
-    wavesurfer.seekTo(newTime / amethyst.player.getCurrentTrack()!.getDurationSeconds()); 
-  });
 });
 
 const handleVolumeMouseScroll = (e: WheelEvent) => {
@@ -97,10 +30,10 @@ const handleContextCoverMenu = ({x, y}: MouseEvent) => {
   ]);
 };
 
-// const handleSeekMouseScroll = (e: WheelEvent) => {
-//   const delta = Math.sign(e.deltaY);
-//   delta < 0 ? amethyst.player.seekForward() : amethyst.player.seekBackward();
-// };
+const handleSeekMouseScroll = (e: WheelEvent) => {
+  const delta = Math.sign(e.deltaY);
+  delta < 0 ? amethyst.player.seekForward() : amethyst.player.seekBackward();
+};
 
 </script>
 
@@ -116,8 +49,55 @@ const handleContextCoverMenu = ({x, y}: MouseEvent) => {
       @contextmenu="handleContextCoverMenu"
       @click="state.state.isShowingBigCover = !state.state.isShowingBigCover"
     />
-    <div class="flex flex-col justify-between h-full w-full">
-      <div class="flex flex py-1 gap-2 items-start justify-between">
+    
+    <div class="flex flex-col justify-between h-full w-full ">
+      <div
+        :class="[amethyst.getCurrentPlatform() === 'mobile' ? 'rounded-full ' : 'rounded-4px']"
+        class="flex flex-col gap-2 transform-gpu bg-surface-700 p-2 px-4 -translate-y-1 items-center filter drop-shadow-lg absolute  -top-10 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2"
+      >
+        <div class="flex text-primary-800 gap-2 ">
+          <!-- <playlist-icon class="opacity-75 hover:opacity-100 hover:text-white" /> -->
+          <shuffle-icon
+            class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white"
+            @click="amethyst.player.shuffle()"
+          />
+          <next-icon
+            class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white transform-gpu rotate-180"
+            @click="amethyst.player.previous()"
+          />
+          <pause-icon
+            v-if="amethyst.player.isPlaying.value"
+            class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white"
+            @click="amethyst.player.pause()"
+          />
+          <play-icon
+            v-else
+            class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white"
+            @click="amethyst.player.play()"
+          />
+          <next-icon
+            class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white"
+            @click="amethyst.player.skip()"
+          />
+          <repeat-icon
+            v-if="amethyst.player.loopMode.value == LoopMode.None"
+            class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white"
+            @click="amethyst.player.loopAll()"
+          />
+          <repeat-icon
+            v-if="amethyst.player.loopMode.value == LoopMode.All"
+            class="h-5 w-5 opacity-100 text-gray-300 hover:text-white"
+            @click="amethyst.player.loopOne()"
+          />
+          <repeat-one-icon
+            v-if="amethyst.player.loopMode.value == LoopMode.One"
+            class="h-5 w-5 opacity-100 text-gray-300 hover:text-white"
+            @click="amethyst.player.loopNone()"
+          />
+        </div>
+      </div>
+
+      <div class="flex justify-between">
         <div class="flex flex-col w-full py-1 font-bold gap-1 ">
           <h1
             class="text-12px hover:underline cursor-pointer w-24 overflow-hidden overflow-ellipsis"
@@ -129,60 +109,12 @@ const handleContextCoverMenu = ({x, y}: MouseEvent) => {
             {{ amethyst.player.getCurrentTrack()?.getArtistsFormatted() }}
           </p>
         </div>
-        
-        <div class="flex flex-col gap-2 transform-gpu -translate-y-1 items-center">
-          <div class="flex text-primary-800 gap-2">
-            <!-- <playlist-icon class="opacity-75 hover:opacity-100 hover:text-white" /> -->
-            <shuffle-icon
-              class="opacity-75 hover:opacity-100 hover:text-white"
-              @click="amethyst.player.shuffle()"
-            />
-            <next-icon
-              class="opacity-75 hover:opacity-100 hover:text-white transform-gpu rotate-180"
-              @click="amethyst.player.previous()"
-            />
-            <pause-icon
-              v-if="amethyst.player.isPlaying.value"
-              class="opacity-75 hover:opacity-100 hover:text-white"
-              @click="amethyst.player.pause()"
-            />
-            <play-icon
-              v-else
-              class="opacity-75 hover:opacity-100 hover:text-white"
-              @click="amethyst.player.play()"
-            />
-            <next-icon
-              class="opacity-75 hover:opacity-100 hover:text-white"
-              @click="amethyst.player.skip()"
-            />
-            <repeat-icon
-              v-if="amethyst.player.loopMode.value == LoopMode.None"
-              class="opacity-75 hover:opacity-100 hover:text-white"
-              @click="amethyst.player.loopAll()"
-            />
-            <repeat-icon
-              v-if="amethyst.player.loopMode.value == LoopMode.All"
-              class="opacity-100 text-gray-300 hover:text-white"
-              @click="amethyst.player.loopOne()"
-            />
-            <repeat-one-icon
-              v-if="amethyst.player.loopMode.value == LoopMode.One"
-              class="opacity-100 text-gray-300 hover:text-white"
-              @click="amethyst.player.loopNone()"
-            />
-          </div>
-          <p class="text-8px text-primary-900">
-            {{ amethyst.player.currentTimeFormatted(true) }} /
-            {{ amethyst.player.getCurrentTrack()?.getDurationFormatted(true) }}
-          </p>
-        </div>
-
-        <div class="flex flex-col w-full gap-2 items-end">
+        <div class="flex flex-col w-full max-w-24 mt-1 gap-2 items-end">
           <slider
             id="volume"
             key="volume"
             v-model="amethyst.player.volume.value"
-            class="max-w-24"
+            class="w-full"
             min="0"
             max="1"
             step="0.001"
@@ -191,10 +123,21 @@ const handleContextCoverMenu = ({x, y}: MouseEvent) => {
           />
         </div>
       </div>
-      <div
-        id="waveform"
-        class="w-full"
-      />
+      <div class="flex flex py-1 gap-2 items-start justify-between">
+        <slider
+          id="seek"
+          key="seek"
+          v-model="amethyst.player.currentTime.value"
+          class="w-full h-4"
+          :max="amethyst.player.getCurrentTrack()?.getDurationSeconds()"
+          @input="amethyst.player.seekTo(amethyst.player.currentTime.value)"
+          @wheel.passive="handleSeekMouseScroll"
+        />
+        <p class="text-8px text-primary-900">
+          {{ amethyst.player.currentTimeFormatted(true) }} /
+          {{ amethyst.player.getCurrentTrack()?.getDurationFormatted(true) }}
+        </p>
+      </div>
     </div>
   </div>
 </template>

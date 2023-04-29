@@ -19,9 +19,6 @@ const isActive = computed(() => route.name?.toString().startsWith(props.routeNam
   >
     <component
       :is="icon"
-      :class="[
-        text && 'h-3 w-3 '
-      ]"
     />
     <div
       v-if="mobile ? isActive && text : text"

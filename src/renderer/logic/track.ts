@@ -18,7 +18,7 @@ export class Track {
   public path: string;
 
   public constructor(public absolutePath: string) {
-    console.log("absolute path: ", absolutePath);
+    // console.log("absolute path: ", absolutePath);
     this.path = absolutePath;
   }
 
