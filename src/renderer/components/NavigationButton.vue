@@ -2,7 +2,7 @@
 import { computed } from "vue";
 import { useRoute } from "vue-router";
 
-const props = defineProps<{ icon: any, routeName: string, notifs?: number, text?: string, description?: string }>();
+const props = defineProps<{ icon: any, routeName: string, notifs?: number, mobile?: boolean, text?: string, description?: string }>();
 const route = useRoute();
 const isActive = computed(() => route.name?.toString().startsWith(props.routeName) || props.routeName === route.name);
 </script>
@@ -11,7 +11,8 @@ const isActive = computed(() => route.name?.toString().startsWith(props.routeNam
   <div
     :class="[
       isActive ? 'text-black bg-primary-800 font-semibold' : 'text-primary-900 hover:text-primary-800 hover:bg-surface-700 ',
-      text ? 'px-2 py-2 gap-2.5 ' : 'p-3'
+      text ? 'px-4 py-2 gap-2.5 ' : 'p-3',
+      mobile && 'rounded-full'
     ]"
     class="items-center gap-2 text-11px flex relative "
     @click="$router.push({ name: routeName })"
@@ -23,7 +24,7 @@ const isActive = computed(() => route.name?.toString().startsWith(props.routeNam
       ]"
     />
     <div
-      v-if="text"
+      v-if="mobile ? isActive && text : text"
       class="flex flex-col gap-1"
     >
       {{ text }}

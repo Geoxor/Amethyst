@@ -167,14 +167,13 @@ class AmethystBackend {
 
   // TODO: get rid of this stupid logic and make it be part of when loading a track
   public async getMetadata(path: string) {
-    console.log(`getting metadata for path ${path}`);
     
     switch (this.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<IMetadata>("get-metadata", [path]);
       case "mobile":
         const systemFilePath = path.substring(path.lastIndexOf("/Music/"));
-        const file = await Filesystem.readFile({path: systemFilePath, directory: Directory.Documents});
+        const file = await Filesystem.readFile({path: decodeURIComponent(systemFilePath), directory: Directory.Documents});
         const buffer = Buffer.from(file.data, "base64");
         const {format, common} = await mm.parseBuffer(buffer, undefined, {skipCovers: true});
         return {format, common, size: buffer.length} as IMetadata;
@@ -320,7 +319,7 @@ export class Amethyst extends AmethystBackend {
       path: "Music",
       directory: Directory.Documents,
     });
-
+    
     this.player.queue.add(files.map(file => Capacitor.convertFileSrc(file.uri)));
   };
 

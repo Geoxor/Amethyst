@@ -91,6 +91,35 @@ onUnmounted(() => {
     </div>
     <top-bar />
     <context-menu v-if="useContextMenu().state.isVisible" />
+    <div
+      v-if="amethyst.getCurrentPlatform() === 'mobile'"
+      class="p-2 w-full absolute bottom-0 z-10 "
+    >
+      <div
+        class="p-2 rounded-full overflow-hidden drop-shadow-2xl flex bg-surface-700 justify-between"
+      >
+        <navigation-button
+          :icon="SelectNoneIcon"
+          route-name="node-editor"
+          text="Node Editor"
+          mobile
+        />
+
+        <navigation-button
+          :icon="ListIcon"
+          route-name="queue"
+          text="Queue"
+          mobile
+        />
+
+        <navigation-button
+          :icon="SettingsIcon"
+          route-name="settings"
+          text="Settings"
+          mobile
+        />
+      </div>
+    </div>
     <div class="h-full whitespace-nowrap flex flex-col justify-between overflow-hidden">
       <div class="flex-1 flex h-full max-h-full relative overflow-hidden">
         <navigation-bar v-if="amethyst.getCurrentPlatform() !== 'mobile'">
@@ -241,30 +270,6 @@ onUnmounted(() => {
               : { title: 'Expand', icon: ExternalLinkIcon, action: () => state.settings.value.showBigSpectrum = true },
           ]);"
         />
-      </div>
-
-      <div
-        v-if="amethyst.getCurrentPlatform() === 'mobile'"
-        class="p-2 w-full "
-      >
-        <div
-          class="p-2 px-8 rounded-full overflow-hidden flex bg-surface-700 justify-between"
-        >
-          <navigation-button
-            :icon="ListIcon"
-            route-name="queue"
-          />
-          <navigation-button
-            :icon="SelectNoneIcon"
-            route-name="node-editor"
-          />
-
-          <navigation-button
-            :icon="SettingsIcon"
-            :active="$route.name?.toString().startsWith('settings') || false"
-            route-name="settings"
-          />
-        </div>
       </div>
     </div>
   </div>

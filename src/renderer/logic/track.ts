@@ -18,6 +18,7 @@ export class Track {
   public path: string;
 
   public constructor(public absolutePath: string) {
+    console.log("absolute path: ", absolutePath);
     this.path = absolutePath;
   }
 
@@ -169,7 +170,7 @@ export class Track {
         const { base } = window.path.parse(this.absolutePath);
         return base;
       case "mobile": 
-        return this.absolutePath.substring(this.absolutePath.lastIndexOf("/Music/") + "/Music/".length );
+        return decodeURIComponent( this.absolutePath.substring(this.absolutePath.lastIndexOf("/Music/") + "/Music/".length ));
       default:
         return this.absolutePath;
     }
