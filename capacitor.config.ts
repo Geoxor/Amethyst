@@ -16,14 +16,13 @@ const commonConfig: CapacitorConfig = {
 
 const devConfig: CapacitorConfig = {
   ...commonConfig,
-  // comment this out when building APK
   server: {
     url: "http://192.168.1.68:1337",
     cleartext: true,
   },
 };
 
-const config = devConfig;
-// const config = process.env.NODE_ENV === "development" ? devConfig : prodConfig;
+// const config = devConfig;
+const config = process.env.NODE_ENV === "development" ? devConfig : commonConfig;
 
 export default config;
