@@ -1,29 +1,19 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 
-import NodeEditorView from "@/views/NodeEditorView.vue";
-import LibraryView from "@/views/LibraryView.vue";
-import QueueView from "@/views/QueueView.vue";
-import Settings from "@/views/Settings/SettingsView.vue";
-import AppearanceSettings from "@/views/Settings/AppearanceSettings.vue";
-import MeteringSettings from "@/views/Settings/MeteringSettings.vue";
-import IntegrationSettings from "@/views/Settings/IntegrationSettings.vue";
-import PerformanceSettings from "@/views/Settings/PerformanceSettings.vue";
-import PlaygroundView from "@/views/PlaygroundView.vue";
-
 const routes: RouteRecordRaw[] = [
   { path: "/", redirect: { name: "queue" } },
-  { path: "/node-editor", name: "node-editor", component: () => NodeEditorView },
-  { path: "/library", name: "library", component: () => LibraryView },
-  { path: "/queue", name: "queue", component: () => QueueView },
-  { path: "/settings", name: "settings", component: () => Settings,
+  { path: "/node-editor", name: "node-editor", component: () => import("@/views/NodeEditorView.vue") },
+  { path: "/library", name: "library", component: () => import("@/views/LibraryView.vue") },
+  { path: "/queue", name: "queue", component: () => import("@/views/QueueView.vue") },
+  { path: "/settings", name: "settings", component: () => import("@/views/Settings/SettingsView.vue"),
     children: [
-      { path: "/appearance", name: "settings.appearance", component: () => AppearanceSettings },
-      { path: "/metering", name: "settings.metering", component: () => MeteringSettings },
-      { path: "/integration", name: "settings.integration", component: () => IntegrationSettings },
-      { path: "/performance", name: "settings.performance", component: () => PerformanceSettings },
+      { path: "/appearance", name: "settings.appearance", component: () => import("@/views/Settings/AppearanceSettings.vue") },
+      { path: "/metering", name: "settings.metering", component: () => import("@/views/Settings/MeteringSettings.vue") },
+      { path: "/integration", name: "settings.integration", component: () => import("@/views/Settings/IntegrationSettings.vue") },
+      { path: "/performance", name: "settings.performance", component: () => import("@/views/Settings/PerformanceSettings.vue") },
     ]
   },
-  { path: "/playground", name: "playground", component: () => PlaygroundView },
+  { path: "/playground", name: "playground", component: () => import("@/views/PlaygroundView.vue") },
 ];
 
 export const router = createRouter({
