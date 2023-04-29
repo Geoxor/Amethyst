@@ -5,6 +5,7 @@ const routes: RouteRecordRaw[] = [
   { path: "/node-editor", name: "node-editor", component: () => import("@/views/NodeEditorView.vue") },
   { path: "/library", name: "library", component: () => import("@/views/LibraryView.vue") },
   { path: "/queue", name: "queue", component: () => import("@/views/QueueView.vue") },
+  { path: "/playground", name: "playground", component: () => import("@/views/PlaygroundView.vue") },
   { path: "/settings", name: "settings", component: () => import("@/views/Settings/SettingsView.vue"),
     children: [
       { path: "/appearance", name: "settings.appearance", component: () => import("@/views/Settings/AppearanceSettings.vue") },
@@ -13,7 +14,6 @@ const routes: RouteRecordRaw[] = [
       { path: "/performance", name: "settings.performance", component: () => import("@/views/Settings/PerformanceSettings.vue") },
     ]
   },
-  { path: "/playground", name: "playground", component: () => import("@/views/PlaygroundView.vue") },
 ];
 
 export const router = createRouter({
