@@ -166,10 +166,10 @@
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.21.3.tgz#1d285d67a19162ff9daa358d4cb41d50c06220b3"
   integrity sha512-lobG0d7aOfQRXh8AyklEAgZGvA4FShxo6xQbUrrT/cNBPUdIDojlokwJsQyCC/eKia7ifqM0yP+2DRZ4WKw2RQ==
 
-"@babel/runtime@^7.21.0":
-  version "7.21.0"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.21.0.tgz#5b55c9d394e5fcf304909a8b00c07dc217b56673"
-  integrity sha512-xwII0//EObnq89Ji5AKYQaRYiW/nZ3llSv29d49IuxPhKbtJoLP+9QUUZ4nVragQVtaVGeZrpB+ZtG/Pdy/POw==
+"@babel/runtime@^7.21.0", "@babel/runtime@^7.21.5":
+  version "7.21.5"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.21.5.tgz#8492dddda9644ae3bda3b45eabe87382caee7200"
+  integrity sha512-8jI69toZqqcsnqGGqwGS4Qb1VwLOEp4hz+CXPywcvjs60u3B4Pom/U/7rm4W8tMOYEB+E9wgD0mW1l3r8qlI9Q==
   dependencies:
     regenerator-runtime "^0.13.11"
 
@@ -5754,17 +5754,17 @@ stackback@0.0.2:
   resolved "https://registry.yarnpkg.com/stackback/-/stackback-0.0.2.tgz#1ac8a0d9483848d1695e418b6d031a3c3ce68e3b"
   integrity sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw==
 
-standardized-audio-context-mock@^9.6.16:
-  version "9.6.16"
-  resolved "https://registry.yarnpkg.com/standardized-audio-context-mock/-/standardized-audio-context-mock-9.6.16.tgz#a24be7d2ff3b053591817e7b4a2b3e617e4962bc"
-  integrity sha512-YVO6SuB0FlA+Jas4MDjsSPD0QG8lvZmq6B42V/wD8SWCwZ7xMkUr17FHHrXR2iybwGPwJS9F+XxGLhhAqOzGgw==
+standardized-audio-context-mock@^9.6.17:
+  version "9.6.17"
+  resolved "https://registry.yarnpkg.com/standardized-audio-context-mock/-/standardized-audio-context-mock-9.6.17.tgz#b0e9ccbcf1c2f6f8372bdd9c7596620a5ae682e2"
+  integrity sha512-M4RulV8g+MLs66ojYUJi9N2DC5tHR85bvTS305LaWS+lwNM4hHYC83rZMg05tLvTUYvbxgrv1e2+wYXx05Rijg==
   dependencies:
-    "@babel/runtime" "^7.21.0"
+    "@babel/runtime" "^7.21.5"
     automation-events "^6.0.0"
     sinon "^15.0.4"
     standardized-audio-context "^25.3.45"
     tslib "^2.5.0"
-    vehicles "^9.0.0"
+    vehicles "^9.0.1"
 
 standardized-audio-context@^25.3.45:
   version "25.3.45"
@@ -6343,12 +6343,12 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-vehicles@^9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/vehicles/-/vehicles-9.0.0.tgz#53235ddcc2e491294928543c8e2209c079dc56da"
-  integrity sha512-TqpTdujbt9QLQ2zLSQ/G4Hlbtm+Mi9TR/sCwK2jzi2QQNdXN9xixYsL25YJj/NKK2KkJvGyU9R+nH2QP2HWOnA==
+vehicles@^9.0.1:
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/vehicles/-/vehicles-9.0.1.tgz#54f6a6be4e37f6f0351550707a585671d79b279e"
+  integrity sha512-ENq0QowVueyf6KfmJlBqz/w739TvbnFqkzc3sKcqXBwHgZ/xvwca1f4P8AokdsHIrjYDIKD9FWd5U4Mec4HBPw==
   dependencies:
-    "@babel/runtime" "^7.21.0"
+    "@babel/runtime" "^7.21.5"
     decimal.js "^10.4.3"
     tslib "^2.5.0"
 
