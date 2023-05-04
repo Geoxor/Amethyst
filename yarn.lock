@@ -166,10 +166,10 @@
   resolved "https://registry.yarnpkg.com/@babel/parser/-/parser-7.21.3.tgz#1d285d67a19162ff9daa358d4cb41d50c06220b3"
   integrity sha512-lobG0d7aOfQRXh8AyklEAgZGvA4FShxo6xQbUrrT/cNBPUdIDojlokwJsQyCC/eKia7ifqM0yP+2DRZ4WKw2RQ==
 
-"@babel/runtime@^7.21.0":
-  version "7.21.0"
-  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.21.0.tgz#5b55c9d394e5fcf304909a8b00c07dc217b56673"
-  integrity sha512-xwII0//EObnq89Ji5AKYQaRYiW/nZ3llSv29d49IuxPhKbtJoLP+9QUUZ4nVragQVtaVGeZrpB+ZtG/Pdy/POw==
+"@babel/runtime@^7.21.5":
+  version "7.21.5"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.21.5.tgz#8492dddda9644ae3bda3b45eabe87382caee7200"
+  integrity sha512-8jI69toZqqcsnqGGqwGS4Qb1VwLOEp4hz+CXPywcvjs60u3B4Pom/U/7rm4W8tMOYEB+E9wgD0mW1l3r8qlI9Q==
   dependencies:
     regenerator-runtime "^0.13.11"
 
@@ -1711,12 +1711,12 @@ atomically@^1.7.0:
   resolved "https://registry.yarnpkg.com/atomically/-/atomically-1.7.0.tgz#c07a0458432ea6dbc9a3506fffa424b48bccaafe"
   integrity sha512-Xcz9l0z7y9yQ9rdDaxlmaI4uJHf/T8g9hOEzJcsEqX2SjCj4J20uK7+ldkDHMbpJDK76wF7xEIgxc/vSlsfw5w==
 
-automation-events@^6.0.0:
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/automation-events/-/automation-events-6.0.0.tgz#98e15ad87fb163473bf760197b182adbc8299ed4"
-  integrity sha512-mSOnckbtuJso8cczB+broNsfcuDIQ+J4GFhlW/V3iD+LAXbS4XGHhdjYvtPnCKclKcvs9cVLtUMUkNncOzUQPg==
+automation-events@^6.0.1:
+  version "6.0.1"
+  resolved "https://registry.yarnpkg.com/automation-events/-/automation-events-6.0.1.tgz#2c645461907d6e6de834a6c4f3345a7172de7cfb"
+  integrity sha512-AHpETuZtlDy9/lupkn7GZIpUxgAlx7AjVGU6uh04wrrMawNf9Zjr6Erl/QoHRhQvIGMdFrs+6B2ngkh50lNJ9w==
   dependencies:
-    "@babel/runtime" "^7.21.0"
+    "@babel/runtime" "^7.21.5"
     tslib "^2.5.0"
 
 available-typed-arrays@^1.0.5:
@@ -5754,25 +5754,25 @@ stackback@0.0.2:
   resolved "https://registry.yarnpkg.com/stackback/-/stackback-0.0.2.tgz#1ac8a0d9483848d1695e418b6d031a3c3ce68e3b"
   integrity sha512-1XMJE5fQo1jGH6Y/7ebnwPOBEkIEnT4QF32d5R1+VXdXveM0IBMJt8zfaxX1P3QhVwrYe+576+jkANtSS2mBbw==
 
-standardized-audio-context-mock@^9.6.16:
-  version "9.6.16"
-  resolved "https://registry.yarnpkg.com/standardized-audio-context-mock/-/standardized-audio-context-mock-9.6.16.tgz#a24be7d2ff3b053591817e7b4a2b3e617e4962bc"
-  integrity sha512-YVO6SuB0FlA+Jas4MDjsSPD0QG8lvZmq6B42V/wD8SWCwZ7xMkUr17FHHrXR2iybwGPwJS9F+XxGLhhAqOzGgw==
+standardized-audio-context-mock@^9.6.18:
+  version "9.6.18"
+  resolved "https://registry.yarnpkg.com/standardized-audio-context-mock/-/standardized-audio-context-mock-9.6.18.tgz#0b2dc9039a0f923a64012cf53407072a7e05c62e"
+  integrity sha512-yUaPX9qdRRKTxkS9h3QvKd+OQ7nRoIKj0cVg/9D6ugQynvRczJIS6KMTZcigi2OfwOKI3X0Gy1aKZC5YUl79Tw==
   dependencies:
-    "@babel/runtime" "^7.21.0"
-    automation-events "^6.0.0"
+    "@babel/runtime" "^7.21.5"
+    automation-events "^6.0.1"
     sinon "^15.0.4"
-    standardized-audio-context "^25.3.45"
+    standardized-audio-context "^25.3.46"
     tslib "^2.5.0"
-    vehicles "^9.0.0"
+    vehicles "^9.0.1"
 
-standardized-audio-context@^25.3.45:
-  version "25.3.45"
-  resolved "https://registry.yarnpkg.com/standardized-audio-context/-/standardized-audio-context-25.3.45.tgz#ee52f72b365814403b33239f9b1614aeaaebe5cc"
-  integrity sha512-d1UVvbz0mDmEqNehvoTKlpSevRJ3YiVZ6kdboeaWX+8cl94H1w8x7c5RNdg0nqxiE049LMeF4tFPuDl5Vm78Kg==
+standardized-audio-context@^25.3.46:
+  version "25.3.46"
+  resolved "https://registry.yarnpkg.com/standardized-audio-context/-/standardized-audio-context-25.3.46.tgz#08e55d5305c2d3f614f90f19ad47c6686457ae68"
+  integrity sha512-kI7oM1IrGUawaBgCizRnVuS/+xSwRzwEDSqDkvJASAh+0IwuxUBYJFG4JSuaD6OkLQVg5i8oCf5aLOBX4dfVPw==
   dependencies:
-    "@babel/runtime" "^7.21.0"
-    automation-events "^6.0.0"
+    "@babel/runtime" "^7.21.5"
+    automation-events "^6.0.1"
     tslib "^2.5.0"
 
 stat-mode@^1.0.0:
@@ -6343,12 +6343,12 @@ validate-npm-package-license@^3.0.1:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
 
-vehicles@^9.0.0:
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/vehicles/-/vehicles-9.0.0.tgz#53235ddcc2e491294928543c8e2209c079dc56da"
-  integrity sha512-TqpTdujbt9QLQ2zLSQ/G4Hlbtm+Mi9TR/sCwK2jzi2QQNdXN9xixYsL25YJj/NKK2KkJvGyU9R+nH2QP2HWOnA==
+vehicles@^9.0.1:
+  version "9.0.1"
+  resolved "https://registry.yarnpkg.com/vehicles/-/vehicles-9.0.1.tgz#54f6a6be4e37f6f0351550707a585671d79b279e"
+  integrity sha512-ENq0QowVueyf6KfmJlBqz/w739TvbnFqkzc3sKcqXBwHgZ/xvwca1f4P8AokdsHIrjYDIKD9FWd5U4Mec4HBPw==
   dependencies:
-    "@babel/runtime" "^7.21.0"
+    "@babel/runtime" "^7.21.5"
     decimal.js "^10.4.3"
     tslib "^2.5.0"
 

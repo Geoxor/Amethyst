@@ -311,7 +311,7 @@
     "postcss": "^8.4.23",
     "prettier": "^2.8.8",
     "rimraf": "^5.0.0",
-    "standardized-audio-context-mock": "^9.6.16",
+    "standardized-audio-context-mock": "^9.6.18",
     "tailwindcss": "^3.3.2",
     "ts-node": "^10.7.0",
     "tsx": "^3.12.6",
