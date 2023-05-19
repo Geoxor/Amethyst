@@ -2784,6 +2784,11 @@ end-of-stream@^1.1.0, end-of-stream@^1.4.1:
   dependencies:
     once "^1.4.0"
 
+entities@^4.5.0:
+  version "4.5.0"
+  resolved "https://registry.yarnpkg.com/entities/-/entities-4.5.0.tgz#5d268ea5e7113ec74c4d033b79ea5a35a488fb48"
+  integrity sha512-V0hjH4dGPh9Ao5p0MoRY6BVqtwCjhz6vI5LT8AJ55H+4g9/4vbHx1I54fS0XuclLhDHArPQCiMjDxjaL8fPxhw==
+
 env-paths@^2.2.0, env-paths@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/env-paths/-/env-paths-2.2.1.tgz#420399d416ce1fbe9bc0a07c62fa68d67fd0f8f2"
@@ -3533,13 +3538,13 @@ grapheme-splitter@^1.0.4:
   resolved "https://registry.yarnpkg.com/grapheme-splitter/-/grapheme-splitter-1.0.4.tgz#9cf3a665c6247479896834af35cf1dbb4400767e"
   integrity sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==
 
-happy-dom@^9.10.0:
-  version "9.10.0"
-  resolved "https://registry.yarnpkg.com/happy-dom/-/happy-dom-9.10.0.tgz#06c77f48235f4d9457c0c7b5a66027d9ec47542e"
-  integrity sha512-A2NGV4Z2goQEoFUed1jODPcG7WYHF04Ashv804qzIZU0I8kF5wQoJM6SVGC77nxZZAk7PypWzXKenfskgcpdMw==
+happy-dom@^9.19.2:
+  version "9.19.2"
+  resolved "https://registry.yarnpkg.com/happy-dom/-/happy-dom-9.19.2.tgz#d1280913f5b22c7fe14f6bee08c4a9533464a068"
+  integrity sha512-WBey64FErn5niCLddcjXxkgDk6burN/5doiJpMUQXpgEG3TUJdbygJV1bzcj1Ey+pz+0QGCZH1pwe24uPW+WnQ==
   dependencies:
     css.escape "^1.5.1"
-    he "^1.2.0"
+    entities "^4.5.0"
     iconv-lite "^0.6.3"
     webidl-conversions "^7.0.0"
     whatwg-encoding "^2.0.0"
