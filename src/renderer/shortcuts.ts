@@ -8,6 +8,7 @@ export class Shortcuts {
   public isControlPressed = useKeyModifier("Control") as UseKeyModifierReturn<boolean>;
   public isShiftPressed = useKeyModifier("Shift") as UseKeyModifierReturn<boolean>;
   public isAltPressed = useKeyModifier("Alt") as UseKeyModifierReturn<boolean>;
+  public isMacCommandPressed = useKeyModifier("Meta") as UseKeyModifierReturn<boolean>;
 
   // TODO: somehow link this logic to each function in the components so they render automatically in dropdown menus
   public DEFAULT_BINDINGS: ShortcutBindings = {
@@ -28,6 +29,7 @@ export class Shortcuts {
     "interface.zoom.in": [["+"], () => this.isControlPressed.value && amethyst.zoom("in")],
     "interface.zoom.out": [["-"], () => this.isControlPressed.value && amethyst.zoom("out")],
     "interface.zoom.reset": [["0"], () => this.isControlPressed.value && amethyst.zoom("reset")],
+    "interface.settings": [[","], () => this.isMacCommandPressed.value && amethyst.openSettings()],
   };
 
   public bindings = this.DEFAULT_BINDINGS;

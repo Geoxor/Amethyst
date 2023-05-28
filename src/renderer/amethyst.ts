@@ -13,6 +13,7 @@ import { flattenArray } from "./logic/math";
 import { Track } from "./logic/track";
 import { Directory } from "@capacitor/filesystem";
 import * as mm from "music-metadata-browser";
+import { router } from "./router";
 
 export type AmethystPlatforms = ReturnType<typeof amethyst.getCurrentPlatform>;
 
@@ -156,6 +157,11 @@ class AmethystBackend {
       !result.canceled && amethyst.player.queue.add(flattenArray(result.filePaths));
     });
   };
+
+  public openSettings = () => {
+    // not 100% sure if this is the way to go for routing this? but it works as expected for me at least!
+    router.push({ name: 'settings.appearance' });
+  }
 
   // TODO: get rid of this stupid logic and make it be part of when loading a track
   public async getMetadata(path: string) {
