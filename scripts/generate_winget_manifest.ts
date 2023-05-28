@@ -42,7 +42,7 @@ PackageLocale: en-US
 Publisher: Geoxor
 PackageName: Amethyst
 License: ${license}
-Copyright: Copyright © 2022 Geoxor
+Copyright: Copyright © 2023 Geoxor
 ShortDescription: A music player made with the web platform.
 ManifestType: defaultLocale
 ManifestVersion: 1.1.0
