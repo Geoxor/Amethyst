@@ -276,6 +276,11 @@ export class Amethyst extends AmethystBackend {
     });
   }
 
+  public openDevTools() {
+    if (this.getCurrentPlatform() !== "desktop") return;
+    window.electron.ipcRenderer.invoke("dev-tools");
+  }
+
   public zoom(action: "in" | "out" | "reset") {
     const currentZoom = amethyst.store.settings.value.zoomLevel;
     let newZoom = currentZoom;

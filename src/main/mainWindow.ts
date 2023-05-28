@@ -250,7 +250,7 @@ export class MainWindow {
 			},
 
 			"open-external": async (_: Event, [path]: string[]) => {
-				(await import("open")).default(path);
+				import("open").then(({ default: open }) => open(path));
 			},
 
 			"show-save-dialog": () => dialog.showSaveDialog({filters: [

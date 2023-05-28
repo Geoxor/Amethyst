@@ -6,7 +6,7 @@ import Menu from "@/components/menu/MenuContainer.vue";
 import MenuOption from "@/components/menu/MenuOption.vue";
 import MenuSplitter from "@/components/menu/MenuSplitter.vue";
 import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
-import { AudioFileIcon, DiscordIcon, GitHubIcon, MusicFolderIcon, ResetIcon, ZoomInIcon, ZoomOutIcon, RemoveIcon, ResizeIcon, DownloadingUpdatesIcon, SettingsIcon, BookshelfIcon, LoadingIcon } from "@/icons/material";
+import { AudioFileIcon, DiscordIcon, GitHubIcon, MusicFolderIcon, ResetIcon, ZoomInIcon, ZoomOutIcon, RemoveIcon, ResizeIcon, DownloadingUpdatesIcon, SettingsIcon, BookshelfIcon, LoadingIcon, BugIcon } from "@/icons/material";
 import { useFps } from "@vueuse/core";
 import AmethystLogo from "@/icons/AmethystLogo.vue";
 import { onMounted, ref } from "vue";
@@ -142,21 +142,26 @@ const state = useState();
           :icon="SettingsIcon"
           @click="$router.push({ name: 'settings.appearance' })"
         />
+        <menu-option
+          title="Show developer tools"
+          :icon="BugIcon"
+          @click="amethyst.openDevTools()"
+        />
       </Menu>
 
       <Menu title="About">
         <menu-option
-          title="Documentation"
+          title="Documentation..."
           :icon="BookshelfIcon"
           @click="amethyst.openLink('https://amethyst.pages.dev/')"
         />
         <menu-option
-          title="GitHub Repository"
+          title="GitHub Repository..."
           :icon="GitHubIcon"
           @click="amethyst.openLink('https://github.com/geoxor/amethyst')"
         />
         <menu-option
-          title="Discord Server"
+          title="Discord Server..."
           :icon="DiscordIcon"
           @click="amethyst.openLink('https://discord.gg/geoxor')"
         />
