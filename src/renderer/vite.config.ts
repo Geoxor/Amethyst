@@ -1,15 +1,13 @@
 import vue from "@vitejs/plugin-vue";
 import { join } from "path";
-import { defineConfig } from "vite";
+import { defineConfig as defineViteConfig, mergeConfig } from "vite";
+import { defineConfig as defineVitestConfig } from "vitest/config";
+
 import WindiCSS from "vite-plugin-windicss";
 
 const PACKAGE_ROOT = __dirname;
 
-/**
- * @type {import('vite').UserConfig}
- * @see https://vitejs.dev/config/
- */
-export default defineConfig({
+const viteConfig = defineViteConfig({
 	mode: process.env.MODE,
 	root: PACKAGE_ROOT,
 	define: {
@@ -45,3 +43,19 @@ export default defineConfig({
 		emptyOutDir: true,
 	},
 });
+
+const vitestConfig = defineVitestConfig({
+	test: {
+		coverage: {
+			provider: "istanbul"
+		},
+		reporters: ["verbose"],
+		environment: "happy-dom",
+	}
+});
+
+/**
+ * @type {import('vite').UserConfig}
+ * @see https://vitejs.dev/config/
+ */
+export default mergeConfig(viteConfig, vitestConfig);
