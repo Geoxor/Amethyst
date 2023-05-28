@@ -21,7 +21,7 @@ jobs:
           cache: 'yarn'
 
       - name: Install gcc dependencies
-        run: sudo apt install gcc-multilib g++-multilib libvips
+        run: sudo apt update && sudo apt install gcc-multilib g++-multilib libvips
 
       - name: Install Dependencies
         run: yarn install
@@ -42,7 +42,7 @@ jobs:
           cache: 'yarn'
 
       - name: Install gcc dependencies
-        run: sudo apt install gcc-multilib g++-multilib libvips
+        run: sudo apt update && sudo apt install gcc-multilib g++-multilib libvips
 
       - name: Install Dependencies
         run: yarn install
@@ -156,7 +156,7 @@ jobs:
   #         cache: 'yarn'
 
   #     - name: Install linux dependencies
-  #       run: sudo apt install rpm snapd libarchive-tools && sudo snap install snapcraft --classic && sudo snap install multipass --beta --classic
+  #       run: sudo apt update && sudo apt install rpm snapd libarchive-tools && sudo snap install snapcraft --classic && sudo snap install multipass --beta --classic
 
   #     - name: Install Dependencies
   #       run: yarn install
