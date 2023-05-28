@@ -14,6 +14,8 @@ export class Shortcuts {
 
   // TODO: somehow link this logic to each function in the components so they render automatically in dropdown menus
   public DEFAULT_BINDINGS: ShortcutBindings = {
+    // please name these keys in the following syntax
+    // <noun>.<verb>.<name>
     "audio.play.pause": [[" "], () => amethyst.player.isPlaying.value ? amethyst.player.pause() : amethyst.player.play()],
     "audio.next": [["ArrowDown"], () => amethyst.player.skip()],
     "audio.previous": [["ArrowUp"], () => amethyst.player.previous()],
@@ -25,14 +27,14 @@ export class Shortcuts {
     "queue.add.folder": [["O"], () => this.isCommandOrControlPressed.value && amethyst.openAudioFoldersAndAddToQueue()],
     "queue.clear": [["X"], () => this.isCommandOrControlPressed.value && amethyst.player.queue.clear()],
     "queue.clear.errored": [["Z"], () => this.isCommandOrControlPressed.value && amethyst.player.queue.clearErrored()],
-    "queue.force.refresh.meta": [["r"], () => this.isCommandOrControlPressed.value && this.isAltPressed.value && amethyst.player.queue.fetchAsyncData(true)],
+    "queue.refresh.meta": [["r"], () => this.isCommandOrControlPressed.value && this.isAltPressed.value && amethyst.player.queue.fetchAsyncData(true)],
     "appearance.toggle.playback_controls": [["F10"], () => useState().settings.value.showPlaybackControls = !useState().settings.value.showPlaybackControls],
     "appearance.toggle.debug_statistics": [["F9"], () => useState().settings.value.showDebugStats = !useState().settings.value.showDebugStats],
     "interface.zoom.in": [["+"], () => this.isCommandOrControlPressed.value && amethyst.zoom("in")],
     "interface.zoom.out": [["-"], () => this.isCommandOrControlPressed.value && amethyst.zoom("out")],
     "interface.zoom.reset": [["0"], () => this.isCommandOrControlPressed.value && amethyst.zoom("reset")],
-    "interface.settings": [[","], () => this.isCommandOrControlPressed.value && amethyst.openSettings()],
     "interface.reload": [["F5"], () => amethyst.reload()],
+    "interface.navigate.settings": [[","], () => this.isCommandOrControlPressed.value && amethyst.openSettings()],
   };
 
   public bindings = this.DEFAULT_BINDINGS;
