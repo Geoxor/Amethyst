@@ -30,7 +30,20 @@ else {
 		.then(() => {
 
 			// Disables default zoom shortcuts because we remove the default menu actions
-			Menu.setApplicationMenu(Menu.buildFromTemplate([]));
+			Menu.setApplicationMenu(Menu.buildFromTemplate([ {
+				label: "View",
+				submenu: [
+					{ role: "reload" },
+					{ role: "forceReload" },
+					{ role: "toggleDevTools" },
+					{ type: "separator" },
+					{ role: "resetZoom", enabled: true },
+					{ role: "zoomIn", enabled: false },
+					{ role: "zoomOut", enabled: false },
+					{ type: "separator" },
+					{ role: "togglefullscreen" },
+				],
+			},]));
 
 			const useVsync = store.get("useVsync", true);
 			if (useVsync) {
