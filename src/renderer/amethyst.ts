@@ -82,15 +82,6 @@ class AmethystBackend {
     }
   }
 
-  public zoom(action: "in" | "out" | "reset") {
-    switch (this.getCurrentPlatform()) {
-      case "desktop":
-        return window.electron.ipcRenderer.invoke(`zoom-${action}`); 
-      default:
-        return;
-    }
-  }
-
   public showItem(path: string) {
     switch (this.getCurrentPlatform()) {
       case "desktop":
@@ -214,6 +205,9 @@ export class Amethyst extends AmethystBackend {
   public constructor() {
     super();
 
+    // Init zoom from store
+    document.body.style.zoom = this.store.settings.value.zoomLevel;
+
     if (this.getCurrentPlatform() === "desktop") {
       window.electron.ipcRenderer.invoke<string>("get-appdata-path").then(path => this.APPDATA_PATH = path);
 
@@ -266,10 +260,7 @@ export class Amethyst extends AmethystBackend {
     }
 
     if (this.getCurrentPlatform() === "mobile") {
-      StatusBar.setBackgroundColor({color: "#0f1119"});
-      NavigationBar.setColor({color: "#181a27"});
-
-      this.loadMusicFolder();
+      this.initMobile();
     }
 
     document.addEventListener("drop", event => {
@@ -285,6 +276,29 @@ export class Amethyst extends AmethystBackend {
     });
   }
 
+  public zoom(action: "in" | "out" | "reset") {
+    const currentZoom = amethyst.store.settings.value.zoomLevel;
+    let newZoom = currentZoom;
+
+    switch (action) {
+      case "in":
+        newZoom = currentZoom + .125;
+        break;
+      case "out":
+        newZoom = currentZoom - .125;
+        break;
+      case "reset":
+        newZoom = amethyst.store.defaultSettings.zoomLevel;
+        break;
+    }
+
+    // Update store with new zoom level
+    amethyst.store.settings.value.zoomLevel = newZoom;
+
+    // Set new zoom level
+    document.body.style.zoom = newZoom;
+  }
+
   public performWindowAction(action: "close" | "maximize" | "unmaximize" | "minimize"): void {
     if (this.getCurrentPlatform() === "desktop") {
       window.electron.ipcRenderer.invoke(action).then(() => this.syncWindowState());
@@ -298,6 +312,19 @@ export class Amethyst extends AmethystBackend {
     this.store.state.isMinimized = windowState.isMinimized;
     this.store.state.isMaximized = windowState.isMaximized;
   };
+
+  private async initMobile() {
+    switch (this.getCurrentOperatingSystem()) {
+      case "android":
+        await StatusBar.setBackgroundColor({color: "#0f1119"});
+        await NavigationBar.setColor({color: "#181a27"});
+        break;
+      default:
+        break;
+    }
+
+    this.loadMusicFolder();
+  }
 
   /**
    * Loads all the music in Documents/Music to the queue

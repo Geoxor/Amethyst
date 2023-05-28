@@ -12,13 +12,6 @@ const PACKAGE_ROOT = __dirname;
 export default defineConfig({
 	mode: process.env.MODE,
 	root: PACKAGE_ROOT,
-	test: {
-		coverage: {
-			provider: "istanbul"
-		},
-		reporters: ["verbose"],
-		environment: "happy-dom",
-	},
 	define: {
     APP_VERSION: JSON.stringify(process.env.npm_package_version),
   },
@@ -51,5 +44,4 @@ export default defineConfig({
 		assetsDir: ".",
 		emptyOutDir: true,
 	},
-	
 });

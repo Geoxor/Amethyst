@@ -6,7 +6,7 @@
  * When running `yarn build` or `yarn build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import { app } from "electron";
+import { Menu, app, globalShortcut } from "electron";
 import { checkForUpdatesAndInstall, MainWindow } from "./mainWindow";
 import Store from "electron-store";
 export const store = new Store();
@@ -28,6 +28,10 @@ if (!app.requestSingleInstanceLock()) {
 else {
 	app.whenReady()
 		.then(() => {
+
+			// Disables default zoom shortcuts because we remove the default menu actions
+			Menu.setApplicationMenu(Menu.buildFromTemplate([]));
+
 			const useVsync = store.get("useVsync", true);
 			if (useVsync) {
 				app.commandLine.removeSwitch("disable-frame-rate-limit");

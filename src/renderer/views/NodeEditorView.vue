@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { amethyst, useState } from "@/amethyst";
 import BaseToolbarButton from "@/components/BaseToolbarButton.vue";
-import { MagnetIcon, SaveIcon, AdjustIcon, AzimuthIcon, FilterIcon, SelectNoneIcon, AddIcon, WaveIcon, RemoveIcon, LoadingIcon, SplitIcon } from "@/icons/material";
+import { MagnetIcon, SaveIcon, AdjustIcon, AzimuthIcon, FilterIcon, SelectNoneIcon, AddIcon, WaveIcon, RemoveIcon, LoadingIcon } from "@/icons/material";
 import { getThemeColorHex } from "@/logic/color";
 import { Background, BackgroundVariant } from "@vue-flow/additional-components";
 import { Connection, EdgeMouseEvent, NodeDragEvent, VueFlow } from "@vue-flow/core";

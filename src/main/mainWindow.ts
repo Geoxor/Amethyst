@@ -2,7 +2,7 @@
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
+import { app, BrowserWindow, dialog, Event, globalShortcut, ipcMain, Notification, shell } from "electron";
 import { Discord, FormatIcons } from "../plugins/amethyst.discord";
 import {ALLOWED_AUDIO_EXTENSIONS} from "../shared/constants";
 import {sleep} from "../shared/logic";
@@ -136,8 +136,7 @@ export class MainWindow {
 		this.window.loadURL(this.resolveHTMLPath("index"));
 
 		this.window.on("ready-to-show", () => {
-			this.window.webContents.setZoomFactor(1.25);
-	
+
 			!IS_DEV && import("electron-updater").then(({ autoUpdater }) => {
 				import("electron-log").then(log => {
 					// Autoupdates
@@ -240,9 +239,9 @@ export class MainWindow {
 				});
 			},
 
-			"zoom-in": () => this.window.webContents.setZoomLevel(this.window.webContents.getZoomLevel() + .5),
-			"zoom-out": () => this.window.webContents.setZoomLevel(this.window.webContents.getZoomLevel() - .5),
-			"zoom-reset": () => this.window.webContents.setZoomLevel(1.0),
+			// "zoom-in": () => this.window.webContents.setZoomLevel(this.window.webContents.getZoomLevel() + .5),
+			// "zoom-out": () => this.window.webContents.setZoomLevel(this.window.webContents.getZoomLevel() - .5),
+			// "zoom-reset": () => this.window.webContents.setZoomLevel(1.0),
 
 			"open-folder-dialog": async (_: Event, [filter]: [string[]]) => {
 				const result = await dialog.showOpenDialog({

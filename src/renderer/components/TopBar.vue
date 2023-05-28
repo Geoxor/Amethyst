@@ -79,7 +79,7 @@ const state = useState();
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
           title="Zoom in"
           :icon="ZoomInIcon"
-          :shortcuts="['CTRL', 'SHIFT', '+']"
+          :shortcuts="['CTRL', '+']"
           @click="amethyst.zoom('in')"
         />
         <menu-option

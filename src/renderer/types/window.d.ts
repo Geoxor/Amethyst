@@ -23,6 +23,10 @@ declare global {
 			}
 		}
   }
+
+	interface CSSStyleDeclaration {
+		zoom: number;
+	}
 }
 
 export { };

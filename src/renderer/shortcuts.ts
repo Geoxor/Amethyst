@@ -25,6 +25,9 @@ export class Shortcuts {
     "queue.force.refresh.meta": [["r"], () => this.isControlPressed.value && this.isAltPressed.value && amethyst.player.queue.fetchAsyncData(true)],
     "appearance.toggle.playback_controlls": [["F10"], () => useState().settings.value.showPlaybackControls = !useState().settings.value.showPlaybackControls],
     "appearance.toggle.debug_statistics": [["F9"], () => useState().settings.value.showDebugStats = !useState().settings.value.showDebugStats],
+    "interface.zoom.in": [["+"], () => this.isControlPressed.value && amethyst.zoom("in")],
+    "interface.zoom.out": [["-"], () => this.isControlPressed.value && amethyst.zoom("out")],
+    "interface.zoom.reset": [["0"], () => this.isControlPressed.value && amethyst.zoom("reset")],
   };
 
   public bindings = this.DEFAULT_BINDINGS;
@@ -48,6 +51,8 @@ export class Shortcuts {
       // Register the event for each key
       for (let j = 0; j < keys.length; j++)
         onKeyStroke(keys[j], e => {
+          console.log(e);
+          
           e.stopPropagation();
           action(e);
         });
