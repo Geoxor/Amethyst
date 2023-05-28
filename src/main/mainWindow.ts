@@ -2,7 +2,7 @@
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { app, BrowserWindow, dialog, Event, globalShortcut, ipcMain, Notification, shell } from "electron";
+import { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
 import { Discord, FormatIcons } from "../plugins/amethyst.discord";
 import {ALLOWED_AUDIO_EXTENSIONS} from "../shared/constants";
 import {sleep} from "../shared/logic";
