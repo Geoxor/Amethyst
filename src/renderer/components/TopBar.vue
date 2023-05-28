@@ -9,7 +9,7 @@ import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
 import { AudioFileIcon, DiscordIcon, GitHubIcon, MusicFolderIcon, ResetIcon, ZoomInIcon, ZoomOutIcon, RemoveIcon, ResizeIcon, DownloadingUpdatesIcon, SettingsIcon, BookshelfIcon, LoadingIcon, BugIcon } from "@/icons/material";
 import { useFps } from "@vueuse/core";
 import AmethystLogo from "@/icons/AmethystLogo.vue";
-import { onMounted, ref } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { countDomElements, refreshWindow } from "@/logic/dom";
 import BaseChip from "./BaseChip.vue";
 
@@ -41,6 +41,9 @@ onMounted(() => {
 });
 
 const state = useState();
+
+const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem() === "mac" ? "⌘" : "CTRL");
+
 </script>
 
 <template>
@@ -62,13 +65,13 @@ const state = useState();
       </div>
       <Menu title="File">
         <menu-option
-          :shortcuts="['CTRL', 'O']"
+          :shortcuts="[commandOrControlSymbol, 'O']"
           title="Open audio..."
           :icon="AudioFileIcon"
           @click="amethyst.openAudioFilesAndAddToQueue"
         />
         <menu-option
-          :shortcuts="['CTRL', 'SHIFT', 'O']"
+          :shortcuts="[commandOrControlSymbol, 'SHIFT', 'O']"
           title="Open audio folder..."
           :icon="MusicFolderIcon"
           @click="amethyst.openAudioFoldersAndAddToQueue"
@@ -79,21 +82,21 @@ const state = useState();
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
           title="Zoom in"
           :icon="ZoomInIcon"
-          :shortcuts="['CTRL', '+']"
+          :shortcuts="[commandOrControlSymbol, '+']"
           @click="amethyst.zoom('in')"
         />
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
           title="Zoom out"
           :icon="ZoomOutIcon"
-          :shortcuts="['CTRL', '-']"
+          :shortcuts="[commandOrControlSymbol, '-']"
           @click="amethyst.zoom('out')"
         />
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
           title="Reset zoom"
           :icon="ResizeIcon"
-          :shortcuts="['CTRL', '0']"
+          :shortcuts="[commandOrControlSymbol, '0']"
           @click="amethyst.zoom('reset')"
         />
         <menu-splitter 
@@ -101,26 +104,26 @@ const state = useState();
         />
 
         <menu-option
-          :shortcuts="['CTRL', 'SHIFT', 'X']"
+          :shortcuts="[commandOrControlSymbol, 'SHIFT', 'X']"
           title="Clear queue"
           :icon="RemoveIcon"
           @click="amethyst.player.queue.clear()"
         />
         <menu-option
-          :shortcuts="['CTRL', 'SHIFT', 'Z']"
+          :shortcuts="[commandOrControlSymbol, 'SHIFT', 'Z']"
           title="Clear errored / deleted"
           :icon="RemoveIcon"
           @click="amethyst.player.queue.clearErrored()"
         />
         <menu-splitter />
         <menu-option
-          :shortcuts="['CTRL', 'ALT', 'R']"
+          :shortcuts="[commandOrControlSymbol, 'ALT', 'R']"
           title="Refresh all metadata"
           :icon="ResetIcon"
           @click="amethyst.player.queue.fetchAsyncData(true)"
         />
         <menu-option
-          :shortcuts="['CTRL', 'R']"
+          :shortcuts="[commandOrControlSymbol, 'R']"
           title="Refresh window"
           :icon="ResetIcon"
           @click="refreshWindow"
