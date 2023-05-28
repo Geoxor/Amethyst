@@ -158,11 +158,6 @@ class AmethystBackend {
     });
   };
 
-  public openSettings = () => {
-    // not 100% sure if this is the way to go for routing this? but it works as expected for me at least!
-    router.push({ name: 'settings.appearance' });
-  }
-
   // TODO: get rid of this stupid logic and make it be part of when loading a track
   public async getMetadata(path: string) {
     switch (this.getCurrentPlatform()) {
@@ -286,6 +281,14 @@ export class Amethyst extends AmethystBackend {
     if (this.getCurrentPlatform() !== "desktop") return;
     window.electron.ipcRenderer.invoke("dev-tools");
   }
+
+  public openSettings = () => {
+    router.push({ name: "settings.appearance" });
+  };
+
+  public reload = () => {
+    location.reload();
+  };
 
   public zoom(action: "in" | "out" | "reset") {
     const currentZoom = amethyst.store.settings.value.zoomLevel;

@@ -32,6 +32,7 @@ export class Shortcuts {
     "interface.zoom.out": [["-"], () => this.isCommandOrControlPressed.value && amethyst.zoom("out")],
     "interface.zoom.reset": [["0"], () => this.isCommandOrControlPressed.value && amethyst.zoom("reset")],
     "interface.settings": [[","], () => this.isCommandOrControlPressed.value && amethyst.openSettings()],
+    "interface.reload": [["F5"], () => amethyst.reload()],
   };
 
   public bindings = this.DEFAULT_BINDINGS;
