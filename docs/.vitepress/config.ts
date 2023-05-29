@@ -221,7 +221,15 @@ export default defineConfig({
         text: 'Installation',
         items: [
           { text: 'Package Managers', link: '/installation/package_managers' },
-          { text: 'Build from Source', link: '/installation/build_from_source' },
+        ]
+      },
+      {
+        text: 'Development',
+        items: [
+          { text: 'Setting up Work Environment', link: '/developing/setting_up_environment' },
+          { text: 'Desktop Development', link: '/developing/desktop_development' },
+          { text: 'Android Development', link: '/developing/android_development' },
+          { text: 'Docs Development', link: '/developing/documentation_development' },
         ]
       },
       {

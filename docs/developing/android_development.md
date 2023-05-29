@@ -1,0 +1,30 @@
+# Android development
+Make sure you have completed the steps in [Setting up Work Environment](./setting_up_environment.html) before preceding
+
+## Preperation
+1. You need to [setup an emulated or physical device](https://developer.android.com/studio/run/device) on your [Android Studio](https://developer.android.com/studio).
+
+2. In `capacitor.config.ts` you should update the IP address of the dev server to your computer's IP
+    ```ts
+    const devConfig: CapacitorConfig = {
+      ...commonConfig,
+      server: {
+        url: "http://<your ip>:1337", // vite's dev server url
+        cleartext: true,
+      },
+    };
+    ```
+
+## Starting dev environment
+1. [Sync capacitor's config](https://capacitorjs.com/docs/v2/cli/sync)
+    ```sh
+    $ yarn cap sync
+    ```
+
+2. Start Vite front-end dev server
+    ```sh
+    $ yarn start:renderer
+    ```
+
+3. Start Emulator on Android Studio
+   ![](https://cdn.discordapp.com/attachments/667464431562653706/1112532367446376528/image.png)
