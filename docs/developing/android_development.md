@@ -26,5 +26,14 @@ Make sure you have completed the steps in [Setting up Work Environment](./settin
     $ yarn start:renderer
     ```
 
-3. Start Emulator on Android Studio
+3. Start android studio on this project
+    ```sh
+    $ yarn cap open android
+    ```
+
+4. Start Emulator
    ![](https://cdn.discordapp.com/attachments/667464431562653706/1112532367446376528/image.png)
+
+## Building
+
+Follow [these steps](https://developer.android.com/studio/run) for building an [.apk](https://en.wikipedia.org/wiki/Apk_(file_format))

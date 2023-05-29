@@ -1,4 +1,5 @@
 import { CapacitorConfig } from "@capacitor/cli";
+import ip from "ip";
 
 const commonConfig: CapacitorConfig = {
   appId: "com.example.app",
@@ -17,7 +18,7 @@ const commonConfig: CapacitorConfig = {
 const devConfig: CapacitorConfig = {
   ...commonConfig,
   server: {
-    url: "http://192.168.1.68:1337",
+    url: `http://${ip.address()}:1337`,
     cleartext: true,
   },
 };
