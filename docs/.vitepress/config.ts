@@ -24,6 +24,19 @@ export default defineConfig({
       title: "Amethyst",
       description: "Ein leistungsstarker Node-basierter Audio Player geschrieben in der Web-Plattform.",
       themeConfig: {
+        footer: {
+          message: "Durch Verlust mehrere Hirnzellen gemacht 🧠"
+        },
+        docFooter: {
+          prev: "Vorherige Seite",
+          next: "Nächste Seite"
+        },
+        editLink: {
+          pattern: "https://github.com/Geoxor/amethyst/tree/master/docs/:path",
+          text: "Diese Seite bearbeiten"
+        },
+        darkModeSwitchLabel: "Dunkelmodus umschalten",
+        outlineTitle: "Auf dieser Seite",
         nav: [
           { text: "Dokumentation", link: "/de/introduction" },
           { text: "Download", link: "/de/installation/package_managers" },
@@ -33,7 +46,15 @@ export default defineConfig({
             text: 'Installation',
             items: [
               { text: 'Paketmanager', link: '/de/installation/package_managers' },
-              { text: 'Aus Quelltext erstellen', link: '/de/installation/build_from_source' },
+            ]
+          },
+          {
+            text: 'Entwicklung',
+            items: [
+              { text: 'Arbeitsumgebung einrichten', link: '/de/developing/setting_up_environment' },
+              { text: 'Desktopentwicklung', link: '/de/developing/desktop_development' },
+              { text: 'Android-Entwicklung', link: '/de/developing/android_development' },
+              { text: 'Documentation Entwicklung', link: '/de/developing/documentation_development' },
             ]
           },
           {
