@@ -23,7 +23,7 @@ const devConfig: CapacitorConfig = {
   },
 };
 
-// const config = devConfig;
-const config = process.env.NODE_ENV === "development" ? devConfig : commonConfig;
+const config = devConfig;
+// const config = process.env.NODE_ENV === "development" ? devConfig : commonConfig;
 
 export default config;

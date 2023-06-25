@@ -11,7 +11,7 @@ import { FileFilter, OpenDialogReturnValue, SaveDialogReturnValue } from "electr
 import { watch } from "vue";
 import { flattenArray } from "./logic/math";
 import { Track } from "./logic/track";
-import { Directory, Filesystem } from "@capacitor/filesystem";
+import { Directory } from "@capacitor/filesystem";
 import * as mm from "music-metadata-browser";
 import { router } from "./router";
 
@@ -136,9 +136,9 @@ class AmethystBackend {
         return new Promise(async (res, rej) => {
           // use capacitor to implement getting a file path
           const {FilePicker} = await import("@capawesome/capacitor-file-picker");
-          const result = await FilePicker.pickFiles({ types: ["*"]});
-          const paths = result.files.map(file => file.path!);
-          paths ? res({canceled: false, filePaths: paths}) : rej();
+          const result = await FilePicker.pickFiles({ readData: true, types: ["application/json", "text/comma-separated-values", "text/*"]});
+          const path = result.files.map(file => file.path!)[0];
+          path ? res({canceled: false, filePaths: [decodeURIComponent(path)]}) : rej();
         });
       default:
         return Promise.reject();
