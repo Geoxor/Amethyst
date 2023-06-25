@@ -69,6 +69,8 @@ export class AmethystAudioNodeManager {
     this.nodes.value.forEach(node => node.disconnect());
     this.nodes.value = [];
 
+    this.graphName.value = "";
+
     this.input = new AmethystInputNode(this.inputAudio, { x: 0, y: 0 });
     this.master = new AmethystMasterNode(this.context, { x: 300, y: 0 });
     this.output = new AmethystOutputNode(this.context, { x: 450, y: 0 });
