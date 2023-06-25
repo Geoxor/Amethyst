@@ -253,7 +253,7 @@ export class MainWindow {
 				import("open").then(({ default: open }) => open(path));
 			},
 
-			"show-save-dialog": (_: Event, [filters]: [Electron.FileFilter[]]) => dialog.showSaveDialog({filters}),
+			"show-save-dialog": (_: Event, [options]: [Electron.SaveDialogOptions]) => dialog.showSaveDialog(options),
 			
 			"dev-tools": () => {
 				this.window.webContents.openDevTools();

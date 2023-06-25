@@ -146,10 +146,10 @@ class AmethystBackend {
     }
   }
 
-  public showSaveFileDialog(filter?: Electron.FileFilter[]) {
+  public showSaveFileDialog(options?: Electron.SaveDialogOptions) {
     switch (this.getCurrentPlatform()) {
       case "desktop":
-        return window.electron.ipcRenderer.invoke<SaveDialogReturnValue>("show-save-dialog", [filter]);
+        return window.electron.ipcRenderer.invoke<SaveDialogReturnValue>("show-save-dialog", [options]);
       default:
         return;
     }

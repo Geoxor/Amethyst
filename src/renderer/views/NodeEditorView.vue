@@ -155,6 +155,9 @@ const handleOpenFile = async () => {
       // Use the loaded buffer
       amethyst.player.nodeManager.loadGraph(JSON.parse(jsonString));
 
+      // set the name
+      nodeGraphName.value = window.path.parse(window.path.basename(result.filePaths[0])).name;
+
       // Fixes volume resetting to 100% when loading a new graph
       amethyst.player.setVolume(amethyst.player.volume.value);
     });
@@ -164,7 +167,10 @@ const handleOpenFile = async () => {
 
 const handleSaveFile = async () => {
   const serializedGraph = amethyst.player.nodeManager.serialize();
-  const dialog = await amethyst.showSaveFileDialog([{ name: "Amethyst Node Graph", extensions: ["ang"] }]);
+  const dialog = await amethyst.showSaveFileDialog({
+    filters: [{ name: "Amethyst Node Graph", extensions: ["ang"] }],
+    defaultPath: nodeGraphName.value
+  });
   if (dialog?.canceled || !dialog?.filePath) return;
 
   return amethyst.writeFile(serializedGraph, dialog?.filePath);
@@ -184,6 +190,8 @@ onKeyStroke("Delete", () => {
   });
 });
 
+const nodeGraphName = ref("untitled");
+
 </script>
 
 <template>
@@ -199,6 +207,12 @@ onKeyStroke("Delete", () => {
       />
 
       <BaseToolbarSplitter />
+
+      <input
+        v-model="nodeGraphName"
+        type="text"
+        class="text-primary-900 px-2 py-1 rounded-4px bg-surface-900 text-xs"
+      >
 
       <BaseToolbarButton
         :icon="SelectNoneIcon"
