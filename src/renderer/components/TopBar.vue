@@ -79,31 +79,6 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
       </Menu>
       <Menu title="Utility">
         <menu-option
-          v-if="amethyst.getCurrentPlatform() === 'desktop'"
-          title="Zoom in"
-          :icon="ZoomInIcon"
-          :shortcuts="[commandOrControlSymbol, '+']"
-          @click="amethyst.zoom('in')"
-        />
-        <menu-option
-          v-if="amethyst.getCurrentPlatform() === 'desktop'"
-          title="Zoom out"
-          :icon="ZoomOutIcon"
-          :shortcuts="[commandOrControlSymbol, '-']"
-          @click="amethyst.zoom('out')"
-        />
-        <menu-option
-          v-if="amethyst.getCurrentPlatform() === 'desktop'"
-          title="Reset zoom"
-          :icon="ResizeIcon"
-          :shortcuts="[commandOrControlSymbol, '0']"
-          @click="amethyst.zoom('reset')"
-        />
-        <menu-splitter 
-          v-if="amethyst.getCurrentPlatform() === 'desktop'"
-        />
-
-        <menu-option
           :shortcuts="[commandOrControlSymbol, 'SHIFT', 'X']"
           title="Clear queue"
           :icon="RemoveIcon"
@@ -140,6 +115,30 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
         />
       </Menu>
       <Menu title="View">
+        <menu-option
+          v-if="amethyst.getCurrentPlatform() === 'desktop'"
+          title="Zoom in"
+          :icon="ZoomInIcon"
+          :shortcuts="[commandOrControlSymbol, '+']"
+          @click="amethyst.zoom('in')"
+        />
+        <menu-option
+          v-if="amethyst.getCurrentPlatform() === 'desktop'"
+          title="Zoom out"
+          :icon="ZoomOutIcon"
+          :shortcuts="[commandOrControlSymbol, '-']"
+          @click="amethyst.zoom('out')"
+        />
+        <menu-option
+          v-if="amethyst.getCurrentPlatform() === 'desktop'"
+          title="Reset zoom"
+          :icon="ResizeIcon"
+          :shortcuts="[commandOrControlSymbol, '0']"
+          @click="amethyst.zoom('reset')"
+        />
+        <menu-splitter 
+          v-if="amethyst.getCurrentPlatform() === 'desktop'"
+        />
         <menu-option
           title="Settings"
           :icon="SettingsIcon"
