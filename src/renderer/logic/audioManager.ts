@@ -57,6 +57,8 @@ export class AmethystAudioNodeManager {
   private output!: AmethystOutputNode;
   public master!: AmethystMasterNode;
 
+  public graphName: Ref<string> = ref("");
+
   public nodes: Ref<AmethystAudioNode[]> = ref([]);
 
   public constructor(public inputAudio: AudioNode, public context: AudioContext) {
