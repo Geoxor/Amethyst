@@ -9,6 +9,7 @@ import { Coords } from "@shared/types";
 import { Position as SourcePosition } from "@vue-flow/core";
 import { Ref, ref } from "vue";
 import { AmethystAudioNode } from "./audio";
+import { useLocalStorage } from "@vueuse/core";
 
 const audioNodes: Record<string, any> = {
   AmethystGainNode,
@@ -58,18 +59,20 @@ export class AmethystAudioNodeManager {
   public master!: AmethystMasterNode;
 
   public graphName: Ref<string> = ref("");
+  public graphPath: Ref<string> = useLocalStorage("lastNodeGraphPath", "");
 
   public nodes: Ref<AmethystAudioNode[]> = ref([]);
 
   public constructor(public inputAudio: AudioNode, public context: AudioContext) {
-    this.reset();
+    this.init();
+
+    // Load previous node graph if there was one
+    this.graphPath.value && this.fetchGraph(this.graphPath.value); 
   }
 
-  public reset () {
+  public init () {
     this.nodes.value.forEach(node => node.disconnect());
     this.nodes.value = [];
-
-    this.graphName.value = "";
 
     this.input = new AmethystInputNode(this.inputAudio, { x: 0, y: 0 });
     this.master = new AmethystMasterNode(this.context, { x: 300, y: 0 });
@@ -97,7 +100,32 @@ export class AmethystAudioNodeManager {
     this.nodes.value.push(this.output);
   }
 
-  public loadGraph(graph: NodeGraph) {
+  public reset () {
+    this.graphName.value = "";
+    this.graphPath.value = "";
+    this.init();
+  }
+
+  private fetchGraph(path: string) {
+    fetch(path)
+      .then(response => response.blob())
+      .then(blob => {
+        return new Promise<ArrayBuffer>((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsArrayBuffer(blob);
+          reader.onloadend = () => reader.result ? resolve(reader.result as ArrayBuffer) : reject("reader null");
+        });
+      })
+      .then(buffer => {
+        const decoder = new TextDecoder("utf-8");
+        const jsonString = decoder.decode(buffer);
+
+        // Use the loaded buffer
+        this.loadGraph(JSON.parse(jsonString), path);
+      });
+  }
+
+  public loadGraph(graph: NodeGraph, path: string) {
     this.nodes.value.forEach(node => node.disconnect());
 
     this.nodes.value = [];
@@ -131,6 +159,9 @@ export class AmethystAudioNodeManager {
       nodeInstance.connections = node.connections;
       // connect webaudio nodes from edge line connections
       this.nodes.value.push(nodeInstance);
+
+      this.graphName.value = window.path.parse(window.path.basename(path)).name;
+      this.graphPath.value = path;
     });
 
     // Do this after so we make sure all nodes exist because they get loaded

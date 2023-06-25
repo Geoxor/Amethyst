@@ -153,10 +153,7 @@ const handleOpenFile = async () => {
       const jsonString = decoder.decode(buffer);
 
       // Use the loaded buffer
-      amethyst.player.nodeManager.loadGraph(JSON.parse(jsonString));
-
-      // set the name
-      amethyst.player.nodeManager.graphName.value = window.path.parse(window.path.basename(result.filePaths[0])).name;
+      amethyst.player.nodeManager.loadGraph(JSON.parse(jsonString), result.filePaths[0]);
 
       // Fixes volume resetting to 100% when loading a new graph
       amethyst.player.setVolume(amethyst.player.volume.value);
