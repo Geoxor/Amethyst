@@ -86,31 +86,66 @@ const computeNodePosition = ({x, y}: Coords) => {
 };
 
 const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
-  {title: "Add FilterNode", icon: FilterIcon, action: () => {
-    amethyst.player.nodeManager.addNode(new AmethystFilterNode(amethyst.player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
-  }},
   {
-    title: "Add EightBandEqualizerNode", 
-    icon: FilterIcon, 
+    title: "Open File",
+    icon: LoadingIcon,
+    action: handleOpenFile,
+  },
+  {
+    title: "Save As",
+    icon: SaveIcon,
+    action: handleSaveFile,
+  },
+  {
+    title: "Add FilterNode",
+    icon: FilterIcon,
     action: () => {
-      amethyst.player.nodeManager.addNode(new AmethystEightBandEqualizerNode(amethyst.player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
+      amethyst.player.nodeManager.addNode(new AmethystFilterNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })),
+      source && target && [source, target]);
     }
   },
-  {title: "Add PannerNode", icon: AzimuthIcon, action: () => {
-    amethyst.player.nodeManager.addNode(new AmethystPannerNode(amethyst.player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
-  }},
-  {title: "Add GainNode", icon: AdjustIcon, action: () => {
-    amethyst.player.nodeManager.addNode(new AmethystGainNode(amethyst.player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
-  }},
-  {title: "Add AmethystSpectrumNode", icon: WaveIcon, action: () => {
-    amethyst.player.nodeManager.addNode(new AmethystSpectrumNode(amethyst.player.nodeManager.context, computeNodePosition({x, y})), source && target && [source, target]);
-  }},
+  {
+    title: "Add EightBandEqualizerNode",
+    icon: FilterIcon,
+    action: () => {
+      amethyst.player.nodeManager.addNode(new AmethystEightBandEqualizerNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })), 
+      source && target && [source, target]);
+    }
+  },
+  {
+    title: "Add PannerNode", 
+    icon: AzimuthIcon, 
+    action: () => {
+      amethyst.player.nodeManager.addNode(new AmethystPannerNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })), 
+      source && target && [source, target]);
+    }
+  },
+  {
+    title: "Add GainNode", 
+    icon: AdjustIcon, 
+    action: () => {
+      amethyst.player.nodeManager.addNode(new AmethystGainNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })), 
+      source && target && [source, target]);
+    }
+  },
+  {
+    title: "Add AmethystSpectrumNode", 
+    icon: WaveIcon, 
+    action: () => {
+      amethyst.player.nodeManager.addNode(new AmethystSpectrumNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })), 
+      source && target && [source, target]);
+    }
+  },
+  {
+    title: "Reset All",
+    icon: RemoveIcon,
+    action: handleReset,
+    red: true,
+  },
 ];
 
 const handleContextMenu = ({y, x}: MouseEvent) => {
   useContextMenu().open({x, y}, nodeMenu({x, y}));
-  console.log();
-  
 };
 
 const handleEdgeContextMenu = (e: EdgeMouseEvent) => {
@@ -159,8 +194,6 @@ const handleOpenFile = async () => {
 
       // Fixes volume resetting to 100% when loading a new graph
       amethyst.player.setVolume(amethyst.player.volume.value);
-      
-      fitToView();
     });
 };
 
@@ -235,7 +268,7 @@ onKeyStroke("Delete", () => {
 
       <BaseToolbarButton
         :icon="SaveIcon"
-        tooltip-text="Save as"
+        tooltip-text="Save As"
         @click="handleSaveFile"
       />
       
