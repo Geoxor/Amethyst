@@ -160,9 +160,9 @@ const handleOpenFile = async () => {
 
       // Fixes volume resetting to 100% when loading a new graph
       amethyst.player.setVolume(amethyst.player.volume.value);
+      
+      fitToView();
     });
-
-  fitToView;
 };
 
 const handleSaveFile = async () => {

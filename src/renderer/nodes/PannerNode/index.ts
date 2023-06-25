@@ -2,6 +2,10 @@ import { AmethystAudioNode } from "@/logic/audio";
 import { NodeProperties } from "@/logic/audioManager";
 import component from "./component.vue";
 
+interface Parameters {
+  pan: number,
+}
+
 export class AmethystPannerNode extends AmethystAudioNode {
   public panner: StereoPannerNode;
 
@@ -29,4 +33,13 @@ export class AmethystPannerNode extends AmethystAudioNode {
     this.pan = 0;
   }
 
+  public override getParameters() {
+    return {
+      pan: this.pan,
+    };
+  }
+
+  public override applyParameters(parameters: Parameters): void {
+    this.pan = parameters.pan;
+  }
 }
