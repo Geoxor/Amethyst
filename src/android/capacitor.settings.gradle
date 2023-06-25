@@ -26,5 +26,11 @@ project(':capacitor-splash-screen').projectDir = new File('../../node_modules/@c
 include ':capacitor-status-bar'
 project(':capacitor-status-bar').projectDir = new File('../../node_modules/@capacitor/status-bar/android')
 
+include ':capawesome-team-capacitor-file-opener'
+project(':capawesome-team-capacitor-file-opener').projectDir = new File('../../node_modules/@capawesome-team/capacitor-file-opener/android')
+
+include ':capawesome-capacitor-file-picker'
+project(':capawesome-capacitor-file-picker').projectDir = new File('../../node_modules/@capawesome/capacitor-file-picker/android')
+
 include ':hugotomazi-capacitor-navigation-bar'
 project(':hugotomazi-capacitor-navigation-bar').projectDir = new File('../../node_modules/@hugotomazi/capacitor-navigation-bar/android')

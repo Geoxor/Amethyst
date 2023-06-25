@@ -11,7 +11,7 @@ import { FileFilter, OpenDialogReturnValue, SaveDialogReturnValue } from "electr
 import { watch } from "vue";
 import { flattenArray } from "./logic/math";
 import { Track } from "./logic/track";
-import { Directory } from "@capacitor/filesystem";
+import { Directory, Filesystem } from "@capacitor/filesystem";
 import * as mm from "music-metadata-browser";
 import { router } from "./router";
 
@@ -132,15 +132,23 @@ class AmethystBackend {
             files ? res({canceled: false, filePaths: paths}) : rej();
           });
         });
+      case "mobile":
+        return new Promise(async (res, rej) => {
+          // use capacitor to implement getting a file path
+          const {FilePicker} = await import("@capawesome/capacitor-file-picker");
+          const result = await FilePicker.pickFiles({ types: ["*"]});
+          const paths = result.files.map(file => file.path!);
+          paths ? res({canceled: false, filePaths: paths}) : rej();
+        });
       default:
         return Promise.reject();
     }
   }
   
-  public openFolderDialog(filter?: Electron.FileFilter[]) {
+  public openFolderDialog(filters?: Electron.FileFilter[]) {
     switch (this.getCurrentPlatform()) {
       case "desktop":
-        return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-folder-dialog", [filter]);
+        return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-folder-dialog", [filters]);
       default:
         return;
     }
@@ -171,7 +179,7 @@ class AmethystBackend {
   };
   
   public openAudioFoldersAndAddToQueue = () => {
-    amethyst.openFolderDialog(ALLOWED_AUDIO_EXTENSIONS)?.then(result => {
+    amethyst.openFolderDialog([{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }])?.then(result => {
       !result.canceled && amethyst.player.queue.add(flattenArray(result.filePaths));
     });
   };

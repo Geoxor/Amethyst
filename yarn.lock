@@ -253,6 +253,16 @@
   resolved "https://registry.yarnpkg.com/@capacitor/status-bar/-/status-bar-4.1.1.tgz#5b9a1acbe5efb30158e35be7a5ef7ffaaadaf804"
   integrity sha512-3wosxMD1XuIFz88+c2GdVEHSJV6u7suOeKQjyWf3zf9eFr622Sg+udZqDbC0dtTWXw97BWyCjv3r1EYJw7XnIA==
 
+"@capawesome-team/capacitor-file-opener@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@capawesome-team/capacitor-file-opener/-/capacitor-file-opener-5.0.0.tgz#e994f4ce698167fe676cbef5c5c17ca71a469c92"
+  integrity sha512-Oe/dQndqoznlbkSfH93vpl3wOKSn9T2SBFA4k/Mu5zwBpj/HqWlvOzZbDTji721LH2qm10rKCLbAtvDkVh9f3g==
+
+"@capawesome/capacitor-file-picker@^5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@capawesome/capacitor-file-picker/-/capacitor-file-picker-5.0.0.tgz#1a5780c90628b81b2c808f4949c722596d3f8f6c"
+  integrity sha512-eelHSb0y+q0qG9hXulrFFSXBmQzgrl7yYWuknbJUiMwNjUBnRcwfa9dBVIZ8pLHEXmI/BvdUNqU0Kmv/oibKjA==
+
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/@cspotcode/source-map-support/-/source-map-support-0.8.1.tgz#00629c35a688e05a88b1cda684fb9d5e73f000a1"
