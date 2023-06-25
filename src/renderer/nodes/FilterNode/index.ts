@@ -2,6 +2,14 @@ import { AmethystAudioNode } from "@/logic/audio";
 import { NodeProperties } from "@/logic/audioManager";
 import { ref } from "vue";
 import component from "./component.vue";
+import { logValueToPercentage } from "@/logic/math";
+
+interface Parameters {
+  frequency: number,
+  gain: number;
+  Q: number;
+  type: BiquadFilterType;
+}
 
 export class AmethystFilterNode extends AmethystAudioNode {
   // Used to remember the state for onMounted state 
@@ -10,7 +18,7 @@ export class AmethystFilterNode extends AmethystAudioNode {
   public frequencyPercent = ref(35) as unknown as number;
   public MIN_FREQUENCY = 20;
   public MAX_FREQUENCY = 22050;
-  public filter: BiquadFilterNode;
+  private filter: BiquadFilterNode;
 
   public constructor(context: AudioContext, position: NodeProperties["position"]) {
     const pre = context.createGain();
@@ -58,10 +66,27 @@ export class AmethystFilterNode extends AmethystAudioNode {
   }
 
   public override reset(){
-    this.frequencyPercent = 35;
-    this.filter.gain.value = 0;
-    this.filter.Q.value = 1;
-    this.filter.type = "lowpass";
+    this.frequencyPercent = logValueToPercentage(200, this.MIN_FREQUENCY, this.MAX_FREQUENCY);
+    this.frequency = 200;
+    this.gain = 0;
+    this.Q = 1;
+    this.type = "lowpass";
   }
 
+  public override getParameters() {
+    return {
+      frequency: this.frequency,
+      gain: this.gain,
+      Q: this.Q,
+      type: this.type,
+    };
+  }
+
+  public override applyParameters(parameters: Parameters): void {
+    this.frequencyPercent = logValueToPercentage(this.frequency, this.MIN_FREQUENCY, this.MAX_FREQUENCY);
+    this.frequency = parameters.frequency;
+    this.gain = parameters.gain;
+    this.Q = parameters.Q;
+    this.type = parameters.type;
+  }
 }

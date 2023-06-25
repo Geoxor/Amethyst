@@ -9,4 +9,8 @@ export class AmethystMasterNode extends AmethystAudioNode {
     pre.connect(post);
     super(pre, post, "AmethystMasterNode", component, position, false, false, false);
   }
+
+  public override getParameters() {
+    return {};
+  }
 }

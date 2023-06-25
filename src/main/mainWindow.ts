@@ -253,9 +253,7 @@ export class MainWindow {
 				import("open").then(({ default: open }) => open(path));
 			},
 
-			"show-save-dialog": () => dialog.showSaveDialog({filters: [
-				{ name: "Amethyst Node Graph", extensions: ["ang"] },
-			]}),
+			"show-save-dialog": (_: Event, [filters]: [Electron.FileFilter[]]) => dialog.showSaveDialog({filters}),
 			
 			"dev-tools": () => {
 				this.window.webContents.openDevTools();

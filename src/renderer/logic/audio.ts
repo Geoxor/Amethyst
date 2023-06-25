@@ -111,6 +111,14 @@ export class AmethystAudioNode {
     this.properties.position = newPosition;
   }
 
+  public getParameters(): object {
+    throw new Error("Not implemented");
+  };
+
+  public applyParameters(parameters: object) {
+    throw new Error("Not implemented");
+  }
+
   public reset(){
     throw new Error("Not implemented");
   };

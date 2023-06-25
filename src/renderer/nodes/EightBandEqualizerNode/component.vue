@@ -73,7 +73,7 @@ onMounted(() => {
   });
 });
 // watch(() => props.node.frequencyPercent, percent => {
-//   props.node.frequency = percentToLog(percent, props.node.MIN_FREQUENCY, props.node.MAX_FREQUENCY);
+//   props.node.frequency = percentToLogValue(percent, props.node.MIN_FREQUENCY, props.node.MAX_FREQUENCY);
 // });
 
 const FILTER_TYPES = [

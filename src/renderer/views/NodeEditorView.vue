@@ -140,27 +140,39 @@ const handleOpenFile = async () => {
   if (result.canceled) return;
   
   fetch(result.filePaths[0])
-  .then(response => response.blob())
-  .then(blob => {
-    return new Promise<ArrayBuffer>((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onloadend = () => reader.result ? resolve(reader.result as ArrayBuffer) : reject("reader null");
-      reader.readAsArrayBuffer(blob);
-    });
-  })
-  .then(buffer => {
-    // Use the loaded buffer
-    amethyst.player.nodeManager.loadGraph(JSON.parse(buffer.toString()));
-  });
+    .then(response => response.blob())
+    .then(blob => {
+      return new Promise<ArrayBuffer>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(blob);
+        reader.onloadend = () => reader.result ? resolve(reader.result as ArrayBuffer) : reject("reader null");
+      });
+    })
+    .then(buffer => {
+      const decoder = new TextDecoder("utf-8");
+      const jsonString = decoder.decode(buffer);
 
-  // Fixes volume resetting to 100% when loading a new graph
-  amethyst.player.setVolume(amethyst.player.volume.value);
+      // Use the loaded buffer
+      amethyst.player.nodeManager.loadGraph(JSON.parse(jsonString));
+
+      // Fixes volume resetting to 100% when loading a new graph
+      amethyst.player.setVolume(amethyst.player.volume.value);
+    });
 
   fitToView;
 };
 
-const handleSaveFile = () => {
-  
+const handleSaveFile = async () => {
+  const serializedGraph = amethyst.player.nodeManager.serialize();
+  const dialog = await amethyst.showSaveFileDialog([{ name: "Amethyst Node Graph", extensions: ["ang"] }]);
+  if (dialog?.canceled || !dialog?.filePath) return;
+
+  return amethyst.writeFile(serializedGraph, dialog?.filePath);
+};
+
+const handleReset = () => {
+  amethyst.player.nodeManager.reset();
+  amethyst.player.setVolume(amethyst.player.volume.value);
 };
 
 onKeyStroke("Delete", () => {
@@ -219,7 +231,7 @@ onKeyStroke("Delete", () => {
       <BaseToolbarButton
         :icon="RemoveIcon"
         tooltip-text="Reset All"
-        @click="amethyst.player.nodeManager.reset()"
+        @click="handleReset"
       />
     </BaseToolbar>
 

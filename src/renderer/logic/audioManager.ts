@@ -39,20 +39,12 @@ export interface Connection {
   target: string;
 }
 
-export type Paramaters = Partial<{
-  frequencyPercent: number;
-  gain: number;
-  Q: number;
-  type: string;
-  pan: number;
-}>; 
-
 export interface Node {
   name: string;
   id: string;
   position: Position;
   connections: Connection[];
-  paramaters?: Paramaters;
+  paramaters?: {[key: string]: any};
 }
 
 export interface NodeGraph {
@@ -129,8 +121,8 @@ export class AmethystAudioNodeManager {
     
       // overwrite the id to the .ang file
       nodeInstance.properties.id = node.id;
-      // @ts-ignore Set the parameters 
-      node.paramaters && Object.entries(node.paramaters).forEach(([key, value]) => nodeInstance[key] = value);
+      // apply parameters from json to the node
+      node.paramaters && Object.keys(node.paramaters).length !== 0 && nodeInstance.applyParameters(node.paramaters);
       // edge line connections
       nodeInstance.connections = node.connections;
       // connect webaudio nodes from edge line connections
@@ -151,6 +143,7 @@ export class AmethystAudioNodeManager {
         id: node.properties.id,
         position: node.properties.position,
         connections: node.connections,
+        paramaters: node.getParameters(),
       }))
     };
 

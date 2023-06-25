@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { computeWidthPercentage, fisherYatesShuffle, flattenArray, infinityClamp, interpolateArray, percentToLog, scaleLog } from "./math";
+import { computeWidthPercentage, fisherYatesShuffle, flattenArray, infinityClamp, interpolateArray, percentToLogValue, scaleLog } from "./math";
 
 describe.concurrent("scaleLog()", () => {
   const start = new Uint8Array([
@@ -127,12 +127,12 @@ describe("computeWidthPercentage", () => {
   });
 });
 
-describe("percentToLog", () => {
+describe("percentToLogValue", () => {
   it("returns the correct value for 0%", () => {
     const percentage = 0;
     const min = 10;
     const max = 20;
-    const result = percentToLog(percentage, min, max);
+    const result = percentToLogValue(percentage, min, max);
     expect(result).toBeCloseTo(min);
   });
 
@@ -140,7 +140,7 @@ describe("percentToLog", () => {
     const percentage = 100;
     const min = 10;
     const max = 20;
-    const result = percentToLog(percentage, min, max);
+    const result = percentToLogValue(percentage, min, max);
     expect(result).toBeCloseTo(max);
   });
 });

@@ -74,7 +74,7 @@ export const interpolateArray = <T>(data: T[], fitCount: number): T[] => {
   return newData;
 };
 
-export const percentToLog = (percentage: number, min: number, max: number) => {
+export const percentToLogValue = (percentage: number, min: number, max: number) => {
   const minp = 0;
   const maxp = 100;
 
@@ -85,6 +85,19 @@ export const percentToLog = (percentage: number, min: number, max: number) => {
   const scale = (maxv - minv) / (maxp - minp);
 
   return Math.exp(minv + scale * (percentage - minp));
+};
+
+export const logValueToPercentage = (value: number, min: number, max: number): number => {
+  const minp = 0;
+  const maxp = 100;
+
+  const minv = Math.log(min);
+  const maxv = Math.log(max);
+
+  // calculate adjustment factor
+  const scale = (maxp - minp) / (maxv - minv);
+
+  return ((Math.log(value) - minv) * scale + minp);
 };
 
 export const infinityClamp = (num: number, min: number) => Number.isFinite(num) ? num : min;

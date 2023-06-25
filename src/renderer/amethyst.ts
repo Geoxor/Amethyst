@@ -7,7 +7,7 @@ import { StatusBar } from "@capacitor/status-bar";
 import {NavigationBar} from "@hugotomazi/capacitor-navigation-bar";
 import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
 import { IMetadata } from "@shared/types";
-import { FileFilter, OpenDialogReturnValue } from "electron";
+import { FileFilter, OpenDialogReturnValue, SaveDialogReturnValue } from "electron";
 import { watch } from "vue";
 import { flattenArray } from "./logic/math";
 import { Track } from "./logic/track";
@@ -137,7 +137,7 @@ class AmethystBackend {
     }
   }
   
-  public openFolderDialog(filter?: string[]) {
+  public openFolderDialog(filter?: Electron.FileFilter[]) {
     switch (this.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-folder-dialog", [filter]);
@@ -145,6 +145,24 @@ class AmethystBackend {
         return;
     }
   }
+
+  public showSaveFileDialog(filter?: Electron.FileFilter[]) {
+    switch (this.getCurrentPlatform()) {
+      case "desktop":
+        return window.electron.ipcRenderer.invoke<SaveDialogReturnValue>("show-save-dialog", [filter]);
+      default:
+        return;
+    }
+  }
+
+  public async writeFile(data: string | Buffer, path: string) {
+    switch (this.getCurrentPlatform()) {
+      case "desktop":
+        return window.fs.writeFile(path, data);
+      default:
+        return;
+    }
+  };
 
   public openAudioFilesAndAddToQueue = () => {
     amethyst.openFileDialog([{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }])?.then(result => {
