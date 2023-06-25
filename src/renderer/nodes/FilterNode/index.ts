@@ -28,9 +28,11 @@ export class AmethystFilterNode extends AmethystAudioNode {
     this.filter = context.createBiquadFilter();
     pre.connect(this.filter);
     this.filter.connect(post);
-    this.filter.type = "lowpass";
-    this.filter.frequency.value = 233;
-    this.filter.Q.value = 1;
+
+      this.type = "lowpass";
+      this.frequency = 200;
+      this.frequencyPercent = logValueToPercentage(this.frequency, this.MIN_FREQUENCY, this.MAX_FREQUENCY);
+      this.Q = 1;
   }
 
   public get type (): BiquadFilterType {
@@ -66,8 +68,8 @@ export class AmethystFilterNode extends AmethystAudioNode {
   }
 
   public override reset(){
-    this.frequencyPercent = logValueToPercentage(200, this.MIN_FREQUENCY, this.MAX_FREQUENCY);
     this.frequency = 200;
+    this.frequencyPercent = logValueToPercentage(this.frequency, this.MIN_FREQUENCY, this.MAX_FREQUENCY);
     this.gain = 0;
     this.Q = 1;
     this.type = "lowpass";
@@ -83,8 +85,8 @@ export class AmethystFilterNode extends AmethystAudioNode {
   }
 
   public override applyParameters(parameters: Parameters): void {
-    this.frequencyPercent = logValueToPercentage(this.frequency, this.MIN_FREQUENCY, this.MAX_FREQUENCY);
     this.frequency = parameters.frequency;
+    this.frequencyPercent = logValueToPercentage(this.frequency, this.MIN_FREQUENCY, this.MAX_FREQUENCY);
     this.gain = parameters.gain;
     this.Q = parameters.Q;
     this.type = parameters.type;
