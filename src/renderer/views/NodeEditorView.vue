@@ -82,7 +82,7 @@ const getDashCoords = () => {
 
 const computeNodePosition = ({x, y}: Coords) => {
   const {x: dashX, y: dashY} = getDashCoords();
-  return { x: -dashX + x , y: -dashY + y };
+  return { x: -dashX + x / amethyst.store.settings.value.zoomLevel, y: -dashY + y / amethyst.store.settings.value.zoomLevel};
 };
 
 const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
@@ -109,6 +109,8 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
 
 const handleContextMenu = ({y, x}: MouseEvent) => {
   useContextMenu().open({x, y}, nodeMenu({x, y}));
+  console.log();
+  
 };
 
 const handleEdgeContextMenu = (e: EdgeMouseEvent) => {
@@ -251,7 +253,8 @@ onKeyStroke("Delete", () => {
       v-model="elements"
       class="bg-surface-1000 p-2"
       :snap-to-grid="state.settings.value.isSnappingToGrid"
-      :max-zoom="2.00"
+      :max-zoom="1.00"
+      :min-zoom="1.00"
       :connection-line-style="{ stroke: getThemeColorHex('--primary-700') }"
       :fit-view-on-init="true"
       :select-nodes-on-drag="false"
