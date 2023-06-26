@@ -100,7 +100,7 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
       <div class="flex justify-between">
         <div class="flex flex-col w-full py-1 font-bold gap-1 ">
           <h1
-            class="text-12px hover:underline cursor-pointer w-24 overflow-hidden overflow-ellipsis"
+            class="text-12px hover:underline cursor-pointer overflow-hidden overflow-ellipsis"
             @click=" amethyst.showItem(amethyst.player.getCurrentTrack()?.path!)"
           >
             {{ amethyst.player.getCurrentTrack()?.getTitleFormatted() }}
