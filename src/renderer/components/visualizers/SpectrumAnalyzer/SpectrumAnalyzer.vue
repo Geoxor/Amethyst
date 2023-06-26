@@ -50,7 +50,7 @@ onMounted(async () => {
   return vertices;
 };
 
-  const TOTAL_BARS = 1024;
+  const TOTAL_BARS = 1000;
 
   const loader = new THREE.FileLoader();
   const camera = new THREE.OrthographicCamera(0, width, -height * 1.25 , 0, 0, 10000 );
