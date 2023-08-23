@@ -82,7 +82,7 @@ const FILTER_TYPES = [
 
     <p class="font-aseprite font-thin">
       <strong class="text-primary-900 ">Frequency</strong>
-      {{ Math.ceil(node.frequency) }} Hz <span class="text-primary-900 text-opacity-50">{{ node.frequencyPercent }}
+      {{ Math.ceil(node.frequency) }} Hz <span class="text-primary-900 text-opacity-50">{{ Math.ceil(node.frequencyPercent) }}
         %</span>
     </p>
     <Slider

@@ -281,6 +281,12 @@ onUnmounted(() => {
 
 <style lang="postcss">
 @import url(themes/amethyst-dark.css);
+@import url(themes/emerald-dark.css);
+@import url(themes/onyx-dark.css);
+@import url(themes/rose-dark.css);
+@import url(themes/ruby-dark.css);
+@import url(themes/sapphire-dark.css);
+
 /* these are necessary styles for vue flow */
 @import '@vue-flow/core/dist/style.css';
 
