@@ -1,9 +1,11 @@
 # Budowanie z źródła
+
 Od osób, które stosują takie podejście oczekuje się, że będą wiedziały jak to się robi (klonowanie, budowanie itp.).
 
 To polecenie zbuduje Amethyst dla twojego systemu w folderze `./release/build`.
 
 ## Windows
+
 ```sh
 $ git clone --recurse-submodules https://github.com/geoxor/amethyst \
   && cd amethyst \
@@ -12,9 +14,9 @@ $ git clone --recurse-submodules https://github.com/geoxor/amethyst \
 ```
 
 ## Linux
+
 ⚠️ Jeśli korzystasz z linuxa, powyższa komenda będzie próbowała skompilować dla 
-`AppImage`, `deb`, `rpm` i `snap`, najprawdopodobniej nie powiedzie się, ponieważ będzie brakować
-zależności wymaganych do ich zbudowania.
+`AppImage`, `deb`, `rpm` i `snap`, najprawdopodobniej nie powiedzie się, ponieważ będzie brakować zależności wymaganych do ich zbudowania.
 
 **W takim wypadku trzeba zrobić coś w stylu:**
 
