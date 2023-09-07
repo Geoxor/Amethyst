@@ -52,10 +52,12 @@ import LowpassIcon from "./LowpassIcon.vue";
 import HighpassIcon from "./HighpassIcon.vue";
 import BellIcon from "./BellIcon.vue";
 import BandpassIcon from "./BandpassIcon.vue";
+import AmethystIcon from "./AmethystIcon.vue";
 
 export {
   DiscordIcon,
   HighShelfIcon,
+  AmethystIcon,
   ProcessIcon,
   LowShelfIcon,
   SineIcon,
