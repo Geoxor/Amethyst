@@ -9,7 +9,7 @@ Stellen Sie sicher dass Sie die Schritte in [Arbeitsumgebung einrichten](./setti
     const devConfig: CapacitorConfig = {
       ...commonConfig,
       server: {
-        url: "http://<ihre IP>:1337", // URL der Vite-Entwicklungsserver
+        url: "http://<ihre IP>:6969", // URL der Vite-Entwicklungsserver
         cleartext: true,
       },
     };

@@ -22,6 +22,8 @@ try {
 
 export const icon = () => path.join(RESOURCES_PATH, "icon.png");
 export const checkForUpdatesAndInstall = async () => {
+	const autoUpdatesEnabled = store.get("autoUpdatesEnabled", true);
+	if (!autoUpdatesEnabled) return;
 	if (IS_DEV) return await sleep(2000);
 	const { autoUpdater } = await import("electron-updater");
 	await autoUpdater.checkForUpdatesAndNotify();
@@ -122,7 +124,7 @@ export class MainWindow {
 
 	private resolveHTMLPath(htmlFileName: string) {
     if (process.env.NODE_ENV === "development") {
-        const url = new URL(`http://localhost:${1337}`);
+        const url = new URL(`http://localhost:${6969}`);
 				url.pathname = htmlFileName;
         return url.href;
     }
@@ -198,24 +200,26 @@ export class MainWindow {
 		});
 	}
 
-	private async loadFolder(inputPath: string, filter: string[]) {
+	private async loadFolder(inputPath: string, filter: Electron.FileFilter[]) {
 		return new Promise((resolve, reject) => {
 			fs.readdir(inputPath, (error, files) => {
-				if (error) {
-					reject(error);
-				}
-				else {
-					Promise.all(
-						files.map(async file => {
-							const filePath = path.join(inputPath, file);
-							const stats = await fs.promises.stat(filePath);
-							if (stats.isDirectory())
-								return this.loadFolder(filePath, filter);
-							else if (stats.isFile() && filter.includes(path.extname(filePath).slice(1).toLowerCase()))
+				error && reject(error);
+				
+				Promise.all(
+					files.map(async file => {
+						const filePath = path.join(inputPath, file);
+						const stats = await fs.promises.stat(filePath);
+						if (stats.isDirectory()) {
+							return this.loadFolder(filePath, filter);
+						}
+						else if (stats.isFile()) {
+							const extensions = filter[0].extensions;
+							if (extensions.includes(path.extname(filePath).slice(1).toLowerCase())) {
 								return filePath;
-						}),
-					).then(files => resolve(files.filter(file => !!file)));
-				}
+							}
+						}
+					}),
+				).then(files => resolve(files.filter(file => !!file)));
 			});
 		});
 	}
@@ -239,7 +243,7 @@ export class MainWindow {
 				});
 			},
 
-			"open-folder-dialog": async (_: Event, [filter]: [string[]]) => {
+			"open-folder-dialog": async (_: Event, [filter]: [Electron.FileFilter[]]) => {
 				const result = await dialog.showOpenDialog({
 					properties: ["openDirectory"],
 				});
@@ -283,17 +287,6 @@ export class MainWindow {
 				shell.showItemInFolder(path.normalize(fullPath));
 			},
 
-			"drop-file": async (_: Event, [paths]: string[][]) => {
-				paths.forEach(async path => {
-					const stat = await fs.promises.stat(path);
-					if (stat.isDirectory()) {
-						this.window.webContents.send("load-folder", await this.loadFolder(path, ALLOWED_AUDIO_EXTENSIONS));
-					}
-					else
-						this.playAudio(path);
-				});
-			},
-
 			"sync-window-state": () => {
 				return {
 					isMinimized: this.window.isMinimized(),
@@ -312,6 +305,11 @@ export class MainWindow {
 				console.log(`Set store 'frameRateLimit' to ${useVsync}`);
 				app.relaunch();
 				app.exit();
+			},
+
+			"set-autoupdates": (_: Event, [autoUpdatesEnabled]: string[]) => {
+				store.set("autoUpdatesEnabled", autoUpdatesEnabled);
+				console.log(`Set store 'autoUpdatesEnabled' to ${autoUpdatesEnabled}`);
 			},
 
 			"clear-rich-presence": () => {

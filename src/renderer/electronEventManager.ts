@@ -20,8 +20,6 @@ export class ElectronEventManager {
 
   public showSaveDialog = () => this.ipc.invoke<{canceled: boolean, filePath: string}>("show-save-dialog");
 
-  public dropFiles = (paths: string[]) => this.ipc.invoke("drop-file", [paths]);
-
   public checkForUpdates = () => this.ipc.invoke("check-for-updates");
 
   public testNotification = (name: string) => this.ipc.invoke("test-notification",[name]);

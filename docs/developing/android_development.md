@@ -9,7 +9,7 @@ Make sure you have completed the steps in [Setting up Work Environment](./settin
     const devConfig: CapacitorConfig = {
       ...commonConfig,
       server: {
-        url: "http://<your ip>:1337", // vite's dev server url
+        url: "http://<your ip>:6969", // vite's dev server url
         cleartext: true,
       },
     };

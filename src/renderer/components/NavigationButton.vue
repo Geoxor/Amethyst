@@ -14,7 +14,7 @@ const isActive = computed(() => route.name?.toString().startsWith(props.routeNam
       text ? 'px-4 py-2 gap-2.5 ' : 'p-3',
       mobile && 'rounded-full'
     ]"
-    class="items-center gap-2 text-11px flex relative "
+    class="items-center gap-2 text-11px flex relative disable-select no-drag"
     @click="$router.push({ name: routeName })"
   >
     <component

@@ -66,7 +66,7 @@ class AmethystBackend {
     throw new Error("Unknown operating system");
   }
 
-  public openLink(url: string) {
+  public async openLink(url: string) {
     switch (this.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke("open-external", [url]);
@@ -79,16 +79,16 @@ class AmethystBackend {
         };
         return openLinkInNewTab(url);
       default:
-        return;
+        return Promise.reject();
     }
   }
 
-  public showItem(path: string) {
+  public async showItem(path: string) {
     switch (this.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke("show-item", [path]); 
       default:
-        return;
+        return Promise.reject();
     }
   }
 
@@ -145,21 +145,21 @@ class AmethystBackend {
     }
   }
   
-  public openFolderDialog(filters?: Electron.FileFilter[]) {
+  public async openFolderDialog(filters?: Electron.FileFilter[]) {
     switch (this.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-folder-dialog", [filters]);
       default:
-        return;
+        return Promise.reject();
     }
   }
 
-  public showSaveFileDialog(options?: Electron.SaveDialogOptions) {
+  public async showSaveFileDialog(options?: Electron.SaveDialogOptions) {
     switch (this.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<SaveDialogReturnValue>("show-save-dialog", [options]);
       default:
-        return;
+        return Promise.reject();
     }
   }
 
@@ -168,20 +168,20 @@ class AmethystBackend {
       case "desktop":
         return window.fs.writeFile(path, data);
       default:
-        return;
+        return Promise.reject();
     }
   };
 
-  public openAudioFilesAndAddToQueue = () => {
-    amethyst.openFileDialog([{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }])?.then(result => {
+  public openAudioFilesAndAddToQueue = async () => {
+    amethyst.openFileDialog([{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }]).then(result => {
       !result.canceled && amethyst.player.queue.add(result.filePaths);
-    });
+    }).catch(error => console.error(error));
   };
   
-  public openAudioFoldersAndAddToQueue = () => {
-    amethyst.openFolderDialog([{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }])?.then(result => {
+  public openAudioFoldersAndAddToQueue = async () => {
+    amethyst.openFolderDialog([{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }]).then(result => {
       !result.canceled && amethyst.player.queue.add(flattenArray(result.filePaths));
-    });
+    }).catch(error => console.error(error));
   };
 
   // TODO: get rid of this stupid logic and make it be part of when loading a track
@@ -196,7 +196,7 @@ class AmethystBackend {
         const size = buffer.length;
         return {format, common, size } as IMetadata;
       default:
-        return;
+        return Promise.reject();
     }
   }
 
@@ -213,7 +213,7 @@ class AmethystBackend {
           }
           return;
       default:
-        return;
+        return Promise.reject();
     }
   }
 }
@@ -293,7 +293,15 @@ export class Amethyst extends AmethystBackend {
     document.addEventListener("drop", event => {
       event.preventDefault();
       event.stopPropagation();
-      amethyst.player.queue.add(Array.from(event.dataTransfer!.files).map(f => f.path));
+
+      amethyst.player.queue.add(Array.from(event.dataTransfer!.files).filter(f => {
+        const path = f.path;
+        const fileExt = path.split(".").pop();
+        if (ALLOWED_AUDIO_EXTENSIONS.includes((fileExt ?? "").toLowerCase())) {
+          return true;
+        }
+        return false;
+      }).map(f => f.path));
       amethyst.player.play(amethyst.player.queue.getList()[amethyst.player.queue.getList().length - 1]);
     });
 
