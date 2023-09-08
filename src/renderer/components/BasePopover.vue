@@ -7,7 +7,7 @@ import { computed, onMounted, ref } from "vue";
 const props = defineProps<{
 	open?: boolean
 	openOnHover?: boolean
-	arrow?: boolean
+	showArrow?: boolean
 	placement?: Placement
 }>();
 
@@ -17,7 +17,7 @@ const target = computed(() => popover.value.previousElementSibling!);
 
 const middleware = computed(() => {
 	const enabled = [offset(8), shift()];
-	if (props.arrow) enabled.push(arrow({ element: arrowElement.value }));
+	if (props.showArrow) enabled.push(arrow({ element: arrowElement.value }));
 	return enabled;
 });
 
@@ -32,7 +32,7 @@ async function updatePosition() {
 		top: `${y}px`,
 	});
 
-	if (props.arrow) {
+	if (props.showArrow) {
 		const staticSide = {
 			top: "bottom",
 			right: "left",
@@ -68,7 +68,7 @@ onMounted(async() => {
     v-bind="$attrs"
   >
     <div
-      v-if="props.arrow"
+      v-if="props.showArrow"
       ref="arrowElement"
       class="arrow"
     />
