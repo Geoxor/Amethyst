@@ -8,6 +8,13 @@ import { PaintBrushIcon, CircusRingOfFireIcon, PuzzleIcon, SineIcon, AmethystIco
   <div class="h-full flex w-full">
     <navigation-bar class="w-56">
       <navigation-button
+        :icon="AmethystIcon"
+        text="Application"
+        description="automatic updates, language, etc"
+        route-name="settings.application"
+      />
+
+      <navigation-button
         :icon="PaintBrushIcon"
         text="Appearance"
         description="background, themes, visability"
@@ -31,13 +38,6 @@ import { PaintBrushIcon, CircusRingOfFireIcon, PuzzleIcon, SineIcon, AmethystIco
         text="Integrations"
         description="discord, app integrations, etc"
         route-name="settings.integration"
-      />
-
-      <navigation-button
-        :icon="AmethystIcon"
-        text="Application"
-        description="automatic updates, language, etc"
-        route-name="settings.application"
       />
     </navigation-bar>
     <div class="p-4 text-11px w-full h-full flex flex-col gap-2 overflow-y-auto">
