@@ -97,7 +97,7 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
         </div>
       </div>
 
-      <div class="flex justify-between">
+      <div class="flex justify-between disable-select no-drag">
         <div class="flex flex-col w-full py-1 font-bold gap-1 ">
           <h1
             class="text-12px hover:underline cursor-pointer w-24 overflow-hidden overflow-ellipsis"
@@ -123,7 +123,7 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
           />
         </div>
       </div>
-      <div class="flex flex py-1 gap-2 items-start justify-between">
+      <div class="flex flex py-1 gap-2 items-start justify-between disable-select no-drag">
         <slider
           id="seek"
           key="seek"

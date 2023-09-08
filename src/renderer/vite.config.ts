@@ -34,7 +34,7 @@ const viteConfig = defineViteConfig({
 			strict: true,
 		},
 		host: true,
-		port: 1337,
+		port: 6969,
 	},
 	build: {
 		sourcemap: true,
