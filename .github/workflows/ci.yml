@@ -175,7 +175,7 @@ jobs:
             release/build/*.deb
             release/build/*.pacman
             release/build/*.snap
-
+ 
   publish-releases:
     if: startsWith(github.ref, 'refs/tags/v')
     needs: [build-windows, build-macos,  build-linux]
