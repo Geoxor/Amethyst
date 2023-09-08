@@ -78,38 +78,38 @@ jobs:
             release/build/*.yaml
             release/build/*.exe*
 
-  build-android:
-    name: Build Android
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: recursive
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 19.1.0
-          cache: 'yarn'
+  # build-android:
+  #   name: Build Android
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: write
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         submodules: recursive
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 19.1.0
+  #         cache: 'yarn'
 
-      - name: Install Dependencies
-        run: yarn install
+  #     - name: Install Dependencies
+  #       run: yarn install
 
-      - name: Make gradlew executable
-        run: chmod +x ./src/android/gradlew
+  #     - name: Make gradlew executable
+  #       run: chmod +x ./src/android/gradlew
         
-      - name: Build Amethyst
-        run: yarn build:renderer && yarn cap sync && yarn cap build android --keystorepath key.jks --androidreleasetype APK --keystorepass ${{ secrets.ANDROID_KEYSTORE_PASS }} --keystorealias key0 --keystorealiaspass ${{ secrets.ANDROID_KEYSTORE_ALIAS_PASS }}
+  #     - name: Build Amethyst
+  #       run: yarn build:renderer && yarn cap sync && yarn cap build android --keystorepath key.jks --androidreleasetype APK --keystorepass ${{ secrets.ANDROID_KEYSTORE_PASS }} --keystorealias key0 --keystorealiaspass ${{ secrets.ANDROID_KEYSTORE_ALIAS_PASS }}
 
-      - name: Move build files
-        run: yarn move-file ./src/android/app/build/outputs/apk/release/app-release-signed.apk ./release/build/android/amethyst-v$(node -p "require('./package.json').version").apk
+  #     - name: Move build files
+  #       run: yarn move-file ./src/android/app/build/outputs/apk/release/app-release-signed.apk ./release/build/android/amethyst-v$(node -p "require('./package.json').version").apk
 
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          path: |
-            release/build/android/*.apk
-            release/build/android/*.json
+  #     - name: Upload Artifacts
+  #       uses: actions/upload-artifact@v3
+  #       with:
+  #         path: |
+  #           release/build/android/*.apk
+  #           release/build/android/*.json
 
   build-macos:
     name: Build MacOS
@@ -178,7 +178,7 @@ jobs:
 
   publish-releases:
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [build-windows, build-macos,  build-android]
+    needs: [build-windows, build-macos,  build-linux]
     name: Publish Releases
     runs-on: ubuntu-latest
     permissions:

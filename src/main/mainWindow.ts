@@ -27,6 +27,7 @@ export const checkForUpdatesAndInstall = async () => {
 	if (IS_DEV) return await sleep(2000);
 	const { autoUpdater } = await import("electron-updater");
 	await autoUpdater.checkForUpdatesAndNotify();
+	return;
 };
 
 const LOGO = `
@@ -218,6 +219,7 @@ export class MainWindow {
 								return filePath;
 							}
 						}
+						return;
 					}),
 				).then(files => resolve(files.filter(file => !!file)));
 			});
