@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { onMounted, ref } from "vue";
+import { Ref, onMounted, ref } from "vue";
 // @ts-ignore no types
 import { LoudnessMeter } from "@domchristie/needles";
 import { infinityClamp, computeWidthPercentage } from "@/logic/math";
 import { amethyst } from "@/amethyst";
+import { smoothTween } from "@/logic/dom";
 
 const props = defineProps<{ node: AudioNode }>();
 
@@ -27,8 +28,8 @@ onMounted(() => {
 
   const handleData = (event: { data: { mode: any; value: any; }}) => {
     let {mode, value} = event.data;
-    let refToUpdate;
-    let maxRef;
+    let refToUpdate: Ref<number>;
+    let maxRef: Ref<number>;
 
     switch (mode) {
       case "momentary":
@@ -48,8 +49,8 @@ onMounted(() => {
     }
 
     value = infinityClamp(value, MINIMUM_LUFS);
-    refToUpdate.value = value;
-    maxRef.value < value && (maxRef.value = value);
+    smoothTween(refToUpdate.value, value, 100, (tweenedNumber => refToUpdate.value = tweenedNumber));
+    maxRef.value < value && smoothTween (maxRef.value, value, 25, (tweenedNumber => maxRef.value = tweenedNumber));
   };
 
   loudnessMeter.on("dataavailable", handleData);
@@ -59,6 +60,9 @@ onMounted(() => {
   amethyst.player.on("play", () => {
     loudnessMeter.reset();
     loudnessMeter.resume();
+    momentaryMax.value = MINIMUM_LUFS;
+    shortTermMax.value = MINIMUM_LUFS;
+    integratedMax.value = MINIMUM_LUFS;
   });
   amethyst.player.on("pause", () => loudnessMeter.pause());
 });
@@ -79,9 +83,12 @@ onMounted(() => {
         <p class="type">
           Momentary
         </p>
-        <p class="value">
-          <span class="text-primary-900 text-opacity-50">max {{ momentaryMax.toFixed(2) }} </span> {{ momentary.toFixed(2) }} LUFs
-        </p>
+        <div class="value">
+          <p class="text-primary-900 text-opacity-50">
+            max {{ momentaryMax.toFixed(2) }}
+          </p> 
+          <p> {{ momentary.toFixed(2) }} LUFs </p>
+        </div>
       </div>
     </div>
     <div class="meter">
@@ -95,9 +102,12 @@ onMounted(() => {
         <p class="type">
           Short-term
         </p>
-        <p class="value">
-          <span class="text-primary-900 text-opacity-50">max {{ shortTermMax.toFixed(2) }} </span> {{ shortTerm.toFixed(2) }} LUFs
-        </p>
+        <div class="value">
+          <p class="text-primary-900 text-opacity-50">
+            max {{ shortTermMax.toFixed(2) }}
+          </p> 
+          <p> {{ shortTerm.toFixed(2) }} LUFs </p>
+        </div>
       </div>
     </div>
     <div class="meter">
@@ -111,9 +121,12 @@ onMounted(() => {
         <p class="type">
           Integrated
         </p>
-        <p class="value">
-          <span class="text-primary-900 text-opacity-50">max {{ integratedMax.toFixed(2) }} </span> {{ integrated.toFixed(2) }} LUFs
-        </p>
+        <div class="value">
+          <p class="text-primary-900 text-opacity-50">
+            max {{ integratedMax.toFixed(2) }}
+          </p> 
+          <p> {{ integrated.toFixed(2) }} LUFs </p>
+        </div>
       </div>
     </div>
   </div>
@@ -128,6 +141,14 @@ onMounted(() => {
 }
 .bar {
   @apply h-1 rounded-2px ;
+}
+
+.value {
+  @apply flex;
+  p {
+    @apply w-13;
+    text-align: end;
+  }
 }
 
 </style>

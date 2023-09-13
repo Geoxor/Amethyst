@@ -22,3 +22,26 @@ export const saveArrayBufferToFile = (arrayBuffer: ArrayBuffer, options: { filen
   document.body.removeChild(link); // remove the link from the DOM
   URL.revokeObjectURL(url); // release the URL object
 };
+
+/**
+ * Animates smoothly from a start number to the desired number within a given timeframe Δ and calls back with the tweened number at that time
+ */
+export const smoothTween = ( startValue: number, endValue: number, delta: number, callback: (tweenedNumber: number) => void) => {
+  let startTime: number | undefined;
+
+  function update(currentTime: number) {
+    if (startTime === undefined) startTime = currentTime;
+    const elapsedTime = currentTime - startTime;
+
+    if (elapsedTime >= delta) {
+      callback(endValue);
+    } else {
+      const progress = elapsedTime / delta;
+      const easedValue = startValue + (endValue - startValue) * progress;
+      callback(easedValue);
+      requestAnimationFrame(update);
+    }
+  }
+
+  requestAnimationFrame(update);
+};
