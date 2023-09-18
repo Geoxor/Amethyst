@@ -1,5 +1,5 @@
 # Разработка для Android
-Убедитесь что вы выполнили все шаги в [Настройке рабочей среды](./setting_up_environment.md) прежде чем продолжать.
+Убедитесь, что вы выполнили действия, описанные в разделе [Настройка рабочей среды](./setting_up_environment.md) прежде чем продолжать.
 
 ## Подготовка
 1. Необходимо [настроить эмулируемое или физическое устройство](https://developer.android.com/studio/run/device) в вашем [Android Studio](https://developer.android.com/studio).
