@@ -1,5 +1,5 @@
 # Android development
-Make sure you have completed the steps in [Setting up Work Environment](./setting_up_environment.html) before preceding
+Make sure you have completed the steps in [Setting up Work Environment](./setting_up_environment.md) before preceding
 
 ## Preperation
 1. You need to [setup an emulated or physical device](https://developer.android.com/studio/run/device) on your [Android Studio](https://developer.android.com/studio).
