@@ -1,5 +1,5 @@
 # Developing Amethyst Desktop
-Make sure you have completed the steps in [Setting up Work Environment](./setting_up_environment.html) before preceding
+Make sure you have completed the steps in [Setting up Work Environment](./setting_up_environment.md) before preceding
 
 ## Starting dev server
 Amethyst uses [Electron](https://www.electronjs.org/) for the desktop client, to begin developing do the following
