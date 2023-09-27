@@ -307,7 +307,7 @@
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-vue": "^9.11.0",
-    "happy-dom": "^9.10.0",
+    "happy-dom": "^12.2.0",
     "ip": "^1.1.8",
     "move-file-cli": "^3.0.0",
     "postcss": "^8.4.23",
