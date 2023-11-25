@@ -213,6 +213,57 @@ export default defineConfig({
         ],
       }
     },
+    'fi': {
+      label: "Suomi",
+      lang: 'fi',
+      title: "Amethyst | Amethyst",
+      description: "Tehokas node-pohjainen äänisoitin, joka on toteutettu Web Platformia käyttäen.",
+      themeConfig: {
+        footer: {
+          message: "Tehty suuri määrä aivosoluja menettäen 🧠"
+        },
+        nav: [
+          { text: "Dokumentaatio", link: "/introduction" },
+          { text: "Lataa", link: "/installation/package_managers" },
+        ],
+        sidebar: [
+          {
+            text: 'Asennus',
+            items: [
+              { text: 'Paketinhallintatyökalut', link: '/installation/package_managers' },
+            ]
+          },
+          {
+            text: 'Kehitys',
+            items: [
+              { text: 'Kehitysympäristön käyttöönotto', link: '/developing/setting_up_environment' },
+              { text: 'Työpöytäsovellus', link: '/developing/desktop_development' },
+              { text: 'Android-sovellus', link: '/developing/android_development' },
+              { text: 'Dokumentaatiosivut', link: '/developing/documentation_development' },
+            ]
+          },
+          {
+            text: 'Tiedostotyypit',
+          },
+          {
+            text: 'Komponentit',
+            items: [
+              { text: 'Vektoriskooppi', link: '/components/vectorscope' },
+            ]
+          },
+          {
+            text: 'Ääninodet',
+            collapsible: true,
+            items: [
+              { text: "<img align='left' src='/input_icon.svg' style='margin-right: 6px;' width='20'/> Tulosolmu", link: "/nodes/input_node" },
+              { text: "<img align='left' src='/master_icon.svg' style='margin-right: 6px;' width='20'/> Master-solmu", link: "/nodes/master_node" },
+              { text: "<img align='left' src='/output_icon.svg' style='margin-right: 6px;' width='20'/> Lähtösolmu", link: "/nodes/output_node" },
+              { text: "<img align='left' src='/filter_icon.svg' style='margin-right: 6px;' width='20'/> Suodatinsolmu", link: "/nodes/filter_node" },
+            ]
+          }
+        ]
+      }
+    },
   },
   themeConfig: {
     footer: {
