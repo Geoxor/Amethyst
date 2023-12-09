@@ -1,5 +1,5 @@
 # Documentation Development
-Make sure you have completed the steps in [Setting up Work Environment](./setting_up_environment.html) before preceeding
+Make sure you have completed the steps in [Setting up Work Environment](./setting_up_environment.md) before preceeding
 
 ## Starting dev server
 ```sh
