@@ -14,6 +14,7 @@ import { Track } from "./logic/track";
 import { Directory } from "@capacitor/filesystem";
 import * as mm from "music-metadata-browser";
 import { router } from "./router";
+import "./logic/subsonic";
 
 export type AmethystPlatforms = ReturnType<typeof amethyst.getCurrentPlatform>;
 

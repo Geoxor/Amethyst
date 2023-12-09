@@ -53,9 +53,11 @@ import HighpassIcon from "./HighpassIcon.vue";
 import BellIcon from "./BellIcon.vue";
 import BandpassIcon from "./BandpassIcon.vue";
 import AmethystIcon from "./AmethystIcon.vue";
+import IndividualServerIcon from "./IndividualServerIcon.vue";
 
 export {
   DiscordIcon,
+  IndividualServerIcon,
   HighShelfIcon,
   AmethystIcon,
   ProcessIcon,

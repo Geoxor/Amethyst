@@ -14,7 +14,7 @@ import { onMounted, onUnmounted, ref } from "vue";
 import { Track } from "@/logic/track";
 import { CloseIcon } from "./icons/fluency";
 import NavigationButton from "@/components/NavigationButton.vue";
-import { ListIcon, SettingsIcon, SelectNoneIcon, PlaystationButtonsIcon } from "@/icons/material";
+import { ListIcon, SettingsIcon, SelectNoneIcon, PlaystationButtonsIcon, IndividualServerIcon } from "@/icons/material";
 import LoudnessMeter from "./components/visualizers/LoudnessMeter.vue";
 
 const state = useState();
@@ -133,7 +133,11 @@ onUnmounted(() => {
             :icon="ListIcon"
             route-name="queue"
           />
-
+          
+          <navigation-button
+            :icon="IndividualServerIcon"
+            route-name="media"
+          />
           <!-- <navigation-button
       :icon="BookshelfIcon"
       @click="$router.push({name: 'library'})"

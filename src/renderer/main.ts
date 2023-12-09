@@ -7,9 +7,6 @@ import "virtual:windi.css";
 import {RecycleScroller} from "vue-virtual-scroller";
 import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 
-import { Buffer } from "buffer";
-window.Buffer = window.Buffer || Buffer;
-
 import { createApp } from "vue";
 import { router } from "@/router";
 
