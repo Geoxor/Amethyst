@@ -6,7 +6,7 @@ defineProps<{title?: string, subtitle?: string; alignment?: "left" | "center" | 
 
 <template>
   <div
-    class="flex flex-col gap-1"
+    class="flex flex-col gap-5px text-left py-1"
     :class="[
       alignment == 'left' && 'text-left',
       alignment == 'center' && 'text-center',

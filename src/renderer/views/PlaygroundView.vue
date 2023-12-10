@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import TitleSubtitle from "@/components/v2/TitleSubtitle.vue";
+import SettingsNavigation from "@/components/v2/SettingsNavigation.vue";
+
 </script>
 
 <template>
@@ -7,6 +8,6 @@ import TitleSubtitle from "@/components/v2/TitleSubtitle.vue";
     <header class="italic opacity-50 text-primary-1000">
       This is the playground area, use this view to test out and develop components
     </header>
-    <title-subtitle :title="'test'" />
+    <SettingsNavigation />
   </div>
 </template>
