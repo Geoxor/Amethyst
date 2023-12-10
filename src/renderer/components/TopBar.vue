@@ -57,7 +57,7 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
       :class="[amethyst.getCurrentOperatingSystem() == 'mac' && 'pl-16']"
     >
       <div
-        class="logo w-52px h-full items-center flex justify-center cursor-heart-pointer hover:bg-primary hover:bg-opacity-10 hover:text-primary"
+        class="logo w-52px h-full items-center flex justify-center cursor-heart-pointer rounded-br-8px hover:bg-primary hover:bg-opacity-10 hover:text-primary"
       >
         <AmethystIcon class="w-5 h-5" />
       </div>
@@ -191,7 +191,10 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
         class="opacity-50 font-normal capitalize"
         :text="amethyst.getCurrentPlatform()"
       />
-      <BaseChip v-if="amethyst.IS_DEV">
+      <BaseChip
+        v-if="amethyst.IS_DEV"
+        :color="state.state.isFocused ? undefined : 'bg-gray-500'"
+      >
         dev
       </BaseChip>
       <title-text

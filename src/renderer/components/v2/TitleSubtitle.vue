@@ -16,11 +16,9 @@ defineProps<{title?: string, subtitle?: string; alignment?: "left" | "center" | 
   >
     <title-text
       :text="title ?? 'Title'"
-      class="text-text_title"
     />
     <subtitle-text
       :text="subtitle || 'Subtitle'"
-      class="text-text_subtitle"
     />
   </div>
 </template>

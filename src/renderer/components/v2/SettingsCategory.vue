@@ -1,12 +1,18 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import TitleSubtitle from "./TitleSubtitle.vue";
-defineProps<{isActive?: boolean, title: string, subtitle?: string, icon: any}>();
+import { useRoute } from "vue-router";
+const route = useRoute();
+const props = defineProps<{title: string, subtitle?: string, icon: any, routeName: string}>();
+const isActive = computed(() => route.name?.toString().startsWith(props.routeName) || props.routeName === route.name);
+
 </script>
 
 <template>
   <button
     :class="isActive && 'active'"
     class="flex w-full gap-4 cursor-pointer bg-transparent duration-100 text-text_title items-center py-2 px-4 rounded-8px"
+    @click="$router.push({ name: routeName })"
   >
     <component
       :is="icon"
@@ -19,21 +25,25 @@ defineProps<{isActive?: boolean, title: string, subtitle?: string, icon: any}>()
   </button>
 </template>
 
-<style lang="postcss">
+<style scoped lang="postcss">
 
 button:hover:not(.active) {
   @apply bg-primary bg-opacity-10 text-primary;
-  & h1, p {
+
+  &::v-deep(h1) {
     @apply text-primary;
   }
-  & p {
+  &::v-deep(p) {
+    @apply text-primary;
     @apply text-opacity-75;
   }
 }
 
 button.active {
   @apply bg-primary text-[#101119];
-  & p, h1 {
+
+  &::v-deep(h1), 
+  &::v-deep(p) {
     @apply text-[#101119];
   }
 }
