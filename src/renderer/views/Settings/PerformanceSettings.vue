@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { amethyst, useState } from "@/amethyst";
-import {AmethystIcon} from "@/icons";
-import BaseSwitch from "@/components/input/BaseSwitch.vue";
-import SettingsGroup from "@/components/settings/SettingsGroup.vue";
+import { MonitorIcon} from "@/icons";
+import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
+import SettingsSetting from "@/components/v2/SettingsSetting.vue";
 
 const state = useState();
 const handleToggleVsync = () => {
@@ -11,19 +11,17 @@ const handleToggleVsync = () => {
 </script>
 
 <template>
-  <settings-group
+  <settings-setting
     v-if="amethyst.getCurrentPlatform() === 'desktop'"
-    :icon="AmethystIcon"
+    :icon="MonitorIcon"
     description="Constrain the user interface (UI) framerate of Amethyst to the refresh rate of the active display."
-    text="VSync"
+    title="VSync"
     warning="Restart Required"
     :platforms="['desktop']"
   >
-    <template #main>
-      <base-switch
-        v-model="state.settings.value.useVsync" 
-        @change="handleToggleVsync"
-      />
-    </template>
-  </settings-group>
+    <toggle-switch
+      v-model="state.settings.value.useVsync" 
+      @change="handleToggleVsync"
+    />
+  </settings-setting>
 </template>

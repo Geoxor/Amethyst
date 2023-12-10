@@ -21,5 +21,7 @@ const value = useModelValue(props, "modelValue", emits);
 </template>
 
 <style scoped lang="postcss">
-
+button:hover:not(.bg-primary) {
+  @apply bg-accent hover:bg-opacity-25;
+}
 </style>
