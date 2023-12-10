@@ -284,7 +284,7 @@ onKeyStroke("Delete", () => {
     <VueFlow
       ref="dash"
       v-model="elements"
-      class="bg-surface-1000 p-2"
+      class="p-2"
       :snap-to-grid="state.settings.value.isSnappingToGrid"
       :max-zoom="1.00"
       :min-zoom="1.00"

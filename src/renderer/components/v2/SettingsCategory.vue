@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import TitleSubtitle from "./TitleSubtitle.vue";
-defineProps<{active?: boolean, title: string, subtitle?: string, icon: any}>();
+defineProps<{isActive?: boolean, title: string, subtitle?: string, icon: any}>();
 </script>
 
 <template>
   <button
-    :class="active && 'active'"
+    :class="isActive && 'active'"
     class="flex w-full gap-4 cursor-pointer bg-transparent duration-100 text-text_title items-center py-2 px-4 rounded-8px"
   >
     <component

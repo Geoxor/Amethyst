@@ -11,6 +11,7 @@ import { useFps } from "@vueuse/core";
 import { computed, onMounted, ref } from "vue";
 import { countDomElements, refreshWindow } from "@/logic/dom";
 import BaseChip from "./BaseChip.vue";
+import TitleText from "./v2/TitleText.vue";
 
 const min = ref(Number.POSITIVE_INFINITY);
 const max = ref(Number.NEGATIVE_INFINITY);
@@ -47,8 +48,8 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
 
 <template>
   <div
-    class="borderBottom z-100 font-main drag text-12px select-none flex justify-between items-center"
-    :class="[state.state.isFocused ? 'text-primary-1000' : 'text-primary-900']"
+    class=" z-100 font-main drag h-40px pr-2 text-12px select-none flex justify-between items-center"
+    :class="[state.state.isFocused ? 'text-text_title' : 'text-text_subtitle']"
   >
     <div
       class="flex no-drag h-full items-center"
@@ -56,8 +57,10 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
       :class="[amethyst.getCurrentOperatingSystem() == 'mac' && 'pl-16']"
     >
       <div
-        class="logo w-40px items-center flex justify-center cursor-heart-pointer"
-      />
+        class="logo w-52px h-full items-center flex justify-center cursor-heart-pointer hover:bg-primary hover:bg-opacity-10 hover:text-primary"
+      >
+        <AmethystIcon class="w-5 h-5" />
+      </div>
       <Menu title="File">
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'O']"
@@ -145,7 +148,6 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
           @click="amethyst.openDevTools()"
         />
       </Menu>
-
       <Menu title="About">
         <menu-option
           title="Documentation..."
@@ -183,12 +185,19 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
         v-if="state.state.isCheckingForUpdates"
         class="h-3 animate-spin w-3 min-h-3 min-w-3"
       />
-      Amethyst 
-      <strong class="opacity-50 font-normal capitalize">{{ amethyst.getCurrentPlatform() }}</strong>
+
+      <title-text text="Amethyst" />
+      <title-text
+        class="opacity-50 font-normal capitalize"
+        :text="amethyst.getCurrentPlatform()"
+      />
       <BaseChip v-if="amethyst.IS_DEV">
         dev
       </BaseChip>
-      <strong class="opacity-50 font-normal">v{{ amethyst.VERSION }}</strong>
+      <title-text
+        class="opacity-50 font-normal capitalize"
+        :text="amethyst.VERSION"
+      />
     </p>
 
     <div class="flex gap-1.25 h-6 items-center overflow-hidden font-aseprite whitespace-nowrap">

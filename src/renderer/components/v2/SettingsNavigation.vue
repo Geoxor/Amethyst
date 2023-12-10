@@ -8,7 +8,7 @@ import { AddIcon, AmethystIcon, KeyboardIcon, SSDIcon, SpeakerIcon, SpeedometerI
     <settings-category
       title="Appearance"
       :active="false"
-      subtitle="background, themes, accessability"
+      subtitle="background, themes, accessibility"
       :icon="SwatchesIcon"
     />
     <settings-category

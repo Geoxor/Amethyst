@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import BaseKeyboardButton from "../input/BaseKeyboardButton.vue";
+import TitleText from "../v2/TitleText.vue";
 
 defineProps<{
   title: string
@@ -15,19 +16,21 @@ defineProps<{
       title.includes('...') && 'cursor-pointer',
       red ? 'hover:bg-rose-600 hover:text-black hover:font-bold' : 'hover:bg-surface-600 hover:text-primary-800'
     ]"
-    class="text-left text-11px py-1.5 px-6 w-full flex justify-between items-center"
+    class="text-left rounded-4px text-11px py-2 px-4 w-full flex justify-between items-center"
   >
-    <div class="flex gap-2 items-center">
+    <div class="flex gap-4 items-center">
       <component
         :is="icon"
         v-if="icon"
-        class="h-3 w-3"
+        class="h-4 w-4"
       />
       <div
         v-else
-        class="h-3 w-3"
+        class="h-4 w-4"
       />
-      <p>{{ title }}</p>
+      <title-text
+        :text="title"
+      />
     </div>
     <div class="flex gap-1">
       <base-keyboard-button

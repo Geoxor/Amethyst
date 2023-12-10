@@ -12,7 +12,7 @@ import {SpectrumAnalyzer} from "@/components/visualizers/SpectrumAnalyzer";
 import { onMounted, onUnmounted, ref } from "vue";
 import { Track } from "@/logic/track";
 import NavigationButton from "@/components/NavigationButton.vue";
-import { AmethystIcon } from "@/icons";
+import { AdjustIcon, AmethystIcon, CompassIcon, HeartIcon, ListIcon, PlaylistIcon, SettingsIcon } from "@/icons";
 import LoudnessMeter from "./components/visualizers/LoudnessMeter.vue";
 
 const state = useState();
@@ -123,35 +123,39 @@ onUnmounted(() => {
       <div class="flex-1 flex h-full max-h-full relative overflow-hidden">
         <navigation-bar v-if="amethyst.getCurrentPlatform() !== 'mobile'">
           <navigation-button
-            :icon="AmethystIcon"
+            :icon="ListIcon"
+            route-name="queue"
+          />
+
+          <navigation-button
+            :icon="CompassIcon"
+            route-name="discover"
+          />
+          
+          <navigation-button
+            :icon="PlaylistIcon"
+            route-name="playlists"
+          />
+
+          <navigation-button
+            :icon="HeartIcon"
+            route-name="favorites"
+          />
+
+          <navigation-button
+            :icon="AdjustIcon"
             route-name="node-editor"
           />
 
           <navigation-button
-            :icon="AmethystIcon"
-            route-name="queue"
+            :icon="SettingsIcon"
+            route-name="settings"
           />
-          
-          <navigation-button
-            :icon="AmethystIcon"
-            route-name="media"
-          />
-          <!-- <navigation-button
-      :icon="AmethystIcon"
-      @click="$router.push({name: 'library'})"
-    /> -->
 
           <navigation-button
             v-if="amethyst.IS_DEV"
             :icon="AmethystIcon"
             route-name="playground"
-          />
-
-          <div class="flex-1" />
-
-          <navigation-button
-            :icon="AmethystIcon"
-            route-name="settings"
           />
         </navigation-bar>
 

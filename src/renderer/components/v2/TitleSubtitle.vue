@@ -1,3 +1,4 @@
+
 <script setup lang="ts">
 import TitleText from "./TitleText.vue";
 import SubtitleText from "./SubtitleText.vue";
@@ -13,7 +14,13 @@ defineProps<{title?: string, subtitle?: string; alignment?: "left" | "center" | 
       alignment == 'right' && 'text-right',
     ]"
   >
-    <title-text :text="title ?? 'Title'" />
-    <subtitle-text :text="subtitle || 'Subtitle'" />
+    <title-text
+      :text="title ?? 'Title'"
+      class="text-text_title"
+    />
+    <subtitle-text
+      :text="subtitle || 'Subtitle'"
+      class="text-text_subtitle"
+    />
   </div>
 </template>
