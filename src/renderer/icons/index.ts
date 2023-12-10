@@ -42,9 +42,11 @@ import UnderlineIcon from "./UnderlineIcon.vue";
 import UpdateIcon from "./UpdateIcon.vue";
 import VoltmeterIcon from "./VoltmeterIcon.vue";
 import WaveIcon from "./WaveIcon.vue";
+import DiscordIcon from "./DiscordIcon.vue";
 
 export {
   AddIcon,
+  DiscordIcon,
   AdjustIcon,
   AmethystIcon,
   AxisIcon,

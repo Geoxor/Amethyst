@@ -1,21 +1,20 @@
 <script setup lang="ts">
 import { amethyst, useState } from "@/amethyst";
-import SettingsGroup from "@/components/settings/SettingsGroup.vue";
-import { AmethystIcon } from "@/icons";
-import BaseSwitch from "@/components/input/BaseSwitch.vue";
+import SettingsSetting from "@/components/v2/SettingsSetting.vue";
+import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
+import { DiscordIcon } from "@/icons";
 const state = useState();
+
 </script>
 
 <template>
-  <settings-group
+  <settings-setting
     v-if="amethyst.getCurrentPlatform() === 'desktop'"
-    text="Discord Rich Presence (RPC)"
+    title="Discord Rich Presence (RPC)"
     :platforms="['desktop']"
-    description="The Discord Rich Presence (RPC) feature allows users to share information about their current activity on the Amethyst music app with their Discord contacts. When enabled, the RPC feature updates the user's Discord status to show the version of Amethyst, currently playing song or playlist, along with the artist and album. This feature enhances the social experience of using Amethyst and allows users to share their music preferences with friends and followers."
-    :icon="AmethystIcon"
+    description="Discord Rich Presence allows users to share their current activity on Amethyst with Discord. When enabled, the RPC feature updates the user's Discord status to show the version of Amethyst, currently playing song or playlist, along with the artist and album"
+    :icon="DiscordIcon"
   >
-    <template #main>
-      <base-switch v-model="state.settings.value.useDiscordRichPresence" />
-    </template>
-  </settings-group>
+    <toggle-switch v-model="state.settings.value.useDiscordRichPresence" />
+  </settings-setting>
 </template>

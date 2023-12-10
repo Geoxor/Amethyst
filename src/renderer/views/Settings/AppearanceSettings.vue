@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useState } from "@/amethyst";
-import BaseSwitch from "@/components/input/BaseSwitch.vue";
 import SettingsSetting from "@/components/v2/SettingsSetting.vue";
+import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 import { SkipIcon } from "@/icons";
 const state = useState();
 
@@ -32,7 +32,7 @@ const BLEND_MODES = [
     description="Display the playback controls at the bottom of the application"
     :icon="SkipIcon"
   >
-    <base-switch
+    <toggle-switch
       v-model="state.settings.value.showPlaybackControls" 
     />
   </settings-setting>
