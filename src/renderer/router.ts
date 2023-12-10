@@ -27,5 +27,5 @@ export const router = createRouter({
 });
 
 router.beforeEach(guard => {
-  if (guard.name == "settings") router.push({ name: "settings.application" });
+  if (guard.name == "settings") router.push({ name: "settings.appearance" });
 });

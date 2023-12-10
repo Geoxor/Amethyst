@@ -8,8 +8,8 @@ import MenuSplitter from "@/components/menu/MenuSplitter.vue";
 import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
 import { AmethystIcon } from "@/icons";
 import { useFps } from "@vueuse/core";
-import { computed, onMounted, ref } from "vue";
-import { countDomElements, refreshWindow } from "@/logic/dom";
+import { computed, onMounted, ref, watch } from "vue";
+import { countDomElements, refreshWindow, smoothTween } from "@/logic/dom";
 import BaseChip from "./BaseChip.vue";
 import TitleText from "./v2/TitleText.vue";
 
@@ -17,6 +17,7 @@ const min = ref(Number.POSITIVE_INFINITY);
 const max = ref(Number.NEGATIVE_INFINITY);
 const fpsCounter = useFps({every: 60});
 const fps = ref(0);
+const tweenedFps = ref(0);
 const domSize = ref(0);
 const latency = ref(0);
 const cpuUsage = ref({
@@ -37,6 +38,8 @@ onMounted(() => {
     if (amethyst.getCurrentPlatform() === "desktop") {
       window.electron.ipcRenderer.invoke<ProcessorUsage>("percent-cpu-usage").then(usage => cpuUsage.value = usage);
     }
+    smoothTween(tweenedFps.value, fpsCounter.value, 1000, (tweenedNumber => tweenedFps.value = ~~tweenedNumber));
+
   }, 1000);
 });
 
@@ -222,7 +225,7 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
           ]"
           class="font-aseprite"
         >
-          {{ fps }}fps
+          {{ tweenedFps }}fps
         </div>
         <div
           class="hidden lg:inline font-aseprite text-primary-900 text-opacity-50"
