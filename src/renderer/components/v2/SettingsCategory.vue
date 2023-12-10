@@ -11,7 +11,7 @@ const isActive = computed(() => route.name?.toString().startsWith(props.routeNam
 <template>
   <button
     :class="isActive && 'active'"
-    class="flex w-full gap-4 cursor-pointer bg-transparent duration-100 text-text_title items-center py-2 px-4 rounded-8px"
+    class="flex w-full gap-4 cursor-pointer bg-transparent duration-100 text-text_title min-h-52px items-center py-2 px-4 rounded-8px"
     @click="$router.push({ name: routeName })"
   >
     <component

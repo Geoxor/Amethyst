@@ -2,7 +2,7 @@
 import { useState } from "@/amethyst";
 import SettingsSetting from "@/components/v2/SettingsSetting.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
-import { BugIcon, LargeIconsIcon, SkipIcon } from "@/icons";
+import { BugIcon, LargeIconsIcon, SkipIcon, EyeIcon } from "@/icons";
 const state = useState();
 
 const BLEND_MODES = [
@@ -43,6 +43,15 @@ const BLEND_MODES = [
   >
     <toggle-switch
       v-model="state.settings.value.showPlaybackControls" 
+    />
+  </settings-setting>
+  <settings-setting
+    title="Minimalist mode"
+    description="Be less verbose on the UI to keep it clean"
+    :icon="EyeIcon"
+  >
+    <toggle-switch
+      v-model="state.settings.value.minimalistMode" 
     />
   </settings-setting>
   <settings-setting

@@ -43,9 +43,11 @@ import UpdateIcon from "./UpdateIcon.vue";
 import VoltmeterIcon from "./VoltmeterIcon.vue";
 import WaveIcon from "./WaveIcon.vue";
 import DiscordIcon from "./DiscordIcon.vue";
+import EyeIcon from "./EyeIcon.vue";
 
 export {
   AddIcon,
+  EyeIcon,
   DiscordIcon,
   AdjustIcon,
   AmethystIcon,

@@ -2,7 +2,9 @@
 <script setup lang="ts">
 import TitleText from "./TitleText.vue";
 import SubtitleText from "./SubtitleText.vue";
+import { useState } from "@/amethyst";
 defineProps<{title?: string, subtitle?: string; alignment?: "left" | "center" | "right"}>();
+const state = useState();
 </script>
 
 <template>
@@ -18,6 +20,7 @@ defineProps<{title?: string, subtitle?: string; alignment?: "left" | "center" | 
       :text="title ?? 'Title'"
     />
     <subtitle-text
+      v-if="!state.settings.value.minimalistMode"
       :text="subtitle || 'Subtitle'"
     />
   </div>

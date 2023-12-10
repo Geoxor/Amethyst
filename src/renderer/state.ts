@@ -53,6 +53,7 @@ export class Store {
 		playOnStartup: false,
 		decibelMeterMinimumDb: -60,
 		decibelMeterSeperatePrePost: false,
+		minimalistMode: false,
 		decibelMeterFftSize: 1024,
 		vectorscopeFftSize: 512,
 		zoomLevel: 1.00,
