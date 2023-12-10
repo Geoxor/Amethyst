@@ -1,5 +1,5 @@
 <script setup lang="ts">
-
+import TitleSubtitle from "@/components/v2/TitleSubtitle.vue";
 </script>
 
 <template>
@@ -7,11 +7,6 @@
     <header class="italic opacity-50 text-primary-1000">
       This is the playground area, use this view to test out and develop components
     </header>
+    <title-subtitle :title="'test'" />
   </div>
 </template>
-
-<style scoped lang="postcss">
-input {
-  @apply bg-black text-white;
-}
-</style>

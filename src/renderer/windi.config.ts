@@ -22,6 +22,10 @@ export default defineConfig({
 	theme: {
 		extend: {
 			colors: {
+				// v2
+				text_title: cssVarRgbHelper("text-title"),
+				text_subtitle: cssVarRgbHelper("text-subtitle"),
+
 				primary: {
 					1000: cssVarRgbHelper("primary-1000"),
 					900: cssVarRgbHelper("primary-900"),
