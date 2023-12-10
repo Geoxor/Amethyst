@@ -13,7 +13,7 @@ const isActive = computed(() => route.name?.toString().startsWith(props.routeNam
       isActive && 'active',
       mobile && 'rounded-full'
     ]"
-    class="items-center gap-2 text-11px flex relative disable-select p-4 no-drag text-text_title rounded-r-8px"
+    class="items-center gap-2 duration-100 flex relative disable-select p-4 no-drag text-text_title rounded-r-8px"
     @click="$router.push({ name: routeName })"
   >
     <component
@@ -26,7 +26,7 @@ const isActive = computed(() => route.name?.toString().startsWith(props.routeNam
 <style scoped lang="postcss">
 
 button:hover:not(.active) {
-  @apply bg-accent bg-opacity-10 text-accent;
+  @apply bg-accent bg-opacity-15 text-accent;
   & h1, p {
     @apply text-accent;
   }

@@ -28,7 +28,7 @@ const isActive = computed(() => route.name?.toString().startsWith(props.routeNam
 <style scoped lang="postcss">
 
 button:hover:not(.active) {
-  @apply bg-primary bg-opacity-10 text-primary;
+  @apply bg-primary bg-opacity-15 text-primary;
 
   &::v-deep(h1) {
     @apply text-primary;

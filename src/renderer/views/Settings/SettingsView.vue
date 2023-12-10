@@ -5,7 +5,7 @@ import SettingsNavigation from "@/components/v2/SettingsNavigation.vue";
 <template>
   <div class="h-full flex w-ful p-2">
     <SettingsNavigation />
-    <div class="flex flex-col p-2 gap-2 w-full h-full">
+    <div class="flex flex-col px-2 gap-2 w-full h-full">
       <router-view />
     </div>
   </div>
