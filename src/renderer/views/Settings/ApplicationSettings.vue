@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { amethyst, useState } from "@/amethyst";
-import {FlickerFreeIcon} from "@/icons/material";
+import {AmethystIcon} from "@/icons";
 import BaseSwitch from "@/components/input/BaseSwitch.vue";
 import SettingsGroup from "@/components/settings/SettingsGroup.vue";
 
@@ -13,7 +13,7 @@ const handleToggleAutoUpdates = () => {
 <template>
   <settings-group
     v-if="amethyst.getCurrentPlatform() === 'desktop'"
-    :icon="FlickerFreeIcon"
+    :icon="AmethystIcon"
     description="Automatically check and install updates on startup"
     text="Automatic updates"
     :platforms="['desktop']"

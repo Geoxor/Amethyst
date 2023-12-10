@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {NoImageIcon } from "@/icons/material";
+import {AmethystIcon } from "@/icons";
 defineProps<{ url?: string }>();
 </script>
 
@@ -13,6 +13,6 @@ defineProps<{ url?: string }>();
     v-else
     class="flex items-center justify-center bg-surface-1000 disable-select no-drag"
   >
-    <NoImageIcon />
+    <AmethystIcon />
   </div>
 </template>

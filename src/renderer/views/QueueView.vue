@@ -2,7 +2,7 @@
 import { amethyst, useState } from "@/amethyst";
 
 import LazyList from "@/components/LazyList.vue";
-import { MyLocationIcon } from "@/icons/material";
+import { AmethystIcon } from "@/icons";
 import { onMounted, onUnmounted, watch } from "vue";
 import DroppableContainer from "@/components/DroppableContainer.vue";
 import { Track } from "@/logic/track";
@@ -44,7 +44,7 @@ onUnmounted(() => {
 
     <base-toolbar-button
       class="absolute bottom-2 right-4.5 z-10 "
-      :icon="MyLocationIcon"
+      :icon="AmethystIcon"
       :active="state.settings.value.followQueue"
       @click="state.settings.value.followQueue = !state.settings.value.followQueue;"
     />

@@ -4,14 +4,14 @@ import SettingsBinarySwitch from "@/components/settings/SettingsBinarySwitch.vue
 import BaseSwitch from "@/components/input/BaseSwitch.vue";
 import SettingsGroup from "@/components/settings/SettingsGroup.vue";
 import SettingsModifier from "@/components/settings/SettingsModifier.vue";
-import {WaveIcon, SineIcon} from "@/icons/material";
+import {AmethystIcon} from "@/icons";
 const state = useState();
 </script>
 
 <template>
   <settings-group
     text="Decibel Meter"
-    :icon="SineIcon"
+    :icon="AmethystIcon"
     description="Displays a visual representation of the sound level of the audio signal in decibels (dB). It displays the current sound level of the audio signal using a graph, where the y-axis represents the sound level in decibels. The decibel meter can be used to monitor the overall loudness of the audio signal and to ensure that it is within safe listening levels."
   >
     <template #main>
@@ -38,7 +38,7 @@ const state = useState();
   </settings-group>
   <settings-group
     text="Loudness Meter"
-    :icon="SineIcon"
+    :icon="AmethystIcon"
     description="Displays a visual representation of the perceived loudness of the audio signal. The loudness meter is measured in Loudness Units Full Scale (LUFS), which is a standardized measurement of perceived loudness."
   >
     <template #main>
@@ -48,7 +48,7 @@ const state = useState();
 
   <settings-group
     text="Vectorscope"
-    :icon="SineIcon"
+    :icon="AmethystIcon"
     description="Displays a visual representation of the stereo audio signal. It displays the relative phase and stereo width of the audio signal using a circular graph. The vectorscope can be used to check the stereo imaging and phase coherence of the audio signal."
   >
     <template #main>
@@ -78,7 +78,7 @@ const state = useState();
 
   <settings-group
     text="Spectrum Analyser"
-    :icon="WaveIcon"
+    :icon="AmethystIcon"
     description="Displays a visual representation of the frequency content of the audio signal. It displays the frequency spectrum of the audio signal using a graph, where the x-axis represents the frequency range and the y-axis represents the amplitude. The spectrum analyzer can be used to analyze the frequency balance of the audio signal and to identify frequency peaks or notches."
   >
     <template #main>

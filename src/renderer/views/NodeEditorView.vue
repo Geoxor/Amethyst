@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { amethyst, useState } from "@/amethyst";
 import BaseToolbarButton from "@/components/BaseToolbarButton.vue";
-import { MagnetIcon, SaveIcon, AdjustIcon, AzimuthIcon, FilterIcon, SelectNoneIcon, AddIcon, WaveIcon, RemoveIcon, LoadingIcon } from "@/icons/material";
+import { AmethystIcon } from "@/icons";
 import { getThemeColorHex } from "@/logic/color";
 import { Background, BackgroundVariant } from "@vue-flow/additional-components";
 import { Connection, EdgeMouseEvent, NodeDragEvent, VueFlow } from "@vue-flow/core";
@@ -88,17 +88,17 @@ const computeNodePosition = ({x, y}: Coords) => {
 const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   {
     title: "Open File",
-    icon: LoadingIcon,
+    icon: AmethystIcon,
     action: handleOpenFile,
   },
   {
     title: "Save As",
-    icon: SaveIcon,
+    icon: AmethystIcon,
     action: handleSaveFile,
   },
   {
     title: "Add FilterNode",
-    icon: FilterIcon,
+    icon: AmethystIcon,
     action: () => {
       amethyst.player.nodeManager.addNode(new AmethystFilterNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })),
       source && target && [source, target]);
@@ -106,7 +106,7 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   },
   {
     title: "Add EightBandEqualizerNode",
-    icon: FilterIcon,
+    icon: AmethystIcon,
     action: () => {
       amethyst.player.nodeManager.addNode(new AmethystEightBandEqualizerNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })), 
       source && target && [source, target]);
@@ -114,7 +114,7 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   },
   {
     title: "Add PannerNode", 
-    icon: AzimuthIcon, 
+    icon: AmethystIcon, 
     action: () => {
       amethyst.player.nodeManager.addNode(new AmethystPannerNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })), 
       source && target && [source, target]);
@@ -122,7 +122,7 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   },
   {
     title: "Add GainNode", 
-    icon: AdjustIcon, 
+    icon: AmethystIcon, 
     action: () => {
       amethyst.player.nodeManager.addNode(new AmethystGainNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })), 
       source && target && [source, target]);
@@ -130,7 +130,7 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   },
   {
     title: "Add AmethystSpectrumNode", 
-    icon: WaveIcon, 
+    icon: AmethystIcon, 
     action: () => {
       amethyst.player.nodeManager.addNode(new AmethystSpectrumNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })), 
       source && target && [source, target]);
@@ -138,7 +138,7 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   },
   {
     title: "Reset All",
-    icon: RemoveIcon,
+    icon: AmethystIcon,
     action: handleReset,
     red: true,
   },
@@ -154,7 +154,7 @@ const handleEdgeContextMenu = (e: EdgeMouseEvent) => {
 
   const {x, y} = (e.event as MouseEvent);
   useContextMenu().open({x, y}, [
-    {title: "Remove connection", icon: RemoveIcon, red: true, action: () => source.disconnectFrom(target)},
+    {title: "Remove connection", icon: AmethystIcon, red: true, action: () => source.disconnectFrom(target)},
     ...nodeMenu({x, y, source, target}),
   ]);
 };
@@ -231,7 +231,7 @@ onKeyStroke("Delete", () => {
   >
     <BaseToolbar>
       <BaseToolbarButton
-        :icon="AddIcon"
+        :icon="AmethystIcon"
         tooltip-text="Add Node"
         @click="useContextMenu().open({x: $event.clientX, y: $event.clientY}, nodeMenu({x: $event.clientX, y: $event.clientY}));"
       />
@@ -247,12 +247,12 @@ onKeyStroke("Delete", () => {
       >
 
       <BaseToolbarButton
-        :icon="SelectNoneIcon"
+        :icon="AmethystIcon"
         tooltip-text="Fit to View"
         @click="fitToView"
       />
       <BaseToolbarButton
-        :icon="MagnetIcon"
+        :icon="AmethystIcon"
         :active="state.settings.value.isSnappingToGrid"
         tooltip-text="Snap to Grid"
         @click="state.settings.value.isSnappingToGrid = !state.settings.value.isSnappingToGrid"
@@ -261,13 +261,13 @@ onKeyStroke("Delete", () => {
       <BaseToolbarSplitter />
 
       <BaseToolbarButton
-        :icon="LoadingIcon"
+        :icon="AmethystIcon"
         tooltip-text="Open File"
         @click="handleOpenFile"
       />
 
       <BaseToolbarButton
-        :icon="SaveIcon"
+        :icon="AmethystIcon"
         tooltip-text="Save As"
         @click="handleSaveFile"
       />
@@ -275,7 +275,7 @@ onKeyStroke("Delete", () => {
       <BaseToolbarSplitter />
 
       <BaseToolbarButton
-        :icon="RemoveIcon"
+        :icon="AmethystIcon"
         tooltip-text="Reset All"
         @click="handleReset"
       />

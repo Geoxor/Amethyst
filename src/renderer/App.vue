@@ -8,13 +8,11 @@ import PlaybackButtons from "@/components/PlaybackButtons.vue";
 import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 import CoverArt from "@/components/CoverArt.vue";
 import { ContextMenu, useContextMenu } from "@/components/ContextMenu";
-import { ExternalLinkIcon, HideIcon } from "@/icons/material";
 import {SpectrumAnalyzer} from "@/components/visualizers/SpectrumAnalyzer";
 import { onMounted, onUnmounted, ref } from "vue";
 import { Track } from "@/logic/track";
-import { CloseIcon } from "./icons/fluency";
 import NavigationButton from "@/components/NavigationButton.vue";
-import { ListIcon, SettingsIcon, SelectNoneIcon, PlaystationButtonsIcon, IndividualServerIcon } from "@/icons/material";
+import { AmethystIcon } from "@/icons";
 import LoudnessMeter from "./components/visualizers/LoudnessMeter.vue";
 
 const state = useState();
@@ -45,7 +43,7 @@ onUnmounted(() => {
         :url="ambientBackgroundImage"
         class="w-full drop-shadow-2xl"
         @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-          { title: 'Export cover...', icon: ExternalLinkIcon, action: () => amethyst.player.getCurrentTrack()?.exportCover() },
+          { title: 'Export cover...', icon: AmethystIcon, action: () => amethyst.player.getCurrentTrack()?.exportCover() },
         ]);"
       />
 
@@ -53,7 +51,7 @@ onUnmounted(() => {
         class="p-3 absolute top-1 right-1 cursor-pointer hover:text-white"
         @click="state.state.isShowingBigCover = false"
       >
-        <CloseIcon class="w-4 h-4" />
+        <AmethystIcon class="w-4 h-4" />
       </button>
     </div>
 
@@ -100,21 +98,21 @@ onUnmounted(() => {
         class="p-2 rounded-t-24px overflow-hidden drop-shadow-2xl flex bg-surface-700 justify-between"
       > 
         <navigation-button
-          :icon="ListIcon"
+          :icon="AmethystIcon"
           route-name="queue"
           text="Queue"
           mobile
         />
 
         <navigation-button
-          :icon="SelectNoneIcon"
+          :icon="AmethystIcon"
           route-name="node-editor"
           text="Node Editor"
           mobile
         />
 
         <navigation-button
-          :icon="SettingsIcon"
+          :icon="AmethystIcon"
           route-name="settings"
           text="Settings"
           mobile
@@ -125,34 +123,34 @@ onUnmounted(() => {
       <div class="flex-1 flex h-full max-h-full relative overflow-hidden">
         <navigation-bar v-if="amethyst.getCurrentPlatform() !== 'mobile'">
           <navigation-button
-            :icon="SelectNoneIcon"
+            :icon="AmethystIcon"
             route-name="node-editor"
           />
 
           <navigation-button
-            :icon="ListIcon"
+            :icon="AmethystIcon"
             route-name="queue"
           />
           
           <navigation-button
-            :icon="IndividualServerIcon"
+            :icon="AmethystIcon"
             route-name="media"
           />
           <!-- <navigation-button
-      :icon="BookshelfIcon"
+      :icon="AmethystIcon"
       @click="$router.push({name: 'library'})"
     /> -->
 
           <navigation-button
             v-if="amethyst.IS_DEV"
-            :icon="PlaystationButtonsIcon"
+            :icon="AmethystIcon"
             route-name="playground"
           />
 
           <div class="flex-1" />
 
           <navigation-button
-            :icon="SettingsIcon"
+            :icon="AmethystIcon"
             route-name="settings"
           />
         </navigation-bar>
@@ -171,7 +169,7 @@ onUnmounted(() => {
                 class="p-3 absolute z-10 top-1 right-3 cursor-pointer text-primary-1000 hover:text-white"
                 @click="state.settings.value.showBigSpectrum = false"
               >
-                <CloseIcon class="w-4 h-4" />
+                <AmethystIcon class="w-4 h-4" />
               </button>
               <SpectrumAnalyzer
               
@@ -179,7 +177,7 @@ onUnmounted(() => {
                 class="h-64 min-h-64 w-full bg-surface-1000"
                 :node="amethyst.player.nodeManager.master.pre"
                 @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-                  { title: 'Hide', icon: HideIcon, action: () => state.settings.value.showBigSpectrum = false },
+                  { title: 'Hide', icon: AmethystIcon, action: () => state.settings.value.showBigSpectrum = false },
                 ]);"
               />
             </div>
@@ -192,7 +190,7 @@ onUnmounted(() => {
                 class="p-3 absolute z-10 top-1 right-3 cursor-pointer text-primary-1000 hover:text-white"
                 @click="state.settings.value.showBigVectorscope = false"
               >
-                <CloseIcon class="w-4 h-4" />
+                <AmethystIcon class="w-4 h-4" />
               </button>
               <Vectorscope
                 :key="amethyst.player.nodeManager.getNodeConnectinsString()"
@@ -201,7 +199,7 @@ onUnmounted(() => {
                 class="h-64 w-64 bg-surface-1000"
                 :node="amethyst.player.nodeManager.master.pre"
                 @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-                  { title: 'Hide', icon: HideIcon, action: () => state.settings.value.showBigVectorscope = false },
+                  { title: 'Hide', icon: AmethystIcon, action: () => state.settings.value.showBigVectorscope = false },
                 ]);"
               />
             </div>
@@ -222,7 +220,7 @@ onUnmounted(() => {
           pre
           :channels="amethyst.player.getCurrentTrack()?.getChannels()"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-            { title: 'Hide decibel meter', icon: HideIcon, action: () => state.settings.value.showDbMeter = false },
+            { title: 'Hide decibel meter', icon: AmethystIcon, action: () => state.settings.value.showDbMeter = false },
           ]);"
         />
         <db-meter
@@ -231,7 +229,7 @@ onUnmounted(() => {
           :node="amethyst.player.nodeManager.master.post"
           :channels="amethyst.player.getCurrentTrack()?.getChannels()"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-            { title: 'Hide decibel meter', icon: HideIcon, action: () => state.settings.value.showDbMeter = false },
+            { title: 'Hide decibel meter', icon: AmethystIcon, action: () => state.settings.value.showDbMeter = false },
           ]);"
         />
 
@@ -255,10 +253,10 @@ onUnmounted(() => {
             state.settings.value.showBigVectorscope && 'border-primary-700 bg-primary-700 bg-opacity-10 hover:bg-opacity-20'
           ]"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-            { title: 'Hide Vectorscope', icon: HideIcon, action: () => state.settings.value.showVectorscope = false },
+            { title: 'Hide Vectorscope', icon: AmethystIcon, action: () => state.settings.value.showVectorscope = false },
             state.settings.value.showBigVectorscope 
-              ? { title: 'Minimize', icon: ExternalLinkIcon, action: () => state.settings.value.showBigVectorscope = false }
-              : { title: 'Expand', icon: ExternalLinkIcon, action: () => state.settings.value.showBigVectorscope = true },
+              ? { title: 'Minimize', icon: AmethystIcon, action: () => state.settings.value.showBigVectorscope = false }
+              : { title: 'Expand', icon: AmethystIcon, action: () => state.settings.value.showBigVectorscope = true },
           ]);"
           @click="state.settings.value.showBigVectorscope = !state.settings.value.showBigVectorscope"
         />
@@ -272,10 +270,10 @@ onUnmounted(() => {
           :node="amethyst.player.nodeManager.master.pre"
           @click="state.settings.value.showBigSpectrum = !state.settings.value.showBigSpectrum"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-            { title: 'Hide Spectrum', icon: HideIcon, action: () => state.settings.value.showSpectrum = false },
+            { title: 'Hide Spectrum', icon: AmethystIcon, action: () => state.settings.value.showSpectrum = false },
             state.settings.value.showBigSpectrum 
-              ? { title: 'Minimize', icon: ExternalLinkIcon, action: () => state.settings.value.showBigSpectrum = false }
-              : { title: 'Expand', icon: ExternalLinkIcon, action: () => state.settings.value.showBigSpectrum = true },
+              ? { title: 'Minimize', icon: AmethystIcon, action: () => state.settings.value.showBigSpectrum = false }
+              : { title: 'Expand', icon: AmethystIcon, action: () => state.settings.value.showBigSpectrum = true },
           ]);"
         />
       </div>

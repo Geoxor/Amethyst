@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import NavigationBar from "@/components/NavigationBar.vue";
 import NavigationButton from "@/components/NavigationButton.vue";
-import { PaintBrushIcon, CircusRingOfFireIcon, PuzzleIcon, SineIcon, AmethystIcon } from "@/icons/material";
+import { AmethystIcon } from "@/icons";
 </script>
 
 <template>
@@ -15,26 +15,26 @@ import { PaintBrushIcon, CircusRingOfFireIcon, PuzzleIcon, SineIcon, AmethystIco
       />
 
       <navigation-button
-        :icon="PaintBrushIcon"
+        :icon="AmethystIcon"
         text="Appearance"
         description="background, themes, visability"
         route-name="settings.appearance"
       />
       <navigation-button
-        :icon="CircusRingOfFireIcon"
+        :icon="AmethystIcon"
         text="Performance"
         description="vsync, animations, rendering"
         route-name="settings.performance"
       />
       <navigation-button
-        :icon="SineIcon"
+        :icon="AmethystIcon"
         text="Metering"
         description="spectrums, vectorscopes, meters"
         route-name="settings.metering"
       />
       
       <navigation-button
-        :icon="PuzzleIcon"
+        :icon="AmethystIcon"
         text="Integrations"
         description="discord, app integrations, etc"
         route-name="settings.integration"

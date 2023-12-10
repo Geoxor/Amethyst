@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import CustomNode from "@/components/nodes/CustomNode.vue";
-import {StepOutIcon} from "@/icons/material";
+import {AmethystIcon} from "@/icons";
 import { AmethystOutputNode } from ".";
 defineProps<{ node: AmethystOutputNode }>();
 
@@ -12,6 +12,6 @@ defineProps<{ node: AmethystOutputNode }>();
     :node="node"
     title="Output"
     description="To Speakers"
-    :icon="StepOutIcon"
+    :icon="AmethystIcon"
   />
 </template>

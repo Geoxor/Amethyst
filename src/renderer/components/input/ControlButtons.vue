@@ -1,6 +1,6 @@
 
 <script lang="ts" setup>
-import { CloseIcon, MaximizeIcon, MinimizeIcon, ShrinkIcon, } from "@/icons/fluency";
+import { AmethystIcon, } from "@/icons";
 const emit = defineEmits(["close", "minimize", "maximize", "unmaximize"]);
 defineProps<{ isMaximized: boolean }>();
 </script>
@@ -11,7 +11,7 @@ defineProps<{ isMaximized: boolean }>();
       class="minimize"
       @click="emit('minimize')"
     >
-      <MinimizeIcon />
+      <AmethystIcon />
     </button>
 
     <button
@@ -19,7 +19,7 @@ defineProps<{ isMaximized: boolean }>();
       class="maximize"
       @click="emit('maximize')"
     >
-      <MaximizeIcon />
+      <AmethystIcon />
     </button>
 
     <button
@@ -27,14 +27,14 @@ defineProps<{ isMaximized: boolean }>();
       class="unmaximize"
       @click="emit('unmaximize')"
     >
-      <ShrinkIcon />
+      <AmethystIcon />
     </button>
 
     <button
       class="close"
       @click="emit('close')"
     >
-      <CloseIcon />
+      <AmethystIcon />
     </button>
   </div>
 </template>

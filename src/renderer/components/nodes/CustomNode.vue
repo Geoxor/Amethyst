@@ -2,7 +2,7 @@
 import { useShortcuts, useState, amethyst } from "@/amethyst";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import QuickMenu from "@/components/nodes/QuickMenu.vue";
-import { ResetIcon, RemoveIcon, DisconnectIcon } from "@/icons/material";
+import { AmethystIcon } from "@/icons";
 import { AmethystAudioNode } from "@/logic/audio";
 import { Handle, Position } from "@vue-flow/core";
 import { useContextMenu } from "@/components/ContextMenu";
@@ -13,10 +13,10 @@ const props = defineProps<{ title: string, icon: any, description?: string, node
 // Context Menu options for this component 
 const handleContextMenu = ({x, y}: MouseEvent) => {
   useContextMenu().open({x, y}, [
-    { title: "Unhook", icon: DisconnectIcon, action: () => props.node.disconnect() },
-    { title: "Bypass", icon: ResetIcon, action: () => props.node.toggleBypass() },
-    { title: "Reset", icon: ResetIcon, action: () => props.node.reset() },
-    props.node.isRemovable ? { title: "Remove", icon: RemoveIcon, red: true, action: () => amethyst.player.nodeManager.removeNode(props.node) } : undefined,
+    { title: "Unhook", icon: AmethystIcon, action: () => props.node.disconnect() },
+    { title: "Bypass", icon: AmethystIcon, action: () => props.node.toggleBypass() },
+    { title: "Reset", icon: AmethystIcon, action: () => props.node.reset() },
+    props.node.isRemovable ? { title: "Remove", icon: AmethystIcon, red: true, action: () => amethyst.player.nodeManager.removeNode(props.node) } : undefined,
   ].filter(o => !!o) as IContextMenuOption[]);
 };
 

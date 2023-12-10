@@ -5,7 +5,7 @@ import BaseSwitch from "@/components/input/BaseSwitch.vue";
 import SettingsBinarySwitch from "@/components/settings/SettingsBinarySwitch.vue";
 import SettingsGroup from "@/components/settings/SettingsGroup.vue";
 import SettingsModifier from "@/components/settings/SettingsModifier.vue";
-import {PlayIcon, ImageIcon, BugIcon} from "@/icons/material";
+import {AmethystIcon} from "@/icons";
 const state = useState();
 
 const BLEND_MODES = [
@@ -31,7 +31,7 @@ const BLEND_MODES = [
 
 <template>
   <settings-group
-    :icon="ImageIcon"
+    :icon="AmethystIcon"
     text="Ambient Background"
     description="Presents an overlay of the cover art for the currently playing song on the user interface."
   >
@@ -98,7 +98,7 @@ const BLEND_MODES = [
   </settings-group>
 
   <settings-group 
-    :icon="ImageIcon"
+    :icon="AmethystIcon"
     description="Render the cover art near the playback controls located at the bottom of the interface."
     text="Cover art"
   >
@@ -108,7 +108,7 @@ const BLEND_MODES = [
   </settings-group>
 
   <settings-group 
-    :icon="PlayIcon"
+    :icon="AmethystIcon"
     description="Display the playback controls at the bottom of the application."
     text="Playback controls"
   >
@@ -124,7 +124,7 @@ const BLEND_MODES = [
   </settings-group>
 
   <settings-group
-    :icon="BugIcon"
+    :icon="AmethystIcon"
     text="Debug Statistics"
     description="Show numbers such as samples, fps, processor usage and more at the top bar."
   >

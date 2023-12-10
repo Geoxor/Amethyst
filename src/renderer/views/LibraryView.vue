@@ -3,16 +3,16 @@ import { amethyst } from "@/amethyst";
 import { useContextMenu } from "@/components/ContextMenu";
 import CoverArt from "@/components/CoverArt.vue";
 import { useInspector } from "@/components/Inspector";
-import { PlayIcon, BinocularsIcon, ResetIcon, RemoveIcon } from "@/icons/material";
+import { AmethystIcon } from "@/icons";
 import { Track } from "@/logic/track";
 
 const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
   useContextMenu().open({x, y}, [
-    { title: "Play", icon: PlayIcon, action: () => amethyst.player.play(track) },
-    { title: "Inspect", icon: BinocularsIcon, action: () => useInspector().inspectAndShow(track) },
-    // { title: "Show in Explorer...", icon: ExternalLinkIcon, action: () => window.electron.ipcRenderer.invoke("show-item", [track.path]) },
-    { title: "Reload metadata", icon: ResetIcon, action: () => track.fetchAsyncData(true) },
-    { title: "Remove from queue", icon: RemoveIcon, red: true, action: () => amethyst.player.queue.remove(track) },
+    { title: "Play", icon: AmethystIcon, action: () => amethyst.player.play(track) },
+    { title: "Inspect", icon: AmethystIcon, action: () => useInspector().inspectAndShow(track) },
+    // { title: "Show in Explorer...", icon: AmethystIcon, action: () => window.electron.ipcRenderer.invoke("show-item", [track.path]) },
+    { title: "Reload metadata", icon: AmethystIcon, action: () => track.fetchAsyncData(true) },
+    { title: "Remove from queue", icon: AmethystIcon, red: true, action: () => amethyst.player.queue.remove(track) },
   ]);
 };
 

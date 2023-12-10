@@ -1,9 +1,6 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
-import { CloseIcon } from "@/icons/fluency";
-import { AudioFileIcon, ExternalLinkIcon, ImageIcon, ListIcon, PlaystationButtonsIcon, BinocularsIcon, LoadingIcon } from "@/icons/material";
-import ResetIcon from "@/icons/material/ResetIcon.vue";
-
+import { AmethystIcon } from "@/icons";
 import { Track } from "@/logic/track";
 import { bytesToHuman } from "@shared/formating";
 import { computed, onMounted, onUnmounted } from "vue";
@@ -36,7 +33,7 @@ onUnmounted(() => {
   >
     <div class="h-10 pl-3 flex w-full borderBottom justify-between items-center">
       <div class="flex gap-2 items-center">
-        <BinocularsIcon />
+        <AmethystIcon />
         <h1>Inspector</h1>
         <BaseChip>
           {{ getInspectableItemType(currentItem) }}
@@ -46,7 +43,7 @@ onUnmounted(() => {
         class="p-3 cursor-pointer hover:text-white"
         @click="inspector.hide()"
       >
-        <CloseIcon class="w-4 h-4" />
+        <AmethystIcon class="w-4 h-4" />
       </button>
     </div>
 
@@ -56,7 +53,7 @@ onUnmounted(() => {
     >
       <section>
         <h1>
-          <ListIcon />
+          <AmethystIcon />
           Metadata
           <loading-icon
             v-if="!currentItem.isLoaded"
@@ -88,12 +85,11 @@ onUnmounted(() => {
           @click="currentItem.fetchAsyncData(true)"
         >
           Refresh metadata
-          <ResetIcon />
         </button>
       </section>
       <section>
         <h1>
-          <ImageIcon />
+          <AmethystIcon />
           Covers
           <loading-icon
             v-if="!currentItem.isLoaded"
@@ -109,7 +105,7 @@ onUnmounted(() => {
             class="w-16 rounded-4px"
             :url="currentItem.getCoverByFace(i)"
             @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-              { title: 'Export cover...', icon: ExternalLinkIcon, action: () => currentItem.exportCover(i) },
+              { title: 'Export cover...', icon: AmethystIcon, action: () => currentItem.exportCover(i) },
             ]);"
           />
           <div class="flex flex-col gap-1 w-full">
@@ -132,7 +128,7 @@ onUnmounted(() => {
       </section>
       <section>
         <h1 class="">
-          <AudioFileIcon />
+          <AmethystIcon />
           File Info
         </h1>
 
@@ -149,12 +145,12 @@ onUnmounted(() => {
           @click="amethyst.showItem(currentItem.path)"
         >
           Show in explorer
-          <ExternalLinkIcon />
+          <AmethystIcon />
         </button>
       </section>
       <section>
         <h1>
-          <PlaystationButtonsIcon />
+          <AmethystIcon />
           Audio Properties
         </h1>
         <li>
@@ -188,7 +184,7 @@ onUnmounted(() => {
       </section>
       <section>
         <h1>
-          <PlaystationButtonsIcon />
+          <AmethystIcon />
           State
         </h1>
         <li>
@@ -208,7 +204,7 @@ onUnmounted(() => {
           @click="amethyst.showItem(currentItem.getCachePath())"
         >
           Show .amf
-          <ExternalLinkIcon />
+          <AmethystIcon />
         </button>
       </section>
     </div>

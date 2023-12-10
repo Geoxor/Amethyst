@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { amethyst, useState } from "@/amethyst";
-import {FlickerFreeIcon} from "@/icons/material";
+import {AmethystIcon} from "@/icons";
 import BaseSwitch from "@/components/input/BaseSwitch.vue";
 import SettingsGroup from "@/components/settings/SettingsGroup.vue";
 
@@ -13,7 +13,7 @@ const handleToggleVsync = () => {
 <template>
   <settings-group
     v-if="amethyst.getCurrentPlatform() === 'desktop'"
-    :icon="FlickerFreeIcon"
+    :icon="AmethystIcon"
     description="Constrain the user interface (UI) framerate of Amethyst to the refresh rate of the active display."
     text="VSync"
     warning="Restart Required"
