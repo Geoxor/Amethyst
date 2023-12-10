@@ -27,7 +27,7 @@ button:hover:not(.active) {
     @apply text-primary;
   }
   & p {
-    @apply text-opacity-50;
+    @apply text-opacity-75;
   }
 }
 
