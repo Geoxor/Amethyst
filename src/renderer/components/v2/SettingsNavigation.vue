@@ -9,56 +9,56 @@ import { AddIcon, AmethystIcon, KeyboardIcon, SSDIcon, SpeakerIcon, SpeedometerI
       title="Appearance"
       route-name="settings.appearance"
       :active="false"
-      subtitle="background, themes, accessibility"
+      description="Customize background, themes and accessibility"
       :icon="SwatchesIcon"
     />
     <settings-category
       route-name="settings.performance"
       title="Performance"
       :active="false"
-      subtitle="vsync, animations, rendering"
+      description="Fine-tune vsync, animations and rendering"
       :icon="SpeedometerIcon"
     />
     <settings-category
       route-name="settings.metering"
       title="Metering"
       :active="false"
-      subtitle="spectrums, vectorscope, meters"
+      description="Adjust spectrums, vectorscope and meters"
       :icon="VoltmeterIcon"
     />
     <settings-category
       route-name="settings.audio"
       title="Audio"
       :active="false"
-      subtitle="output devices, default presets"
+      description="Manage output devices and presets"
       :icon="SpeakerIcon"
     />
     <settings-category
       route-name="settings.media_sources"
       title="Media Sources"
       :active="false"
-      subtitle="folders, subsonic servers, etc"
+      description="Organize folders, connect to servers and more"
       :icon="SSDIcon"
     />
     <settings-category
       route-name="settings.keybinds"
       title="Keybinds"
       :active="false"
-      subtitle="change key mappings"
+      description="Customize key mappings for your experience"
       :icon="KeyboardIcon"
     />
     <settings-category
       route-name="settings.integrations"
       title="Integrations"
       :active="false"
-      subtitle="discord, etc"
+      description="Adjust Discord and other integrations"
       :icon="AddIcon"
     />
     <settings-category
       route-name="settings.application"
       title="Application"
       :active="false"
-      subtitle="updates, language"
+      description="Manage updates and language preferences"
       :icon="AmethystIcon"
     />
   </div>

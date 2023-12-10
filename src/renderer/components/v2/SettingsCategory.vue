@@ -3,7 +3,7 @@ import { computed } from "vue";
 import TitleSubtitle from "./TitleSubtitle.vue";
 import { useRoute } from "vue-router";
 const route = useRoute();
-const props = defineProps<{title: string, subtitle?: string, icon: any, routeName: string}>();
+const props = defineProps<{title: string, description?: string, icon: any, routeName: string}>();
 const isActive = computed(() => route.name?.toString().startsWith(props.routeName) || props.routeName === route.name);
 
 </script>
@@ -20,7 +20,7 @@ const isActive = computed(() => route.name?.toString().startsWith(props.routeNam
     />
     <title-subtitle
       :title="title"
-      :subtitle="subtitle"
+      :subtitle="description"
     />
   </button>
 </template>
