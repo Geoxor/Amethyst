@@ -214,7 +214,7 @@ onUnmounted(() => {
 
       <div
         v-if="state.settings.value.showPlaybackControls"
-        class="flex gap-2 items-center p-2 bg-surface-800 borderTop relative"
+        class="flex gap-2 items-center p-2 bg-surface-800  relative"
         :class="[amethyst.getCurrentPlatform() === 'mobile' && 'mb-8 pb-6']"
       >
         <db-meter
@@ -382,22 +382,6 @@ body,
   border-radius: 20px;
   @apply bg-surface-500;
   border: transparent;
-}
-
-.borderRight {
-  @apply border-r-1 border-r-surface-600 border-t-transparent border-b-transparent border-l-transparent;
-}
-
-.borderLeft {
-  @apply border-l-1 border-l-surface-600 border-t-transparent border-b-transparent border-r-transparent;
-}
-
-.borderBottom {
-  @apply border-b-1 border-b-surface-600 border-t-transparent border-r-transparent border-l-transparent;
-}
-
-.borderTop {
-  @apply border-t-1 border-b-transparent border-t-surface-600 border-r-transparent border-l-transparent;
 }
 
 .drag {

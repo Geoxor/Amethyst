@@ -227,7 +227,7 @@ onKeyStroke("Delete", () => {
 <template>
   <div
     ref="nodeEditor"
-    class="flex-1 h-full w-full borderRight flex flex-col"
+    class="flex-1 h-full w-full  flex flex-col"
   >
     <BaseToolbar>
       <BaseToolbarButton

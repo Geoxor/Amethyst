@@ -31,7 +31,7 @@ onUnmounted(() => {
   <div
     class="inspector absolute text-12px top-2 right-2 overflow-hidden w-min-64 rounded-4px z-30 text-primary-900 border-1 border-surface-600 bg-surface-1000"
   >
-    <div class="h-10 pl-3 flex w-full borderBottom justify-between items-center">
+    <div class="h-10 pl-3 flex w-full  justify-between items-center">
       <div class="flex gap-2 items-center">
         <AmethystIcon />
         <h1>Inspector</h1>
@@ -99,7 +99,7 @@ onUnmounted(() => {
         <div
           v-for="(picture, i) of currentItem.getMetadata()?.common.picture"
           :key="picture.data.byteLength"
-          class="flex gap-2 py-1 borderBottom last:border-none"
+          class="flex gap-2 py-1  last:border-none"
         >
           <CoverArt 
             class="w-16 rounded-4px"
