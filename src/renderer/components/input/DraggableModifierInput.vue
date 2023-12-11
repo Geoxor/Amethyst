@@ -2,8 +2,6 @@
 <script lang="ts" setup>
 import { useVModel } from "@vueuse/core";
 import { computed, ref, watch } from "vue";
-import { useState } from "@/amethyst";
-const state = useState();
 const props = defineProps({
   modelValue: {
     type: Number,

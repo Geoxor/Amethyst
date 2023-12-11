@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-import { useState } from "@/amethyst";
-const state = useState();
 const props = defineProps<{ icon: any, routeName: string, mobile?: boolean}>();
 const route = useRoute();
 const isActive = computed(() => route.name?.toString().startsWith(props.routeName) || props.routeName === route.name);

@@ -7,8 +7,6 @@ defineProps<{
 }>();
 const isShowing = ref(false);
 onKeyStroke("Escape", () => (isShowing.value = false));
-import { useState } from "@/amethyst";
-const state = useState();
 
 </script>
 

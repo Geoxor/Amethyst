@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { useState } from "@/amethyst";
 import type { Placement } from "@floating-ui/core";
 import { arrow, computePosition, offset, shift } from "@floating-ui/dom";
 import type { Ref } from "vue";
@@ -11,8 +10,6 @@ const props = defineProps<{
 	showArrow?: boolean
 	placement?: Placement
 }>();
-
-const state = useState();
 
 const popover = ref() as Ref<HTMLElement>;
 const arrowElement = ref() as Ref<HTMLElement>;
