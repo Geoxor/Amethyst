@@ -12,6 +12,7 @@ import EditIcon from "./EditIcon.vue";
 import ExportIcon from "./ExportIcon.vue";
 import FolderIcon from "./FolderIcon.vue";
 import GridIcon from "./GridIcon.vue";
+import LanguageIcon from "./LanguageIcon.vue";
 import HeartIcon from "./HeartIcon.vue";
 import ImportIcon from "./ImportIcon.vue";
 import InfoIcon from "./InfoIcon.vue";
@@ -57,6 +58,7 @@ export {
   CloudIcon,
   CompassIcon,
   DiceIcon,
+  LanguageIcon,
   DragIcon,
   EditIcon,
   ExportIcon,
