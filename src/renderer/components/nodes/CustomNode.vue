@@ -8,7 +8,7 @@ import { Handle, Position } from "@vue-flow/core";
 import { useContextMenu } from "@/components/ContextMenu";
 import { IContextMenuOption } from "@/state";
 import BaseChip from "../BaseChip.vue";
-
+const state = useState();
 const props = defineProps<{ title: string, icon: any, description?: string, node: AmethystAudioNode, meterless?: boolean }>();
 // Context Menu options for this component 
 const handleContextMenu = ({x, y}: MouseEvent) => {
@@ -24,13 +24,14 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
 
 <template>
   <div
-    class="flex select-none h-full   gap-2 relative rounded-4px hover:border-primary-800 border-surface-500 duration-100 flex gap-2 bg-surface-800 border-1 p-2"
+    class="flex select-none h-full   gap-2 relative rounded-4px hover:border-primary-800 border-surface-500 flex gap-2 bg-surface-800 border-1 p-2"
+    :style="`transition-duration: ${state.settings.value.animationDuration}ms`"
     @contextmenu.stop="handleContextMenu"
   >
     <quick-menu :node="node" />
 
     <div
-      v-if="!meterless && useState().settings.value.decibelMeterSeperatePrePost"
+      v-if="!meterless && state.settings.value.decibelMeterSeperatePrePost"
       class="flex "
     >
       <db-meter

@@ -85,7 +85,8 @@ onUnmounted(() => {
         href="https://github.com/Geoxor/amethyst/releases/latest"
         target="_blank"
       > <strong
-        class="underline cursor-pointer duration-100 hover:text-primary-800"
+        class="underline cursor-pointer hover:text-primary-800"
+        :style="`transition-duration: ${state.settings.value.animationDuration}ms`"
       >download the native app</strong> </a> 
     </div>
     <top-bar v-if="amethyst.getCurrentPlatform() === 'desktop'" />

@@ -57,6 +57,7 @@ export class Store {
 		decibelMeterFftSize: 1024,
 		vectorscopeFftSize: 512,
 		zoomLevel: 1.00,
+		animationDuration: 100, // 100ms
 	};
 
 	public settings = useLocalStorage("settings", this.defaultSettings, { writeDefaults: true, mergeDefaults: true });

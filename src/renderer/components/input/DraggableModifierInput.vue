@@ -2,6 +2,8 @@
 <script lang="ts" setup>
 import { useVModel } from "@vueuse/core";
 import { computed, ref, watch } from "vue";
+import { useState } from "@/amethyst";
+const state = useState();
 const props = defineProps({
   modelValue: {
     type: Number,
@@ -107,6 +109,7 @@ watch(model, () => {
 <template>
   <div
     class="modifier font-aseprite"
+    :style="`transition-duration: ${state.settings.value.animationDuration}ms`"
     @mousedown.stop.passive="onMouseDown"
     @mouseup.stop.passive="dragging = false"
   >
@@ -136,7 +139,7 @@ watch(model, () => {
 }
 
 .modifier {
-  @apply select-none px-1.5 py-0.5 transition transform duration-100 border-2 border-transparent flex bg-surface-700 overflow-hidden;
+  @apply select-none px-1.5 py-0.5 transition transform border-2 border-transparent flex bg-surface-700 overflow-hidden;
   cursor: ns-resize;
 
   &:active,

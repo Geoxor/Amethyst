@@ -7,13 +7,17 @@ defineProps<{
 }>();
 const isShowing = ref(false);
 onKeyStroke("Escape", () => (isShowing.value = false));
+import { useState } from "@/amethyst";
+const state = useState();
+
 </script>
 
 <template>
   <div class="menu relative h-full no-drag ">
     <div
       :class="isShowing && 'text-primary-700 bg-surface-600'"
-      class="hover:text-primary-800 hover:bg-surface-700 duration-100 cursor-default flex  rounded-b-8px items-center mt-0.25 px-3 h-full"
+      class="hover:text-primary-800 hover:bg-surface-700 cursor-default flex  rounded-b-8px items-center mt-0.25 px-3 h-full"
+      :style="`transition-duration: ${state.settings.value.animationDuration}ms`"
       @click.stop="isShowing = !isShowing"
     >
       <title-text

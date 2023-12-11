@@ -2,7 +2,9 @@
 import { computed } from "vue";
 import TitleSubtitle from "./TitleSubtitle.vue";
 import { useRoute } from "vue-router";
+import { useState } from "@/amethyst";
 const route = useRoute();
+const state = useState();
 const props = defineProps<{title: string, description?: string, icon: any, routeName: string}>();
 const isActive = computed(() => route.name?.toString().startsWith(props.routeName) || props.routeName === route.name);
 
@@ -11,7 +13,8 @@ const isActive = computed(() => route.name?.toString().startsWith(props.routeNam
 <template>
   <button
     :class="isActive && 'active'"
-    class="flex w-full gap-4 cursor-pointer bg-transparent duration-100 text-text_title min-h-52px items-center py-2 px-4 rounded-8px"
+    class="flex w-full gap-4 cursor-pointer bg-transparent text-text_title min-h-52px items-center py-2 px-4 rounded-8px"
+    :style="`transition-duration: ${state.settings.value.animationDuration}ms`"
     @click="$router.push({ name: routeName })"
   >
     <component

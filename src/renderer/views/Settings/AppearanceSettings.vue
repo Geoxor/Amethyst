@@ -29,6 +29,18 @@ const BLEND_MODES = [
 
 <template>
   <settings-setting
+    title="Animation duration"
+    description="How long animations will last in Amethyst across the UI"
+    :icon="SkipIcon"
+  >
+    <slider-input
+      v-model="state.settings.value.animationDuration"
+      :min="0"
+      :max="1000"
+      :step="10"
+    />
+  </settings-setting>
+  <settings-setting
     title="Ambient background"
     description="Presents an overlay of the cover art for the currently playing song on the UI"
     :icon="LargeIconsIcon"

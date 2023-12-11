@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-
+import { useState } from "@/amethyst";
+const state = useState();
 const props = defineProps<{ icon: any, routeName: string, mobile?: boolean}>();
 const route = useRoute();
 const isActive = computed(() => route.name?.toString().startsWith(props.routeName) || props.routeName === route.name);
@@ -13,7 +14,8 @@ const isActive = computed(() => route.name?.toString().startsWith(props.routeNam
       isActive && 'active',
       mobile && 'rounded-full'
     ]"
-    class="items-center gap-2 duration-100 flex relative disable-select p-4 no-drag text-text_title rounded-r-8px"
+    class="items-center gap-2 flex relative disable-select p-4 no-drag text-text_title rounded-r-8px"
+    :style="`transition-duration: ${state.settings.value.animationDuration}ms`"
     @click="$router.push({ name: routeName })"
   >
     <component

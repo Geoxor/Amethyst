@@ -9,7 +9,9 @@ const value = useVModel(props, "modelValue", emits);
 </script>
 
 <template>
-  <div class="min-w-48 w-full max-w-48">
+  <div
+    class="min-w-48 w-full max-w-48"
+  >
     <Slider
       v-model="value"
       v-bind="$attrs"

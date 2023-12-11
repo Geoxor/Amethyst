@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useState } from "@/amethyst";
 import type { Placement } from "@floating-ui/core";
 import { arrow, computePosition, offset, shift } from "@floating-ui/dom";
 import type { Ref } from "vue";
@@ -10,6 +11,8 @@ const props = defineProps<{
 	showArrow?: boolean
 	placement?: Placement
 }>();
+
+const state = useState();
 
 const popover = ref() as Ref<HTMLElement>;
 const arrowElement = ref() as Ref<HTMLElement>;
@@ -63,6 +66,7 @@ onMounted(async() => {
   </div>
   <div
     ref="popover"
+    :style="`transition-duration: ${state.settings.value.animationDuration}ms`"
     class="fixed popover z-1"
     :class="{ openOnHover, open, [placement || 'bottom']: !open || openOnHover }"
     v-bind="$attrs"
@@ -79,7 +83,7 @@ onMounted(async() => {
 <style scoped lang="postcss">
 
 .popover {
-  @apply rounded-4px transform-gpu transition-transform duration-100 ease-in-out;
+  @apply rounded-4px transform-gpu transition-transform ease-in-out;
 
   &.openOnHover,
   &:not(.open) {
