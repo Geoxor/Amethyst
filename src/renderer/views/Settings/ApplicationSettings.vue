@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { amethyst, useState } from "@/amethyst";
-import {RocketIcon, UpdateIcon} from "@/icons";
+import {LanguageIcon, RocketIcon, UpdateIcon} from "@/icons";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 import SettingsSetting from "@/components/v2/SettingsSetting.vue";
 import LanguageDropdown from "@/components/v2/LanguageDropdown.vue";
@@ -39,7 +39,7 @@ const handleToggleAutostart = () => {
   </settings-setting>
 
   <settings-setting
-    :icon="RocketIcon"
+    :icon="LanguageIcon"
     :title="$t('settings.language.title')"
     :description="$t('settings.language.description')"
   >
