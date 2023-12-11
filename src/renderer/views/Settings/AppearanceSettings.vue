@@ -36,7 +36,7 @@ const BLEND_MODES = [
     <slider-input
       v-model="state.settings.value.animationDuration"
       :min="0"
-      :max="1000"
+      :max="300"
       :step="10"
     />
   </settings-setting>
