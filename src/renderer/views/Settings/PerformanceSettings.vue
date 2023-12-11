@@ -8,6 +8,7 @@ const state = useState();
 const handleToggleVsync = () => {
   window.electron.ipcRenderer.invoke("set-vsync", [state.settings.value.useVsync]);
 };
+
 </script>
 
 <template>

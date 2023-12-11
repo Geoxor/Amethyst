@@ -2,7 +2,7 @@
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
+import electron, { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
 import { Discord, FormatIcons } from "../plugins/amethyst.discord";
 import {ALLOWED_AUDIO_EXTENSIONS} from "../shared/constants";
 import {sleep} from "../shared/logic";
@@ -307,6 +307,15 @@ export class MainWindow {
 				console.log(`Set store 'frameRateLimit' to ${useVsync}`);
 				app.relaunch();
 				app.exit();
+			},
+
+			"set-autostart": (_: Event, [autoStart]: [boolean]) => {
+				store.set("autoStart", autoStart);
+				console.log(`Set store 'autoStart' to ${autoStart}`);
+				electron.app.setLoginItemSettings({
+					openAtLogin: autoStart,
+					path: electron.app.getPath("exe")
+				});
 			},
 
 			"set-autoupdates": (_: Event, [autoUpdatesEnabled]: string[]) => {

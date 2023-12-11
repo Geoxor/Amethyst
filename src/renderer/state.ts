@@ -45,6 +45,7 @@ export class Store {
 		showLoudnessMeter: true,
 		useLogarithmicSpectrum: true,
 		useVsync: true,
+		autoStart: false,
 		autoUpdatesEnabled: true,
 		showBigVectorscope: false,
 		useDiscordRichPresence: true,

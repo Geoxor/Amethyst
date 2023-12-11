@@ -2,7 +2,7 @@
 import { useVModel as useModelValue } from "@vueuse/core";
 import SubtitleText from "../v2/SubtitleText.vue";
 const props = defineProps<{modelValue: boolean}>();
-const emits = defineEmits(["update:modelValue"]);
+const emits = defineEmits(["update:modelValue", "change"]);
 const value = useModelValue(props, "modelValue", emits);
 </script>
 
@@ -10,7 +10,7 @@ const value = useModelValue(props, "modelValue", emits);
   <button
     class="px-4 py-1 rounded-full"
     :class="[value ? 'bg-primary' : 'bg-accent bg-opacity-15']"
-    @click="emits('update:modelValue', !value)"
+    @click="emits('update:modelValue', !value); emits('change')"
   >
     <subtitle-text
       :text="value ? 'ON' : 'OFF'"
