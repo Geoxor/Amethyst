@@ -1,0 +1,60 @@
+{
+  "settings.animation_duration.title": "Długość animacji",
+  "settings.animation_duration.description": "Jak długo będą trwać animacje",
+
+  "settings.ambient_background.title": "Okładka na tle",
+  "settings.ambient_background.description": "Wyświetla nakładkę z okładką aktualnie odtwarzanego utworu w interfejsie użytkownika.",
+  "settings.ambient_background.spin_speed.title": "Prędkość obrotu",
+  "settings.ambient_background.spin_speed.description": "Jak szybko okładka będzie się obracać w tle",
+  "settings.ambient_background.opacity.title": "Nieprzezroczystość",
+  "settings.ambient_background.opacity.description": "Jak mocno widoczna jest okładka utworu w tle",
+  "settings.ambient_background.blur_strength.title": "Siła rozmycia",
+  "settings.ambient_background.blur_strength.description": "Jak mocno okładka w tle będzie rozmyta (w px)",
+  "settings.ambient_background.zoom.title": "Przybliżenie",
+  "settings.ambient_background.zoom.description": "Dostosowuje skalowanie okładki na tle, użyj tego, aby upewnić się, że grafika obejmuje cały ekran.",
+
+  "settings.playback_controls.title": "Kontrola odtwarzania",
+  "settings.playback_controls.description": "Wyświetla elementy sterowania odtwarzaniem w dolnej części programu",
+
+  "settings.minimalist_mode.title": "Tryb minimalistyczny",
+  "settings.minimalist_mode.description": "Zmniejsz ilość elementów widocznych",
+
+  "settings.cover_art.title": "Okładka",
+  "settings.cover_art.description": "Wyświetla okładkę w dolnej części ekranu",
+
+  "settings.debug_stats.title": "Statystyki do debugowania",
+  "settings.debug_stats.description": "Pokaż liczniki takie jak licznik fps w górnej części ekranu",
+  
+  "settings.discord_rpc.description" : "Discord Rich Presence pozwala użytkownikom dzielić się bieżącą aktywnością w Amethyst z Discord. Po włączeniu funkcja RPC aktualizuje status Discord użytkownika, aby pokazać wersję Amethyst, aktualnie odtwarzany utwór lub listę odtwarzania, wraz z wykonawcą i albumem",
+  
+  "settings.auto_update.title": "Automatyczne Aktualizacje",
+  "settings.auto_update.description": "Automatycznie sprawdzaj dostępność aktualizacji przy starcie aplikacji",
+  
+  "settings.launch_on_startup.title": "Uruchom z systemem",
+  "settings.launch_on_startup.description": "Uruchamiaj Amethyst wzraz z systemem",
+
+  "settings.language.title": "Język",
+  "settings.language.description": "Zmień język aplikacji",
+
+  "settings.decibel_meter.title": "Wskaźnik Decybeli",
+  "settings.decibel_meter.description": "Wyświetla wskaźnik poziomu dźwięku sygnału audio w decybelach (dB). Wyświetla bieżący poziom dźwięku sygnału audio za pomocą wykresu, gdzie oś y reprezentuje poziom dźwięku w decybelach. Miernik decybeli może być używany do monitorowania ogólnej głośności sygnału audio i upewnienia się, że mieści się on w bezpiecznych poziomach odsłuchu.",
+  "settings.decibel_meter.separate_pre_post.title": "Oddzielne PRE i POST",
+  "settings.decibel_meter.separate_pre_post.description": "Pokazuje indywidualne wskaźniki przed i po efektach",
+  
+  "settings.loudness_meter.title": "Wskaźnik głośności",
+  "settings.loudness_meter.description": "Wyświetla wskaźnik postrzeganej głośności sygnału audio. Miernik głośności jest mierzony w jednostkach pełnej skali głośności (LUFS), co jest znormalizowanym pomiarem postrzeganej głośności.",
+  
+  "settings.vectorscope.title": "Wektoroskop",
+  "settings.vectorscope.description": "Wyświetla wizualną reprezentację stereofonicznego sygnału audio. Wyświetla względną fazę i szerokość stereo sygnału audio za pomocą wykresu kołowego. Wektoroskopu można użyć do sprawdzenia obrazowania stereo i spójności fazowej sygnału audio.",
+  "settings.vectorscope.lissajous.title": "Krzywa Lissajous",
+  "settings.vectorscope.lissajous.description": "Obraca wektoroskop",
+  
+  "settings.spectrum_analyser.title": "Analizator spektrum",
+  "settings.spectrum_analyser.description": "Wyświetla wizualną reprezentację częstotliwości sygnału audio. Wyświetla widmo częstotliwości sygnału audio za pomocą wykresu, gdzie oś x reprezentuje zakres częstotliwości, a oś y reprezentuje amplitudę. Analizator widma może być używany do analizowania balansu częstotliwości sygnału audio i identyfikowania szczytów częstotliwości lub wcięć.",
+  "settings.spectrum_analyser.logarithmic_spectrum.title": "Spektrum logarytmiczne",
+  "settings.spectrum_analyser.logarithmic_spectrum.description": "Użyj logarytmicznej skali dla spektrum",
+
+  "settings.vsync.title": "VSync",
+  "settings.vsync.description": "Ogranicza liczbę klatek na sekundę interfejsu użytkownika (UI) Amethyst do częstotliwości odświeżania aktywnego wyświetlacza.",
+  "settings.vsync.warning": "Wymagany restart"
+}
