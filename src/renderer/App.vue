@@ -292,19 +292,12 @@ onUnmounted(() => {
 @import url(themes/rose-dark.css);
 @import url(themes/ruby-dark.css);
 @import url(themes/sapphire-dark.css);
-@import "@vueform/slider/themes/default.css";
 
 /* these are necessary styles for vue flow */
 @import '@vue-flow/core/dist/style.css';
 
 /* this contains the default theme, these are optional styles */
 @import '@vue-flow/core/dist/theme-default.css';
-
-:root {
-  --slider-handle-width: 8px;
-  --slider-handle-height: 20px;
-  --slider-handle-bg: rgba(var(--text-title));
-}
 
 @font-face {
   font-family: "jost";

@@ -20,6 +20,13 @@ const value = useVModel(props, "modelValue", emits);
 </template>
 
 <style lang="postcss">
+@import "@vueform/slider/themes/default.css";
+:root {
+  --slider-handle-width: 8px;
+  --slider-handle-height: 20px;
+  --slider-handle-bg: rgba(var(--text-title));
+}
+
 .slider-connect {
   @apply bg-accent bg-opacity-50;
 }
