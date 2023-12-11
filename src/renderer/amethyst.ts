@@ -18,10 +18,11 @@ import "./logic/subsonic";
 import { createI18n } from "vue-i18n";
 import enUS from "./locales/en-US.json";
 import fiFI from "./locales/fi-FI.json";
+import plPL from "./locales/pl-PL.json";
 
 type MessageSchema = typeof enUS;
 export type SupportedLocales = typeof SUPPORTED_LOCALES[number];
-export const SUPPORTED_LOCALES = ["en-US", "fi-FI"] as const;
+export const SUPPORTED_LOCALES = ["en-US", "fi-FI", "pl-PL"] as const;
 
 export const i18n = createI18n<[MessageSchema], SupportedLocales>({
   fallbackLocale: "en-US", // set fallback locale
@@ -29,6 +30,7 @@ export const i18n = createI18n<[MessageSchema], SupportedLocales>({
   messages: {
     "en-US": enUS,
     "fi-FI": fiFI,
+    "pl-PL": plPL,
   },
 });
 
