@@ -19,7 +19,7 @@ const isActive = computed(() => route.name?.toString().startsWith(props.routeNam
   >
     <component
       :is="icon"
-      class="w-5 h-5"
+      class="w-5 h-5 min-w-5 min-h-5"
     />
     <title-subtitle
       :title="title"
