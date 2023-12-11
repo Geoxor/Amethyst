@@ -11,8 +11,8 @@ const state = useState();
   <settings-setting
     v-if="amethyst.getCurrentPlatform() === 'desktop'"
     title="Discord Rich Presence (RPC)"
+    :description="$t('settings.discord_rpc.description')"
     :platforms="['desktop']"
-    description="Discord Rich Presence allows users to share their current activity on Amethyst with Discord. When enabled, the RPC feature updates the user's Discord status to show the version of Amethyst, currently playing song or playlist, along with the artist and album"
     :icon="DiscordIcon"
   >
     <toggle-switch v-model="state.settings.value.useDiscordRichPresence" />
