@@ -1,5 +1,6 @@
 import { useLocalStorage } from "@vueuse/core";
-import { computed, reactive, watch } from "vue";
+import { reactive, watch } from "vue";
+import { SupportedLocales } from "./amethyst";
 
 export interface IContextMenuOption {
 	title: string;
@@ -59,6 +60,7 @@ export class Store {
 		vectorscopeFftSize: 512,
 		zoomLevel: 1.00,
 		animationDuration: 100, // 100ms
+		language: "en-US" as SupportedLocales,
 	};
 
 	public settings = useLocalStorage("settings", this.defaultSettings, { writeDefaults: true, mergeDefaults: true });
