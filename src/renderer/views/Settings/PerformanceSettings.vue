@@ -15,9 +15,9 @@ const handleToggleVsync = () => {
   <settings-setting
     v-if="amethyst.getCurrentPlatform() === 'desktop'"
     :icon="MonitorIcon"
-    description="Constrain the user interface (UI) framerate of Amethyst to the refresh rate of the active display."
-    title="VSync"
-    warning="Restart Required"
+    :description="$t('settings.vsync.description')"
+    :title="$t('settings.vsync.title')"
+    :warning="$t('settings.vsync.warning')"
     :platforms="['desktop']"
   >
     <toggle-switch

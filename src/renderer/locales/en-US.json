@@ -1,6 +1,7 @@
 {
   "settings.animation_duration.title": "Animation duration",
   "settings.animation_duration.description": "How long animations will last in Amethyst across the UI",
+
   "settings.ambient_background.title": "Ambient background",
   "settings.ambient_background.description": "Presents an overlay of the cover art for the currently playing song on the UI",
   "settings.ambient_background.spin_speed.title": "Spin speed",
@@ -11,19 +12,49 @@
   "settings.ambient_background.blur_strength.description": "How much blur to apply in px",
   "settings.ambient_background.zoom.title": "Zoom",
   "settings.ambient_background.zoom.description": "Adjusts the scaling of the ambient art, use it to make sure the art covers the entire screen",
+
   "settings.playback_controls.title": "Playback controls",
   "settings.playback_controls.description": "Display the playback controls at the bottom of the application",
+
   "settings.minimalist_mode.title": "Minimalist mode",
   "settings.minimalist_mode.description": "Be less verbose on the UI to keep it clean",
+
   "settings.cover_art.title": "Cover art",
   "settings.cover_art.description": "Render the cover art near the playback controls located at the bottom of the interface",
+
   "settings.debug_stats.title": "Debug statistics",
   "settings.debug_stats.description": "Show numbers such as samples, fps, processor usage and mroe at the top bar",
+  
   "settings.discord_rpc.description" : "Discord Rich Presence allows users to share their current activity on Amethyst with Discord. When enabled, the RPC feature updates the user's Discord status to show the version of Amethyst, currently playing song or playlist, along with the artist and album",
+  
   "settings.auto_update.title": "Automatic updates",
   "settings.auto_update.description": "Automatically check and install updates on startup",
+  
   "settings.launch_on_startup.title": "Launch on startup",
   "settings.launch_on_startup.description": "Launch Amethyst when your system starts",
+
   "settings.language.title": "Language",
-  "settings.language.description": "Change the language of the app"
+  "settings.language.description": "Change the language of the app",
+
+  "settings.decibel_meter.title": "Decibel Meter",
+  "settings.decibel_meter.description": "Displays a visual representation of the sound level of the audio signal in decibels (dB). It displays the current sound level of the audio signal using a graph, where the y-axis represents the sound level in decibels. The decibel meter can be used to monitor the overall loudness of the audio signal and to ensure that it is within safe listening levels.",
+  "settings.decibel_meter.separate_pre_post.title": "Separate PRE and POST",
+  "settings.decibel_meter.separate_pre_post.description": "Shows individual decibel meters, one for the signal before going into a node and one after",
+  
+  "settings.loudness_meter.title": "Loudness Meter",
+  "settings.loudness_meter.description": "Displays a visual representation of the perceived loudness of the audio signal. The loudness meter is measured in Loudness Units Full Scale (LUFS), which is a standardized measurement of perceived loudness.",
+  
+  "settings.vectorscope.title": "Vectorscope",
+  "settings.vectorscope.description": "Displays a visual representation of the stereo audio signal. It displays the relative phase and stereo width of the audio signal using a circular graph. The vectorscope can be used to check the stereo imaging and phase coherence of the audio signal.",
+  "settings.vectorscope.lissajous.title": "Lissajous",
+  "settings.vectorscope.lissajous.description": "Display diagonally in a lissajous pattern",
+  
+  "settings.spectrum_analyser.title": "Spectrum Analyser",
+  "settings.spectrum_analyser.description": "Displays a visual representation of the frequency content of the audio signal. It displays the frequency spectrum of the audio signal using a graph, where the x-axis represents the frequency range and the y-axis represents the amplitude. The spectrum analyzer can be used to analyze the frequency balance of the audio signal and to identify frequency peaks or notches.",
+  "settings.spectrum_analyser.logarithmic_spectrum.title": "Logarithmic Spectrum",
+  "settings.spectrum_analyser.logarithmic_spectrum.description": "Use logarithmic scaling for frequencies",
+
+  "settings.vsync.title": "VSync",
+  "settings.vsync.description": "Constrain the user interface (UI) framerate of Amethyst to the refresh rate of the active display.",
+  "settings.vsync.warning": "Restart Required"
 }
