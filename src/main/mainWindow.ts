@@ -36,7 +36,7 @@ const LOGO = `
   / /| | / __ \`__ \\/ _ \\/ __/ __ \\/ / / / ___/ __/
  / ___ |/ / / / / /  __/ /_/ / / / /_/ (__  ) /_  
 /_/  |_/_/ /_/ /_/\\___/\\__/_/ /_/\\__, /____/\\__/  
- v${APP_VERSION}                        /____/            
+ v${APP_VERSION}                    /____/            
 		`;
 
 import("chalk").then(({default: chalk}) => console.log(chalk.hex("868aff")(LOGO)));
