@@ -8,7 +8,7 @@ import MenuSplitter from "@/components/menu/MenuSplitter.vue";
 import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
 import { AmethystIcon } from "@/icons";
 import { useFps } from "@vueuse/core";
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { countDomElements, refreshWindow, smoothTween } from "@/logic/dom";
 import BaseChip from "./BaseChip.vue";
 import TitleText from "./v2/TitleText.vue";
@@ -61,6 +61,7 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
     >
       <div
         class="logo w-52px h-full items-center flex justify-center cursor-heart-pointer rounded-br-8px hover:bg-primary hover:bg-opacity-10 hover:text-primary"
+        :style="`transition-duration: ${state.settings.value.animationDuration}ms`"
       >
         <AmethystIcon class="w-5 h-5" />
       </div>
@@ -184,11 +185,6 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
     </div>
 
     <p class="absolute flex items-center gap-1 left-1/2 transform-gpu -translate-x-1/2 select-none ">
-      <AmethystIcon
-        v-if="state.state.isCheckingForUpdates"
-        class="h-3 animate-spin w-3 min-h-3 min-w-3"
-      />
-
       <title-text text="Amethyst" />
       <title-text
         class="opacity-50 font-normal capitalize"
