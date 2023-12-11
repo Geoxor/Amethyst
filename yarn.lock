@@ -1440,6 +1440,11 @@
     "@volar/typescript" "~1.10.0"
     "@vue/language-core" "1.8.10"
 
+"@vueform/slider@^2.1.9":
+  version "2.1.9"
+  resolved "https://registry.yarnpkg.com/@vueform/slider/-/slider-2.1.9.tgz#c8d31950b502219098e3e27124c67ead0170c316"
+  integrity sha512-xEgcLc4e5TcfTlHsS+TzQTXQKh/U2Q0noXzrhAxYjX/XHZW46oyNywh9PQemOc9UYK5MSwrB73lkFR9SSS4Wfg==
+
 "@vueuse/core@^10.1.0", "@vueuse/core@^10.1.2":
   version "10.4.1"
   resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-10.4.1.tgz#fc2c8a83a571c207aaedbe393b22daa6d35123f2"

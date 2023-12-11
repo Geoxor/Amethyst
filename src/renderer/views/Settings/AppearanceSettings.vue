@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { useState } from "@/amethyst";
 import SettingsSetting from "@/components/v2/SettingsSetting.vue";
+import SliderInput from "@/components/v2/SliderInput.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
-import { BugIcon, LargeIconsIcon, SkipIcon, EyeIcon } from "@/icons";
+import { BugIcon, LargeIconsIcon, SkipIcon, EyeIcon, SearchIcon } from "@/icons";
 const state = useState();
 
 const BLEND_MODES = [
@@ -35,6 +36,63 @@ const BLEND_MODES = [
     <toggle-switch
       v-model="state.settings.value.showAmbientBackground" 
     />
+    <template #subsettings>
+      <div class="p-2 flex flex-col gap-2">
+        <settings-setting
+          subsetting
+          title="Spin speed"
+          description="How fast the background image will rotate"
+          :icon="LargeIconsIcon"
+        >
+          <slider-input
+            v-model="state.settings.value.ambientBackgroundSpinSpeed"
+            :min="0"
+            :max="64"
+            :step="1"
+            direction="rtl"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          title="Opacity"
+          description="How visible the ambient art is over the app"
+          :icon="LargeIconsIcon"
+        >
+          <slider-input
+            v-model="state.settings.value.ambientBackgroundOpacity"
+            :min="0"
+            :max="100"
+            :step="1"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          title="Blur strength"
+          description="How much blur to apply in px"
+          :icon="LargeIconsIcon"
+        >
+          <slider-input
+            v-model="state.settings.value.ambientBackgroundBlurStrength"
+            :min="0"
+            :max="128"
+            :step="1"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          title="Zoom"
+          description="Adjusts the scaling of the ambient art, use it to make sure the art covers the entire screen"
+          :icon="SearchIcon"
+        >
+          <slider-input
+            v-model="state.settings.value.ambientBackgroundZoom"
+            :min="50"
+            :max="250"
+            :step="10"
+          />
+        </settings-setting>
+      </div>
+    </template>
   </settings-setting>
   <settings-setting
     title="Playback controls"

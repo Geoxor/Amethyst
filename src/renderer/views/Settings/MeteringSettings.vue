@@ -17,6 +17,21 @@ const state = useState();
     description="Displays a visual representation of the sound level of the audio signal in decibels (dB). It displays the current sound level of the audio signal using a graph, where the y-axis represents the sound level in decibels. The decibel meter can be used to monitor the overall loudness of the audio signal and to ensure that it is within safe listening levels."
   >
     <toggle-switch v-model="state.settings.value.showDbMeter" />
+    <template #subsettings>
+      <div class="p-2 flex flex-col gap-2">
+        <settings-setting
+          subsetting
+          title="Seperate PRE and POST"
+          description="Shows individual decibel meters, one for the signal before going into a node and one after"
+          :icon="VoltmeterIcon"
+        >
+          <toggle-switch
+            v-model="state.settings.value.decibelMeterSeperatePrePost" 
+          />
+        </settings-setting>
+      </div>
+    </template>
+
     <!-- <settings-binary-switch
       v-model="state.settings.value.decibelMeterSeperatePrePost"
       text="Seperate PRE and POST"
@@ -50,6 +65,20 @@ const state = useState();
     description="Displays a visual representation of the stereo audio signal. It displays the relative phase and stereo width of the audio signal using a circular graph. The vectorscope can be used to check the stereo imaging and phase coherence of the audio signal."
   >
     <toggle-switch v-model="state.settings.value.showVectorscope" />
+    <template #subsettings>
+      <div class="p-2 flex flex-col gap-2">
+        <settings-setting
+          subsetting
+          title="Lissajous"
+          description="Display diagonally in a lissajous pattern"
+          :icon="AxisIcon"
+        >
+          <toggle-switch
+            v-model="state.settings.value.lissajousVectorscope" 
+          />
+        </settings-setting>
+      </div>
+    </template>
     <!--     
     <settings-modifier
       v-model="state.settings.value.vectorscopeFftSize"
@@ -58,10 +87,6 @@ const state = useState();
       :range="[32, 64, 128, 256, 512, 1024]"
     />
 
-    <settings-binary-switch
-      v-model="state.settings.value.lissajousVectorscope"
-      text="Lissajous"
-    />
     <settings-modifier
       v-model="state.settings.value.vectorscopeLineThickness"
       text="Line thickness"
@@ -78,11 +103,22 @@ const state = useState();
     description="Displays a visual representation of the frequency content of the audio signal. It displays the frequency spectrum of the audio signal using a graph, where the x-axis represents the frequency range and the y-axis represents the amplitude. The spectrum analyzer can be used to analyze the frequency balance of the audio signal and to identify frequency peaks or notches."
   >
     <toggle-switch v-model="state.settings.value.showSpectrum" />
+    <template #subsettings>
+      <div class="p-2 flex flex-col gap-2">
+        <settings-setting
+          subsetting
+          title="Logarithmic spectrum"
+          description="Use logarithmic scaling for frequencies"
+          :icon="SineIcon"
+        >
+          <toggle-switch
+            v-model="state.settings.value.useLogarithmicSpectrum" 
+          />
+        </settings-setting>
+      </div>
+    </template>
 
-    <!-- <settings-binary-switch
-      v-model="state.settings.value.useLogarithmicSpectrum"
-      text="Logarithmic spectrum"
-    />
+    <!-- 
 
     <settings-modifier
       v-model="state.settings.value.spectrumSmoothing"
