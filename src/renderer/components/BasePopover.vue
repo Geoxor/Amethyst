@@ -64,6 +64,7 @@ onMounted(async() => {
   <div @mouseenter="updatePosition()">
     <slot />
   </div>
+  <!-- TODO: refactor this to use watch and a css variable instead like duration-adaptive -->
   <div
     ref="popover"
     :style="`transition-duration: ${state.settings.value.animationDuration}ms`"
