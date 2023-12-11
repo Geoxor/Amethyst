@@ -15,6 +15,22 @@ import { Directory } from "@capacitor/filesystem";
 import * as mm from "music-metadata-browser";
 import { router } from "./router";
 import "./logic/subsonic";
+import { createI18n } from "vue-i18n";
+import enUS from "./locales/en-US.json";
+import fiFI from "./locales/fi-FI.json";
+
+type MessageSchema = typeof enUS;
+export type SupportedLocales = typeof SUPPORTED_LOCALES[number];
+export const SUPPORTED_LOCALES = ["en-US", "fi-FI"] as const;
+
+export const i18n = createI18n<[MessageSchema], SupportedLocales>({
+  fallbackLocale: "en-US", // set fallback locale
+  locale: JSON.parse(localStorage.getItem("settings")!).language,
+  messages: {
+    "en-US": enUS,
+    "fi-FI": fiFI,
+  },
+});
 
 export type AmethystPlatforms = ReturnType<typeof amethyst.getCurrentPlatform>;
 
@@ -232,7 +248,6 @@ export class Amethyst extends AmethystBackend {
   
   public constructor() {
     super();
-
     // Init zoom from store
     document.body.style.zoom = this.store.settings.value.zoomLevel;
 

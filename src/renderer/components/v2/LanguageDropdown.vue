@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { onClickOutside } from "@vueuse/core";
-import {SUPPORTED_LOCALES} from "../../main";
 import { ChevronIcon } from "@/icons";
+import { SUPPORTED_LOCALES, amethyst } from "@/amethyst";
 
 const langs = ref(SUPPORTED_LOCALES);
 const showLanguageDropdown = ref(false);
@@ -23,7 +23,7 @@ onClickOutside(languageDropdown, () => closeLanguageDropdown());
     @click="showLanguageDropdown = true;"
   >
     <ChevronIcon class="w-4 h-4" />
-    {{ $t($i18n.locale) }}
+    {{ $i18n.locale }}
     <transition name="slide">
       <menu
         v-if="showLanguageDropdown"
@@ -36,13 +36,13 @@ onClickOutside(languageDropdown, () => closeLanguageDropdown());
           class="flex items-center gap-2 py-2 px-4 flex w-full justify-start hover:bg-surface-400 font-semibold text-text_title rounded-6px"
           :value="lang"
           :class="$i18n.locale == lang && 'active'"
-          @click="$i18n.locale = lang;"
+          @click="$i18n.locale = lang; amethyst.store.settings.value.language = lang;"
         >
           <img
             :src="`/flags/${lang}.svg`"
             class="h-3 w-auto rounded-2px"
           >
-          {{ $t(lang) }}
+          {{ lang }}
         </button>
       </menu>
     </transition>
