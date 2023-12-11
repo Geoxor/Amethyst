@@ -60,8 +60,7 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
       :class="[amethyst.getCurrentOperatingSystem() == 'mac' && 'pl-16']"
     >
       <div
-        class="logo w-52px h-full items-center flex justify-center cursor-heart-pointer rounded-br-8px hover:bg-primary hover:bg-opacity-10 hover:text-primary"
-        :style="`transition-duration: ${state.settings.value.animationDuration}ms`"
+        class="duration-user-defined logo w-52px h-full items-center flex justify-center cursor-heart-pointer rounded-br-8px hover:bg-primary hover:bg-opacity-10 hover:text-primary"
       >
         <AmethystIcon class="w-5 h-5" />
       </div>

@@ -7,7 +7,7 @@ defineProps<{subsetting?:boolean, title: string, description?: string, warning?:
 
 <template>
   <div
-    class="rounded-8px  gap-2 w-full text-text_title  duration-100"
+    class="rounded-8px  gap-2 w-full text-text_title  duration-user-defined"
     :class="[subsetting ? 'bg-[#101119] hover:bg-black hover:bg-opacity-20' : 'bg-[#141621] hover:bg-accent hover:bg-opacity-10']"
   >
     <div class="flex gap-4 items-center min-h-52px py-2 px-4 ">

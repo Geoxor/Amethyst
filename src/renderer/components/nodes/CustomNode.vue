@@ -24,8 +24,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
 
 <template>
   <div
-    class="flex select-none h-full   gap-2 relative rounded-4px hover:border-primary-800 border-surface-500 flex gap-2 bg-surface-800 border-1 p-2"
-    :style="`transition-duration: ${state.settings.value.animationDuration}ms`"
+    class="duration-user-defined flex select-none h-full   gap-2 relative rounded-4px hover:border-primary-800 border-surface-500 flex gap-2 bg-surface-800 border-1 p-2"
     @contextmenu.stop="handleContextMenu"
   >
     <quick-menu :node="node" />

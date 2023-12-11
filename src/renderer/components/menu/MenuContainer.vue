@@ -16,8 +16,7 @@ const state = useState();
   <div class="menu relative h-full no-drag ">
     <div
       :class="isShowing && 'text-primary-700 bg-surface-600'"
-      class="hover:text-primary-800 hover:bg-surface-700 cursor-default flex  rounded-b-8px items-center mt-0.25 px-3 h-full"
-      :style="`transition-duration: ${state.settings.value.animationDuration}ms`"
+      class="hover:text-primary-800 hover:bg-surface-700 cursor-default flex  rounded-b-8px items-center mt-0.25 px-3 h-full duration-user-defined " 
       @click.stop="isShowing = !isShowing"
     >
       <title-text

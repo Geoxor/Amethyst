@@ -19,12 +19,12 @@ const state = useState();
   >
     <title-text
       :text="title ?? 'Title'"
-      :style="`transition-duration: ${state.settings.value.animationDuration}ms`"
+      class="duration-user-defined"
     />
     <subtitle-text
       v-if="!state.settings.value.minimalistMode"
       :text="subtitle || 'Subtitle'"
-      :style="`transition-duration: ${state.settings.value.animationDuration}ms`"
+      class="duration-user-defined"
     />
   </div>
 </template>

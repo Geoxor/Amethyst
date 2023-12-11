@@ -1,5 +1,5 @@
 import { useLocalStorage } from "@vueuse/core";
-import { computed, reactive } from "vue";
+import { computed, reactive, watch } from "vue";
 
 export interface IContextMenuOption {
 	title: string;
@@ -78,5 +78,8 @@ export class Store {
 				this.settings[key] = this.defaultSettings[key];
 		});
 
+		watch(() => this.settings.value.animationDuration, newValue => {
+			document.documentElement.style.setProperty("--transition-duration", `${newValue}ms`);
+		});
 	}
 }

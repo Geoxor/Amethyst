@@ -85,8 +85,7 @@ onUnmounted(() => {
         href="https://github.com/Geoxor/amethyst/releases/latest"
         target="_blank"
       > <strong
-        class="underline cursor-pointer hover:text-primary-800"
-        :style="`transition-duration: ${state.settings.value.animationDuration}ms`"
+        class="duration-user-defined underline cursor-pointer hover:text-primary-800"
       >download the native app</strong> </a> 
     </div>
     <top-bar v-if="amethyst.getCurrentPlatform() === 'desktop'" />
@@ -322,6 +321,14 @@ onUnmounted(() => {
 
 *.font-aseprite * {
   font-family: "aseprite";
+}
+
+:root {
+  --transition-duration: 100ms; 
+}
+
+*.duration-user-defined {
+  transition-duration: var(--transition-duration);
 }
 
 .cursor-pointer,

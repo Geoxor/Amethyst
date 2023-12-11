@@ -108,8 +108,7 @@ watch(model, () => {
 
 <template>
   <div
-    class="modifier font-aseprite"
-    :style="`transition-duration: ${state.settings.value.animationDuration}ms`"
+    class="modifier font-aseprite duration-user-defined "
     @mousedown.stop.passive="onMouseDown"
     @mouseup.stop.passive="dragging = false"
   >

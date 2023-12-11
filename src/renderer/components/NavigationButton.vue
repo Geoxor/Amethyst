@@ -14,8 +14,7 @@ const isActive = computed(() => route.name?.toString().startsWith(props.routeNam
       isActive && 'active',
       mobile && 'rounded-full'
     ]"
-    class="items-center gap-2 flex relative disable-select p-4 no-drag text-text_title rounded-r-8px"
-    :style="`transition-duration: ${state.settings.value.animationDuration}ms`"
+    class="duration-user-defined items-center gap-2 flex relative disable-select p-4 no-drag text-text_title rounded-r-8px"
     @click="$router.push({ name: routeName })"
   >
     <component

@@ -64,11 +64,9 @@ onMounted(async() => {
   <div @mouseenter="updatePosition()">
     <slot />
   </div>
-  <!-- TODO: refactor this to use watch and a css variable instead like duration-user-defined -->
   <div
     ref="popover"
-    :style="`transition-duration: ${state.settings.value.animationDuration}ms`"
-    class="fixed popover z-1"
+    class="duration-user-defined fixed popover z-1"
     :class="{ openOnHover, open, [placement || 'bottom']: !open || openOnHover }"
     v-bind="$attrs"
   >
