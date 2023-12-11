@@ -271,11 +271,6 @@
     "music-player",
     "vue"
   ],
-  "workspaces": {
-    "nohoist": [
-      "**/@capacitor/ios"
-    ]
-  },
   "homepage": "https://github.com/Geoxor/amethyst#readme",
   "devDependencies": {
     "@capacitor/cli": "^4.8.0",
