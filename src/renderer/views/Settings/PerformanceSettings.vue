@@ -1,29 +1,28 @@
 <script setup lang="ts">
 import { amethyst, useState } from "@/amethyst";
-import {FlickerFreeIcon} from "@/icons/material";
-import BaseSwitch from "@/components/input/BaseSwitch.vue";
-import SettingsGroup from "@/components/settings/SettingsGroup.vue";
+import { MonitorIcon} from "@/icons";
+import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
+import SettingsSetting from "@/components/v2/SettingsSetting.vue";
 
 const state = useState();
 const handleToggleVsync = () => {
   window.electron.ipcRenderer.invoke("set-vsync", [state.settings.value.useVsync]);
 };
+
 </script>
 
 <template>
-  <settings-group
+  <settings-setting
     v-if="amethyst.getCurrentPlatform() === 'desktop'"
-    :icon="FlickerFreeIcon"
-    description="Constrain the user interface (UI) framerate of Amethyst to the refresh rate of the active display."
-    text="VSync"
-    warning="Restart Required"
+    :icon="MonitorIcon"
+    :description="$t('settings.vsync.description')"
+    :title="$t('settings.vsync.title')"
+    :warning="$t('settings.vsync.warning')"
     :platforms="['desktop']"
   >
-    <template #main>
-      <base-switch
-        v-model="state.settings.value.useVsync" 
-        @change="handleToggleVsync"
-      />
-    </template>
-  </settings-group>
+    <toggle-switch
+      v-model="state.settings.value.useVsync" 
+      @change="handleToggleVsync"
+    />
+  </settings-setting>
 </template>

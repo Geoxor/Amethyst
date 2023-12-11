@@ -1,28 +1,48 @@
 <script setup lang="ts">
 import { amethyst, useState } from "@/amethyst";
-import {FlickerFreeIcon} from "@/icons/material";
-import BaseSwitch from "@/components/input/BaseSwitch.vue";
-import SettingsGroup from "@/components/settings/SettingsGroup.vue";
+import {RocketIcon, UpdateIcon} from "@/icons";
+import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
+import SettingsSetting from "@/components/v2/SettingsSetting.vue";
+import LanguageDropdown from "@/components/v2/LanguageDropdown.vue";
 
 const state = useState();
 const handleToggleAutoUpdates = () => {
   window.electron.ipcRenderer.invoke("set-autoupdates", [state.settings.value.autoUpdatesEnabled]);
 };
+const handleToggleAutostart = () => {
+  window.electron.ipcRenderer.invoke("set-autostart", [state.settings.value.autoStart]);
+};
 </script>
 
 <template>
-  <settings-group
+  <settings-setting
     v-if="amethyst.getCurrentPlatform() === 'desktop'"
-    :icon="FlickerFreeIcon"
-    description="Automatically check and install updates on startup"
-    text="Automatic updates"
-    :platforms="['desktop']"
+    :icon="UpdateIcon"
+    :title="$t('settings.auto_update.title')"
+    :description="$t('settings.auto_update.description')"
   >
-    <template #main>
-      <base-switch
-        v-model="state.settings.value.autoUpdatesEnabled" 
-        @change="handleToggleAutoUpdates"
-      />
-    </template>
-  </settings-group>
+    <toggle-switch
+      v-model="state.settings.value.autoUpdatesEnabled" 
+      @change="handleToggleAutoUpdates"
+    />
+  </settings-setting>
+  <settings-setting
+    v-if="amethyst.getCurrentPlatform() === 'desktop'"
+    :title="$t('settings.launch_on_startup.title')"
+    :description="$t('settings.launch_on_startup.description')"
+    :icon="RocketIcon"
+  >
+    <toggle-switch
+      v-model="state.settings.value.autoStart" 
+      @change="handleToggleAutostart"
+    />
+  </settings-setting>
+
+  <settings-setting
+    :icon="RocketIcon"
+    :title="$t('settings.language.title')"
+    :description="$t('settings.language.description')"
+  >
+    <language-dropdown />
+  </settings-setting>
 </template>

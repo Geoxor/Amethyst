@@ -2,7 +2,7 @@
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
+import electron, { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
 import { Discord, FormatIcons } from "../plugins/amethyst.discord";
 import {ALLOWED_AUDIO_EXTENSIONS} from "../shared/constants";
 import {sleep} from "../shared/logic";
@@ -36,7 +36,7 @@ const LOGO = `
   / /| | / __ \`__ \\/ _ \\/ __/ __ \\/ / / / ___/ __/
  / ___ |/ / / / / /  __/ /_/ / / / /_/ (__  ) /_  
 /_/  |_/_/ /_/ /_/\\___/\\__/_/ /_/\\__, /____/\\__/  
- v${APP_VERSION}                        /____/            
+ v${APP_VERSION}                    /____/            
 		`;
 
 import("chalk").then(({default: chalk}) => console.log(chalk.hex("868aff")(LOGO)));
@@ -81,8 +81,8 @@ export class MainWindow {
 			y: this.windowState.y,
 			width: this.windowState.width,
 			height: this.windowState.height,
-			minHeight: 116,
-			minWidth: 836,
+			minHeight: 600,
+			minWidth: 800,
 			icon: icon(),
 			frame: false,
 			webPreferences: {
@@ -307,6 +307,15 @@ export class MainWindow {
 				console.log(`Set store 'frameRateLimit' to ${useVsync}`);
 				app.relaunch();
 				app.exit();
+			},
+
+			"set-autostart": (_: Event, [autoStart]: [boolean]) => {
+				store.set("autoStart", autoStart);
+				console.log(`Set store 'autoStart' to ${autoStart}`);
+				electron.app.setLoginItemSettings({
+					openAtLogin: autoStart,
+					path: electron.app.getPath("exe")
+				});
 			},
 
 			"set-autoupdates": (_: Event, [autoUpdatesEnabled]: string[]) => {

@@ -63,7 +63,7 @@ onMounted(async() => {
   </div>
   <div
     ref="popover"
-    class="fixed popover z-1"
+    class="duration-user-defined fixed popover z-1"
     :class="{ openOnHover, open, [placement || 'bottom']: !open || openOnHover }"
     v-bind="$attrs"
   >
@@ -79,7 +79,7 @@ onMounted(async() => {
 <style scoped lang="postcss">
 
 .popover {
-  @apply rounded-4px transform-gpu transition-transform duration-100 ease-in-out;
+  @apply rounded-4px transform-gpu transition-transform ease-in-out;
 
   &.openOnHover,
   &:not(.open) {

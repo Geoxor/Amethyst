@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import CustomNode from "@/components/nodes/CustomNode.vue";
-import {MasterIcon} from "@/icons/material";
+import {AmethystIcon} from "@/icons";
 import { AmethystAudioNode } from "@/logic/audio";
 defineProps<{ node: AmethystAudioNode }>();
 
@@ -12,6 +12,6 @@ defineProps<{ node: AmethystAudioNode }>();
     :node="node"
     title="Master"
     description="To Outputs"
-    :icon="MasterIcon"
+    :icon="AmethystIcon"
   />
 </template>

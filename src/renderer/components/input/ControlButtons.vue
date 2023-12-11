@@ -1,6 +1,6 @@
 
 <script lang="ts" setup>
-import { CloseIcon, MaximizeIcon, MinimizeIcon, ShrinkIcon, } from "@/icons/fluency";
+import { AmethystIcon, } from "@/icons";
 const emit = defineEmits(["close", "minimize", "maximize", "unmaximize"]);
 defineProps<{ isMaximized: boolean }>();
 </script>
@@ -11,7 +11,7 @@ defineProps<{ isMaximized: boolean }>();
       class="minimize"
       @click="emit('minimize')"
     >
-      <MinimizeIcon />
+      <AmethystIcon />
     </button>
 
     <button
@@ -19,7 +19,7 @@ defineProps<{ isMaximized: boolean }>();
       class="maximize"
       @click="emit('maximize')"
     >
-      <MaximizeIcon />
+      <AmethystIcon />
     </button>
 
     <button
@@ -27,23 +27,23 @@ defineProps<{ isMaximized: boolean }>();
       class="unmaximize"
       @click="emit('unmaximize')"
     >
-      <ShrinkIcon />
+      <AmethystIcon />
     </button>
 
     <button
       class="close"
       @click="emit('close')"
     >
-      <CloseIcon />
+      <AmethystIcon />
     </button>
   </div>
 </template>
 
 <style scoped lang="postcss">
 button {
-  @apply h-full fill-current flex items-center justify-center py-1.5 px-4   hover:text-white hover:bg-primary-800;
+  @apply h-full fill-current flex items-center justify-center py-1.5 px-4 rounded-4px  hover:text-white hover:bg-primary-800;
   &.close {
-    @apply hover:bg-rose-600 active:text-white active:bg-rose-500;
+    @apply hover:bg-rose-600 hover:text-black active:text-white active:bg-rose-500;
   }
 
   svg {

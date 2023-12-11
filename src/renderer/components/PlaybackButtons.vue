@@ -2,11 +2,10 @@
 import { useState, amethyst } from "@/amethyst";
 import Cover from "@/components/CoverArt.vue";
 import Slider from "@/components/input/BaseSlider.vue";
-import {NextIcon, PauseIcon, PlayIcon, RepeatIcon, RepeatOneIcon, ShuffleIcon } from "@/icons/plumpy";
+import { AmethystIcon } from "@/icons";
 import { LoopMode } from "@/logic/player";
 import { onMounted } from "vue";
 import { useInspector } from "./Inspector";
-import { BinocularsIcon, ExternalLinkIcon, HideIcon } from "@/icons/material";
 import { useContextMenu } from "./ContextMenu";
 
 const state = useState();
@@ -22,11 +21,11 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
 
 const handleContextCoverMenu = ({x, y}: MouseEvent) => {
   useContextMenu().open({x, y}, [
-    { title: "Inspect", icon: BinocularsIcon, action: () => amethyst.player.getCurrentTrack() && useInspector().inspectAndShow(amethyst.player.getCurrentTrack()!) },
-    { title: "Export cover...", icon: ExternalLinkIcon, action: () => amethyst.player.getCurrentTrack()?.exportCover() },
+    { title: "Inspect", icon: AmethystIcon, action: () => amethyst.player.getCurrentTrack() && useInspector().inspectAndShow(amethyst.player.getCurrentTrack()!) },
+    { title: "Export cover...", icon: AmethystIcon, action: () => amethyst.player.getCurrentTrack()?.exportCover() },
     state.state.isShowingBigCover 
-      ? { title: "Hide cover", icon: HideIcon, action: () => state.state.isShowingBigCover = false }
-      : { title: "View cover", icon: ExternalLinkIcon, action: () => state.state.isShowingBigCover = true },
+      ? { title: "Hide cover", icon: AmethystIcon, action: () => state.state.isShowingBigCover = false }
+      : { title: "View cover", icon: AmethystIcon, action: () => state.state.isShowingBigCover = true },
   ]);
 };
 

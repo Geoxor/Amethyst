@@ -22,12 +22,19 @@ export default defineConfig({
 	theme: {
 		extend: {
 			colors: {
-				primary: {
-					1000: cssVarRgbHelper("primary-1000"),
-					900: cssVarRgbHelper("primary-900"),
-					800: cssVarRgbHelper("primary-800"),
-					700: cssVarRgbHelper("primary-700"),
-				},
+				// v2
+				text_title: cssVarRgbHelper("text-title"),
+				text_subtitle: cssVarRgbHelper("text-subtitle"),
+				accent: cssVarRgbHelper("accent"),
+				// TODO: change this to primary when done revamping
+				primary: cssVarRgbHelper("primary"),
+
+				// primary: {
+				// 	1000: cssVarRgbHelper("primary-1000"),
+				// 	900: cssVarRgbHelper("primary-900"),
+				// 	800: cssVarRgbHelper("primary-800"),
+				// 	700: cssVarRgbHelper("primary-700"),
+				// },
 				surface: {
 					1000: cssVarRgbHelper("surface-1000"),
 					900: cssVarRgbHelper("surface-900"),

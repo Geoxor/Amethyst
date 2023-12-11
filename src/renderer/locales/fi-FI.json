@@ -1,0 +1,60 @@
+{
+  "settings.animation_duration.title": "Animaation kesto",
+  "settings.animation_duration.description": "Kuinka pitkään animaatiot kestävät Amethystin käyttöliittymässä",
+  
+  "settings.ambient_background.title": "Ambient-tausta",
+  "settings.ambient_background.description": "Näyttää parhaillaan soitettavan kappaleen kansikuvan käyttöliittymän taustassa",
+  "settings.ambient_background.spin_speed.title": "Pyörimisnopeus",
+  "settings.ambient_background.spin_speed.description": "Kuinka nopeasti taustakuva pyörii",
+  "settings.ambient_background.opacity.title": "Läpinäkyvyys",
+  "settings.ambient_background.opacity.description": "Kuinka näkyvä the ambient art is over the app",
+  "settings.ambient_background.blur_strength.title": "Sumennuksen vahvuus",
+  "settings.ambient_background.blur_strength.description": "Kuinka suuri sumennuksen vahvuus on pikseleinä",
+  "settings.ambient_background.zoom.title": "Zoomaus",
+  "settings.ambient_background.zoom.description": "Säätää ambient-taustan skaalautumista, käytä tätä varmistaaksesi, että tausta kattaa koko näytön",
+  
+  "settings.playback_controls.title": "Toiston ohjaimet",
+  "settings.playback_controls.description": "Näyttää toiston ohjaimet sovelluksen alareunassa",
+  
+  "settings.minimalist_mode.title": "Minimalistinen tila",
+  "settings.minimalist_mode.description": "Pitää käyttöliittymän vähemmän yksityiskohtaisena, jotta se pysyy siistinä ja minimalistisena",
+  
+  "settings.cover_art.title": "Kansikuva",
+  "settings.cover_art.description": "Piirtää musiikin kansikuvan lähellä toistosäätimiä ruudun alalaidassa",
+  
+  "settings.debug_stats.title": "Vianmääritystilastot",
+  "settings.debug_stats.description": "Näyttää numerot, kuten samplet, ruudunpäivitys, prosessorin käyttö ja paljon muuta yläpalkissa",
+  
+  "settings.discord_rpc.description" : "Discord Rich Presence antaa käyttäjille mahdollisuuden jakaa Amethystin tämänhetkisen toiminnan Discordissa. Kun RPC ominaisuus on käytössä, se päivittää käyttäjän Discord-tilan näyttämään Amethystin version, parhaillaan soitettavan kappaleen tai soittolistan sekä artistin ja albumin",
+
+  "settings.auto_update.title": "Automaattiset päivitykset",
+  "settings.auto_update.description": "Automaattisesti tarkistaa ja asentaa päivitykset",
+  
+  "settings.launch_on_startup.title": "Avaa käynnistäessä",
+  "settings.launch_on_startup.description": "Avaa Amethyst tietokoneen käynnistyessä",
+  
+  "settings.language.title": "Kieli",
+  "settings.language.description": "Vaihda sovelluksen kieli",  
+  
+  "settings.decibel_meter.title": "Desibelimittari",
+  "settings.decibel_meter.description": "Näyttää äänisignaalin äänitason visuaalisen esityksen desibeleinä (dB). Se näyttää äänisignaalin nykyisen äänitason kuvaajan avulla, jossa y-akseli edustaa äänitasoa desibeleinä. Desibelimittaria voidaan käyttää audiosignaalin yleisen äänenvoimakkuuden seurantaan ja sen varmistamiseen, että se on turvallisten kuuntelutasojen sisällä.",
+  "settings.decibel_meter.separate_pre_post.title": "Erilliset PRE ja POST",
+  "settings.decibel_meter.separate_pre_post.description": "Näyttää erilliset desibelimittarit, yhden signaalille ennen solmua ja yhden solmun jälkeen",
+  
+  "settings.loudness_meter.title": "Äänenvoimakkuusmittari",
+  "settings.loudness_meter.description": "Näyttää visuaalisen esityksen äänisignaalin voimakkuudesta. Äänenvoimakkuus mitataan Loudness Units Full Scale (LUFS) -arvona, joka on standardoitu havaitun äänenvoimakkuuden mittaustapa.",
+  
+  "settings.vectorscope.title": "Vektorskooppi",
+  "settings.vectorscope.description": "Näyttää stereoäänisignaalin visuaalisen esityksen. Se näyttää äänisignaalin suhteellisen vaiheen ja stereoleveyden ympyränmuotoisen kuvaajan avulla. Vektoriskooppia voidaan käyttää audiosignaalin stereokuvauksen ja vaihekoherenssin tarkistamiseen.",
+  "settings.vectorscope.lissajous.title": "Lissajous",
+  "settings.vectorscope.lissajous.description": "Näytä diagonaalisesti lissajous-kuviona",
+  
+  "settings.spectrum_analyser.title": "Spektrianalysaattori",
+  "settings.spectrum_analyser.description": "Näyttää äänisignaalin taajuussisällön visuaalisen esityksen. Se näyttää audiosignaalin taajuusspektrin kuvaajan avulla, jossa x-akseli edustaa taajuusaluetta ja y-akseli amplitudia. Spektrianalysaattorin avulla voidaan analysoida audiosignaalin taajuustasapainoa ja tunnistaa taajuuspiikkejä tai -notkoja.",
+  "settings.spectrum_analyser.logarithmic_spectrum.title": "Logaritminen taajuusspektri",
+  "settings.spectrum_analyser.logarithmic_spectrum.description": "Käytä logaritmista skaalausta taajuuksille",
+
+  "settings.vsync.title": "VSync",
+  "settings.vsync.description": "Rajoita Amethystin käyttöliittymän (UI) päivitysnopeus aktiivisen näytön virkistystaajuuteen.",
+  "settings.vsync.warning": "Uudelleenkäynnistys vaaditaan"
+}

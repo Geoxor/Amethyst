@@ -2,6 +2,7 @@ import vue from "@vitejs/plugin-vue";
 import { join } from "path";
 import { defineConfig as defineViteConfig, mergeConfig } from "vite";
 import { defineConfig as defineVitestConfig } from "vitest/config";
+import { nodePolyfills } from "vite-plugin-node-polyfills";
 
 import WindiCSS from "vite-plugin-windicss";
 
@@ -20,6 +21,12 @@ const viteConfig = defineViteConfig({
 		},
 	},
 	plugins: [
+		nodePolyfills({
+			include: ["crypto", "buffer"],
+			globals: {
+				Buffer: true,
+			}
+		}),
 		WindiCSS({
 			scan: {
 				dirs: ["."], // all files in the cwd

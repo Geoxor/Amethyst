@@ -6,17 +6,18 @@ import Menu from "@/components/menu/MenuContainer.vue";
 import MenuOption from "@/components/menu/MenuOption.vue";
 import MenuSplitter from "@/components/menu/MenuSplitter.vue";
 import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
-import { AudioFileIcon, DiscordIcon, GitHubIcon, MusicFolderIcon, ResetIcon, ZoomInIcon, ZoomOutIcon, RemoveIcon, ResizeIcon, DownloadingUpdatesIcon, SettingsIcon, BookshelfIcon, LoadingIcon, BugIcon } from "@/icons/material";
+import { AmethystIcon } from "@/icons";
 import { useFps } from "@vueuse/core";
-import AmethystLogo from "@/icons/AmethystLogo.vue";
 import { computed, onMounted, ref } from "vue";
-import { countDomElements, refreshWindow } from "@/logic/dom";
+import { countDomElements, refreshWindow, smoothTween } from "@/logic/dom";
 import BaseChip from "./BaseChip.vue";
+import TitleText from "./v2/TitleText.vue";
 
 const min = ref(Number.POSITIVE_INFINITY);
 const max = ref(Number.NEGATIVE_INFINITY);
 const fpsCounter = useFps({every: 60});
 const fps = ref(0);
+const tweenedFps = ref(0);
 const domSize = ref(0);
 const latency = ref(0);
 const cpuUsage = ref({
@@ -37,6 +38,8 @@ onMounted(() => {
     if (amethyst.getCurrentPlatform() === "desktop") {
       window.electron.ipcRenderer.invoke<ProcessorUsage>("percent-cpu-usage").then(usage => cpuUsage.value = usage);
     }
+    smoothTween(tweenedFps.value, fpsCounter.value, 1000, (tweenedNumber => tweenedFps.value = ~~tweenedNumber));
+
   }, 1000);
 });
 
@@ -48,8 +51,8 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
 
 <template>
   <div
-    class="borderBottom z-100 font-main drag text-12px select-none flex justify-between items-center"
-    :class="[state.state.isFocused ? 'text-primary-1000' : 'text-primary-900']"
+    class=" z-100 font-main drag h-40px pr-2 text-12px select-none flex justify-between items-center"
+    :class="[state.state.isFocused ? 'text-text_title' : 'text-text_subtitle']"
   >
     <div
       class="flex no-drag h-full items-center"
@@ -57,23 +60,21 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
       :class="[amethyst.getCurrentOperatingSystem() == 'mac' && 'pl-16']"
     >
       <div
-        class="logo w-40px items-center flex justify-center cursor-heart-pointer"
+        class="duration-user-defined logo w-52px h-full items-center flex justify-center cursor-heart-pointer rounded-br-8px hover:bg-primary hover:bg-opacity-10 hover:text-primary"
       >
-        <amethyst-logo
-          class="w-4 h-4 min-h-4 min-w-4"
-        />
+        <AmethystIcon class="w-5 h-5" />
       </div>
       <Menu title="File">
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'O']"
           title="Open audio..."
-          :icon="AudioFileIcon"
+          :icon="AmethystIcon"
           @click="amethyst.openAudioFilesAndAddToQueue"
         />
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'SHIFT', 'O']"
           title="Open audio folder..."
-          :icon="MusicFolderIcon"
+          :icon="AmethystIcon"
           @click="amethyst.openAudioFoldersAndAddToQueue"
         />
       </Menu>
@@ -81,26 +82,26 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'SHIFT', 'X']"
           title="Clear queue"
-          :icon="RemoveIcon"
+          :icon="AmethystIcon"
           @click="amethyst.player.queue.clear()"
         />
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'SHIFT', 'Z']"
           title="Clear errored / deleted"
-          :icon="RemoveIcon"
+          :icon="AmethystIcon"
           @click="amethyst.player.queue.clearErrored()"
         />
         <menu-splitter />
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'ALT', 'R']"
           title="Refresh all metadata"
-          :icon="ResetIcon"
+          :icon="AmethystIcon"
           @click="amethyst.player.queue.fetchAsyncData(true)"
         />
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'R']"
           title="Refresh window"
-          :icon="ResetIcon"
+          :icon="AmethystIcon"
           @click="refreshWindow"
         />
 
@@ -110,7 +111,7 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
           :title="`Check for updates`"
-          :icon="DownloadingUpdatesIcon"
+          :icon="AmethystIcon"
           @click="amethyst.checkForUpdates()"
         />
       </Menu>
@@ -118,21 +119,21 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
           title="Zoom in"
-          :icon="ZoomInIcon"
+          :icon="AmethystIcon"
           :shortcuts="[commandOrControlSymbol, '+']"
           @click="amethyst.zoom('in')"
         />
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
           title="Zoom out"
-          :icon="ZoomOutIcon"
+          :icon="AmethystIcon"
           :shortcuts="[commandOrControlSymbol, '-']"
           @click="amethyst.zoom('out')"
         />
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
           title="Reset zoom"
-          :icon="ResizeIcon"
+          :icon="AmethystIcon"
           :shortcuts="[commandOrControlSymbol, '0']"
           @click="amethyst.zoom('reset')"
         />
@@ -141,30 +142,29 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
         />
         <menu-option
           title="Settings"
-          :icon="SettingsIcon"
+          :icon="AmethystIcon"
           @click="$router.push({ name: 'settings.appearance' })"
         />
         <menu-option
           title="Show developer tools"
-          :icon="BugIcon"
+          :icon="AmethystIcon"
           @click="amethyst.openDevTools()"
         />
       </Menu>
-
       <Menu title="About">
         <menu-option
           title="Documentation..."
-          :icon="BookshelfIcon"
+          :icon="AmethystIcon"
           @click="amethyst.openLink('https://amethyst.pages.dev/')"
         />
         <menu-option
           title="GitHub Repository..."
-          :icon="GitHubIcon"
+          :icon="AmethystIcon"
           @click="amethyst.openLink('https://github.com/geoxor/amethyst')"
         />
         <menu-option
           title="Discord Server..."
-          :icon="DiscordIcon"
+          :icon="AmethystIcon"
           @click="amethyst.openLink('https://discord.gg/geoxor')"
         />
       </Menu>
@@ -184,16 +184,21 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
     </div>
 
     <p class="absolute flex items-center gap-1 left-1/2 transform-gpu -translate-x-1/2 select-none ">
-      <LoadingIcon
-        v-if="state.state.isCheckingForUpdates"
-        class="h-3 animate-spin w-3 min-h-3 min-w-3"
+      <title-text text="Amethyst" />
+      <title-text
+        class="opacity-50 font-normal capitalize"
+        :text="amethyst.getCurrentPlatform()"
       />
-      Amethyst 
-      <strong class="opacity-50 font-normal capitalize">{{ amethyst.getCurrentPlatform() }}</strong>
-      <BaseChip v-if="amethyst.IS_DEV">
+      <BaseChip
+        v-if="amethyst.IS_DEV"
+        :color="state.state.isFocused ? undefined : 'bg-gray-500'"
+      >
         dev
       </BaseChip>
-      <strong class="opacity-50 font-normal">v{{ amethyst.VERSION }}</strong>
+      <title-text
+        class="opacity-50 font-normal capitalize"
+        :text="amethyst.VERSION"
+      />
     </p>
 
     <div class="flex gap-1.25 h-6 items-center overflow-hidden font-aseprite whitespace-nowrap">
@@ -215,7 +220,7 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
           ]"
           class="font-aseprite"
         >
-          {{ fps }}fps
+          {{ tweenedFps }}fps
         </div>
         <div
           class="hidden lg:inline font-aseprite text-primary-900 text-opacity-50"

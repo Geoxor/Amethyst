@@ -1,42 +1,44 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-
-const props = defineProps<{ icon: any, routeName: string, notifs?: number, mobile?: boolean, text?: string, description?: string }>();
+const props = defineProps<{ icon: any, routeName: string, mobile?: boolean}>();
 const route = useRoute();
 const isActive = computed(() => route.name?.toString().startsWith(props.routeName) || props.routeName === route.name);
 </script>
 
 <template>
-  <div
+  <button
     :class="[
-      isActive ? 'text-black bg-primary-800 font-semibold' : 'text-primary-900 hover:text-primary-800 hover:bg-surface-700 ',
-      text ? 'px-4 py-2 gap-2.5 ' : 'p-3',
+      isActive && 'active',
       mobile && 'rounded-full'
     ]"
-    class="items-center gap-2 text-11px flex relative disable-select no-drag"
+    class="duration-user-defined items-center gap-2 flex relative disable-select p-4 no-drag text-text_title rounded-r-8px"
     @click="$router.push({ name: routeName })"
   >
     <component
       :is="icon"
+      class="w-5 h-5"
     />
-    <div
-      v-if="mobile ? isActive && text : text"
-      class="flex flex-col gap-1"
-    >
-      {{ text }}
-      <p 
-        v-if="description"
-        class="text-9px opacity-50"
-      >
-        {{ description }}
-      </p>
-    </div>
-    <div
-      v-if="notifs"
-      class="absolute top-2 right-0 transform -translate-x-1/2 p-0.5 overflow-hidden text-primary-800 font-aseprite text-7px items-center flex justify-center"
-    >
-      {{ notifs }}
-    </div>
-  </div>
+  </button>
 </template>
+
+<style scoped lang="postcss">
+
+button:hover:not(.active) {
+  @apply bg-accent bg-opacity-15 text-accent;
+  & h1, p {
+    @apply text-accent;
+  }
+  & p {
+    @apply text-opacity-75;
+  }
+}
+
+button.active {
+  @apply bg-accent text-[#101119];
+  & p, h1 {
+    @apply text-[#101119];
+  }
+}
+
+</style>

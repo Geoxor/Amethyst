@@ -1,5 +1,5 @@
 import { useLocalStorage } from "@vueuse/core";
-import { computed, reactive } from "vue";
+import { computed, reactive, watch } from "vue";
 
 export interface IContextMenuOption {
 	title: string;
@@ -45,6 +45,7 @@ export class Store {
 		showLoudnessMeter: true,
 		useLogarithmicSpectrum: true,
 		useVsync: true,
+		autoStart: false,
 		autoUpdatesEnabled: true,
 		showBigVectorscope: false,
 		useDiscordRichPresence: true,
@@ -53,9 +54,11 @@ export class Store {
 		playOnStartup: false,
 		decibelMeterMinimumDb: -60,
 		decibelMeterSeperatePrePost: false,
+		minimalistMode: false,
 		decibelMeterFftSize: 1024,
 		vectorscopeFftSize: 512,
-		zoomLevel: 1.25,
+		zoomLevel: 1.00,
+		animationDuration: 100, // 100ms
 	};
 
 	public settings = useLocalStorage("settings", this.defaultSettings, { writeDefaults: true, mergeDefaults: true });
@@ -76,5 +79,8 @@ export class Store {
 				this.settings[key] = this.defaultSettings[key];
 		});
 
+		watch(() => this.settings.value.animationDuration, newValue => {
+			document.documentElement.style.setProperty("--transition-duration", `${newValue}ms`);
+		});
 	}
 }

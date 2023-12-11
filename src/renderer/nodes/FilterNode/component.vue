@@ -1,16 +1,8 @@
 <script setup lang="ts">
 import Slider from "@/components/input/BaseSlider.vue";
 import CustomNode from "@/components/nodes/CustomNode.vue";
-import { FilterIcon,
-
-HighShelfIcon,
-LowShelfIcon,
-LowpassIcon,
-HighpassIcon,
-BellIcon,
-BandpassIcon,
-
-} from "@/icons/material";
+import { AmethystIcon
+} from "@/icons";
 import { percentToLogValue } from "@/logic/math";
 import { watch } from "vue";
 import { AmethystFilterNode } from ".";
@@ -37,7 +29,7 @@ const FILTER_TYPES = [
   <CustomNode
     :node="node"
     title="12 dB/oct Filter"
-    :icon="FilterIcon"
+    :icon="AmethystIcon"
   >
     <div class="font-aseprite font-thin flex gap-2 items-center">
       <p class="text-primary-900 ">
@@ -52,27 +44,27 @@ const FILTER_TYPES = [
           @mousedown.stop
           @click="node.type = filterType"
         >
-          <HighShelfIcon
+          <AmethystIcon
             v-if="filterType == 'highshelf'"
             class="h-4 w-4"
           />
-          <LowShelfIcon
+          <AmethystIcon
             v-else-if="filterType == 'lowshelf'"
             class="h-4 w-4"
           />
-          <LowpassIcon
+          <AmethystIcon
             v-else-if="filterType == 'lowpass'"
             class="h-4 w-4"
           />
-          <HighpassIcon
+          <AmethystIcon
             v-else-if="filterType == 'highpass'"
             class="h-4 w-4"
           />
-          <BellIcon
+          <AmethystIcon
             v-else-if="filterType == 'peaking'"
             class="h-4 w-4"
           />
-          <BandpassIcon
+          <AmethystIcon
             v-else-if="filterType == 'bandpass'"
             class="h-4 w-4"
           />

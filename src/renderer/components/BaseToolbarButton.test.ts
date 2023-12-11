@@ -1,4 +1,4 @@
-import { MagnetIcon } from "@/icons/material";
+import { MagnetIcon } from "@/icons";
 import { mount } from "@vue/test-utils";
 import { describe, expect, it } from "vitest";
 import { markRaw } from "vue";

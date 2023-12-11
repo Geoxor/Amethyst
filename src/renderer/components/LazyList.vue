@@ -2,10 +2,9 @@
 import { amethyst, useShortcuts } from "@/amethyst";
 import { Track } from "@/logic/track";
 import BaseChip from "@/components/BaseChip.vue";
-import { PlayIcon, ExternalLinkIcon, LoadingIcon, ProcessIcon, BinocularsIcon, ErrorIcon } from "@/icons/material";
+import { AmethystIcon } from "@/icons";
 import Cover from "@/components/CoverArt.vue";
 import { useContextMenu } from "@/components/ContextMenu";
-import { RemoveIcon, ResetIcon } from "@/icons/material";
 import { useInspector } from "./Inspector";
 import { saveArrayBufferToFile } from "@/logic/dom";
 import { convertDfpwm } from "@/logic/encoding";
@@ -16,9 +15,9 @@ const isHoldingControl = useShortcuts().isControlPressed;
 // Context Menu options for this component 
 const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
   useContextMenu().open({x, y}, [
-    { title: "Play", icon: PlayIcon, action: () => amethyst.player.play(track) },
-    { title: "Inspect", icon: BinocularsIcon, action: () => useInspector().inspectAndShow(track) },
-    { title: "Encode to .dfpwm...", icon: ProcessIcon, action: async () => {
+    { title: "Play", icon: AmethystIcon, action: () => amethyst.player.play(track) },
+    { title: "Inspect", icon: AmethystIcon, action: () => useInspector().inspectAndShow(track) },
+    { title: "Encode to .dfpwm...", icon: AmethystIcon, action: async () => {
       saveArrayBufferToFile(
         await convertDfpwm(await track.getArrayBuffer()), 
         {
@@ -26,11 +25,11 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           extension: "dfpwm"
       });
     }},
-    { title: "Show in Explorer...", icon: ExternalLinkIcon, action: () => amethyst.showItem(track.path) },
-    { title: "Export cover...", icon: ExternalLinkIcon, action: () => track.exportCover() },
-    { title: "Reload metadata", icon: ResetIcon, action: () => track.fetchAsyncData(true) },
-    { title: "Remove from queue", icon: RemoveIcon, red: true, action: () => amethyst.player.queue.remove(track) },
-    { title: "Delete from disk", icon: RemoveIcon, red: true, action: () => track.delete() },
+    { title: "Show in Explorer...", icon: AmethystIcon, action: () => amethyst.showItem(track.path) },
+    { title: "Export cover...", icon: AmethystIcon, action: () => track.exportCover() },
+    { title: "Reload metadata", icon: AmethystIcon, action: () => track.fetchAsyncData(true) },
+    { title: "Remove from queue", icon: AmethystIcon, red: true, action: () => amethyst.player.queue.remove(track) },
+    { title: "Delete from disk", icon: AmethystIcon, red: true, action: () => track.delete() },
   ]);
 };
 
@@ -98,7 +97,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
               class="h-3 w-3 min-h-3 min-w-3"
             />
 
-            <RemoveIcon
+            <AmethystIcon
               v-else-if="item.deleted"
               class="h-3 w-3 min-h-3 min-w-3"
             />
@@ -113,7 +112,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
             class="td flex gap-1 min-w-1/4"
           >
             {{ amethyst.player.getCurrentTrack()?.path == item.path ? "⏵ " : "" }}
-            <BinocularsIcon
+            <AmethystIcon
               v-if="useInspector().state.isVisible && useInspector().state.currentItem == item"
               class="w-3 h-3"
             />
