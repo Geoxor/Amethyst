@@ -6,31 +6,31 @@ import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 import { BugIcon, LargeIconsIcon, SkipIcon, EyeIcon, SearchIcon } from "@/icons";
 const state = useState();
 
-const BLEND_MODES = [
-  "normal",
-  "multiply",
-  "screen",
-  "overlay",
-  "darken",
-  "lighten",
-  "color-dodge",
-  "color-burn",
-  "hard-light",
-  "soft-light",
-  "difference",
-  "exclusion",
-  "hue",
-  "saturation",
-  "color",
-  "luminosity",
-];
+// const BLEND_MODES = [
+//   "normal",
+//   "multiply",
+//   "screen",
+//   "overlay",
+//   "darken",
+//   "lighten",
+//   "color-dodge",
+//   "color-burn",
+//   "hard-light",
+//   "soft-light",
+//   "difference",
+//   "exclusion",
+//   "hue",
+//   "saturation",
+//   "color",
+//   "luminosity",
+// ];
 
 </script>
 
 <template>
   <settings-setting
-    title="Animation duration"
-    description="How long animations will last in Amethyst across the UI"
+    :title="$t('settings.animation_duration.title')"
+    :description="$t('settings.animation_duration.description')"
     :icon="SkipIcon"
   >
     <slider-input
@@ -41,8 +41,8 @@ const BLEND_MODES = [
     />
   </settings-setting>
   <settings-setting
-    title="Ambient background"
-    description="Presents an overlay of the cover art for the currently playing song on the UI"
+    :title="$t('settings.ambient_background.title')"
+    :description="$t('settings.ambient_background.description')"
     :icon="LargeIconsIcon"
   >
     <toggle-switch
@@ -52,8 +52,8 @@ const BLEND_MODES = [
       <div class="p-2 flex flex-col gap-2">
         <settings-setting
           subsetting
-          title="Spin speed"
-          description="How fast the background image will rotate"
+          :title="$t('settings.ambient_background.spin_speed.title')"
+          :description="$t('settings.ambient_background.spin_speed.description')"
           :icon="LargeIconsIcon"
         >
           <slider-input
@@ -66,8 +66,8 @@ const BLEND_MODES = [
         </settings-setting>
         <settings-setting
           subsetting
-          title="Opacity"
-          description="How visible the ambient art is over the app"
+          :title="$t('settings.ambient_background.opacity.title')"
+          :description="$t('settings.ambient_background.opacity.description')"
           :icon="LargeIconsIcon"
         >
           <slider-input
@@ -79,8 +79,8 @@ const BLEND_MODES = [
         </settings-setting>
         <settings-setting
           subsetting
-          title="Blur strength"
-          description="How much blur to apply in px"
+          :title="$t('settings.ambient_background.blur_strength.title')"
+          :description="$t('settings.ambient_background.blur_strength.description')"
           :icon="LargeIconsIcon"
         >
           <slider-input
@@ -92,8 +92,8 @@ const BLEND_MODES = [
         </settings-setting>
         <settings-setting
           subsetting
-          title="Zoom"
-          description="Adjusts the scaling of the ambient art, use it to make sure the art covers the entire screen"
+          :title="$t('settings.ambient_background.zoom.title')"
+          :description="$t('settings.ambient_background.zoom.description')"
           :icon="SearchIcon"
         >
           <slider-input
@@ -107,8 +107,8 @@ const BLEND_MODES = [
     </template>
   </settings-setting>
   <settings-setting
-    title="Playback controls"
-    description="Display the playback controls at the bottom of the application"
+    :title="$t('settings.playback_controls.title')"
+    :description="$t('settings.playback_controls.description')"
     :icon="SkipIcon"
   >
     <toggle-switch
@@ -116,8 +116,8 @@ const BLEND_MODES = [
     />
   </settings-setting>
   <settings-setting
-    title="Minimalist mode"
-    description="Be less verbose on the UI to keep it clean"
+    :title="$t('settings.minimalist_mode.title')"
+    :description="$t('settings.minimalist_mode.description')"
     :icon="EyeIcon"
   >
     <toggle-switch
@@ -125,8 +125,8 @@ const BLEND_MODES = [
     />
   </settings-setting>
   <settings-setting
-    title="Cover art"
-    description="Render the cover art near the playback controls located at the bottom of the interface"
+    :title="$t('settings.cover_art.title')"
+    :description="$t('settings.cover_art.description')"
     :icon="LargeIconsIcon"
   >
     <toggle-switch
@@ -134,8 +134,8 @@ const BLEND_MODES = [
     />
   </settings-setting>
   <settings-setting
-    title="Debug statistics"
-    description="Show numbers such as samples, fps, processor usage and mroe at the top bar."
+    :title="$t('settings.debug_stats.title')"
+    :description="$t('settings.debug_stats.description')"
     :icon="BugIcon"
   >
     <toggle-switch

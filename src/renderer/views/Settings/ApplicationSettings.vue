@@ -3,6 +3,7 @@ import { amethyst, useState } from "@/amethyst";
 import {RocketIcon, UpdateIcon} from "@/icons";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 import SettingsSetting from "@/components/v2/SettingsSetting.vue";
+import LanguageDropdown from "@/components/v2/LanguageDropdown.vue";
 
 const state = useState();
 const handleToggleAutoUpdates = () => {
@@ -17,8 +18,8 @@ const handleToggleAutostart = () => {
   <settings-setting
     v-if="amethyst.getCurrentPlatform() === 'desktop'"
     :icon="UpdateIcon"
-    description="Automatically check and install updates on startup"
-    title="Automatic updates"
+    :title="$t('settings.auto_update.title')"
+    :description="$t('settings.auto_update.description')"
   >
     <toggle-switch
       v-model="state.settings.value.autoUpdatesEnabled" 
@@ -27,13 +28,21 @@ const handleToggleAutostart = () => {
   </settings-setting>
   <settings-setting
     v-if="amethyst.getCurrentPlatform() === 'desktop'"
+    :title="$t('settings.launch_on_startup.title')"
+    :description="$t('settings.launch_on_startup.description')"
     :icon="RocketIcon"
-    description="Launch Amethyst when your system starts"
-    title="Launch on startup"
   >
     <toggle-switch
       v-model="state.settings.value.autoStart" 
       @change="handleToggleAutostart"
     />
+  </settings-setting>
+
+  <settings-setting
+    :icon="RocketIcon"
+    :title="$t('settings.language.title')"
+    :description="$t('settings.language.description')"
+  >
+    <language-dropdown />
   </settings-setting>
 </template>
