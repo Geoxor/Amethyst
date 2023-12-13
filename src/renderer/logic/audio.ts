@@ -50,8 +50,7 @@ export class AmethystAudioNode {
 
   public disconnectFrom(target: AmethystAudioNode) {
     this.connectedTo.splice(this.connectedTo.indexOf(target), 1);
-    // TODO: make this get the indexes of all target connections because it only disconnects the first target
-    this.connections.splice(this.connections.findIndex(connection => connection.target === target.properties.id), 1);
+    this.connections = this.connections.filter(connection => connection.target != target.properties.id);
     this.post.disconnect(target.pre);
   }
 
