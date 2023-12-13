@@ -39,6 +39,7 @@ export class AmethystAudioNode {
 
   public connectTo(target: AmethystAudioNode) {
     if (this.connectedTo.includes(target)) return;
+    if (target == this) return;
     this.connectedTo.push(target);
     this.connections.push({ 
       id: uuidv4(),
@@ -50,29 +51,31 @@ export class AmethystAudioNode {
 
   public disconnectFrom(target: AmethystAudioNode) {
     this.connectedTo.splice(this.connectedTo.indexOf(target), 1);
-    // TODO: make this get the indexes of all target connections because it only disconnects the first target
-    this.connections.splice(this.connections.findIndex(connection => connection.target === target.properties.id), 1);
+    this.connections = this.connections.filter(connection => connection.target != target.properties.id);
     this.post.disconnect(target.pre);
   }
 
   public disconnect() {
     if (this.isBypassed) this.toggleBypass();
 
-    // Disconnect descendants
+    const sources = new Array<AmethystAudioNode>;
+    const targets = new Array<AmethystAudioNode>;
+
+    // Get, store and disconnect all connections
     this.connections.forEach(connection => {
+      // Get node connected to this node
       const source = amethyst.player.nodeManager.nodes.value.find(node => node.connections.some(connection => connection.target === this.properties.id));
+      // Get node connected by this node
       const target = amethyst.player.nodeManager.nodes.value.find(node => node.properties.id === connection.target);
-      target && this.disconnectFrom(target);
-      
-      // And this node from it's current target
-      // And connect them together as if this node never existed between them
-      if (source && target) {
-        source.connectTo(target);
-      }
+      source && sources.push(source) && source.disconnectFrom(this);
+      target && targets.push(target) && this.disconnectFrom(target);
     });
 
-    // Disconnect parents
-    this.getParentNode()?.disconnectFrom(this);
+    sources.forEach(source => {
+      targets.forEach(target => {
+        source.connectTo(target);
+      });
+    });
   }
 
   public toggleBypass() {
