@@ -57,21 +57,24 @@ export class AmethystAudioNode {
   public disconnect() {
     if (this.isBypassed) this.toggleBypass();
 
-    // Disconnect descendants
+    const sources = new Array<AmethystAudioNode>;
+    const targets = new Array<AmethystAudioNode>;
+
+    // Get, store and disconnect all connections
     this.connections.forEach(connection => {
+      // Get node connected to this node
       const source = amethyst.player.nodeManager.nodes.value.find(node => node.connections.some(connection => connection.target === this.properties.id));
+      // Get node connected by this node
       const target = amethyst.player.nodeManager.nodes.value.find(node => node.properties.id === connection.target);
-      target && this.disconnectFrom(target);
-      
-      // And this node from it's current target
-      // And connect them together as if this node never existed between them
-      if (source && target) {
-        source.connectTo(target);
-      }
+      source && sources.push(source) && source.disconnectFrom(this);
+      target && targets.push(target) && this.disconnectFrom(target);
     });
 
-    // Disconnect parents
-    this.getParentNode()?.disconnectFrom(this);
+    sources.forEach(source => {
+      targets.forEach(target => {
+        source.connectTo(target);
+      });
+    });
   }
 
   public toggleBypass() {
