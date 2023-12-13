@@ -39,6 +39,7 @@ export class AmethystAudioNode {
 
   public connectTo(target: AmethystAudioNode) {
     if (this.connectedTo.includes(target)) return;
+    if (target == this) return;
     this.connectedTo.push(target);
     this.connections.push({ 
       id: uuidv4(),
