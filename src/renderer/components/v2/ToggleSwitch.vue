@@ -4,14 +4,11 @@ import { useVModel as useModelValue } from "@vueuse/core";
 const props = defineProps<{modelValue: boolean}>();
 const emits = defineEmits(["update:modelValue", "change"]);
 const value = useModelValue(props, "modelValue", emits);
-
-amethyst.store.settings.value.neonMode;
-
 </script>
 
 <template>
   <button
-    class="px-4 py-1 w-12 rounded-full relative"
+    class="px-4 py-1 w-12 min-w-12 rounded-full relative"
     :class="[value ? (amethyst.store.settings.value.neonMode ? 'neonMode' : 'bg-primary text-surface-700') : 'bg-accent bg-opacity-15']"
     @click="emits('update:modelValue', !value); emits('change')"
   >
