@@ -5,8 +5,9 @@ tests
 powered-test
 
 # asset directories
-docs
-doc
+<!-- required by vite i18n plugin -->
+<!-- docs -->
+<!-- doc -->
 website
 images
 

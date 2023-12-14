@@ -16,22 +16,12 @@ import * as mm from "music-metadata-browser";
 import { router } from "./router";
 import "./logic/subsonic";
 import { createI18n } from "vue-i18n";
-import enUS from "./locales/en-US.json";
-import fiFI from "./locales/fi-FI.json";
-import plPL from "./locales/pl-PL.json";
+import messages from "@intlify/unplugin-vue-i18n/messages";
 
-type MessageSchema = typeof enUS;
-export type SupportedLocales = typeof SUPPORTED_LOCALES[number];
-export const SUPPORTED_LOCALES = ["en-US", "fi-FI", "pl-PL"] as const;
-
-export const i18n = createI18n<[MessageSchema], SupportedLocales>({
+export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale
   locale: JSON.parse(localStorage.getItem("settings")!).language,
-  messages: {
-    "en-US": enUS,
-    "fi-FI": fiFI,
-    "pl-PL": plPL,
-  },
+  messages,
 });
 
 export type AmethystPlatforms = ReturnType<typeof amethyst.getCurrentPlatform>;

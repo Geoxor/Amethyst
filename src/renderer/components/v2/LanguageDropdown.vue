@@ -2,11 +2,11 @@
 import { ref } from "vue";
 import { onClickOutside } from "@vueuse/core";
 import { ChevronIcon } from "@/icons";
-import { SUPPORTED_LOCALES, amethyst } from "@/amethyst";
+import { useI18n } from "vue-i18n";
 import iso6391 from "iso-639-1";
 import iso3166 from "iso-3166-1";
+import { amethyst } from "@/amethyst";
 
-const langs = ref(SUPPORTED_LOCALES);
 const showLanguageDropdown = ref(false);
 const languageDropdown = ref(null);
 
@@ -52,7 +52,7 @@ const convertLocaleToLanguage = (locale: string) => {
         class="languageDropdown absolute w-32 flex flex-col justify-start top-6 -right-0  p-1 rounded-8px bg-surface-600"
       >
         <button
-          v-for="(lang, i) in langs"
+          v-for="(lang, i) in useI18n().availableLocales"
           :key="`Lang${i}`"
           class="flex items-center gap-2 py-2 px-4 flex w-full justify-start hover:bg-surface-400 font-semibold text-text_title rounded-6px"
           :value="lang"
