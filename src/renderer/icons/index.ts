@@ -45,10 +45,16 @@ import VoltmeterIcon from "./VoltmeterIcon.vue";
 import WaveIcon from "./WaveIcon.vue";
 import DiscordIcon from "./DiscordIcon.vue";
 import EyeIcon from "./EyeIcon.vue";
+import FogIcon from "./FogIcon.vue";
+import SpinIcon from "./SpinIcon.vue";
+import OpacityIcon from "./OpacityIcon.vue";
 
 export {
   AddIcon,
   EyeIcon,
+  FogIcon,
+  SpinIcon,
+  OpacityIcon,
   DiscordIcon,
   AdjustIcon,
   AmethystIcon,

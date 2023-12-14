@@ -3,7 +3,7 @@ import { useState } from "@/amethyst";
 import SettingsSetting from "@/components/v2/SettingsSetting.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
-import { BugIcon, LargeIconsIcon, SkipIcon, EyeIcon, SearchIcon } from "@/icons";
+import { BugIcon, LargeIconsIcon, SkipIcon, EyeIcon, SearchIcon, SpinIcon, OpacityIcon, FogIcon } from "@/icons";
 const state = useState();
 
 // const BLEND_MODES = [
@@ -54,7 +54,7 @@ const state = useState();
           subsetting
           :title="$t('settings.ambient_background.spin_speed.title')"
           :description="$t('settings.ambient_background.spin_speed.description')"
-          :icon="LargeIconsIcon"
+          :icon="SpinIcon"
         >
           <slider-input
             v-model="state.settings.value.ambientBackgroundSpinSpeed"
@@ -68,7 +68,7 @@ const state = useState();
           subsetting
           :title="$t('settings.ambient_background.opacity.title')"
           :description="$t('settings.ambient_background.opacity.description')"
-          :icon="LargeIconsIcon"
+          :icon="OpacityIcon"
         >
           <slider-input
             v-model="state.settings.value.ambientBackgroundOpacity"
@@ -81,7 +81,7 @@ const state = useState();
           subsetting
           :title="$t('settings.ambient_background.blur_strength.title')"
           :description="$t('settings.ambient_background.blur_strength.description')"
-          :icon="LargeIconsIcon"
+          :icon="FogIcon"
         >
           <slider-input
             v-model="state.settings.value.ambientBackgroundBlurStrength"
