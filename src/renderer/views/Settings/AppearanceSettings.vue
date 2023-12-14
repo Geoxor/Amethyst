@@ -125,6 +125,15 @@ const state = useState();
     />
   </settings-setting>
   <settings-setting
+    :title="$t('settings.neon_mode.title')"
+    :description="$t('settings.neon_mode.description')"
+    :icon="EyeIcon"
+  >
+    <toggle-switch
+      v-model="state.settings.value.neonMode" 
+    />
+  </settings-setting>
+  <settings-setting
     :title="$t('settings.cover_art.title')"
     :description="$t('settings.cover_art.description')"
     :icon="LargeIconsIcon"

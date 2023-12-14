@@ -66,6 +66,9 @@
   "settings.minimalist_mode.title": "Minimalistinen tila",
   "settings.minimalist_mode.description": "Pitää käyttöliittymän vähemmän yksityiskohtaisena, jotta se pysyy siistinä ja minimalistisena",
   
+  "settings.neon_mode.title": "Neon mode",
+  "settings.neon_mode.description": "Changes the designs of certain UI elements to have a bloomy neon design",
+
   "settings.cover_art.title": "Kansikuva",
   "settings.cover_art.description": "Piirtää musiikin kansikuvan lähellä toistosäätimiä ruudun alalaidassa",
   

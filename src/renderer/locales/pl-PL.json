@@ -66,6 +66,9 @@
   "settings.minimalist_mode.title": "Tryb minimalistyczny",
   "settings.minimalist_mode.description": "Zmniejsz ilość elementów widocznych",
 
+  "settings.neon_mode.title": "Neon mode",
+  "settings.neon_mode.description": "Changes the designs of certain UI elements to have a bloomy neon design",
+
   "settings.cover_art.title": "Okładka",
   "settings.cover_art.description": "Wyświetla okładkę w dolnej części ekranu",
 

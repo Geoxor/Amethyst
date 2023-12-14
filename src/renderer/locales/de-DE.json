@@ -66,6 +66,9 @@
   "settings.minimalist_mode.title": "Reduzierter Modus",
   "settings.minimalist_mode.description": "Weniger auf der Benutzeroberfläche anzeigen, um sie sauber zu halten",
 
+  "settings.neon_mode.title": "Neon mode",
+  "settings.neon_mode.description": "Changes the designs of certain UI elements to have a bloomy neon design",
+
   "settings.cover_art.title": "Coverbild",
   "settings.cover_art.description": "Das Coverbild in der Nähe der Wiedergabesteuerung am unteren Rand der Oberfläche anzeigen",
 

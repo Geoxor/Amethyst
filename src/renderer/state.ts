@@ -49,6 +49,7 @@ export class Store {
 		autoStart: false,
 		autoUpdatesEnabled: true,
 		showBigVectorscope: false,
+		neonMode: false,
 		useDiscordRichPresence: true,
 		showDebugStats: false,
 		smoothScrollSpeed: 0.075,
