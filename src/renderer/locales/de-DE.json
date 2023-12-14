@@ -1,0 +1,107 @@
+{
+  "menu.file": "Datei",
+  "menu.file.open_audio": "Audio öffnen...",
+  "menu.file.open_audio_folder": "Audio-Ordner öffnen...",
+  
+  "menu.utility": "Tools",
+  "menu.utility.clear_queue": "Warteschlange leeren",
+  "menu.utility.clear_errored_deleted": "Fehlerhafte/Gelöschte löschen",
+  "menu.utility.refresh_all_metadata": "Metadaten erneuern",
+  "menu.utility.refresh_window": "Fenster erneuern",
+  "menu.utility.check_for_updates": "Auf Updates prüfen",
+  
+  "menu.view": "Ansicht",
+  "menu.view.zoom_in": "Vergrößern",
+  "menu.view.zoom_out": "Verkleinern",
+  "menu.view.reset_zoom": "Größe zurücksetzen",
+  "menu.view.settings": "Einstellungen",
+  "menu.view.show_developer_tools": "Entwicklertools anzeigen",
+  
+  "menu.about": "Über",
+  "menu.about.documentation": "Dokumentation...",
+  "menu.about.github_repository": "GitHub Repository...",
+  "menu.about.discord_server": "Discord Server...",
+
+  "settings.appearance.title": "Erscheinungsbild",
+  "settings.appearance.description": "Hintergrund, Themen und Barrierefreiheit anpassen",
+  
+  "settings.performance.title": "Leistung",
+  "settings.performance.description": "VSync, Animationen und Rendering abstimmen",
+  
+  "settings.metering.title": "Überwachung",
+  "settings.metering.description": "Spektren, Vektorskop und Messgeräte anpassen",
+  
+  "settings.audio.title": "Audio",
+  "settings.audio.description": "Ausgabegeräte und Voreinstellungen verwalten",
+  
+  "settings.media_sources.title": "Medienquellen",
+  "settings.media_sources.description": "Ordner organisieren, mit Servern verbinden und mehr",
+  
+  "settings.keybinds.title": "Tastenbelegung",
+  "settings.keybinds.description": "Tastenbelegung anpassen",
+  
+  "settings.integrations.title": "Integrationen",
+  "settings.integrations.description": "Discord und andere Integrationen anpassen",
+  
+  "settings.application.title": "Anwendung",
+  "settings.application.description": "Updates und Spracheinstellungen verwalten",
+
+  "settings.animation_duration.title": "Animationsdauer",
+  "settings.animation_duration.description": "Wie lange Animationen in gesamt Amethyst dauern sollen",
+
+  "settings.ambient_background.title": "Ambienter Hintergrund",
+  "settings.ambient_background.description": "Präsentiert eine Überlagerung des Coverbilds für das aktuell abgespielte Lied auf der Oberfläche",
+  "settings.ambient_background.spin_speed.title": "Drehgeschwindigkeit",
+  "settings.ambient_background.spin_speed.description": "Wie schnell sich das Hintergrundbild drehen soll",
+  "settings.ambient_background.opacity.title": "Transparenz",
+  "settings.ambient_background.opacity.description": "Wie sichtbar das Ambiente Bild über der App ist",
+  "settings.ambient_background.blur_strength.title": "Unschärfe-Stärke",
+  "settings.ambient_background.blur_strength.description": "Wie viel Unschärfe (in px) angewendet werden soll",
+  "settings.ambient_background.zoom.title": "Zoom",
+  "settings.ambient_background.zoom.description": "Passt die Skalierung des Ambienten Hintergrunds an, um sicherzustellen, dass das Cover den gesamten Bildschirm abdeckt",
+
+  "settings.playback_controls.title": "Wiedergabesteuerung",
+  "settings.playback_controls.description": "Wiedergabesteuerungen am unteren Rand von Amethyst anzeigen",
+
+  "settings.minimalist_mode.title": "Reduzierter Modus",
+  "settings.minimalist_mode.description": "Weniger auf der Benutzeroberfläche anzeigen, um sie sauber zu halten",
+
+  "settings.cover_art.title": "Coverbild",
+  "settings.cover_art.description": "Das Coverbild in der Nähe der Wiedergabesteuerung am unteren Rand der Oberfläche anzeigen",
+
+  "settings.debug_stats.title": "Debug-Statistiken",
+  "settings.debug_stats.description": "Zahlen wie Samples, FPS, Prozessorauslastung oben in der Aktionsleiste anzeigen",
+  
+  "settings.discord_rpc.description" : "Discord Rich Presence ermöglicht es dir, deine aktuelle Aktivität in Amethyst auf Discord zu teilen. Wenn aktiviert, aktualisiert die RPC-Funktion deinen Discord-Status, um die Version von Amethyst, das gerade abgespielte Lied oder die Playlist sowie Künstler und Album anzuzeigen.",
+  
+  "settings.auto_update.title": "Automatische Updates",
+  "settings.auto_update.description": "Automatisch nach Updates suchen und sie beim Start installieren",
+  
+  "settings.launch_on_startup.title": "Bei Systemstart ausführen",
+  "settings.launch_on_startup.description": "Amethyst beim Start des Systems starten",
+
+  "settings.language.title": "Sprache",
+  "settings.language.description": "Ändere die Sprache von Amethyst",
+
+  "settings.decibel_meter.title": "Dezibel-Messung",
+  "settings.decibel_meter.description": "Zeigt eine visuelle Darstellung des Schallpegels des Audiosignals in Dezibel (dB) an. Es zeigt den aktuellen Schallpegel des Audiosignals mit einem Diagramm an, bei dem die y-Achse den Schallpegel in Dezibel darstellt. Die Dezibel-Messung kann verwendet werden, um die Gesamtlautstärke des Audiosignals zu überwachen und sicherzustellen, dass sie innerhalb einer sicheren Hörgrenze liegt.",
+  "settings.decibel_meter.separate_pre_post.title": "Seperiere PRE und POST",
+  "settings.decibel_meter.separate_pre_post.description": "Zeigt einzelne Dezibel-Messungen, jeweils vor und nach einem Knoten",
+  
+  "settings.loudness_meter.title": "Lautstärke-Messung",
+  "settings.loudness_meter.description": "Zeigt eine visuelle Darstellung der wahrgenommenen Lautstärke des Audiosignals. Das Lautstärke-Messgerät wird in Loudness Units Full Scale (LUFS) gemessen, was eine standardisierte Messung der wahrgenommenen Lautstärke ist.",
+  
+  "settings.vectorscope.title": "Vektorskop",
+  "settings.vectorscope.description": "Zeigt eine visuelle Darstellung des Stereo-Audiosignals. Es zeigt die relative Phase und Stereo-Breite des Audiosignals mit einem kreisförmigen Diagramm an. Das Vektorskop kann verwendet werden, um die Stereo-Bildgebung und Phasenkohärenz des Audiosignals zu überprüfen.",
+  "settings.vectorscope.lissajous.title": "Lissajous",
+  "settings.vectorscope.lissajous.description": "Zeige diagonal in einem Lissajous-Muster",
+  
+  "settings.spectrum_analyser.title": "Spektrumanalysator",
+  "settings.spectrum_analyser.description": "Zeigt eine visuelle Darstellung des Frequenzinhalts des Audiosignals. Der Spektrumanalysator zeigt das Frequenzspektrum des Audiosignals mit einem Diagramm an, bei dem die x-Achse den Frequenzbereich und die y-Achse die Amplitude darstellt. Der Spektrumanalysator kann verwendet werden, um die Frequenzbalance des Audiosignals zu analysieren und Frequenzspitzen oder -nuten zu identifizieren.",
+  "settings.spectrum_analyser.logarithmic_spectrum.title": "Logarithmisches Spektrum",
+  "settings.spectrum_analyser.logarithmic_spectrum.description": "Verwende eine logarithmische Skalierung für Frequenzen",
+
+  "settings.vsync.title": "VSync",
+  "settings.vsync.description": "Beschränke die Bildwiederholrate der Benutzeroberfläche von Amethyst auf die Aktualisierungsrate des aktiven Displays.",
+  "settings.vsync.warning": "Neustart erforderlich"
+}
