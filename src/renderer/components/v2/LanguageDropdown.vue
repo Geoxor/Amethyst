@@ -35,13 +35,13 @@ const convertLocaleToLanguage = (locale: string) => {
 
 <template>
   <button
-    class="flex relative gap-1 items-center bg-accent bg-opacity-15 text-accent py-2 px-4 text-13px font-semibold rounded-8px gap-2"
+    class="flex relative gap-1 items-center bg-accent bg-opacity-15 text-accent w-32 py-2 px-4 text-13px font-semibold rounded-8px gap-2"
     :class="showLanguageDropdown && 'active'"
     @click="showLanguageDropdown = true;"
   >
     <img
       :src="`/flags/${$i18n.locale.split('-')[1].toLocaleLowerCase()}.svg`"
-      class="w-5 rounded-2px"
+      class="w-4 rounded-2px"
     >
     {{ convertLocaleToLanguage($i18n.locale) }}
     <ChevronIcon class="w-4 h-4" />
@@ -61,7 +61,7 @@ const convertLocaleToLanguage = (locale: string) => {
         >
           <img
             :src="`/flags/${lang.split('-')[1].toLocaleLowerCase()}.svg`"
-            class="w-5 rounded-2px"
+            class="w-4 rounded-2px"
           >
           {{ convertLocaleToLanguage(lang) }}
         </button>

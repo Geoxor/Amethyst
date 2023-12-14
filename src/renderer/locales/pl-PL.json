@@ -1,4 +1,28 @@
 {
+  "settings.appearance.title": "Appearance",
+  "settings.appearance.description": "Customize background, themes, and accessibility",
+  
+  "settings.performance.title": "Performance",
+  "settings.performance.description": "Fine-tune vsync, animations, and rendering",
+  
+  "settings.metering.title": "Metering",
+  "settings.metering.description": "Adjust spectrums, vectorscope, and meters",
+  
+  "settings.audio.title": "Audio",
+  "settings.audio.description": "Manage output devices and presets",
+  
+  "settings.media_sources.title": "Media Sources",
+  "settings.media_sources.description": "Organize folders, connect to servers, and more",
+  
+  "settings.keybinds.title": "Keybinds",
+  "settings.keybinds.description": "Customize key mappings for your experience",
+  
+  "settings.integrations.title": "Integrations",
+  "settings.integrations.description": "Adjust Discord and other integrations",
+  
+  "settings.application.title": "Application",
+  "settings.application.description": "Manage updates and language preferences",
+  
   "settings.animation_duration.title": "Długość animacji",
   "settings.animation_duration.description": "Jak długo będą trwać animacje",
 
