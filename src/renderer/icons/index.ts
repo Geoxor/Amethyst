@@ -47,6 +47,7 @@ import DiscordIcon from "./DiscordIcon.vue";
 import EyeIcon from "./EyeIcon.vue";
 import FogIcon from "./FogIcon.vue";
 import SpinIcon from "./SpinIcon.vue";
+import WaterIcon from "./WaterIcon.vue";
 import OpacityIcon from "./OpacityIcon.vue";
 
 export {
@@ -54,6 +55,7 @@ export {
   EyeIcon,
   FogIcon,
   SpinIcon,
+  WaterIcon,
   OpacityIcon,
   DiscordIcon,
   AdjustIcon,

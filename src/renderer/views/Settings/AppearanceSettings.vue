@@ -1,29 +1,30 @@
 <script setup lang="ts">
 import { useState } from "@/amethyst";
+import DropdownInput from "@/components/v2/DropdownInput.vue";
 import SettingsSetting from "@/components/v2/SettingsSetting.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
-import { BugIcon, LargeIconsIcon, SkipIcon, EyeIcon, SearchIcon, SpinIcon, OpacityIcon, FogIcon } from "@/icons";
+import { BugIcon, LargeIconsIcon, WaterIcon, SkipIcon, EyeIcon, SearchIcon, SpinIcon, OpacityIcon, FogIcon } from "@/icons";
 const state = useState();
 
-// const BLEND_MODES = [
-//   "normal",
-//   "multiply",
-//   "screen",
-//   "overlay",
-//   "darken",
-//   "lighten",
-//   "color-dodge",
-//   "color-burn",
-//   "hard-light",
-//   "soft-light",
-//   "difference",
-//   "exclusion",
-//   "hue",
-//   "saturation",
-//   "color",
-//   "luminosity",
-// ];
+const BLEND_MODES = [
+  "normal",
+  "multiply",
+  "screen",
+  "overlay",
+  "darken",
+  "lighten",
+  "color-dodge",
+  "color-burn",
+  "hard-light",
+  "soft-light",
+  "difference",
+  "exclusion",
+  "hue",
+  "saturation",
+  "color",
+  "luminosity",
+];
 
 </script>
 
@@ -50,6 +51,17 @@ const state = useState();
     />
     <template #subsettings>
       <div class="p-2 flex flex-col gap-2">
+        <settings-setting
+          subsetting
+          :title="$t('settings.ambient_background.blending_mode.title')"
+          :description="$t('settings.ambient_background.blending_mode.description')"
+          :icon="WaterIcon"
+        >
+          <dropdown-input
+            v-model="state.settings.value.ambientBackgroundBlendMode"
+            :options="BLEND_MODES"
+          />
+        </settings-setting>
         <settings-setting
           subsetting
           :title="$t('settings.ambient_background.spin_speed.title')"
@@ -107,6 +119,15 @@ const state = useState();
     </template>
   </settings-setting>
   <settings-setting
+    :title="$t('settings.neon_mode.title')"
+    :description="$t('settings.neon_mode.description')"
+    :icon="EyeIcon"
+  >
+    <toggle-switch
+      v-model="state.settings.value.neonMode" 
+    />
+  </settings-setting>
+  <settings-setting
     :title="$t('settings.playback_controls.title')"
     :description="$t('settings.playback_controls.description')"
     :icon="SkipIcon"
@@ -124,15 +145,7 @@ const state = useState();
       v-model="state.settings.value.minimalistMode" 
     />
   </settings-setting>
-  <settings-setting
-    :title="$t('settings.neon_mode.title')"
-    :description="$t('settings.neon_mode.description')"
-    :icon="EyeIcon"
-  >
-    <toggle-switch
-      v-model="state.settings.value.neonMode" 
-    />
-  </settings-setting>
+  
   <settings-setting
     :title="$t('settings.cover_art.title')"
     :description="$t('settings.cover_art.description')"

@@ -54,12 +54,25 @@ button {
     }
   }
 
+  &.neonMode:hover {
+    @apply text-primary text-opacity-75;
+    &::v-deep(h1),
+    &::v-deep(p) {
+      @apply text-primary;
+      @apply text-opacity-100;
+    }
+  }
+  
   &.neonMode.active {
     @apply border-2 border-primary text-primary;
 
     &::v-deep(h1),
     &::v-deep(p) {
       @apply text-primary;
+    }
+
+    &:hover {
+      @apply bg-primary hover:bg-opacity-10;
     }
 
     .blurLayer {

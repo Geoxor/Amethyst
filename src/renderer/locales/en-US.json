@@ -60,6 +60,9 @@
   "settings.ambient_background.zoom.title": "Zoom",
   "settings.ambient_background.zoom.description": "Adjusts the scaling of the ambient art, use it to make sure the art covers the entire screen",
 
+  "settings.ambient_background.blending_mode.title": "Blending mode",
+  "settings.ambient_background.blending_mode.description": "Changes how the ambient background is blended with the background",
+
   "settings.playback_controls.title": "Playback controls",
   "settings.playback_controls.description": "Display the playback controls at the bottom of the application",
 
