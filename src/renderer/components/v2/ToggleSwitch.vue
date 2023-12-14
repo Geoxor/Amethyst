@@ -8,12 +8,12 @@ const value = useModelValue(props, "modelValue", emits);
 
 <template>
   <button
-    class="px-4 py-1 rounded-full"
+    class="px-4 py-1 w-12 rounded-full"
     :class="[value ? 'bg-primary' : 'bg-accent bg-opacity-15']"
     @click="emits('update:modelValue', !value); emits('change')"
   >
     <subtitle-text
-      :text="value ? 'ON' : 'OFF'"
+      :text="value ? 'I' : 'O'"
       :class="[value ? 'text-surface-1000' : 'text-accent']"
       class="pointer-events-none "
     />
