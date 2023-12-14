@@ -3,6 +3,9 @@ import { ref } from "vue";
 import { onClickOutside } from "@vueuse/core";
 import { ChevronIcon } from "@/icons";
 import { SUPPORTED_LOCALES, amethyst } from "@/amethyst";
+import iso6391 from "iso-639-1";
+import iso3166 from "iso-3166-1";
+
 const langs = ref(SUPPORTED_LOCALES);
 const showLanguageDropdown = ref(false);
 const languageDropdown = ref(null);
@@ -13,21 +16,36 @@ const closeLanguageDropdown = () => {
 
 onClickOutside(languageDropdown, () => closeLanguageDropdown());
 
+const convertLocaleToLanguage = (locale: string) => {
+    const [languageCode, countryCode] = locale.split("-");
+
+    const languageName = iso6391.getName(languageCode);
+    const countryName = iso3166.whereCountry(countryCode)?.country;
+
+    if (languageName && countryName) {
+        return `${languageName} (${countryName})`;
+    } else if (languageName) {
+        return languageName;
+    } else {
+        return "Unknown";
+    }
+};
+
 </script>
 
 <template>
   <button
-    class="flex relative gap-1 items-center bg-accent bg-opacity-15 text-accent w-42 py-2 px-4 text-13px font-semibold rounded-8px gap-2"
+    class="flex relative gap-1 items-center bg-accent bg-opacity-15 text-accent w-32 py-2 px-4 text-13px font-semibold rounded-8px gap-2"
     :class="showLanguageDropdown && 'active'"
     @click="showLanguageDropdown = true;"
   >
     <ChevronIcon class="w-4 h-4" />
-    {{ $i18n.locale }}
+    {{ convertLocaleToLanguage($i18n.locale) }}
     <transition name="slide">
       <menu
         v-if="showLanguageDropdown"
         ref="languageDropdown"
-        class="languageDropdown absolute w-42 flex flex-col justify-start top-6 -right-0  p-1 rounded-8px bg-surface-600"
+        class="languageDropdown absolute w-32 flex flex-col justify-start top-6 -right-0  p-1 rounded-8px bg-surface-600"
       >
         <button
           v-for="(lang, i) in langs"
@@ -41,7 +59,7 @@ onClickOutside(languageDropdown, () => closeLanguageDropdown());
             :src="`/flags/${lang.split('-')[1].toLocaleLowerCase()}.svg`"
             class="w-5 rounded-2px"
           >
-          {{ lang }}
+          {{ convertLocaleToLanguage(lang) }}
         </button>
       </menu>
     </transition>
