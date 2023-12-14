@@ -6,13 +6,11 @@ import { Capacitor } from "@capacitor/core";
 import { StatusBar } from "@capacitor/status-bar";
 import {NavigationBar} from "@hugotomazi/capacitor-navigation-bar";
 import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
-import { IMetadata } from "@shared/types";
 import { FileFilter, OpenDialogReturnValue, SaveDialogReturnValue } from "electron";
 import { watch } from "vue";
 import { flattenArray } from "./logic/math";
 import { Track } from "./logic/track";
 import { Directory } from "@capacitor/filesystem";
-import * as mm from "music-metadata-browser";
 import { router } from "./router";
 import "./logic/subsonic";
 import { createI18n } from "vue-i18n";
@@ -202,39 +200,6 @@ class AmethystBackend {
       !result.canceled && amethyst.player.queue.add(flattenArray(result.filePaths));
     }).catch(error => console.error(error));
   };
-
-  // TODO: get rid of this stupid logic and make it be part of when loading a track
-  public async getMetadata(path: string) {
-    switch (this.getCurrentPlatform()) {
-      case "desktop":
-        return window.electron.ipcRenderer.invoke<IMetadata>("get-metadata", [path]);
-      case "mobile":
-        const response = await fetch(decodeURIComponent(path));
-        const buffer = new Uint8Array(await response.arrayBuffer());
-        const {format, common} = await mm.parseBuffer(buffer, undefined);
-        const size = buffer.length;
-        return {format, common, size } as IMetadata;
-      default:
-        return Promise.reject();
-    }
-  }
-
-  public async getCover(path: string) {
-    switch (this.getCurrentPlatform()) {
-      case "desktop":
-        return window.electron.ipcRenderer.invoke<string>("get-cover", [path]);
-        case "mobile":
-          const response = await fetch(decodeURIComponent(path));
-          const buffer = new Uint8Array(await response.arrayBuffer());
-          const {common} = await mm.parseBuffer(buffer, undefined);
-          if (common.picture) {
-            return common.picture[0].data.toString("base64") as string;
-          }
-          return;
-      default:
-        return Promise.reject();
-    }
-  }
 }
 
 export class Amethyst extends AmethystBackend {
