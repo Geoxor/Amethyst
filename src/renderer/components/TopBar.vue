@@ -64,43 +64,43 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
       >
         <AmethystIcon class="w-5 h-5" />
       </div>
-      <Menu title="File">
+      <Menu :title="$t('menu.file')">
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'O']"
-          title="Open audio..."
+          :title="$t('menu.file.open_audio')"
           :icon="AmethystIcon"
           @click="amethyst.openAudioFilesAndAddToQueue"
         />
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'SHIFT', 'O']"
-          title="Open audio folder..."
+          :title="$t('menu.file.open_audio_folder')"
           :icon="AmethystIcon"
           @click="amethyst.openAudioFoldersAndAddToQueue"
         />
       </Menu>
-      <Menu title="Utility">
+      <Menu :title="$t('menu.utility')">
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'SHIFT', 'X']"
-          title="Clear queue"
+          :title="$t('menu.utility.clear_queue')"
           :icon="AmethystIcon"
           @click="amethyst.player.queue.clear()"
         />
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'SHIFT', 'Z']"
-          title="Clear errored / deleted"
+          :title="$t('menu.utility.clear_errored_deleted')"
           :icon="AmethystIcon"
           @click="amethyst.player.queue.clearErrored()"
         />
         <menu-splitter />
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'ALT', 'R']"
-          title="Refresh all metadata"
+          :title="$t('menu.utility.refresh_all_metadata')"
           :icon="AmethystIcon"
           @click="amethyst.player.queue.fetchAsyncData(true)"
         />
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'R']"
-          title="Refresh window"
+          :title="$t('menu.utility.refresh_window')"
           :icon="AmethystIcon"
           @click="refreshWindow"
         />
@@ -110,29 +110,29 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
         />
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
-          :title="`Check for updates`"
+          :title="$t('menu.utility.check_for_updates')"
           :icon="AmethystIcon"
           @click="amethyst.checkForUpdates()"
         />
       </Menu>
-      <Menu title="View">
+      <Menu :title="$t('menu.view')">
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
-          title="Zoom in"
+          :title="$t('menu.view.zoom_in')"
           :icon="AmethystIcon"
           :shortcuts="[commandOrControlSymbol, '+']"
           @click="amethyst.zoom('in')"
         />
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
-          title="Zoom out"
+          :title="$t('menu.view.zoom_out')"
           :icon="AmethystIcon"
           :shortcuts="[commandOrControlSymbol, '-']"
           @click="amethyst.zoom('out')"
         />
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
-          title="Reset zoom"
+          :title="$t('menu.view.reset_zoom')"
           :icon="AmethystIcon"
           :shortcuts="[commandOrControlSymbol, '0']"
           @click="amethyst.zoom('reset')"
@@ -141,29 +141,29 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
         />
         <menu-option
-          title="Settings"
+          :title="$t('menu.view.settings')"
           :icon="AmethystIcon"
           @click="$router.push({ name: 'settings.appearance' })"
         />
         <menu-option
-          title="Show developer tools"
+          :title="$t('menu.view.show_developer_tools')"
           :icon="AmethystIcon"
           @click="amethyst.openDevTools()"
         />
       </Menu>
-      <Menu title="About">
+      <Menu :title="$t('menu.about')">
         <menu-option
-          title="Documentation..."
+          :title="$t('menu.about.documentation')"
           :icon="AmethystIcon"
           @click="amethyst.openLink('https://amethyst.pages.dev/')"
         />
         <menu-option
-          title="GitHub Repository..."
+          :title="$t('menu.about.github_repository')"
           :icon="AmethystIcon"
           @click="amethyst.openLink('https://github.com/geoxor/amethyst')"
         />
         <menu-option
-          title="Discord Server..."
+          :title="$t('menu.about.discord_server')"
           :icon="AmethystIcon"
           @click="amethyst.openLink('https://discord.gg/geoxor')"
         />

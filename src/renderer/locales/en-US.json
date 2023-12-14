@@ -1,4 +1,27 @@
 {
+  "menu.file": "File",
+  "menu.file.open_audio": "Open audio...",
+  "menu.file.open_audio_folder": "Open audio folder...",
+  
+  "menu.utility": "Utility",
+  "menu.utility.clear_queue": "Clear queue",
+  "menu.utility.clear_errored_deleted": "Clear errored / deleted",
+  "menu.utility.refresh_all_metadata": "Refresh all metadata",
+  "menu.utility.refresh_window": "Refresh window",
+  "menu.utility.check_for_updates": "Check for updates",
+  
+  "menu.view": "View",
+  "menu.view.zoom_in": "Zoom in",
+  "menu.view.zoom_out": "Zoom out",
+  "menu.view.reset_zoom": "Reset zoom",
+  "menu.view.settings": "Settings",
+  "menu.view.show_developer_tools": "Show developer tools",
+  
+  "menu.about": "About",
+  "menu.about.documentation": "Documentation...",
+  "menu.about.github_repository": "GitHub Repository...",
+  "menu.about.discord_server": "Discord Server...",
+
   "settings.appearance.title": "Appearance",
   "settings.appearance.description": "Customize background, themes, and accessibility",
   
