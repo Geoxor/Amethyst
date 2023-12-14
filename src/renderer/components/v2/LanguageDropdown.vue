@@ -3,7 +3,6 @@ import { ref } from "vue";
 import { onClickOutside } from "@vueuse/core";
 import { ChevronIcon } from "@/icons";
 import { SUPPORTED_LOCALES, amethyst } from "@/amethyst";
-
 const langs = ref(SUPPORTED_LOCALES);
 const showLanguageDropdown = ref(false);
 const languageDropdown = ref(null);
@@ -18,7 +17,7 @@ onClickOutside(languageDropdown, () => closeLanguageDropdown());
 
 <template>
   <button
-    class="flex relative gap-1 items-center bg-accent bg-opacity-15 text-accent py-2 px-4 text-13px font-semibold rounded-8px justify-between"
+    class="flex relative gap-1 items-center bg-accent bg-opacity-15 text-accent w-42 py-2 px-4 text-13px font-semibold rounded-8px gap-2"
     :class="showLanguageDropdown && 'active'"
     @click="showLanguageDropdown = true;"
   >
@@ -28,7 +27,7 @@ onClickOutside(languageDropdown, () => closeLanguageDropdown());
       <menu
         v-if="showLanguageDropdown"
         ref="languageDropdown"
-        class="languageDropdown absolute w-42 flex flex-col justify-start top-8 -right-4  p-1 rounded-8px bg-surface-600"
+        class="languageDropdown absolute w-42 flex flex-col justify-start top-6 -right-0  p-1 rounded-8px bg-surface-600"
       >
         <button
           v-for="(lang, i) in langs"
@@ -39,8 +38,8 @@ onClickOutside(languageDropdown, () => closeLanguageDropdown());
           @click="$i18n.locale = lang; amethyst.store.settings.value.language = lang;"
         >
           <img
-            :src="`/flags/${lang}.svg`"
-            class="h-3 w-auto rounded-2px"
+            :src="`/flags/${lang.split('-')[1].toLocaleLowerCase()}.svg`"
+            class="w-5 rounded-2px"
           >
           {{ lang }}
         </button>
