@@ -277,11 +277,6 @@
   resolved "https://registry.yarnpkg.com/@capawesome/capacitor-file-picker/-/capacitor-file-picker-5.1.0.tgz#f9525ca2c1a456e4b49db0a61964995a0c8b10ca"
   integrity sha512-Yd2RMSZAguYih+m2Ge6opw1VY0kz+sPdw1WMBQ5ZiZ0PlPAVQ9g1N/RXtuvyM/Ub2HsQUFHg5ZshyXw/fZ6F8Q==
 
-"@cospired/i18n-iso-languages@^4.1.0":
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/@cospired/i18n-iso-languages/-/i18n-iso-languages-4.1.0.tgz#af47d146b1e21d47038caa028c37e0b2ce57bc4d"
-  integrity sha512-5+JK7YiO9r/FmwtlEPL1tQNt04/9AuN1t9GO/0C2yitqhKwFRa1r7VohNNUnFgB84MW5v4Lwq8ZAUZexuJh1nQ==
-
 "@cspotcode/source-map-support@^0.8.0":
   version "0.8.1"
   resolved "https://registry.yarnpkg.com/@cspotcode/source-map-support/-/source-map-support-0.8.1.tgz#00629c35a688e05a88b1cda684fb9d5e73f000a1"
