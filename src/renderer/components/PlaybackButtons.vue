@@ -98,12 +98,12 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
       <div class="flex justify-between disable-select no-drag">
         <div class="flex flex-col w-full py-1 font-bold gap-1 ">
           <h1
-            class="text-12px hover:underline cursor-pointer w-24 overflow-hidden overflow-ellipsis"
+            class="text-13px hover:underline cursor-pointer overflow-hidden text-text_title overflow-ellipsis"
             @click=" amethyst.showItem(amethyst.player.getCurrentTrack()?.path!)"
           >
             {{ amethyst.player.getCurrentTrack()?.getTitleFormatted() }}
           </h1>
-          <p class="text-8px text-primary-900">
+          <p class="text-10px text-text_subtitle">
             {{ amethyst.player.getCurrentTrack()?.getArtistsFormatted() }}
           </p>
         </div>
@@ -131,7 +131,7 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
           @input="amethyst.player.seekTo(amethyst.player.currentTime.value)"
           @wheel.passive="handleSeekMouseScroll"
         />
-        <p class="text-8px text-primary-900">
+        <p class="text-10px text-text_title">
           {{ amethyst.player.currentTimeFormatted(true) }} /
           {{ amethyst.player.getCurrentTrack()?.getDurationFormatted(true) }}
         </p>
