@@ -94,11 +94,11 @@ onUnmounted(() => shouldStopRendering = true);
       >
         <div
           :style="`width: ${width}px;`"
-          class="absolute top-0 left-0 bg-surface-600 h-full rounded-2px"
+          class="absolute top-0 left-0 bg-surface-700 h-full rounded-2px"
         />
         <div
           :style="`width: ${width}px;`"
-          class="absolute bottom-0 bg-surface-500 h-90/100 rounded-2px"
+          class="absolute bottom-0 bg-surface-600 h-90/100 rounded-2px"
         />
 
         <div
@@ -112,7 +112,7 @@ onUnmounted(() => shouldStopRendering = true);
           :style="`width: ${width}px; height: ${computedHeight(channelData[i - 1][1].value)}%`"
         />
       </div>
-      <div class="w-8 h-8 max-h-8 max-h-8 min-h-8 min-w-8 rounded-4px bg-accent bg-opacity-10 text-text_title text-10px flex items-center justify-center">
+      <div class="w-8 h-8 max-h-8 max-h-8 min-h-8 min-w-8 rounded-4px bg-surface-700 text-text_title text-10px flex items-center justify-center">
         <p>{{ isFinite(channelData[i - 1][0].value) ? channelData[i - 1][0].value.toFixed(1) : '-∞' }}</p>
       </div>
       <div class="w-8 h-8 max-h-8 max-h-8 min-h-8 min-w-8 rounded-4px text-text_subtitle text-13px flex items-center justify-center">
