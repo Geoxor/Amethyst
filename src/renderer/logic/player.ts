@@ -1,5 +1,6 @@
 import { Queue } from "@/logic/queue";
 import { Track } from "@/logic/track";
+import { Playlist } from "@/logic/playlist";
 import { useLocalStorage } from "@vueuse/core";
 import { ref } from "vue";
 import { AmethystAudioNodeManager } from "./audioManager";
@@ -30,6 +31,7 @@ export class Player extends EventEmitter<{
   public currentTime = ref(0);
   public volume = useLocalStorage<number>("volume", 1);
   public queue = new Queue();
+  public playlists = new Array<Playlist>;
 
   public input = new Audio();
   protected context = new AudioContext({latencyHint: "interactive"});
