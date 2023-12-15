@@ -47,18 +47,21 @@
   "settings.application.description": "Updates und Spracheinstellungen verwalten",
 
   "settings.animation_duration.title": "Animationsdauer",
-  "settings.animation_duration.description": "Wie lange Animationen in gesamt Amethyst dauern sollen",
+  "settings.animation_duration.description": "Wie lange Animationen in Amethyst dauern sollen",
 
   "settings.ambient_background.title": "Ambienter Hintergrund",
   "settings.ambient_background.description": "Präsentiert eine Überlagerung des Coverbilds für das aktuell abgespielte Lied auf der Oberfläche",
   "settings.ambient_background.spin_speed.title": "Drehgeschwindigkeit",
-  "settings.ambient_background.spin_speed.description": "Wie schnell sich das Hintergrundbild drehen soll",
+  "settings.ambient_background.spin_speed.description": "Wie schnell sich das ambiente Hintergrundbild drehen soll",
   "settings.ambient_background.opacity.title": "Transparenz",
-  "settings.ambient_background.opacity.description": "Wie sichtbar das Ambiente Bild über der App ist",
+  "settings.ambient_background.opacity.description": "Wie sichtbar das ambiente Hintergrundbild über der App ist",
   "settings.ambient_background.blur_strength.title": "Unschärfe-Stärke",
   "settings.ambient_background.blur_strength.description": "Wie viel Unschärfe (in px) angewendet werden soll",
   "settings.ambient_background.zoom.title": "Zoom",
-  "settings.ambient_background.zoom.description": "Passt die Skalierung des Ambienten Hintergrunds an, um sicherzustellen, dass das Cover den gesamten Bildschirm abdeckt",
+  "settings.ambient_background.zoom.description": "Passt die Skalierung des ambienten Hintergrunds an, um sicherzustellen, dass das Cover den gesamten Bildschirm abdeckt",
+
+  "settings.ambient_background.blending_mode.title": "Mischmodus",
+  "settings.ambient_background.blending_mode.description": "Ändert, wie der ambiente Hintergrund mit dem Hintergrund gemischt wird",
 
   "settings.playback_controls.title": "Wiedergabesteuerung",
   "settings.playback_controls.description": "Wiedergabesteuerungen am unteren Rand von Amethyst anzeigen",
@@ -66,8 +69,8 @@
   "settings.minimalist_mode.title": "Reduzierter Modus",
   "settings.minimalist_mode.description": "Weniger auf der Benutzeroberfläche anzeigen, um sie sauber zu halten",
 
-  "settings.neon_mode.title": "Neon mode",
-  "settings.neon_mode.description": "Changes the designs of certain UI elements to have a bloomy neon design",
+  "settings.neon_mode.title": "Neon Modus",
+  "settings.neon_mode.description": "Ändert das Design bestimmter Benutzeroberflächenelemente in ein leuchtendes Neon-Design",
 
   "settings.cover_art.title": "Coverbild",
   "settings.cover_art.description": "Das Coverbild in der Nähe der Wiedergabesteuerung am unteren Rand der Oberfläche anzeigen",
@@ -88,7 +91,7 @@
 
   "settings.decibel_meter.title": "Dezibel-Messung",
   "settings.decibel_meter.description": "Zeigt eine visuelle Darstellung des Schallpegels des Audiosignals in Dezibel (dB) an. Es zeigt den aktuellen Schallpegel des Audiosignals mit einem Diagramm an, bei dem die y-Achse den Schallpegel in Dezibel darstellt. Die Dezibel-Messung kann verwendet werden, um die Gesamtlautstärke des Audiosignals zu überwachen und sicherzustellen, dass sie innerhalb einer sicheren Hörgrenze liegt.",
-  "settings.decibel_meter.separate_pre_post.title": "Seperiere PRE und POST",
+  "settings.decibel_meter.separate_pre_post.title": "Trenne PRE und POST",
   "settings.decibel_meter.separate_pre_post.description": "Zeigt einzelne Dezibel-Messungen, jeweils vor und nach einem Knoten",
   
   "settings.loudness_meter.title": "Lautstärke-Messung",
