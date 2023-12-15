@@ -28,6 +28,7 @@ const importSettings = async () => {
   const parsedSettings = await loadedSettings.json();
 
   Object.keys(amethyst.store.settings.value).forEach(key => {
+    // @ts-ignore
     amethyst.store.settings.value[key] = parsedSettings[key];
   });
 };
