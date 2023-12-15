@@ -51,17 +51,17 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
         class="flex flex-col gap-2 transform-gpu p-2 px-4 -translate-y-1 items-center filter drop-shadow-lg absolute top-0 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2"
       >
         <div class="flex text-primary-800 gap-2 text-text_title items-center ">
-          <!-- <playlist-icon class="opacity-75 hover:opacity-100 hover:text-white" /> -->
+          <!-- <playlist-icon class="opacity-75 hover:opacity-100 " /> -->
           <ShuffleIcon
-            class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white"
+            class="h-5 w-5 opacity-75 hover:opacity-100 "
             @click="amethyst.player.shuffle()"
           />
           <NextIcon
-            class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white transform-gpu rotate-180"
+            class="h-5 w-5 opacity-75 hover:opacity-100  transform-gpu rotate-180"
             @click="amethyst.player.previous()"
           />
           <div
-            class="flex items-center bg-text_title text-surface-600 rounded-full p-2 hover:bg-primary"
+            class="flex items-center bg-text_title text-surface-600 rounded-full p-2 hover:bg-accent"
             @click="amethyst.player.isPlaying.value ? amethyst.player.pause() : amethyst.player.play()"
           >
             <PauseIcon
@@ -74,22 +74,22 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
             />
           </div>
           <NextIcon
-            class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white"
+            class="h-5 w-5 opacity-75 hover:opacity-100 "
             @click="amethyst.player.skip()"
           />
           <RepeatAllIcon
             v-if="amethyst.player.loopMode.value == LoopMode.None"
-            class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white"
+            class="h-5 w-5 opacity-75 hover:opacity-100 text-accent"
             @click="amethyst.player.loopAll()"
           />
           <RepeatOneIcon
             v-if="amethyst.player.loopMode.value == LoopMode.All"
-            class="h-5 w-5 opacity-100 text-gray-300 hover:text-white"
+            class="h-5 w-5 opacity-75  hover:opacity-100 text-accent"
             @click="amethyst.player.loopOne()"
           />
           <RepeatNoneIcon
             v-if="amethyst.player.loopMode.value == LoopMode.One"
-            class="h-5 w-5 opacity-100 text-gray-300 hover:text-white"
+            class="h-5 w-5 opacity-75  hover:opacity-100 "
             @click="amethyst.player.loopNone()"
           />
         </div>

@@ -233,6 +233,7 @@ onUnmounted(() => {
           v-if="state.settings.value.showDbMeter && amethyst.player.source"
           :key="amethyst.player.nodeManager.getNodeConnectinsString()"
           :node="amethyst.player.nodeManager.master.post"
+          post
           :channels="amethyst.player.getCurrentTrack()?.getChannels()"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide decibel meter', icon: AmethystIcon, action: () => state.settings.value.showDbMeter = false },

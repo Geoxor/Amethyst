@@ -48,10 +48,12 @@ import FogIcon from "./FogIcon.vue";
 import SpinIcon from "./SpinIcon.vue";
 import WaterIcon from "./WaterIcon.vue";
 import OpacityIcon from "./OpacityIcon.vue";
+
 import CloseIcon from "./windowbuttons/CloseIcon.vue";
 import MinimizeIcon from "./windowbuttons/MinimizeIcon.vue";
 import MaximizeIcon from "./windowbuttons/MaximizeIcon.vue";
 import UnmaximizeIcon from "./windowbuttons/UnmaximizeIcon.vue";
+
 import PlayIcon from "./playback/PlayIcon.vue";
 import PauseIcon from "./playback/PauseIcon.vue";
 import NextIcon from "./playback/NextIcon.vue";

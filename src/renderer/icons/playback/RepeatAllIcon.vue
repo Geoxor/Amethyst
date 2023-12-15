@@ -3,87 +3,17 @@
     width="24"
     height="24"
     viewBox="0 0 24 24"
-    fill="currentColor"
-    version="1.1"
+    fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    xmlns:svg="http://www.w3.org/2000/svg"
   >
-    <rect
-      id="rect1"
-      style="fill:currentColor;fill-opacity:1;paint-order:normal"
-      width="8"
-      height="1"
-      x="8"
-      y="4"
-      ry="0.5"
-    />
-    <rect
-      id="rect2"
-      style="fill:currentColor;fill-opacity:1;paint-order:normal"
-      width="8"
-      height="1"
-      x="8"
-      y="6"
-      ry="0.5"
-    />
-    <rect
-      id="rect3"
-      style="fill:currentColor;fill-opacity:1;paint-order:normal"
-      width="8"
-      height="1"
-      x="8"
-      y="8"
-      ry="0.5"
-    />
-    <rect
-      id="rect4"
-      style="fill:currentColor;fill-opacity:1;paint-order:normal"
-      width="8"
-      height="1"
-      x="8"
-      y="10"
-      ry="0.5"
-    />
-    <rect
-      id="rect5"
-      style="fill:currentColor;fill-opacity:1;paint-order:normal"
-      width="8"
-      height="1"
-      x="8"
-      y="12"
-      ry="0.5"
-    />
-    <rect
-      id="rect6"
-      style="fill:currentColor;fill-opacity:1;paint-order:normal"
-      width="8"
-      height="1"
-      x="8"
-      y="14"
-      ry="0.5"
-    />
-    <rect
-      id="rect7"
-      style="fill:currentColor;fill-opacity:1;paint-order:normal"
-      width="8"
-      height="1"
-      x="8"
-      y="16"
-      ry="0.5"
-    />
-    <rect
-      id="rect8"
-      style="fill:currentColor;fill-opacity:1;paint-order:normal"
-      width="8"
-      height="1"
-      x="8"
-      y="18"
-      ry="0.5"
+    <path
+      opacity="0.35"
+      d="M21.283 5.29001L18.179 2.21501C17.742 1.78201 17 2.09201 17 2.70601V4.00001H9C5.686 4.00001 3 6.68601 3 10C3 11.104 3.895 12 5 12C6.105 12 7 11.104 7 10C7 8.89501 7.895 8.00001 9 8.00001H17V9.29401C17 9.90901 17.742 10.218 18.178 9.78501L21.282 6.71001C21.678 6.31901 21.678 5.68101 21.283 5.29001Z"
+      fill="currentColor"
     />
     <path
-      id="path1"
-      style="fill-opacity:0;stroke:currentColor;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
-      d="M 7.5,18.5 C 3.5,18.5 2,16 2,11 2,6 4,4.5 6,4.5 V 3 L 7.5,4.5 6,6 V 4.5"
+      d="M3.29625 18.7242L6.40025 21.7992C6.83725 22.2312 7.57825 21.9222 7.57825 21.3082V20.0142H15.5782C18.8922 20.0142 21.5782 17.3282 21.5782 14.0142C21.5782 12.9102 20.6832 12.0142 19.5782 12.0142C18.4732 12.0142 17.5782 12.9102 17.5782 14.0142C17.5782 15.1192 16.6832 16.0142 15.5782 16.0142H7.57825V14.7202C7.57825 14.1052 6.83625 13.7962 6.40025 14.2292L3.29625 17.3042C2.90125 17.6942 2.90125 18.3322 3.29625 18.7242Z"
+      fill="currentColor"
     />
   </svg>
 </template>
