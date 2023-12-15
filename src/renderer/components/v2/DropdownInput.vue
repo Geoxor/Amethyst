@@ -12,7 +12,7 @@ const closedropdown = () => {
 
 onClickOutside(dropdown, () => closedropdown());
 
-const props = defineProps<{ modelValue?: number | string, options: string[]}>();
+const props = defineProps<{ modelValue?: number | string, options: (string | number)[]}>();
 const emits = defineEmits(["update:modelValue"]);
 const value = useVModel(props, "modelValue", emits);
 
