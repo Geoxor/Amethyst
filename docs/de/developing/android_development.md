@@ -2,9 +2,9 @@
 Stellen Sie sicher dass Sie die Schritte in [Arbeitsumgebung einrichten](./setting_up_environment.html) bereits abgeschlossen haben, bevor Sie fortfahren
 
 ## Vorbereitung
-1. Sie müssen ein [emulierte oder physische Gerät](https://developer.android.com/studio/run/device) auf [Android Studio](https://developer.android.com/studio) einrichten.
+1. Sie müssen ein [emuliertes oder physisches Gerät](https://developer.android.com/studio/run/device) auf [Android Studio](https://developer.android.com/studio) einrichten.
 
-2. Im `capacitor.config.ts` müssen Sie die IP-Adresse des Entwicklungsservers in die IP-Adresse Ihres Computers ändern.
+2. In `capacitor.config.ts` müssen Sie die IP-Adresse des Entwicklungsservers zu der IP-Adresse Ihres Computers ändern.
     ```ts
     const devConfig: CapacitorConfig = {
       ...commonConfig,
@@ -36,4 +36,4 @@ Stellen Sie sicher dass Sie die Schritte in [Arbeitsumgebung einrichten](./setti
 
 ## Erstellen
 
-Folgen Sie [diese Schritte](https://developer.android.com/studio/run), um ein [.apk](https://en.wikipedia.org/wiki/Apk_(file_format))-Datei zu erstellen
+Folgen Sie [diesen Schritten](https://developer.android.com/studio/run), um ein [.apk](https://en.wikipedia.org/wiki/Apk_(file_format))-Datei zu erstellen

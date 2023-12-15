@@ -8,7 +8,7 @@
 
 ## Zum ersten Mal klonen
 
-Wenn Sie zum ersten Mal klonen, ist es wichtig das Flag `--recurse-submodules` zu verwenden, da Amethyst über Submodule verfügt, die zum funktionieren erforderlich sind.
+Wenn Sie zum ersten Mal klonen, ist es wichtig die Flag `--recurse-submodules` zu verwenden, da Amethyst über Submodules verfügt, die für die Funktionalität erforderlich sind.
 
 ```sh
 $ git clone --recurse-submodules https://github.com/geoxor/amethyst && cd amethyst
@@ -24,8 +24,8 @@ Abhängigkeiten installieren
 $ yarn
 ```
 
-Sobald es abgeschlossen ist, soll das Repository bereit sein, daran zu arbeiten.
+Sobald alles abgeschlossen ist, soll das Repository bereit sein, um daran zu arbeiten.
 
 ## Empfehlungen
 
-Für die Entwicklung ist es empfohlen [Visual Studio Code](https://code.visualstudio.com/download) zu verwenden, da das Repository über Erweiterungskonfigurationen, die bei der Entwicklung helfen, verfügt
+Für die Entwicklung wird empfohlen [Visual Studio Code](https://code.visualstudio.com/download) zu verwenden, da das Repository über Erweiterungskonfigurationen, die bei der Entwicklung helfen, verfügt

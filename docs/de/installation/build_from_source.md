@@ -12,7 +12,7 @@ $ git clone --recurse-submodules https://github.com/geoxor/amethyst \
 ```
 
 ## Linux
-⚠️ Wenn Sie unter Linux sind, wird der oben genannte Befehl versuchen, für
+⚠️ Wenn Sie unter Linux sind, wird der oben genannte Befehl versuchen, die Pakete 
 `AppImage`, `deb`, `rpm` und `snap` zu kompilieren. Es wird wahrscheinlich fehlschlagen, da die
 Abhängigkeiten, die zum Erstellen erforderlich sind, fehlen.
 
