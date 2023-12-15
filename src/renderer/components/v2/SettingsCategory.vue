@@ -33,7 +33,10 @@ const isActive = computed(() => route.name?.toString().startsWith(props.routeNam
 <style scoped lang="postcss">
 
 button {
-  @apply border-2 border-transparent;
+  @apply border-transparent;
+  &.neonMode {
+    @apply border-2 py-1 px-4;
+  }
 
   &:not(.neonMode):hover:not(.active) {
     @apply bg-primary bg-opacity-15 text-primary;

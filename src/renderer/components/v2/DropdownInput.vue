@@ -20,7 +20,7 @@ const value = useVModel(props, "modelValue", emits);
 
 <template>
   <button
-    class="flex relative gap-1 items-center bg-accent bg-opacity-15 text-accent py-2 px-4 text-13px font-semibold rounded-8px gap-2"
+    class="flex relative cursor-pointer gap-1 items-center bg-accent bg-opacity-15 text-accent py-2 px-4 text-13px font-semibold rounded-8px gap-2"
     :class="showdropdown && 'active'"
     @click="showdropdown = true;"
   >
