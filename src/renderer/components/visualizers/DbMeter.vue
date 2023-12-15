@@ -28,6 +28,16 @@ onMounted(() => {
     buffers = analyzers.map(() => new Float32Array(value));
   });
 
+  watch(() => useState().state.isFocused, isFocused => {
+    if (useState().settings.value.pauseVisualsWhenUnfocused) {
+      if (!isFocused) shouldStopRendering = true;
+      else {
+        shouldStopRendering = false;
+        draw();
+      }
+    }
+  });
+
   props.node.connect(splitter);
   analyzers.forEach((analyzer, i) => splitter.connect(analyzer, i, 0));
 

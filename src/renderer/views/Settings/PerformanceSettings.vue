@@ -25,4 +25,13 @@ const handleToggleVsync = () => {
       @change="handleToggleVsync"
     />
   </settings-setting>
+  <settings-setting
+    :icon="MonitorIcon"
+    :description="$t('settings.pause_visuals.description')"
+    :title="$t('settings.pause_visuals.title')"
+  >
+    <toggle-switch
+      v-model="state.settings.value.pauseVisualsWhenUnfocused" 
+    />
+  </settings-setting>
 </template>
