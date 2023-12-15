@@ -29,8 +29,8 @@ features:
     title: Starker Node Editor
     details: Erschaffe komplexe Audio Routings und Effekte um dein Equipment einzurichten
   - icon: 💎
-    title: Attraktive UI
-    details: Simple und einfach zu verstehende UI inspiriert von Ableton
+    title: Attraktives UI
+    details: Simple und einfach zu verstehende Oberfläche inspiriert von Ableton
   - icon: 🔌
     title: Plugins
     details: Support für Plugins um weitere Features hinzuzufügen
