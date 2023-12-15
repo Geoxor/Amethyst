@@ -278,7 +278,7 @@
   },
   "homepage": "https://github.com/Geoxor/amethyst#readme",
   "devDependencies": {
-    "@capacitor/cli": "^4.8.0",
+    "@capacitor/cli": "^5.6.0",
     "@types/discord-rpc": "^4.0.3",
     "@types/file-saver": "^2.0.5",
     "@types/ip": "^1.1.0",
