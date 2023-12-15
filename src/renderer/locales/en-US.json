@@ -90,25 +90,25 @@
   "settings.language.description": "Change the language of the app",
 
   "settings.decibel_meter.title": "Decibel Meter",
-  "settings.decibel_meter.description": "Displays a visual representation of the sound level of the audio signal in decibels (dB). It displays the current sound level of the audio signal using a graph, where the y-axis represents the sound level in decibels. The decibel meter can be used to monitor the overall loudness of the audio signal and to ensure that it is within safe listening levels.",
+  "settings.decibel_meter.description": "Displays a visual representation of the sound level of the audio signal in decibels (dB). It displays the current sound level of the audio signal using a graph, where the y-axis represents the sound level in decibels. The decibel meter can be used to monitor the overall loudness of the audio signal and to ensure that it is within safe listening levels",
   "settings.decibel_meter.separate_pre_post.title": "Separate PRE and POST",
   "settings.decibel_meter.separate_pre_post.description": "Shows individual decibel meters, one for the signal before going into a node and one after",
   
   "settings.loudness_meter.title": "Loudness Meter",
-  "settings.loudness_meter.description": "Displays a visual representation of the perceived loudness of the audio signal. The loudness meter is measured in Loudness Units Full Scale (LUFS), which is a standardized measurement of perceived loudness.",
+  "settings.loudness_meter.description": "Displays a visual representation of the perceived loudness of the audio signal. The loudness meter is measured in Loudness Units Full Scale (LUFS), which is a standardized measurement of perceived loudness",
   
   "settings.vectorscope.title": "Vectorscope",
-  "settings.vectorscope.description": "Displays a visual representation of the stereo audio signal. It displays the relative phase and stereo width of the audio signal using a circular graph. The vectorscope can be used to check the stereo imaging and phase coherence of the audio signal.",
+  "settings.vectorscope.description": "Displays a visual representation of the stereo audio signal. It displays the relative phase and stereo width of the audio signal using a circular graph. The vectorscope can be used to check the stereo imaging and phase coherence of the audio signal",
   "settings.vectorscope.lissajous.title": "Lissajous",
   "settings.vectorscope.lissajous.description": "Display diagonally in a lissajous pattern",
   
   "settings.spectrum_analyser.title": "Spectrum Analyser",
-  "settings.spectrum_analyser.description": "Displays a visual representation of the frequency content of the audio signal. It displays the frequency spectrum of the audio signal using a graph, where the x-axis represents the frequency range and the y-axis represents the amplitude. The spectrum analyzer can be used to analyze the frequency balance of the audio signal and to identify frequency peaks or notches.",
+  "settings.spectrum_analyser.description": "Displays a visual representation of the frequency content of the audio signal. It displays the frequency spectrum of the audio signal using a graph, where the x-axis represents the frequency range and the y-axis represents the amplitude. The spectrum analyzer can be used to analyze the frequency balance of the audio signal and to identify frequency peaks or notches",
   "settings.spectrum_analyser.logarithmic_spectrum.title": "Logarithmic Spectrum",
   "settings.spectrum_analyser.logarithmic_spectrum.description": "Use logarithmic scaling for frequencies",
 
   "settings.vsync.title": "VSync",
-  "settings.vsync.description": "Constrain the user interface (UI) framerate of Amethyst to the refresh rate of the active display.",
+  "settings.vsync.description": "Constrain the user interface (UI) framerate of Amethyst to the refresh rate of the active display",
   "settings.vsync.warning": "Restart Required",
 
   "settings.pause_visuals.title": "Pause visuals when unfocused",

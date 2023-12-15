@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { amethyst, useState } from "@/amethyst";
-import { MonitorIcon} from "@/icons";
+import { MonitorIcon, StarsIcon} from "@/icons";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 import SettingsSetting from "@/components/v2/SettingsSetting.vue";
 
@@ -26,7 +26,7 @@ const handleToggleVsync = () => {
     />
   </settings-setting>
   <settings-setting
-    :icon="MonitorIcon"
+    :icon="StarsIcon"
     :description="$t('settings.pause_visuals.description')"
     :title="$t('settings.pause_visuals.title')"
   >
