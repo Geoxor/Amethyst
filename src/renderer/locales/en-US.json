@@ -119,6 +119,10 @@
   "settings.vsync.warning": "Restart Required",
 
   "settings.pause_visuals.title": "Pause visuals when unfocused",
-  "settings.pause_visuals.description": "Pause visualizers when tabbing out of Amethyst to reduce the performance hit (useful for gaming or multi-tasking)"
+  "settings.pause_visuals.description": "Pause visualizers when tabbing out of Amethyst to reduce the performance hit (useful for gaming or multi-tasking)",
 
+  "settings.import_export.title": "Import or export settings",
+  "settings.import_export.description": "Backup your settings into a file or import existing settings",
+  "settings.import_export.import": "Import",
+  "settings.import_export.export": "Export"
 }

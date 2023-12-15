@@ -161,6 +161,15 @@ class AmethystBackend {
     }
   }
 
+  public async showOpenFileDialog(options?: Electron.OpenDialogOptions) {
+    switch (this.getCurrentPlatform()) {
+      case "desktop":
+        return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-file-dialog", [options]);
+      default:
+        return Promise.reject();
+    }
+  }
+
   public async showSaveFileDialog(options?: Electron.SaveDialogOptions) {
     switch (this.getCurrentPlatform()) {
       case "desktop":

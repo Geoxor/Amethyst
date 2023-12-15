@@ -238,10 +238,10 @@ export class MainWindow {
 				return fs.promises.readFile(path);
 			},
 			"get-appdata-path": () => app.getPath("appData"),
-			"open-file-dialog": async (_: Event, [filters]: [Electron.FileFilter[]]) => {
+			"open-file-dialog": async (_: Event, [options]: [Electron.OpenDialogOptions]) => {
 				return dialog.showOpenDialog({
 					properties: ["openFile"],
-					filters,
+					filters: options.filters
 				});
 			},
 
