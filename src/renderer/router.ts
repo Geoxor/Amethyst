@@ -7,6 +7,7 @@ const routes: RouteRecordRaw[] = [
   { path: "/queue", name: "queue", component: () => import("@/views/QueueView.vue") },
   { path: "/media", name: "media", component: () => import("@/views/MediaView.vue") },
   { path: "/playground", name: "playground", component: () => import("@/views/PlaygroundView.vue") },
+  { path: "/audio-monitor", name: "audio-monitor", component: () => import("@/views/AudioMonitorView.vue") },
   { path: "/settings", name: "settings", component: () => import("@/views/Settings/SettingsView.vue"),
     children: [
       { path: "/appearance", name: "settings.appearance", component: () => import("@/views/Settings/AppearanceSettings.vue") },

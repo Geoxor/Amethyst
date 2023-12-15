@@ -14,6 +14,7 @@ import { Track } from "@/logic/track";
 import NavigationButton from "@/components/NavigationButton.vue";
 import { AdjustIcon, AmethystIcon, CompassIcon, HeartIcon, ListIcon, PlaylistIcon, SettingsIcon } from "@/icons";
 import LoudnessMeter from "./components/visualizers/LoudnessMeter.vue";
+import { router } from "./router";
 
 const state = useState();
 const ambientBackgroundImage = ref("");
@@ -226,6 +227,7 @@ onUnmounted(() => {
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide decibel meter', icon: AmethystIcon, action: () => state.settings.value.showDbMeter = false },
           ]);"
+          @click="router.push({name: 'audio-monitor'})"
         />
         <db-meter
           v-if="state.settings.value.showDbMeter && amethyst.player.source"
@@ -235,6 +237,7 @@ onUnmounted(() => {
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide decibel meter', icon: AmethystIcon, action: () => state.settings.value.showDbMeter = false },
           ]);"
+          @click="router.push({name: 'audio-monitor'})"
         />
 
         <loudness-meter 
@@ -305,6 +308,11 @@ onUnmounted(() => {
 }
 
 @font-face {
+  font-family: "zen-dots";
+  src: url("../../assets/fonts/zen-dots.ttf");
+}
+
+@font-face {
   font-family: "aseprite";
   src: url("../../assets/fonts/aseprite-remix.ttf");
 }
@@ -317,6 +325,11 @@ onUnmounted(() => {
 *.font-aseprite {
   font-family: "aseprite";
   @apply text-7px;
+}
+
+*.font-zen-dots {
+  font-family: "zen-dots";
+  @apply text-20px;
 }
 
 *.font-aseprite * {
