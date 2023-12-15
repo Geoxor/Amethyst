@@ -7,6 +7,7 @@ import { LoopMode } from "@/logic/player";
 import { onMounted } from "vue";
 import { useInspector } from "./Inspector";
 import { useContextMenu } from "./ContextMenu";
+import { PlayIcon, PauseIcon, NextIcon, ShuffleIcon, RepeatNoneIcon, RepeatOneIcon, RepeatAllIcon } from "@/icons";
 
 const state = useState();
 
@@ -56,39 +57,39 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
       >
         <div class="flex text-primary-800 gap-2 ">
           <!-- <playlist-icon class="opacity-75 hover:opacity-100 hover:text-white" /> -->
-          <shuffle-icon
+          <ShuffleIcon
             class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white"
             @click="amethyst.player.shuffle()"
           />
-          <next-icon
+          <NextIcon
             class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white transform-gpu rotate-180"
             @click="amethyst.player.previous()"
           />
-          <pause-icon
+          <PauseIcon
             v-if="amethyst.player.isPlaying.value"
             class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white"
             @click="amethyst.player.pause()"
           />
-          <play-icon
+          <PlayIcon
             v-else
             class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white"
             @click="amethyst.player.play()"
           />
-          <next-icon
+          <NextIcon
             class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white"
             @click="amethyst.player.skip()"
           />
-          <repeat-icon
+          <RepeatAllIcon
             v-if="amethyst.player.loopMode.value == LoopMode.None"
             class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white"
             @click="amethyst.player.loopAll()"
           />
-          <repeat-icon
+          <RepeatOneIcon
             v-if="amethyst.player.loopMode.value == LoopMode.All"
             class="h-5 w-5 opacity-100 text-gray-300 hover:text-white"
             @click="amethyst.player.loopOne()"
           />
-          <repeat-one-icon
+          <RepeatNoneIcon
             v-if="amethyst.player.loopMode.value == LoopMode.One"
             class="h-5 w-5 opacity-100 text-gray-300 hover:text-white"
             @click="amethyst.player.loopNone()"
