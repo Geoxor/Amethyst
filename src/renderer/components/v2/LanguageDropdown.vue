@@ -31,6 +31,12 @@ const convertLocaleToLanguage = (locale: string) => {
     }
 };
 
+// For production we need to get the meta url
+const flagURL = (name: string) => {
+    // @ts-ignore
+  return new URL(`/flags/${name}.svg`, import.meta.url).toString();
+};
+
 </script>
 
 <template>
@@ -40,7 +46,7 @@ const convertLocaleToLanguage = (locale: string) => {
     @click="showLanguageDropdown = true;"
   >
     <img
-      :src="`/flags/${$i18n.locale.split('-')[1].toLocaleLowerCase()}.svg`"
+      :src="flagURL($i18n.locale.split('-')[1].toLocaleLowerCase())"
       class="w-4 rounded-2px"
     >
     {{ convertLocaleToLanguage($i18n.locale) }}
@@ -60,7 +66,7 @@ const convertLocaleToLanguage = (locale: string) => {
           @click="$i18n.locale = lang; amethyst.store.settings.value.language = lang;"
         >
           <img
-            :src="`/flags/${lang.split('-')[1].toLocaleLowerCase()}.svg`"
+            :src="flagURL(lang.split('-')[1].toLocaleLowerCase())"
             class="w-4 rounded-2px"
           >
           {{ convertLocaleToLanguage(lang) }}
