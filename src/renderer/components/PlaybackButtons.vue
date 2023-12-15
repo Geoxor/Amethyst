@@ -7,7 +7,7 @@ import { LoopMode } from "@/logic/player";
 import { onMounted } from "vue";
 import { useInspector } from "./Inspector";
 import { useContextMenu } from "./ContextMenu";
-import { PlayIcon, PauseIcon, PreviousIcon, NextIcon, ShuffleIcon, RepeatNoneIcon, RepeatOneIcon, RepeatAllIcon } from "@/icons";
+import { PlayIcon, PauseIcon, NextIcon, ShuffleIcon, RepeatNoneIcon, RepeatOneIcon, RepeatAllIcon } from "@/icons";
 
 const state = useState();
 
@@ -61,7 +61,7 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
             class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white"
             @click="amethyst.player.shuffle()"
           />
-          <PreviousIcon
+          <NextIcon
             class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white transform-gpu rotate-180"
             @click="amethyst.player.previous()"
           />

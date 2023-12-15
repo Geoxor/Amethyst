@@ -54,7 +54,6 @@ import MaximizeIcon from "./windowbuttons/MaximizeIcon.vue";
 import UnmaximizeIcon from "./windowbuttons/UnmaximizeIcon.vue";
 import PlayIcon from "./playback/PlayIcon.vue";
 import PauseIcon from "./playback/PauseIcon.vue";
-import PreviousIcon from "./playback/PreviousIcon.vue";
 import NextIcon from "./playback/NextIcon.vue";
 import ShuffleIcon from "./playback/ShuffleIcon.vue";
 import RepeatNoneIcon from "./playback/RepeatNoneIcon.vue";
@@ -118,7 +117,6 @@ export {
   UnmaximizeIcon,
   PlayIcon,
   PauseIcon,
-  PreviousIcon,
   NextIcon,
   ShuffleIcon,
   RepeatNoneIcon,
