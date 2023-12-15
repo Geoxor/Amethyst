@@ -24,3 +24,12 @@ export const ALLOWED_AUDIO_EXTENSIONS = [
   "dfpwm",
   "webm",
 ];
+export const ALLOWED_PLAYLIST_FORMATS = [
+  "asx",
+  "m3u",
+  "m3u8",
+  "pls",
+  "vlc",
+  "wpl",
+  "xspf"
+];
