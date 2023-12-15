@@ -1,6 +1,5 @@
-
 <script lang="ts" setup>
-import { AmethystIcon, } from "@/icons";
+import { CloseIcon, MinimizeIcon, MaximizeIcon, UnmaximizeIcon } from "@/icons";
 const emit = defineEmits(["close", "minimize", "maximize", "unmaximize"]);
 defineProps<{ isMaximized: boolean }>();
 </script>
@@ -11,7 +10,7 @@ defineProps<{ isMaximized: boolean }>();
       class="minimize"
       @click="emit('minimize')"
     >
-      <AmethystIcon />
+      <MinimizeIcon />
     </button>
 
     <button
@@ -19,7 +18,7 @@ defineProps<{ isMaximized: boolean }>();
       class="maximize"
       @click="emit('maximize')"
     >
-      <AmethystIcon />
+      <MaximizeIcon />
     </button>
 
     <button
@@ -27,14 +26,14 @@ defineProps<{ isMaximized: boolean }>();
       class="unmaximize"
       @click="emit('unmaximize')"
     >
-      <AmethystIcon />
+      <UnmaximizeIcon />
     </button>
 
     <button
       class="close"
       @click="emit('close')"
     >
-      <AmethystIcon />
+      <CloseIcon />
     </button>
   </div>
 </template>

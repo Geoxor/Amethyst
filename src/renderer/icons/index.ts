@@ -21,7 +21,6 @@ import LargeIconsIcon from "./LargeIconsIcon.vue";
 import ListIcon from "./ListIcon.vue";
 import MediumIconsIcon from "./MediumIconsIcon.vue";
 import MonitorIcon from "./MonitorIcon.vue";
-import PlayIcon from "./PlayIcon.vue";
 import PlaylistIcon from "./PlaylistIcon.vue";
 import PotatoIcon from "./PotatoIcon.vue";
 import RemoveIcon from "./RemoveIcon.vue";
@@ -49,6 +48,18 @@ import FogIcon from "./FogIcon.vue";
 import SpinIcon from "./SpinIcon.vue";
 import WaterIcon from "./WaterIcon.vue";
 import OpacityIcon from "./OpacityIcon.vue";
+import CloseIcon from "./windowbuttons/CloseIcon.vue";
+import MinimizeIcon from "./windowbuttons/MinimizeIcon.vue";
+import MaximizeIcon from "./windowbuttons/MaximizeIcon.vue";
+import UnmaximizeIcon from "./windowbuttons/UnmaximizeIcon.vue";
+import PlayIcon from "./playback/PlayIcon.vue";
+import PauseIcon from "./playback/PauseIcon.vue";
+import PreviousIcon from "./playback/PreviousIcon.vue";
+import NextIcon from "./playback/NextIcon.vue";
+import ShuffleIcon from "./playback/ShuffleIcon.vue";
+import RepeatNoneIcon from "./playback/RepeatNoneIcon.vue";
+import RepeatOneIcon from "./playback/RepeatOneIcon.vue";
+import RepeatAllIcon from "./playback/RepeatAllIcon.vue";
 
 export {
   AddIcon,
@@ -80,7 +91,6 @@ export {
   ListIcon,
   MediumIconsIcon,
   MonitorIcon,
-  PlayIcon,
   PlaylistIcon,
   PotatoIcon,
   RemoveIcon,
@@ -102,4 +112,16 @@ export {
   UpdateIcon,
   VoltmeterIcon,
   WaveIcon,
+  CloseIcon,
+  MinimizeIcon,
+  MaximizeIcon,
+  UnmaximizeIcon,
+  PlayIcon,
+  PauseIcon,
+  PreviousIcon,
+  NextIcon,
+  ShuffleIcon,
+  RepeatNoneIcon,
+  RepeatOneIcon,
+  RepeatAllIcon,
 };
