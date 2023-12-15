@@ -215,7 +215,7 @@ onUnmounted(() => {
 
       <div
         v-if="state.settings.value.showPlaybackControls"
-        class="flex gap-2 items-center p-2 bg-surface-800  relative"
+        class="flex gap-2 items-center p-2 relative"
         :class="[amethyst.getCurrentPlatform() === 'mobile' && 'mb-8 pb-6']"
       >
         <db-meter

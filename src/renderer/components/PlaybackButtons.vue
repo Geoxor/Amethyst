@@ -4,16 +4,11 @@ import Cover from "@/components/CoverArt.vue";
 import Slider from "@/components/input/BaseSlider.vue";
 import { AmethystIcon } from "@/icons";
 import { LoopMode } from "@/logic/player";
-import { onMounted } from "vue";
 import { useInspector } from "./Inspector";
 import { useContextMenu } from "./ContextMenu";
 import { PlayIcon, PauseIcon, NextIcon, ShuffleIcon, RepeatNoneIcon, RepeatOneIcon, RepeatAllIcon } from "@/icons";
 
 const state = useState();
-
-onMounted(() => {
-
-});
 
 const handleVolumeMouseScroll = (e: WheelEvent) => {
   const delta = Math.sign(e.deltaY);
@@ -53,9 +48,9 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
     <div class="flex flex-col justify-between h-full w-full ">
       <div
         :class="[amethyst.getCurrentPlatform() === 'mobile' ? 'rounded-full ' : 'rounded-4px']"
-        class="flex flex-col gap-2 transform-gpu bg-surface-700 p-2 px-4 -translate-y-1 items-center filter drop-shadow-lg absolute  -top-10 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2"
+        class="flex flex-col gap-2 transform-gpu p-2 px-4 -translate-y-1 items-center filter drop-shadow-lg absolute top-0 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2"
       >
-        <div class="flex text-primary-800 gap-2 ">
+        <div class="flex text-primary-800 gap-2 text-text_title items-center ">
           <!-- <playlist-icon class="opacity-75 hover:opacity-100 hover:text-white" /> -->
           <ShuffleIcon
             class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white"
@@ -65,16 +60,19 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
             class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white transform-gpu rotate-180"
             @click="amethyst.player.previous()"
           />
-          <PauseIcon
-            v-if="amethyst.player.isPlaying.value"
-            class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white"
-            @click="amethyst.player.pause()"
-          />
-          <PlayIcon
-            v-else
-            class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white"
-            @click="amethyst.player.play()"
-          />
+          <div
+            class="flex items-center bg-text_title text-surface-600 rounded-full p-2 hover:bg-primary"
+            @click="amethyst.player.isPlaying.value ? amethyst.player.pause() : amethyst.player.play()"
+          >
+            <PauseIcon
+              v-if="amethyst.player.isPlaying.value"
+              class="h-5 w-5 opacity-75 hover:opacity-100"
+            />
+            <PlayIcon
+              v-else
+              class="h-5 w-5 opacity-75 hover:opacity-100"
+            />
+          </div>
           <NextIcon
             class="h-5 w-5 opacity-75 hover:opacity-100 hover:text-white"
             @click="amethyst.player.skip()"
