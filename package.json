@@ -358,7 +358,7 @@
     "music-metadata": "7.13.1",
     "music-metadata-browser": "^2.5.10",
     "musicbrainz-api": "^0.10.2",
-    "open": "8.4.2",
+    "open": "9.1.0",
     "pidusage": "^3.0.2",
     "pretty-ms": "^8.0.0",
     "sharp": "^0.31.3",
