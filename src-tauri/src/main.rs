@@ -23,7 +23,7 @@ struct FolderPayload {
 
 lazy_static! {
   static ref client: Mutex<DiscordIpcClient> = Mutex::new({
-    let mut c = DiscordIpcClient::new("976036303156162570").unwrap();
+    let c = DiscordIpcClient::new("976036303156162570").unwrap();
     c
   });
 }
@@ -43,12 +43,12 @@ fn update_presence(title: String, time: String, format: String) {
     .details(&title)
     .assets(assets);
   
-  let _ = client.lock().unwrap().set_activity(payload)?;
+  let _ = client.lock().unwrap().set_activity(payload).unwrap();
 }
 
 fn main() {
 
-  let _ = client.lock().unwrap().connect()?;
+  let _ = client.lock().unwrap().connect().unwrap();
 
   #[cfg(debug_assertions)]
   let menu = Menu::new()
