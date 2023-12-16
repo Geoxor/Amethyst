@@ -43,12 +43,12 @@ fn update_presence(title: String, time: String, format: String) {
     .details(&title)
     .assets(assets);
   
-  let _ = client.lock().unwrap().set_activity(payload).expect("Failed to update status");
+  let _ = client.lock().unwrap().set_activity(payload)?;
 }
 
 fn main() {
 
-  let _ = client.lock().unwrap().connect().expect("Failed to initialize RPC");
+  let _ = client.lock().unwrap().connect()?;
 
   #[cfg(debug_assertions)]
   let menu = Menu::new()
