@@ -20,7 +20,7 @@ export class Track {
   public path: string;
 
   public constructor(public absolutePath: string) {
-    // console.log("absolute path: ", absolutePath);
+    console.log("absolute path: ", absolutePath);
     this.path = absolutePath;
   }
 
@@ -28,9 +28,10 @@ export class Track {
     if (amethyst.isUsingTauri())
     {
       const dataDir = await tauriUtils.tauriGetDataDir();
-      if (!await tauriUtils.tauriStat(dataDir + "amethyst/Metadata Cache/"))
-        tauriUtils.tauriCreateFolder("amethyst/Metadata Cache/")
-      const amfPath = dataDir + "amethyst/Metadata Cache/" + this.getFilename() + ".amf";
+      if (!await tauriUtils.tauriStat(dataDir + "Metadata Cache/"))
+        tauriUtils.tauriCreateFolder(dataDir + "Metadata Cache/")
+      const amfPath = dataDir + "Metadata Cache/" + this.getFilename() + ".amf";
+      console.log(amfPath);
       return amfPath;
     }
     const amfPath = window.path.join(amethyst.APPDATA_PATH || "" , "/amethyst/Metadata Cache", this.getFilename() + ".amf");
@@ -41,7 +42,7 @@ export class Track {
     try {
       const cachePath = await this.getCachePath(true);
       if (amethyst.isUsingTauri())
-        await tauriUtils.tauriStat(cachePath);
+        return await tauriUtils.tauriStat(cachePath);
       await window.fs.stat(cachePath);
       return true;
     } catch (error) {

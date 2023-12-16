@@ -7,10 +7,11 @@ import { readBinaryFile, writeBinaryFile, readDir, createDir, writeTextFile, rea
 import * as mm from "music-metadata-browser";
 import { IMetadata } from "@shared/types";
 
+// TODO: instead of having this utility class, we'll create a "dummy" Electron RPC wrapper that re-routes everything where they belong,
+// allowing us to hook onto it, whenever Tauri is in use to make developing new features easier.
 class TauriUtils {
-    constructor() {
-        console.log('Tauri util class init?');
-    }
+    // stub
+    constructor() { }
 
     public async loadMetadata(path: String)
     {
@@ -45,16 +46,14 @@ class TauriUtils {
     public async tauriCreateFolder(path: String)
     {
         await createDir(path, {
-            dir: BaseDirectory.AppData,
-            recursive: true,
+            recursive: true
         });
     }
 
     public async tauriReadFolder(path: String)
     {
         return await readDir(path, {
-            dir: BaseDirectory.AppData,
-            recursive: true,
+            recursive: true
         });
     }
 
