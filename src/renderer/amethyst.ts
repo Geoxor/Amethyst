@@ -22,7 +22,7 @@ import { tauriUtils } from "@/tauri-utils";
 
 export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale
-  locale: JSON.parse(localStorage.getItem("settings")!).language,
+  locale: "en-US", // JSON.parse(localStorage.getItem("settings")!).language
   messages,
 });
 
