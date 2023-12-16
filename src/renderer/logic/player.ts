@@ -55,7 +55,9 @@ export class Player extends EventEmitter<{
   }
 
   private setPlayingTrack(track: Track) {
+    this.input.preload = "auto"; // allow pre-loading, actually please do it.
     this.input.src = amethyst.isUsingTauri() ? convertFileSrc(track.path) : track.path;
+    this.input.load();
     this.currentTrack.value = track;
     this.currentTrackIndex.value = this.queue.getList().indexOf(track);
     this.input.play();
