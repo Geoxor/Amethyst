@@ -50,6 +50,14 @@ class TauriUtils {
         });
     }
 
+    public async tauriReadFolder(path: String)
+    {
+        return await readDir(path, {
+            dir: BaseDirectory.AppData,
+            recursive: true,
+        });
+    }
+
     public async tauriFetch(path: String)
     {
         return await readTextFile(path);

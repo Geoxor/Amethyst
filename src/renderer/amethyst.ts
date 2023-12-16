@@ -15,7 +15,10 @@ import { router } from "./router";
 import "./logic/subsonic";
 import { createI18n } from "vue-i18n";
 import messages from "@intlify/unplugin-vue-i18n/messages";
+
 import "@/tauri-utils";
+import { listen } from '@tauri-apps/api/event';
+import { tauriUtils } from "@/tauri-utils";
 
 export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale
@@ -247,7 +250,32 @@ export class Amethyst extends AmethystBackend {
       }
       else
       {
-        
+        listen("open-file", (e) => {
+          amethyst.player.queue.add(e.payload.files);
+        });
+
+        listen("open-folder", async (e) => {
+          const entries = await tauriUtils.tauriReadFolder(e.payload.folder);
+          for (const entry of entries) {
+            amethyst.player.queue.add(entry.path);
+          }
+        });
+    
+        listen("goto-settings", () => {
+          router.push({ name: 'settings.appearance' });
+        });
+    
+        listen("clear-queue", () => {
+          amethyst.player.queue.clear();
+        });
+    
+        listen("clear-error", () => {
+          amethyst.player.queue.clearErrored();
+        });
+    
+        listen("refresh-metadata", () => {
+          amethyst.player.queue.fetchAsyncData(true);
+        });
       }
   
       // #region move this to the discord plugin
