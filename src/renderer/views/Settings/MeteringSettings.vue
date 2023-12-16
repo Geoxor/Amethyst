@@ -12,7 +12,6 @@ import DropdownInput from "@/components/v2/DropdownInput.vue";
 const state = useState();
 
 const FFT_SIZES = [
-  16, 
   32, 
   64, 
   128, 
@@ -23,6 +22,7 @@ const FFT_SIZES = [
   4096, 
   8192, 
   16384,
+  32768,
 ];
 
 </script>
@@ -68,6 +68,7 @@ const FFT_SIZES = [
           <dropdown-input
             v-model="state.settings.value.decibelMeterFftSize"
             :options="FFT_SIZES"
+            suffix="smp"
           />
         </settings-setting>
       </div>
@@ -122,6 +123,7 @@ const FFT_SIZES = [
           <dropdown-input
             v-model="state.settings.value.vectorscopeFftSize"
             :options="FFT_SIZES"
+            suffix="smp"
           />
         </settings-setting>
       </div>
@@ -155,6 +157,7 @@ const FFT_SIZES = [
           <dropdown-input
             v-model="state.settings.value.spectrumFftSize"
             :options="FFT_SIZES"
+            suffix="smp"
           />
         </settings-setting>
       </div>
