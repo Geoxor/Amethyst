@@ -16,33 +16,6 @@ const handleToggleAutostart = () => {
   window.electron.ipcRenderer.invoke("set-autostart", [state.settings.value.autoStart]);
 };
 
-const importSettings = async () => {
-  const dialog = await amethyst.showOpenFileDialog({
-    filters: [{ name: "Amethyst Configuration File", extensions: ["acf"] }],
-    defaultPath: "Amethyst Settings",
-  });
-
-  if (dialog?.canceled || !dialog.filePaths[0]) return;
-
-  const loadedSettings = await fetch(dialog.filePaths[0]);
-  const parsedSettings = await loadedSettings.json();
-
-  Object.keys(amethyst.store.settings.value).forEach(key => {
-    // @ts-ignore
-    amethyst.store.settings.value[key] = parsedSettings[key];
-  });
-};
-
-const exportSettings = async () => {
-  const dialog = await amethyst.showSaveFileDialog({
-    filters: [{ name: "Amethyst Configuration File", extensions: ["acf"] }],
-    defaultPath: "Amethyst Settings"
-  });
-  if (dialog?.canceled || !dialog?.filePath) return;
-
-  return amethyst.writeFile(JSON.stringify(amethyst.store.settings.value, null, 2), dialog?.filePath);
-};
-
 </script>
 
 <template>
@@ -84,12 +57,12 @@ const exportSettings = async () => {
     <button-input
       :text="$t('settings.import_export.import')"
       :icon="ImportIcon"
-      @click="importSettings"
+      @click="amethyst.importSettings"
     />
     <button-input
       :text="$t('settings.import_export.export')"
       :icon="ExportIcon"
-      @click="exportSettings"
+      @click="amethyst.exportSettings"
     />
   </settings-setting>
 </template>
