@@ -5,6 +5,7 @@ import * as mm from "music-metadata-browser";
 import FileSaver from "file-saver";
 import mime from "mime-types";
 import { amethyst } from "@/amethyst";
+import { tauriUtils } from "@/tauri-utils";
 
 /**
  * Each playable audio file is an instance of this class
@@ -80,7 +81,11 @@ export class Track {
   public async readMetadata() {
     switch (amethyst.getCurrentPlatform()) {
       case "desktop":
-        return window.electron.ipcRenderer.invoke<IMetadata>("get-metadata", [this.absolutePath]);
+        {
+          if (amethyst.isUsingTauri())
+            return await tauriUtils.loadMetadata(this.absolutePath);
+          return window.electron.ipcRenderer.invoke<IMetadata>("get-metadata", [this.absolutePath]);
+        }
       case "mobile":
         const response = await fetch(decodeURIComponent(this.absolutePath));
         const buffer = new Uint8Array(await response.arrayBuffer());
@@ -95,7 +100,11 @@ export class Track {
   public async loadCover() {
     switch (amethyst.getCurrentPlatform()) {
       case "desktop":
-        return window.electron.ipcRenderer.invoke<string>("get-cover", [this.absolutePath]);
+        {
+          if (amethyst.isUsingTauri())
+            return await tauriUtils.loadCover(this.absolutePath);
+          return window.electron.ipcRenderer.invoke<string>("get-cover", [this.absolutePath]);
+        }
       case "mobile":
         const response = await fetch(decodeURIComponent(this.absolutePath));
         const buffer = new Uint8Array(await response.arrayBuffer());

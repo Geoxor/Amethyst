@@ -1,5 +1,6 @@
-
+import "@/tauri-utils"; // Tauri utils must be initialized before amethyst, because amethyst relies on it.
 import {i18n} from "@/amethyst";
+
 import App from "@/App.vue";
 import "virtual:windi-devtools";
 import "virtual:windi.css";

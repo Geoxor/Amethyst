@@ -15,6 +15,7 @@ import { router } from "./router";
 import "./logic/subsonic";
 import { createI18n } from "vue-i18n";
 import messages from "@intlify/unplugin-vue-i18n/messages";
+import "@/tauri-utils";
 
 export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale
@@ -36,21 +37,29 @@ class AmethystBackend {
 
   private static isPlatformMobile = Capacitor.isNativePlatform();
 
-  private static isPlatformDesktop = navigator.userAgent.indexOf("Electron") >= 0;
+  // NOTE: we use this to replace electron functionality on Tauri, because it is not Electron.
+  private static isPlatformTauri = navigator.userAgent.indexOf("Mozilla/5.0") >= 0;
+
+  private static isPlatformDesktop = navigator.userAgent.indexOf("Electron") >= 0 || AmethystBackend.isPlatformTauri;
 
   private static isPlatformWeb = !AmethystBackend.isPlatformMobile && !AmethystBackend.isPlatformDesktop;
 
-  private static isOperatingSystemLinux = this.isPlatformDesktop && window.electron.isLinux;
+  // TODO: make Tauri checks platform agnostic.
+  private static isOperatingSystemLinux = this.isPlatformDesktop && AmethystBackend.isPlatformTauri ? false : window.electron.isLinux;
 
-  private static isOperatingSystemWindows = this.isPlatformDesktop && window.electron.isWindows;
+  private static isOperatingSystemWindows = this.isPlatformDesktop && AmethystBackend.isPlatformTauri ? false : window.electron.isWindows;
 
-  private static isOperatingSystemMac = this.isPlatformDesktop && window.electron.isMac;
+  private static isOperatingSystemMac = this.isPlatformDesktop && AmethystBackend.isPlatformTauri ? true : window.electron.isMac;
 
   public getCurrentPlatform() {
     if (Amethyst.isPlatformDesktop) return "desktop"; // aka Electron
     if (Amethyst.isPlatformMobile) return "mobile"; // aka Capacitor
     if (Amethyst.isPlatformWeb) return "web"; // aka Webapp
     throw new Error("Unknown platform");
+  }
+
+  public isUsingTauri() {
+    return Amethyst.isPlatformTauri;
   }
 
   public getCurrentOperatingSystem() {
@@ -218,6 +227,9 @@ export class Amethyst extends AmethystBackend {
     document.body.style.zoom = this.store.settings.value.zoomLevel;
 
     if (this.getCurrentPlatform() === "desktop") {
+
+    if (!this.isUsingTauri())
+    {
       window.electron.ipcRenderer.invoke<string>("get-appdata-path").then(path => this.APPDATA_PATH = path);
 
       window.electron.ipcRenderer.on("maximize", () => this.store.state.isMaximized = true);
@@ -232,6 +244,7 @@ export class Amethyst extends AmethystBackend {
         amethyst.player.play(amethyst.player.queue.getList().findIndex(track => track.path == path));
       }));
       window.electron.ipcRenderer.on<(string)[]>("play-folder", paths => amethyst.player.queue.add(flattenArray(paths)));
+    }
   
       // #region move this to the discord plugin
       let richPresenceTimer: NodeJS.Timer | undefined;
@@ -243,7 +256,7 @@ export class Amethyst extends AmethystBackend {
             this.player.isPaused.value ? "Paused" : `${this.player.currentTimeFormatted(true)} - ${track.getDurationFormatted(true)}`,
             track.metadata.data?.format.container?.toLowerCase() || "unknown format"
           ];
-          window.electron.ipcRenderer.invoke("update-rich-presence", [args]);
+          if (!this.isUsingTauri()) window.electron.ipcRenderer.invoke("update-rich-presence", [args]);
         };
 
         richPresenceTimer && clearInterval(richPresenceTimer);
@@ -331,7 +344,7 @@ export class Amethyst extends AmethystBackend {
 
   public performWindowAction(action: "close" | "maximize" | "unmaximize" | "minimize"): void {
     if (this.getCurrentPlatform() === "desktop") {
-      window.electron.ipcRenderer.invoke(action).then(() => this.syncWindowState());
+      if (!this.isUsingTauri()) window.electron.ipcRenderer.invoke(action).then(() => this.syncWindowState());
     } else {
       throw new Error(`${this.performWindowAction.name} can only be executed when running in 'desktop' (electron) client`);
     }
