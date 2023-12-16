@@ -2,53 +2,40 @@
   "menu.file": "File",
   "menu.file.open_audio": "Open audio...",
   "menu.file.open_audio_folder": "Open audio folder...",
-  
   "menu.utility": "Utility",
   "menu.utility.clear_queue": "Clear queue",
   "menu.utility.clear_errored_deleted": "Clear errored / deleted",
   "menu.utility.refresh_all_metadata": "Refresh all metadata",
   "menu.utility.refresh_window": "Refresh window",
   "menu.utility.check_for_updates": "Check for updates",
-  
   "menu.view": "View",
   "menu.view.zoom_in": "Zoom in",
   "menu.view.zoom_out": "Zoom out",
   "menu.view.reset_zoom": "Reset zoom",
   "menu.view.settings": "Settings",
   "menu.view.show_developer_tools": "Show developer tools",
-  
   "menu.about": "About",
   "menu.about.documentation": "Documentation...",
   "menu.about.github_repository": "GitHub Repository...",
   "menu.about.discord_server": "Discord Server...",
-  
   "settings.appearance.title": "Appearance",
   "settings.appearance.description": "Customize background, themes, and accessibility",
-  
   "settings.performance.title": "Performance",
   "settings.performance.description": "Fine-tune vsync, animations, and rendering",
-  
   "settings.metering.title": "Metering",
   "settings.metering.description": "Adjust spectrums, vectorscope, and meters",
-  
   "settings.audio.title": "Audio",
   "settings.audio.description": "Manage output devices and presets",
-  
   "settings.media_sources.title": "Media Sources",
   "settings.media_sources.description": "Organize folders, connect to servers, and more",
-  
   "settings.keybinds.title": "Keybinds",
   "settings.keybinds.description": "Customize key mappings for your experience",
-  
   "settings.integrations.title": "Integrations",
   "settings.integrations.description": "Adjust Discord and other integrations",
-  
   "settings.application.title": "Application",
   "settings.application.description": "Manage updates and language preferences",
-  
   "settings.animation_duration.title": "Animaation kesto",
   "settings.animation_duration.description": "Kuinka pitkään animaatiot kestävät Amethystin käyttöliittymässä",
-  
   "settings.ambient_background.title": "Ambient-tausta",
   "settings.ambient_background.description": "Näyttää parhaillaan soitettavan kappaleen kansikuvan käyttöliittymän taustassa",
   "settings.ambient_background.spin_speed.title": "Pyörimisnopeus",
@@ -59,52 +46,52 @@
   "settings.ambient_background.blur_strength.description": "Kuinka suuri sumennuksen vahvuus on pikseleinä",
   "settings.ambient_background.zoom.title": "Zoomaus",
   "settings.ambient_background.zoom.description": "Säätää ambient-taustan skaalautumista, käytä tätä varmistaaksesi, että tausta kattaa koko näytön",
-  
   "settings.playback_controls.title": "Toiston ohjaimet",
   "settings.playback_controls.description": "Näyttää toiston ohjaimet sovelluksen alareunassa",
-  
   "settings.minimalist_mode.title": "Minimalistinen tila",
   "settings.minimalist_mode.description": "Pitää käyttöliittymän vähemmän yksityiskohtaisena, jotta se pysyy siistinä ja minimalistisena",
-  
   "settings.neon_mode.title": "Neon mode",
   "settings.neon_mode.description": "Changes the designs of certain UI elements to have a bloomy neon design",
-
   "settings.cover_art.title": "Kansikuva",
   "settings.cover_art.description": "Piirtää musiikin kansikuvan lähellä toistosäätimiä ruudun alalaidassa",
-  
   "settings.debug_stats.title": "Vianmääritystilastot",
   "settings.debug_stats.description": "Näyttää numerot, kuten samplet, ruudunpäivitys, prosessorin käyttö ja paljon muuta yläpalkissa",
-  
-  "settings.discord_rpc.description" : "Discord Rich Presence antaa käyttäjille mahdollisuuden jakaa Amethystin tämänhetkisen toiminnan Discordissa. Kun RPC ominaisuus on käytössä, se päivittää käyttäjän Discord-tilan näyttämään Amethystin version, parhaillaan soitettavan kappaleen tai soittolistan sekä artistin ja albumin",
-
+  "settings.discord_rpc.description": "Discord Rich Presence antaa käyttäjille mahdollisuuden jakaa Amethystin tämänhetkisen toiminnan Discordissa. Kun RPC ominaisuus on käytössä, se päivittää käyttäjän Discord-tilan näyttämään Amethystin version, parhaillaan soitettavan kappaleen tai soittolistan sekä artistin ja albumin",
   "settings.auto_update.title": "Automaattiset päivitykset",
   "settings.auto_update.description": "Automaattisesti tarkistaa ja asentaa päivitykset",
-  
   "settings.launch_on_startup.title": "Avaa käynnistäessä",
   "settings.launch_on_startup.description": "Avaa Amethyst tietokoneen käynnistyessä",
-  
   "settings.language.title": "Kieli",
-  "settings.language.description": "Vaihda sovelluksen kieli",  
-  
+  "settings.language.description": "Vaihda sovelluksen kieli",
   "settings.decibel_meter.title": "Desibelimittari",
   "settings.decibel_meter.description": "Näyttää äänisignaalin äänitason visuaalisen esityksen desibeleinä (dB). Se näyttää äänisignaalin nykyisen äänitason kuvaajan avulla, jossa y-akseli edustaa äänitasoa desibeleinä. Desibelimittaria voidaan käyttää audiosignaalin yleisen äänenvoimakkuuden seurantaan ja sen varmistamiseen, että se on turvallisten kuuntelutasojen sisällä.",
   "settings.decibel_meter.separate_pre_post.title": "Erilliset PRE ja POST",
   "settings.decibel_meter.separate_pre_post.description": "Näyttää erilliset desibelimittarit, yhden signaalille ennen solmua ja yhden solmun jälkeen",
-  
   "settings.loudness_meter.title": "Äänenvoimakkuusmittari",
   "settings.loudness_meter.description": "Näyttää visuaalisen esityksen äänisignaalin voimakkuudesta. Äänenvoimakkuus mitataan Loudness Units Full Scale (LUFS) -arvona, joka on standardoitu havaitun äänenvoimakkuuden mittaustapa.",
-  
   "settings.vectorscope.title": "Vektorskooppi",
   "settings.vectorscope.description": "Näyttää stereoäänisignaalin visuaalisen esityksen. Se näyttää äänisignaalin suhteellisen vaiheen ja stereoleveyden ympyränmuotoisen kuvaajan avulla. Vektoriskooppia voidaan käyttää audiosignaalin stereokuvauksen ja vaihekoherenssin tarkistamiseen.",
   "settings.vectorscope.lissajous.title": "Lissajous",
   "settings.vectorscope.lissajous.description": "Näytä diagonaalisesti lissajous-kuviona",
-  
   "settings.spectrum_analyser.title": "Spektrianalysaattori",
   "settings.spectrum_analyser.description": "Näyttää äänisignaalin taajuussisällön visuaalisen esityksen. Se näyttää audiosignaalin taajuusspektrin kuvaajan avulla, jossa x-akseli edustaa taajuusaluetta ja y-akseli amplitudia. Spektrianalysaattorin avulla voidaan analysoida audiosignaalin taajuustasapainoa ja tunnistaa taajuuspiikkejä tai -notkoja.",
   "settings.spectrum_analyser.logarithmic_spectrum.title": "Logaritminen taajuusspektri",
   "settings.spectrum_analyser.logarithmic_spectrum.description": "Käytä logaritmista skaalausta taajuuksille",
-
   "settings.vsync.title": "VSync",
   "settings.vsync.description": "Rajoita Amethystin käyttöliittymän (UI) päivitysnopeus aktiivisen näytön virkistystaajuuteen.",
-  "settings.vsync.warning": "Uudelleenkäynnistys vaaditaan"
+  "settings.vsync.warning": "Uudelleenkäynnistys vaaditaan",
+  "settings.ambient_background.blending_mode.title": "Blending mode",
+  "settings.ambient_background.blending_mode.description": "Changes how the ambient background is blended with the background",
+  "settings.fft_size.title": "FFT Size",
+  "settings.fft_size.description": "Changes the Fast Fourier Transform window size, bigger values result in higher resolution data but with more latency",
+  "settings.decibel_meter.minimum_db.title": "Minimum dB",
+  "settings.decibel_meter.minimum_db.description": "Changes the lowest value the decibel meter will register",
+  "settings.vectorscope.line_thickness.title": "Line thickness",
+  "settings.vectorscope.line_thickness.description": "Changes how thick / obvious the lines are",
+  "settings.pause_visuals.title": "Pause visuals when unfocused",
+  "settings.pause_visuals.description": "Pause visualizers when tabbing out of Amethyst to reduce the performance hit (useful for gaming or multi-tasking)",
+  "settings.import_export.title": "Import or export settings",
+  "settings.import_export.description": "Backup your settings into a file or import existing settings",
+  "settings.import_export.import": "Import",
+  "settings.import_export.export": "Export"
 }

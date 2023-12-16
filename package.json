@@ -32,10 +32,11 @@
     "docs:dev": "vitepress dev docs --host",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "gen:all": "concurrently -p none \"yarn gen:scoop\" \"yarn gen:winget\" \"yarn gen:aur\"",
+    "gen:all": "concurrently -p none \"yarn gen:scoop\" \"yarn gen:winget\" \"yarn gen:aur\" \"yarn gen:locales\"",
     "gen:scoop": "yarn tsx ./scripts/generate_scoop_manifest.ts",
     "gen:winget": "yarn tsx ./scripts/generate_winget_manifest.ts",
-    "gen:aur": "yarn tsx ./scripts/generate_aur_manifest.ts"
+    "gen:aur": "yarn tsx ./scripts/generate_aur_manifest.ts",
+    "gen:locales": "yarn tsx ./scripts/sync_locale_keys.ts"
   },
   "electronmon": {
     "patterns": [
