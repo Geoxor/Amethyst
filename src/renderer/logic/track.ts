@@ -243,7 +243,6 @@ export class Track {
       case "desktop":
         {
           if (amethyst.isUsingTauri()) {
-            console.log(this.absolutePath);
             return tauriUtils.tauriGetFilename(this.absolutePath);
           }
           const { base } = window.path.parse(this.absolutePath);
