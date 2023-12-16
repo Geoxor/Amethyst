@@ -74,10 +74,10 @@
         "description": "Amethyst Node Graph"
       },
       {
-        "ext": "asf",
-        "icon": "./assets/images/asf.ico",
-        "name": "Amethyst Settings File",
-        "description": "Amethyst Settings File"
+        "ext": "acf",
+        "icon": "./assets/images/acf.ico",
+        "name": "Amethyst Configuration File",
+        "description": "Amethyst Configuration File"
       },
       {
         "ext": "amf",
