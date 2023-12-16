@@ -55,9 +55,6 @@ export class Player extends EventEmitter<{
   }
 
   private setPlayingTrack(track: Track) {
-    this.input.pause(); // just make sure it's paused.
-    // this should force JavaScript to unload the previous file from memory instantly.
-    this.input.removeAttribute('src');
     this.input.src = amethyst.isUsingTauri() ? convertFileSrc(track.path) : track.path;
     this.currentTrack.value = track;
     this.currentTrackIndex.value = this.queue.getList().indexOf(track);
