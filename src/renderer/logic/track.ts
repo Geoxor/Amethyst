@@ -20,7 +20,7 @@ export class Track {
   public path: string;
 
   public constructor(public absolutePath: string) {
-    console.log("absolute path: ", absolutePath);
+    // console.log("absolute path: ", absolutePath);
     this.path = absolutePath;
   }
 
@@ -31,7 +31,6 @@ export class Track {
       if (!await tauriUtils.tauriStat(dataDir + "Metadata Cache/"))
         tauriUtils.tauriCreateFolder(dataDir + "Metadata Cache/")
       const amfPath = dataDir + "Metadata Cache/" + this.getFilename() + ".amf";
-      console.log(amfPath);
       return amfPath;
     }
     const amfPath = window.path.join(amethyst.APPDATA_PATH || "" , "/amethyst/Metadata Cache", this.getFilename() + ".amf");
