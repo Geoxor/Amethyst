@@ -14,6 +14,10 @@
       "all": false,
       "os": {
         "all": true
+      },
+      "fs": {
+        "all": true,
+        "scope": ["**"]
       }
     },
     "bundle": {

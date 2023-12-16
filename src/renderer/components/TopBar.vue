@@ -34,8 +34,8 @@ onMounted(() => {
     if (fps.value < min.value) min.value = fps.value;
     domSize.value = countDomElements();
     amethyst.player.getLatency().then(l => latency.value = l);
-    // TODO: multiplatform support
-    if (amethyst.getCurrentPlatform() === "desktop") {
+    // TODO: multiplatform support, Tauri support from native Rust backend.
+    if (amethyst.getCurrentPlatform() === "desktop" && !amethyst.isUsingTauri()) {
       window.electron.ipcRenderer.invoke<ProcessorUsage>("percent-cpu-usage").then(usage => cpuUsage.value = usage);
     }
     smoothTween(tweenedFps.value, fpsCounter.value, 1000, (tweenedNumber => tweenedFps.value = ~~tweenedNumber));
