@@ -276,6 +276,8 @@ export class Amethyst extends AmethystBackend {
         listen("refresh-metadata", () => {
           amethyst.player.queue.fetchAsyncData(true);
         });
+
+        document.addEventListener('contextmenu', event => event.preventDefault());
       }
   
       // #region move this to the discord plugin
