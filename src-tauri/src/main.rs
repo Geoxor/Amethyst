@@ -126,13 +126,13 @@ fn main() {
           event.window().emit("refresh-metadata", {}).unwrap();
         },
         "documentation" => {
-          open::that("https://amethyst.pages.dev/introduction.html");
+          let _ = open::that("https://amethyst.pages.dev/introduction.html");
         },
         "github" => {
-          open::that("https://rust-lang.org");
+          let _ = open::that("https://github.com/Nyabsi/Amethyst/tree/tauri");
         },
         "discord" => {
-          open::that("https://github.com/Nyabsi/Amethyst/tree/tauri");
+          let _ = open::that("https://discord.gg/geoxor");
         },
         id => {
           println!("got menu event: {}", id);
