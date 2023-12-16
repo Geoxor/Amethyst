@@ -5,6 +5,9 @@ import { ref } from "vue";
 import { AmethystAudioNodeManager } from "./audioManager";
 import { EventEmitter } from "./eventEmitter";
 import { secondsToColinHuman, secondsToHuman } from "@shared/formating";
+import { amethyst } from "@/amethyst";
+
+import { convertFileSrc } from "@tauri-apps/api/tauri";
 
 export enum LoopMode {
 	None,
@@ -52,7 +55,7 @@ export class Player extends EventEmitter<{
   }
 
   private setPlayingTrack(track: Track) {
-    this.input.src = track.path;
+    this.input.src = amethyst.isUsingTauri() ? convertFileSrc(track.path) : track.path;
     this.currentTrack.value = track;
     this.currentTrackIndex.value = this.queue.getList().indexOf(track);
     this.input.play();

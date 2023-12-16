@@ -24,14 +24,25 @@ export class Track {
     this.path = absolutePath;
   }
 
-  public getCachePath(absolute?: boolean) {
+  public async getCachePath(absolute?: boolean) {
+    if (amethyst.isUsingTauri())
+    {
+      const dataDir = await tauriUtils.tauriGetDataDir();
+      if (!await tauriUtils.tauriStat(dataDir + "amethyst/Metadata Cache/"))
+        tauriUtils.tauriCreateFolder("amethyst/Metadata Cache/")
+      const amfPath = dataDir + "amethyst/Metadata Cache/" + this.getFilename() + ".amf";
+      return amfPath;
+    }
     const amfPath = window.path.join(amethyst.APPDATA_PATH || "" , "/amethyst/Metadata Cache", this.getFilename() + ".amf");
     return absolute ? amfPath : `file://${amfPath}`;
   }
  
   private async isCached() {
     try {
-      await window.fs.stat(this.getCachePath(true));
+      const cachePath = await this.getCachePath(true);
+      if (amethyst.isUsingTauri())
+        await tauriUtils.tauriStat(cachePath);
+      await window.fs.stat(cachePath);
       return true;
     } catch (error) {
       return false;
@@ -39,13 +50,20 @@ export class Track {
   }
 
   private async fetchCache() {
-    return (await fetch(this.getCachePath())).json();
+    const cachePath = await this.getCachePath(true);
+    if (amethyst.isUsingTauri())
+      return JSON.parse((await tauriUtils.tauriFetch(cachePath)));
+    return (await fetch(cachePath)).json();
   }
 
   public async delete() {
-    return window.fs.unlink(this.absolutePath).then(() => {
+    return window.fs.unlink(this.absolutePath).then(async () => {
       this.deleted = true;
-      window.fs.unlink(this.getCachePath(true)).catch();
+      const cachePath = await this.getCachePath(true);
+      if (amethyst.isUsingTauri())
+        await tauriUtils.tauriDelete(cachePath);
+      else
+        await window.fs.unlink(cachePath);
     });
   }
 
@@ -152,10 +170,21 @@ export class Track {
     }
     
     if (amethyst.getCurrentPlatform() === "desktop") {
-      window.fs.writeFile(this.getCachePath(true), JSON.stringify({
-        cover,
-        metadata,
-      }, null, 2)).catch(console.log);
+      const cachePath = await this.getCachePath(true);
+      if (amethyst.isUsingTauri())
+      {
+       tauriUtils.tauriWrite(cachePath, JSON.stringify({
+          cover,
+          metadata,
+        }, null, 2)).catch(console.log);
+      }
+      else
+      {
+        window.fs.writeFile(cachePath, JSON.stringify({
+          cover,
+          metadata,
+        }, null, 2)).catch(console.log);
+      }
     }
 
     this.isLoading.value = false;
@@ -212,8 +241,14 @@ export class Track {
   public getFilename() {
     switch (amethyst.getCurrentPlatform()) {
       case "desktop":
-        const { base } = window.path.parse(this.absolutePath);
-        return base;
+        {
+          if (amethyst.isUsingTauri()) {
+            console.log(this.absolutePath);
+            return tauriUtils.tauriGetFilename(this.absolutePath);
+          }
+          const { base } = window.path.parse(this.absolutePath);
+          return base;
+        }
       case "mobile": 
         return decodeURIComponent( this.absolutePath.substring(this.absolutePath.lastIndexOf("/Music/") + "/Music/".length ));
       default:
@@ -226,6 +261,9 @@ export class Track {
    * @example "02. Daft Punk - Get Lucky"
    */
   public getFilenameWithoutExtension() {
+    if (amethyst.isUsingTauri()) {
+      return tauriUtils.tauriGetFilename(this.absolutePath);
+    }
     const { name } = window.path.parse(this.absolutePath);
     return name;
   }

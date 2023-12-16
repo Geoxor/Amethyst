@@ -15,9 +15,20 @@
       "os": {
         "all": true
       },
+      "dialog": {
+        "all": true
+      },
       "fs": {
         "all": true,
         "scope": ["**"]
+      },
+      "path": {
+        "all": true
+      },
+      "protocol": {
+        "all": true,
+        "asset": true,
+        "assetScope": ["**"]
       }
     },
     "bundle": {
@@ -54,7 +65,7 @@
       }
     },
     "security": {
-      "csp": null
+      "csp": "default-src 'self'; media-src 'self' asset: https://asset.localhost;"
     },
     "updater": {
       "active": false
