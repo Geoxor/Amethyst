@@ -30,12 +30,13 @@ lazy_static! {
 
 #[tauri::command]
 fn update_presence(title: String, time: String, format: String) {
-
+  
   let assets = activity::Assets::new()
   .large_image("audio_file")
     .large_text(&format)
     .small_image("logo")
-    .small_text("Amethyst v0.1.0 (MacOS)");
+    // TODO: fetch version from native API
+    .small_text("Amethyst v2.0.0 (Tauri)");
 
   let payload = activity::Activity::new()
     .state(&time)
