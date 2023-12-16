@@ -9,21 +9,8 @@ import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 import SettingsSetting from "@/components/v2/SettingsSetting.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import DropdownInput from "@/components/v2/DropdownInput.vue";
+import { FFT_SIZES } from "@shared/constants";
 const state = useState();
-
-const FFT_SIZES = [
-  32, 
-  64, 
-  128, 
-  256, 
-  512, 
-  1024, 
-  2048, 
-  4096, 
-  8192, 
-  16384,
-  32768,
-];
 
 </script>
 
