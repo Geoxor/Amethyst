@@ -92,6 +92,15 @@ fn main() {
         "refresh_metadata" => {
           event.window().emit("refresh-metadata", {}).unwrap();
         },
+        "documentation" => {
+          open::that("https://amethyst.pages.dev/introduction.html");
+        },
+        "github" => {
+          open::that("https://rust-lang.org");
+        },
+        "discord" => {
+          open::that("https://github.com/Nyabsi/Amethyst/tree/tauri");
+        },
         id => {
           println!("got menu event: {}", id);
         }
