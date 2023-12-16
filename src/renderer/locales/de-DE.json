@@ -89,11 +89,16 @@
   "settings.language.title": "Sprache",
   "settings.language.description": "Ändere die Sprache von Amethyst",
 
+  "settings.fft_size.title": "FFT-Größe",
+  "settings.fft_size.description": "Ändert die Größe des Fensters für die schnelle Fourier-Transformation (FFT). Größere Werte führen zu Daten mit höherer Auflösung, gehen jedoch mit mehr Latenz einher.",
+  
   "settings.decibel_meter.title": "Dezibel-Messung",
   "settings.decibel_meter.description": "Zeigt eine visuelle Darstellung des Schallpegels des Audiosignals in Dezibel (dB) an. Es zeigt den aktuellen Schallpegel des Audiosignals mit einem Diagramm an, bei dem die y-Achse den Schallpegel in Dezibel darstellt. Die Dezibel-Messung kann verwendet werden, um die Gesamtlautstärke des Audiosignals zu überwachen und sicherzustellen, dass sie innerhalb einer sicheren Hörgrenze liegt.",
   "settings.decibel_meter.separate_pre_post.title": "Trenne PRE und POST",
   "settings.decibel_meter.separate_pre_post.description": "Zeigt einzelne Dezibel-Messungen, jeweils vor und nach einem Knoten",
-  
+  "settings.decibel_meter.minimum_db.title": "Mindest-Dezibel",
+  "settings.decibel_meter.minimum_db.description": "Ändert den niedrigsten Wert, den die Dezibel-Messung erfassen soll",
+
   "settings.loudness_meter.title": "Lautstärke-Messung",
   "settings.loudness_meter.description": "Zeigt eine visuelle Darstellung der wahrgenommenen Lautstärke des Audiosignals. Das Lautstärke-Messgerät wird in Loudness Units Full Scale (LUFS) gemessen, was eine standardisierte Messung der wahrgenommenen Lautstärke ist.",
   
@@ -101,7 +106,9 @@
   "settings.vectorscope.description": "Zeigt eine visuelle Darstellung des Stereo-Audiosignals. Es zeigt die relative Phase und Stereo-Breite des Audiosignals mit einem kreisförmigen Diagramm an. Das Vektorskop kann verwendet werden, um die Stereo-Bildgebung und Phasenkohärenz des Audiosignals zu überprüfen.",
   "settings.vectorscope.lissajous.title": "Lissajous",
   "settings.vectorscope.lissajous.description": "Zeige diagonal in einem Lissajous-Muster",
-  
+  "settings.vectorscope.line_thickness.title": "Linienstärke",
+  "settings.vectorscope.line_thickness.description": "Ändert, wie dick/auffällig die Linien sind",
+
   "settings.spectrum_analyser.title": "Spektrumanalysator",
   "settings.spectrum_analyser.description": "Zeigt eine visuelle Darstellung des Frequenzinhalts des Audiosignals. Der Spektrumanalysator zeigt das Frequenzspektrum des Audiosignals mit einem Diagramm an, bei dem die x-Achse den Frequenzbereich und die y-Achse die Amplitude darstellt. Der Spektrumanalysator kann verwendet werden, um die Frequenzbalance des Audiosignals zu analysieren und Frequenzspitzen oder -nuten zu identifizieren.",
   "settings.spectrum_analyser.logarithmic_spectrum.title": "Logarithmisches Spektrum",
@@ -109,5 +116,13 @@
 
   "settings.vsync.title": "VSync",
   "settings.vsync.description": "Beschränke die Bildwiederholrate der Benutzeroberfläche von Amethyst auf die Aktualisierungsrate des aktiven Displays.",
-  "settings.vsync.warning": "Neustart erforderlich"
+  "settings.vsync.warning": "Neustart erforderlich",
+
+  "settings.pause_visuals.title": "Visualisierungen bei Inaktivität pausieren",
+  "settings.pause_visuals.description": "Pausiert visuelle Darstellungen, wenn Amethyst nicht im Fokus ist, um die Leistungseinbußen zu minimieren (nützlich beim Spielen oder Multitasking).",
+  
+  "settings.import_export.title": "Einstellungen importieren oder exportieren",
+  "settings.import_export.description": "Sichere deine Einstellungen in einer Datei oder importiere vorhandene Einstellungen",
+  "settings.import_export.import": "Importieren",
+  "settings.import_export.export": "Exportieren"
 }
