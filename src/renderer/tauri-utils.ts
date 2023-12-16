@@ -15,7 +15,7 @@ class TauriUtils {
 
     public async loadMetadata(path: String)
     {
-        var buffer = await readBinaryFile(path);
+        let buffer = await readBinaryFile(path);
         const {format, common} = await mm.parseBuffer(buffer, undefined);
         const size = buffer.length;
         buffer = null;
@@ -24,7 +24,7 @@ class TauriUtils {
 
     public async loadCover(path: String)
     {
-        var buffer = await readBinaryFile(path);
+        let buffer = await readBinaryFile(path);
         const {common} = await mm.parseBuffer(buffer, undefined);
         buffer = null;
         if (common.picture) {
