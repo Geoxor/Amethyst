@@ -228,23 +228,28 @@ export class Amethyst extends AmethystBackend {
 
     if (this.getCurrentPlatform() === "desktop") {
 
-    if (!this.isUsingTauri())
-    {
-      window.electron.ipcRenderer.invoke<string>("get-appdata-path").then(path => this.APPDATA_PATH = path);
+      if (!this.isUsingTauri())
+      {
+        window.electron.ipcRenderer.invoke<string>("get-appdata-path").then(path => this.APPDATA_PATH = path);
 
-      window.electron.ipcRenderer.on("maximize", () => this.store.state.isMaximized = true);
-      window.electron.ipcRenderer.on("unmaximize", () => this.store.state.isMaximized = false);
-      window.electron.ipcRenderer.on("minimize", () => this.store.state.isMinimized = true);
-      window.electron.ipcRenderer.on("focus", () => this.store.state.isFocused = true);
-      window.electron.ipcRenderer.on("unfocus", () => this.store.state.isFocused = false);
+        window.electron.ipcRenderer.on("maximize", () => this.store.state.isMaximized = true);
+        window.electron.ipcRenderer.on("unmaximize", () => this.store.state.isMaximized = false);
+        window.electron.ipcRenderer.on("minimize", () => this.store.state.isMinimized = true);
+        window.electron.ipcRenderer.on("focus", () => this.store.state.isFocused = true);
+        window.electron.ipcRenderer.on("unfocus", () => this.store.state.isFocused = false);
 
-      window.electron.ipcRenderer.on("update", () => this.store.state.updateReady = true);
+        window.electron.ipcRenderer.on("update", () => this.store.state.updateReady = true);
 
-      window.electron.ipcRenderer.on<string>("play-file", path => path !== "--require" && amethyst.player.queue.add(path).then(() => {
-        amethyst.player.play(amethyst.player.queue.getList().findIndex(track => track.path == path));
-      }));
-      window.electron.ipcRenderer.on<(string)[]>("play-folder", paths => amethyst.player.queue.add(flattenArray(paths)));
-    }
+        window.electron.ipcRenderer.on<string>("play-file", path => path !== "--require" && amethyst.player.queue.add(path).then(() => {
+          amethyst.player.play(amethyst.player.queue.getList().findIndex(track => track.path == path));
+        }));
+        window.electron.ipcRenderer.on<(string)[]>("play-folder", paths => amethyst.player.queue.add(flattenArray(paths)));
+      }
+      else
+      {
+        // TODO: load this from somewhere else, Eg: tauri utils some how, although it is async...
+        this.APPDATA_PATH = "/Users/nyabsi/Documents/AmethystData/";
+      }
   
       // #region move this to the discord plugin
       let richPresenceTimer: NodeJS.Timer | undefined;
