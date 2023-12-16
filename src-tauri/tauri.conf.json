@@ -33,7 +33,7 @@
     },
     "bundle": {
       "active": true,
-      "category": "Tools",
+      "category": "Music",
       "copyright": "© 2023 Geoxor",
       "deb": {
         "depends": []
