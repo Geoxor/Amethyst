@@ -1,7 +1,12 @@
 // Prevents additional console window on Windows in release, DO NOT REMOVE!!
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
+#[macro_use]
+extern crate lazy_static;
+
 use tauri::{CustomMenuItem, Menu, MenuItem, Submenu, AboutMetadata};
+use discord_rich_presence::{activity, DiscordIpc, DiscordIpcClient};
+use std::sync::{Arc, Mutex};
 
 use tauri::api::dialog::FileDialogBuilder;
 use std::path::PathBuf;
@@ -16,7 +21,33 @@ struct FolderPayload {
   folder: PathBuf
 }
 
+lazy_static! {
+  static ref client: Mutex<DiscordIpcClient> = Mutex::new({
+    let mut c = DiscordIpcClient::new("976036303156162570").unwrap();
+    c
+  });
+}
+
+#[tauri::command]
+fn update_presence(title: String, time: String, format: String) {
+
+  let assets = activity::Assets::new()
+  .large_image("audio_file")
+    .large_text(&format)
+    .small_image("logo")
+    .small_text("Amethyst v0.1.0 (MacOS)");
+
+  let payload = activity::Activity::new()
+    .state(&time)
+    .details(&title)
+    .assets(assets);
+  
+  client.lock().unwrap().set_activity(payload);
+}
+
 fn main() {
+
+  client.lock().unwrap().connect();
 
   #[cfg(debug_assertions)]
   let menu = Menu::new()
@@ -38,6 +69,7 @@ fn main() {
     .add_submenu(Submenu::new("About", Menu::new().add_item(CustomMenuItem::new("documentation".to_string(), "Go to Documentation")).add_item(CustomMenuItem::new("github".to_string(), "Go to Github")).add_item(CustomMenuItem::new("discord".to_string(), "Join Discord Server"))));
 
   tauri::Builder::default()
+    .invoke_handler(tauri::generate_handler![update_presence])
     .menu(menu)
     .on_menu_event(|event| {
       match event.menu_item_id() {

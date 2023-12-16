@@ -16,8 +16,8 @@ import "./logic/subsonic";
 import { createI18n } from "vue-i18n";
 import messages from "@intlify/unplugin-vue-i18n/messages";
 
-import "@/tauri-utils";
 import { listen } from '@tauri-apps/api/event';
+import { invoke } from '@tauri-apps/api/tauri';
 import { tauriUtils } from "@/tauri-utils";
 
 export const i18n = createI18n({
@@ -288,7 +288,15 @@ export class Amethyst extends AmethystBackend {
             this.player.isPaused.value ? "Paused" : `${this.player.currentTimeFormatted(true)} - ${track.getDurationFormatted(true)}`,
             track.metadata.data?.format.container?.toLowerCase() || "unknown format"
           ];
-          if (!this.isUsingTauri()) window.electron.ipcRenderer.invoke("update-rich-presence", [args]);
+          if (!this.isUsingTauri())
+          {
+            window.electron.ipcRenderer.invoke("update-rich-presence", [args]);
+          }
+          else
+          {
+            const [title, time, format] = args;
+            invoke('update_presence', {  title: title, time: time, format: format });
+          }
         };
 
         richPresenceTimer && clearInterval(richPresenceTimer);
