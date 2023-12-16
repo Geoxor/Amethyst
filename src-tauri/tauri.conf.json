@@ -62,7 +62,7 @@
       }
     },
     "security": {
-      "csp": "default-src 'self'; media-src 'self' asset: https://asset.localhost; img-src 'self' data:;"
+      "csp": "default-src 'self'  data:; media-src 'self' asset: https://asset.localhost; img-src 'self' blob: data:;"
     },
     "updater": {
       "active": false
