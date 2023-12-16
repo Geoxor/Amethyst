@@ -15,16 +15,18 @@ class TauriUtils {
 
     public async loadMetadata(path: String)
     {
-        const buffer = await readBinaryFile(path);
+        var buffer = await readBinaryFile(path);
         const {format, common} = await mm.parseBuffer(buffer, undefined);
         const size = buffer.length;
+        buffer = null;
         return {format, common, size } as IMetadata;
     }
 
     public async loadCover(path: String)
     {
-        const buffer = await readBinaryFile(path);
+        var buffer = await readBinaryFile(path);
         const {common} = await mm.parseBuffer(buffer, undefined);
+        buffer = null;
         if (common.picture) {
             return common.picture[0].data.toString("base64") as string;
         }
