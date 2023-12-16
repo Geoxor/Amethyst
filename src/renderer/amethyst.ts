@@ -247,8 +247,7 @@ export class Amethyst extends AmethystBackend {
       }
       else
       {
-        // TODO: load this from somewhere else, Eg: tauri utils some how, although it is async...
-        this.APPDATA_PATH = "/Users/nyabsi/Documents/AmethystData/";
+        
       }
   
       // #region move this to the discord plugin
