@@ -256,9 +256,11 @@ export class Amethyst extends AmethystBackend {
 
         listen("open-folder", async (e) => {
           const entries = await tauriUtils.tauriReadFolder(e.payload.folder);
+          let paths = [];
           for (const entry of entries) {
-            amethyst.player.queue.add(entry.path);
+            paths.push(entry.path);
           }
+          amethyst.player.queue.add(paths);
         });
     
         listen("goto-settings", () => {
