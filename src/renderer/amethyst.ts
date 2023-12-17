@@ -25,7 +25,7 @@ import { appDataDir } from '@tauri-apps/api/path';
 
 export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale
-  locale: "en-US", // JSON.parse(localStorage.getItem("settings")!).language
+  locale: JSON.parse(localStorage.getItem("settings")!).language,
   messages,
 });
 
@@ -360,6 +360,7 @@ export class Amethyst extends AmethystBackend {
 
   public openDevTools() {
     if (this.getCurrentPlatform() !== "desktop") return;
+    invoke('open_devtools', {});
     window.electron.ipcRenderer.invoke("dev-tools");
   }
 
