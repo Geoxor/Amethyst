@@ -96,5 +96,7 @@
   "settings.import_export.export": "Vie",
   "settings.local_sources.title": "Local Sources",
   "settings.local_sources.description": "Add local folders to your Amethyst library, these will update whenever Amethyst detects file changes in these folders",
-  "settings.media_source_type.local_folder": "Local Folder"
+  "settings.media_source_type.local_folder": "Local Folder",
+  "settings.local_sources.add_folder": "Add folder",
+  "settings.local_sources.open_explorer": "Open in explorer..."
 }
