@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { amethyst, useState } from "@/amethyst";
-import {ExportIcon, ImportIcon, LanguageIcon, RocketIcon, UpdateIcon} from "@/icons";
+import {ExportIcon, ImportIcon, LanguageIcon, RemoveIcon, RocketIcon, UpdateIcon} from "@/icons";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 import SettingsSetting from "@/components/v2/SettingsSetting.vue";
 import LanguageDropdown from "@/components/v2/LanguageDropdown.vue";
@@ -63,6 +63,17 @@ const handleToggleAutostart = () => {
       :text="$t('settings.import_export.export')"
       :icon="ExportIcon"
       @click="amethyst.exportSettings"
+    />
+  </settings-setting>
+  <settings-setting
+    :icon="RemoveIcon"
+    :title="$t('settings.reset.title')"
+    :description="$t('settings.reset.description')"
+  >
+    <button-input
+      :text="$t('settings.reset.reset')"
+      :icon="RemoveIcon"
+      @click="amethyst.resetSettings"
     />
   </settings-setting>
 </template>

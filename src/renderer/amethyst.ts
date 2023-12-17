@@ -7,7 +7,7 @@ import { Capacitor } from "@capacitor/core";
 import { StatusBar } from "@capacitor/status-bar";
 import {NavigationBar} from "@hugotomazi/capacitor-navigation-bar";
 import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
-import { FileFilter, OpenDialogReturnValue, SaveDialogReturnValue } from "electron";
+import { OpenDialogReturnValue, SaveDialogReturnValue } from "electron";
 import { watch } from "vue";
 import { flattenArray } from "./logic/math";
 import { Track } from "./logic/track";
@@ -320,6 +320,13 @@ export class Amethyst extends AmethystBackend {
     if (dialog?.canceled || !dialog?.filePath) return;
   
     return amethyst.writeFile(JSON.stringify(amethyst.store.settings.value, null, 2), dialog?.filePath);
+  };
+
+  public resetSettings = () => {
+		Object.keys(this.store.defaultSettings).forEach(key => {
+      // @ts-ignore
+      this.store.settings.value[key] = this.store.defaultSettings[key];
+    });
   };
 
   public reload = () => {
