@@ -37,10 +37,10 @@ export type AmethystPlatforms = ReturnType<typeof amethyst.getCurrentPlatform>;
  */
 class AmethystBackend {
   public constructor() {
+    if (AmethystBackend.isPlatformTauri) tauriUtils.init();
     console.log(`Current platform: ${this.getCurrentPlatform()}`);
     console.log(`Current operating system: ${this.getCurrentOperatingSystem()}`);
     console.log(`Current Runtime: ${AmethystBackend.isPlatformTauri ? 'Tauri' : AmethystBackend.isPlatformMobile ? 'Mobile' : 'Electron' }`)
-    if (AmethystBackend.isPlatformTauri) tauriUtils.init();
   }
 
   private static isPlatformMobile = Capacitor.isNativePlatform();
@@ -51,12 +51,11 @@ class AmethystBackend {
 
   private static isPlatformWeb = !AmethystBackend.isPlatformMobile && !AmethystBackend.isPlatformDesktop;
 
-  // TODO: make Tauri checks platform agnostic.
-  private static isOperatingSystemLinux = this.isPlatformDesktop && AmethystBackend.isPlatformTauri ? false : window.electron.isLinux;
+  private static isOperatingSystemLinux = this.isPlatformDesktop && AmethystBackend.isPlatformTauri ? window.navigator.userAgent.indexOf("Linux") >= 0 : window.electron.isLinux;
 
-  private static isOperatingSystemWindows = this.isPlatformDesktop && AmethystBackend.isPlatformTauri ? true : window.electron.isWindows;
+  private static isOperatingSystemWindows = this.isPlatformDesktop && AmethystBackend.isPlatformTauri ? window.navigator.userAgent.indexOf("Windows") >= 0 : window.electron.isWindows;
 
-  private static isOperatingSystemMac = this.isPlatformDesktop && AmethystBackend.isPlatformTauri ? false : window.electron.isMac;
+  private static isOperatingSystemMac = this.isPlatformDesktop && AmethystBackend.isPlatformTauri ? window.navigator.userAgent.indexOf("Macintosh") >= 0 : window.electron.isMac;
 
   public getCurrentPlatform() {
     if (Amethyst.isPlatformDesktop) return "desktop"; // aka Electron
