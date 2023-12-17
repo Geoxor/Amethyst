@@ -106,6 +106,8 @@ class AmethystBackend {
   public async showItem(path: string) {
     switch (this.getCurrentPlatform()) {
       case "desktop":
+        if (this.isUsingTauri())
+          return invoke('open_shell', { location: path });
         return window.electron.ipcRenderer.invoke("show-item", [path]); 
       default:
         return Promise.reject();

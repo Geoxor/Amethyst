@@ -26,6 +26,11 @@ async fn pick_folder() -> (bool, PathBuf) {
 }
 
 #[tauri::command]
+fn open_shell(location: String) {
+  open::that(location);
+}
+
+#[tauri::command]
 async fn update_presence(title: String, time: String, format: String) {
   
   let assets = activity::Assets::new()
@@ -67,7 +72,7 @@ fn main() {
     .add_submenu(Submenu::new("About", Menu::new().add_item(CustomMenuItem::new("documentation".to_string(), "Go to Documentation")).add_item(CustomMenuItem::new("github".to_string(), "Go to Github")).add_item(CustomMenuItem::new("discord".to_string(), "Join Discord Server"))));
 
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![update_presence, pick_folder])
+    .invoke_handler(tauri::generate_handler![update_presence, pick_folder, open_shell])
     .menu(menu)
     .on_menu_event(|event| {
       match event.menu_item_id() {
