@@ -27,18 +27,20 @@ async fn pick_folder() -> (bool, PathBuf) {
 
 #[tauri::command]
 fn open_shell(location: String) {
-  open::that(location);
+  let _ = open::that(location);
 }
 
 #[tauri::command]
-async fn update_presence(title: String, time: String, format: String) {
-  
+async fn update_presence(app_handle: tauri::AppHandle, title: String, time: String, format: String) {
+
+  let package = app_handle.package_info();
+  let formatted_version = format!("Amethyst v{} (Tauri)", package.version);
+
   let assets = activity::Assets::new()
   .large_image("audio_file")
     .large_text(&format)
     .small_image("logo")
-    // TODO: fetch version from native API
-    .small_text("Amethyst v2.0.0 (Tauri)");
+    .small_text(&formatted_version);
 
   let payload = activity::Activity::new()
     .state(&time)
