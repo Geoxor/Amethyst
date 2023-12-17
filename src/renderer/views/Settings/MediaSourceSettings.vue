@@ -14,7 +14,7 @@ import BaseChip from "@/components/BaseChip.vue";
     :icon="FolderIcon"
   >
     <button-input
-      text="Add Source"
+      :text="$t('settings.local_sources.add_folder')"
       :icon="AddIcon"
       @click="amethyst.mediaSourceManager.addLocalSource"
     />
@@ -35,12 +35,11 @@ import BaseChip from "@/components/BaseChip.vue";
             {{ source.totalTracks }} Tracks
           </base-chip>
           <button-input
-            text="Open in explorer..."
+            :text="$t('settings.local_sources.open_explorer')"
             :icon="EyeIcon"
             @click="amethyst.showItem(source.path)"
           />
           <button-input
-            text="Remove"
             :icon="RemoveIcon"
             @click="amethyst.mediaSourceManager.removeMediaSource(source)"
           />
