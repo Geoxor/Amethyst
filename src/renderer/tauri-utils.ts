@@ -40,6 +40,13 @@ class TauriUtils {
         return nameWithExtension.substring(0, nameWithExtension.lastIndexOf('.'));
     }
 
+    public tauriGetRootDirectory(path: String)
+    {
+        // TODO: better way of doing this?
+        const rootDirectory = path.substring(path.lastIndexOf('/') + 1);
+        return rootDirectory;
+    }
+
     public async tauriStat(path: String)
     {
         return await exists(path);
