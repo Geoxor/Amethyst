@@ -3,6 +3,7 @@ import { platform } from '@tauri-apps/api/os';
 
 import { join, appDataDir } from '@tauri-apps/api/path';
 import { readBinaryFile, writeBinaryFile, readDir, createDir, writeTextFile, readTextFile, removeFile, exists, BaseDirectory } from '@tauri-apps/api/fs';
+import { convertFileSrc } from "@tauri-apps/api/tauri";
 
 import * as mm from "music-metadata-browser";
 import { IMetadata } from "@shared/types";
@@ -30,18 +31,18 @@ class TauriUtils {
 
     public async loadMetadata(path: String)
     {
-        let buffer = await readBinaryFile(path);
+        const response = (await fetch(await convertFileSrc(path)));
+        const buffer = new Uint8Array(await response.arrayBuffer());
         const {format, common} = await mm.parseBuffer(buffer, undefined);
         const size = buffer.length;
-        buffer = null;
         return {format, common, size } as IMetadata;
     }
 
     public async loadCover(path: String)
     {
-        let buffer = await readBinaryFile(path);
+        const response = (await fetch(await convertFileSrc(path)));
+        const buffer = new Uint8Array(await response.arrayBuffer());
         const {common} = await mm.parseBuffer(buffer, undefined);
-        buffer = null;
         if (common.picture) {
             return common.picture[0].data.toString("base64") as string;
         }
