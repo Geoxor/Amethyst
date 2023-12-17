@@ -163,7 +163,6 @@ export class Track {
    * Fetches all async data concurrently
    */
   public fetchAsyncData = async (force = false) => {
-    console.log('fuck you counter');
     this.isLoaded.value = false;
     this.isLoading.value = true;
     const [cover, metadata] = await Promise.all([this.fetchCover(force), this.fetchMetadata(force)]);
