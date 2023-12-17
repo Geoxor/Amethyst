@@ -101,5 +101,6 @@
   "settings.local_sources.view": "Open in explorer...",
   "settings.reset.title": "Reset settings",
   "settings.reset.description": "Reverts all settings to the factory default (can also help fix bug-stated clients)",
-  "settings.reset.reset": "Reset"
+  "settings.reset.reset": "Reset",
+  "search.placeholder": "Search"
 }
