@@ -242,7 +242,7 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
         />
       </template>
       <control-buttons
-        v-if="amethyst.getCurrentPlatform() === 'desktop' && amethyst.getCurrentOperatingSystem() != 'mac'"
+        v-if="amethyst.getCurrentPlatform() === 'desktop' && !amethyst.isUsingTauri()"
         :is-maximized="state.state.isMaximized"
         @close="amethyst.performWindowAction('close')"
         @minimize="amethyst.performWindowAction('minimize')"
