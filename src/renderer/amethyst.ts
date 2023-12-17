@@ -215,7 +215,7 @@ export class Amethyst extends AmethystBackend {
   public shortcuts: Shortcuts = new Shortcuts();
   public player = new Player();
   public mediaSession: MediaSession | undefined = this.getCurrentPlatform() === "desktop" ? new MediaSession(this.player) : undefined;
-  public mediaSourceManager: MediaSourceManager = new MediaSourceManager(this.player, this.store);
+  public mediaSourceManager: MediaSourceManager = new MediaSourceManager(this.player, this.store, this);
 
   public constructor() {
     super();
@@ -243,19 +243,10 @@ export class Amethyst extends AmethystBackend {
       }
       else
       {
-        listen("open-file", (e) => {
-          amethyst.player.queue.add(e.payload.files);
+        listen("add-source", async (e) => {
+          await this.mediaSourceManager.addLocalSource();
         });
 
-        listen("open-folder", async (e) => {
-          const entries = await tauriUtils.tauriReadFolder(e.payload.folder);
-          let paths = [];
-          for (const entry of entries) {
-            paths.push(entry.path);
-          }
-          amethyst.player.queue.add(paths);
-        });
-    
         listen("goto-settings", () => {
           router.push({ name: 'settings.appearance' });
         });
