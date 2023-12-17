@@ -81,6 +81,16 @@ class TauriUtils {
         return await writeTextFile(path, content);
     }
 
+    public async tauriReadBuffer(path: String)
+    {
+        return await readBinaryFile(path);
+    }
+
+    public async tauriWriteBuffer(path: String, content: Buffer)
+    {
+        return await writeBinaryFile(path, content);
+    }
+
     public async tauriJoin(strings: String[])
     {
         return await join(strings);

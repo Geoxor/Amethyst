@@ -170,6 +170,8 @@ class AmethystBackend {
   public async showOpenFolderDialog() {
     switch (this.getCurrentPlatform()) {
       case "desktop":
+        if (amethyst.isUsingTauri())
+          return await invoke('pick_folder', {});
         return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-folder-dialog");
       default:
         return Promise.reject();
@@ -188,6 +190,12 @@ class AmethystBackend {
   public async writeFile(data: string | Buffer, path: string) {
     switch (this.getCurrentPlatform()) {
       case "desktop":
+        if (amethyst.isUsingTauri())
+        {
+          if (data instanceof Buffer)
+            return await tauriUtils.tauriWriteBuffer(path, data);
+          return await tauriUtils.tauriWrite(path, data);
+        }
         return window.fs.writeFile(path, data);
       default:
         return Promise.reject();

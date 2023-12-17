@@ -28,8 +28,7 @@ export class MediaSourceManager {
   public addLocalSource = async () => {
     if (this.amethyst.isUsingTauri())
     {
-      const dialog = await invoke('pick_folder', {});
-
+      const dialog = await this.amethyst.showOpenFolderDialog();
       if (!dialog[0]) return;
 
       const path = dialog[1];
