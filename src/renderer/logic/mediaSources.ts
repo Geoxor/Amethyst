@@ -28,6 +28,9 @@ export class MediaSourceManager {
   
     if (dialog.canceled || !path) return;
   
+    // Avoid adding folders if they already exist
+    if (this.store.settings.value.saveMediaSources.some(savedSource => savedSource.path == path)) return;
+
     const mediaSource = new LocalMediaSource(this.player, this.store, path);
     
     if (mediaSource.type && mediaSource.path) {
