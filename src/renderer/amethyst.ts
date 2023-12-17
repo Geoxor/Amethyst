@@ -17,10 +17,11 @@ import "./logic/subsonic";
 import { createI18n } from "vue-i18n";
 import messages from "@intlify/unplugin-vue-i18n/messages";
 
-import { listen } from '@tauri-apps/api/event';
+import { listen, emit } from '@tauri-apps/api/event';
 import { invoke } from '@tauri-apps/api/tauri';
 import { save } from '@tauri-apps/api/dialog';
 import { tauriUtils } from "@/tauri-utils";
+import { appDataDir } from '@tauri-apps/api/path';
 
 export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale
@@ -39,6 +40,7 @@ class AmethystBackend {
     console.log(`Current platform: ${this.getCurrentPlatform()}`);
     console.log(`Current operating system: ${this.getCurrentOperatingSystem()}`);
     console.log(`Current Runtime: ${AmethystBackend.isPlatformTauri ? 'Tauri' : AmethystBackend.isPlatformMobile ? 'Mobile' : 'Electron' }`)
+    if (AmethystBackend.isPlatformTauri) tauriUtils.init();
   }
 
   private static isPlatformMobile = Capacitor.isNativePlatform();

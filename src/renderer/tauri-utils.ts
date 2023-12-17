@@ -6,12 +6,27 @@ import { readBinaryFile, writeBinaryFile, readDir, createDir, writeTextFile, rea
 
 import * as mm from "music-metadata-browser";
 import { IMetadata } from "@shared/types";
+import { amethyst } from '@/amethyst';
 
 // TODO: instead of having this utility class, we'll create a "dummy" Electron RPC wrapper that re-routes everything where they belong,
 // allowing us to hook onto it, whenever Tauri is in use to make developing new features easier.
 class TauriUtils {
+
+    // @ts-ignore
+    private dataDir: String;
+
     // stub
-    constructor() { }
+    constructor() {}
+
+    async init()
+    {
+        this.dataDir = await appDataDir();
+    }
+
+    public getAppDir()
+    {
+        return this.dataDir;
+    }
 
     public async loadMetadata(path: String)
     {
@@ -35,8 +50,12 @@ class TauriUtils {
 
     public tauriGetFilename(path: String)
     {
-        // TODO: better way of doing this?
-        const nameWithExtension = path.substring(path.lastIndexOf('/') + 1);
+        let nameWithExtension;
+        // You see, Windows is not Unix.
+        if (amethyst.getCurrentOperatingSystem() == 'windows')
+            nameWithExtension = path.substring(path.lastIndexOf('\\') + 1);
+        else
+            nameWithExtension = path.substring(path.lastIndexOf('/') + 1);
         return nameWithExtension.substring(0, nameWithExtension.lastIndexOf('.'));
     }
 
@@ -101,11 +120,6 @@ class TauriUtils {
     public async tauriJoin(strings: String[])
     {
         return await join(strings);
-    }
-
-    public async tauriGetDataDir()
-    {
-        return await appDataDir();
     }
 }
 

@@ -6,7 +6,7 @@ import FileSaver from "file-saver";
 import mime from "mime-types";
 import { amethyst } from "@/amethyst";
 import { tauriUtils } from "@/tauri-utils";
-import { convertFileSrc } from "@tauri-apps/api/tauri";
+import { convertFileSrc,  } from "@tauri-apps/api/tauri";
 
 /**
  * Each playable audio file is an instance of this class
@@ -17,21 +17,22 @@ export class Track {
   public isLoading = ref(false);
   public isLoaded = ref(false);
   public hasErrored = ref(false);
-  public deleted: boolean = false;
-  public path: string;
+  public deleted: Ref<boolean> = ref(false);
+  public path: Ref<string> = ref("");
 
   public constructor(public absolutePath: string) {
     // console.log("absolute path: ", absolutePath);
     this.path = absolutePath;
   }
 
-  public async getCachePath(absolute?: boolean) {
+  public getCachePath(absolute?: boolean) {
     if (amethyst.isUsingTauri())
     {
-      const dataDir = await tauriUtils.tauriGetDataDir();
-      if (!await tauriUtils.tauriStat(dataDir + "Metadata Cache/"))
-        tauriUtils.tauriCreateFolder(dataDir + "Metadata Cache/")
-      const amfPath = dataDir + "Metadata Cache/" + this.getFilename() + ".amf";
+      let amfPath = "";
+      if (amethyst.getCurrentOperatingSystem() == 'windows')
+        amfPath = tauriUtils.getAppDir() + "\\Metadata Cache\\" + this.getFilename() + ".amf";
+      else
+        amfPath = tauriUtils.getAppDir() + "/Metadata Cache/" + this.getFilename() + ".amf";
       return amfPath;
     }
     const amfPath = window.path.join(amethyst.APPDATA_PATH || "" , "/amethyst/Metadata Cache", this.getFilename() + ".amf");
@@ -40,7 +41,7 @@ export class Track {
  
   private async isCached() {
     try {
-      const cachePath = await this.getCachePath(true);
+      const cachePath = this.getCachePath(true);
       if (amethyst.isUsingTauri())
         return await tauriUtils.tauriStat(cachePath);
       await window.fs.stat(cachePath);
@@ -51,7 +52,7 @@ export class Track {
   }
 
   private async fetchCache() {
-    const cachePath = await this.getCachePath(true);
+    const cachePath = this.getCachePath(true);
     if (amethyst.isUsingTauri())
       return JSON.parse((await tauriUtils.tauriFetch(cachePath)));
     return (await fetch(cachePath)).json();
@@ -60,7 +61,7 @@ export class Track {
   public async delete() {
     return window.fs.unlink(this.absolutePath).then(async () => {
       this.deleted = true;
-      const cachePath = await this.getCachePath(true);
+      const cachePath = this.getCachePath(true);
       if (amethyst.isUsingTauri())
         await tauriUtils.tauriDelete(cachePath);
       else
@@ -162,6 +163,7 @@ export class Track {
    * Fetches all async data concurrently
    */
   public fetchAsyncData = async (force = false) => {
+    console.log('fuck you counter');
     this.isLoaded.value = false;
     this.isLoading.value = true;
     const [cover, metadata] = await Promise.all([this.fetchCover(force), this.fetchMetadata(force)]);
@@ -171,7 +173,7 @@ export class Track {
     }
     
     if (amethyst.getCurrentPlatform() === "desktop") {
-      const cachePath = await this.getCachePath(true);
+      const cachePath = this.getCachePath(true);
       if (amethyst.isUsingTauri())
       {
        tauriUtils.tauriWrite(cachePath, JSON.stringify({
