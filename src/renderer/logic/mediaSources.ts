@@ -66,6 +66,7 @@ export class MediaSource {
     
     // TODO: temporarily add tracks to the queue till theres discovery view added
     this.tracks.forEach(track => this.player.queue.add(track));
+    await this.player.queue.fetchAsyncData();
   }
 }
 

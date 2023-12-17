@@ -101,7 +101,6 @@ export class Queue {
       const paths = Array.from(item);
       paths.forEach(path => this.list.value.set(path, new Track(path)));
     }
-    await this.fetchAsyncData();
     
     this.syncLocalStorage();
   }
