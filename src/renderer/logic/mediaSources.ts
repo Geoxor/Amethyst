@@ -86,7 +86,7 @@ export class MediaSource {
   }
 
   private async fetchMedia() {
-    if (await (await import("@/amethyst")).amethyst.isUsingTauri())
+    if (this.amethyst.isUsingTauri())
     {
       const path = await tauriUtils.tauriReadFolder(this.path);
       const audioFiles = path.filter(file => ALLOWED_AUDIO_EXTENSIONS.some(ext => file.path.endsWith(ext)));
