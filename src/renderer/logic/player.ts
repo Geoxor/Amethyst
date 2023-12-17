@@ -8,6 +8,7 @@ import { secondsToColinHuman, secondsToHuman } from "@shared/formating";
 import { amethyst } from "@/amethyst";
 
 import { convertFileSrc } from "@tauri-apps/api/tauri";
+import { emit } from '@tauri-apps/api/event';
 
 export enum LoopMode {
 	None,
@@ -92,7 +93,10 @@ export class Player extends EventEmitter<{
     this.isPlaying.value = true;
     this.isPaused.value = false;
     this.isStopped.value = false;
-    this.emit("play", this.getCurrentTrack()!);
+
+    // for some reason this emit in particular causes a massive memory leak on Tauri, I don't know how to fix it, this is hacky work around by calling the native emitter.
+    // TODO: fix it properly
+    amethyst.isUsingTauri() ? emit("play") : this.emit("play", this.getCurrentTrack()!);
   }
 
   public pause() {
