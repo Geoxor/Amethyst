@@ -1,17 +1,16 @@
 <script setup lang="ts">
-import { amethyst, useState } from "@/amethyst";
+import { amethyst } from "@/amethyst";
 import DecibelMeter from "@/components/v2/DecibelMeter.vue";
 import RouteHeader from "@/components/v2/RouteHeader.vue";
-const state = useState();
 </script>
 
 <template>
   <div
     v-if="amethyst.player.source" 
-    class="flex flex-col h-full w-full gap-2 p-2"
+    class="flex flex-col h-full w-full py-2 px-4 gap-4"
   >
-    <RouteHeader title="Audio Monitor" />
-    <DecibelMeter
+    <route-header title="Audio Monitor" />
+    <decibel-meter
       :key="amethyst.player.nodeManager.getNodeConnectinsString()"
       :node="amethyst.player.nodeManager.master.post"
     />
