@@ -81,6 +81,6 @@ export class LocalMediaSource extends MediaSource {
   public constructor(protected player: Player, protected store: Store, public path: string, amethyst: Amethyst) {
     super(player, store, path, amethyst);
     this.type = MediaSourceType.LocalFolder;
-    this.name = amethyst.isUsingTauri() ? tauriUtils.tauriGetRootDirectory(this.path) : window.path.parse(this.path).base;
+    this.name = amethyst.isUsingTauri() ? tauriUtils.tauriGetTopDirectory(this.path) : window.path.parse(this.path).base;
   }
 }

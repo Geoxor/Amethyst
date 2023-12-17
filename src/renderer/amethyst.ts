@@ -103,11 +103,16 @@ class AmethystBackend {
     }
   }
 
-  public async showItem(path: string) {
+  public async showItem(path: string, showInExplorer: boolean = false) {
     switch (this.getCurrentPlatform()) {
       case "desktop":
         if (this.isUsingTauri())
-          return invoke('open_shell', { location: path });
+        {
+          if (showInExplorer)
+            return invoke('open_shell', { location: await tauriUtils.tauriGetRootDirectory(path) });
+          else
+            return invoke('open_shell', { location: path });
+        }
         return window.electron.ipcRenderer.invoke("show-item", [path]); 
       default:
         return Promise.reject();
