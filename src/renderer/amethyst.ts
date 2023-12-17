@@ -19,6 +19,7 @@ import messages from "@intlify/unplugin-vue-i18n/messages";
 
 import { listen } from '@tauri-apps/api/event';
 import { invoke } from '@tauri-apps/api/tauri';
+import { save } from '@tauri-apps/api/dialog';
 import { tauriUtils } from "@/tauri-utils";
 
 export const i18n = createI18n({
@@ -186,6 +187,9 @@ class AmethystBackend {
   public async showSaveFileDialog(options?: Electron.SaveDialogOptions) {
     switch (this.getCurrentPlatform()) {
       case "desktop":
+        if (amethyst.isUsingTauri())
+          // @ts-ignore
+          return await save({ title: options?.title, filters: [{ name: 'Extension', extensions: options?.filters[0].extensions }] });
         return window.electron.ipcRenderer.invoke<SaveDialogReturnValue>("show-save-dialog", [options]);
       default:
         return Promise.reject();

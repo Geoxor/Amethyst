@@ -6,6 +6,7 @@ import FileSaver from "file-saver";
 import mime from "mime-types";
 import { amethyst } from "@/amethyst";
 import { tauriUtils } from "@/tauri-utils";
+import { convertFileSrc } from "@tauri-apps/api/tauri";
 
 /**
  * Each playable audio file is an instance of this class
@@ -226,7 +227,7 @@ export class Track {
   }
 
   public async getArrayBuffer() {
-    const response = await fetch(this.path);
+    const response = await fetch(amethyst.isUsingTauri() ? convertFileSrc(this.path) : this.path);
     if (!response.ok) {
       throw new Error(`Failed to fetch file: ${response.statusText}`);
     }
