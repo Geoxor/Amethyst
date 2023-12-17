@@ -22,7 +22,7 @@ export class MediaSourceManager {
 
   public addLocalSource = async () => {
     // dynamic import to avoid circular dependency causing a paradox
-    // TODO: fix this ^
+    // TODO: fix this ^ maybe move all the FS related shit into its own file
     const dialog = await (await import("@/amethyst")).amethyst.showOpenFolderDialog();
     const path = dialog.filePaths[0];
   
@@ -56,10 +56,10 @@ export class MediaSource {
   }
 
   private async fetchMedia() {
-    const files = await window.fs.readdir(this.path);
-    const audioFiles = files.filter(file => ALLOWED_AUDIO_EXTENSIONS.some(ext => file.endsWith(ext)));
+    const paths = await window.electron.ipcRenderer.invoke<string[]>("fetch-folder-content", [this.path, [{name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS}]]);
+    const audioFiles = paths.filter(file => ALLOWED_AUDIO_EXTENSIONS.some(ext => file.endsWith(ext)));
     this.totalTracks.value = audioFiles.length;
-    this.tracks = audioFiles.map(path => new Track(window.path.join(this.path, path)));
+    this.tracks = audioFiles.map(path => new Track(path));
     
     // TODO: temporarily add tracks to the queue till theres discovery view added
     this.tracks.forEach(track => this.player.queue.add(track));
