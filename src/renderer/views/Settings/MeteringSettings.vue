@@ -9,21 +9,8 @@ import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 import SettingsSetting from "@/components/v2/SettingsSetting.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import DropdownInput from "@/components/v2/DropdownInput.vue";
+import { FFT_SIZES } from "@shared/constants";
 const state = useState();
-
-const FFT_SIZES = [
-  16, 
-  32, 
-  64, 
-  128, 
-  256, 
-  512, 
-  1024, 
-  2048, 
-  4096, 
-  8192, 
-  16384,
-];
 
 </script>
 
@@ -68,6 +55,7 @@ const FFT_SIZES = [
           <dropdown-input
             v-model="state.settings.value.decibelMeterFftSize"
             :options="FFT_SIZES"
+            suffix="smp"
           />
         </settings-setting>
       </div>
@@ -122,6 +110,7 @@ const FFT_SIZES = [
           <dropdown-input
             v-model="state.settings.value.vectorscopeFftSize"
             :options="FFT_SIZES"
+            suffix="smp"
           />
         </settings-setting>
       </div>
@@ -155,6 +144,7 @@ const FFT_SIZES = [
           <dropdown-input
             v-model="state.settings.value.spectrumFftSize"
             :options="FFT_SIZES"
+            suffix="smp"
           />
         </settings-setting>
       </div>

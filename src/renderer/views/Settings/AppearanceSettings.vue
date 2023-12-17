@@ -5,26 +5,8 @@ import SettingsSetting from "@/components/v2/SettingsSetting.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 import { BugIcon, LargeIconsIcon, WaterIcon, SkipIcon, EyeIcon, SearchIcon, SpinIcon, OpacityIcon, FogIcon } from "@/icons";
+import { BLEND_MODES } from "@shared/constants";
 const state = useState();
-
-const BLEND_MODES = [
-  "normal",
-  "multiply",
-  "screen",
-  "overlay",
-  "darken",
-  "lighten",
-  "color-dodge",
-  "color-burn",
-  "hard-light",
-  "soft-light",
-  "difference",
-  "exclusion",
-  "hue",
-  "saturation",
-  "color",
-  "luminosity",
-];
 
 </script>
 

@@ -8,6 +8,8 @@ import DroppableContainer from "@/components/DroppableContainer.vue";
 import { Track } from "@/logic/track";
 import { useLocalStorage } from "@vueuse/core";
 import BaseToolbarButton from "@/components/BaseToolbarButton.vue";
+import SearchInput from "@/components/v2/SearchInput.vue";
+import RouteHeader from "@/components/v2/RouteHeader.vue";
 const state = useState();
 const filterText = useLocalStorage("filterText", "");
 
@@ -16,7 +18,7 @@ const scrollToCurrentElement = (track?: Track) => {
   const currentTrack = track || amethyst.player.getCurrentTrack();
   if (!currentTrack || !active) return;
 
-  const estimatedPosition = amethyst.player.queue.search(filterText.value).indexOf(currentTrack) * 16;
+  const estimatedPosition = amethyst.player.queue.search(filterText.value).indexOf(currentTrack) * 28;
   active.scrollTo({ top: estimatedPosition, behavior: "smooth" });
 };
 
@@ -32,15 +34,10 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <droppable-container class="flex-col p-1.5 flex w-full relative h-full">
-    <input
-      v-model="filterText"
-      type="text"
-      class="border-1 z-30 select-none w-full bg-surface-800 border-surface-600 text-white py-0.25 placeholder-primary-900 placeholder-opacity-75 hover:placeholder-opacity-100 indent-xs text-12px mb-2"
-      placeholder="name, album & artist..."
-      @keydown.stop
-      @mousedown="$event.which == 3 && (filterText = '')"
-    >
+  <droppable-container class="flex-col flex w-full py-2 gap-4 px-4 relative h-full">
+    <route-header title="Queue">
+      <search-input v-model="filterText" />
+    </route-header>
 
     <base-toolbar-button
       class="absolute bottom-2 right-4.5 z-10 "

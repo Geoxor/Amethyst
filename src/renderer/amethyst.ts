@@ -2,11 +2,12 @@ import { Player } from "@/logic/player";
 import { MediaSession } from "@/mediaSession";
 import { Shortcuts } from "@/shortcuts";
 import { Store } from "@/state";
+import { MediaSourceManager } from "@/logic/mediaSources";
 import { Capacitor } from "@capacitor/core";
 import { StatusBar } from "@capacitor/status-bar";
 import {NavigationBar} from "@hugotomazi/capacitor-navigation-bar";
 import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
-import { FileFilter, OpenDialogReturnValue, SaveDialogReturnValue } from "electron";
+import { OpenDialogReturnValue, SaveDialogReturnValue } from "electron";
 import { watch } from "vue";
 import { flattenArray } from "./logic/math";
 import { Track } from "./logic/track";
@@ -131,10 +132,10 @@ class AmethystBackend {
     return promises;
   }
 
-  public async openFileDialog(filters?: FileFilter[]): Promise<OpenDialogReturnValue> {
+  public async showOpenFileDialog(options?: Electron.OpenDialogOptions): Promise<OpenDialogReturnValue> {
     switch (this.getCurrentPlatform()) {
       case "desktop":
-        return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-file-dialog", [filters]);
+        return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-file-dialog", [options]);
       case "web":
         const fileInput = document.createElement("input");
           fileInput.type = "file";
@@ -164,19 +165,10 @@ class AmethystBackend {
     }
   }
   
-  public async openFolderDialog(filters?: Electron.FileFilter[]) {
+  public async showOpenFolderDialog() {
     switch (this.getCurrentPlatform()) {
       case "desktop":
-        return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-folder-dialog", [filters]);
-      default:
-        return Promise.reject();
-    }
-  }
-
-  public async showOpenFileDialog(options?: Electron.OpenDialogOptions) {
-    switch (this.getCurrentPlatform()) {
-      case "desktop":
-        return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-file-dialog", [options]);
+        return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-folder-dialog");
       default:
         return Promise.reject();
     }
@@ -201,15 +193,15 @@ class AmethystBackend {
   };
 
   public openAudioFilesAndAddToQueue = async () => {
-    amethyst.openFileDialog([{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }]).then(result => {
+    amethyst.showOpenFileDialog({filters: [{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }]}).then(result => {
       !result.canceled && amethyst.player.queue.add(result.filePaths);
     }).catch(error => console.error(error));
   };
   
   public openAudioFoldersAndAddToQueue = async () => {
-    amethyst.openFolderDialog([{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }]).then(result => {
-      !result.canceled && amethyst.player.queue.add(flattenArray(result.filePaths));
-    }).catch(error => console.error(error));
+    // amethyst.showOpenFolderDialog().then(result => {
+    //   !result.canceled && amethyst.player.queue.add(flattenArray(result.filePaths));
+    // }).catch(error => console.error(error));
   };
 }
 
@@ -223,7 +215,8 @@ export class Amethyst extends AmethystBackend {
   public shortcuts: Shortcuts = new Shortcuts();
   public player = new Player();
   public mediaSession: MediaSession | undefined = this.getCurrentPlatform() === "desktop" ? new MediaSession(this.player) : undefined;
-  
+  public mediaSourceManager: MediaSourceManager = new MediaSourceManager(this.player, this.store);
+
   public constructor() {
     super();
     // Init zoom from store
@@ -357,6 +350,40 @@ export class Amethyst extends AmethystBackend {
 
   public openSettings = () => {
     router.push({ name: "settings.appearance" });
+  };
+
+  public importSettings = async () => {
+    const dialog = await amethyst.showOpenFileDialog({
+      filters: [{ name: "Amethyst Configuration File", extensions: ["acf"] }],
+      defaultPath: "Amethyst Settings",
+    });
+  
+    if (dialog?.canceled || !dialog.filePaths[0]) return;
+  
+    const loadedSettings = await fetch(dialog.filePaths[0]);
+    const parsedSettings = await loadedSettings.json();
+  
+    Object.keys(amethyst.store.settings.value).forEach(key => {
+      // @ts-ignore
+      amethyst.store.settings.value[key] = parsedSettings[key];
+    });
+  };
+  
+  public exportSettings = async () => {
+    const dialog = await amethyst.showSaveFileDialog({
+      filters: [{ name: "Amethyst Configuration File", extensions: ["acf"] }],
+      defaultPath: "Amethyst Settings"
+    });
+    if (dialog?.canceled || !dialog?.filePath) return;
+  
+    return amethyst.writeFile(JSON.stringify(amethyst.store.settings.value, null, 2), dialog?.filePath);
+  };
+
+  public resetSettings = () => {
+		Object.keys(this.store.defaultSettings).forEach(key => {
+      // @ts-ignore
+      this.store.settings.value[key] = this.store.defaultSettings[key];
+    });
   };
 
   public reload = () => {

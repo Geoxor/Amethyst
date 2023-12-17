@@ -22,6 +22,14 @@
   "menu.about.github_repository": "GitHub Repository...",
   "menu.about.discord_server": "Discord Server...",
 
+  "search.placeholder": "Search",
+
+  "settings.local_sources.title": "Local Sources",
+  "settings.local_sources.description": "Add local folders to your Amethyst library, these will update whenever Amethyst detects file changes in these folders",
+  "settings.local_sources.add_folder": "Add folder",
+  "settings.local_sources.view": "View",
+  "settings.media_source_type.local_folder": "Local Folder",
+
   "settings.appearance.title": "Appearance",
   "settings.appearance.description": "Customize background, themes, and accessibility",
   
@@ -124,5 +132,10 @@
   "settings.import_export.title": "Import or export settings",
   "settings.import_export.description": "Backup your settings into a file or import existing settings",
   "settings.import_export.import": "Import",
-  "settings.import_export.export": "Export"
+  "settings.import_export.export": "Export",
+
+  "settings.reset.title": "Reset settings",
+  "settings.reset.description": "Reverts all settings to the factory default (can also help fix bug-stated clients)",
+  "settings.reset.reset": "Reset"
+
 }

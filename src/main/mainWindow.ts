@@ -117,7 +117,7 @@ export class MainWindow {
 			return;
 
 		const {default: sharp} = await import("sharp");
-
+		
 		return (
 			await sharp(cover).resize(resizeTo, resizeTo).webp().toBuffer()
 		).toString("base64");
@@ -201,29 +201,36 @@ export class MainWindow {
 		});
 	}
 
-	private async loadFolder(inputPath: string, filter: Electron.FileFilter[]) {
-		return new Promise((resolve, reject) => {
-			fs.readdir(inputPath, (error, files) => {
-				error && reject(error);
-				
-				Promise.all(
-					files.map(async file => {
-						const filePath = path.join(inputPath, file);
-						const stats = await fs.promises.stat(filePath);
-						if (stats.isDirectory()) {
-							return this.loadFolder(filePath, filter);
-						}
-						else if (stats.isFile()) {
-							const extensions = filter[0].extensions;
-							if (extensions.includes(path.extname(filePath).slice(1).toLowerCase())) {
-								return filePath;
-							}
-						}
-						return;
-					}),
-				).then(files => resolve(files.filter(file => !!file)));
+	private async loadFolder (
+		inputPath: string,
+		filters: Electron.FileFilter[]
+	): Promise<string[]> {
+		const result: string[] = [];
+	
+		function recurse(currentPath: string): void {
+			const files = fs.readdirSync(currentPath);
+	
+			files.forEach(file => {
+				const filePath = path.join(currentPath, file);
+				const stat = fs.statSync(filePath);
+	
+				if (stat.isDirectory()) {
+					recurse(filePath); // Recurse into subdirectories
+				} else {
+					// Check if the file matches any of the specified filters
+					if (
+						filters.some(filter =>
+							filter.extensions.some(ext => file.endsWith(`.${ext}`))
+						)
+					) {
+						result.push(filePath);
+					}
+				}
 			});
-		});
+		}
+	
+		recurse(inputPath);
+		return result;
 	}
 
 	private setIpcEvents(): void {
@@ -245,14 +252,15 @@ export class MainWindow {
 				});
 			},
 
-			"open-folder-dialog": async (_: Event, [filter]: [Electron.FileFilter[]]) => {
-				const result = await dialog.showOpenDialog({
+			"open-folder-dialog": async () => {
+				return dialog.showOpenDialog({
 					properties: ["openDirectory"],
 				});
+				// return {canceled: false, filePaths: await this.loadFolder(result.filePaths[0], filter) };
+			},
 
-				if (result.canceled) return result;
-
-				return {canceled: false, filePaths: await this.loadFolder(result.filePaths[0], filter) };
+			"fetch-folder-content": async (_: Event, [path, filter]: [string, Electron.FileFilter[]]) => {
+				return this.loadFolder(path, filter);
 			},
 
 			"open-external": async (_: Event, [path]: string[]) => {

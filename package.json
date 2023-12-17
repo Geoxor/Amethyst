@@ -24,7 +24,7 @@
     "package": "rimraf ./release && yarn build && electron-builder build --publish never",
     "package:asarless": "yarn build && electron-builder build --config.asar=false",
     "preinstall": "yarn global add electron-builder",
-    "postinstall": "electron-builder install-app-deps",
+    "postinstall": "electron-builder install-app-deps && yarn husky install && yarn gen:locales",
     "lint": "eslint -c .eslintrc --color --ext .ts,.js,.vue src/",
     "install:system": "yarn install && yarn test --run && yarn package",
     "install:windows": "yarn install:system && explorer release\\build",
@@ -33,10 +33,11 @@
     "docs:dev": "vitepress dev docs --host",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "gen:all": "concurrently -p none \"yarn gen:scoop\" \"yarn gen:winget\" \"yarn gen:aur\"",
+    "gen:all": "concurrently -p none \"yarn gen:scoop\" \"yarn gen:winget\" \"yarn gen:aur\" \"yarn gen:locales\"",
     "gen:scoop": "yarn tsx ./scripts/generate_scoop_manifest.ts",
     "gen:winget": "yarn tsx ./scripts/generate_winget_manifest.ts",
-    "gen:aur": "yarn tsx ./scripts/generate_aur_manifest.ts"
+    "gen:aur": "yarn tsx ./scripts/generate_aur_manifest.ts",
+    "gen:locales": "yarn tsx ./scripts/sync_locale_keys.ts"
   },
   "electronmon": {
     "patterns": [
@@ -75,10 +76,10 @@
         "description": "Amethyst Node Graph"
       },
       {
-        "ext": "asf",
-        "icon": "./assets/images/asf.ico",
-        "name": "Amethyst Settings File",
-        "description": "Amethyst Settings File"
+        "ext": "acf",
+        "icon": "./assets/images/acf.ico",
+        "name": "Amethyst Configuration File",
+        "description": "Amethyst Configuration File"
       },
       {
         "ext": "amf",
@@ -304,6 +305,7 @@
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-vue": "^9.11.0",
     "happy-dom": "^9.10.0",
+    "husky": "^8.0.3",
     "ip": "^1.1.8",
     "move-file-cli": "^3.0.0",
     "postcss": "^8.4.23",

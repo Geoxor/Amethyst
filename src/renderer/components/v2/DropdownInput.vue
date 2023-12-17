@@ -12,7 +12,7 @@ const closedropdown = () => {
 
 onClickOutside(dropdown, () => closedropdown());
 
-const props = defineProps<{ modelValue?: number | string, options: (string | number)[]}>();
+const props = defineProps<{ modelValue?: number | string, prefix?: string, suffix?: string, options: (string | number)[]}>();
 const emits = defineEmits(["update:modelValue"]);
 const value = useVModel(props, "modelValue", emits);
 
@@ -24,7 +24,7 @@ const value = useVModel(props, "modelValue", emits);
     :class="showdropdown && 'active'"
     @click="showdropdown = true;"
   >
-    {{ value }}
+    {{ prefix }}{{ value }}{{ suffix }}
     <ChevronIcon class="w-4 h-4" />
     <transition name="slide">
       <menu
@@ -40,7 +40,7 @@ const value = useVModel(props, "modelValue", emits);
           :class="option == value && 'active'"
           @click="emits('update:modelValue', option)"
         >
-          {{ option }}
+          {{ prefix }}{{ option }}{{ suffix }}
         </button>
       </menu>
     </transition>
