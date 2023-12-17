@@ -26,29 +26,10 @@ export class MediaSourceManager {
   }
 
   public addLocalSource = async () => {
-    if (this.amethyst.isUsingTauri())
-    {
-      const dialog = await this.amethyst.showOpenFolderDialog();
-      if (!dialog[0]) return;
-
-      const path = dialog[1];
-      
-      // Avoid adding folders if they already exist
-      if (this.store.settings.value.saveMediaSources.some(savedSource => savedSource.path == path)) return;
-
-      const mediaSource = new LocalMediaSource(this.player, this.store, path, this.amethyst);
-      
-      if (mediaSource.type && mediaSource.path) {
-        this.store.settings.value.saveMediaSources.push({type: mediaSource.type, path: mediaSource.path});
-        this.mediaSources.value.push(mediaSource);
-      }
-    }
-    else
-    {
       const dialog = await this.amethyst.showOpenFolderDialog();
       const path = dialog.filePaths[0];
     
-      if (dialog.canceled || !path) return;
+      if (this.amethyst.isUsingTauri() ? dialog.canceled || !path : !dialog[0]) return;
     
       // Avoid adding folders if they already exist
       if (this.store.settings.value.saveMediaSources.some(savedSource => savedSource.path == path)) return;
@@ -59,7 +40,6 @@ export class MediaSourceManager {
         this.store.settings.value.saveMediaSources.push({type: mediaSource.type, path: mediaSource.path});
         this.mediaSources.value.push(mediaSource);
       }
-    }
   };
   
   public removeMediaSource = async (mediaSource: MediaSource) => {
@@ -85,28 +65,14 @@ export class MediaSource {
   }
 
   private async fetchMedia() {
-    if (this.amethyst.isUsingTauri())
-    {
-      const path = await tauriUtils.tauriReadFolder(this.path);
-      const audioFiles = path.filter(file => ALLOWED_AUDIO_EXTENSIONS.some(ext => file.path.endsWith(ext)));
+    const path = this.amethyst.isUsingTauri() ? await tauriUtils.tauriReadFolder(this.path) : await window.electron.ipcRenderer.invoke<string[]>("fetch-folder-content", [this.path, [{name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS}]]);
+    const audioFiles = path.filter(file => ALLOWED_AUDIO_EXTENSIONS.some(ext => file.path.endsWith(ext)));
 
-      this.totalTracks.value = audioFiles.length;
-      this.tracks = audioFiles.map(file => new Track(file.path));
+    this.totalTracks.value = audioFiles.length;
+    this.tracks = audioFiles.map(file => new Track(file.path));
       
-      // TODO: temporarily add tracks to the queue till theres discovery view added
-      this.tracks.forEach(track => this.player.queue.add(track));
-      await this.player.queue.fetchAsyncData();
-    } else
-    {
-      const paths = await window.electron.ipcRenderer.invoke<string[]>("fetch-folder-content", [this.path, [{name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS}]]);
-      const audioFiles = paths.filter(file => ALLOWED_AUDIO_EXTENSIONS.some(ext => file.endsWith(ext)));
-      this.totalTracks.value = audioFiles.length;
-      this.tracks = audioFiles.map(path => new Track(path));
-      
-      // TODO: temporarily add tracks to the queue till theres discovery view added
-      this.tracks.forEach(track => this.player.queue.add(track));
-      await this.player.queue.fetchAsyncData();
-    }
+    // TODO: temporarily add tracks to the queue till theres discovery view added
+    this.tracks.forEach(track => this.player.queue.add(track));
   }
 }
 
