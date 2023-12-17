@@ -16,7 +16,7 @@ export class ElectronEventManager {
 
   public openFileDialog = () => this.ipc.invoke<{canceled: boolean, filePath: string}>("open-file-dialog");
 
-  public openFolderDialog = () => this.ipc.invoke("open-folder-dialog");
+  public showOpenFolderDialog = () => this.ipc.invoke("open-folder-dialog");
 
   public showSaveDialog = () => this.ipc.invoke<{canceled: boolean, filePath: string}>("show-save-dialog");
 

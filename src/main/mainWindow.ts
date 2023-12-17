@@ -245,14 +245,11 @@ export class MainWindow {
 				});
 			},
 
-			"open-folder-dialog": async (_: Event, [filter]: [Electron.FileFilter[]]) => {
-				const result = await dialog.showOpenDialog({
+			"open-folder-dialog": async () => {
+				return dialog.showOpenDialog({
 					properties: ["openDirectory"],
 				});
-
-				if (result.canceled) return result;
-
-				return {canceled: false, filePaths: await this.loadFolder(result.filePaths[0], filter) };
+				// return {canceled: false, filePaths: await this.loadFolder(result.filePaths[0], filter) };
 			},
 
 			"open-external": async (_: Event, [path]: string[]) => {

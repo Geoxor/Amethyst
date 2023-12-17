@@ -1,5 +1,6 @@
 import { useLocalStorage } from "@vueuse/core";
 import { reactive, watch } from "vue";
+import { MediaSourceType } from "./logic/mediaSources";
 
 export interface IContextMenuOption {
 	title: string;
@@ -62,6 +63,7 @@ export class Store {
 		zoomLevel: 1.00,
 		animationDuration: 100, // 100ms
 		language: "en-US",
+		saveMediaSources: [{}] as {type: MediaSourceType, path: string}[],
 	};
 
 	public settings = useLocalStorage("settings", this.defaultSettings, { writeDefaults: true, mergeDefaults: true });

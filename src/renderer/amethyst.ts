@@ -2,6 +2,7 @@ import { Player } from "@/logic/player";
 import { MediaSession } from "@/mediaSession";
 import { Shortcuts } from "@/shortcuts";
 import { Store } from "@/state";
+import { MediaSourceManager } from "@/logic/mediaSources";
 import { Capacitor } from "@capacitor/core";
 import { StatusBar } from "@capacitor/status-bar";
 import {NavigationBar} from "@hugotomazi/capacitor-navigation-bar";
@@ -119,10 +120,10 @@ class AmethystBackend {
     return promises;
   }
 
-  public async openFileDialog(filters?: FileFilter[]): Promise<OpenDialogReturnValue> {
+  public async showOpenFileDialog(options?: Electron.OpenDialogOptions): Promise<OpenDialogReturnValue> {
     switch (this.getCurrentPlatform()) {
       case "desktop":
-        return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-file-dialog", [filters]);
+        return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-file-dialog", [options]);
       case "web":
         const fileInput = document.createElement("input");
           fileInput.type = "file";
@@ -152,19 +153,10 @@ class AmethystBackend {
     }
   }
   
-  public async openFolderDialog(filters?: Electron.FileFilter[]) {
+  public async showOpenFolderDialog() {
     switch (this.getCurrentPlatform()) {
       case "desktop":
-        return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-folder-dialog", [filters]);
-      default:
-        return Promise.reject();
-    }
-  }
-
-  public async showOpenFileDialog(options?: Electron.OpenDialogOptions) {
-    switch (this.getCurrentPlatform()) {
-      case "desktop":
-        return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-file-dialog", [options]);
+        return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-folder-dialog");
       default:
         return Promise.reject();
     }
@@ -189,15 +181,15 @@ class AmethystBackend {
   };
 
   public openAudioFilesAndAddToQueue = async () => {
-    amethyst.openFileDialog([{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }]).then(result => {
+    amethyst.showOpenFileDialog({filters: [{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }]}).then(result => {
       !result.canceled && amethyst.player.queue.add(result.filePaths);
     }).catch(error => console.error(error));
   };
   
   public openAudioFoldersAndAddToQueue = async () => {
-    amethyst.openFolderDialog([{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }]).then(result => {
-      !result.canceled && amethyst.player.queue.add(flattenArray(result.filePaths));
-    }).catch(error => console.error(error));
+    // amethyst.showOpenFolderDialog().then(result => {
+    //   !result.canceled && amethyst.player.queue.add(flattenArray(result.filePaths));
+    // }).catch(error => console.error(error));
   };
 }
 
@@ -211,7 +203,8 @@ export class Amethyst extends AmethystBackend {
   public shortcuts: Shortcuts = new Shortcuts();
   public player = new Player();
   public mediaSession: MediaSession | undefined = this.getCurrentPlatform() === "desktop" ? new MediaSession(this.player) : undefined;
-  
+  public mediaSourceManager: MediaSourceManager = new MediaSourceManager(this.player, this.store);
+
   public constructor() {
     super();
     // Init zoom from store
