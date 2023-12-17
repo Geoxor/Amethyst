@@ -11,7 +11,7 @@ export enum MediaSourceType {
 
 export class MediaSourceManager {
   public mediaSources = ref<MediaSource[]>([]);
-
+ 
   public constructor(protected player: Player, protected store: Store) {
     this.store.settings.value.saveMediaSources.forEach(savedSource => {
       if (savedSource.path) {

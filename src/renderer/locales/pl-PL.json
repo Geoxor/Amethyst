@@ -93,5 +93,8 @@
   "settings.import_export.title": "Import or export settings",
   "settings.import_export.description": "Backup your settings into a file or import existing settings",
   "settings.import_export.import": "Import",
-  "settings.import_export.export": "Export"
+  "settings.import_export.export": "Export",
+  "settings.local_sources.title": "Local Sources",
+  "settings.local_sources.description": "Add local folders to your Amethyst library, these will update whenever Amethyst detects file changes in these folders",
+  "settings.media_source_type.local_folder": "Local Folder"
 }
