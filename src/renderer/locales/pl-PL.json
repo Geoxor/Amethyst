@@ -98,7 +98,7 @@
   "settings.local_sources.description": "Add local folders to your Amethyst library, these will update whenever Amethyst detects file changes in these folders",
   "settings.media_source_type.local_folder": "Local Folder",
   "settings.local_sources.add_folder": "Add folder",
-  "settings.local_sources.open_explorer": "Open in explorer...",
+  "settings.local_sources.view": "Open in explorer...",
   "settings.reset.title": "Reset settings",
   "settings.reset.description": "Reverts all settings to the factory default (can also help fix bug-stated clients)",
   "settings.reset.reset": "Reset"

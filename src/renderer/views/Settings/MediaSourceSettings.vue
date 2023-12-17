@@ -35,7 +35,7 @@ import BaseChip from "@/components/BaseChip.vue";
             {{ source.totalTracks }} Tracks
           </base-chip>
           <button-input
-            :text="$t('settings.local_sources.open_explorer')"
+            :text="$t('settings.local_sources.view')"
             :icon="EyeIcon"
             @click="amethyst.showItem(source.path)"
           />
