@@ -56,6 +56,7 @@ export class Player extends EventEmitter<{
   }
 
   private setPlayingTrack(track: Track) {
+    this.input.crossOrigin = "anonymous";
     this.input.src = amethyst.isUsingTauri() ? convertFileSrc(track.path) : track.path;
     this.currentTrack.value = track;
     this.currentTrackIndex.value = this.queue.getList().indexOf(track);
