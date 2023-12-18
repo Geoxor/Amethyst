@@ -14,7 +14,7 @@ Amethyst 是一个基于 [Electron](https://electronjs.org/) 的音频播放器�
 
 
 ## 📝 贡献
-- 使用 `Node.js v19.1.0`
+- 使用 `Node.js v18.0.0`
 - 安装 `recommended extensions`
 - Linux 需要安装 `libvips` 依赖
 - 需要安装 `yarn`

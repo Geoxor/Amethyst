@@ -1,7 +1,7 @@
 # Setting up development environment
 
 ## Prerequisites
-  - [Node.js](https://nodejs.org/en) ^19.1.0
+  - [Node.js](https://nodejs.org/en) ^18.0.0
   - [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm/) ^8.19.0
   - [Visual Studio Build Tools 2019](https://visualstudio.microsoft.com/downloads/) community edition
   - [Android Studio](https://developer.android.com/studio) ^2022.1.1 _(if planning on developing for android)_
