@@ -65,7 +65,7 @@ onMounted(() => {
     shortTermMax.value = MINIMUM_LUFS;
     integratedMax.value = MINIMUM_LUFS;
   });
-  if (amethyst.isUsingTauri())
+  if (amethyst.getCurrentRuntime() == 'tauri')
   {
     listen('pause', () => loudnessMeter.pause());
   }

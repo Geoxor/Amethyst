@@ -22,11 +22,11 @@ const state = useState();
 const ambientBackgroundImage = ref("");
 
 const setAmbientCover = async (track: Track) => {
-  amethyst.isUsingTauri() ? ambientBackgroundImage.value = track.cover.data : track.getCoverAsBlob().then(blob => ambientBackgroundImage.value = URL.createObjectURL(blob));
+  amethyst.getCurrentRuntime() == 'tauri' ? ambientBackgroundImage.value = track.cover.data : track.getCoverAsBlob().then(blob => ambientBackgroundImage.value = URL.createObjectURL(blob));
 };
 
 onMounted(() => {
-  if (amethyst.isUsingTauri())
+  if (amethyst.getCurrentRuntime() == 'tauri')
   {
     listen('play', async (e) => {
       console.log(e.payload.track);

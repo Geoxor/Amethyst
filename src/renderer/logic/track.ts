@@ -26,7 +26,7 @@ export class Track {
   }
 
   public getCachePath(absolute?: boolean) {
-    if (amethyst.isUsingTauri())
+    if (amethyst.getCurrentRuntime() == 'tauri')
     {
       let amfPath = "";
       if (amethyst.getCurrentOperatingSystem() == 'windows')
@@ -42,7 +42,7 @@ export class Track {
   private async isCached() {
     try {
       const cachePath = this.getCachePath(true);
-      if (amethyst.isUsingTauri())
+      if (amethyst.getCurrentRuntime() == 'tauri')
         return await tauriUtils.tauriStat(cachePath);
       await window.fs.stat(cachePath);
       return true;
@@ -53,8 +53,8 @@ export class Track {
 
   private async fetchCache() {
     const cachePath = this.getCachePath(true);
-    if (amethyst.isUsingTauri())
-      return JSON.parse((await tauriUtils.tauriFetch(cachePath)));
+    if (amethyst.getCurrentRuntime() == 'tauri')
+        return (await fetch(convertFileSrc(cachePath))).json();//return JSON.parse((await tauriUtils.tauriFetch(cachePath)));
     return (await fetch(cachePath)).json();
   }
 
@@ -62,7 +62,7 @@ export class Track {
     return window.fs.unlink(this.absolutePath).then(async () => {
       this.deleted = true;
       const cachePath = this.getCachePath(true);
-      if (amethyst.isUsingTauri())
+      if (amethyst.getCurrentRuntime() == 'tauri')
         await tauriUtils.tauriDelete(cachePath);
       else
         await window.fs.unlink(cachePath);
@@ -99,11 +99,9 @@ export class Track {
    * Reads track metadata from disk
    */
   public async readMetadata() {
-    switch (amethyst.getCurrentPlatform()) {
-      case "desktop":
+    switch (amethyst.getCurrentRuntime()) {
+      case "electron":
         {
-          if (amethyst.isUsingTauri())
-            return await tauriUtils.loadMetadata(this.absolutePath);
           return window.electron.ipcRenderer.invoke<IMetadata>("get-metadata", [this.absolutePath]);
         }
       case "mobile":
@@ -112,17 +110,17 @@ export class Track {
         const {format, common} = await mm.parseBuffer(buffer, undefined);
         const size = buffer.length;
         return {format, common, size } as IMetadata;
+      case "tauri":
+        return await tauriUtils.loadMetadata(this.absolutePath);
       default:
         return Promise.reject();
     }
   }
 
   public async loadCover() {
-    switch (amethyst.getCurrentPlatform()) {
-      case "desktop":
+    switch (amethyst.getCurrentRuntime()) {
+      case "electron":
         {
-          if (amethyst.isUsingTauri())
-            return await tauriUtils.loadCover(this.absolutePath);
           return window.electron.ipcRenderer.invoke<string>("get-cover", [this.absolutePath]);
         }
       case "mobile":
@@ -133,6 +131,8 @@ export class Track {
           return common.picture[0].data.toString("base64") as string;
         }
         return;
+      case "tauri":
+        return await tauriUtils.loadCover(this.absolutePath);
       default:
         return Promise.reject();
     }
@@ -173,7 +173,7 @@ export class Track {
     
     if (amethyst.getCurrentPlatform() === "desktop") {
       const cachePath = this.getCachePath(true);
-      if (amethyst.isUsingTauri())
+      if (amethyst.getCurrentRuntime() == 'tauri')
       {
        tauriUtils.tauriWrite(cachePath, JSON.stringify({
           cover,
@@ -228,7 +228,7 @@ export class Track {
   }
 
   public async getArrayBuffer() {
-    const response = await fetch(amethyst.isUsingTauri() ? convertFileSrc(this.path) : this.path);
+    const response = await fetch(amethyst.getCurrentRuntime() == 'tauri' ? convertFileSrc(this.path) : this.path);
     if (!response.ok) {
       throw new Error(`Failed to fetch file: ${response.statusText}`);
     }
@@ -241,17 +241,16 @@ export class Track {
    * @example "02. Daft Punk - Get Lucky.flac"
    */
   public getFilename() {
-    switch (amethyst.getCurrentPlatform()) {
-      case "desktop":
+    switch (amethyst.getCurrentRuntime()) {
+      case "electron":
         {
-          if (amethyst.isUsingTauri()) {
-            return tauriUtils.tauriGetFilename(this.absolutePath);
-          }
           const { base } = window.path.parse(this.absolutePath);
           return base;
         }
       case "mobile": 
         return decodeURIComponent( this.absolutePath.substring(this.absolutePath.lastIndexOf("/Music/") + "/Music/".length ));
+      case "tauri":
+        return tauriUtils.tauriGetFilename(this.absolutePath);
       default:
         return this.absolutePath;
     }
@@ -262,9 +261,7 @@ export class Track {
    * @example "02. Daft Punk - Get Lucky"
    */
   public getFilenameWithoutExtension() {
-    if (amethyst.isUsingTauri()) {
-      return tauriUtils.tauriGetFilename(this.absolutePath);
-    }
+    if (amethyst.getCurrentRuntime() == 'tauri') return tauriUtils.tauriGetFilename(this.absolutePath);
     const { name } = window.path.parse(this.absolutePath);
     return name;
   }

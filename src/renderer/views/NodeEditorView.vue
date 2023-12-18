@@ -204,7 +204,7 @@ const handleSaveFile = async () => {
     defaultPath: amethyst.player.nodeManager.graphName.value || "untitled"
   });
 
-  if (amethyst.isUsingTauri() ? dialog == null : dialog?.canceled || !dialog?.filePath) return;
+  if (amethyst.getCurrentRuntime() == 'tauri' ? dialog == null : dialog?.canceled || !dialog?.filePath) return;
 
   return amethyst.writeFile(serializedGraph, dialog);
 };

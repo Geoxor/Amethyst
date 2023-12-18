@@ -35,7 +35,7 @@ onMounted(() => {
     domSize.value = countDomElements();
     amethyst.player.getLatency().then(l => latency.value = l);
     // TODO: multiplatform support, Tauri support from native Rust backend.
-    if (amethyst.getCurrentPlatform() === "desktop" && !amethyst.isUsingTauri()) {
+    if (amethyst.getCurrentPlatform() === "desktop" && !amethyst.getCurrentRuntime() !== 'tauri') {
       window.electron.ipcRenderer.invoke<ProcessorUsage>("percent-cpu-usage").then(usage => cpuUsage.value = usage);
     }
     smoothTween(tweenedFps.value, fpsCounter.value, 1000, (tweenedNumber => tweenedFps.value = ~~tweenedNumber));
@@ -242,7 +242,7 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
         />
       </template>
       <control-buttons
-        v-if="amethyst.getCurrentPlatform() === 'desktop' && !amethyst.isUsingTauri()"
+        v-if="amethyst.getCurrentPlatform() === 'desktop' && amethyst.getCurrentRuntime() !== 'tauri'"
         :is-maximized="state.state.isMaximized"
         @close="amethyst.performWindowAction('close')"
         @minimize="amethyst.performWindowAction('minimize')"

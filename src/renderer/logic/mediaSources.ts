@@ -27,9 +27,9 @@ export class MediaSourceManager {
 
   public addLocalSource = async () => {
       const dialog = await this.amethyst.showOpenFolderDialog();
-      const path = this.amethyst.isUsingTauri() ? dialog[1] : dialog.filePaths[0];
+      const path = this.amethyst.getCurrentRuntime() == 'tauri' ? dialog[1] : dialog.filePaths[0];
     
-      if (this.amethyst.isUsingTauri() ? !dialog[0] : dialog.canceled || !path) return;
+      if (this.amethyst.getCurrentRuntime() == 'tauri' ? !dialog[0] : dialog.canceled || !path) return;
     
       // Avoid adding folders if they already exist
       if (this.store.settings.value.saveMediaSources.some(savedSource => savedSource.path == path)) return;
@@ -65,7 +65,7 @@ export class MediaSource {
   }
 
   private async fetchMedia() {
-    const path = this.amethyst.isUsingTauri() ? await tauriUtils.tauriReadFolder(this.path) : await window.electron.ipcRenderer.invoke<string[]>("fetch-folder-content", [this.path, [{name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS}]]);
+    const path = this.amethyst.getCurrentRuntime() == 'tauri' ? await tauriUtils.tauriReadFolder(this.path) : await window.electron.ipcRenderer.invoke<string[]>("fetch-folder-content", [this.path, [{name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS}]]);
     const audioFiles = path.filter(file => ALLOWED_AUDIO_EXTENSIONS.some(ext => file.path.endsWith(ext)));
 
     this.totalTracks.value = audioFiles.length;
@@ -81,6 +81,6 @@ export class LocalMediaSource extends MediaSource {
   public constructor(protected player: Player, protected store: Store, public path: string, amethyst: Amethyst) {
     super(player, store, path, amethyst);
     this.type = MediaSourceType.LocalFolder;
-    this.name = amethyst.isUsingTauri() ? tauriUtils.tauriGetTopDirectory(this.path) : window.path.parse(this.path).base;
+    this.name = amethyst.getCurrentRuntime() == 'tauri' ? tauriUtils.tauriGetTopDirectory(this.path) : window.path.parse(this.path).base;
   }
 }

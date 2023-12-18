@@ -57,7 +57,7 @@ export class Player extends EventEmitter<{
 
   private setPlayingTrack(track: Track) {
     this.input.crossOrigin = "anonymous";
-    this.input.src = amethyst.isUsingTauri() ? convertFileSrc(track.path) : track.path;
+    this.input.src = amethyst.getCurrentRuntime() == 'tauri' ? convertFileSrc(track.path) : track.path;
     this.currentTrack.value = track;
     this.currentTrackIndex.value = this.queue.getList().indexOf(track);
     this.input.play();
@@ -95,7 +95,7 @@ export class Player extends EventEmitter<{
     this.isPaused.value = false;
     this.isStopped.value = false;
 
-    amethyst.isUsingTauri() ? emit("play", { track: this.getCurrentTrack()! }) : this.emit("play", this.getCurrentTrack()!);
+    amethyst.getCurrentRuntime() == 'tauri' ? emit("play", { track: this.getCurrentTrack()! }) : this.emit("play", this.getCurrentTrack()!);
   }
 
   public pause() {
@@ -104,7 +104,7 @@ export class Player extends EventEmitter<{
     this.isPaused.value = true;
     this.isStopped.value = false;
 
-    amethyst.isUsingTauri() ? emit("pause") : this.emit("pause", this.getCurrentTrack()!);
+    amethyst.getCurrentRuntime() == 'tauri' ? emit("pause") : this.emit("pause", this.getCurrentTrack()!);
   }
 
   public stop(){
