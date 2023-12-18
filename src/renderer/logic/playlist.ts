@@ -1,10 +1,10 @@
 import { PathLike } from "fs";
 import { Track } from "./track";
-import { ref } from "vue";
 
 export class Playlist{
     public list = new Array<Track>;
-    public name = ref(new String("Playlist"));
+    public name = new String("Playlist");
+    public path?: String;
 
     public constructor(tracks?: Track[]){
         tracks && tracks.forEach(track => this.list.push(track));
