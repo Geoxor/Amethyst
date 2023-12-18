@@ -264,6 +264,17 @@ export class Amethyst extends AmethystBackend {
 
       if (this.getCurrentRuntime() == 'tauri')
       {
+        listen("open-file", (e) => {
+          amethyst.player.queue.add(e.payload.files);
+        });
+
+        listen("open-folder", async (e) => {
+          const entries = await tauriUtils.tauriReadFolder(e.payload.folder);
+          for (const entry of entries) {
+            amethyst.player.queue.add(entry.path);
+          }
+        });
+        
         listen("add-source", async (e) => {
           await this.mediaSourceManager.addLocalSource();
         });

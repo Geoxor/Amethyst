@@ -6,7 +6,6 @@ import FileSaver from "file-saver";
 import mime from "mime-types";
 import { amethyst } from "@/amethyst";
 import { tauriUtils } from "@/tauri-utils";
-import { convertFileSrc,  } from "@tauri-apps/api/tauri";
 
 /**
  * Each playable audio file is an instance of this class
@@ -53,9 +52,16 @@ export class Track {
 
   private async fetchCache() {
     const cachePath = this.getCachePath(true);
-    if (amethyst.getCurrentRuntime() == 'tauri')
-        return (await fetch(convertFileSrc(cachePath))).json();//return JSON.parse((await tauriUtils.tauriFetch(cachePath)));
-    return (await fetch(cachePath)).json();
+    switch(amethyst.getCurrentRuntime())
+    {
+      case "tauri":
+        {
+          const { convertFileSrc } = await import("@tauri-apps/api/tauri");
+          return (await fetch(convertFileSrc(cachePath))).json();
+        }
+      default:
+        return (await fetch(cachePath)).json();
+    }    
   }
 
   public async delete() {
@@ -105,13 +111,22 @@ export class Track {
           return window.electron.ipcRenderer.invoke<IMetadata>("get-metadata", [this.absolutePath]);
         }
       case "mobile":
-        const response = await fetch(decodeURIComponent(this.absolutePath));
-        const buffer = new Uint8Array(await response.arrayBuffer());
-        const {format, common} = await mm.parseBuffer(buffer, undefined);
-        const size = buffer.length;
-        return {format, common, size } as IMetadata;
+        {
+          const response = await fetch(decodeURIComponent(this.absolutePath));
+          const buffer = new Uint8Array(await response.arrayBuffer());
+          const {format, common} = await mm.parseBuffer(buffer, undefined);
+          const size = buffer.length;
+          return {format, common, size } as IMetadata;
+        }
       case "tauri":
-        return await tauriUtils.loadMetadata(this.absolutePath);
+        {
+          const { convertFileSrc } = await import("@tauri-apps/api/tauri");
+          const response = (await fetch(await convertFileSrc(this.absolutePath)));
+          const buffer = new Uint8Array(await response.arrayBuffer());
+          const {format, common} = await mm.parseBuffer(buffer, undefined);
+          const size = buffer.length;
+          return {format, common, size } as IMetadata;
+        }
       default:
         return Promise.reject();
     }
@@ -132,7 +147,15 @@ export class Track {
         }
         return;
       case "tauri":
-        return await tauriUtils.loadCover(this.absolutePath);
+        {
+          const response = (await fetch(await convertFileSrc(path)));
+          const buffer = new Uint8Array(await response.arrayBuffer());
+          const {common} = await mm.parseBuffer(buffer, undefined);
+          if (common.picture) {
+              return common.picture[0].data.toString("base64") as string;
+          }
+          return;
+        }
       default:
         return Promise.reject();
     }
@@ -228,12 +251,29 @@ export class Track {
   }
 
   public async getArrayBuffer() {
-    const response = await fetch(amethyst.getCurrentRuntime() == 'tauri' ? convertFileSrc(this.path) : this.path);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch file: ${response.statusText}`);
+    switch(amethyst.getCurrentRuntime())
+    {
+      case "tauri":
+        {
+          const { convertFileSrc } = await import("@tauri-apps/api/tauri");
+          const response = await fetch(convertFileSrc(this.path));
+
+          if (!response.ok) {
+            throw new Error(`Failed to fetch file: ${response.statusText}`);
+          }
+          const buffer = await response.arrayBuffer();
+          return buffer;
+        }
+      default:
+        {
+          const response = await fetch(this.path);
+          if (!response.ok) {
+            throw new Error(`Failed to fetch file: ${response.statusText}`);
+          }
+          const buffer = await response.arrayBuffer();
+          return buffer;
+        }
     }
-    const buffer = await response.arrayBuffer();
-    return buffer;
   }
 
   /**

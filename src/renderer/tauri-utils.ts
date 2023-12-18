@@ -29,26 +29,6 @@ class TauriUtils {
         return this.dataDir;
     }
 
-    public async loadMetadata(path: String)
-    {
-        const response = (await fetch(await convertFileSrc(path)));
-        const buffer = new Uint8Array(await response.arrayBuffer());
-        const {format, common} = await mm.parseBuffer(buffer, undefined);
-        const size = buffer.length;
-        return {format, common, size } as IMetadata;
-    }
-
-    public async loadCover(path: String)
-    {
-        const response = (await fetch(await convertFileSrc(path)));
-        const buffer = new Uint8Array(await response.arrayBuffer());
-        const {common} = await mm.parseBuffer(buffer, undefined);
-        if (common.picture) {
-            return common.picture[0].data.toString("base64") as string;
-        }
-        return;
-    }
-
     public tauriGetFilename(path: String)
     {
         let nameWithExtension;
