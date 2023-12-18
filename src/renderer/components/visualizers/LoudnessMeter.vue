@@ -5,6 +5,7 @@ import { LoudnessMeter } from "@domchristie/needles";
 import { infinityClamp, computeWidthPercentage } from "@/logic/math";
 import { amethyst } from "@/amethyst";
 import { smoothTween } from "@/logic/dom";
+import { listen } from '@tauri-apps/api/event';
 
 const props = defineProps<{ node: AudioNode }>();
 
@@ -64,7 +65,14 @@ onMounted(() => {
     shortTermMax.value = MINIMUM_LUFS;
     integratedMax.value = MINIMUM_LUFS;
   });
-  amethyst.player.on("pause", () => loudnessMeter.pause());
+  if (amethyst.isUsingTauri())
+  {
+    listen('pause', () => loudnessMeter.pause());
+  }
+  else
+  {
+    amethyst.player.on("pause", () => loudnessMeter.pause());
+  }
 });
 
 </script>
