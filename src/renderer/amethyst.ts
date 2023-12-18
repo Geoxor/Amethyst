@@ -170,15 +170,6 @@ class AmethystBackend {
     }
   }
 
-  public async writeFile(data: string | Buffer, path: string) {
-    switch (this.getCurrentPlatform()) {
-      case "desktop":
-        return window.fs.writeFile(path, data);
-      default:
-        return Promise.reject();
-    }
-  };
-
   public openAudioFilesAndAddToQueue = async () => {
     amethyst.openFileDialog([{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }]).then(result => {
       !result.canceled && amethyst.player.queue.add(result.filePaths);

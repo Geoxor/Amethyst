@@ -5,6 +5,7 @@ import * as mm from "music-metadata-browser";
 import FileSaver from "file-saver";
 import mime from "mime-types";
 import { amethyst } from "@/amethyst";
+import { FileIO } from "./io/FileIO";
 
 /**
  * Each playable audio file is an instance of this class
@@ -141,13 +142,11 @@ export class Track {
     if (metadata) {
       metadata.common.picture = [];
     }
-    
-    if (amethyst.getCurrentPlatform() === "desktop") {
-      window.fs.writeFile(this.getCachePath(true), JSON.stringify({
-        cover,
-        metadata,
-      }, null, 2)).catch(console.log);
-    }
+
+    FileIO.WriteFile(this.getCachePath(true), JSON.stringify({
+      cover,
+      metadata,
+    }, null, 2)).catch(console.log);
 
     this.isLoading.value = false;
     this.isLoaded.value = true;
