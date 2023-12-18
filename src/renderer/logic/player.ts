@@ -95,8 +95,6 @@ export class Player extends EventEmitter<{
     this.isPaused.value = false;
     this.isStopped.value = false;
 
-    // for some reason this emit in particular causes a massive memory leak on Tauri, I don't know how to fix it, this is hacky work around by calling the native emitter.
-    // TODO: fix it properly
     amethyst.isUsingTauri() ? emit("play") : this.emit("play", this.getCurrentTrack()!);
   }
 
@@ -105,7 +103,8 @@ export class Player extends EventEmitter<{
     this.isPlaying.value = false;
     this.isPaused.value = true;
     this.isStopped.value = false;
-    this.emit("pause", this.getCurrentTrack()!);
+
+    amethyst.isUsingTauri() ? emit("pause") : this.emit("pause", this.getCurrentTrack()!);
   }
 
   public stop(){
