@@ -67,7 +67,7 @@ export {
   EyeIcon,
   FogIcon,
   SpinIcon,
-  WaterIcon,
+  WaterIcon, 
   OpacityIcon,
   DiscordIcon,
   AdjustIcon,
