@@ -29,6 +29,5 @@ export const ALLOWED_AUDIO_EXTENSIONS = [
   "m3u8",
   "pls",
   "vlc",
-  "wpl",
   "xspf",
 ];
