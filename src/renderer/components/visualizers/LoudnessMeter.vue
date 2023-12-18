@@ -5,7 +5,6 @@ import { LoudnessMeter } from "@domchristie/needles";
 import { infinityClamp, computeWidthPercentage } from "@/logic/math";
 import { amethyst } from "@/amethyst";
 import { smoothTween } from "@/logic/dom";
-import { listen } from '@tauri-apps/api/event';
 
 const props = defineProps<{ node: AudioNode }>();
 
@@ -19,7 +18,7 @@ const
   shortTermMax = ref(MINIMUM_LUFS),
   integratedMax = ref(MINIMUM_LUFS);
 
-onMounted(() => {
+onMounted(async () => {
 
   const loudnessMeter = new LoudnessMeter({
     source: props.node,
@@ -67,6 +66,7 @@ onMounted(() => {
   });
   if (amethyst.getCurrentRuntime() == 'tauri')
   {
+    const { listen } = await import("@tauri-apps/api/event");
     listen('pause', () => loudnessMeter.pause());
   }
   else

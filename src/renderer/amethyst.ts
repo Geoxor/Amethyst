@@ -16,11 +16,8 @@ import { router } from "./router";
 import "./logic/subsonic";
 import { createI18n } from "vue-i18n";
 import messages from "@intlify/unplugin-vue-i18n/messages";
-
-import { listen, emit } from '@tauri-apps/api/event';
-import { invoke } from '@tauri-apps/api/tauri';
-import { save } from '@tauri-apps/api/dialog';
 import { tauriUtils } from "@/tauri-utils";
+import { listen } from "@tauri-apps/api/event";
 
 export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale
@@ -112,10 +109,18 @@ class AmethystBackend {
       case "electron":
         return window.electron.ipcRenderer.invoke("show-item", [path]); 
       case "tauri":
-        if (showInExplorer)
+        {
+          if (showInExplorer)
+          {
+            const { invoke } = await import("@tauri-apps/api/tauri");
             return invoke('open_shell', { location: await tauriUtils.tauriGetRootDirectory(path) });
+          }
           else
+          {
+            const { invoke } = await import("@tauri-apps/api/tauri");
             return invoke('open_shell', { location: path });
+          }
+        }
       default:
         return Promise.reject();
     }
@@ -170,6 +175,7 @@ class AmethystBackend {
           path ? res({canceled: false, filePaths: [decodeURIComponent(path)]}) : rej();
         });
       case "tauri":
+        const { invoke } = await import("@tauri-apps/api/tauri");
         return await invoke('pick_file', {});
       default:
         return Promise.reject();
@@ -181,6 +187,7 @@ class AmethystBackend {
       case "electron":
         return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-folder-dialog");
       case "tauri":
+        const { invoke } = await import("@tauri-apps/api/tauri");
         return await invoke('pick_folder', {});
       default:
         return Promise.reject();
@@ -192,6 +199,7 @@ class AmethystBackend {
       case "electron":
         return window.electron.ipcRenderer.invoke<SaveDialogReturnValue>("show-save-dialog", [options]);
       case "tauri":
+        const { save } = await import("@tauri-apps/api/dialog");
         // @ts-ignore
         return await save({ title: options?.title, filters: [{ name: 'Extension', extensions: options?.filters[0].extensions }] });
       default:
@@ -274,7 +282,7 @@ export class Amethyst extends AmethystBackend {
             amethyst.player.queue.add(entry.path);
           }
         });
-        
+
         listen("add-source", async (e) => {
           await this.mediaSourceManager.addLocalSource();
         });
@@ -305,8 +313,8 @@ export class Amethyst extends AmethystBackend {
       // #region move this to the discord plugin
       let richPresenceTimer: NodeJS.Timer | undefined;
 
-      const updateRichPresence = (track: Track) => {
-        const sendData = () => {
+      const updateRichPresence = async(track: Track) => {
+        const sendData = async () => {
         const args = [
           track.getArtistsFormatted() && track.getTitleFormatted() ? `${track.getArtistsFormatted()} - ${track.getTitleFormatted()}` : track.getFilename(),
             this.player.isPaused.value ? "Paused" : `${this.player.currentTimeFormatted(true)} - ${track.getDurationFormatted(true)}`,
@@ -315,9 +323,14 @@ export class Amethyst extends AmethystBackend {
 
           const [title, time, format] = args;
           if (this.getCurrentRuntime() == 'tauri')
+          {
+            const { invoke } = await import("@tauri-apps/api/tauri");
             invoke('update_presence', {  title: title, time: time, format: format });
+          }
           else
+          {
             window.electron.ipcRenderer.invoke("update-rich-presence", [args]);
+          }
         };
 
         richPresenceTimer && clearInterval(richPresenceTimer);

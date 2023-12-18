@@ -148,7 +148,8 @@ export class Track {
         return;
       case "tauri":
         {
-          const response = (await fetch(await convertFileSrc(path)));
+          const { convertFileSrc } = await import("@tauri-apps/api/tauri");
+          const response = (await fetch(await convertFileSrc(this.absolutePath)));
           const buffer = new Uint8Array(await response.arrayBuffer());
           const {common} = await mm.parseBuffer(buffer, undefined);
           if (common.picture) {
