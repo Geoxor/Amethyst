@@ -23,13 +23,12 @@ export const ALLOWED_AUDIO_EXTENSIONS = [
   "mp4",
   "dfpwm",
   "webm",
-];
-export const ALLOWED_PLAYLIST_FORMATS = [
+  // Playlist formats
   "asx",
   "m3u",
   "m3u8",
   "pls",
   "vlc",
   "wpl",
-  "xspf"
+  "xspf",
 ];
