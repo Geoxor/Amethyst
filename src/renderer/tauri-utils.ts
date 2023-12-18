@@ -1,12 +1,6 @@
 // This file contains all Tauri specific implementations that are detached from rest of the code.
-import { platform } from '@tauri-apps/api/os';
-
 import { join, appDataDir } from '@tauri-apps/api/path';
 import { readBinaryFile, writeBinaryFile, readDir, createDir, writeTextFile, readTextFile, removeFile, exists, BaseDirectory } from '@tauri-apps/api/fs';
-import { convertFileSrc } from "@tauri-apps/api/tauri";
-
-import * as mm from "music-metadata-browser";
-import { IMetadata } from "@shared/types";
 import { amethyst } from '@/amethyst';
 
 // TODO: instead of having this utility class, we'll create a "dummy" Electron RPC wrapper that re-routes everything where they belong,
