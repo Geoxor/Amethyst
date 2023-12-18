@@ -94,13 +94,13 @@
   "settings.import_export.description": "Sichere deine Einstellungen in einer Datei oder importiere vorhandene Einstellungen",
   "settings.import_export.import": "Importieren",
   "settings.import_export.export": "Exportieren",
-  "settings.local_sources.title": "Local Sources",
-  "settings.local_sources.description": "Add local folders to your Amethyst library, these will update whenever Amethyst detects file changes in these folders",
-  "settings.media_source_type.local_folder": "Local Folder",
-  "settings.local_sources.add_folder": "Add folder",
-  "settings.local_sources.view": "Open in explorer...",
-  "settings.reset.title": "Reset settings",
-  "settings.reset.description": "Reverts all settings to the factory default (can also help fix bug-stated clients)",
-  "settings.reset.reset": "Reset",
-  "search.placeholder": "Search"
+  "settings.local_sources.title": "Lokale Quellen",
+  "settings.local_sources.description": "Füge lokale Ordner deiner Amethyst-Bibliothek hinzu. Diese werden aktualisiert, sobald Amethyst Änderungen in diesen Ordnern feststellt.",
+  "settings.media_source_type.local_folder": "Lokaler Ordner",
+  "settings.local_sources.add_folder": "Ordner hinzufügen",
+  "settings.local_sources.view": "Im Explorer öffnen...",
+  "settings.reset.title": "Einstellungen zurücksetzen",
+  "settings.reset.description": "Setzt alle Einstellungen auf die Werkseinstellungen zurück (kann auch bei Fehlerbehebung helfen)",
+  "settings.reset.reset": "Zurücksetzen",
+  "search.placeholder": "Suche"
 }
