@@ -26,6 +26,12 @@ async fn pick_folder() -> (bool, PathBuf) {
 }
 
 #[tauri::command]
+async fn pick_file() -> (bool, PathBuf) {
+  use tauri::api::dialog::blocking::FileDialogBuilder;
+  let path = FileDialogBuilder::new().pick_file().unwrap();
+  return (path.is_file(), path);
+}
+#[tauri::command]
 fn open_shell(location: String) {
   let _ = open::that(location);
 }
@@ -79,7 +85,7 @@ fn main() {
   let menu = Menu::new();
 
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![update_presence, pick_folder, open_shell])
+    .invoke_handler(tauri::generate_handler![update_presence, pick_folder, open_shell, pick_file])
     .menu(menu)
     .on_menu_event(|event| {
       match event.menu_item_id() {

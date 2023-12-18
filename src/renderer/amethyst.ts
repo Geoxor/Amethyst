@@ -21,7 +21,6 @@ import { listen, emit } from '@tauri-apps/api/event';
 import { invoke } from '@tauri-apps/api/tauri';
 import { save } from '@tauri-apps/api/dialog';
 import { tauriUtils } from "@/tauri-utils";
-import { appDataDir } from '@tauri-apps/api/path';
 
 export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale
@@ -144,6 +143,8 @@ class AmethystBackend {
   public async showOpenFileDialog(options?: Electron.OpenDialogOptions): Promise<OpenDialogReturnValue> {
     switch (this.getCurrentPlatform()) {
       case "desktop":
+        if (amethyst.isUsingTauri())
+          return await invoke('pick_file', {});
         return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-file-dialog", [options]);
       case "web":
         const fileInput = document.createElement("input");
@@ -360,8 +361,7 @@ export class Amethyst extends AmethystBackend {
 
   public openDevTools() {
     if (this.getCurrentPlatform() !== "desktop") return;
-    invoke('open_devtools', {});
-    window.electron.ipcRenderer.invoke("dev-tools");
+    if (!amethyst.isUsingTauri()) window.electron.ipcRenderer.invoke("dev-tools");
   }
 
   public openSettings = () => {
@@ -373,11 +373,13 @@ export class Amethyst extends AmethystBackend {
       filters: [{ name: "Amethyst Configuration File", extensions: ["acf"] }],
       defaultPath: "Amethyst Settings",
     });
-  
-    if (dialog?.canceled || !dialog.filePaths[0]) return;
-  
-    const loadedSettings = await fetch(dialog.filePaths[0]);
-    const parsedSettings = await loadedSettings.json();
+    
+    // @ts-expect-error
+    if (this.isUsingTauri() ? !dialog[0] : dialog?.canceled || !dialog?.filePaths[0]) return;
+    
+    // @ts-ignore
+    const loadedSettings = amethyst.isUsingTauri() ? await tauriUtils.tauriFetch(dialog[1]) : await fetch(dialog.filePaths[0]);
+    const parsedSettings = amethyst.isUsingTauri() ? JSON.parse(loadedSettings) : await loadedSettings.json();
   
     Object.keys(amethyst.store.settings.value).forEach(key => {
       // @ts-ignore
@@ -390,9 +392,10 @@ export class Amethyst extends AmethystBackend {
       filters: [{ name: "Amethyst Configuration File", extensions: ["acf"] }],
       defaultPath: "Amethyst Settings"
     });
-    if (dialog?.canceled || !dialog?.filePath) return;
-  
-    return amethyst.writeFile(JSON.stringify(amethyst.store.settings.value, null, 2), dialog?.filePath);
+
+    if (this.isUsingTauri() ? !dialog : dialog?.canceled || !dialog?.filePath) return;
+
+    return amethyst.writeFile(JSON.stringify(amethyst.store.settings.value, null, 2), this.isUsingTauri() ? dialog : dialog?.filePath);
   };
 
   public resetSettings = () => {

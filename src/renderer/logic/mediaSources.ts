@@ -29,7 +29,7 @@ export class MediaSourceManager {
       const dialog = await this.amethyst.showOpenFolderDialog();
       const path = this.amethyst.isUsingTauri() ? dialog[1] : dialog.filePaths[0];
     
-      if (this.amethyst.isUsingTauri() ? dialog.canceled || !path : !dialog[0]) return;
+      if (this.amethyst.isUsingTauri() ? !dialog[0] : dialog.canceled || !path) return;
     
       // Avoid adding folders if they already exist
       if (this.store.settings.value.saveMediaSources.some(savedSource => savedSource.path == path)) return;
