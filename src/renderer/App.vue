@@ -15,16 +15,26 @@ import NavigationButton from "@/components/NavigationButton.vue";
 import { AdjustIcon, AmethystIcon, CompassIcon, HeartIcon, ListIcon, PlaylistIcon, SettingsIcon } from "@/icons";
 import LoudnessMeter from "./components/visualizers/LoudnessMeter.vue";
 import { router } from "./router";
+import { listen } from '@tauri-apps/api/event';
+import { convertFileSrc,  } from "@tauri-apps/api/tauri";
 
 const state = useState();
 const ambientBackgroundImage = ref("");
 
 const setAmbientCover = async (track: Track) => {
-  track.getCoverAsBlob().then(blob => ambientBackgroundImage.value = URL.createObjectURL(blob));
+  amethyst.isUsingTauri() ? ambientBackgroundImage.value = track.cover.data : track.getCoverAsBlob().then(blob => ambientBackgroundImage.value = URL.createObjectURL(blob));
 };
 
 onMounted(() => {
-  amethyst.player.on("play", setAmbientCover);
+  if (amethyst.isUsingTauri())
+  {
+    listen('play', async (e) => {
+      console.log(e.payload.track);
+      await setAmbientCover(e.payload.track);
+    });
+  } else {
+    amethyst.player.on("play", setAmbientCover);
+  }
 });
 
 onUnmounted(() => {
