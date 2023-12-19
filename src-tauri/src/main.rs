@@ -5,9 +5,11 @@
 extern crate lazy_static;
 
 use tauri::{CustomMenuItem, Menu, MenuItem, Submenu, AboutMetadata};
-use discord_rich_presence::{activity, DiscordIpc, DiscordIpcClient};
-use std::sync::{Arc, Mutex};
+use tauri::Manager;
+use tauri::State;
+use std::sync::Mutex;
 
+use discord_rich_presence::{activity, DiscordIpc, DiscordIpcClient};
 use tauri::api::dialog::FileDialogBuilder;
 use std::path::PathBuf;
 
@@ -21,12 +23,8 @@ struct FolderPayload {
   folder: PathBuf
 }
 
-lazy_static! {
-  static ref CLIENT: Mutex<DiscordIpcClient> = Mutex::new({
-    let c = DiscordIpcClient::new("976036303156162570").unwrap();
-    c
-  });
-}
+struct DiscordRpc(DiscordIpcClient);
+type WrappedDiscordRpc = Mutex<Option<DiscordRpc>>;
 
 #[tauri::command]
 async fn pick_folder() -> (bool, PathBuf) {
@@ -48,7 +46,15 @@ fn open_shell(location: String) {
 }
 
 #[tauri::command]
-async fn update_presence(app_handle: tauri::AppHandle, title: String, time: String, format: String) {
+fn init_presence(state: State<WrappedDiscordRpc>) {
+  *state.lock().unwrap() = Some(DiscordRpc(DiscordIpcClient::new("976036303156162570").unwrap()));
+  if let Some(ref mut state) = *state.lock().unwrap() {
+    if let Err(_e) = state.0.connect() {}
+  }
+}
+
+#[tauri::command]
+fn update_presence(app_handle: tauri::AppHandle, state: State<WrappedDiscordRpc>, title: String, time: String, format: String) {
 
   let package = app_handle.package_info();
   let formatted_version = format!("Amethyst v{} (Tauri)", package.version);
@@ -63,13 +69,15 @@ async fn update_presence(app_handle: tauri::AppHandle, title: String, time: Stri
     .state(&time)
     .details(&title)
     .assets(assets);
-  
-  let _ = CLIENT.lock().unwrap().set_activity(payload);
+
+  if let Some(ref mut state) = *state.lock().unwrap() {
+    if let Err(_e) =  state.0.set_activity(payload) {
+      if let Err(_e) = state.0.reconnect() {} // don't handle it.
+    }
+  }
 }
 
 fn main() {
-
-  let _ = CLIENT.lock().unwrap().connect();
 
   #[cfg(debug_assertions)]
   #[cfg(target_os = "macos")]
@@ -126,8 +134,9 @@ fn main() {
   let menu = Menu::new();
 
   tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![update_presence, pick_folder, open_shell, pick_file])
+    .invoke_handler(tauri::generate_handler![init_presence, update_presence, pick_folder, open_shell, pick_file])
     .menu(menu)
+    .manage(Mutex::new(None::<DiscordRpc>))
     .on_menu_event(|event| {
       match event.menu_item_id() {
         "open_file" => {

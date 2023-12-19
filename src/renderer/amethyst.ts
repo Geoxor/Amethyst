@@ -17,6 +17,7 @@ import "./logic/subsonic";
 import { createI18n } from "vue-i18n";
 import messages from "@intlify/unplugin-vue-i18n/messages";
 import { tauriUtils } from "@/tauri-utils";
+import { invoke } from "@tauri-apps/api/tauri";
 import { listen } from "@tauri-apps/api/event";
 
 export const i18n = createI18n({
@@ -307,6 +308,7 @@ export class Amethyst extends AmethystBackend {
           updateWithCurrentTrack();
         });
 
+        invoke('init_presence', {});
         document.addEventListener('contextmenu', event => event.preventDefault());
       }
   
@@ -340,7 +342,8 @@ export class Amethyst extends AmethystBackend {
 
       const updateWithCurrentTrack = () => {
         const currentTrack = this.player.getCurrentTrack();
-        currentTrack && updateRichPresence(currentTrack);
+        if (localStorage.getItem('settings') !== null ? JSON.parse(localStorage.getItem('settings')!).useDiscordRichPresence : true)
+          currentTrack && updateRichPresence(currentTrack);
       };
 
       if (this.store.settings.value.useDiscordRichPresence) {
