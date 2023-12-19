@@ -31,7 +31,7 @@ export class Track {
       if (amethyst.getCurrentOperatingSystem() == 'windows')
         amfPath = tauriUtils.getAppDir() + "\\Metadata Cache\\" + this.getFilename() + ".amf";
       else
-        amfPath = tauriUtils.getAppDir() + "/Metadata Cache/" + this.getFilename() + ".amf";
+        amfPath = tauriUtils.getAppDir() + "//Metadata Cache//" + this.getFilename() + ".amf";
       return amfPath;
     }
     const amfPath = window.path.join(amethyst.APPDATA_PATH || "" , "/amethyst/Metadata Cache", this.getFilename() + ".amf");

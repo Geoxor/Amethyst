@@ -304,10 +304,6 @@ export class Amethyst extends AmethystBackend {
           amethyst.player.queue.fetchAsyncData(true);
         });
 
-        listen("play", () => {
-          updateWithCurrentTrack();
-        });
-
         invoke('init_presence', {});
         document.addEventListener('contextmenu', event => event.preventDefault());
       }

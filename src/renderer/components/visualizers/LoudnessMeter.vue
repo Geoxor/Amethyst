@@ -64,15 +64,8 @@ onMounted(async () => {
     shortTermMax.value = MINIMUM_LUFS;
     integratedMax.value = MINIMUM_LUFS;
   });
-  if (amethyst.getCurrentRuntime() == 'tauri')
-  {
-    const { listen } = await import("@tauri-apps/api/event");
-    listen('pause', () => loudnessMeter.pause());
-  }
-  else
-  {
-    amethyst.player.on("pause", () => loudnessMeter.pause());
-  }
+  
+  amethyst.player.on("pause", () => loudnessMeter.pause());
 });
 
 </script>

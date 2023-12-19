@@ -95,7 +95,7 @@ export class Player extends EventEmitter<{
     this.isPaused.value = false;
     this.isStopped.value = false;
 
-    amethyst.getCurrentRuntime() == 'tauri' ? emit("play", { track: this.getCurrentTrack()! }) : this.emit("play", this.getCurrentTrack()!);
+    this.emit("play", this.getCurrentTrack()!);
   }
 
   public pause() {
@@ -104,7 +104,7 @@ export class Player extends EventEmitter<{
     this.isPaused.value = true;
     this.isStopped.value = false;
 
-    amethyst.getCurrentRuntime() == 'tauri' ? emit("pause") : this.emit("pause", this.getCurrentTrack()!);
+    this.emit("pause", this.getCurrentTrack()!);
   }
 
   public stop(){
