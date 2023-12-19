@@ -133,6 +133,9 @@ fn main() {
   #[cfg(target_os = "windows")]
   let menu = Menu::new();
 
+  #[cfg(target_os = "linux")]
+  let menu = Menu::new();
+
   tauri::Builder::default()
     .invoke_handler(tauri::generate_handler![init_presence, update_presence, pick_folder, open_shell, pick_file])
     .menu(menu)
