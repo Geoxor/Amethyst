@@ -16,6 +16,7 @@ import { router } from "./router";
 import "./logic/subsonic";
 import { createI18n } from "vue-i18n";
 import messages from "@intlify/unplugin-vue-i18n/messages";
+import { useLocalStorage } from "@vueuse/core";
 
 export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale
@@ -24,6 +25,7 @@ export const i18n = createI18n({
 });
 
 export type AmethystPlatforms = ReturnType<typeof amethyst.getCurrentPlatform>;
+export const favoriteTracks = useLocalStorage<string[]>("favoriteTracks", []);
 
 /**
  * Handles interfacing with operating system and unifies methods 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useVModel } from "@vueuse/core";
 import Slider from "@vueform/slider";
+import { useVModel } from "@vueuse/core";
 
 const props = defineProps<{ modelValue?: number | string}>();
 const emits = defineEmits(["update:modelValue"]);
@@ -9,9 +9,7 @@ const value = useVModel(props, "modelValue", emits);
 </script>
 
 <template>
-  <div
-    class="min-w-48 w-full max-w-48"
-  >
+  <div>
     <Slider
       v-model="value"
       v-bind="$attrs"

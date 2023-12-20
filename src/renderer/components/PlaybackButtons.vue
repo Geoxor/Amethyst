@@ -1,12 +1,12 @@
 <script setup lang="ts">
-import { useState, amethyst } from "@/amethyst";
+import { amethyst, useState } from "@/amethyst";
 import Cover from "@/components/CoverArt.vue";
 import Slider from "@/components/input/BaseSlider.vue";
-import { AmethystIcon } from "@/icons";
+import { AmethystIcon, HeartIcon, NextIcon, PauseIcon, PlayIcon, PlaylistIcon, RepeatAllIcon, RepeatNoneIcon, RepeatOneIcon, ShuffleIcon } from "@/icons";
 import { LoopMode } from "@/logic/player";
-import { useInspector } from "./Inspector";
+import { computed } from "vue";
 import { useContextMenu } from "./ContextMenu";
-import { PlayIcon, PauseIcon, NextIcon, ShuffleIcon, RepeatNoneIcon, RepeatOneIcon, RepeatAllIcon } from "@/icons";
+import { useInspector } from "./Inspector";
 
 const state = useState();
 
@@ -30,6 +30,8 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
   delta < 0 ? amethyst.player.seekForward() : amethyst.player.seekBackward();
 };
 
+const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()?.isFavorited);
+
 </script>
 
 <template>
@@ -51,6 +53,11 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
         class="flex flex-col gap-2 transform-gpu p-2 px-4 -translate-y-1 items-center filter drop-shadow-lg absolute top-0 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2"
       >
         <div class="flex text-primary-800 gap-2 text-text_title items-center ">
+          <HeartIcon
+            class="h-5 w-5 opacity-75 hover:opacity-100 "
+            :class="[isCurrentTrackFavorited && 'text-primary']"
+            @click="amethyst.player.getCurrentTrack()?.toggleFavorite()"
+          />
           <!-- <playlist-icon class="opacity-75 hover:opacity-100 " /> -->
           <ShuffleIcon
             class="h-5 w-5 opacity-75 hover:opacity-100 "
@@ -91,6 +98,9 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
             v-if="amethyst.player.loopMode.value == LoopMode.One"
             class="h-5 w-5 opacity-75  hover:opacity-100 "
             @click="amethyst.player.loopNone()"
+          />
+          <PlaylistIcon
+            class="h-5 w-5 opacity-75 hover:opacity-100"
           />
         </div>
       </div>

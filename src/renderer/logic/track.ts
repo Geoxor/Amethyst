@@ -4,7 +4,7 @@ import { IMetadata, LoadState, LoadStatus } from "@shared/types";
 import * as mm from "music-metadata-browser";
 import FileSaver from "file-saver";
 import mime from "mime-types";
-import { amethyst } from "@/amethyst";
+import { amethyst, favoriteTracks } from "@/amethyst";
 
 /**
  * Each playable audio file is an instance of this class
@@ -16,11 +16,21 @@ export class Track {
   public isLoaded = ref(false);
   public hasErrored = ref(false);
   public deleted: boolean = false;
+  public isFavorited: boolean = false;
   public path: string;
 
   public constructor(public absolutePath: string) {
-    // console.log("absolute path: ", absolutePath);
     this.path = absolutePath;
+    this.isFavorited = favoriteTracks.value.includes(this.path);
+  }
+
+  public toggleFavorite () {
+    this.isFavorited = !this.isFavorited;
+    if (this.isFavorited) {
+      favoriteTracks.value.push(this.path);
+    } else {
+      favoriteTracks.value.splice(favoriteTracks.value.indexOf(this.path), 1);
+    }
   }
 
   public getCachePath(absolute?: boolean) {

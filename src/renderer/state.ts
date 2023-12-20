@@ -24,6 +24,7 @@ export class Store {
 	public defaultSettings = {
 		showQueue: true,
 		showCoverArt: true,
+		coverGridSize: 128,
 		showSpectrum: true,
 		showBigSpectrum: false,
 		showVectorscope: true,

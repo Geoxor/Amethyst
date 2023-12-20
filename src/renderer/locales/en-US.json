@@ -1,4 +1,7 @@
 {
+  "route.favorites": "Favorites",
+  "route.audio_monitor": "Audio Monitor",
+
   "menu.file": "File",
   "menu.file.open_audio": "Open audio...",
   "menu.file.open_audio_folder": "Open audio folder...",
