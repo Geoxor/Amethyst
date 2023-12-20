@@ -102,5 +102,7 @@
   "settings.reset.title": "Einstellungen zurücksetzen",
   "settings.reset.description": "Setzt alle Einstellungen auf die Werkseinstellungen zurück (kann auch bei Fehlerbehebung helfen)",
   "settings.reset.reset": "Zurücksetzen",
-  "search.placeholder": "Suche"
+  "search.placeholder": "Suche",
+  "route.favorites": "Favorites",
+  "route.audio_monitor": "Audio Monitor"
 }

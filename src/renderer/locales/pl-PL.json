@@ -102,5 +102,7 @@
   "settings.reset.title": "Reset settings",
   "settings.reset.description": "Reverts all settings to the factory default (can also help fix bug-stated clients)",
   "settings.reset.reset": "Reset",
-  "search.placeholder": "Search"
+  "search.placeholder": "Search",
+  "route.favorites": "Favorites",
+  "route.audio_monitor": "Audio Monitor"
 }
