@@ -22,7 +22,7 @@ const coverGridSize = computed(() => amethyst.store.settings.value.coverGridSize
   >
     <cover-art 
       :url="coverUrl"
-      class="rounded-8px"
+      class="rounded-8px w-0 h-0"
       :class="`w-[${coverGridSize}px] h-[${coverGridSize}px]`"
     />
     <div class="flex flex-col gap-5px text-left py-1 w-full text-center">
