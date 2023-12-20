@@ -2,19 +2,28 @@
 import Slider from "@vueform/slider";
 import { useVModel } from "@vueuse/core";
 
-const props = defineProps<{ modelValue?: number | string}>();
+const props = defineProps<{ modelValue: number, step: number}>();
 const emits = defineEmits(["update:modelValue"]);
 const value = useVModel(props, "modelValue", emits);
+
+const handleMouseScroll = (e: WheelEvent) => {
+  const delta = Math.sign(e.deltaY);
+  value.value = delta < 0 ? value.value + props.step : value.value - props.step;
+};
 
 </script>
 
 <template>
-  <div>
+  <div
+    class="w-48 py-3"
+    @wheel.prevent="handleMouseScroll"
+  >
     <Slider
       v-model="value"
       v-bind="$attrs"
       show-tooltip="drag"
       tooltip-position="bottom"
+      :step="step"
     />
   </div>
 </template>

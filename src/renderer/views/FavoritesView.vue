@@ -1,12 +1,15 @@
 <script setup lang="ts">
 import { amethyst, favoriteTracks } from "@/amethyst";
+import ButtonInput from "@/components/v2/ButtonInput.vue";
 import RouteHeader from "@/components/v2/RouteHeader.vue";
 import SearchInput from "@/components/v2/SearchInput.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import TrackItem from "@/components/v2/TrackItem.vue";
-import { LargeIconsIcon, MediumIconsIcon } from "@/icons";
+import { LargeIconsIcon, MediumIconsIcon, PlayIcon } from "@/icons";
 import { Track } from "@/logic/track";
-import { ref } from "vue";
+import { computed, ref } from "vue";
+
+const favorites = computed(() => favoriteTracks.value.map(path => amethyst.player.queue.getTrack(amethyst.player.queue.getList().findIndex(t => t.absolutePath == path))));
 
 const filterText = ref("");
 const filter = (tracks: Track[], search: string) => {
@@ -27,6 +30,16 @@ const filter = (tracks: Track[], search: string) => {
     return results;
   };
 
+const playFavorites = () => {
+  // TODO: can't do this yet because we are loading all the tracks to the queue currently
+  // TODO: track instances have to be within a library manager class or something similar
+  // TODO: that way the queue is independant of the entire library so we can clear it and queue up
+  // TODO: favourites without them disappearing when clearing the queue  
+  // amethyst.player.queue.clear();
+  favorites.value.forEach(amethyst.player.queue.add);
+  amethyst.player.play(0);
+};
+
 </script>
 
 <template>
@@ -35,13 +48,18 @@ const filter = (tracks: Track[], search: string) => {
   >
     <route-header :title="$t('route.favorites')">
       <div class="flex gap-2 text-accent items-center">
+        <ButtonInput
+          text="Play all"
+          :icon="PlayIcon"
+          @click="playFavorites"
+        />
         <SearchInput v-model="filterText" />
         <MediumIconsIcon />
         <slider-input
           v-model="amethyst.store.settings.value.coverGridSize"
           :min="32"
           :max="256"
-          :step="1"
+          :step="8"
           class="w-32"
         />
         <LargeIconsIcon />
@@ -49,7 +67,7 @@ const filter = (tracks: Track[], search: string) => {
     </route-header>
     <div class="flex gap-2 flex-wrap">
       <TrackItem
-        v-for="track of filter(favoriteTracks.map(path => amethyst.player.queue.getTrack(amethyst.player.queue.getList().findIndex(t => t.absolutePath == path))), filterText) "
+        v-for="track of filter(favorites, filterText) "
         :key="track.path"
         :track="track"
       />
