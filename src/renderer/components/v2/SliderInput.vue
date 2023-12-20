@@ -15,7 +15,7 @@ const handleMouseScroll = (e: WheelEvent) => {
 
 <template>
   <div
-    class="w-48 py-3"
+    class="slider py-3"
     @wheel.prevent="handleMouseScroll"
   >
     <Slider
