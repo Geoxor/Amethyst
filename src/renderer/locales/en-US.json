@@ -1,4 +1,5 @@
 {
+  "route.queue": "Queue",
   "route.favorites": "Favorites",
   "route.audio_monitor": "Audio monitor",
 
