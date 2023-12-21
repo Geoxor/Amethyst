@@ -22,8 +22,8 @@
   
   "menu.about": "About",
   "menu.about.documentation": "Documentation...",
-  "menu.about.github_repository": "GitHub Repository...",
-  "menu.about.discord_server": "Discord Server...",
+  "menu.about.github_repository": "GitHub repository...",
+  "menu.about.discord_server": "Discord server...",
 
   "search.placeholder": "Search",
 
