@@ -8,7 +8,7 @@ import DropdownInput from "@/components/v2/DropdownInput.vue";
 import SettingsSetting from "@/components/v2/SettingsSetting.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
-import { AxisIcon, SineIcon, StarsIcon, VoltmeterIcon, WaveIcon } from "@/icons";
+import { AxisIcon, ClockIcon, SineIcon, VoltmeterIcon, WaveIcon } from "@/icons";
 import { FFT_SIZES } from "@shared/constants";
 const state = useState();
 
@@ -63,7 +63,7 @@ const state = useState();
           subsetting
           :title="$t('settings.decibel_meter.smoothing_duration.title')"
           :description="$t('settings.decibel_meter.smoothing_duration.description')"
-          :icon="StarsIcon"
+          :icon="ClockIcon"
         >
           <slider-input
             v-model="state.settings.value.meterSmoothingDuration"
