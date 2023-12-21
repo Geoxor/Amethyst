@@ -2,7 +2,7 @@
 
 <img align="right" src="https://github.com/Geoxor/amethyst/raw/master/assets/images/ang.png" alt=".ang" width="128"/>
 
-This is a file that stores the positions, connections, and parameter values for all nodes within a Node Graph.
+This is a file that stores the positions, connections and parameter values for all nodes within a Node Graph.
 
 It's realistically a serialized [JSON](https://en.wikipedia.org/wiki/JSON) file with a fancy icon and extension; it can be edited with any text editor if you fancy suffering.
 

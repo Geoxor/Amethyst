@@ -320,7 +320,7 @@ onUnmounted(() => {
 
 * {
   cursor: url("./cursors/default.png"), auto;
-  font-family: "jost";
+  font-family: jost;
 }
 
 *.font-aseprite {

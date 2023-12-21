@@ -34,19 +34,19 @@
   "settings.media_source_type.local_folder": "Local Folder",
 
   "settings.appearance.title": "Appearance",
-  "settings.appearance.description": "Customize background, themes, and accessibility",
+  "settings.appearance.description": "Customize background, themes and accessibility",
   
   "settings.performance.title": "Performance",
-  "settings.performance.description": "Fine-tune vsync, animations, and rendering",
+  "settings.performance.description": "Fine-tune vsync, animations and rendering",
   
   "settings.metering.title": "Metering",
-  "settings.metering.description": "Adjust spectrums, vectorscope, and meters",
+  "settings.metering.description": "Adjust spectrums, vectorscope and meters",
   
   "settings.audio.title": "Audio",
   "settings.audio.description": "Manage output devices and presets",
   
   "settings.media_sources.title": "Media Sources",
-  "settings.media_sources.description": "Organize folders, connect to servers, and more",
+  "settings.media_sources.description": "Organize folders, connect to servers and more",
   
   "settings.keybinds.title": "Keybinds",
   "settings.keybinds.description": "Customize key mappings for your experience",

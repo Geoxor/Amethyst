@@ -20,4 +20,4 @@ The possible [filter types](https://developer.mozilla.org/en-US/docs/Web/API/Biq
 - [`lowpass` (highcut)](https://en.wikipedia.org/wiki/Low-pass_filter)
 
 ### Notice
-⚠️ The [`Q`](https://en.wikipedia.org/wiki/Q_factor) and/or [`Gain`](https://en.wikipedia.org/wiki/Gain_(electronics)) may not have an affect with certain types, and/or certain filters require a [`Q`](https://en.wikipedia.org/wiki/Q_factor) value of `+1` to work as expected.
+⚠️ The [`Q`](https://en.wikipedia.org/wiki/Q_factor) and/or [`Gain`](https://en.wikipedia.org/wiki/Gain_(electronics)) may not have an affect with certain types and/or certain filters require a [`Q`](https://en.wikipedia.org/wiki/Q_factor) value of `+1` to work as expected.

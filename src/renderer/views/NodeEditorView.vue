@@ -64,7 +64,7 @@ const getDashCoords = () => {
   }
 
   // 3d matrices have 16 values
-  // The 13th, 14th, and 15th values are X, Y, and Z
+  // The 13th, 14th and 15th values are X, Y and Z
   if (matrixType === "3d") {
     return {
       x: parseFloat(matrixValues![12]),
