@@ -74,7 +74,7 @@ onMounted(() => {
     <div class="meter">
       <div class="barBg">
         <div
-          class="bar bg-primary duration-0"
+          class="bar bg-primary duration-100"
           :style="`width: ${computeWidthPercentage(MINIMUM_LUFS, 0, momentary)}%`"
         />
       </div>
