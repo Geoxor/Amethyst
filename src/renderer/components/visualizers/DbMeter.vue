@@ -90,20 +90,20 @@ onUnmounted(() => shouldStopRendering = true);
       >
         <div
           :style="`width: ${width}px;`"
-          class="absolute top-0 left-0 bg-surface-600 h-full rounded-full"
+          class="absolute top-0 left-0 bg-surface-700 h-full rounded-full"
         />
         <div
           :style="`width: ${width}px;`"
-          class="absolute bottom-0 bg-surface-500 h-90/100 rounded-full"
+          class="absolute bottom-0 bg-surface-600 h-90/100 rounded-full"
         />
 
         <div
-          :class="channelData[i - 1][0].value > 0 ? 'bg-rose-600' : pre ? 'bg-cyan-600' : 'bg-green-600'"
+          :class="channelData[i - 1][0].value > 0 ?'bg-rose-600' : 'bg-accent bg-opacity-50'"
           class="rounded-full duration-50 transition-all absolute bottom-0"
           :style="`width: ${width}px; height: ${computedWidth(channelData[i - 1][0].value)}%`"
         />
         <div
-          :class="channelData[i - 1][0].value > 0 ? 'bg-rose-500' : pre ? 'bg-cyan-500' : 'bg-green-500'"
+          :class="channelData[i - 1][0].value > 0 ? 'bg-rose-500' : 'bg-accent'"
           class="absolute duration-50 transition-all bottom-0 rounded-full"
           :style="`width: ${width}px; height: ${computedWidth(channelData[i - 1][1].value)}%`"
         />
