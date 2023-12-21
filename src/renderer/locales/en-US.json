@@ -90,7 +90,7 @@
   "settings.cover_art.description": "Render the cover art near the playback controls located at the bottom of the interface",
 
   "settings.debug_stats.title": "Debug statistics",
-  "settings.debug_stats.description": "Show numbers such as samples, fps, processor usage and mroe at the top bar",
+  "settings.debug_stats.description": "Show numbers such as samples, fps, processor usage and more at the top bar",
   
   "settings.discord_rpc.description" : "Discord Rich Presence allows users to share their current activity on Amethyst with Discord. When enabled, the RPC feature updates the user's Discord status to show the version of Amethyst, currently playing song or playlist, along with the artist and album",
   
