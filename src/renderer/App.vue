@@ -345,6 +345,10 @@ onUnmounted(() => {
   transition-duration: var(--smoothing-duration);
 }
 
+*.font-weight-user-defined {
+  font-weight: var(--font-weight);
+}
+
 .cursor-pointer,
 .cursor-pointer * {
   cursor: url("./cursors/pointer.png") 4 0, auto !important;

@@ -26,10 +26,10 @@ const coverGridSize = computed(() => amethyst.store.settings.value.coverGridSize
       :class="`w-[${coverGridSize}px] h-[${coverGridSize}px]`"
     />
     <div class="flex flex-col gap-5px text-left py-1 w-full text-center">
-      <h1 class="text-text_title text-13px font-semibold w-full overflow-hidden overflow-ellipsis">
+      <h1 class="text-text_title text-13px font-weight-user-defined w-full overflow-hidden overflow-ellipsis">
         {{ track.getTitle() || track.getFilename() }}
       </h1>
-      <p class="text-text_subtitle text-10px font-semibold w-full overflow-hidden overflow-ellipsis">
+      <p class="text-text_subtitle text-10px font-weight-user-defined w-full overflow-hidden overflow-ellipsis">
         {{ track.getArtistsFormatted() || 'Unknown Artist' }}
       </p>
     </div>

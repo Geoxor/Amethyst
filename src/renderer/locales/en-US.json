@@ -54,6 +54,9 @@
   "settings.integrations.title": "Integrations",
   "settings.integrations.description": "Adjust Discord and other integrations",
   
+  "settings.font_weight.title": "Font weight",
+  "settings.font_weight.description": "How bold the font will be globally in the UI",
+
   "settings.application.title": "Application",
   "settings.application.description": "Manage updates and language preferences",
 

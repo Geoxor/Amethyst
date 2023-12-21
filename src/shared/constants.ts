@@ -57,3 +57,15 @@ export const BLEND_MODES = [
   "color",
   "luminosity",
 ];
+
+export const FONT_WEIGHTS = [
+  "thin",
+  "extralight",
+  "light",
+  "normal",
+  "medium",
+  "semibold",
+  "bold",
+  "extrabold",
+  "black",
+];

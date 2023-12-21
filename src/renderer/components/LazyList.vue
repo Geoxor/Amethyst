@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { amethyst, useShortcuts } from "@/amethyst";
-import { Track } from "@/logic/track";
 import BaseChip from "@/components/BaseChip.vue";
-import { AmethystIcon } from "@/icons";
-import Cover from "@/components/CoverArt.vue";
 import { useContextMenu } from "@/components/ContextMenu";
-import { useInspector } from "./Inspector";
+import Cover from "@/components/CoverArt.vue";
+import { AmethystIcon } from "@/icons";
 import { saveArrayBufferToFile } from "@/logic/dom";
 import { convertDfpwm } from "@/logic/encoding";
+import { Track } from "@/logic/track";
+import { useInspector } from "./Inspector";
 
 defineProps<{tracks: Track[]}>();
 const isHoldingControl = useShortcuts().isControlPressed;
@@ -177,7 +177,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
 }
 
 .td {
-  @apply overflow-hidden overflow-ellipsis flex items-center font-semibold text-13px;
+  @apply overflow-hidden overflow-ellipsis flex items-center font-weight-user-defined text-13px;
 
   &.title {
     @apply text-text_title text-13px;

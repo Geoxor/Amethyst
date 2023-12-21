@@ -1,6 +1,7 @@
 import { useLocalStorage } from "@vueuse/core";
 import { reactive, watch } from "vue";
 import { MediaSourceType } from "./logic/mediaSources";
+import { FONT_WEIGHTS } from "@shared/constants";
 
 export interface IContextMenuOption {
 	title: string;
@@ -61,6 +62,7 @@ export class Store {
 		minimalistMode: false,
 		decibelMeterFftSize: 1024,
 		vectorscopeFftSize: 512,
+		fontWeight: "semibold",
 		zoomLevel: 1.00,
 		animationDuration: 100, // 100ms
 		meterSmoothingDuration: 100,
@@ -86,9 +88,12 @@ export class Store {
 				this.settings[key] = this.defaultSettings[key];
 		});
 
+		// Load from persistance
 		document.documentElement.style.setProperty("--transition-duration", `${this.settings.value.animationDuration}ms`);
 		document.documentElement.style.setProperty("--smoothing-duration", `${this.settings.value.meterSmoothingDuration}ms`);
+		document.documentElement.style.setProperty("--font-weight", `${(FONT_WEIGHTS.indexOf(this.settings.value.fontWeight) + 1) * 100}`);
 
+		// Update css when state changes
 		watch(() => this.settings.value.animationDuration, newValue => {
 			document.documentElement.style.setProperty("--transition-duration", `${newValue}ms`);
 		});
@@ -97,5 +102,8 @@ export class Store {
 			document.documentElement.style.setProperty("--smoothing-duration", `${newValue}ms`);
 		});
 
+		watch(() => this.settings.value.fontWeight, newValue => {
+			document.documentElement.style.setProperty("--font-weight", `${(FONT_WEIGHTS.indexOf(newValue) + 1) * 100}`);
+		});
 	}
 }

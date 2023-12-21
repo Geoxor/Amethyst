@@ -13,7 +13,7 @@ const value = useModelValue(props, "modelValue", emits);
     @click="emits('update:modelValue', !value); emits('change')"
   >
     <p 
-      class="pointer-events-none text-10px font-semibold"
+      class="pointer-events-none text-10px font-weight-user-defined"
     >
       {{ value ? 'I' : 'O' }}
     </p>
