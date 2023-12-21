@@ -44,7 +44,7 @@ onUnmounted(() => {
       :icon="AmethystIcon"
       :active="state.settings.value.followQueue"
       @click="state.settings.value.followQueue = !state.settings.value.followQueue;"
-    />
+    /> 
 
     <lazy-list
       :key="filterText.length"
