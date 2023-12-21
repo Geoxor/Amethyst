@@ -44,7 +44,7 @@ const playFavorites = () => {
 
 <template>
   <div
-    class="flex flex-col h-full w-full py-2 px-4 gap-4"
+    class="flex flex-col h-full w-full py-2 px-4 gap-4 overflow-y-auto"
   >
     <route-header :title="$t('route.favorites')">
       <div class="flex gap-2 text-text_subtitle items-center">
