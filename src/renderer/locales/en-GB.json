@@ -104,5 +104,7 @@
   "settings.import_export.export": "Export",
   "settings.reset.title": "Reset settings",
   "settings.reset.description": "Reverts all settings to the factory default (can also help fix bug-stated clients)",
-  "settings.reset.reset": "Reset"
+  "settings.reset.reset": "Reset",
+  "settings.decibel_meter.smoothing_duration.title": "Smoothing duration",
+  "settings.decibel_meter.smoothing_duration.description": "Smoothly animate between data-frames (useful for smoothing out small FFT sizes that create jitter)"
 }

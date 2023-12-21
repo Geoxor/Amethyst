@@ -104,5 +104,7 @@
   "settings.reset.reset": "Reset",
   "search.placeholder": "Search",
   "route.favorites": "Favorites",
-  "route.audio_monitor": "Audio Monitor"
+  "route.audio_monitor": "Audio Monitor",
+  "settings.decibel_meter.smoothing_duration.title": "Smoothing duration",
+  "settings.decibel_meter.smoothing_duration.description": "Smoothly animate between data-frames (useful for smoothing out small FFT sizes that create jitter)"
 }
