@@ -28,6 +28,11 @@ export const router = createRouter({
   routes,
 });
 
+let lastSettingsRoute = "settings.appearance";
+
 router.beforeEach(guard => {
-  if (guard.name == "settings") router.push({ name: "settings.appearance" });
+  const routeName = guard.name!.toString();
+
+  if (routeName == "settings") router.push({ name: lastSettingsRoute });
+  if (routeName.startsWith("settings")) lastSettingsRoute = routeName;
 });
