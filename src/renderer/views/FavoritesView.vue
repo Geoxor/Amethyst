@@ -47,7 +47,7 @@ const playFavorites = () => {
     class="flex flex-col h-full w-full py-2 px-4 gap-4"
   >
     <route-header :title="$t('route.favorites')">
-      <div class="flex gap-2 text-accent items-center">
+      <div class="flex gap-2 text-text_subtitle items-center">
         <ButtonInput
           text="Play all"
           :icon="PlayIcon"
