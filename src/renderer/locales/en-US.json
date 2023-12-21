@@ -109,6 +109,8 @@
   "settings.decibel_meter.separate_pre_post.description": "Shows individual decibel meters, one for the signal before going into a node and one after",
   "settings.decibel_meter.minimum_db.title": "Minimum dB",
   "settings.decibel_meter.minimum_db.description": "Changes the lowest value the decibel meter will register",
+  "settings.decibel_meter.smoothing_duration.title" : "Smoothing duration",
+  "settings.decibel_meter.smoothing_duration.description" : "Smoothly animate between data-frames (useful for smoothing out small FFT sizes that create jitter)",
 
   "settings.loudness_meter.title": "Loudness Meter",
   "settings.loudness_meter.description": "Displays a visual representation of the perceived loudness of the audio signal. The loudness meter is measured in Loudness Units Full Scale (LUFS), which is a standardized measurement of perceived loudness",

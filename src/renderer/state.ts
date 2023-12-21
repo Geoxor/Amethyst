@@ -63,6 +63,7 @@ export class Store {
 		vectorscopeFftSize: 512,
 		zoomLevel: 1.00,
 		animationDuration: 100, // 100ms
+		meterSmoothingDuration: 100,
 		language: "en-US",
 		saveMediaSources: [{}] as {type: MediaSourceType, path: string}[],
 	};
@@ -85,8 +86,16 @@ export class Store {
 				this.settings[key] = this.defaultSettings[key];
 		});
 
+		document.documentElement.style.setProperty("--transition-duration", `${this.settings.value.animationDuration}ms`);
+		document.documentElement.style.setProperty("--smoothing-duration", `${this.settings.value.meterSmoothingDuration}ms`);
+
 		watch(() => this.settings.value.animationDuration, newValue => {
 			document.documentElement.style.setProperty("--transition-duration", `${newValue}ms`);
 		});
+
+		watch(() => this.settings.value.meterSmoothingDuration, newValue => {
+			document.documentElement.style.setProperty("--smoothing-duration", `${newValue}ms`);
+		});
+
 	}
 }

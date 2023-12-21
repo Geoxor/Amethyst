@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { amethyst, useState } from "@/amethyst";
-import TopBar from "@/components/TopBar.vue";
-import {InspectorBar, useInspector} from "@/components/Inspector";
-import DbMeter from "@/components/visualizers/DbMeter.vue";
-import NavigationBar from "@/components/NavigationBar.vue";
-import PlaybackButtons from "@/components/PlaybackButtons.vue";
-import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
-import CoverArt from "@/components/CoverArt.vue";
 import { ContextMenu, useContextMenu } from "@/components/ContextMenu";
-import {SpectrumAnalyzer} from "@/components/visualizers/SpectrumAnalyzer";
-import { onMounted, onUnmounted, ref } from "vue";
-import { Track } from "@/logic/track";
+import CoverArt from "@/components/CoverArt.vue";
+import { InspectorBar, useInspector } from "@/components/Inspector";
+import NavigationBar from "@/components/NavigationBar.vue";
 import NavigationButton from "@/components/NavigationButton.vue";
+import PlaybackButtons from "@/components/PlaybackButtons.vue";
+import TopBar from "@/components/TopBar.vue";
+import DbMeter from "@/components/visualizers/DbMeter.vue";
+import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
+import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 import { AdjustIcon, AmethystIcon, CompassIcon, HeartIcon, ListIcon, PlaylistIcon, SettingsIcon } from "@/icons";
+import { Track } from "@/logic/track";
+import { onMounted, onUnmounted, ref } from "vue";
 import LoudnessMeter from "./components/visualizers/LoudnessMeter.vue";
 import { router } from "./router";
 
@@ -337,12 +337,12 @@ onUnmounted(() => {
   font-family: "aseprite";
 }
 
-:root {
-  --transition-duration: 100ms; 
-}
-
 *.duration-user-defined {
   transition-duration: var(--transition-duration);
+}
+
+*.duration-meter-user-defined {
+  transition-duration: var(--smoothing-duration);
 }
 
 .cursor-pointer,

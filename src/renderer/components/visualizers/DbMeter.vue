@@ -99,12 +99,12 @@ onUnmounted(() => shouldStopRendering = true);
 
         <div
           :class="channelData[i - 1][0].value > 0 ?'bg-rose-600' : 'bg-accent bg-opacity-50'"
-          class="rounded-full duration-50 transition-all absolute bottom-0"
+          class="rounded-full duration-meter-user-defined absolute bottom-0"
           :style="`width: ${width}px; height: ${computedWidth(channelData[i - 1][0].value)}%`"
         />
         <div
           :class="channelData[i - 1][0].value > 0 ? 'bg-rose-500' : 'bg-accent'"
-          class="absolute duration-50 transition-all bottom-0 rounded-full"
+          class="absolute duration-meter-user-defined bottom-0 rounded-full"
           :style="`width: ${width}px; height: ${computedWidth(channelData[i - 1][1].value)}%`"
         />
       </div>
