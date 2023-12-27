@@ -1,60 +1,32 @@
-import { amethyst } from "@/amethyst";
-import * as FS from "fs";
+import { PathLike } from "fs";
+import { Playlist } from "../playlist";
 
 export abstract class FileIO {
-    
-    public static async readFile(path: string): Promise<string | Buffer>{
-        switch (amethyst.getCurrentPlatform()) {
-            case "desktop":
-                return window.fs.readFile(path);
-            default:
-                return Promise.reject();
-        }
+
+    public static writePlaylist(playlist: Playlist, path: PathLike, overwrite: boolean = false): boolean {
+        return false;
     }
 
-    public static async writeFile(path: string, data: string | Buffer){
-        switch (amethyst.getCurrentPlatform()) {
-            case "desktop":
-                return window.fs.writeFile(path, data);
-            default:
-                return Promise.reject();
-        }
-    }
-
-    public static readFileSync(path: string): String | Buffer | null{
-        switch (amethyst.getCurrentPlatform()) {
-            case "desktop":
-                return FS.readFileSync(path);
-            default:
-                return null;
-        }
-    }
-
-    public static writeFileSync(path: string, data: string | Buffer){
-        switch (amethyst.getCurrentPlatform()) {
-            case "desktop":
-                return FS.writeFileSync(path, data);
-            default:
-                return Promise.reject();
-        }
-    }
-
-    public static writePlaylist(fileType: PlaylistFileType) {
-        
+    public static readPlaylist(path: PathLike): Playlist | undefined {
+        return undefined;
     }
 
 }
 
 export abstract class PlaylistFileType {
-    //public abstract fromFile(path?: FS.PathLike): PlaylistFileType;
-    //public abstract toFile(path?: FS.PathLike): boolean;
+    //public abstract fromFile(path?: PathLike): Playlist;
+    //public abstract toFile(path?: PathLike): boolean;
 }
 
 /**
  * A simple class for reading and writing a XML based file.
  */
 export class XML {
+    private version: number;
 
+    public constructor(path: PathLike) {
+        
+    }
 }
 
 export class INI {
