@@ -1,5 +1,3 @@
-import { amethyst } from "@/amethyst";
-
 /** The file type mainly used for playlists */
 export enum FILE_TYPE {XML, INI, M3U8};
 
@@ -8,9 +6,6 @@ export const AMETHYST_PLAYLIST_EXTENSION = "ampf";
 
 /** The configuration for Amethyst's own playlist format used to configure the file structure (XML, M3U, INI, etc.) */
 export const AMETHYST_PLAYLIST_FILE : {extension: string, fileType: FILE_TYPE} = {extension: AMETHYST_PLAYLIST_EXTENSION, fileType: FILE_TYPE.M3U8};
-
-/** The Default or fallback storage path for exporting playlists */
-export const DEFAULT_PLAYLIST_PATH = window.path.join(amethyst.APPDATA_PATH || "", "/amethyst/Playlists");
 
 /** The type of an album */
 export enum ALBUM_TYPE {SINGLE, EP};

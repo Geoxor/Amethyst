@@ -1,7 +1,8 @@
 import { PathLike } from "fs";
 import { Track } from "./track";
 import { FileIO } from "./io/FileIO";
-import { ALLOWED_PLAYLIST_FORMATS, AMETHYST_PLAYLIST_EXTENSION, DEFAULT_PLAYLIST_PATH } from "@shared/constants";
+import { AMETHYST_PLAYLIST_EXTENSION } from "@shared/constants";
+import { amethyst } from "@/amethyst";
 
 export class Playlist {
     protected tracks = new Array<Track>;
@@ -32,7 +33,7 @@ export class Playlist {
      * @returns true if successful, false if: Track count < 1, invalid/nonexisting/undefined path/extension or due to an IO error
      */
     public saveToFile(path?: PathLike, overwrite: boolean = false, fallback: boolean = true): boolean {
-        let exportPath = (path) ? path : window.path.join(DEFAULT_PLAYLIST_PATH, this.name, ".", AMETHYST_PLAYLIST_EXTENSION);
+        let exportPath = (path) ? path : window.path.join(amethyst.APPDATA_PATH || "", "/amethyst/Playlists", this.name, ".", AMETHYST_PLAYLIST_EXTENSION);
         if (path && !FileIO.extensionAllowed(path) && fallback) {
             exportPath = FileIO.replaceExtension(path, AMETHYST_PLAYLIST_EXTENSION);
         }
