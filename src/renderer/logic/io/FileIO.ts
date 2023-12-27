@@ -184,7 +184,7 @@ export class XSPF extends PlaylistFileType {
 /** A class that can read and write .m3u and m3u8 (Plain Text) files */
 export class M3U extends PlaylistFileType {
     static {
-        super.registerAll(["m3u", "m3u8"], this);
+        super.registerAll(["m3u", "m3u8", "vlc"], this);
     }
     public unpack(data: string): Playlist | undefined {
         throw new Error("Method not implemented.");
