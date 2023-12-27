@@ -23,7 +23,7 @@ export abstract class FileIO {
         if (path.toString().includes(".")){
             const split = path.toString().split(".");
             split[split.length - 1] = newExtension;
-            for(const s in split) {
+            for (const s in split) {
                 newPath = newPath.concat(s);
             }
         } else {
@@ -34,12 +34,23 @@ export abstract class FileIO {
 }
 
 export abstract class PlaylistFileType {
-    public abstract EXTENSION:string[];
     public abstract unpack(data: string): Playlist;
     public abstract pack(playlist: Playlist): string;
 
-    public static forExtension(extension: PathLike): PlaylistFileType {
-        return ASX;
+    protected static registered: Map<string, typeof PlaylistFileType> = new Map();
+
+    protected static register(extension: string, type: typeof PlaylistFileType) {
+        this.registered.set(extension, type);
+    }
+
+    protected static registerAll(extensions: string[], type: typeof PlaylistFileType) {
+        for (const extension in extensions) {
+            this.register(extension, type);
+        }
+    }
+
+    public static forExtension(extension: PathLike): typeof PlaylistFileType | undefined {
+        return this.registered.get(extension.toString().toLowerCase());
     }
 }
 
@@ -52,7 +63,9 @@ export class INI {
 }
 
 export class ASX extends PlaylistFileType {
-    public EXTENSION: string[] = ["asx"];
+    static {
+        super.register("asx", this);
+    }
     public unpack(data: string): Playlist {
         throw new Error("Method not implemented.");
     }
@@ -62,7 +75,9 @@ export class ASX extends PlaylistFileType {
 }
 
 export class XSPF extends PlaylistFileType {
-    public EXTENSION: string[] = ["xspf"];
+    static {
+        super.register("xspf", this);
+    }
     public unpack(data: string): Playlist {
         throw new Error("Method not implemented.");
     }
@@ -72,7 +87,9 @@ export class XSPF extends PlaylistFileType {
 }
 
 export class M3U extends PlaylistFileType{
-    public EXTENSION: string[] = ["m3u", "m3u8"];
+    static {
+        super.registerAll(["m3u", "m3u8"], this);
+    }
     public unpack(data: string): Playlist {
         throw new Error("Method not implemented.");
     }
@@ -82,7 +99,9 @@ export class M3U extends PlaylistFileType{
 }
 
 export class AmethystPlaylistFile extends PlaylistFileType {
-    public EXTENSION: string[] = [AMETHYST_PLAYLIST_EXTENSION];
+    static {
+        super.register(AMETHYST_PLAYLIST_EXTENSION, this);
+    }
     public unpack(data: string): Playlist {
         throw new Error("Method not implemented.");
     }
