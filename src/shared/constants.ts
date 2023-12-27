@@ -1,3 +1,16 @@
+export const AMETHYST_PLAYLIST_EXTENSION = "apl"; // Amethyst Playlist File
+export enum ALBUM_TYPE {SINGLE, EP};
+
+export const ALLOWED_PLAYLIST_FORMATS = [
+  "asx", // XML
+  "xspf", // XML
+  "m3u", // Plain Text
+  "m3u8", // Plain Text as well
+  "vlc", // renamed m3u8
+  "pls", // INI
+  AMETHYST_PLAYLIST_EXTENSION,
+];
+
 export const ALLOWED_AUDIO_EXTENSIONS = [
   "ogg", 
   "ogv", 
@@ -23,11 +36,4 @@ export const ALLOWED_AUDIO_EXTENSIONS = [
   "mp4",
   "dfpwm",
   "webm",
-  // Playlist formats
-  "asx",
-  "m3u",
-  "m3u8",
-  "pls",
-  "vlc",
-  "xspf",
-];
+].concat(ALLOWED_PLAYLIST_FORMATS);
