@@ -4,7 +4,7 @@ import os from "os";
 import path from "path";
 import electron, { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
 import { Discord, FormatIcons } from "../plugins/amethyst.discord";
-import {ALLOWED_AUDIO_EXTENSIONS} from "../shared/constants";
+import { ALLOWED_EXTENSIONS } from "../shared/constants";
 import {sleep} from "../shared/logic";
 import { IS_DEV, store } from "./main";
 import windowStateKeeper from "electron-window-state";
@@ -191,7 +191,7 @@ export class MainWindow {
 				"version",
 				APP_VERSION + (IS_DEV ? " dev" : ""),
 			);
-			this.window.webContents.send("acceptable-extensions", ALLOWED_AUDIO_EXTENSIONS);
+			this.window.webContents.send("acceptable-extensions", ALLOWED_EXTENSIONS);
 		});
 		// Open urls in the user's browser
 		this.window.webContents.setWindowOpenHandler(data => {

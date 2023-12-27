@@ -5,7 +5,7 @@ import { Store } from "@/state";
 import { Capacitor } from "@capacitor/core";
 import { StatusBar } from "@capacitor/status-bar";
 import {NavigationBar} from "@hugotomazi/capacitor-navigation-bar";
-import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
+import { ALLOWED_EXTENSIONS } from "@shared/constants";
 import { FileFilter, OpenDialogReturnValue, SaveDialogReturnValue } from "electron";
 import { watch } from "vue";
 import { flattenArray } from "./logic/math";
@@ -15,6 +15,7 @@ import { router } from "./router";
 import "./logic/subsonic";
 import { createI18n } from "vue-i18n";
 import messages from "@intlify/unplugin-vue-i18n/messages";
+import { FileIO } from "./logic/io/FileIO";
 
 export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale
@@ -170,15 +171,16 @@ class AmethystBackend {
     }
   }
 
+  // TODO: Rename
   public openAudioFilesAndAddToQueue = async () => {
-    amethyst.openFileDialog([{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }]).then(result => {
-      !result.canceled && amethyst.player.queue.add(result.filePaths);
+    amethyst.openFileDialog([{ name: "Audio", extensions: ALLOWED_EXTENSIONS }]).then(result => {
+      !result.canceled && FileIO.redirect(result.filePaths);
     }).catch(error => console.error(error));
   };
   
   public openAudioFoldersAndAddToQueue = async () => {
-    amethyst.openFolderDialog([{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }]).then(result => {
-      !result.canceled && amethyst.player.queue.add(flattenArray(result.filePaths));
+    amethyst.openFolderDialog([{ name: "Audio", extensions: ALLOWED_EXTENSIONS }]).then(result => {
+      !result.canceled && FileIO.redirect(flattenArray(result.filePaths));
     }).catch(error => console.error(error));
   };
 }
@@ -261,7 +263,7 @@ export class Amethyst extends AmethystBackend {
       amethyst.player.queue.add(Array.from(event.dataTransfer!.files).filter(f => {
         const path = f.path;
         const fileExt = path.split(".").pop();
-        if (ALLOWED_AUDIO_EXTENSIONS.includes((fileExt ?? "").toLowerCase())) {
+        if (ALLOWED_EXTENSIONS.includes((fileExt ?? "").toLowerCase())) {
           return true;
         }
         return false;
