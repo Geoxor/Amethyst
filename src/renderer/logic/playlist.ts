@@ -1,27 +1,45 @@
 import { PathLike } from "fs";
 import { Track } from "./track";
+import { ALLOWED_PLAYLIST_FORMATS } from "@shared/constants";
 
-export class Playlist{
-    public list = new Array<Track>;
-    public name = new String("Playlist");
-    public path?: String;
+export class Playlist {
+    protected tracks = new Array<Track>;
+    protected name = new String("Playlist");
 
-    public constructor(tracks?: Track[]){
-        tracks && tracks.forEach(track => this.list.push(track));
+    public constructor(name?: String, tracks?: Track[]) {
+        name && this.name == name;
+        tracks && tracks.forEach(track => this.tracks.push(track));
     }
 
-    public getTracks(): Track[]{
-        return this.list;
+    public getTracks(): Track[] {
+        return this.tracks;
     }
 
-    public async loadTracks(){
+    public getName(): String | undefined {
+        return this.name;
+    }
 
+    /**
+     * Saves this playlist instance to a file with a valid extension.
+     * If no path is given it will use the path of the instance if available, returns false if both are undefined.
+     * If path is directory, it will save the playlist in the custom Amethyst format and the playlist's name in the given directory
+     * Returns false if unable to save to file.
+     * @param path the path where the file will be stored including the extension if valid
+     * @param overwrite if true, it will replace the 
+     * @returns true if successful, false if: Track count < 1, invalid/nonexisting/undefined path/extension or due to an IO error
+     */
+    public saveToFile(path: PathLike, overwrite?: boolean): boolean {
+        if(this.tracks.length == 0) return false;
+        if(path.toString().split(".").length <= 1) return false;
+        const extension = path.toString().toLowerCase().split(".")[2];
+        if(!ALLOWED_PLAYLIST_FORMATS.includes(extension)) return false;
+        return false;
     }
 
     /**
      * 
      */
-    public async loadFromFile(path: PathLike){
+    public async loadFromFile(path: PathLike) {
 
     }
 }
