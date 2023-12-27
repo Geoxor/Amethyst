@@ -1,6 +1,7 @@
 import { PathLike } from "fs";
 import { Playlist } from "../playlist";
-import { ALLOWED_AUDIO_EXTENSIONS, AMETHYST_PLAYLIST_EXTENSION } from "@shared/constants";
+import { ALLOWED_AUDIO_EXTENSIONS, ALLOWED_PLAYLIST_FORMATS, AMETHYST_PLAYLIST_EXTENSION } from "@shared/constants";
+import { amethyst } from "@/amethyst";
 
 export abstract class FileIO {
 
@@ -13,8 +14,8 @@ export abstract class FileIO {
     }
 
     public static extensionAllowed(path: PathLike): boolean {
-        const split = path.toString().split(".");
-        const extension = split[split.length - 1];
+        const extension = this.getExtension(path);
+        if (!extension) return false;
         return ALLOWED_AUDIO_EXTENSIONS.includes(extension);
     }
 
@@ -30,6 +31,34 @@ export abstract class FileIO {
             newPath = path.toString().concat(".", newExtension);
         }
         return newPath;
+    }
+
+    public static getExtension(path: PathLike): string | undefined {
+        if (path.toString().includes(".")){
+            const split = path.toString().split(".");
+            return split[split.length - 1].toLowerCase();
+        } else {
+            return;
+        }
+    }
+
+    public static async redirect(paths: string | string[]) {
+        Array.from(paths).forEach(path => {
+            const extension = this.getExtension(path);
+            if (extension) {
+                if (ALLOWED_AUDIO_EXTENSIONS.includes(extension)) {
+                    amethyst.player.queue.add(path);
+                } else if (ALLOWED_PLAYLIST_FORMATS.includes(extension)) {
+                    // TODO: Open playlist
+                } else if (AMETHYST_PLAYLIST_EXTENSION == extension) {
+                    // TODO: Open Amethyst playlist
+                } else {
+                    // TODO: Default operation
+                }
+            } else {
+                // TODO: path with no extensions (possibly folder)
+            }
+        });
     }
 }
 
