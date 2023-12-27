@@ -1,5 +1,9 @@
-export const AMETHYST_PLAYLIST_EXTENSION = "apl"; // Amethyst Playlist File
+import { amethyst } from "@/amethyst";
+
+export const AMETHYST_PLAYLIST_EXTENSION = "ampf"; // Amethyst Playlist File
 export enum ALBUM_TYPE {SINGLE, EP};
+
+export const DEFAULT_PLAYLIST_PATH = window.path.join(amethyst.APPDATA_PATH || "", "/amethyst/Playlists");
 
 export const ALLOWED_PLAYLIST_FORMATS = [
   "asx", // XML
