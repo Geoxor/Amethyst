@@ -1,5 +1,6 @@
 import { PathLike } from "fs";
 import { Playlist } from "../playlist";
+import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
 
 export abstract class FileIO {
 
@@ -9,6 +10,26 @@ export abstract class FileIO {
 
     public static readPlaylist(path: PathLike): Playlist | undefined {
         return undefined;
+    }
+
+    public static extensionAllowed(path: PathLike): boolean {
+        const split = path.toString().split(".");
+        const extension = split[split.length - 1];
+        return ALLOWED_AUDIO_EXTENSIONS.includes(extension);
+    }
+
+    public static replaceExtension(path: PathLike, newExtension: string): PathLike {
+        let newPath = "";
+        if (path.toString().includes(".")){
+            const split = path.toString().split(".");
+            split[split.length - 1] = newExtension;
+            for(const s in split) {
+                newPath = newPath.concat(s);
+            }
+        } else {
+            newPath = path.toString().concat(".", newExtension);
+        }
+        return newPath;
     }
 
 }
@@ -25,7 +46,7 @@ export class XML {
     private version: number;
 
     public constructor(path: PathLike) {
-        
+
     }
 }
 
