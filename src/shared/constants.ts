@@ -1,6 +1,11 @@
 import { amethyst } from "@/amethyst";
 
+export enum FILE_TYPE {XML, INI, M3U8};
+
 export const AMETHYST_PLAYLIST_EXTENSION = "ampf"; // Amethyst Playlist File
+
+export const AMETHYST_PLAYLIST_FILE : {extension: string, fileType: FILE_TYPE} = {extension: AMETHYST_PLAYLIST_EXTENSION, fileType: FILE_TYPE.M3U8}; // Config for Amethyst Playlist File
+
 export enum ALBUM_TYPE {SINGLE, EP};
 
 export const DEFAULT_PLAYLIST_PATH = window.path.join(amethyst.APPDATA_PATH || "", "/amethyst/Playlists");
