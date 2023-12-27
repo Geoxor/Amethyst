@@ -194,6 +194,19 @@ export class M3U extends PlaylistFileType {
     }
 }
 
+/** A class that can read and write .pls (INI) files */
+export class PLS extends PlaylistFileType {
+    static {
+        super.register("pls", this);
+    }
+    public unpack(data: string): Playlist | undefined {
+        throw new Error("Method not implemented.");
+    }
+    public pack(playlist: Playlist): string {
+        throw new Error("Method not implemented.");
+    }
+}
+
 /** A class that can read and write files formatted in the Amethyst playlist format */
 export class AmethystPlaylistFile extends PlaylistFileType {
     static {
