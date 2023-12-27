@@ -1,10 +1,10 @@
 import { PathLike } from "fs";
 import { Playlist } from "../playlist";
-import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
+import { ALLOWED_AUDIO_EXTENSIONS, AMETHYST_PLAYLIST_EXTENSION } from "@shared/constants";
 
 export abstract class FileIO {
 
-    public static writePlaylist(playlist: Playlist, path: PathLike, overwrite: boolean = false): boolean {
+    public static writePlaylist(playlist: Playlist, path: PathLike, overwrite: boolean): boolean {
         return false;
     }
 
@@ -31,23 +31,20 @@ export abstract class FileIO {
         }
         return newPath;
     }
-
 }
 
 export abstract class PlaylistFileType {
-    //public abstract fromFile(path?: PathLike): Playlist;
-    //public abstract toFile(path?: PathLike): boolean;
+    public abstract EXTENSION:string[];
+    public abstract unpack(data: string): Playlist;
+    public abstract pack(playlist: Playlist): string;
+
+    public static forExtension(extension: PathLike): PlaylistFileType {
+        return ASX;
+    }
 }
 
-/**
- * A simple class for reading and writing a XML based file.
- */
 export class XML {
-    private version: number;
 
-    public constructor(path: PathLike) {
-
-    }
 }
 
 export class INI {
@@ -55,13 +52,41 @@ export class INI {
 }
 
 export class ASX extends PlaylistFileType {
-
+    public EXTENSION: string[] = ["asx"];
+    public unpack(data: string): Playlist {
+        throw new Error("Method not implemented.");
+    }
+    public pack(playlist: Playlist): string {
+        throw new Error("Method not implemented.");
+    }
 }
 
 export class XSPF extends PlaylistFileType {
-
+    public EXTENSION: string[] = ["xspf"];
+    public unpack(data: string): Playlist {
+        throw new Error("Method not implemented.");
+    }
+    public pack(playlist: Playlist): string {
+        throw new Error("Method not implemented.");
+    }
 }
 
 export class M3U extends PlaylistFileType{
+    public EXTENSION: string[] = ["m3u", "m3u8"];
+    public unpack(data: string): Playlist {
+        throw new Error("Method not implemented.");
+    }
+    public pack(playlist: Playlist): string {
+        throw new Error("Method not implemented.");
+    }
+}
 
+export class AmethystPlaylistFile extends PlaylistFileType {
+    public EXTENSION: string[] = [AMETHYST_PLAYLIST_EXTENSION];
+    public unpack(data: string): Playlist {
+        throw new Error("Method not implemented.");
+    }
+    public pack(playlist: Playlist): string {
+        throw new Error("Method not implemented.");
+    }
 }

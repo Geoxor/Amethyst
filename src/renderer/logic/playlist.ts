@@ -1,13 +1,14 @@
 import { PathLike } from "fs";
 import { Track } from "./track";
 import { FileIO } from "./io/FileIO";
+import { ALLOWED_PLAYLIST_FORMATS, AMETHYST_PLAYLIST_EXTENSION, DEFAULT_PLAYLIST_PATH } from "@shared/constants";
 
 export class Playlist {
     protected tracks = new Array<Track>;
-    protected name = new String("Playlist");
+    protected name = "Playlist";
     protected cover: string | undefined;
 
-    public constructor(name?: String, tracks?: Track[]) {
+    public constructor(name?: string, tracks?: Track[]) {
         name && this.name == name;
         tracks && tracks.forEach(track => this.tracks.push(track));
     }
@@ -16,7 +17,7 @@ export class Playlist {
         return this.tracks;
     }
 
-    public getName(): String | undefined {
+    public getName(): string | undefined {
         return this.name;
     }
 
@@ -26,11 +27,15 @@ export class Playlist {
      * If path is directory, it will save the playlist in the custom Amethyst format and the playlist's name in the given directory
      * Returns false if unable to save to file.
      * @param path the path where the file will be stored including the extension if valid
-     * @param overwrite if true, it will replace the 
+     * @param overwrite if true, it will replace any existing file with the same name
+     * @param fallback if true, any invalid extension will fall back to the Amethyst playlist extension
      * @returns true if successful, false if: Track count < 1, invalid/nonexisting/undefined path/extension or due to an IO error
      */
-    public saveToFile(path?: PathLike, overwrite: boolean = false): boolean {
-        const exportPath = (path) ? path : "";
+    public saveToFile(path?: PathLike, overwrite: boolean = false, fallback: boolean = true): boolean {
+        let exportPath = (path) ? path : window.path.join(DEFAULT_PLAYLIST_PATH, this.name, ".", AMETHYST_PLAYLIST_EXTENSION);
+        if (path && !FileIO.extensionAllowed(path) && fallback) {
+            exportPath = FileIO.replaceExtension(path, AMETHYST_PLAYLIST_EXTENSION);
+        }
         return FileIO.writePlaylist(this, exportPath, overwrite);
     }
 
