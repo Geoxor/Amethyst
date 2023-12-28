@@ -17,7 +17,7 @@ export class Track {
   public isLoaded = ref(false);
   public hasErrored = ref(false);
   public deleted: Ref<boolean> = ref(false);
-  public path: Ref<string> = ref("");
+  public path: String = "";
 
   public constructor(public absolutePath: string) {
     // console.log("absolute path: ", absolutePath);
