@@ -26,7 +26,7 @@ export abstract class PlaylistFileType {
      * @param extension the file extension supported by the subclass
      * @param type the subclass as a type
      */
-    protected static register(extension: string, type: typeof PlaylistFileType) {
+    public static register(extension: string, type: typeof PlaylistFileType) {
         this.registered.set(extension.replaceAll(".", ""), type);
     }
     
@@ -35,7 +35,7 @@ export abstract class PlaylistFileType {
      * @param extensions the file extensions supported by the subclass
      * @param type the subclass as a type
      */
-    protected static registerAll(extensions: string[], type: typeof PlaylistFileType) {
+    public static registerAll(extensions: string[], type: typeof PlaylistFileType) {
         for (const extension in extensions) {
             this.register(extension, type);
         }
@@ -53,9 +53,6 @@ export abstract class PlaylistFileType {
 
 /** A class that can read and write .asx (XML) files */
 export abstract class ASX extends PlaylistFileType {
-    static {
-        super.register("asx", this);
-    }
     public unpack(data: string): Playlist | undefined {
         throw new Error("Method not implemented.");
     }
@@ -66,9 +63,6 @@ export abstract class ASX extends PlaylistFileType {
 
 /** A class that can read and write .xspf (XML) files */
 export abstract class XSPF extends PlaylistFileType {
-    static {
-        super.register("xspf", this);
-    }
     public unpack(data: string): Playlist | undefined {
         throw new Error("Method not implemented.");
     }
@@ -79,9 +73,6 @@ export abstract class XSPF extends PlaylistFileType {
 
 /** A class that can read and write .m3u and m3u8 (Plain Text) files */
 export abstract class M3U extends PlaylistFileType {
-    static {
-        super.registerAll(["m3u", "m3u8", "vlc"], this);
-    }
     public unpack(data: string): Playlist | undefined {
         throw new Error("Method not implemented.");
     }
@@ -92,9 +83,6 @@ export abstract class M3U extends PlaylistFileType {
 
 /** A class that can read and write .pls (INI) files */
 export abstract class PLS extends PlaylistFileType {
-    static {
-        super.register("pls", this);
-    }
     public unpack(data: string): Playlist | undefined {
         throw new Error("Method not implemented.");
     }
@@ -105,9 +93,6 @@ export abstract class PLS extends PlaylistFileType {
 
 /** A class that can read and write files formatted in the Amethyst playlist format */
 export abstract class AmethystPlaylistFile extends PlaylistFileType {
-    static {
-        super.register(AMETHYST_PLAYLIST_EXTENSION, this);
-    }
     public unpack(data: string): Playlist | undefined {
         throw new Error("Method not implemented.");
     }
@@ -115,3 +100,9 @@ export abstract class AmethystPlaylistFile extends PlaylistFileType {
         throw new Error("Method not implemented.");
     }
 }
+
+PlaylistFileType.register("asx", ASX);
+PlaylistFileType.register("xspf", XSPF);
+PlaylistFileType.registerAll(["m3u", "m3u8", "vlc"], M3U);
+PlaylistFileType.register("pls", PLS);
+PlaylistFileType.register(AMETHYST_PLAYLIST_EXTENSION, AmethystPlaylistFile);
