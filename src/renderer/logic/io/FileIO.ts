@@ -95,13 +95,3 @@ export abstract class FileIO {
         });
     }
 }
-
-/** A class used to handle files formatted in XML */
-export class XML {
-
-}
-
-/** A class used to handle files formatted in INI */
-export class INI {
-
-}

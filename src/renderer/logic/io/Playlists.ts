@@ -52,7 +52,7 @@ export abstract class PlaylistFileType {
 }
 
 /** A class that can read and write .asx (XML) files */
-export class ASX extends PlaylistFileType {
+export abstract class ASX extends PlaylistFileType {
     static {
         super.register("asx", this);
     }
@@ -65,7 +65,7 @@ export class ASX extends PlaylistFileType {
 }
 
 /** A class that can read and write .xspf (XML) files */
-export class XSPF extends PlaylistFileType {
+export abstract class XSPF extends PlaylistFileType {
     static {
         super.register("xspf", this);
     }
@@ -78,7 +78,7 @@ export class XSPF extends PlaylistFileType {
 }
 
 /** A class that can read and write .m3u and m3u8 (Plain Text) files */
-export class M3U extends PlaylistFileType {
+export abstract class M3U extends PlaylistFileType {
     static {
         super.registerAll(["m3u", "m3u8", "vlc"], this);
     }
@@ -91,7 +91,7 @@ export class M3U extends PlaylistFileType {
 }
 
 /** A class that can read and write .pls (INI) files */
-export class PLS extends PlaylistFileType {
+export abstract class PLS extends PlaylistFileType {
     static {
         super.register("pls", this);
     }
@@ -104,7 +104,7 @@ export class PLS extends PlaylistFileType {
 }
 
 /** A class that can read and write files formatted in the Amethyst playlist format */
-export class AmethystPlaylistFile extends PlaylistFileType {
+export abstract class AmethystPlaylistFile extends PlaylistFileType {
     static {
         super.register(AMETHYST_PLAYLIST_EXTENSION, this);
     }
