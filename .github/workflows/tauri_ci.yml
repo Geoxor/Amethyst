@@ -45,6 +45,6 @@ jobs:
         with:
           tagName: app-v__VERSION__
           releaseName: 'App v__VERSION__'
-          releaseBody: 'Download Amethyst Tauri beta below.'
-          releaseDraft: true
+          releaseBody: 'NOTE: because Github wants money, you can only get prebuilt x64 here, build the ARM64 variant yourself, eh.'
+          releaseDraft: false
           prerelease: true
