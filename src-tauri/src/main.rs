@@ -116,6 +116,7 @@ fn main() {
     .add_submenu(Submenu::new("File", Menu::new()
       .add_item(CustomMenuItem::new("open_file".to_string(), "Open File").accelerator("Command+O"))
       .add_item(CustomMenuItem::new("open_folder".to_string(), "Open Folder").accelerator("Command+Shift+O"))))
+      .add_item(CustomMenuItem::new("add_source".to_string(), "Add Source").accelerator("Command+O"))
     .add_submenu(Submenu::new("Utility", Menu::new()
       .add_item(CustomMenuItem::new("clear_queue".to_string(), "Clear queue").accelerator("Command+Shift+X"))
       .add_item(CustomMenuItem::new("clear_invalid".to_string(), "Clear errored / deleted").accelerator("Command+Shift+Z"))
