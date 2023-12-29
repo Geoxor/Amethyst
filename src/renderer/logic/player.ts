@@ -6,9 +6,7 @@ import { AmethystAudioNodeManager } from "./audioManager";
 import { EventEmitter } from "./eventEmitter";
 import { secondsToColinHuman, secondsToHuman } from "@shared/formating";
 import { amethyst } from "@/amethyst";
-
 import { convertFileSrc } from "@tauri-apps/api/tauri";
-import { emit } from '@tauri-apps/api/event';
 
 export enum LoopMode {
 	None,
@@ -90,7 +88,9 @@ export class Player extends EventEmitter<{
       const track = this.queue.getList().find(track => !track.hasErrored);
       track && this.setPlayingTrack(track);
     }
+
     this.input.play();
+
     this.isPlaying.value = true;
     this.isPaused.value = false;
     this.isStopped.value = false;
