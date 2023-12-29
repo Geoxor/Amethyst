@@ -1,15 +1,15 @@
 <script lang="ts" setup>
 import { amethyst, useState } from "@/amethyst";
+import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
 import ControlButtons from "@/components/input/ControlButtons.vue";
 import UpdateButton from "@/components/input/UpdateButton.vue";
 import Menu from "@/components/menu/MenuContainer.vue";
 import MenuOption from "@/components/menu/MenuOption.vue";
 import MenuSplitter from "@/components/menu/MenuSplitter.vue";
-import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
 import { AmethystIcon } from "@/icons";
+import { countDomElements, refreshWindow, smoothTween } from "@/logic/dom";
 import { useFps } from "@vueuse/core";
 import { computed, onMounted, ref } from "vue";
-import { countDomElements, refreshWindow, smoothTween } from "@/logic/dom";
 import BaseChip from "./BaseChip.vue";
 import TitleText from "./v2/TitleText.vue";
 
@@ -143,6 +143,7 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
         <menu-option
           :title="$t('menu.view.settings')"
           :icon="AmethystIcon"
+          :shortcuts="[commandOrControlSymbol, ',']"
           @click="$router.push({ name: 'settings.appearance' })"
         />
         <menu-option

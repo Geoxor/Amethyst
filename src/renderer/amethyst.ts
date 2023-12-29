@@ -19,6 +19,7 @@ import messages from "@intlify/unplugin-vue-i18n/messages";
 import { tauriUtils } from "@/tauri-utils";
 import { invoke } from "@tauri-apps/api/tauri";
 import { listen } from "@tauri-apps/api/event";
+import { useLocalStorage } from "@vueuse/core";
 
 export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale
@@ -27,6 +28,7 @@ export const i18n = createI18n({
 });
 
 export type AmethystPlatforms = ReturnType<typeof amethyst.getCurrentPlatform>;
+export const favoriteTracks = useLocalStorage<string[]>("favoriteTracks", []);
 
 /**
  * Handles interfacing with operating system and unifies methods 

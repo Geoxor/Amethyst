@@ -4,8 +4,8 @@ import DropdownInput from "@/components/v2/DropdownInput.vue";
 import SettingsSetting from "@/components/v2/SettingsSetting.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
-import { BugIcon, LargeIconsIcon, WaterIcon, SkipIcon, EyeIcon, SearchIcon, SpinIcon, OpacityIcon, FogIcon } from "@/icons";
-import { BLEND_MODES } from "@shared/constants";
+import { BoldIcon, BugIcon, EyeIcon, FogIcon, LargeIconsIcon, OpacityIcon, SearchIcon, SkipIcon, SpinIcon, WaterIcon } from "@/icons";
+import { BLEND_MODES, FONT_WEIGHTS } from "@shared/constants";
 const state = useState();
 
 </script>
@@ -21,6 +21,16 @@ const state = useState();
       :min="0"
       :max="300"
       :step="10"
+    />
+  </settings-setting>
+  <settings-setting
+    :title="$t('settings.font_weight.title')"
+    :description="$t('settings.font_weight.description')"
+    :icon="BoldIcon"
+  >
+    <dropdown-input
+      v-model="state.settings.value.fontWeight"
+      :options="FONT_WEIGHTS"
     />
   </settings-setting>
   <settings-setting
@@ -68,7 +78,7 @@ const state = useState();
             v-model="state.settings.value.ambientBackgroundOpacity"
             :min="0"
             :max="100"
-            :step="1"
+            :step="2.5"
           />
         </settings-setting>
         <settings-setting
@@ -81,7 +91,7 @@ const state = useState();
             v-model="state.settings.value.ambientBackgroundBlurStrength"
             :min="0"
             :max="128"
-            :step="1"
+            :step="4"
           />
         </settings-setting>
         <settings-setting

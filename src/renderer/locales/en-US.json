@@ -1,4 +1,8 @@
 {
+  "route.queue": "Queue",
+  "route.favorites": "Favorites",
+  "route.audio_monitor": "Audio monitor",
+
   "menu.file": "File",
   "menu.file.open_audio": "Open audio...",
   "menu.file.open_audio_folder": "Open audio folder...",
@@ -19,31 +23,31 @@
   
   "menu.about": "About",
   "menu.about.documentation": "Documentation...",
-  "menu.about.github_repository": "GitHub Repository...",
-  "menu.about.discord_server": "Discord Server...",
+  "menu.about.github_repository": "GitHub repository...",
+  "menu.about.discord_server": "Discord server...",
 
   "search.placeholder": "Search",
 
-  "settings.local_sources.title": "Local Sources",
+  "settings.local_sources.title": "Local sources",
   "settings.local_sources.description": "Add local folders to your Amethyst library, these will update whenever Amethyst detects file changes in these folders",
   "settings.local_sources.add_folder": "Add folder",
   "settings.local_sources.view": "View",
   "settings.media_source_type.local_folder": "Local Folder",
 
   "settings.appearance.title": "Appearance",
-  "settings.appearance.description": "Customize background, themes, and accessibility",
+  "settings.appearance.description": "Customize background, themes and accessibility",
   
   "settings.performance.title": "Performance",
-  "settings.performance.description": "Fine-tune vsync, animations, and rendering",
+  "settings.performance.description": "Fine-tune vsync, animations and rendering",
   
   "settings.metering.title": "Metering",
-  "settings.metering.description": "Adjust spectrums, vectorscope, and meters",
+  "settings.metering.description": "Adjust spectrums, vectorscope and meters",
   
   "settings.audio.title": "Audio",
   "settings.audio.description": "Manage output devices and presets",
   
   "settings.media_sources.title": "Media Sources",
-  "settings.media_sources.description": "Organize folders, connect to servers, and more",
+  "settings.media_sources.description": "Organize folders, connect to servers and more",
   
   "settings.keybinds.title": "Keybinds",
   "settings.keybinds.description": "Customize key mappings for your experience",
@@ -51,6 +55,9 @@
   "settings.integrations.title": "Integrations",
   "settings.integrations.description": "Adjust Discord and other integrations",
   
+  "settings.font_weight.title": "Font weight",
+  "settings.font_weight.description": "How bold the font will be globally in the UI",
+
   "settings.application.title": "Application",
   "settings.application.description": "Manage updates and language preferences",
 
@@ -84,7 +91,7 @@
   "settings.cover_art.description": "Render the cover art near the playback controls located at the bottom of the interface",
 
   "settings.debug_stats.title": "Debug statistics",
-  "settings.debug_stats.description": "Show numbers such as samples, fps, processor usage and mroe at the top bar",
+  "settings.debug_stats.description": "Show numbers such as samples, fps, processor usage and more at the top bar",
   
   "settings.discord_rpc.description" : "Discord Rich Presence allows users to share their current activity on Amethyst with Discord. When enabled, the RPC feature updates the user's Discord status to show the version of Amethyst, currently playing song or playlist, along with the artist and album",
   
@@ -97,17 +104,19 @@
   "settings.language.title": "Language",
   "settings.language.description": "Change the language of the app",
 
-  "settings.fft_size.title": "FFT Size",
+  "settings.fft_size.title": "FFT size",
   "settings.fft_size.description": "Changes the Fast Fourier Transform window size, bigger values result in higher resolution data but with more latency",
 
-  "settings.decibel_meter.title": "Decibel Meter",
+  "settings.decibel_meter.title": "Decibel meter",
   "settings.decibel_meter.description": "Displays a visual representation of the sound level of the audio signal in decibels (dB). It displays the current sound level of the audio signal using a graph, where the y-axis represents the sound level in decibels. The decibel meter can be used to monitor the overall loudness of the audio signal and to ensure that it is within safe listening levels",
   "settings.decibel_meter.separate_pre_post.title": "Separate PRE and POST",
   "settings.decibel_meter.separate_pre_post.description": "Shows individual decibel meters, one for the signal before going into a node and one after",
   "settings.decibel_meter.minimum_db.title": "Minimum dB",
   "settings.decibel_meter.minimum_db.description": "Changes the lowest value the decibel meter will register",
+  "settings.decibel_meter.smoothing_duration.title" : "Smoothing duration",
+  "settings.decibel_meter.smoothing_duration.description" : "Smoothly animate between data-frames (useful for smoothing out small FFT sizes that create jitter)",
 
-  "settings.loudness_meter.title": "Loudness Meter",
+  "settings.loudness_meter.title": "Loudness meter",
   "settings.loudness_meter.description": "Displays a visual representation of the perceived loudness of the audio signal. The loudness meter is measured in Loudness Units Full Scale (LUFS), which is a standardized measurement of perceived loudness",
   
   "settings.vectorscope.title": "Vectorscope",
@@ -117,9 +126,9 @@
   "settings.vectorscope.line_thickness.title": "Line thickness",
   "settings.vectorscope.line_thickness.description": "Changes how thick / obvious the lines are",
 
-  "settings.spectrum_analyser.title": "Spectrum Analyser",
+  "settings.spectrum_analyser.title": "Spectrum analyzer",
   "settings.spectrum_analyser.description": "Displays a visual representation of the frequency content of the audio signal. It displays the frequency spectrum of the audio signal using a graph, where the x-axis represents the frequency range and the y-axis represents the amplitude. The spectrum analyzer can be used to analyze the frequency balance of the audio signal and to identify frequency peaks or notches",
-  "settings.spectrum_analyser.logarithmic_spectrum.title": "Logarithmic Spectrum",
+  "settings.spectrum_analyser.logarithmic_spectrum.title": "Logarithmic spectrum",
   "settings.spectrum_analyser.logarithmic_spectrum.description": "Use logarithmic scaling for frequencies",
 
   "settings.vsync.title": "VSync",

@@ -12,6 +12,7 @@ try {
 }
 
 fs.writeFileSync("./manifests/scoop/amethyst.json", JSON.stringify({
+  "$schema" : "https://raw.githubusercontent.com/ScoopInstaller/Scoop/master/schema.json",
   version,
   description,
   license,

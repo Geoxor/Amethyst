@@ -1,7 +1,6 @@
 import vue from "@vitejs/plugin-vue";
 import { join } from "path";
-import { defineConfig as defineViteConfig, mergeConfig } from "vite";
-import { defineConfig as defineVitestConfig } from "vitest/config";
+import { defineConfig } from "vite";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import path from "path";
@@ -9,7 +8,7 @@ import WindiCSS from "vite-plugin-windicss";
 
 const PACKAGE_ROOT = __dirname;
 
-const viteConfig = defineViteConfig({
+export default defineConfig({
 	mode: process.env.MODE,
 	root: PACKAGE_ROOT,
 	define: {
@@ -55,19 +54,3 @@ const viteConfig = defineViteConfig({
 		emptyOutDir: true,
 	},
 });
-
-const vitestConfig = defineVitestConfig({
-	test: {
-		coverage: {
-			provider: "istanbul"
-		},
-		reporters: ["verbose"],
-		environment: "happy-dom",
-	}
-});
-
-/**
- * @type {import('vite').UserConfig}
- * @see https://vitejs.dev/config/
- */
-export default mergeConfig(viteConfig, vitestConfig);

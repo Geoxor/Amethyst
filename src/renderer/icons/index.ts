@@ -28,6 +28,8 @@ import RocketIcon from "./RocketIcon.vue";
 import SambaIcon from "./SambaIcon.vue";
 import SampleRateIcon from "./SampleRateIcon.vue";
 import SearchIcon from "./SearchIcon.vue";
+import BoldIcon from "./BoldIcon.vue";
+import ClockIcon from "./ClockIcon.vue";
 import SettingsIcon from "./SettingsIcon.vue";
 import SineIcon from "./SineIcon.vue";
 import SkipIcon from "./SkipIcon.vue";
@@ -67,11 +69,13 @@ export {
   EyeIcon,
   FogIcon,
   SpinIcon,
-  WaterIcon,
+  WaterIcon, 
   OpacityIcon,
   DiscordIcon,
+  ClockIcon,
   AdjustIcon,
   AmethystIcon,
+  BoldIcon,
   AxisIcon,
   BugIcon,
   ChevronIcon,

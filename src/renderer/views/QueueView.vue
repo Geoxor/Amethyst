@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { amethyst, useState } from "@/amethyst";
 
-import LazyList from "@/components/LazyList.vue";
-import { AmethystIcon } from "@/icons";
-import { onMounted, onUnmounted, watch } from "vue";
+import BaseToolbarButton from "@/components/BaseToolbarButton.vue";
 import DroppableContainer from "@/components/DroppableContainer.vue";
+import LazyList from "@/components/LazyList.vue";
+import RouteHeader from "@/components/v2/RouteHeader.vue";
+import SearchInput from "@/components/v2/SearchInput.vue";
+import { AmethystIcon } from "@/icons";
 import { Track } from "@/logic/track";
 import { useLocalStorage } from "@vueuse/core";
-import BaseToolbarButton from "@/components/BaseToolbarButton.vue";
-import SearchInput from "@/components/v2/SearchInput.vue";
-import RouteHeader from "@/components/v2/RouteHeader.vue";
+import { onMounted, onUnmounted, watch } from "vue";
 const state = useState();
 const filterText = useLocalStorage("filterText", "");
 
@@ -35,7 +35,7 @@ onUnmounted(() => {
 
 <template>
   <droppable-container class="flex-col flex w-full py-2 gap-4 px-4 relative h-full">
-    <route-header title="Queue">
+    <route-header :title="$t('route.queue')">
       <search-input v-model="filterText" />
     </route-header>
 
@@ -44,7 +44,7 @@ onUnmounted(() => {
       :icon="AmethystIcon"
       :active="state.settings.value.followQueue"
       @click="state.settings.value.followQueue = !state.settings.value.followQueue;"
-    />
+    /> 
 
     <lazy-list
       :key="filterText.length"

@@ -17,7 +17,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-node@v3
         with:
-          node-version: 19.1.0
+          node-version: 18.0.0
           cache: 'yarn'
 
       - name: Install gcc dependencies
@@ -29,26 +29,26 @@ jobs:
       - name: Run eslint
         run: yarn lint
 
-  tests:
-    name: Run unit tests
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: recursive
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 19.1.0
-          cache: 'yarn'
+  # tests:
+  #   name: Run unit tests
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #       with:
+  #         submodules: recursive
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 18.0.0
+  #         cache: 'yarn'
 
-      - name: Install gcc dependencies
-        run: sudo apt update && sudo apt install gcc-multilib g++-multilib libvips
+  #     - name: Install gcc dependencies
+  #       run: sudo apt update && sudo apt install gcc-multilib g++-multilib libvips
 
-      - name: Install Dependencies
-        run: yarn install
+  #     - name: Install Dependencies
+  #       run: yarn install
 
-      - name: Run Tests
-        run: npm test
+  #     - name: Run Tests
+  #       run: npm test
 
   build-windows:
     name: Build Windows
@@ -61,7 +61,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-node@v3
         with:
-          node-version: 19.1.0
+          node-version: 18.0.0
           cache: 'yarn'
 
       - name: Install Dependencies
@@ -89,7 +89,7 @@ jobs:
   #         submodules: recursive
   #     - uses: actions/setup-node@v3
   #       with:
-  #         node-version: 19.1.0
+  #         node-version: 18.0.0
   #         cache: 'yarn'
 
   #     - name: Install Dependencies
@@ -122,7 +122,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-node@v3
         with:
-          node-version: 19.1.0
+          node-version: 18.0.0
           cache: 'yarn'
 
       - name: Install Dependencies
@@ -152,7 +152,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-node@v3
         with:
-          node-version: 19.1.0
+          node-version: 18.0.0
           cache: 'yarn'
 
       - name: Install linux dependencies

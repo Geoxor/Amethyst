@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import CustomNode from "@/components/nodes/CustomNode.vue";
+import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
 import { AmethystIcon } from "@/icons";
 import { AmethystSpectrumNode } from ".";
-import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
 defineProps<{ node: AmethystSpectrumNode }>();
 
 </script>
@@ -10,7 +10,7 @@ defineProps<{ node: AmethystSpectrumNode }>();
 <template>
   <CustomNode
     :node="node"
-    title="Spectrum Analyzer"
+    title="Spectrum analyzer"
     :icon="AmethystIcon"
   >
     <SpectrumAnalyzer

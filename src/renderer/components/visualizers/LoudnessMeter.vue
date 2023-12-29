@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { Ref, onMounted, ref } from "vue";
 // @ts-ignore no types
-import { LoudnessMeter } from "@domchristie/needles";
-import { infinityClamp, computeWidthPercentage } from "@/logic/math";
 import { amethyst } from "@/amethyst";
 import { smoothTween } from "@/logic/dom";
+import { computeWidthPercentage, infinityClamp } from "@/logic/math";
+import { LoudnessMeter } from "@domchristie/needles";
 
 const props = defineProps<{ node: AudioNode }>();
 
@@ -71,11 +71,11 @@ onMounted(async () => {
 </script>
 
 <template>
-  <div class="text-9px text-primary-900 w-full max-w-40 flex flex-col justify-between h-full py-0.5 disable-select no-drag">
+  <div class="text-9px text-text_subtitle w-full max-w-40 flex flex-col justify-between h-full py-0.5 disable-select no-drag">
     <div class="meter">
       <div class="barBg">
         <div
-          class="bar bg-cyan-400 duration-150"
+          class="bar bg-primary duration-100"
           :style="`width: ${computeWidthPercentage(MINIMUM_LUFS, 0, momentary)}%`"
         />
       </div>
@@ -88,14 +88,16 @@ onMounted(async () => {
           <p class="text-primary-900 text-opacity-50">
             max {{ momentaryMax.toFixed(2) }}
           </p> 
-          <p> {{ momentary.toFixed(2) }} LUFs </p>
+          <p class="text-text_title">
+            {{ momentary.toFixed(2) }} LUFs
+          </p>
         </div>
       </div>
     </div>
     <div class="meter">
       <div class="barBg">
         <div
-          class="bar bg-cyan-400 duration-500"
+          class="bar bg-primary duration-100"
           :style="`width: ${computeWidthPercentage(MINIMUM_LUFS, 0, shortTerm)}%`"
         />
       </div>
@@ -107,14 +109,16 @@ onMounted(async () => {
           <p class="text-primary-900 text-opacity-50">
             max {{ shortTermMax.toFixed(2) }}
           </p> 
-          <p> {{ shortTerm.toFixed(2) }} LUFs </p>
+          <p class="text-text_title">
+            {{ shortTerm.toFixed(2) }} LUFs
+          </p>
         </div>
       </div>
     </div>
     <div class="meter">
       <div class="barBg">
         <div
-          class="bar bg-cyan-400 duration-1000"
+          class="bar bg-primary duration-1000"
           :style="`width: ${computeWidthPercentage(MINIMUM_LUFS, 0, integrated)}%`"
         />
       </div>
@@ -126,7 +130,9 @@ onMounted(async () => {
           <p class="text-primary-900 text-opacity-50">
             max {{ integratedMax.toFixed(2) }}
           </p> 
-          <p> {{ integrated.toFixed(2) }} LUFs </p>
+          <p class="text-text_title">
+            {{ integrated.toFixed(2) }} LUFs
+          </p>
         </div>
       </div>
     </div>

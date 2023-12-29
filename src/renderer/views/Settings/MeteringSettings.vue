@@ -4,11 +4,11 @@ import { useState } from "@/amethyst";
 // import BaseSwitch from "@/components/input/BaseSwitch.vue";
 // import SettingsGroup from "@/components/settings/SettingsGroup.vue";
 // import SettingsModifier from "@/components/settings/SettingsModifier.vue";
-import {AxisIcon, SineIcon, VoltmeterIcon, WaveIcon} from "@/icons";
-import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
+import DropdownInput from "@/components/v2/DropdownInput.vue";
 import SettingsSetting from "@/components/v2/SettingsSetting.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
-import DropdownInput from "@/components/v2/DropdownInput.vue";
+import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
+import { AxisIcon, ClockIcon, SineIcon, VoltmeterIcon, WaveIcon } from "@/icons";
 import { FFT_SIZES } from "@shared/constants";
 const state = useState();
 
@@ -33,6 +33,7 @@ const state = useState();
             v-model="state.settings.value.decibelMeterSeperatePrePost"
           />
         </settings-setting>
+
         <settings-setting
           subsetting
           :title="$t('settings.decibel_meter.minimum_db.title')"
@@ -56,6 +57,19 @@ const state = useState();
             v-model="state.settings.value.decibelMeterFftSize"
             :options="FFT_SIZES"
             suffix="smp"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.decibel_meter.smoothing_duration.title')"
+          :description="$t('settings.decibel_meter.smoothing_duration.description')"
+          :icon="ClockIcon"
+        >
+          <slider-input
+            v-model="state.settings.value.meterSmoothingDuration"
+            :min="0"
+            :max="300"
+            :step="10"
           />
         </settings-setting>
       </div>
