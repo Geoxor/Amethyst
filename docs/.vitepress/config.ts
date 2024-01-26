@@ -213,6 +213,76 @@ export default defineConfig({
         ],
       }
     },
+    "fr": { 
+      label: "Français",
+      title: "Amethyst",
+      description: "Un lecteur audio performant basé sur des nœuds, développé sur la Web Platform.",
+      lang: "fr",
+      themeConfig: {
+        footer: {
+          message: "Fais avec la perte de nombreux neurones 🧠"
+        },
+        socialLinks: [
+          {
+            link: "https://discord.gg/geoxor",
+            icon: "discord"
+          },
+          {
+            link: "https://github.com/Geoxor/amethyst",
+            icon: "github"
+          },
+        ],
+        editLink: {
+          pattern: 'https://github.com/Geoxor/amethyst/tree/master/docs/:path'
+        },
+        siteTitle: "Amethyst",
+        logo: "/icon.svg",
+        nav: [
+          { text: "Documentation", link: "/introduction" },
+          { text: "Télécharger", link: "/installation/package_managers" },
+        ],
+        sidebar: [
+          {
+            text: 'Installation',
+            items: [
+              { text: 'Gestionnaires de paquets', link: '/installation/package_managers' },
+            ]
+          },
+          {
+            text: 'Développement',
+            items: [
+              { text: 'Configurer un environnement de développement', link: '/developing/setting_up_environment' },
+              { text: 'Sur ordinateur', link: '/developing/desktop_development' },
+              { text: 'Android', link: '/developing/android_development' },
+              { text: 'Documentation', link: '/developing/documentation_development' },
+            ]
+          },
+          {
+            text: 'Types de fichiers',
+            items: [
+              { text: 'Graphe de nœuds Amethyst (.ang)', link: '/file_types/ang' },
+              { text: 'Fichier Metadata Amethyst (.amf)', link: '/file_types/amf' },
+            ]
+          },
+          {
+            text: 'Composants',
+            items: [
+              { text: 'Vecteurscope', link: '/components/vectorscope' },
+            ]
+          },
+          {
+            text: 'Les nœuds audio',
+            collapsible: true,
+            items: [
+              { text: "<img align='left' src='/input_icon.svg' style='margin-right: 6px;' width='20'/> Nœud d'entrée", link: "/nodes/input_node" },
+              { text: "<img align='left' src='/master_icon.svg' style='margin-right: 6px;' width='20'/> Nœud principal", link: "/nodes/master_node" },
+              { text: "<img align='left' src='/output_icon.svg' style='margin-right: 6px;' width='20'/> Nœud de sortie", link: "/nodes/output_node" },
+              { text: "<img align='left' src='/filter_icon.svg' style='margin-right: 6px;' width='20'/> Nœud de filtrage", link: "/nodes/filter_node" },
+            ]
+          }
+        ]
+      }
+    },
     'fi': {
       label: "Suomi",
       lang: 'fi',
