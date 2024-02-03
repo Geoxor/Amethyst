@@ -1,6 +1,5 @@
 <script lang="ts" setup>
 import { amethyst, useState } from "@/amethyst";
-import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
 import ControlButtons from "@/components/input/ControlButtons.vue";
 import UpdateButton from "@/components/input/UpdateButton.vue";
 import Menu from "@/components/menu/MenuContainer.vue";
@@ -20,12 +19,6 @@ const fps = ref(0);
 const tweenedFps = ref(0);
 const domSize = ref(0);
 const latency = ref(0);
-const cpuUsage = ref({
-  node: 0,
-  renderer: 0
-});
-
-type ProcessorUsage = {node: number, renderer: number};
 
 onMounted(() => {
   setInterval(() => {
@@ -35,9 +28,6 @@ onMounted(() => {
     domSize.value = countDomElements();
     amethyst.player.getLatency().then(l => latency.value = l);
     // TODO: multiplatform support
-    if (amethyst.getCurrentPlatform() === "desktop") {
-      window.electron.ipcRenderer.invoke<ProcessorUsage>("percent-cpu-usage").then(usage => cpuUsage.value = usage);
-    }
     smoothTween(tweenedFps.value, fpsCounter.value, 1000, (tweenedNumber => tweenedFps.value = ~~tweenedNumber));
 
   }, 1000);
@@ -235,13 +225,6 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
         @click="amethyst.performWindowAction('close')"
       />
         
-      <template v-if="state.settings.value.showDebugStats">
-        <processor-usage-meter
-          v-for="value of Object.values(cpuUsage)"
-          :key="value"
-          :value="value"
-        />
-      </template>
       <control-buttons
         v-if="amethyst.getCurrentPlatform() === 'desktop' && amethyst.getCurrentOperatingSystem() != 'mac'"
         :is-maximized="state.state.isMaximized"
