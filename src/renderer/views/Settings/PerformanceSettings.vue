@@ -21,25 +21,19 @@ const maxFps = ref(Number.NEGATIVE_INFINITY);
 const currentFps = ref(-1);
 const audioLatency = ref(-1);
 const tweenedFps = ref(-1);
-
 const appMetrics = ref<Electron.ProcessMetric[]>([]);
 
 onMounted(() => {
   const fpsCounter = useFps({every: 30});
-
   setInterval(() => {
     currentFps.value = fpsCounter.value;
     if (currentFps.value > maxFps.value) maxFps.value = currentFps.value;
     if (currentFps.value < minFps.value) minFps.value = currentFps.value;
     amethyst.player.getLatency().then(l => audioLatency.value = l);
     smoothTween(tweenedFps.value, fpsCounter.value, 1000, (tweenedNumber => tweenedFps.value = ~~tweenedNumber));
-
     window.electron.ipcRenderer.invoke<Electron.ProcessMetric[]>("get-app-metrics").then(data => {
       appMetrics.value = data;
-      console.log(data);
-      
     });
-
   }, 1000);
 });
 
