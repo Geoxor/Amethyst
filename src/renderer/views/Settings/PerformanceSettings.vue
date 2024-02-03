@@ -82,6 +82,8 @@ onMounted(() => {
             :text="metric.name || metric.serviceName || metric.type"
             class="text-12px"
           />
+          <!-- These are in KB so we multiplty by 1024 to turn them into bytes for our function to parse properly -->
+          <!-- https://www.electronjs.org/docs/latest/api/structures/memory-info -->
           <subtitle-text
             :text="bytesToHuman(metric.memory.workingSetSize * 1024)"
             class="text-12px"
