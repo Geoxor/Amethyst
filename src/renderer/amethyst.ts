@@ -260,14 +260,7 @@ export class Amethyst extends AmethystBackend {
       event.preventDefault();
       event.stopPropagation();
 
-      amethyst.player.queue.add(Array.from(event.dataTransfer!.files).filter(f => {
-        const path = f.path;
-        const fileExt = path.split(".").pop();
-        if (ALLOWED_EXTENSIONS.includes((fileExt ?? "").toLowerCase())) {
-          return true;
-        }
-        return false;
-      }).map(f => f.path));
+      FileIO.redirect(Array.from(event.dataTransfer!.files).map(file => file.path));
       amethyst.player.play(amethyst.player.queue.getList()[amethyst.player.queue.getList().length - 1]);
     });
 
