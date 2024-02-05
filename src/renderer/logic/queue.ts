@@ -91,11 +91,10 @@ export class Queue {
 
   /**
    * Adds a track to the queue
-   * @param path A filepath to the track
+   * @param paths A filepath to the track
    */
-  public async add(path: string | string[]) {
-    const paths = Array.from(path);
-    paths.forEach(path => this.list.value.set(path, new Track(path)));
+  public async add(files: string | string[]) {
+    (new Array<string>).concat(files).forEach(path => this.list.value.set(path, new Track(path)));
     await this.fetchAsyncData();
     this.syncLocalStorage();
   }
