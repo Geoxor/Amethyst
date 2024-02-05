@@ -143,7 +143,7 @@ export class Track {
       metadata.common.picture = [];
     }
 
-    FileIO.WriteFile(this.getCachePath(true), JSON.stringify({
+    FileIO.writeFile(this.getCachePath(true), JSON.stringify({
       cover,
       metadata,
     }, null, 2)).catch(console.log);

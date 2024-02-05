@@ -2,8 +2,9 @@ import { PathLike } from "fs";
 import { Playlist } from "../playlist";
 import { ALLOWED_AUDIO_EXTENSIONS, ALLOWED_EXTENSIONS, ALLOWED_PLAYLIST_FORMATS, AMETHYST_PLAYLIST_EXTENSION } from "@shared/constants";
 import { amethyst } from "@/amethyst";
+import fs from "fs";
 
-/** A simple class that contains specific functions for paths, file input and output */
+/** A simple class that contains functions for paths, file input and output */
 export abstract class FileIO {
 
     /**
@@ -24,6 +25,10 @@ export abstract class FileIO {
      */
     public static readPlaylist(path: PathLike): Playlist | undefined { // TODO:
         return undefined;
+    }
+
+    public static async writeFile(path: PathLike, data: String) {
+        fs.promises.writeFile(path, data).catch(error => console.log(error));
     }
 
     /**
@@ -64,7 +69,7 @@ export abstract class FileIO {
      * @returns the extension of the given path
      */
     public static getExtension(path: PathLike): string | undefined {
-        if (path.toString().includes(".")){
+        if (path.toString().includes(".")) {
             const split = path.toString().split(".");
             return split[split.length - 1].toLowerCase();
         } else {
@@ -75,13 +80,14 @@ export abstract class FileIO {
     /**
      * Redirects audio files to player queue and playlist files will be added to playlists
      * @param paths the path(s) that should be redirected
-     */
-    public static async redirect(paths: string | string[]) { // TODO: Playlist support
-        Array.from(paths).forEach(path => {
+    */
+    // TODO: Playlist support
+    public static async redirect(paths: string | string[]) {
+        (new Array<PathLike>).concat(paths).forEach(async path => {
             const extension = this.getExtension(path);
             if (extension) {
                 if (ALLOWED_AUDIO_EXTENSIONS.includes(extension)) {
-                    amethyst.player.queue.add(path);
+                    amethyst.player.queue.add(path.toString());
                 } else if (ALLOWED_PLAYLIST_FORMATS.includes(extension)) {
                     // TODO: Open playlist
                 } else if (AMETHYST_PLAYLIST_EXTENSION == extension) {
@@ -90,6 +96,9 @@ export abstract class FileIO {
                     // TODO: Default operation
                 }
             } else {
+                if ((await fs.promises.stat(path)).isDirectory()) {
+                    console.log("is dir");
+                }
                 // TODO: path with no extensions (possibly folder)
             }
         });
