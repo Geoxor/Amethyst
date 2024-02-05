@@ -8,7 +8,6 @@ import { ALLOWED_EXTENSIONS } from "../shared/constants";
 import {sleep} from "../shared/logic";
 import { IS_DEV, store } from "./main";
 import windowStateKeeper from "electron-window-state";
-import { FileIO } from "../renderer/logic/io/FileIO";
 
 export const APP_VERSION = app.isPackaged ? app.getVersion() : process.env.npm_package_version ?? "0.0.0";
 export const METADATA_CACHE_PATH = path.join(app.getPath("appData"), "/amethyst/Metadata Cache");
@@ -214,8 +213,11 @@ export class MainWindow {
 						if (stats.isDirectory()) {
 							return this.loadFolder(filePath, filter);
 						}
-						else if (stats.isFile() && FileIO.extensionAllowed(filePath, filter[0].extensions)) {
-							return filePath;
+						else if (stats.isFile()) {
+							const extensions = filter[0].extensions;
+							if (extensions.includes(path.extname(filePath).slice(1).toLowerCase())) {
+								return filePath;
+							}
 						}
 						return;
 					}),
