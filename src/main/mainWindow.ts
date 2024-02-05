@@ -259,6 +259,10 @@ export class MainWindow {
 				// return {canceled: false, filePaths: await this.loadFolder(result.filePaths[0], filter) };
 			},
 
+			"get-app-metrics": async () => {
+				return app.getAppMetrics();
+			},
+			
 			"fetch-folder-content": async (_: Event, [path, filter]: [string, Electron.FileFilter[]]) => {
 				return this.loadFolder(path, filter);
 			},
