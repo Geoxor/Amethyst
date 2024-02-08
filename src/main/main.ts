@@ -29,21 +29,54 @@ else {
 	app.whenReady()
 		.then(() => {
 
-			// Disables default zoom shortcuts because we remove the default menu actions
-			Menu.setApplicationMenu(Menu.buildFromTemplate([ {
-				label: "View",
-				submenu: [
-					{ role: "reload" },
-					{ role: "forceReload" },
-					{ role: "toggleDevTools" },
-					{ type: "separator" },
-					{ role: "resetZoom", enabled: true },
-					{ role: "zoomIn", enabled: false },
-					{ role: "zoomOut", enabled: false },
-					{ type: "separator" },
-					{ role: "togglefullscreen" },
-				],
-			},]));
+			if (process.platform === 'darwin') {
+				Menu.setApplicationMenu(Menu.buildFromTemplate([ 
+					{
+						label: app.name,
+						submenu: [
+							{ role: 'about' },
+							{ type: 'separator' },
+							{ role: 'services' },
+							{ type: 'separator' },
+							{ role: 'hide' },
+							{ role: 'hideOthers' },
+							{ role: 'unhide' },
+							{ type: 'separator' },
+							{ role: 'quit' }
+						  ],
+					},
+					{
+						label: "View",
+						submenu: [
+							{ role: "reload" },
+							{ role: "forceReload" },
+							{ role: "toggleDevTools" },
+							{ type: "separator" },
+							{ role: "resetZoom", enabled: true },
+							{ role: "zoomIn", enabled: false },
+							{ role: "zoomOut", enabled: false },
+							{ type: "separator" },
+							{ role: "togglefullscreen" },
+						],
+					}
+				]));
+			} else {
+				// Disables default zoom shortcuts because we remove the default menu actions
+				Menu.setApplicationMenu(Menu.buildFromTemplate([ {
+					label: "View",
+					submenu: [
+						{ role: "reload" },
+						{ role: "forceReload" },
+						{ role: "toggleDevTools" },
+						{ type: "separator" },
+						{ role: "resetZoom", enabled: true },
+						{ role: "zoomIn", enabled: false },
+						{ role: "zoomOut", enabled: false },
+						{ type: "separator" },
+						{ role: "togglefullscreen" },
+					],
+				},]));
+			}
 
 			const useVsync = store.get("useVsync", true);
 			if (useVsync) {
