@@ -48,7 +48,7 @@ export class Track {
   }
 
   private async fetchCache() {
-    return (await fetch(this.getCachePath())).json();
+    return (JSON.parse(await window.fs.readFile(this.getCachePath(true), 'utf-8')));
   }
 
   public async delete() {
