@@ -3,7 +3,7 @@
 ![Discord](https://img.shields.io/discord/385387666415550474?label=Discord&logo=discord&style=flat)
 ![GitHub repo size](https://img.shields.io/github/repo-size/geoxor/amethyst?label=Size)
 
-**English** | [简体中文](./README-zh.md) | [Русский](./README-ru.md) | [Polski](./README-pl.md)
+**English** | [简体中文](./README-zh.md) | [Русский](./README-ru.md) | [Polski](./README-pl.md) | [Türkçe](./README-tr.md)
 
 # Amethyst 
 
