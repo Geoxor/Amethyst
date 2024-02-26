@@ -15,7 +15,7 @@ Amethyst est un lecteur audio basé sur [Electron](https://electronjs.org/) avec
 
 
 ## 📝 Pour contribuer
-- Avoir installé `Node.js v19.1.0`
+- Installez `Node.js v19.1.0`
 - Utilisez les `recommended extensions` (extensions recommandées)
 - Avoir installé `libvips` pour Linux
 - Avoir installé `yarn`
