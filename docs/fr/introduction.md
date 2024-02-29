@@ -7,7 +7,7 @@ Amethyst est un lecteur audio basé sur [Electron](https://electronjs.org/) avec
 
 ![Amethyst](https://cdn.discordapp.com/attachments/667464431562653706/1043343748593107004/image.png)
 
-## Features
+## Fonctionnalités
 - Support des images d'album [GIF](https://en.wikipedia.org/wiki/GIF)
 - Décibel-mètre à [canaux multiples](https://en.wikipedia.org/wiki/Surround_sound) (jusqu'à 9.1.6)
 - [Spectre audio](https://en.wikipedia.org/wiki/Spectrum_analyzer) à très haute fréquence d'images

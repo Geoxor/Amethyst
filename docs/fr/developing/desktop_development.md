@@ -18,7 +18,7 @@ $ yarn package
 
 ### Linux
 
-::: attention
+::: warning
 Si vous êtes sur Linux, `yarn package` va essayer de compiler pour
 `AppImage`, `deb`, `rpm` et `snap`.
 Il est très probable que cela échoue, car il vous manquera les dépendances nécessaires pour les compiler.
