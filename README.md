@@ -1,4 +1,4 @@
-<img align="left" src="https://media.discordapp.net/attachments/667464431562653706/1025732056124235826/icon.png?width=128&height=128">
+<img align="left" src="https://github.com/Geoxor/Amethyst/blob/master/assets/icon.png?raw=true" width="128">
 
 ![Discord](https://img.shields.io/discord/385387666415550474?label=Discord&logo=discord&style=flat)
 ![GitHub repo size](https://img.shields.io/github/repo-size/geoxor/amethyst?label=Size)
