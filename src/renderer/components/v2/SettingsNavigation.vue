@@ -6,59 +6,59 @@ import { AddIcon, AmethystIcon, KeyboardIcon, SSDIcon, SpeakerIcon, SpeedometerI
 <template>
   <div class="flex w-min flex-col">
     <settings-category
-      title="Appearance"
+      :title="$t('settings.appearance.title')"
       route-name="settings.appearance"
       :active="false"
-      description="Customize background, themes and accessibility"
+      :description="$t('settings.appearance.description')"
       :icon="SwatchesIcon"
     />
     <settings-category
       route-name="settings.performance"
-      title="Performance"
+      :title="$t('settings.performance.title')"
       :active="false"
-      description="Fine-tune vsync, animations and rendering"
+      :description="$t('settings.performance.description')"
       :icon="SpeedometerIcon"
     />
     <settings-category
       route-name="settings.metering"
-      title="Metering"
+      :title="$t('settings.metering.title')"
       :active="false"
-      description="Adjust spectrums, vectorscope and meters"
+      :description="$t('settings.metering.description')"
       :icon="VoltmeterIcon"
     />
     <settings-category
       route-name="settings.audio"
-      title="Audio"
+      :title="$t('settings.audio.title')"
       :active="false"
-      description="Manage output devices and presets"
+      :description="$t('settings.audio.description')"
       :icon="SpeakerIcon"
     />
     <settings-category
       route-name="settings.media_sources"
-      title="Media Sources"
+      :title="$t('settings.media_sources.title')"
       :active="false"
-      description="Organize folders, connect to servers and more"
+      :description="$t('settings.media_sources.description')"
       :icon="SSDIcon"
     />
     <settings-category
       route-name="settings.keybinds"
-      title="Keybinds"
+      :title="$t('settings.keybinds.title')"
       :active="false"
-      description="Customize key mappings for your experience"
+      :description="$t('settings.keybinds.description')"
       :icon="KeyboardIcon"
     />
     <settings-category
       route-name="settings.integrations"
-      title="Integrations"
+      :title="$t('settings.integrations.title')"
       :active="false"
-      description="Adjust Discord and other integrations"
+      :description="$t('settings.integrations.description')"
       :icon="AddIcon"
     />
     <settings-category
       route-name="settings.application"
-      title="Application"
+      :title="$t('settings.application.title')"
       :active="false"
-      description="Manage updates and language preferences"
+      :description="$t('settings.application.description')"
       :icon="AmethystIcon"
     />
   </div>

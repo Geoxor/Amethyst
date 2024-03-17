@@ -91,18 +91,17 @@ export class Queue {
 
   /**
    * Adds a track to the queue
-   * @param path A filepath to the track
+   * @param item A filepath to the track
    */
-  public async add(path: string | string[]) {
-    if (path instanceof Array) {
-      path.forEach(path => this.list.value.set(path, new Track(path)));
-      await this.fetchAsyncData();
-    } else {
-      const track = new Track(path);
-      this.list.value.set(path, track);
-      await track.fetchAsyncData();
+  public async add(item: (string | string[]) | Track) {
+    if (item instanceof Track) {
+      this.list.value.set(item.path, item);
     }
-
+    else {
+      const paths = Array.from(item);
+      paths.forEach(path => this.list.value.set(path, new Track(path)));
+    }
+    
     this.syncLocalStorage();
   }
 

@@ -1,19 +1,20 @@
 <script setup lang="ts">
 import { amethyst, useState } from "@/amethyst";
-import TopBar from "@/components/TopBar.vue";
-import {InspectorBar, useInspector} from "@/components/Inspector";
-import DbMeter from "@/components/visualizers/DbMeter.vue";
-import NavigationBar from "@/components/NavigationBar.vue";
-import PlaybackButtons from "@/components/PlaybackButtons.vue";
-import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
-import CoverArt from "@/components/CoverArt.vue";
 import { ContextMenu, useContextMenu } from "@/components/ContextMenu";
-import {SpectrumAnalyzer} from "@/components/visualizers/SpectrumAnalyzer";
-import { onMounted, onUnmounted, ref } from "vue";
-import { Track } from "@/logic/track";
+import CoverArt from "@/components/CoverArt.vue";
+import { InspectorBar, useInspector } from "@/components/Inspector";
+import NavigationBar from "@/components/NavigationBar.vue";
 import NavigationButton from "@/components/NavigationButton.vue";
+import PlaybackButtons from "@/components/PlaybackButtons.vue";
+import TopBar from "@/components/TopBar.vue";
+import DbMeter from "@/components/visualizers/DbMeter.vue";
+import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
+import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 import { AdjustIcon, AmethystIcon, CompassIcon, HeartIcon, ListIcon, PlaylistIcon, SettingsIcon } from "@/icons";
+import { Track } from "@/logic/track";
+import { onMounted, onUnmounted, ref } from "vue";
 import LoudnessMeter from "./components/visualizers/LoudnessMeter.vue";
+import { router } from "./router";
 
 const state = useState();
 const ambientBackgroundImage = ref("");
@@ -214,7 +215,7 @@ onUnmounted(() => {
 
       <div
         v-if="state.settings.value.showPlaybackControls"
-        class="flex gap-2 items-center p-2 bg-surface-800  relative"
+        class="flex gap-2 items-center p-2 relative"
         :class="[amethyst.getCurrentPlatform() === 'mobile' && 'mb-8 pb-6']"
       >
         <db-meter
@@ -226,15 +227,18 @@ onUnmounted(() => {
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide decibel meter', icon: AmethystIcon, action: () => state.settings.value.showDbMeter = false },
           ]);"
+          @click="router.push({name: 'audio-monitor'})"
         />
         <db-meter
           v-if="state.settings.value.showDbMeter && amethyst.player.source"
           :key="amethyst.player.nodeManager.getNodeConnectinsString()"
           :node="amethyst.player.nodeManager.master.post"
+          post
           :channels="amethyst.player.getCurrentTrack()?.getChannels()"
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide decibel meter', icon: AmethystIcon, action: () => state.settings.value.showDbMeter = false },
           ]);"
+          @click="router.push({name: 'audio-monitor'})"
         />
 
         <loudness-meter 
@@ -305,13 +309,18 @@ onUnmounted(() => {
 }
 
 @font-face {
+  font-family: "zen-dots";
+  src: url("../../assets/fonts/zen-dots.ttf");
+}
+
+@font-face {
   font-family: "aseprite";
   src: url("../../assets/fonts/aseprite-remix.ttf");
 }
 
 * {
   cursor: url("./cursors/default.png"), auto;
-  font-family: "jost";
+  font-family: jost;
 }
 
 *.font-aseprite {
@@ -319,16 +328,25 @@ onUnmounted(() => {
   @apply text-7px;
 }
 
+*.font-zen-dots {
+  font-family: "zen-dots";
+  @apply text-20px;
+}
+
 *.font-aseprite * {
   font-family: "aseprite";
 }
 
-:root {
-  --transition-duration: 100ms; 
-}
-
 *.duration-user-defined {
   transition-duration: var(--transition-duration);
+}
+
+*.duration-meter-user-defined {
+  transition-duration: var(--smoothing-duration);
+}
+
+*.font-weight-user-defined {
+  font-weight: var(--font-weight);
 }
 
 .cursor-pointer,

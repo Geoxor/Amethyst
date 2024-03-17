@@ -1,18 +1,18 @@
 <script setup lang="ts">
 import { amethyst, useState } from "@/amethyst";
+import BaseToolbar from "@/components/BaseToolbar.vue";
 import BaseToolbarButton from "@/components/BaseToolbarButton.vue";
+import BaseToolbarSplitter from "@/components/BaseToolbarSplitter.vue";
+import { useContextMenu } from "@/components/ContextMenu";
 import { AmethystIcon } from "@/icons";
+import { AmethystAudioNode } from "@/logic/audio";
 import { getThemeColorHex } from "@/logic/color";
+import { AmethystEightBandEqualizerNode, AmethystFilterNode, AmethystGainNode, AmethystPannerNode, AmethystSpectrumNode } from "@/nodes";
+import { Coords } from "@shared/types";
 import { Background, BackgroundVariant } from "@vue-flow/additional-components";
 import { Connection, EdgeMouseEvent, NodeDragEvent, VueFlow } from "@vue-flow/core";
 import { onKeyStroke } from "@vueuse/core";
 import { computed, onMounted, onUnmounted, ref } from "vue";
-import { AmethystPannerNode, AmethystGainNode, AmethystSpectrumNode, AmethystFilterNode, AmethystEightBandEqualizerNode } from "@/nodes";
-import { AmethystAudioNode } from "@/logic/audio";
-import { Coords } from "@shared/types";
-import { useContextMenu } from "@/components/ContextMenu";
-import BaseToolbar from "@/components/BaseToolbar.vue";
-import BaseToolbarSplitter from "@/components/BaseToolbarSplitter.vue";
 const dash = ref();
 const nodeEditor = ref();
 type NodeMenuOptions = Coords & {source?: AmethystAudioNode, target?: AmethystAudioNode};
@@ -64,7 +64,7 @@ const getDashCoords = () => {
   }
 
   // 3d matrices have 16 values
-  // The 13th, 14th, and 15th values are X, Y, and Z
+  // The 13th, 14th and 15th values are X, Y and Z
   if (matrixType === "3d") {
     return {
       x: parseFloat(matrixValues![12]),
@@ -173,7 +173,7 @@ const handleConnect = (e: Connection) => {
 };
 
 const handleOpenFile = async () => {
-  const result = await amethyst.openFileDialog([{name: "Amethyst Node Graph", extensions: ["ang"]}]);
+  const result = await amethyst.showOpenFileDialog({filters: [{name: "Amethyst Node Graph", extensions: ["ang"]}]});
   if (result.canceled) return;
   
   fetch(result.filePaths[0])

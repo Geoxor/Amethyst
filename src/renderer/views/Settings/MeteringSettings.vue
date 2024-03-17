@@ -4,10 +4,14 @@ import { useState } from "@/amethyst";
 // import BaseSwitch from "@/components/input/BaseSwitch.vue";
 // import SettingsGroup from "@/components/settings/SettingsGroup.vue";
 // import SettingsModifier from "@/components/settings/SettingsModifier.vue";
-import {AxisIcon, SineIcon, VoltmeterIcon, WaveIcon} from "@/icons";
-import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
+import DropdownInput from "@/components/v2/DropdownInput.vue";
 import SettingsSetting from "@/components/v2/SettingsSetting.vue";
+import SliderInput from "@/components/v2/SliderInput.vue";
+import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
+import { AxisIcon, ClockIcon, SineIcon, VoltmeterIcon, WaveIcon } from "@/icons";
+import { FFT_SIZES } from "@shared/constants";
 const state = useState();
+
 </script>
 
 <template>
@@ -27,6 +31,45 @@ const state = useState();
         >
           <toggle-switch
             v-model="state.settings.value.decibelMeterSeperatePrePost"
+          />
+        </settings-setting>
+
+        <settings-setting
+          subsetting
+          :title="$t('settings.decibel_meter.minimum_db.title')"
+          :description="$t('settings.decibel_meter.minimum_db.description')"
+          :icon="VoltmeterIcon"
+        >
+          <slider-input
+            v-model="state.settings.value.decibelMeterMinimumDb"
+            :min="-90"
+            :max="-6"
+            :step="1"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.fft_size.title')"
+          :description="$t('settings.fft_size.description')"
+          :icon="VoltmeterIcon"
+        >
+          <dropdown-input
+            v-model="state.settings.value.decibelMeterFftSize"
+            :options="FFT_SIZES"
+            suffix="smp"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.decibel_meter.smoothing_duration.title')"
+          :description="$t('settings.decibel_meter.smoothing_duration.description')"
+          :icon="ClockIcon"
+        >
+          <slider-input
+            v-model="state.settings.value.meterSmoothingDuration"
+            :min="0"
+            :max="300"
+            :step="10"
           />
         </settings-setting>
       </div>
@@ -59,6 +102,31 @@ const state = useState();
             v-model="state.settings.value.lissajousVectorscope"
           />
         </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.vectorscope.line_thickness.title')"
+          :description="$t('settings.vectorscope.line_thickness.description')"
+          :icon="VoltmeterIcon"
+        >
+          <slider-input
+            v-model="state.settings.value.vectorscopeLineThickness"
+            :min="0.1"
+            :max="10"
+            :step="1"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.fft_size.title')"
+          :description="$t('settings.fft_size.description')"
+          :icon="VoltmeterIcon"
+        >
+          <dropdown-input
+            v-model="state.settings.value.vectorscopeFftSize"
+            :options="FFT_SIZES"
+            suffix="smp"
+          />
+        </settings-setting>
       </div>
     </template>
   </settings-setting>
@@ -79,6 +147,18 @@ const state = useState();
         >
           <toggle-switch
             v-model="state.settings.value.useLogarithmicSpectrum"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.fft_size.title')"
+          :description="$t('settings.fft_size.description')"
+          :icon="VoltmeterIcon"
+        >
+          <dropdown-input
+            v-model="state.settings.value.spectrumFftSize"
+            :options="FFT_SIZES"
+            suffix="smp"
           />
         </settings-setting>
       </div>

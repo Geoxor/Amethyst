@@ -2,6 +2,7 @@
 import { computed } from "vue";
 import TitleSubtitle from "./TitleSubtitle.vue";
 import { useRoute } from "vue-router";
+import { amethyst } from "@/amethyst";
 const route = useRoute();
 const props = defineProps<{title: string, description?: string, icon: any, routeName: string}>();
 const isActive = computed(() => route.name?.toString().startsWith(props.routeName) || props.routeName === route.name);
@@ -10,8 +11,8 @@ const isActive = computed(() => route.name?.toString().startsWith(props.routeNam
 
 <template>
   <button
-    :class="isActive && 'active'"
-    class="duration-user-defined flex w-full gap-4 cursor-pointer bg-transparent text-text_title min-h-52px items-center py-2 px-4 rounded-8px"
+    :class="[isActive && 'active', amethyst.store.settings.value.neonMode && 'neonMode']"
+    class="duration-user-defined flex relative w-full gap-4 cursor-pointer bg-transparent text-text_title min-h-52px items-center py-2 px-4 rounded-8px"
     @click="$router.push({ name: routeName })"
   >
     <component
@@ -22,29 +23,72 @@ const isActive = computed(() => route.name?.toString().startsWith(props.routeNam
       :title="title"
       :subtitle="description"
     />
+    <div
+      v-if="amethyst.store.settings.value.neonMode"
+      class="blurLayer w-full opacity-0 duration-user-defined z-0 bg-primary filter h-full absolute top-0 left-0 blur-16px"
+    />
   </button>
 </template>
 
 <style scoped lang="postcss">
 
-button:hover:not(.active) {
-  @apply bg-primary bg-opacity-15 text-primary;
-
-  &::v-deep(h1) {
-    @apply text-primary;
+button {
+  @apply border-transparent;
+  &.neonMode {
+    @apply border-2 py-1 px-4;
   }
-  &::v-deep(p) {
-    @apply text-primary;
-    @apply text-opacity-75;
+
+  &:not(.neonMode):hover:not(.active) {
+    @apply bg-primary bg-opacity-15 text-primary;
+
+    &::v-deep(h1),
+    &::v-deep(p) {
+      @apply text-primary;
+      @apply text-opacity-75;
+    }
   }
-}
 
-button.active {
-  @apply bg-primary text-[#101119];
+  &:not(.neonMode).active {
+    @apply bg-primary text-surface-700;
 
-  &::v-deep(h1), 
-  &::v-deep(p) {
-    @apply text-[#101119];
+    &::v-deep(h1),
+    &::v-deep(p) {
+      @apply text-surface-700;
+    }
+  }
+
+  &.neonMode:hover {
+    @apply text-primary text-opacity-75;
+    &::v-deep(h1),
+    &::v-deep(p) {
+      @apply text-primary;
+      @apply text-opacity-100;
+    }
+  }
+  
+  &.neonMode.active {
+    @apply border-2 border-primary text-primary;
+
+    &::v-deep(h1),
+    &::v-deep(p) {
+      @apply text-primary;
+    }
+
+    &:hover {
+      @apply bg-primary hover:bg-opacity-10;
+    }
+
+    .blurLayer {
+      @apply opacity-25;
+    }
+  }
+
+  &.isActive.neonMode > .blurLayer {
+    @apply opacity-50;
+  }
+
+  &:hover > .blurLayer {
+    @apply opacity-10;
   }
 }
 

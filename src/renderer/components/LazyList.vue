@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { amethyst, useShortcuts } from "@/amethyst";
-import { Track } from "@/logic/track";
 import BaseChip from "@/components/BaseChip.vue";
-import { AmethystIcon } from "@/icons";
-import Cover from "@/components/CoverArt.vue";
 import { useContextMenu } from "@/components/ContextMenu";
-import { useInspector } from "./Inspector";
+import Cover from "@/components/CoverArt.vue";
+import { AmethystIcon } from "@/icons";
 import { saveArrayBufferToFile } from "@/logic/dom";
 import { convertDfpwm } from "@/logic/encoding";
+import { Track } from "@/logic/track";
+import { useInspector } from "./Inspector";
 
 defineProps<{tracks: Track[]}>();
 const isHoldingControl = useShortcuts().isControlPressed;
@@ -36,17 +36,18 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
 </script>
 
 <template>
-  <div class="text-12px min-h-0 h-full flex flex-col text-left relative select-none">
-    <header class="flex text-primary-900 font-bold mb-2 mr-1">
+  <div class="text-13px min-h-0 h-full flex flex-col text-left relative select-none">
+    <header class="flex text-primary-900  font-bold mb-2 mr-1">
       <div class="w-4" />
-      <div class="min-w-1/4">
-        Filename
+
+      <div class="th">
+        Title
       </div>
       <div class="th">
         Artist
       </div>
-      <div class="th">
-        Title
+      <div class="min-w-1/4">
+        Filename
       </div>
       <div class="th">
         Album
@@ -64,7 +65,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
     <RecycleScroller
       class="h-full"
       :items="tracks"
-      :item-size="16"
+      :item-size="28"
       key-field="path"
       :buffer="32"
     >
@@ -86,61 +87,52 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           @click="isHoldingControl ? amethyst.showItem(item.path) : amethyst.player.play(item)"
         >
           <div
-            class="td max-w-4"
+            class="td max-w-5"
           >
             <loading-icon
               v-if="item.isLoading"
-              class="h-3 animate-spin w-3 min-h-3 min-w-3"
+              class="animate-spin h-5 w-5 min-h-5 min-w-5"
             />
             <error-icon
               v-else-if="item.hasErrored"
-              class="h-3 w-3 min-h-3 min-w-3"
+              class="h-5 w-5 min-h-5 min-w-5"
             />
 
             <AmethystIcon
               v-else-if="item.deleted"
-              class="h-3 w-3 min-h-3 min-w-3"
+              class="h-5 w-5 min-h-5 min-w-5"
             />
     
             <cover
               v-else
-              class="w-3 h-3"
+              class="w-5 h-5"
               :url="(item.isLoaded && item.getCover()) as string"
             />
           </div>
-          <div
-            class="td flex gap-1 min-w-1/4"
-          >
-            {{ amethyst.player.getCurrentTrack()?.path == item.path ? "⏵ " : "" }}
-            <AmethystIcon
-              v-if="useInspector().state.isVisible && useInspector().state.currentItem == item"
-              class="w-3 h-3"
-            />
-            
-            {{ item.getFilename() }}
-          </div>
-          <div class="td">
-            <span v-if="item.getArtistsFormatted()">
-              {{ item.getArtistsFormatted() }}
-            </span>
-            <span
-              v-else
-              class="text-primary-900 text-opacity-50"
-            >
-              n/a
-            </span>
-          </div>
-
-          <div class="td">
+          <div class="td title">
             <span v-if="item.getTitle()">
               {{ item.getTitle() }}
             </span>
             <span
               v-else
-              class="text-primary-900 text-opacity-50"
             >
               n/a
             </span>
+          </div>
+          <div class="td ">
+            <span v-if="item.getArtistsFormatted()">
+              {{ item.getArtistsFormatted() }}
+            </span>
+            <span
+              v-else
+            >
+              n/a
+            </span>
+          </div>
+          <div
+            class="td flex gap-1 min-w-1/4"
+          >
+            {{ item.getFilename() }}
           </div>
 
           <div class="td">
@@ -149,7 +141,6 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
             </span>
             <span
               v-else
-              class="text-primary-900 text-opacity-50"
             >
               n/a
             </span>
@@ -157,7 +148,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           <div class="td max-w-16">
             <BaseChip
               v-if="item.getMetadata()?.format.container"
-              class="text-8px"
+              class="text-10px"
             >
               {{ item.getMetadata()?.format.container }}
             </BaseChip>
@@ -178,34 +169,45 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
 
 .th,
 .td {
-  @apply flex-1 overflow-hidden;
+  @apply flex-1 overflow-hidden text-text_subtitle;
 
   & strong {
-    @apply text-primary-900 text-9px text-opacity-50;
+    @apply text-13px text-opacity-50;
   }
 }
 
 .td {
-  @apply overflow-hidden overflow-ellipsis;
+  @apply overflow-hidden overflow-ellipsis flex items-center font-weight-user-defined text-13px;
+
+  &.title {
+    @apply text-text_title text-13px;
+  }
 }
 
 .row {
-  @apply text-primary-900 h-4 w-full flex;
+  @apply h-7 gap-2 w-full flex;
 
   &:hover {
-    @apply text-white;
+    @apply text-accent ;
+
   }
 
   &.control:hover {
     @apply underline;
   } 
 
-  &.currentlyPlaying:not(:hover) {
-    @apply text-primary-800;
+  &.currentlyPlaying {
+    @apply text-primary bg-primary bg-opacity-10;
+    &:hover {
+      @apply bg-opacity-15;
+    }
   }
 
-  &.currentlyInspecting:not(:hover) {
-    @apply text-purple-400;
+  &.currentlyInspecting {
+    @apply text-primary bg-primary bg-opacity-10;
+    &:hover {
+      @apply bg-opacity-15;
+    }
   }
 }
 

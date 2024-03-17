@@ -1,6 +1,5 @@
-
 <script lang="ts" setup>
-import { AmethystIcon, } from "@/icons";
+import { CloseIcon, MinimizeIcon, MaximizeIcon, UnmaximizeIcon } from "@/icons";
 const emit = defineEmits(["close", "minimize", "maximize", "unmaximize"]);
 defineProps<{ isMaximized: boolean }>();
 </script>
@@ -11,7 +10,7 @@ defineProps<{ isMaximized: boolean }>();
       class="minimize"
       @click="emit('minimize')"
     >
-      <AmethystIcon />
+      <MinimizeIcon />
     </button>
 
     <button
@@ -19,7 +18,7 @@ defineProps<{ isMaximized: boolean }>();
       class="maximize"
       @click="emit('maximize')"
     >
-      <AmethystIcon />
+      <MaximizeIcon />
     </button>
 
     <button
@@ -27,23 +26,23 @@ defineProps<{ isMaximized: boolean }>();
       class="unmaximize"
       @click="emit('unmaximize')"
     >
-      <AmethystIcon />
+      <UnmaximizeIcon />
     </button>
 
     <button
       class="close"
       @click="emit('close')"
     >
-      <AmethystIcon />
+      <CloseIcon />
     </button>
   </div>
 </template>
 
 <style scoped lang="postcss">
 button {
-  @apply h-full fill-current flex items-center justify-center py-1.5 px-4 rounded-4px  hover:text-white hover:bg-primary-800;
+  @apply h-full fill-current flex items-center justify-center py-1.5 px-4 rounded-4px  hover:text-white hover:bg-surface-600;
   &.close {
-    @apply hover:bg-rose-600 hover:text-black active:text-white active:bg-rose-500;
+    @apply hover:bg-primary hover:text-surface-700 active:text-text_title active:bg-primary;
   }
 
   svg {

@@ -1,29 +1,12 @@
 <script setup lang="ts">
 import { useState } from "@/amethyst";
+import DropdownInput from "@/components/v2/DropdownInput.vue";
 import SettingsSetting from "@/components/v2/SettingsSetting.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
-import { BugIcon, LargeIconsIcon, SkipIcon, EyeIcon, SearchIcon } from "@/icons";
+import { BoldIcon, BugIcon, EyeIcon, FogIcon, LargeIconsIcon, OpacityIcon, SearchIcon, SkipIcon, SpinIcon, WaterIcon } from "@/icons";
+import { BLEND_MODES, FONT_WEIGHTS } from "@shared/constants";
 const state = useState();
-
-// const BLEND_MODES = [
-//   "normal",
-//   "multiply",
-//   "screen",
-//   "overlay",
-//   "darken",
-//   "lighten",
-//   "color-dodge",
-//   "color-burn",
-//   "hard-light",
-//   "soft-light",
-//   "difference",
-//   "exclusion",
-//   "hue",
-//   "saturation",
-//   "color",
-//   "luminosity",
-// ];
 
 </script>
 
@@ -41,6 +24,16 @@ const state = useState();
     />
   </settings-setting>
   <settings-setting
+    :title="$t('settings.font_weight.title')"
+    :description="$t('settings.font_weight.description')"
+    :icon="BoldIcon"
+  >
+    <dropdown-input
+      v-model="state.settings.value.fontWeight"
+      :options="FONT_WEIGHTS"
+    />
+  </settings-setting>
+  <settings-setting
     :title="$t('settings.ambient_background.title')"
     :description="$t('settings.ambient_background.description')"
     :icon="LargeIconsIcon"
@@ -52,9 +45,20 @@ const state = useState();
       <div class="p-2 flex flex-col gap-2">
         <settings-setting
           subsetting
+          :title="$t('settings.ambient_background.blending_mode.title')"
+          :description="$t('settings.ambient_background.blending_mode.description')"
+          :icon="WaterIcon"
+        >
+          <dropdown-input
+            v-model="state.settings.value.ambientBackgroundBlendMode"
+            :options="BLEND_MODES"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
           :title="$t('settings.ambient_background.spin_speed.title')"
           :description="$t('settings.ambient_background.spin_speed.description')"
-          :icon="LargeIconsIcon"
+          :icon="SpinIcon"
         >
           <slider-input
             v-model="state.settings.value.ambientBackgroundSpinSpeed"
@@ -68,26 +72,26 @@ const state = useState();
           subsetting
           :title="$t('settings.ambient_background.opacity.title')"
           :description="$t('settings.ambient_background.opacity.description')"
-          :icon="LargeIconsIcon"
+          :icon="OpacityIcon"
         >
           <slider-input
             v-model="state.settings.value.ambientBackgroundOpacity"
             :min="0"
             :max="100"
-            :step="1"
+            :step="2.5"
           />
         </settings-setting>
         <settings-setting
           subsetting
           :title="$t('settings.ambient_background.blur_strength.title')"
           :description="$t('settings.ambient_background.blur_strength.description')"
-          :icon="LargeIconsIcon"
+          :icon="FogIcon"
         >
           <slider-input
             v-model="state.settings.value.ambientBackgroundBlurStrength"
             :min="0"
             :max="128"
-            :step="1"
+            :step="4"
           />
         </settings-setting>
         <settings-setting
@@ -107,6 +111,15 @@ const state = useState();
     </template>
   </settings-setting>
   <settings-setting
+    :title="$t('settings.neon_mode.title')"
+    :description="$t('settings.neon_mode.description')"
+    :icon="EyeIcon"
+  >
+    <toggle-switch
+      v-model="state.settings.value.neonMode" 
+    />
+  </settings-setting>
+  <settings-setting
     :title="$t('settings.playback_controls.title')"
     :description="$t('settings.playback_controls.description')"
     :icon="SkipIcon"
@@ -124,6 +137,7 @@ const state = useState();
       v-model="state.settings.value.minimalistMode" 
     />
   </settings-setting>
+  
   <settings-setting
     :title="$t('settings.cover_art.title')"
     :description="$t('settings.cover_art.description')"

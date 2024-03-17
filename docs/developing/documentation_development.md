@@ -9,4 +9,4 @@ $ yarn docs:dev
 ## Editing
 If you need to change vitepress's configuration to add more pages etc, find the `./docs/.vitepress/config.ts` and change stuff appropriately.
 
-The english markdown files are organised in the root `docs` folder, and translations follow the same structure but within a locale folder
+The english markdown files are organised in the root `docs` folder and translations follow the same structure but within a locale folder

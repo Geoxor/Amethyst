@@ -7,6 +7,8 @@ const routes: RouteRecordRaw[] = [
   { path: "/queue", name: "queue", component: () => import("@/views/QueueView.vue") },
   { path: "/media", name: "media", component: () => import("@/views/MediaView.vue") },
   { path: "/playground", name: "playground", component: () => import("@/views/PlaygroundView.vue") },
+  { path: "/audio-monitor", name: "audio-monitor", component: () => import("@/views/AudioMonitorView.vue") },
+  { path: "/favorites", name: "favorites", component: () => import("@/views/FavoritesView.vue") },
   { path: "/settings", name: "settings", component: () => import("@/views/Settings/SettingsView.vue"),
     children: [
       { path: "/appearance", name: "settings.appearance", component: () => import("@/views/Settings/AppearanceSettings.vue") },
@@ -26,6 +28,11 @@ export const router = createRouter({
   routes,
 });
 
+let lastSettingsRoute = "settings.appearance";
+
 router.beforeEach(guard => {
-  if (guard.name == "settings") router.push({ name: "settings.appearance" });
+  const routeName = guard.name!.toString();
+
+  if (routeName == "settings") router.push({ name: lastSettingsRoute });
+  if (routeName.startsWith("settings")) lastSettingsRoute = routeName;
 });

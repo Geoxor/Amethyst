@@ -5,11 +5,10 @@ import UpdateButton from "@/components/input/UpdateButton.vue";
 import Menu from "@/components/menu/MenuContainer.vue";
 import MenuOption from "@/components/menu/MenuOption.vue";
 import MenuSplitter from "@/components/menu/MenuSplitter.vue";
-import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
 import { AmethystIcon } from "@/icons";
+import { countDomElements, refreshWindow, smoothTween } from "@/logic/dom";
 import { useFps } from "@vueuse/core";
 import { computed, onMounted, ref } from "vue";
-import { countDomElements, refreshWindow, smoothTween } from "@/logic/dom";
 import BaseChip from "./BaseChip.vue";
 import TitleText from "./v2/TitleText.vue";
 
@@ -20,12 +19,6 @@ const fps = ref(0);
 const tweenedFps = ref(0);
 const domSize = ref(0);
 const latency = ref(0);
-const cpuUsage = ref({
-  node: 0,
-  renderer: 0
-});
-
-type ProcessorUsage = {node: number, renderer: number};
 
 onMounted(() => {
   setInterval(() => {
@@ -35,9 +28,6 @@ onMounted(() => {
     domSize.value = countDomElements();
     amethyst.player.getLatency().then(l => latency.value = l);
     // TODO: multiplatform support
-    if (amethyst.getCurrentPlatform() === "desktop") {
-      window.electron.ipcRenderer.invoke<ProcessorUsage>("percent-cpu-usage").then(usage => cpuUsage.value = usage);
-    }
     smoothTween(tweenedFps.value, fpsCounter.value, 1000, (tweenedNumber => tweenedFps.value = ~~tweenedNumber));
 
   }, 1000);
@@ -64,43 +54,43 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
       >
         <AmethystIcon class="w-5 h-5" />
       </div>
-      <Menu title="File">
+      <Menu :title="$t('menu.file')">
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'O']"
-          title="Open audio..."
+          :title="$t('menu.file.open_audio')"
           :icon="AmethystIcon"
           @click="amethyst.openAudioFilesAndAddToQueue"
         />
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'SHIFT', 'O']"
-          title="Open audio folder..."
+          :title="$t('menu.file.open_audio_folder')"
           :icon="AmethystIcon"
           @click="amethyst.openAudioFoldersAndAddToQueue"
         />
       </Menu>
-      <Menu title="Utility">
+      <Menu :title="$t('menu.utility')">
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'SHIFT', 'X']"
-          title="Clear queue"
+          :title="$t('menu.utility.clear_queue')"
           :icon="AmethystIcon"
           @click="amethyst.player.queue.clear()"
         />
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'SHIFT', 'Z']"
-          title="Clear errored / deleted"
+          :title="$t('menu.utility.clear_errored_deleted')"
           :icon="AmethystIcon"
           @click="amethyst.player.queue.clearErrored()"
         />
         <menu-splitter />
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'ALT', 'R']"
-          title="Refresh all metadata"
+          :title="$t('menu.utility.refresh_all_metadata')"
           :icon="AmethystIcon"
           @click="amethyst.player.queue.fetchAsyncData(true)"
         />
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'R']"
-          title="Refresh window"
+          :title="$t('menu.utility.refresh_window')"
           :icon="AmethystIcon"
           @click="refreshWindow"
         />
@@ -110,29 +100,29 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
         />
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
-          :title="`Check for updates`"
+          :title="$t('menu.utility.check_for_updates')"
           :icon="AmethystIcon"
           @click="amethyst.checkForUpdates()"
         />
       </Menu>
-      <Menu title="View">
+      <Menu :title="$t('menu.view')">
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
-          title="Zoom in"
+          :title="$t('menu.view.zoom_in')"
           :icon="AmethystIcon"
           :shortcuts="[commandOrControlSymbol, '+']"
           @click="amethyst.zoom('in')"
         />
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
-          title="Zoom out"
+          :title="$t('menu.view.zoom_out')"
           :icon="AmethystIcon"
           :shortcuts="[commandOrControlSymbol, '-']"
           @click="amethyst.zoom('out')"
         />
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
-          title="Reset zoom"
+          :title="$t('menu.view.reset_zoom')"
           :icon="AmethystIcon"
           :shortcuts="[commandOrControlSymbol, '0']"
           @click="amethyst.zoom('reset')"
@@ -141,29 +131,30 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
         />
         <menu-option
-          title="Settings"
+          :title="$t('menu.view.settings')"
           :icon="AmethystIcon"
+          :shortcuts="[commandOrControlSymbol, ',']"
           @click="$router.push({ name: 'settings.appearance' })"
         />
         <menu-option
-          title="Show developer tools"
+          :title="$t('menu.view.show_developer_tools')"
           :icon="AmethystIcon"
           @click="amethyst.openDevTools()"
         />
       </Menu>
-      <Menu title="About">
+      <Menu :title="$t('menu.about')">
         <menu-option
-          title="Documentation..."
+          :title="$t('menu.about.documentation')"
           :icon="AmethystIcon"
           @click="amethyst.openLink('https://amethyst.pages.dev/')"
         />
         <menu-option
-          title="GitHub Repository..."
+          :title="$t('menu.about.github_repository')"
           :icon="AmethystIcon"
           @click="amethyst.openLink('https://github.com/geoxor/amethyst')"
         />
         <menu-option
-          title="Discord Server..."
+          :title="$t('menu.about.discord_server')"
           :icon="AmethystIcon"
           @click="amethyst.openLink('https://discord.gg/geoxor')"
         />
@@ -234,13 +225,6 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
         @click="amethyst.performWindowAction('close')"
       />
         
-      <template v-if="state.settings.value.showDebugStats">
-        <processor-usage-meter
-          v-for="value of Object.values(cpuUsage)"
-          :key="value"
-          :value="value"
-        />
-      </template>
       <control-buttons
         v-if="amethyst.getCurrentPlatform() === 'desktop' && amethyst.getCurrentOperatingSystem() != 'mac'"
         :is-maximized="state.state.isMaximized"

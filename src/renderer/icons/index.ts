@@ -21,7 +21,6 @@ import LargeIconsIcon from "./LargeIconsIcon.vue";
 import ListIcon from "./ListIcon.vue";
 import MediumIconsIcon from "./MediumIconsIcon.vue";
 import MonitorIcon from "./MonitorIcon.vue";
-import PlayIcon from "./PlayIcon.vue";
 import PlaylistIcon from "./PlaylistIcon.vue";
 import PotatoIcon from "./PotatoIcon.vue";
 import RemoveIcon from "./RemoveIcon.vue";
@@ -29,6 +28,8 @@ import RocketIcon from "./RocketIcon.vue";
 import SambaIcon from "./SambaIcon.vue";
 import SampleRateIcon from "./SampleRateIcon.vue";
 import SearchIcon from "./SearchIcon.vue";
+import BoldIcon from "./BoldIcon.vue";
+import ClockIcon from "./ClockIcon.vue";
 import SettingsIcon from "./SettingsIcon.vue";
 import SineIcon from "./SineIcon.vue";
 import SkipIcon from "./SkipIcon.vue";
@@ -45,13 +46,36 @@ import VoltmeterIcon from "./VoltmeterIcon.vue";
 import WaveIcon from "./WaveIcon.vue";
 import DiscordIcon from "./DiscordIcon.vue";
 import EyeIcon from "./EyeIcon.vue";
+import FogIcon from "./FogIcon.vue";
+import SpinIcon from "./SpinIcon.vue";
+import WaterIcon from "./WaterIcon.vue";
+import OpacityIcon from "./OpacityIcon.vue";
+
+import CloseIcon from "./windowbuttons/CloseIcon.vue";
+import MinimizeIcon from "./windowbuttons/MinimizeIcon.vue";
+import MaximizeIcon from "./windowbuttons/MaximizeIcon.vue";
+import UnmaximizeIcon from "./windowbuttons/UnmaximizeIcon.vue";
+
+import PlayIcon from "./playback/PlayIcon.vue";
+import PauseIcon from "./playback/PauseIcon.vue";
+import NextIcon from "./playback/NextIcon.vue";
+import ShuffleIcon from "./playback/ShuffleIcon.vue";
+import RepeatNoneIcon from "./playback/RepeatNoneIcon.vue";
+import RepeatOneIcon from "./playback/RepeatOneIcon.vue";
+import RepeatAllIcon from "./playback/RepeatAllIcon.vue";
 
 export {
   AddIcon,
   EyeIcon,
+  FogIcon,
+  SpinIcon,
+  WaterIcon, 
+  OpacityIcon,
   DiscordIcon,
+  ClockIcon,
   AdjustIcon,
   AmethystIcon,
+  BoldIcon,
   AxisIcon,
   BugIcon,
   ChevronIcon,
@@ -72,7 +96,6 @@ export {
   ListIcon,
   MediumIconsIcon,
   MonitorIcon,
-  PlayIcon,
   PlaylistIcon,
   PotatoIcon,
   RemoveIcon,
@@ -94,4 +117,15 @@ export {
   UpdateIcon,
   VoltmeterIcon,
   WaveIcon,
+  CloseIcon,
+  MinimizeIcon,
+  MaximizeIcon,
+  UnmaximizeIcon,
+  PlayIcon,
+  PauseIcon,
+  NextIcon,
+  ShuffleIcon,
+  RepeatNoneIcon,
+  RepeatOneIcon,
+  RepeatAllIcon,
 };
