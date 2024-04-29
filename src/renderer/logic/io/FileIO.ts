@@ -5,7 +5,7 @@ import { amethyst } from "@/amethyst";
 /** A simple class that contains functions for paths, file input and output */
 export abstract class FileIO {
 
-    public static async writeFile(path: PathLike, data: String) {
+    public static async writeFile(path: PathLike, data: string) {
         window.fs.writeFile(path, data).catch(error => undefined);
     }
 
