@@ -2,7 +2,6 @@ import { PathLike } from "fs";
 import { Playlist } from "../playlist";
 import { ALLOWED_AUDIO_EXTENSIONS, ALLOWED_EXTENSIONS, ALLOWED_PLAYLIST_FORMATS, AMETHYST_PLAYLIST_EXTENSION } from "@shared/constants";
 import { amethyst } from "@/amethyst";
-import fs from "fs";
 
 /** A simple class that contains functions for paths, file input and output */
 export abstract class FileIO {
@@ -28,7 +27,7 @@ export abstract class FileIO {
     }
 
     public static async writeFile(path: PathLike, data: String) {
-        fs.promises.writeFile(path, data).catch(error => console.log(error));
+        window.fs.writeFile(path, data).catch(error => undefined);
     }
 
     /**
@@ -81,25 +80,23 @@ export abstract class FileIO {
      * Redirects audio files to player queue and playlist files will be added to playlists
      * @param paths the path(s) that should be redirected
     */
-    // TODO: Playlist support
-    public static async redirect(paths: string | string[]) {
-        (new Array<PathLike>).concat(paths).forEach(async path => {
-            const extension = this.getExtension(path);
-            if (extension) {
-                if (ALLOWED_AUDIO_EXTENSIONS.includes(extension)) {
-                    amethyst.player.queue.add(path.toString());
-                } else if (ALLOWED_PLAYLIST_FORMATS.includes(extension)) {
-                    // TODO: Open playlist
-                } else if (AMETHYST_PLAYLIST_EXTENSION == extension) {
-                    // TODO: Open Amethyst playlist
-                } else {
-                    // TODO: Default operation
+    public static redirect(paths: string | string[]) {
+        (new Array<string>).concat(paths).forEach(async path => {
+            try {
+                (await window.fs.readdir(path)).forEach(dir => this.redirect(paths.toString() + "\\" + dir));
+            } catch {
+                const extension = this.getExtension(path);
+                if (extension) {
+                    if (ALLOWED_AUDIO_EXTENSIONS.includes(extension)) {
+                        amethyst.player.queue.add(paths.toString());
+                    } else if (ALLOWED_PLAYLIST_FORMATS.includes(extension)) {
+                        // TODO: Open playlist
+                    } else if (AMETHYST_PLAYLIST_EXTENSION == extension) {
+                        // TODO: Open Amethyst playlist
+                    } else {
+                        // TODO: Default operation
+                    }
                 }
-            } else {
-                if ((await fs.promises.stat(path)).isDirectory()) {
-                    console.log("is dir");
-                }
-                // TODO: path with no extensions (possibly folder)
             }
         });
     }
