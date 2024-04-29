@@ -1,6 +1,5 @@
 import prettyMilliseconds from "pretty-ms";
 
-// recursively goes through every file in the folder and flattens it
 export const bytesToHuman = (bytes: number): string => {
   const sizes = ["B", "KB", "MB", "GB", "TB"];
   if (bytes === 0)
