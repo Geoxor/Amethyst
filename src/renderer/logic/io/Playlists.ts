@@ -10,13 +10,17 @@ export abstract class PlaylistFileType {
      * @param data the data used to represent a playlist in a specific format
      * @returns a playlist instance from the given data if possible, undefined otherwise
      */
-    public abstract unpack(data: string): Playlist | undefined;
+    public static unpack(data: string): Playlist | undefined {
+        throw new Error("Method not implemented.");
+    }
 
     /**
      * Constructs a string that represents a playlist in a specific format. Used for storage
      * @param playlist the playlist which should be converted into a specific format
      */
-    public abstract pack(playlist: Playlist): string;
+    public static pack(playlist: Playlist): string {
+        throw new Error("Method not implemented.");
+    }
     
     /** Maps file extensions to a subclass that is needed for input/output */
     protected static registered: Map<string, typeof PlaylistFileType> = new Map<string, typeof PlaylistFileType>();
