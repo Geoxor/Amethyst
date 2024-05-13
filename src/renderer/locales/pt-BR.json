@@ -1,5 +1,5 @@
 {
-  "route.queue": "Fila",
+  "route.queue": "Lista de reprodução",
   "route.favorites": "Favoritos",
   "route.audio_monitor": "Monitor de áudio",
 
@@ -8,7 +8,7 @@
   "menu.file.open_audio_folder": "Abrir pasta de áudio...",
   
   "menu.utility": "Utilidades",
-  "menu.utility.clear_queue": "Limpar fila",
+  "menu.utility.clear_queue": "Limpar lista de reprodução",
   "menu.utility.clear_errored_deleted": "Limpar deletados / com erro",
   "menu.utility.refresh_all_metadata": "Atualizar todos os metadados",
   "menu.utility.refresh_window": "Atualizar janela",
@@ -82,21 +82,21 @@
   "settings.playback_controls.description": "Exibe os controles de reprodução na parte inferior da interface",
 
   "settings.minimalist_mode.title": "Modo minimalista",
-  "settings.minimalist_mode.description": "Tenha uma interface menos detalhada para a manter limpinha",
+  "settings.minimalist_mode.description": "Tenha uma interface menos detalhada para um visual mais limpo",
 
   "settings.neon_mode.title": "Modo neon",
   "settings.neon_mode.description": "Mude o estilo de alguns elementos da interface para um design de neon luminoso",
 
   "settings.cover_art.title": "Arte da capa",
-  "settings.cover_art.description": "Renderize a arte da capa perto dos controles de reprodução na parte inferior da interface",
+  "settings.cover_art.description": "Exibe a arte da capa perto dos controles de reprodução na parte inferior da interface",
 
   "settings.debug_stats.title": "Estatísticas de depuração",
-  "settings.debug_stats.description": "Expõe números como amostras, FPS, uso de CPU e mais na parte superior",
+  "settings.debug_stats.description": "Expõe números como amostras, FPS (Frames Por Segundo), uso de CPU e mais na parte superior da interface",
   
-  "settings.discord_rpc.description" : "Discord Rich Presence permite aos usuários compartilharem suas atividades atuais no Amethyst com o Discord. Quando ativado, o recurso RPC atualiza o status do usuário para mostrar a versão do Amethyst, musica ou playlist atualmente em reprodução, junto com o nome do artista e do álbum",
+  "settings.discord_rpc.description" : "O Discord Rich Presence permite aos usuários compartilharem suas atividades atuais no Amethyst com o Discord. Quando ativado, o recurso RPC atualiza o status do usuário para mostrar a versão do Amethyst, musica ou playlist atualmente em reprodução, junto com o nome do artista e do álbum",
   
   "settings.auto_update.title": "Atualizações automáticas",
-  "settings.auto_update.description": "Verifica e instala atualizações automaticamente ao iniciar o Amethyst",
+  "settings.auto_update.description": "Verificar e baixar atualizações automaticamente ao iniciar o Amethyst",
   
   "settings.launch_on_startup.title": "Abrir ao iniciar",
   "settings.launch_on_startup.description": "Abrir Amethyst quando o seu sistema iniciar",
@@ -122,12 +122,12 @@
   "settings.vectorscope.title": "Vectorscópio",
   "settings.vectorscope.description": "Mostrar uma representação visual do sinal de áudio estéreo. Exibe a fase relativa e o espaço estéreo utilizando um gráfico circular. O vectorscópio pode ser usado para verificar a imagem estéreo e a relação de fase do sinal de áudio",
   "settings.vectorscope.lissajous.title": "Lissajous",
-  "settings.vectorscope.lissajous.description": "Mostrar diagonalmente em um padrão lissajous",
+  "settings.vectorscope.lissajous.description": "Mostrar o vectorscópio diagonalmente em um padrão lissajous",
   "settings.vectorscope.line_thickness.title": "Espessura da linha",
   "settings.vectorscope.line_thickness.description": "Mude o quão espesso / óbvio as linhas são",
 
   "settings.spectrum_analyser.title": "Analisador de espectro",
-  "settings.spectrum_analyser.description": "Mostrar uma representação visual das frequências do sinal de áudio. Exibe o espectro das frequências do sinal de áudio em um gráfico, em que o eixo X representa a faixa de frequência e o eixo Y representa a amplitude. O analisador pode ser usado para analisar o balanceamento das frequências do sinal de áudio e indentificar picos ou caídas",
+  "settings.spectrum_analyser.description": "Mostrar uma representação visual das frequências do sinal de áudio. Exibe o espectro das frequências do sinal de áudio em um gráfico, em que o eixo X representa a faixa de frequência e o eixo Y representa a amplitude. O analisador pode ser usado para observar o balanceamento das frequências do sinal de áudio e indentificar picos ou quedas",
   "settings.spectrum_analyser.logarithmic_spectrum.title": "Espectro logarítmico",
   "settings.spectrum_analyser.logarithmic_spectrum.description": "Utilize a escala logarítmica para as frequências",
 
@@ -136,7 +136,7 @@
   "settings.vsync.warning": "Reinício necessário",
 
   "settings.pause_visuals.title": "Pausar visuais quando desfocado",
-  "settings.pause_visuals.description": "Pausar visualizadores quando desfocar a janela do Amethyst a fim de reduzir problemas de performance (útil quando for jogar ou realizar muitas tarefas)",
+  "settings.pause_visuals.description": "Pausar visualizadores quando desfocar a janela do Amethyst a fim de reduzir problemas de performance (útil para jogos e multi-tarefas)",
 
   "settings.import_export.title": "Configurações de importação e exportação",
   "settings.import_export.description": "Faça um backup das suas configurações em um arquivo ou importe configurações existêntes",
