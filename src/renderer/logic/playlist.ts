@@ -45,8 +45,7 @@ export class Playlist {
         if(!writer) {
             throw new ReferenceError("File extension is not mapped");
         }
-        const data = writer.pack(this);
-        FileIO.writeFile(exportPath, data);
+        FileIO.writeFile(exportPath, writer.pack(this));
     }
 
     /**
