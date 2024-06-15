@@ -95,13 +95,13 @@ export class AmethystAudioNode {
 
         this.isBypassed = false;
       } else {
-        // Disconnect children back to this node
+        // Disconnect children from this node
         children.forEach(child => this.post.disconnect(child.pre));
         
-        // Disconnect parents back to this node
+        // Disconnect parents from this node
         parents.forEach(parent => parent.post.disconnect(this.pre));
 
-        // Connect parents from children
+        // Connect parents to children
         parents.forEach(parent => children.forEach(child => parent.post.connect(child.pre)));
 
         this.isBypassed = true;
