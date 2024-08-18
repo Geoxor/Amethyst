@@ -22,6 +22,7 @@ $ npm i -g yarn
 ```
 
 Zainstaluj zależności
+
 ```sh
 $ yarn
 ```

@@ -1,12 +1,14 @@
-<img align="right" src="https://media.discordapp.net/attachments/667464431562653706/1025732056124235826/icon.png?width=128&height=128">
+<img align="right" src="https://github.com/Geoxor/Amethyst/blob/master/assets/icon.png?raw=true" width="128">
 
-# Аметист 
+# Аметист
+
 Аметист е аудио плеър [основан на Electron](https://electronjs.org/) с [node-граф](https://en.wikipedia.org/wiki/Node_graph_architecture) [аудио маршрутизирана](https://en.wikipedia.org/wiki/Audio_signal_flow) система. Главната цел на този проект е да създадем [музикален плеър](https://en.wikipedia.org/wiki/Media_player_software) в [Typescript](https://www.typescriptlang.org/), за да видим докъде можем да достигнем с този език, за да докажем, че е възможно да предоставим функции на професионално ниво, подобно на повечето [DAW](https://en.wikipedia.org/wiki/Digital_audio_workstation) / [DAE](https://en.wikipedia.org/wiki/Audio_editing_software), докато предоставяме полезни инструменти и възможност за персонализиране на [крайния потребител](https://en.wikipedia.org/wiki/End_user), за да може да изживеят аудио по начинът по който желаят.
-![Аметист](https://cdn.discordapp.com/attachments/667464431562653706/1043343748593107004/image.png)
-  
+
+![Аметист](https://github.com/user-attachments/assets/a5656d1e-1327-4dec-b312-fb30db290b42)
 
 ## Функции
-- Персонализирани курсори 
+
+- Персонализирани курсори
 - Поддържа анимирани [GIF](https://en.wikipedia.org/wiki/GIF) арт корици
 - [Многоканален](https://en.wikipedia.org/wiki/Surround_sound) (до 9.1.2) децибел метри
 - Персонализиран висок FPS [спектър](https://en.wikipedia.org/wiki/Spectrum_analyzer)

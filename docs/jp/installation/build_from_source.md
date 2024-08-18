@@ -1,18 +1,21 @@
 # Building from source
+
 People who are taking this approach are expected to be familiar with how this is done (cloning, building, etc.)
 
 This command will build Amethyst for your system in the `./release/build` folder
 
 ## Windows
+
 ```sh
 $ git clone --recurse-submodules https://github.com/geoxor/amethyst \
   && cd amethyst \
   && yarn \
-  && yarn package 
+  && yarn package
 ```
 
 ## Linux
-⚠️ If you're on Linux the command above will attempt to compile for 
+
+⚠️ If you're on Linux the command above will attempt to compile for
 `AppImage`, `deb`, `rpm` and `snap`. It will most likely fail as you're going to be missing the
 dependencies required to build them.
 

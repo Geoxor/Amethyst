@@ -1,10 +1,12 @@
-<img align="right" src="https://media.discordapp.net/attachments/667464431562653706/1025732056124235826/icon.png?width=128&height=128">
+<img align="right" src="https://github.com/Geoxor/Amethyst/blob/master/assets/icon.png?raw=true" width="128">
 
-# Amethyst 
+# Amethyst
+
 Amethyst ist ein [Electron-basierter](https://electronjs.org/) Audiospieler mit einem [Node-Graph](https://en.wikipedia.org/wiki/Node_graph_architecture) [Audio-Routing](https://en.wikipedia.org/wiki/Audio_signal_flow)-System. Das Hauptziel des Projekts ist das Erschaffen eines [Musikspielers](https://de.wikipedia.org/wiki/Mediaplayer) in der [TypeScript](https://www.typescriptlang.org/)-Sprache, um zu sehen, wie weit wir die Sprache ausdehnen können und zu beweisen, dass professionelle Features wie in den meisten [DAWs](https://de.wikipedia.org/wiki/Digital_Audio_Workstation) / [DAEs](https://de.wikipedia.org/wiki/Audioeditor) bereitgestellt werden können, während auch nützliche Tools und Anpassbarkeit für die [Endnutzer](https://de.wikipedia.org/wiki/Endbenutzer) bereitgestellt werden können, damit sie Audio so, wie sie es möchten, erleben können.
-![Amethyst](https://cdn.discordapp.com/attachments/667464431562653706/1043343748593107004/image.png)
+![Amethyst](https://github.com/user-attachments/assets/a5656d1e-1327-4dec-b312-fb30db290b42)
 
 ## Features
+
 - Eigener Cursor
 - Unterstützung für animierte [GIF](https://de.wikipedia.org/wiki/Graphics_Interchange_Format)-Kunstcover
 - [Multichannel](https://de.wikipedia.org/wiki/Raumklang) (bis zu 9.1.2) dB-Metern

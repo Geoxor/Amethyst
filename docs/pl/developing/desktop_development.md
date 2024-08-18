@@ -26,7 +26,6 @@ $ yarn package
 Jeśli korzystasz z linuxa, powyższa komenda będzie próbowała skompilować dla  `AppImage`, `deb`, `rpm` i `snap`, najprawdopodobniej nie powiedzie się, ponieważ będzie brakować zależności wymaganych do ich zbudowania.
 :::
 
-
 **W takim wypadku powinieneś zrobić coś w stylu:**
 
 ```sh

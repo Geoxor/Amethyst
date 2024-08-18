@@ -10,12 +10,12 @@ To polecenie zbuduje Amethyst dla twojego systemu w folderze `./release/build`.
 $ git clone --recurse-submodules https://github.com/geoxor/amethyst \
   && cd amethyst \
   && yarn \
-  && yarn package 
+  && yarn package
 ```
 
 ## Linux
 
-⚠️ Jeśli korzystasz z linuxa, powyższa komenda będzie próbowała skompilować dla 
+⚠️ Jeśli korzystasz z linuxa, powyższa komenda będzie próbowała skompilować dla
 `AppImage`, `deb`, `rpm` i `snap`, najprawdopodobniej nie powiedzie się, ponieważ będzie brakować zależności wymaganych do ich zbudowania.
 
 **W takim wypadku trzeba zrobić coś w stylu:**

@@ -1,6 +1,7 @@
 # Arbeitsumgebung einrichten
 
 ## Voraussetzungen
+
   - [Node.js](https://nodejs.org/en) ^19.1.0
   - [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm/) ^8.19.0
   - [Visual Studio Build Tools 2019](https://visualstudio.microsoft.com/downloads/) Community Edition
@@ -15,11 +16,13 @@ $ git clone --recurse-submodules https://github.com/geoxor/amethyst && cd amethy
 ```
 
 Installieren Sie [Yarn](https://classic.yarnpkg.com/lang/de/docs/install/#windows-stable), falls Sie dies noch nicht haben.
+
 ```sh
 $ npm i -g yarn
 ```
 
 Abhängigkeiten installieren
+
 ```sh
 $ yarn
 ```

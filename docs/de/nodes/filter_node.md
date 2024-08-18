@@ -8,7 +8,7 @@ Jeder der Filter kann dupliziert werden und in [Serien](https://de.wikipedia.org
 
 ## Filtertypen
 
-Die möglichen [Filtertypen](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) sind die folgenden: 
+Die möglichen [Filtertypen](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) sind die folgenden:
 
 - [`Allpass`](https://de.wikipedia.org/wiki/Allpassfilter)
 - [`notch` (Bandsperre)](https://de.wikipedia.org/wiki/Bandsperre)
@@ -19,6 +19,6 @@ Die möglichen [Filtertypen](https://developer.mozilla.org/en-US/docs/Web/API/Bi
 - [`Hochpass` (Tiefschnitt)](https://de.wikipedia.org/wiki/Hochpass)
 - [`Tiefpass` (Hochschnitt)](https://de.wikipedia.org/wiki/Tiefpass)
 
-
 ### Hinweis
+
 ⚠️ Bei bestimmten Typen haben [`Q`](https://de.wikipedia.org/wiki/G%C3%BCtefaktor) und/oder [`Verstärkung`](https://en.wikipedia.org/wiki/Gain_(electronics)) möglicherweise keinen Einfluss, und/oder bestimmte Filter erfordern einen [`Q-Wert`](https://de.wikipedia.org/wiki/G%C3%BCtefaktor) von `+1`, um wie erwartet zu funktionieren.

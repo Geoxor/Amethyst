@@ -8,7 +8,7 @@
 
 ## Типы фильтров
 
-Возможными [типами фильтров](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) являются следующие: 
+Возможными [типами фильтров](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) являются следующие:
 
 - [`allpass`](https://ru.wikipedia.org/wiki/Фазовый_фильтр)
 - [`notch` (band-stop)](https://ru.wikipedia.org/wiki/Полосно-заграждающий_фильтр)
@@ -20,4 +20,5 @@
 - [`lowpass` (highcut)](https://ru.wikipedia.org/wiki/Фильтр_нижних_частот)
 
 ### Замечение
+
 ⚠️ [`Добротность`](https://ru.wikipedia.org/wiki/Добротность) и/или [`усиление`](https://ru.wikipedia.org/wiki/Коэффициент_передачи) может не иметь эффекта с фильтрами определенных типов, и/или некоторые фильтры требуют значение [`добротности`](https://ru.wikipedia.org/wiki/Добротность) равное `+1` для получения ожидаемого эффекта.

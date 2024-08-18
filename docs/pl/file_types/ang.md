@@ -7,7 +7,9 @@ Jest to plik przechowujący pozycje, połączenia i parametry dla wszystkich wę
 Tak naprawdę to [JSON](https://en.wikipedia.org/wiki/JSON) plik z łądną ikoną i rozszerzeniem, można go edytować za pomocą dowolnego edytora tekstu, jeśli chcesz cierpieć.
 
 ## Domyślny wygląd tego pliku
+
 Poniższy przykład pokazuje, jak wygląda domyślny Node Graph programu Amethyst po zapisaniu do pliku:
+
 ```json
 {
   "version": 1,

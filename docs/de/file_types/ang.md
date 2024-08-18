@@ -8,7 +8,9 @@ Es ist realistisch gesehen eine serialisierte [JSON](https://en.wikipedia.org/wi
 sie kann mit jedem Texteditor bearbeitet werden, wenn Sie Lust haben, zu leiden.
 
 ## Standardknotengraph
+
 Das unten stehende Beispiel zeigt, wie Amethysts Standardknotengraph aussieht, wenn er in eine Datei gespeichert wird:
+
 ```json
 {
   "version": 1,

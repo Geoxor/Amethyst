@@ -8,7 +8,7 @@ Each of the filters can be duplicated and chained in [series](https://en.wikiped
 
 ## Filter Types
 
-The possible [filter types](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) are the following: 
+The possible [filter types](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) are the following:
 
 - [`allpass`](https://en.wikipedia.org/wiki/All-pass_filter)
 - [`notch` (band-stop)](https://en.wikipedia.org/wiki/Band-stop_filter)
@@ -20,4 +20,5 @@ The possible [filter types](https://developer.mozilla.org/en-US/docs/Web/API/Biq
 - [`lowpass` (highcut)](https://en.wikipedia.org/wiki/Low-pass_filter)
 
 ### Notice
+
 ⚠️ The [`Q`](https://en.wikipedia.org/wiki/Q_factor) and/or [`Gain`](https://en.wikipedia.org/wiki/Gain_(electronics)) may not have an affect with certain types, and/or certain filters require a [`Q`](https://en.wikipedia.org/wiki/Q_factor) value of `+1` to work as expected.

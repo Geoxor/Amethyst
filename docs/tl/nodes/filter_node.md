@@ -8,7 +8,7 @@ Ang mga filters na ito ay maaring i-doble at i-chain sa [series](https://en.wiki
 
 ## Filter Types
 
-Ang mga posibleng [filter types](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) ay ang mga sumusunod: 
+Ang mga posibleng [filter types](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) ay ang mga sumusunod:
 
 - [`allpass`](https://en.wikipedia.org/wiki/All-pass_filter)
 - [`notch` (band-stop)](https://en.wikipedia.org/wiki/Band-stop_filter)
@@ -20,4 +20,5 @@ Ang mga posibleng [filter types](https://developer.mozilla.org/en-US/docs/Web/AP
 - [`lowpass` (highcut)](https://en.wikipedia.org/wiki/Low-pass_filter)
 
 ### Notice
+
 ⚠️ Ang [`Q`](https://en.wikipedia.org/wiki/Q_factor) at/o [`Gain`](https://en.wikipedia.org/wiki/Gain_(electronics)) ay maaaring walang epekto sa mga iilang types, at/o ang mga certain filters ay kinakailangan ng [`Q`](https://en.wikipedia.org/wiki/Q_factor) value of `+1` para gumana gaya ng inaasahan.

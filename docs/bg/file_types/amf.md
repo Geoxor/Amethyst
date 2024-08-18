@@ -8,11 +8,11 @@ If the file is renamed amethyst will have to re-cache the metadata, meaning ther
 
 eg. `enjoii - Never Say Goodbye.flac` => `enjoii - Never Say Goodbye.flac.amf`
 
-
 ## Regeneration
+
 These files are generated when Amethyst analyzes a file for metadata. They can be rewritten by forcefully refreshing metadata
 within Amethyst from the dropdown menu or with the shortcut `CTRL + ALT + R`.
 
 ## Deletion
-As mentioned above, all metadata caches are stored in `%appdata%/amethyst/Metadata Cache`. Simply deleting the files within the folder will achieve cache deletion.
 
+As mentioned above, all metadata caches are stored in `%appdata%/amethyst/Metadata Cache`. Simply deleting the files within the folder will achieve cache deletion.

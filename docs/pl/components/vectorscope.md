@@ -3,7 +3,7 @@
 <img align="right" style="margin-left: 8px;" src="/vectorscope.png" alt=".node" width="128"/>
 
 [Vectorscope](https://en.wikipedia.org/wiki/Vectorscope) jest użytecznym narzędziem wizualizacji, które przeplata amplitudę sygnału [stereo](https://en.wikipedia.org/wiki/Stereophonic_sound) w [dwu-wymiarowy](https://en.wikipedia.org/wiki/2D_computer_graphics) [wykres X-Y](https://en.wikipedia.org/wiki/Oscilloscope#X-Y_mode), w którym
-kanał X jest poziomy a Y jest kanałem pionowym, ujawniając w ten sposób związe między tymi dwoma sygnałami ([korelacja](#correlation)).
+kanał X jest poziomy a Y jest kanałem pionowym, ujawniając w ten sposób związe między tymi dwoma sygnałami ([korelacja](#korelacja)).
 
 ## Uproszczenie
 

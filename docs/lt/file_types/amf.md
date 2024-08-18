@@ -8,10 +8,11 @@ Jei failas yra pervadintas, Amethyst turės atnaujinti metaduomenis, ko pasekoje
 
 pvz. `enjoii - Never Say Goodbye.flac` => `enjoii - Never Say Goodbye.flac.amf`
 
-
 ## Atkūrimas
+
 Šie failai yra sugeneruojami kai Amethyst analizuoja failą metaduomenims gauti. Jie gali būti perrašomi prievarta atnaujinant metaduomenis
 Amethyst išskleidžiamuoju meniu arba klavišų kombinacija `CTRL + ALT + R`.
 
 ## Naikinimas
+
 Kaip buvo minėta, visos metaduomenų talpyklos yra saugomos `%appdata%/amethyst/Metadata Cache`. Panaikinant failus tame aplanke panaikins talpyklas. the files within the folder will achieve cache deletion.

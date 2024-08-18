@@ -7,7 +7,9 @@ Diese Datei wird im Ordner `Metadata Cache` innerhalb von `%appdata%/amethyst` g
 z.B. `enjoii - Never Say Goodbye.flac` => `enjoii - Never Say Goodbye.flac.amf`
 
 ## Erneuerung
+
 Diese Dateien werden erstellt, wenn Amethyst eine Datei auf Metadaten analysiert. Sie können durch erzwingen des Aktualisierens der Metadaten innerhalb von Amethyst aus dem Dropdown-Menü oder mit dem Tastenkürzel `STRG + ALT + R` neu geschrieben werden.
 
 ## Löschung
+
 Wie oben erwähnt, werden alle Metadaten-Caches in `%appdata%/amethyst/Metadata Cache` gespeichert. Durch einfaches Löschen der Dateien innerhalb des Ordners kann der Cache gelöscht werden.

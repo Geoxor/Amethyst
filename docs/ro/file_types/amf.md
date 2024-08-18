@@ -7,9 +7,10 @@ Dacă fișierul este redenumit, amethyst va trebui să re-cacheze metadatele, ce
 
 eg. `enjoii - Never Say Goodbye.flac` => `enjoii - Never Say Goodbye.flac.amf`
 
-
 ## Regenerare
+
 Aceste fișiere sunt generate atunci când Amethyst analizează un fișier pentru metadate. Ele pot fi rescrise prin reîmprospătarea forțată a metadatelor în Amethyst din meniul dropdown sau cu scurtătura `CTRL + ALT + R`.
 
 ## Ștergere
+
 Așa cum este menționat mai sus, toate cache-urile de metadate sunt stocate în `%appdata%/Amethyst/Metadata Cache`. Prin ștergerea fișierelor din folder va realiza ștergerea cache-ului.

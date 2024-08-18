@@ -34,7 +34,7 @@ features:
   - icon: 🔌
     title: Plugins
     details: Suport pentru pluginuri ca să adaugi mai multe funcții
-    
+   
 # Meta property
 head:
   - - meta

@@ -8,7 +8,7 @@ Jokainen suodatin voidaan kopioida ja ketjuttaa [sarjaan](https://en.wikipedia.o
 
 ## Suodatintyypit
 
-Mahdolliset [suodatintyypit](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) ovat seuraavat: 
+Mahdolliset [suodatintyypit](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) ovat seuraavat:
 
 - [`allpass`](https://en.wikipedia.org/wiki/All-pass_filter)
 - [`notch` (band-stop)](https://en.wikipedia.org/wiki/Band-stop_filter)
@@ -20,4 +20,5 @@ Mahdolliset [suodatintyypit](https://developer.mozilla.org/en-US/docs/Web/API/Bi
 - [`lowpass` (highcut)](https://en.wikipedia.org/wiki/Low-pass_filter)
 
 ### Huomio
+
 ⚠️ [`Q`](https://en.wikipedia.org/wiki/Q_factor) ja/tai [`Gain`](https://en.wikipedia.org/wiki/Gain_(electronics)) eivät välttämättä vaikuta tietyntyyppisiin suodattimiin, ja/tai tietyt suodattimet vaativat [`Q`](https://en.wikipedia.org/wiki/Q_factor) -arvon `+1` toimiakseen odotetusti.

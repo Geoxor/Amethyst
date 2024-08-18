@@ -6,9 +6,10 @@ Tämä tiedosto tallennetaan `Metadata Cache`-kansioon nimellä `%appdata%/ameth
 
 esim. `enjoii - Never Say Goodbye.flac` => `enjoii - Never Say Goodbye.flac.amf`
 
-
 ## Uudelleenluonti
+
 Nämä tiedostot luodaan, kun Amethyst analysoi tiedostoa metatietojen saamiseksi. Ne voidaan kirjoittaa uudelleen pakottamalla metatietojen virkistäminen Amethystissä pudotusvalikosta tai pikakuvakkeella `CTRL + ALT + R`.
 
 ## Poisto
+
 Kuten aiemmin mainittiin, kaikki metatietovälimuistit tallennetaan `%appdata%/Amethyst/Metadata Cache`-kansioon. Pelkkä tiedostojen poisto kansiossa poistaa välimuistin.

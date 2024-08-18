@@ -5,6 +5,7 @@
 Ein [Vektorskop](https://de.wikipedia.org/wiki/Vektorskop) ist ein nützliches Werkzeug zur Visualisierung, das die Amplitude eines [stereophonen](https://de.wikipedia.org/wiki/Stereophonie) Signals in einem [zweidimensionalen](https://de.wikipedia.org/wiki/2D-Computergrafik) [X-Y-Diagramm](https://de.wikipedia.org/wiki/Oszilloskop#X-Y-Modus) plottet, wobei X horizontal für Kanal eins und Y vertikal für Kanal zwei ist und somit die Beziehung zwischen den beiden Signalen ([Korrelation](#korrelation)) offenbart.
 
 ## Vereinfachung
+
 Einfach ausgedrückt zeigt das Vektorskop, wie "breit" oder "stereophon" das Signal ist.
 
 ## Korrelation

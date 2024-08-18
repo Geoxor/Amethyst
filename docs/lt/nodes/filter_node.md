@@ -8,7 +8,7 @@ Kiekvienas filtras gali būti dublikuotas ir sujungtas [serijomis](https://en.wi
 
 ## Filtrų tipai
 
-Galimi [filtrų tipai](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) yra: 
+Galimi [filtrų tipai](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) yra:
 
 - [`allpass`](https://en.wikipedia.org/wiki/All-pass_filter)
 - [`notch` (band-stop)](https://en.wikipedia.org/wiki/Band-stop_filter)
@@ -20,4 +20,5 @@ Galimi [filtrų tipai](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFi
 - [`lowpass` (highcut)](https://en.wikipedia.org/wiki/Low-pass_filter)
 
 ### Notice
+
 ⚠️ [`Q`](https://en.wikipedia.org/wiki/Q_factor) ir/ar [`Stiprinimas`](https://en.wikipedia.org/wiki/Gain_(electronics)) gali neturėti efekto su kai kuriais tipais ir/ar kai kurie filtrai reikalauja [`Q`](https://en.wikipedia.org/wiki/Q_factor) reikšmės `+1`, kad veiktų tinkamai.

@@ -8,10 +8,11 @@ Jeśli plik zmieni nazwę, amethyst będzie musiał ponownie zbuforować metadan
 
 np. `enjoii - Never Say Goodbye.flac` => `enjoii - Never Say Goodbye.flac.amf`
 
-
 ## Rekreacja
+
 Te pliki są generowane, gdy Amethyst analizuje plik pod kątem metadanych. Mogą być nadpisane przez wymuszone odświeżenie metadanych
 w Amethyst z rozwijanego menu lub za pomocą skrótu `CTRL + ALT + R`.
 
 ## Usuwanie
+
 Jak wspomniano powyżej, wszystkie pliki podręczne metadanych są przechowywane w `%appdata%/amethyst/Metadata Cache`. Po prostu usunięcie plików w tym folderze spowoduje usunięcie pamięci podręcznej.

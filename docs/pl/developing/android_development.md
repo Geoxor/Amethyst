@@ -7,6 +7,7 @@ Upewnij się że wykonałeś wszystkie kroki opisane w [Przygotowywanie środowi
 1. Potrzebujesz [ustawić emulowane lub fizyczne urządzenie](https://developer.android.com/studio/run/device) w [Android Studio](https://developer.android.com/studio).
 
 2. W `capacitor.config.ts` powinieneś zaktualizować adres IP serwera dev na adres komputera
+
     ```ts
     const devConfig: CapacitorConfig = {
       ...commonConfig,

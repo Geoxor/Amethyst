@@ -6,9 +6,10 @@ Ce fichier est stocké dans le dossier `Metadata Cache` à l'intérieur de `%app
 
 Exemple : `enjoii - Never Say Goodbye.flac` => `enjoii - Never Say Goodbye.flac.amf`
 
-
 ## Regénération
+
 Ces fichiers sont créés lorsqu'Amethyst analyse un fichier pour en extraire les métadonnées. Ils peuvent être réécrits en actualisant de force les métadonnées depuis le menu déroulant d'Amethyst ou en utilisant le raccourci `CTRL + ALT + R`.
 
 ## Suppression
+
 Comme mentionné précédemment, toutes les métadonnées en cache sont stockées `%appdata%/Amethyst/Metadata Cache`. Supprimer simplement les fichiers à l'intérieur du dossier permettra de vider le cache.

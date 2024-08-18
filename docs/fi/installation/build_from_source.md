@@ -1,22 +1,23 @@
 # Rakentaminen lähteestä
+
 Tätä lähestymistapaa käyttävien henkilöiden odotetaan tuntevan, miten tämä tehdään (kloonaus, rakentaminen jne.).
 
 Tämä komento rakentaa Amethystin järjestelmääsi varten kansioon `./release/build`
 
 ## Windows
+
 ```sh
 $ git clone --recurse-submodules https://github.com/geoxor/amethyst \
   && cd amethyst \
   && yarn \
-  && yarn package 
+  && yarn package
 ```
 
 ## Linux
 
-⚠️ If you're on Linux the command above will attempt to compile for 
+⚠️ If you're on Linux the command above will attempt to compile for
 `AppImage`, `deb`, `rpm` and `snap`. It will most likely fail as you're going to be missing the
 dependencies required to build them.
-
 
 **Sinun pitäisi tehdä jotain seuraavanlaista:**
 

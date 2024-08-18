@@ -4,8 +4,8 @@
 
 [**Vektoriskooppi**](https://en.wikipedia.org/wiki/Vectorscope) on hyödyllinen visualisointityökalu, joka piirtää [stereofonisen](https://fi.wikipedia.org/wiki/Stereofoninen_ääni) signaalin voimakkuuden [kaksidimensionaaliseen](https://fi.wikipedia.org/wiki/2D-grafiikka) [X-Y-koordinaatistoon](https://fi.wikipedia.org/wiki/Oskilloskooppi#X-Y-tila). X-akselilla on ensimmäinen kanava vaakasuunnassa ja Y-akselilla toinen kanava pystysuunnassa, paljastaen näin kahden signaalin välisen suhteen ([korrelaatio](#korrelaatio)).
 
-
 ## Yksinkertaistettuna
+
 Yksinkertaisesti sanottuna vektoriskooppi näyttää kuinka "leveä" tai "stereo" signaali on.
 
 ## Korrelaatio

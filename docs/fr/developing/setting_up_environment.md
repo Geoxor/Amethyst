@@ -1,11 +1,11 @@
 # Configurer l'environnement de développement
 
 ## Prérequis
+
   - [Node.js](https://nodejs.org/en) ^19.1.0
   - [npm](https://docs.npmjs.com/downloading-and-installing-node-js-and-npm/) ^8.19.0
   - [Visual Studio Build Tools 2019](https://visualstudio.microsoft.com/downloads/) Community Edition
   - [Android Studio](https://developer.android.com/studio) ^2022.1.1 _(si vous envisagez de développer pour Android)_
-
 
 ## Cloner pour la première fois
 
@@ -16,11 +16,13 @@ $ git clone --recurse-submodules https://github.com/geoxor/amethyst && cd amethy
 ```
 
 Installez [Yarn](https://classic.yarnpkg.com/lang/en/docs/install/#windows-stable) si vous ne l'avez pas déjà
+
 ```sh
 $ npm i -g yarn
 ```
 
 Installez les dépendances
+
 ```sh
 $ yarn
 ```

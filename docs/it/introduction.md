@@ -1,10 +1,12 @@
-<img align="right" src="https://media.discordapp.net/attachments/667464431562653706/1025732056124235826/icon.png?width=128&height=128">
+<img align="right" src="https://github.com/Geoxor/Amethyst/blob/master/assets/icon.png?raw=true" width="128">
 
-# Amethyst 
+# Amethyst
+
 Amethyst è un [A base di elettroni](https://electronjs.org/) lettore audio con un [grafico dei nodi](https://en.wikipedia.org/wiki/Node_graph_architecture) [instradamento audio](https://it.wikipedia.org/wiki/Flusso_del_segnale) sistema. L'obiettivo principale di questo progetto è creare un [lettore musicale](https://it.wikipedia.org/wiki/Lettore_multimediale) in [Dattiloscritto](https://www.typescriptlang.org/) per vedere fino a che punto possiamo allungare il linguaggio per provalo  è possibile fornire funzionalità di livello professionale come la maggior parte [DAWs](https://it.wikipedia.org/wiki/Workstation_audio_digitale) / [DAEs](https://it.wikipedia.org/wiki/Editor_audio), fornendo anche allo stesso tempo strumenti utili e possibilità di personalizzazione per il [utente finale](https://en.wikipedia.org/wiki/End_user) per sperimentare l'audio nel modo essi desiderato.
-![Ametista](https://cdn.discordapp.com/attachments/667464431562653706/1043343748593107004/image.png)
+![Ametista](https://github.com/user-attachments/assets/a5656d1e-1327-4dec-b312-fb30db290b42)
 
 ## Caratteristiche
+
 - Cursori personalizzati
 - Supporto per animato [GIF](https://it.wikipedia.org/wiki/Graphics_Interchange_Format) copertine artistiche
 - [Multicanale](https://it.wikipedia.org/wiki/Surround) (fino a 9.1.2) dB metri

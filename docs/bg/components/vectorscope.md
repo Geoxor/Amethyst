@@ -6,6 +6,7 @@ A [vectorscope](https://en.wikipedia.org/wiki/Vectorscope) is a useful visualiza
 X being channel one horizontally and Y being channel two vertically, thus revealing the relationship between the two signals ([correlation](#correlation)).
 
 ## Simplification
+
 Simply put, the vectorscope shows how "wide" or "stereo" the signal is.
 
 ## Correlation
