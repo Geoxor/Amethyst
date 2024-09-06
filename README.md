@@ -17,7 +17,9 @@ Amethyst is an [Electron-based](https://electronjs.org/) cross-platform audio pl
 
 ## 📝 Contributing
 
-- Use `Node.js v18.0.0`
+NOTE: [nvm](https://github.com/nvm-sh/nvm) is suggested, so you can have multiple different versions of node.js installed simultaneously.
+
+- Use `Node.js v20.0.0`
 - Use the `recommended extensions`
 - Have `libvips` installed for linux
 - Have `yarn` installed
