@@ -18,7 +18,7 @@ Amethyst ist ein plattformübergreifender [Electron-basierter](https://electronj
 
 ## 📝 Mitwirken
 
-- Verwende `Node.js v18.0.0`
+- Verwende `Node.js v20.0.0`
 - Verwende die `empfohlenen Erweiterungen`
 - Installiere `libvips` für Linux
 - Installiere `yarn`
