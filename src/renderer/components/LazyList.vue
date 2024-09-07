@@ -50,19 +50,19 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
         Title
       </div>
 
-       <div class="w-72 min-w-72"/>
+       <div class="w-56 min-w-56"/>
 
        <div class="th title">
         Location
       </div>
 
-      <div class="w-12 min-w-12"/>
+      <div class="w-8 min-w-8"/>
 
       <div class="th title">
         Album
       </div>
 
-      <div class="w-48 min-w-48"/>
+      <div class="w-36 min-w-36"/>
 
       <div class="th title">
         Year
@@ -150,7 +150,6 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
             />
       </div>
 
-
       <div class="td title">
             <span v-if="item.getTitle()" class="w-1">
               {{ item.getTitle() }}
@@ -160,7 +159,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
             </span>
           </div>
 
-      <div class="w-24 min-w-24"/>
+      <div class="w-12 min-w-12"/>
 
       <div class="td">
             <span v-if="item.getArtistsFormatted()" class="w-1">
@@ -171,7 +170,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
             </span>
           </div>
 
-      <div class="w-20 min-w-20"/>
+      <div class="w-12 min-w-12"/>
 
       <div class="td">
         <button class="cursor-pointer hover:text-white" @click.stop.prevent="amethyst.showItem(item.path)">
@@ -179,7 +178,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
         </button>
       </div>
 
-      <div class="w-8 min-w-8"/>
+       <div class="w-4 min-w-4"/>
 
       <div class="td">
             <span v-if="item.getAlbumFormatted()" class="w-1">
@@ -190,7 +189,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
             </span>
           </div>
 
-      <div class="w-44 min-w-44"/>
+      <div class="w-28 min-w-28"/>
 
       <div class="td">
             <span v-if="item.getMetadata()?.common.year" class="w-1">
@@ -225,7 +224,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
             </span>
           </div>
 
-      <div class="w-8 min-w-8"/>
+      <div class="w- min-w-8"/>
 
       <div
             class="td"
