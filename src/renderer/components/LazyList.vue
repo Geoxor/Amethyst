@@ -10,15 +10,7 @@ import { Track } from "@/logic/track";
 import { useInspector } from "./Inspector";
 import { ref, watch } from 'vue';
 
-const props = defineProps<{tracks: Track[]}>();
-
-const localTracks = ref(props.tracks); // <--
-
-// Watch for changes in the prop and update the local ref
-watch(() => props.tracks, (newTracks) => {
-  console.log(newTracks);
-  localTracks.value = newTracks;
-});
+defineProps<{tracks: Track[]}>();
 
 const isHoldingControl = useShortcuts().isControlPressed;
 
@@ -72,7 +64,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           <th class="th">Size</th>
       </tr>
       <tr
-        v-for="(track, index) in localTracks" :key="index"
+        v-for="(track, index) in tracks" :key="index"
         :class="[
             isHoldingControl && 'control cursor-external-pointer', 
             track.hasErrored && 'opacity-50 not-allowed',
@@ -98,18 +90,8 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           </td>
 
           <td>
-            <loading-icon
-              v-if="track.isLoading"
-            class="animate-spin h-8 w-8 min-h-8 min-w-8 rounded-md"
-            />
-
-            <error-icon
-              v-else-if="track.hasErrored"
-              class="h-8 w-8 min-h-8 min-w-8 rounded-md"
-            />
-
             <AmethystIcon
-              v-else-if="track.deleted"
+              v-if="track.isLoading || track.deleted || track.hasErrored"
               class="h-8 w-8 min-h-8 min-w-8 rounded-md"
             />
     
