@@ -3,13 +3,23 @@ import { amethyst, useShortcuts } from "@/amethyst";
 import BaseChip from "@/components/BaseChip.vue";
 import { useContextMenu } from "@/components/ContextMenu";
 import Cover from "@/components/CoverArt.vue";
-import { AmethystIcon, HeartIcon, SSDIcon } from "@/icons";
+import { AmethystIcon, HeartIcon, SSDIcon, PlayIcon, NotPlayingIcon } from "@/icons";
 import { saveArrayBufferToFile } from "@/logic/dom";
 import { convertDfpwm } from "@/logic/encoding";
 import { Track } from "@/logic/track";
 import { useInspector } from "./Inspector";
+import { ref, watch } from 'vue';
 
-defineProps<{tracks: Track[]}>();
+const props = defineProps<{tracks: Track[]}>();
+
+const localTracks = ref(props.tracks); // <--
+
+// Watch for changes in the prop and update the local ref
+watch(() => props.tracks, (newTracks) => {
+  console.log(newTracks);
+  localTracks.value = newTracks;
+});
+
 const isHoldingControl = useShortcuts().isControlPressed;
 
 // Context Menu options for this component 
@@ -37,246 +47,145 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
 
 <template>
   <div class="text-13px min-h-0 h-full flex flex-col text-left relative select-none">
-    <header class="flex text-primary-900 font-bold mb-8 mr-1 justify-between">
-      <div class="w-8 min-w-8"/>
-
-      <div class="th title">
-        Cover
-      </div>
-
-      <div class="w-4 min-w-4"/>
-
-      <div class="th title">
-        Title
-      </div>
-
-       <div class="w-56 min-w-56"/>
-
-       <div class="th title">
-        Location
-      </div>
-
-      <div class="w-8 min-w-8"/>
-
-      <div class="th title">
-        Album
-      </div>
-
-      <div class="w-36 min-w-36"/>
-
-      <div class="th title">
-        Year
-      </div>
-
-      <div class="w-12 min-w-12"/>
-
-      <div class="th title">
-        Duration
-      </div>
-
-      <div class="w-12 min-w-12"/>
-
-      <div class="th title">
-        Format
-      </div>
-
-      <div class="w-12 min-w-12"/>
-
-      <div class="th title">
-        Favorite
-      </div>
-
-      <div class="w-12 min-w-12"/>
-
-      <div class="th title">
-        Bitrate
-      </div>
-
-      <div class="w-12 min-w-12"/>
-
-      <div class="th title">
-        Size
-      </div>
-
-      <div class="w-12 min-w-12"/>
-
-    </header>
-    
-    <RecycleScroller
-      class="h-full w-full"
-      :items="tracks"
-      :item-size="28"
-      key-field="path"
-      :buffer="32"
-    >
-      <template
-        #default="{ item }"
-      >
-        <div
-          :class="[
+  <div class="overflow-y-auto">
+    <table class="ml-8 mr-8 justify-between text-left">
+      <colgroup>
+        <col span="1" width="10">
+        <col span="1" width="50">
+        <col span="2" width="300">
+        <col span="8" width="200">
+      </colgroup>
+      <tr>
+          <!-- used as spacer for Status Icons name -->
+          <th class="th"></th>
+          <th class="th title">Cover</th>
+          <th class="th title">Title</th>
+          <!-- used as spacer for Artist name -->
+          <th class="th"></th>
+          <th class="th">Location</th>
+          <th class="th">Album</th>
+          <th class="th">Year</th>
+          <th class="th">Duration</th>
+          <th class="th">Format</th>
+          <th class="th">Favorite</th>
+          <th class="th">Bitrate</th>
+          <th class="th">Size</th>
+      </tr>
+      <tr
+        v-for="(track, index) in localTracks" :key="index"
+        :class="[
             isHoldingControl && 'control cursor-external-pointer', 
-            item.hasErrored && 'opacity-50 not-allowed',
-            item.deleted && 'opacity-50 !text-rose-400 not-allowed',
+            track.hasErrored && 'opacity-50 not-allowed',
+            track.deleted && 'opacity-50 !text-rose-400 not-allowed',
 
-            amethyst.player.getCurrentTrack()?.path == item.path && 'currentlyPlaying',
-            useInspector().state.isVisible && useInspector().state.currentItem == item && 'currentlyInspecting'
+            amethyst.player.getCurrentTrack()?.path == track.path && 'currentlyPlaying',
+            useInspector().state.isVisible && useInspector().state.currentItem == track && 'currentlyInspecting'
           ]"
           class="row"
-          @contextmenu="handleContextMenu($event, item)"
+          @contextmenu="handleContextMenu($event, track)"
           @keypress.prevent
-          @click="isHoldingControl ? amethyst.showItem(item.path) : amethyst.player.play(item)"
-        >
-      <div class="w-2 min-w-2"/>
+          @click="isHoldingControl ? amethyst.showItem(track.path) : amethyst.player.play(track)"
+      >
+          <td>
+            <PlayIcon
+              v-if="amethyst.player.getCurrentTrack()?.path == track.path "
+              class="h-8 w-8 min-h-8 min-w-8 mr-2 ml-2"
+            />
+            <NotPlayingIcon
+              v-else
+              class="h-8 w-8 min-h-8 min-w-8 mr-2 ml-2"
+            />
+          </td>
 
-      <div class="td" >
-        <loading-icon
-          v-if="item.isLoading"
-          class="animate-spin h-5 w-5 min-h-5 min-w-5"
-        />
+          <td>
+            <loading-icon
+              v-if="track.isLoading"
+            class="animate-spin h-8 w-8 min-h-8 min-w-8 rounded-md"
+            />
+
             <error-icon
-              v-else-if="item.hasErrored"
-              class="h-5 w-5 min-h-5 min-w-5"
+              v-else-if="track.hasErrored"
+              class="h-8 w-8 min-h-8 min-w-8 rounded-md"
             />
 
             <AmethystIcon
-              v-else-if="item.deleted"
-              class="h-5 w-5 min-h-5 min-w-5"
+              v-else-if="track.deleted"
+              class="h-8 w-8 min-h-8 min-w-8 rounded-md"
             />
     
             <cover
               v-else
-              class="w-5 h-5 min-h-5 min-w-5"
-              :url="(item.isLoaded && item.getCover()) as string"
+              class="w-8 h-8 min-h-8 min-w-8 rounded-md"
+              :url="(track.isLoaded && track.getCover()) as string"
             />
-      </div>
+          </td>
 
-      <div class="td title">
-            <span v-if="item.getTitle()" class="w-1">
-              {{ item.getTitle() }}
-            </span>
-            <span v-else class="w-1">
-              Not Available
-            </span>
-          </div>
+          <td>
+            <span v-if="track.getTitle()">{{ track.getTitle() }}</span>
+            <span v-else>N/A</span>
+          </td>
 
-      <div class="w-12 min-w-12"/>
+          <td>
+            <span v-if="track.getArtistsFormatted()">{{ track.getArtistsFormatted() }}</span>
+            <span v-else>N/A</span>
+          </td>
 
-      <div class="td">
-            <span v-if="item.getArtistsFormatted()" class="w-1">
-              {{ item.getArtistsFormatted() }}
-            </span>
-            <span v-else class="w-1">
-              Not Available
-            </span>
-          </div>
+          <td>
+            <button class="cursor-pointer hover:text-white" @click.stop.prevent="amethyst.showItem(track.path)">
+                <SSDIcon class="h-5 w-5 min-h-5 min-w-5"/>
+            </button>
+          </td>
 
-      <div class="w-12 min-w-12"/>
+          <td>
+            <span v-if="track.getAlbumFormatted()">{{ track.getAlbumFormatted() }}</span>
+            <span v-else>N/A</span>
+          </td>
 
-      <div class="td">
-        <button class="cursor-pointer hover:text-white" @click.stop.prevent="amethyst.showItem(item.path)">
-            <SSDIcon class="h-5 w-5 min-h-5 min-w-5"/>
-        </button>
-      </div>
+          <td>
+            <span v-if="track.getMetadata()">{{ track.getMetadata()?.common.year }}</span>
+            <span v-else>N/A</span>
+          </td>
 
-       <div class="w-4 min-w-4"/>
+          <td>
+            <span v-if="track.getDurationFormatted(true)">{{ track.getDurationFormatted(true) }}</span>
+            <span v-else>N/A</span>
+          </td>
 
-      <div class="td">
-            <span v-if="item.getAlbumFormatted()" class="w-1">
-              {{ item.getAlbumFormatted() }}
-            </span>
-            <span v-else class="w-1">
-              Not Available
-            </span>
-          </div>
+          <td>
+            <span v-if="track.getMetadata()">{{ track.getMetadata()?.format.container }}</span>
+            <span v-else>N/A</span>
+          </td>
 
-      <div class="w-28 min-w-28"/>
+          <td class="pl-4">
+            <HeartIcon class="h-4 w-4 min-h-4 min-w-4"/>
+          </td>
 
-      <div class="td">
-            <span v-if="item.getMetadata()?.common.year" class="w-1">
-              {{ item.getMetadata()?.common.year }}
-            </span>
-            <span
-              v-else class="w-1"
-            >
-              Not Available
-            </span>
-      </div>
+          <td>
+            <span v-if="track.getBitrateFormatted()">{{ track.getBitrateFormatted() }}</span>
+            <span v-else>N/A</span>
+          </td>
 
-      <div class="w-8 min-w-8"/>
-
-      <div class="td">
-            <span class="w-1">
-              {{ item.getDurationFormatted(true) }}
-            </span>
-      </div>
-
-      <div class="w-8 min-w-8"/>
-
-      <div class="td">
-            <span v-if="item.getMetadata()?.format.container" class="w-1">
-              {{ item.getMetadata()?.format.container }}
-            </span>
-            <span
-              v-else
-              class="w-1"
-            >
-              Not Available
-            </span>
-          </div>
-
-      <div class="w- min-w-8"/>
-
-      <div
-            class="td"
-          >
-            <HeartIcon
-              class="h-4 w-4 min-h-4 min-w-4"
-            />
-          </div>
-
-      <div class="w-4 min-w-4"/>
-
-      <div class="td">
-            <span class="w-1">
-              {{ item.getBitrateFormatted() }}
-            </span>
-          </div>
-
-      <div class="w-4 min-w-4"/>
-
-      <div class="td">
-            <span class="w-1">
-              {{ item.getFilesizeFormatted() }}
-            </span>
-      </div>
-      <div class="w-16 min-w-16"/>
-        </div>
-      </template>
-    </RecycleScroller>
+          <td>
+            <span v-if="track.getFilesizeFormatted()">{{ track.getFilesizeFormatted() }}</span>
+            <span v-else>N/A</span>
+          </td>
+      </tr>
+    </table>
+  </div>
   </div>
 </template>
 
 <style lang="postcss">
 
-.th,
-.td {
-  @apply text-text_subtitle;
-
-  & strong {
-    @apply text-13px text-opacity-50;
-  }
-
-  &.title {
-    @apply text-text_title text-13px;
-  }
+th {
+  @apply sticky top-0 z-10 bg-surface-900 pt-4 pb-4;
 }
 
-.td {
-  @apply overflow-visible flex items-center font-weight-user-defined text-13px;
+td {
+  @apply pt-2 pb-2;
 }
 
 .row {
-  @apply flex justify-between;
 
   &:hover {
     @apply text-accent;
@@ -300,20 +209,6 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
       @apply bg-opacity-15;
     }
   }
-}
-
-.vue-recycle-scroller__slot {
-  @apply flex;
-}
-
-.vue-recycle-scroller__slot,
-.vue-recycle-scroller__item-view {
-  @apply  text-left;
-}
-
-.vue-recycle-scroller__slot .th:first-child,
-.vue-recycle-scroller__item-view .td:first-child {
-  @apply w-4 max-w-4;
 }
 
 </style>
