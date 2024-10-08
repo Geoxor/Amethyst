@@ -189,9 +189,24 @@ class AmethystBackend {
   };
   
   public openAudioFoldersAndAddToQueue = async () => {
-    // amethyst.showOpenFolderDialog().then(result => {
-    //   !result.canceled && amethyst.player.queue.add(flattenArray(result.filePaths));
-    // }).catch(error => console.error(error));
+    amethyst.showOpenFolderDialog().then(async (result) => {
+      if (!result.canceled) {
+        let files = await window.fs.readdir(result.filePaths[0]);
+        for (let idx in files) {
+          let found = false;
+          for (let extension of ALLOWED_AUDIO_EXTENSIONS) {
+            if (files[idx].endsWith(extension)) {
+              found = true;
+              files[idx] = window.path.join(result.filePaths[0], files[idx]);
+            }
+          } 
+          if (!found) {
+            files.splice(parseInt(idx), 1);
+          }
+        }
+        amethyst.player.queue.add(files);
+      }
+    }).catch(error => console.error(error));
   };
 }
 
