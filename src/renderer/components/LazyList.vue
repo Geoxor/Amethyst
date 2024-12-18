@@ -38,8 +38,6 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
 <template>
   <div class="text-13px min-h-0 h-full flex flex-col text-left relative select-none">
     <header class="flex text-primary-900  font-bold mb-2 mr-1">
-      <!-- refer to TODO down below. -->
-      <!-- <div class="w-4 ml-3" /> -->
       <div class="w-4" />
 
       <div class="th">
@@ -88,14 +86,6 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           @keypress.prevent
           @click="isHoldingControl ? amethyst.showItem(item.path) : amethyst.player.play(item)"
         >
-          <!--
-            TODO: Fix cover art and header sizing.
-            -----
-            Cover art is not fully displayed, and the following element needs 'min-w-5' to display it fully,
-            but it messes with the column header sizes and . Also look at the line that's commented out where the header is defined.
-            Screenshot of described changes: https://files.catbox.moe/vf22mf.png
-            - Flleeppyy
-          -->
           <div
             class="td max-w-5"
           >
