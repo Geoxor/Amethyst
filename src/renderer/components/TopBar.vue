@@ -8,7 +8,7 @@ import MenuSplitter from "@/components/menu/MenuSplitter.vue";
 import { AmethystIcon } from "@/icons";
 import { countDomElements, refreshWindow, smoothTween } from "@/logic/dom";
 import { useFps } from "@vueuse/core";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, provide, ref } from "vue";
 import BaseChip from "./BaseChip.vue";
 import TitleText from "./v2/TitleText.vue";
 
@@ -37,6 +37,13 @@ const state = useState();
 
 const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem() === "mac" ? "⌘" : "CTRL");
 
+const menuGroupRef = ref<{
+  activeMenu: string | null;
+}>({
+  activeMenu: null
+});
+
+provide('menuGroupRef', menuGroupRef);
 </script>
 
 <template>
@@ -174,7 +181,7 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
       </Menu>
     </div>
 
-    <p class="absolute flex items-center gap-1 left-1/2 transform-gpu -translate-x-1/2 select-none ">
+    <p class="absolute flex items-center gap-1 left-1/2 transform-gpu -translate-x-1/2 select-none">
       <title-text text="Amethyst" />
       <title-text
         class="opacity-50 font-normal capitalize"

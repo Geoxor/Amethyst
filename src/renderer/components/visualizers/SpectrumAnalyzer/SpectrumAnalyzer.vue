@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import { scaleLog, interpolateArray } from "@/logic/math";
-import { ref, Ref, onMounted, watch, onUnmounted } from "vue";
-import * as THREE from "three";
 import { useState } from "@/amethyst";
+import { interpolateArray, scaleLog } from "@/logic/math";
+import * as THREE from "three";
+import { Ref, onMounted, onUnmounted, ref, watch } from "vue";
 
 const props = defineProps<{ node: AudioNode }>();
 let shouldStopRendering = false;
 
 const getDimensions = () => {
+  if (!threeCanvas.value) return;
   const containerWidth = threeCanvas.value.parentElement!.getBoundingClientRect().width;
   const containerHeight = threeCanvas.value.parentElement!.getBoundingClientRect().height;
 
@@ -18,9 +19,9 @@ const getDimensions = () => {
 
 const threeCanvas = ref() as Ref<HTMLCanvasElement>;
 onMounted(async () => {
-  if (!threeCanvas.value) return;
+  const { width, height } = getDimensions() || {};
+  if (!width || !height) return;
 
-  const { width, height } = getDimensions();
 
   const cube = (width: number = 1.0, offset: number = 1.0): THREE.Vector2[] => {
     const vertices: THREE.Vector2[] = [];
@@ -105,8 +106,8 @@ onMounted(async () => {
   renderer.setClearColor(0x000000, 0); // the default
 
   const resizeObserver = new ResizeObserver(() => {
-    const { width, height } = getDimensions();
-    renderer.setSize(width, height);
+    const d = getDimensions();
+    if (d) renderer.setSize(d.width, d.height);
 
   });
 

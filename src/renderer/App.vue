@@ -36,16 +36,22 @@ onUnmounted(() => {
 <template>
   <div class="flex fixed flex-col bg-surface-900">
     <div
+        v-if="state.state.isShowingBigCover"
+        class="pointer-events-auto z-20 top-10 left-0 absolute w-full h-full"
+        @click="state.state.isShowingBigCover = !state.state.isShowingBigCover"
+      />
+    <div
       v-if="state.state.isShowingBigCover"
       class="absolute select-none rounded-8px w-full sm:w-auto max-w-3/4 max-h-3/4 overflow-hidden top-1/2 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2 z-50"
       style="aspect-ratio: 1/1;"
     >
       <cover-art 
         :url="ambientBackgroundImage"
-        class="w-full drop-shadow-2xl"
+        class="w-full drop-shadow-2xl z-30"
         @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
           { title: 'Export cover...', icon: AmethystIcon, action: () => amethyst.player.getCurrentTrack()?.exportCover() },
         ]);"
+        @click="state.state.isShowingBigCover = !state.state.isShowingBigCover"
       />
 
       <button
@@ -70,7 +76,8 @@ onUnmounted(() => {
           state.settings.value.ambientBackgroundSpin && 'animate-spin'
         ]" 
         :style="`
-        animation-duration: ${state.settings.value.ambientBackgroundSpinSpeed}s;
+        animation-play-state: ${state.settings.value.pauseVisualsWhenUnfocused && !state.state.isFocused ? 'paused' : 'running'};
+        animation-duration: ${65 - Math.round(1 + ((state.settings.value.ambientBackgroundSpinSpeed - 1) * 63 / 99))}s;
         opacity: ${state.settings.value.ambientBackgroundOpacity}%;
         filter: blur(${state.settings.value.ambientBackgroundBlurStrength}px);
       `"
@@ -163,7 +170,29 @@ onUnmounted(() => {
         <div class="flex flex-col w-full">
           <router-view class="overflow-hidden disable-select no-drag" />
           <div
+            v-if="(state.settings.value.showBigVectorscope && !state.settings.value.showBigSpectrum) && amethyst.player.source"
+            class="absolute bottom-0 right-0 z-10 opacity-95 p-2"
+          >
+            <button
+              class="p-3 absolute top-3 right-5 cursor-pointer text-primary-1000 hover:text-white"
+              @click="state.settings.value.showBigVectorscope = false"
+            >
+              <AmethystIcon class="w-4 h-4" />
+            </button>
+            <Vectorscope
+              :key="amethyst.player.nodeManager.getNodeConnectinsString()"
+              :width="256"
+              :height="256"
+              class="h-64 w-64 bg-surface-1000"
+              :node="amethyst.player.nodeManager.master.pre"
+              @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
+                { title: 'Hide', icon: AmethystIcon, action: () => state.settings.value.showBigVectorscope = false },
+              ]);"
+            />
+          </div>
+          <div
             class="flex justify-end w-full gap-2"
+            v-if="(state.settings.value.showBigSpectrum && state.settings.value.showBigVectorscope) || (!state.settings.value.showBigVectorscope && state.settings.value.showBigSpectrum)"
             :class="[(state.settings.value.showBigSpectrum || state.settings.value.showBigVectorscope) && 'p-2']"
           >
             <div
@@ -220,6 +249,7 @@ onUnmounted(() => {
       >
         <db-meter
           v-if="state.settings.value.showDbMeter && state.settings.value.decibelMeterSeperatePrePost && amethyst.player.source"
+          class="duration-user-defined cursor-pointer"
           :key="amethyst.player.nodeManager.getNodeConnectinsString()"
           :node="amethyst.player.nodeManager.master.pre"
           pre
@@ -227,10 +257,11 @@ onUnmounted(() => {
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide decibel meter', icon: AmethystIcon, action: () => state.settings.value.showDbMeter = false },
           ]);"
-          @click="router.push({name: 'audio-monitor'})"
+          @click="router.currentRoute.value.name === 'audio-monitor' ? router.back() : router.push({ name: 'audio-monitor' })"
         />
         <db-meter
           v-if="state.settings.value.showDbMeter && amethyst.player.source"
+          class="duration-user-defined cursor-pointer"
           :key="amethyst.player.nodeManager.getNodeConnectinsString()"
           :node="amethyst.player.nodeManager.master.post"
           post
@@ -238,7 +269,7 @@ onUnmounted(() => {
           @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
             { title: 'Hide decibel meter', icon: AmethystIcon, action: () => state.settings.value.showDbMeter = false },
           ]);"
-          @click="router.push({name: 'audio-monitor'})"
+          @click="router.currentRoute.value.name === 'audio-monitor' ? router.back() : router.push({ name: 'audio-monitor' })"
         />
 
         <loudness-meter 
@@ -256,7 +287,7 @@ onUnmounted(() => {
           :node="amethyst.player.nodeManager.master.pre"
           :width="76"
           :height="76"
-          class="clickable"
+          class="clickable hover:bg-accent hover:bg-opacity-10 duration-user-defined cursor-pointer"
           :class="[
             state.settings.value.showBigVectorscope && 'border-primary-700 bg-primary-700 bg-opacity-10 hover:bg-opacity-20'
           ]"
@@ -271,7 +302,7 @@ onUnmounted(() => {
         <SpectrumAnalyzer
           v-if="state.settings.value.showSpectrum && amethyst.player.source"
           :key="amethyst.player.nodeManager.getNodeConnectinsString()"
-          class="clickable h-76px w-152px min-h-76px min-w-152px bg-surface-900"
+          class="clickable h-76px w-152px min-h-76px min-w-152px bg-surface-900 hover:bg-accent hover:bg-opacity-10 duration-user-defined cursor-pointer"
           :class="[
             state.settings.value.showBigSpectrum && 'border-primary-700 bg-primary-700 bg-opacity-10 hover:bg-opacity-20'
           ]"

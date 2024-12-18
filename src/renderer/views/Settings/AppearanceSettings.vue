@@ -63,9 +63,8 @@ const state = useState();
           <slider-input
             v-model="state.settings.value.ambientBackgroundSpinSpeed"
             :min="0"
-            :max="64"
+            :max="100"
             :step="1"
-            direction="rtl"
           />
         </settings-setting>
         <settings-setting
