@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { useVModel } from "@vueuse/core";
-const props = defineProps<{ modelValue?: number | string, alt?: string}>();
+const props = defineProps<{ modelValue?: number | string }>();
 const emits = defineEmits(["update:modelValue"]);
 const value = useVModel(props, "modelValue", emits);
 </script>
   
 <template>
   <input
-    :alt="alt"
     v-bind="$attrs"
     v-model="value"
     type="range"

@@ -53,8 +53,15 @@ const updatePosition = () => {
     class="absolute text-primary-900 py-1 shadow-xl border-1 border-surface-600 bg-surface-800 z-100"
   >
     <ul class="flex flex-col min-w-48">
-      <menu-option v-for="option of contextMenu.state.options" :key="option.title" :icon="option.icon"
-        :title="option.title" :red="option.red" :shortcuts="option.shortcuts" @click="runAction(option)" />
+      <menu-option
+        v-for="option of contextMenu.state.options"
+        :key="option.title"
+        :icon="option.icon"
+        :title="option.title"
+        :red="option.red"
+        :shortcuts="option.shortcuts"
+        @click="runAction(option)"
+      />
     </ul>
   </div>
 </template>

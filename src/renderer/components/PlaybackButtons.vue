@@ -142,7 +142,6 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
             min="0"
             max="1"
             step="0.001"
-            alt="shit"
             @input="amethyst.player.setVolume(amethyst.player.volume.value)"
             @wheel.passive="handleVolumeMouseScroll"
           />
