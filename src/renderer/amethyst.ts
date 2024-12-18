@@ -189,12 +189,12 @@ class AmethystBackend {
   };
   
   public openAudioFoldersAndAddToQueue = async () => {
-    amethyst.showOpenFolderDialog().then(async (result) => {
+    amethyst.showOpenFolderDialog().then(async result => {
       if (!result.canceled) {
-        let files = await window.fs.readdir(result.filePaths[0]);
-        for (let idx in files) {
+        const files = await window.fs.readdir(result.filePaths[0]);
+        for (const idx in files) {
           let found = false;
-          for (let extension of ALLOWED_AUDIO_EXTENSIONS) {
+          for (const extension of ALLOWED_AUDIO_EXTENSIONS) {
             if (files[idx].endsWith(extension)) {
               found = true;
               files[idx] = window.path.join(result.filePaths[0], files[idx]);

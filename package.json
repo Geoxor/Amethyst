@@ -25,6 +25,7 @@
     "preinstall": "yarn global add electron-builder",
     "postinstall": "electron-builder install-app-deps && yarn husky install",
     "lint": "eslint -c .eslintrc --color --ext .ts,.js,.vue src/",
+    "lint:fix": "eslint -c .eslintrc --color --fix --ext .ts,.js,.vue src/",
     "install:system": "yarn install && yarn test --run && yarn package",
     "install:windows": "yarn install:system && explorer release\\build",
     "clean": "git reset --hard && git clean -f && rimraf ./release",

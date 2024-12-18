@@ -70,7 +70,7 @@ onMounted(() => {
 
   watch(() => useState().state.isFocused, isFocused => {
     if (useState().settings.value.pauseVisualsWhenUnfocused) {
-      if (!isFocused) loudnessMeter.pause()
+      if (!isFocused) loudnessMeter.pause();
       else loudnessMeter.resume();
     }
   });

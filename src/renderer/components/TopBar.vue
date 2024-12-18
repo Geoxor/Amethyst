@@ -43,7 +43,7 @@ const menuGroupRef = ref<{
   activeMenu: null
 });
 
-provide('menuGroupRef', menuGroupRef);
+provide("menuGroupRef", menuGroupRef);
 </script>
 
 <template>

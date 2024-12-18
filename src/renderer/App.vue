@@ -36,10 +36,10 @@ onUnmounted(() => {
 <template>
   <div class="flex fixed flex-col bg-surface-900">
     <div
-        v-if="state.state.isShowingBigCover"
-        class="pointer-events-auto z-20 top-10 left-0 absolute w-full h-full"
-        @click="state.state.isShowingBigCover = !state.state.isShowingBigCover"
-      />
+      v-if="state.state.isShowingBigCover"
+      class="pointer-events-auto z-20 top-10 left-0 absolute w-full h-full"
+      @click="state.state.isShowingBigCover = !state.state.isShowingBigCover"
+    />
     <div
       v-if="state.state.isShowingBigCover"
       class="absolute select-none rounded-8px w-full sm:w-auto max-w-3/4 max-h-3/4 overflow-hidden top-1/2 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2 z-50"
@@ -191,8 +191,8 @@ onUnmounted(() => {
             />
           </div>
           <div
-            class="flex justify-end w-full gap-2"
             v-if="(state.settings.value.showBigSpectrum && state.settings.value.showBigVectorscope) || (!state.settings.value.showBigVectorscope && state.settings.value.showBigSpectrum)"
+            class="flex justify-end w-full gap-2"
             :class="[(state.settings.value.showBigSpectrum || state.settings.value.showBigVectorscope) && 'p-2']"
           >
             <div
@@ -249,8 +249,8 @@ onUnmounted(() => {
       >
         <db-meter
           v-if="state.settings.value.showDbMeter && state.settings.value.decibelMeterSeperatePrePost && amethyst.player.source"
-          class="duration-user-defined cursor-pointer"
           :key="amethyst.player.nodeManager.getNodeConnectinsString()"
+          class="duration-user-defined cursor-pointer"
           :node="amethyst.player.nodeManager.master.pre"
           pre
           :channels="amethyst.player.getCurrentTrack()?.getChannels()"
@@ -261,8 +261,8 @@ onUnmounted(() => {
         />
         <db-meter
           v-if="state.settings.value.showDbMeter && amethyst.player.source"
-          class="duration-user-defined cursor-pointer"
           :key="amethyst.player.nodeManager.getNodeConnectinsString()"
+          class="duration-user-defined cursor-pointer"
           :node="amethyst.player.nodeManager.master.post"
           post
           :channels="amethyst.player.getCurrentTrack()?.getChannels()"

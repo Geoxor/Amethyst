@@ -34,9 +34,9 @@ const handleContextCoverMenu = ({x, y}: MouseEvent) => {
 
 const handleSeekMouseScroll = (e: WheelEvent) => {
   const delta = Math.sign(e.deltaY);
-  const fineTuneStep = 1
-  const normalTuneStep = 5
-  const bigTuneStep = 20
+  const fineTuneStep = 1;
+  const normalTuneStep = 5;
+  const bigTuneStep = 20;
 
   if (e.altKey)
     delta < 0 ? amethyst.player.seekForward(fineTuneStep) : amethyst.player.seekBackward(fineTuneStep);

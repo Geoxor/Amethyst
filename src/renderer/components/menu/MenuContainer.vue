@@ -6,7 +6,7 @@ import TitleText from "../v2/TitleText.vue";
 const props = defineProps<{ title: string }>();
 const menuGroupRef = inject<{ value: {
   activeMenu: string | null
-} }>('menuGroupRef', {
+} }>("menuGroupRef", {
   value: { activeMenu: null } 
 });
 

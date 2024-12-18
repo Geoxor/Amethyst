@@ -22,7 +22,6 @@ onMounted(async () => {
   const { width, height } = getDimensions() || {};
   if (!width || !height) return;
 
-
   const cube = (width: number = 1.0, offset: number = 1.0): THREE.Vector2[] => {
     const vertices: THREE.Vector2[] = [];
 
