@@ -28,4 +28,5 @@ NOTE: [nvm](https://github.com/nvm-sh/nvm) is suggested, so you can have multipl
 
 - Install dependencies with `yarn`
 - Develop with `yarn dev`
+- Lint with `yarn lint`. Lint and Fix with `yarn lint:fix`
 - Compile with `yarn package`, compiled files will be in the `release/build` folder

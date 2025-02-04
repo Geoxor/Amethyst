@@ -4,6 +4,7 @@ import Cover from "@/components/CoverArt.vue";
 import Slider from "@/components/input/BaseSlider.vue";
 import { AmethystIcon, HeartIcon, NextIcon, PauseIcon, PlayIcon, PlaylistIcon, RepeatAllIcon, RepeatNoneIcon, RepeatOneIcon, ShuffleIcon } from "@/icons";
 import { LoopMode } from "@/logic/player";
+import { LoadStatus } from "@shared/types";
 import { computed } from "vue";
 import { useContextMenu } from "./ContextMenu";
 import { useInspector } from "./Inspector";
@@ -12,7 +13,13 @@ const state = useState();
 
 const handleVolumeMouseScroll = (e: WheelEvent) => {
   const delta = Math.sign(e.deltaY);
-  delta > 0 ? amethyst.player.volumeDown() : amethyst.player.volumeUp();
+  const fineTuneStep = 0.01;
+  const normalTuneStep = 0.05;
+  
+  if (e.altKey)
+    delta > 0 ? amethyst.player.volumeDown(fineTuneStep) : amethyst.player.volumeUp(fineTuneStep);
+  else 
+    delta > 0 ? amethyst.player.volumeDown(normalTuneStep) : amethyst.player.volumeUp(normalTuneStep);
 };
 
 const handleContextCoverMenu = ({x, y}: MouseEvent) => {
@@ -27,7 +34,16 @@ const handleContextCoverMenu = ({x, y}: MouseEvent) => {
 
 const handleSeekMouseScroll = (e: WheelEvent) => {
   const delta = Math.sign(e.deltaY);
-  delta < 0 ? amethyst.player.seekForward() : amethyst.player.seekBackward();
+  const fineTuneStep = 1;
+  const normalTuneStep = 5;
+  const bigTuneStep = 20;
+
+  if (e.altKey)
+    delta < 0 ? amethyst.player.seekForward(fineTuneStep) : amethyst.player.seekBackward(fineTuneStep);
+  else if (e.shiftKey) 
+    delta < 0 ? amethyst.player.seekForward(bigTuneStep) : amethyst.player.seekBackward(bigTuneStep);
+  else
+    delta < 0 ? amethyst.player.seekForward(normalTuneStep) : amethyst.player.seekBackward(normalTuneStep);
 };
 
 const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()?.isFavorited);
@@ -44,23 +60,23 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
       ]"
       :url="amethyst.player.getCurrentTrack()?.getCover()"
       @contextmenu="handleContextCoverMenu"
-      @click="state.state.isShowingBigCover = !state.state.isShowingBigCover"
+      @click="amethyst.player.getCurrentTrack()?.cover.state === LoadStatus.Loaded && (state.state.isShowingBigCover = !state.state.isShowingBigCover)"
     />
     
-    <div class="flex flex-col justify-between h-full w-full ">
+    <div class="flex flex-col justify-between h-full w-full">
       <div
         :class="[amethyst.getCurrentPlatform() === 'mobile' ? 'rounded-full ' : 'rounded-4px']"
         class="flex flex-col gap-2 transform-gpu p-2 px-4 -translate-y-1 items-center filter drop-shadow-lg absolute top-0 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2"
       >
-        <div class="flex text-primary-800 gap-2 text-text_title items-center ">
+        <div class="flex text-primary-800 gap-2 text-text_title items-center">
           <HeartIcon
-            class="h-5 w-5 opacity-75 hover:opacity-100 "
+            class="h-5 w-5 opacity-75 hover:opacity-100"
             :class="[isCurrentTrackFavorited && 'text-primary']"
             @click="amethyst.player.getCurrentTrack()?.toggleFavorite()"
           />
           <!-- <playlist-icon class="opacity-75 hover:opacity-100 " /> -->
           <ShuffleIcon
-            class="h-5 w-5 opacity-75 hover:opacity-100 "
+            class="h-5 w-5 opacity-75 hover:opacity-100"
             @click="amethyst.player.shuffle()"
           />
           <NextIcon
@@ -81,7 +97,7 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
             />
           </div>
           <NextIcon
-            class="h-5 w-5 opacity-75 hover:opacity-100 "
+            class="h-5 w-5 opacity-75 hover:opacity-100"
             @click="amethyst.player.skip()"
           />
           <RepeatAllIcon
@@ -96,7 +112,7 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
           />
           <RepeatNoneIcon
             v-if="amethyst.player.loopMode.value == LoopMode.One"
-            class="h-5 w-5 opacity-75  hover:opacity-100 "
+            class="h-5 w-5 opacity-75  hover:opacity-100"
             @click="amethyst.player.loopNone()"
           />
           <PlaylistIcon
@@ -106,7 +122,7 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
       </div>
 
       <div class="flex justify-between disable-select no-drag">
-        <div class="flex flex-col w-full py-1 font-bold gap-1 ">
+        <div class="flex flex-col w-full py-1 font-bold gap-1">
           <h1
             class="text-13px hover:underline cursor-pointer overflow-hidden text-text_title overflow-ellipsis"
             @click=" amethyst.showItem(amethyst.player.getCurrentTrack()?.path!)"

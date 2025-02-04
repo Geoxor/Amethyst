@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { Ref, onMounted, ref } from "vue";
+import { Ref, onMounted, ref, watch } from "vue";
 // @ts-ignore no types
-import { amethyst } from "@/amethyst";
+import { amethyst, useState } from "@/amethyst";
 import { smoothTween } from "@/logic/dom";
 import { computeWidthPercentage, infinityClamp } from "@/logic/math";
 import { LoudnessMeter } from "@domchristie/needles";
@@ -58,13 +58,22 @@ onMounted(() => {
   loudnessMeter.start();
 
   amethyst.player.on("play", () => {
-    loudnessMeter.reset();
-    loudnessMeter.resume();
-    momentaryMax.value = MINIMUM_LUFS;
-    shortTermMax.value = MINIMUM_LUFS;
-    integratedMax.value = MINIMUM_LUFS;
+    if (useState().state.isFocused) {
+      loudnessMeter.reset();
+      loudnessMeter.resume();
+      momentaryMax.value = MINIMUM_LUFS;
+      shortTermMax.value = MINIMUM_LUFS;
+      integratedMax.value = MINIMUM_LUFS;
+    }
   });
   amethyst.player.on("pause", () => loudnessMeter.pause());
+
+  watch(() => useState().state.isFocused, isFocused => {
+    if (useState().settings.value.pauseVisualsWhenUnfocused) {
+      if (!isFocused) loudnessMeter.pause();
+      else loudnessMeter.resume();
+    }
+  });
 });
 
 </script>

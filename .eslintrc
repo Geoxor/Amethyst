@@ -64,6 +64,30 @@
   "plugins": [
     "vue"
   ],
+  "ignorePatterns": [
+    "logs",
+    "*.log",
+    "pids",
+    "*.pid",
+    "*.seed",
+    "coverage",
+    ".eslintcache",
+    "node_modules",
+    "preload.js",
+    ".DS_Store",
+    "release/app",
+    "release/app/dist",
+    "release/build",
+    ".erb/dll",
+    ".idea",
+    "npm-debug.log.*",
+    "*.css.d.ts",
+    "*.sass.d.ts", 
+    "*.scss.d.ts",
+    "src/android/.gradle",
+    "src/android/gradle",
+    "src/android/app/src/main/assets/public"
+  ],
   "settings": {
     "import/resolver": {
       "alias": {
