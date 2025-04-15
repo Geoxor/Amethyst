@@ -62,7 +62,7 @@ export class Store {
 		minimalistMode: false,
 		decibelMeterFftSize: 1024,
 		vectorscopeFftSize: 512,
-		fontWeight: "semibold",
+		fontWeight: "normal",
 		zoomLevel: 1.00,
 		animationDuration: 100, // 100ms
 		meterSmoothingDuration: 100,

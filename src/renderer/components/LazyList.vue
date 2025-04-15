@@ -38,7 +38,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
 </script>
 
 <template>
-  <div class="text-13px min-h-0 h-full flex flex-col text-left relative select-none">
+  <div class="text-13px text-text_title min-h-0 h-full flex flex-col text-left relative select-none">
   <div class="overflow-y-auto">
     <table class="ml-8 mr-8 justify-between text-left">
       <colgroup>
@@ -81,23 +81,23 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           <td>
             <PlayIcon
               v-if="amethyst.player.getCurrentTrack()?.path == track.path "
-              class="h-8 w-8 min-h-8 min-w-8 mr-2 ml-2"
+              class="h-5 w-5 min-h-5 min-w-5 mr-2 ml-2"
             />
             <NotPlayingIcon
               v-else
-              class="h-8 w-8 min-h-8 min-w-8 mr-2 ml-2"
+              class="h-5 w-5 min-h-5 min-w-5 mr-2 ml-2"
             />
           </td>
 
           <td>
             <AmethystIcon
               v-if="track.isLoading || track.deleted || track.hasErrored"
-              class="h-8 w-8 min-h-8 min-w-8 rounded-md"
+              class="h-6 w-6 min-h-6 min-w-6 rounded-md"
             />
     
             <cover
               v-else
-              class="w-8 h-8 min-h-8 min-w-8 rounded-md"
+              class="w-6 h-6 min-h-6 min-w-6 rounded-md"
               :url="(track.isLoaded && track.getCover()) as string"
             />
           </td>

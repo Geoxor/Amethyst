@@ -3,7 +3,7 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import electron, { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
-import { Discord, FormatIcons } from "../plugins/amethyst.discord";
+// import { Discord, FormatIcons } from "../plugins/amethyst.discord";
 import {ALLOWED_AUDIO_EXTENSIONS} from "../shared/constants";
 import {sleep} from "../shared/logic";
 import { IS_DEV, store } from "./main";
@@ -70,7 +70,7 @@ export class MainWindow {
 		defaultWidth: 1280,
 		defaultHeight: 720,
 	});
-	private readonly discord: Discord;
+	// private readonly discord: Discord;
 
 	constructor() {
 
@@ -94,7 +94,7 @@ export class MainWindow {
 
 		this.windowState.manage(this.window);
 
-		this.discord = new Discord();
+		// this.discord = new Discord();
 	
 		// Let us register listeners on the window, so we can update the state
 		// automatically (the listeners will be removed when the window is closed)
@@ -311,7 +311,7 @@ export class MainWindow {
 			"update-rich-presence": (_: Event, [args]: string[]) => {
 				const [title, time, format] = args;
 
-				this.discord.updateCurrentSong(title, time, format as FormatIcons);
+				// this.discord.updateCurrentSong(title, time, format as FormatIcons);
 			},
 
 			"set-vsync": (_: Event, [useVsync]: string[]) => {
@@ -336,7 +336,7 @@ export class MainWindow {
 			},
 
 			"clear-rich-presence": () => {
-				this.discord.clearRichPresence();
+				// this.discord.clearRichPresence();
 			},
 
 			"check-for-updates": () => {

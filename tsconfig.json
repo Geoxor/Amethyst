@@ -25,7 +25,7 @@
     },
     "sourceMap": true,
     "baseUrl": "./",
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
