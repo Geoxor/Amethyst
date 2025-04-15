@@ -1,14 +1,13 @@
 <script setup lang="ts">
 import { amethyst, useShortcuts } from "@/amethyst";
-import BaseChip from "@/components/BaseChip.vue";
 import { useContextMenu } from "@/components/ContextMenu";
 import Cover from "@/components/CoverArt.vue";
-import { AmethystIcon, HeartIcon, SSDIcon, PlayIcon, NotPlayingIcon } from "@/icons";
+import { AmethystIcon } from "@/icons";
 import { saveArrayBufferToFile } from "@/logic/dom";
 import { convertDfpwm } from "@/logic/encoding";
 import { Track } from "@/logic/track";
+import { Icon } from "@iconify/vue";
 import { useInspector } from "./Inspector";
-import { ref, watch } from 'vue';
 
 defineProps<{tracks: Track[]}>();
 
@@ -39,33 +38,66 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
 
 <template>
   <div class="text-13px text-text_title min-h-0 h-full flex flex-col text-left relative select-none">
-  <div class="overflow-y-auto">
-    <table class="justify-between text-left">
-      <colgroup>
-        <col span="1" width="10">
-        <col span="1" width="50">
-        <col span="2" width="300">
-        <col span="8" width="200">
-      </colgroup>
-      <tr>
+    <div class="overflow-y-auto">
+      <table class="justify-between text-left">
+        <colgroup>
+          <col
+            span="1"
+            width="10"
+          >
+          <col
+            span="1"
+            width="50"
+          >
+          <col
+            span="2"
+            width="300"
+          >
+          <col
+            span="8"
+            width="200"
+          >
+        </colgroup>
+        <tr>
           <!-- used as spacer for Status Icons name -->
-          <th class="th"></th>
-          <th class="th title">Cover</th>
-          <th class="th title">Title</th>
+          <th class="th" />
+          <th class="th title">
+            Cover
+          </th>
+          <th class="th title">
+            Title
+          </th>
           <!-- used as spacer for Artist name -->
-          <th class="th"></th>
-          <th class="th">Location</th>
-          <th class="th">Album</th>
-          <th class="th">Year</th>
-          <th class="th">Duration</th>
-          <th class="th">Format</th>
-          <th class="th">Favorite</th>
-          <th class="th">Bitrate</th>
-          <th class="th">Size</th>
-      </tr>
-      <tr
-        v-for="(track, index) in tracks" :key="index"
-        :class="[
+          <th class="th" />
+          <th class="th">
+            Location
+          </th>
+          <th class="th">
+            Album
+          </th>
+          <th class="th">
+            Year
+          </th>
+          <th class="th">
+            Duration
+          </th>
+          <th class="th">
+            Format
+          </th>
+          <th class="th">
+            Favorite
+          </th>
+          <th class="th">
+            Bitrate
+          </th>
+          <th class="th">
+            Size
+          </th>
+        </tr>
+        <tr
+          v-for="(track, index) in tracks"
+          :key="index"
+          :class="[
             isHoldingControl && 'control cursor-external-pointer', 
             track.hasErrored && 'opacity-50 not-allowed',
             track.deleted && 'opacity-50 !text-rose-400 not-allowed',
@@ -77,7 +109,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           @contextmenu="handleContextMenu($event, track)"
           @keypress.prevent
           @click="isHoldingControl ? amethyst.showItem(track.path) : amethyst.player.play(track)"
-      >
+        >
           <td>
             <PlayIcon
               v-if="amethyst.player.getCurrentTrack()?.path == track.path "
@@ -113,8 +145,11 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           </td>
 
           <td>
-            <button class="cursor-pointer hover:text-white" @click.stop.prevent="amethyst.showItem(track.path)">
-                <SSDIcon class="h-5 w-5 min-h-5 min-w-5"/>
+            <button
+              class="cursor-pointer hover:text-white"
+              @click.stop.prevent="amethyst.showItem(track.path)"
+            >
+              <SSDIcon class="h-5 w-5 min-h-5 min-w-5" />
             </button>
           </td>
 
@@ -139,7 +174,10 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           </td>
 
           <td class="pl-4">
-            <HeartIcon class="h-4 w-4 min-h-4 min-w-4"/>
+            <Icon
+              icon="ic:twotone-favorite"
+              class="h-4 w-4 min-h-4 min-w-4"
+            />
           </td>
 
           <td>
@@ -151,9 +189,9 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
             <span v-if="track.getFilesizeFormatted()">{{ track.getFilesizeFormatted() }}</span>
             <span v-else>N/A</span>
           </td>
-      </tr>
-    </table>
-  </div>
+        </tr>
+      </table>
+    </div>
   </div>
 </template>
 
@@ -172,7 +210,6 @@ tr {
 }
 
 .row {
-
 
   &:hover {
     @apply text-accent bg-surface-400 bg-opacity-20;
