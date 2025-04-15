@@ -16,12 +16,12 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
         class="absolute -top-1 left-1/2 transform-gpu -translate-x-1/2 translate-y-1/2"
       >
         <div class="flex text-primary-800 gap-2 items-center">
-          <Icon
+          <!-- <Icon
             icon="ic:round-favorite"
             class="h-5 w-5 opacity-75 hover:opacity-100"
             :class="[isCurrentTrackFavorited && 'text-primary']"
             @click="amethyst.player.getCurrentTrack()?.toggleFavorite()"
-          />
+          /> -->
           <!-- <playlist-icon class="opacity-75 hover:opacity-100 " /> -->
           <Icon
             icon="ic:round-shuffle"
@@ -61,20 +61,20 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
           />
           <Icon
             v-if="amethyst.player.loopMode.value == LoopMode.All"
-            icon="ic:round-repeat-one"
-            class="h-5 w-5 opacity-75  hover:opacity-100"
+            icon="ic:round-repeat"
+            class="h-5 w-5 opacity-75 text-accent hover:opacity-100"
             @click="amethyst.player.loopOne()"
           />
           <Icon
             v-if="amethyst.player.loopMode.value == LoopMode.One"
-            icon="ic:round-skip-next"
-            class="h-5 w-5 opacity-75  hover:opacity-100"
+            icon="ic:round-repeat-one"
+            class="h-5 w-5 opacity-75 text-accent hover:opacity-100"
             @click="amethyst.player.loopNone()"
           />
-          <Icon
+          <!-- <Icon
             icon="ic:round-playlist-add"
             class="h-5 w-5 opacity-75 hover:opacity-100"
-          />
+          /> -->
         </div>
       </div>
 

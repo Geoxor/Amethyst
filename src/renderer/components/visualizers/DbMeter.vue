@@ -103,7 +103,7 @@ onUnmounted(() => shouldStopRendering = true);
           :style="`width: ${width}px; height: ${computedWidth(channelData[i - 1][0].value)}%`"
         />
         <div
-          :class="channelData[i - 1][0].value > 0 ? 'bg-rose-500' : 'bg-slider-fill'"
+          :class="channelData[i - 1][0].value > 0 ? 'bg-rose-500' : 'bg-accent'"
           class="absolute duration-meter-user-defined bottom-0 rounded-full"
           :style="`width: ${width}px; height: ${computedWidth(channelData[i - 1][1].value)}%`"
         />
