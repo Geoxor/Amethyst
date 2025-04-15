@@ -15,7 +15,7 @@
       fill="currentColor"
     />
     <path
-      opacity="0.35"
+      opacity="0.65"
       d="M19 13C20.6569 13 22 11.6569 22 10C22 8.34315 20.6569 7 19 7C17.3431 7 16 8.34315 16 10C16 11.6569 17.3431 13 19 13Z"
       fill="currentColor"
     />
@@ -28,7 +28,7 @@
       fill="currentColor"
     />
     <path
-      opacity="0.35"
+      opacity="0.65"
       d="M12 18C13.6569 18 15 16.6569 15 15C15 13.3431 13.6569 12 12 12C10.3431 12 9 13.3431 9 15C9 16.6569 10.3431 18 12 18Z"
       fill="currentColor"
     />
@@ -41,7 +41,7 @@
       fill="currentColor"
     />
     <path
-      opacity="0.35"
+      opacity="0.65"
       d="M5 13C6.65685 13 8 11.6569 8 10C8 8.34315 6.65685 7 5 7C3.34315 7 2 8.34315 2 10C2 11.6569 3.34315 13 5 13Z"
       fill="currentColor"
     />

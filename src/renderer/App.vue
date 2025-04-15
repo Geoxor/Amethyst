@@ -2,20 +2,18 @@
 import { amethyst, useState } from "@/amethyst";
 import { ContextMenu, useContextMenu } from "@/components/ContextMenu";
 import CoverArt from "@/components/CoverArt.vue";
+
 import { InspectorBar, useInspector } from "@/components/Inspector";
 import NavigationBar from "@/components/NavigationBar.vue";
 import NavigationButton from "@/components/NavigationButton.vue";
-import PlaybackButtons from "@/components/PlaybackButtons.vue";
+import PlaybackControls from "@/components/v2/PlaybackControls.vue";
 import TopBar from "@/components/TopBar.vue";
-import DbMeter from "@/components/visualizers/DbMeter.vue";
 import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
 import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 import { AdjustIcon, AmethystIcon, CompassIcon, HeartIcon, ListIcon, PlaylistIcon, SettingsIcon } from "@/icons";
 import { Track } from "@/logic/track";
 import { onMounted, onUnmounted, ref } from "vue";
 import LoudnessMeter from "./components/visualizers/LoudnessMeter.vue";
-import { router } from "./router";
-
 const state = useState();
 const ambientBackgroundImage = ref("");
 
@@ -242,6 +240,8 @@ onUnmounted(() => {
         <inspector-bar v-if="useInspector().state.isVisible" />
       </div>
 
+      <playback-controls v-if="state.settings.value.showPlaybackControls" />
+      <!-- 
       <div
         v-if="state.settings.value.showPlaybackControls"
         class="flex gap-2 items-center p-2 relative"
@@ -259,18 +259,6 @@ onUnmounted(() => {
           ]);"
           @click="router.currentRoute.value.name === 'audio-monitor' ? router.back() : router.push({ name: 'audio-monitor' })"
         />
-        <db-meter
-          v-if="state.settings.value.showDbMeter && amethyst.player.source"
-          :key="amethyst.player.nodeManager.getNodeConnectinsString()"
-          class="duration-user-defined cursor-pointer"
-          :node="amethyst.player.nodeManager.master.post"
-          post
-          :channels="amethyst.player.getCurrentTrack()?.getChannels()"
-          @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-            { title: 'Hide decibel meter', icon: AmethystIcon, action: () => state.settings.value.showDbMeter = false },
-          ]);"
-          @click="router.currentRoute.value.name === 'audio-monitor' ? router.back() : router.push({ name: 'audio-monitor' })"
-        />
 
         <loudness-meter 
           v-if="state.settings.value.showLoudnessMeter && amethyst.player.source"
@@ -278,9 +266,6 @@ onUnmounted(() => {
           :node="amethyst.player.nodeManager.master.pre"
         />
 
-        <playback-buttons
-          :player="amethyst.player"
-        />
         <vectorscope
           v-if="state.settings.value.showVectorscope && amethyst.player.source"
           :key="amethyst.player.nodeManager.getNodeConnectinsString()"
@@ -315,7 +300,7 @@ onUnmounted(() => {
               : { title: 'Expand', icon: AmethystIcon, action: () => state.settings.value.showBigSpectrum = true },
           ]);"
         />
-      </div>
+      </div> -->
     </div>
   </div>
 </template> 

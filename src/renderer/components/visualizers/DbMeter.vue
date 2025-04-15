@@ -4,7 +4,7 @@ import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 const props = defineProps<{ node: AudioNode, channels?: number, pre?: boolean }>();
 const FLOOR = -120;
 const MAX_CHANNELS = 16;
-const currentChannels = computed(() => props.channels || MAX_CHANNELS);
+const currentChannels = computed(() => props.channels || 2);
 const width = 4;
 
 let shouldStopRendering = false;
@@ -90,20 +90,20 @@ onUnmounted(() => shouldStopRendering = true);
       >
         <div
           :style="`width: ${width}px;`"
-          class="absolute top-0 left-0 bg-surface-700 h-full rounded-full"
+          class="absolute top-0 left-0 bg-slider-background h-full rounded-full"
         />
         <div
           :style="`width: ${width}px;`"
-          class="absolute bottom-0 bg-surface-600 h-90/100 rounded-full"
+          class="absolute bottom-0 bg-slider-background h-90/100 rounded-full"
         />
 
         <div
-          :class="channelData[i - 1][0].value > 0 ?'bg-rose-600' : 'bg-accent bg-opacity-50'"
+          :class="channelData[i - 1][0].value > 0 ?'bg-rose-600' : 'bg-slider-fill bg-opacity-50'"
           class="rounded-full duration-meter-user-defined absolute bottom-0"
           :style="`width: ${width}px; height: ${computedWidth(channelData[i - 1][0].value)}%`"
         />
         <div
-          :class="channelData[i - 1][0].value > 0 ? 'bg-rose-500' : 'bg-accent'"
+          :class="channelData[i - 1][0].value > 0 ? 'bg-rose-500' : 'bg-slider-fill'"
           class="absolute duration-meter-user-defined bottom-0 rounded-full"
           :style="`width: ${width}px; height: ${computedWidth(channelData[i - 1][1].value)}%`"
         />
@@ -114,7 +114,7 @@ onUnmounted(() => shouldStopRendering = true);
         :style="`left: ${((width + 2) * currentChannels + currentChannels)}px;`"
       >
         <line
-          class="stroke-cap-round stroke-surface-500"
+          class="stroke-cap-round stroke-slider-fill"
           x1="2"
           y1="2"
           x2="2"
@@ -143,6 +143,6 @@ svg {
 }
 
 line {
-	stroke-dasharray: 0 8;
+	stroke-dasharray: 0 9;
 }
 </style>

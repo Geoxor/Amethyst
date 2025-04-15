@@ -42,16 +42,6 @@
       "warn",
       "double"
     ],
-    "vue/max-attributes-per-line": [
-      "warn",
-      {
-        "singleline": 5,
-        "multiline": {
-          "max": 1,
-          "allowFirstLine": false
-        }
-      }
-    ],
     "vue/no-v-html": "off",
     "vue/component-tags-order": [
       "warn",

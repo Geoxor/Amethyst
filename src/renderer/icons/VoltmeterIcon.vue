@@ -7,7 +7,7 @@
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
-      opacity="0.35"
+      opacity="0.65"
       d="M6 21H18C19.657 21 21 19.657 21 18V6C21 4.343 19.657 3 18 3H6C4.343 3 3 4.343 3 6V18C3 19.657 4.343 21 6 21Z"
       fill="currentColor"
     />

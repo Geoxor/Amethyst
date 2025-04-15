@@ -7,17 +7,17 @@
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
-      opacity="0.35"
+      opacity="0.65"
       d="M8 21H5C3.895 21 3 20.105 3 19V16C3 14.895 3.895 14 5 14H8C9.105 14 10 14.895 10 16V19C10 20.105 9.105 21 8 21Z"
       fill="currentColor"
     />
     <path
-      opacity="0.35"
+      opacity="0.65"
       d="M19 10H16C14.895 10 14 9.105 14 8V5C14 3.895 14.895 3 16 3H19C20.105 3 21 3.895 21 5V8C21 9.105 20.105 10 19 10Z"
       fill="currentColor"
     />
     <path
-      opacity="0.35"
+      opacity="0.65"
       d="M8 11H5C3.343 11 2 9.657 2 8V5C2 3.343 3.343 2 5 2H8C9.657 2 11 3.343 11 5V8C11 9.657 9.657 11 8 11Z"
       fill="currentColor"
     />
@@ -30,7 +30,7 @@
       fill="currentColor"
     />
     <path
-      opacity="0.35"
+      opacity="0.65"
       d="M19 22H16C14.343 22 13 20.657 13 19V16C13 14.343 14.343 13 16 13H19C20.657 13 22 14.343 22 16V19C22 20.657 20.657 22 19 22Z"
       fill="currentColor"
     />

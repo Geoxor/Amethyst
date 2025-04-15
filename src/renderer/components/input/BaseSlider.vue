@@ -19,9 +19,8 @@ input[type=range] {
 }
 
 input[type=range] {
-  background: rgb(var(--surface-600));
+  background: rgb(var(--slider-background));
   border-radius: 4px;
-  height: 6px;
   overflow: hidden;
   appearance: none;
   -webkit-appearance: none;

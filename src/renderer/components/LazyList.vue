@@ -40,7 +40,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
 <template>
   <div class="text-13px text-text_title min-h-0 h-full flex flex-col text-left relative select-none">
   <div class="overflow-y-auto">
-    <table class="ml-8 mr-8 justify-between text-left">
+    <table class="justify-between text-left">
       <colgroup>
         <col span="1" width="10">
         <col span="1" width="50">
@@ -167,10 +167,15 @@ td {
   @apply pt-2 pb-2;
 }
 
+tr {
+  @apply rounded-8px overflow-hidden;
+}
+
 .row {
 
+
   &:hover {
-    @apply text-accent;
+    @apply text-accent bg-surface-400 bg-opacity-20;
 
   }
 

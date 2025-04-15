@@ -51,24 +51,13 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
 </script>
 
 <template>
-  <div class="flex gap-2 justify-between items-center h-full w-full">
-    <cover
-      v-if="state.settings.value.showCoverArt" 
-      class="rounded-4px h-19 w-19 min-h-19 min-w-19 text-primary-900 border-1 border-transparent cursor-pointer hover:border-primary-800"
-      :class="[
-        state.state.isShowingBigCover && 'border-primary-700'
-      ]"
-      :url="amethyst.player.getCurrentTrack()?.getCover()"
-      @contextmenu="handleContextCoverMenu"
-      @click="amethyst.player.getCurrentTrack()?.cover.state === LoadStatus.Loaded && (state.state.isShowingBigCover = !state.state.isShowingBigCover)"
-    />
-    
+  <div class="flex gap-2 justify-between items-center h-full w-full text-playback-controls-text">
     <div class="flex flex-col justify-between h-full w-full">
       <div
         :class="[amethyst.getCurrentPlatform() === 'mobile' ? 'rounded-full ' : 'rounded-4px']"
-        class="flex flex-col gap-2 transform-gpu p-2 px-4 -translate-y-1 items-center filter drop-shadow-lg absolute top-0 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2"
+        class="absolute -top-1 left-1/2 transform-gpu -translate-x-1/2 translate-y-1/2"
       >
-        <div class="flex text-primary-800 gap-2 text-text_title items-center">
+        <div class="flex text-primary-800 gap-2 items-center">
           <HeartIcon
             class="h-5 w-5 opacity-75 hover:opacity-100"
             :class="[isCurrentTrackFavorited && 'text-primary']"
@@ -84,7 +73,7 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
             @click="amethyst.player.previous()"
           />
           <div
-            class="flex items-center bg-text_title text-surface-600 rounded-full p-2 hover:bg-accent"
+            class="flex items-center bg-playback-controls-text text-white rounded-full p-2 hover:bg-accent"
             @click="amethyst.player.isPlaying.value ? amethyst.player.pause() : amethyst.player.play()"
           >
             <PauseIcon
@@ -102,12 +91,12 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
           />
           <RepeatAllIcon
             v-if="amethyst.player.loopMode.value == LoopMode.None"
-            class="h-5 w-5 opacity-75 hover:opacity-100 text-accent"
+            class="h-5 w-5 opacity-75 hover:opacity-100"
             @click="amethyst.player.loopAll()"
           />
           <RepeatOneIcon
             v-if="amethyst.player.loopMode.value == LoopMode.All"
-            class="h-5 w-5 opacity-75  hover:opacity-100 text-accent"
+            class="h-5 w-5 opacity-75  hover:opacity-100"
             @click="amethyst.player.loopOne()"
           />
           <RepeatNoneIcon
@@ -121,16 +110,16 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
         </div>
       </div>
 
-      <div class="flex justify-between disable-select no-drag">
+      <div class="flex justify-between disable-select no-drag max-w-32">
         <div class="flex flex-col w-full py-1 font-bold gap-1">
           <h1
-            class="text-13px hover:underline cursor-pointer overflow-hidden text-text_title overflow-ellipsis"
+            class="text-13px hover:underline cursor-pointer overflow-hidden overflow-ellipsis"
             @click=" amethyst.showItem(amethyst.player.getCurrentTrack()?.path!)"
           >
-            {{ amethyst.player.getCurrentTrack()?.getTitleFormatted() }}
+            {{ amethyst.player.getCurrentTrack()?.getTitleFormatted() || 'No track' }}
           </h1>
-          <p class="text-10px text-text_subtitle">
-            {{ amethyst.player.getCurrentTrack()?.getArtistsFormatted() }}
+          <p class="text-10px text-text_subtitle overflow-hidden overflow-ellipsis">
+            {{ amethyst.player.getCurrentTrack()?.getArtistsFormatted() || 'No artist' }}
           </p>
         </div>
         <div class="flex flex-col w-full max-w-24 mt-1 gap-2 items-end">
@@ -148,18 +137,9 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
         </div>
       </div>
       <div class="flex flex py-1 gap-2 items-start justify-between disable-select no-drag">
-        <slider
-          id="seek"
-          key="seek"
-          v-model="amethyst.player.currentTime.value"
-          class="w-full h-4"
-          :max="amethyst.player.getCurrentTrack()?.getDurationSeconds()"
-          @input="amethyst.player.seekTo(amethyst.player.currentTime.value)"
-          @wheel.passive="handleSeekMouseScroll"
-        />
-        <p class="text-10px text-text_title">
+        <p class="text-10px text-subtitle">
           {{ amethyst.player.currentTimeFormatted(true) }} /
-          {{ amethyst.player.getCurrentTrack()?.getDurationFormatted(true) }}
+          {{ amethyst.player.getCurrentTrack()?.getDurationFormatted(true) || '0:00' }}
         </p>
       </div>
     </div>
