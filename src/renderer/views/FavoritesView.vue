@@ -5,7 +5,6 @@ import RouteHeader from "@/components/v2/RouteHeader.vue";
 import SearchInput from "@/components/v2/SearchInput.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import TrackItem from "@/components/v2/TrackItem.vue";
-import { LargeIconsIcon, MediumIconsIcon, PlayIcon } from "@/icons";
 import { Track } from "@/logic/track";
 import { computed, ref } from "vue";
 
@@ -50,7 +49,7 @@ const playFavorites = () => {
       <div class="flex gap-2 text-text_subtitle items-center">
         <ButtonInput
           text="Play all"
-          :icon="PlayIcon"
+          :icon="'ic:round-play-arrow'"
           @click="playFavorites"
         />
         <SearchInput v-model="filterText" />

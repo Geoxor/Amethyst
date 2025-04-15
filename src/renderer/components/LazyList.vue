@@ -61,14 +61,15 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
         <tr>
           <!-- used as spacer for Status Icons name -->
           <th class="th" />
-          <th class="th title">
+          <th class="th">
             Cover
           </th>
-          <th class="th title">
+          <th class="th">
             Title
           </th>
-          <!-- used as spacer for Artist name -->
-          <th class="th" />
+          <th class="th ">
+            Artist
+          </th>
           <th class="th">
             Location
           </th>
@@ -136,6 +137,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
 
           <td>
             <span v-if="track.getTitle()">{{ track.getTitle() }}</span>
+            <span v-else-if="track.getFilename()">{{ track.getFilename() }}</span>
             <span v-else>N/A</span>
           </td>
 
