@@ -96,10 +96,13 @@ export class Queue {
   public async add(item: (string | string[]) | Track) {
     if (item instanceof Track) {
       this.list.value.set(item.path, item);
-    }
-    else {
+    } else if (item instanceof Array) {
       const paths = Array.from(item);
       paths.forEach(path => this.list.value.set(path, new Track(path)));
+    } else if (typeof item === "string") {
+      this.list.value.set(item, new Track(item));
+    } else {
+      throw new Error("Tried to create a track with an invalid path type");
     }
     
     this.syncLocalStorage();
