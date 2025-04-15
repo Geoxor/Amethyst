@@ -5,7 +5,6 @@ import SettingsSetting from "@/components/v2/SettingsSetting.vue";
 import SubtitleText from "@/components/v2/SubtitleText.vue";
 import TitleText from "@/components/v2/TitleText.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
-import { MonitorIcon, StarsIcon } from "@/icons";
 import { smoothTween } from "@/logic/dom";
 import { bytesToHuman } from "@shared/formating";
 import { useFps } from "@vueuse/core";
@@ -99,7 +98,7 @@ onMounted(() => {
   </div>
   <settings-setting
     v-if="amethyst.getCurrentPlatform() === 'desktop'"
-    :icon="MonitorIcon"
+    icon="ic:twotone-monitor-heart"
     :description="$t('settings.vsync.description')"
     :title="$t('settings.vsync.title')"
     :warning="$t('settings.vsync.warning')"
@@ -112,7 +111,7 @@ onMounted(() => {
   </settings-setting>
 
   <settings-setting
-    :icon="StarsIcon"
+    icon="ic:twotone-pause"
     :description="$t('settings.pause_visuals.description')"
     :title="$t('settings.pause_visuals.title')"
   >

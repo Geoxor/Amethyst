@@ -289,6 +289,7 @@
     "@capawesome-team/capacitor-file-opener": "^5.0.0",
     "@capawesome/capacitor-file-picker": "^5.0.0",
     "@hugotomazi/capacitor-navigation-bar": "^2.0.1",
+    "@iconify/vue": "^4.3.0",
     "@types/discord-rpc": "^4.0.3",
     "@types/file-saver": "^2.0.5",
     "@types/ip": "^1.1.0",

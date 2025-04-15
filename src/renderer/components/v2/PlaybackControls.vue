@@ -9,8 +9,9 @@ import Slider from "@/components/input/BaseSlider.vue";
 import { useInspector } from "@/components/Inspector";
 import PlaybackButtons from "@/components/PlaybackButtons.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
-import { AmethystIcon, SpeakerIcon } from "@/icons";
+import { AmethystIcon } from "@/icons";
 import { router } from "@/router";
+import { Icon } from "@iconify/vue";
 import { LoadStatus } from "@shared/types";
 
 const state = useState();
@@ -91,7 +92,10 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       <playback-buttons
         :player="amethyst.player"
       />
-      <speaker-icon />
+      <Icon
+        icon="ic:twotone-volume-up"
+        class="w-6"
+      />
       <slider
         id="volume"
         key="volume"

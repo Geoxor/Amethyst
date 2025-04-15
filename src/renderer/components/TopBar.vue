@@ -5,7 +5,7 @@ import UpdateButton from "@/components/input/UpdateButton.vue";
 import Menu from "@/components/menu/MenuContainer.vue";
 import MenuOption from "@/components/menu/MenuOption.vue";
 import MenuSplitter from "@/components/menu/MenuSplitter.vue";
-import { AmethystIcon } from "@/icons";
+import AmethystIcon from "@/icons/AmethystIcon.vue";
 import { countDomElements, refreshWindow, smoothTween } from "@/logic/dom";
 import { useFps } from "@vueuse/core";
 import { computed, onMounted, provide, ref } from "vue";
@@ -65,13 +65,13 @@ provide("menuGroupRef", menuGroupRef);
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'O']"
           :title="$t('menu.file.open_audio')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-audio-file"
           @click="amethyst.openAudioFilesAndAddToQueue"
         />
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'SHIFT', 'O']"
           :title="$t('menu.file.open_audio_folder')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-folder"
           @click="amethyst.openAudioFoldersAndAddToQueue"
         />
       </Menu>
@@ -79,26 +79,26 @@ provide("menuGroupRef", menuGroupRef);
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'SHIFT', 'X']"
           :title="$t('menu.utility.clear_queue')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-delete-sweep"
           @click="amethyst.player.queue.clear()"
         />
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'SHIFT', 'Z']"
           :title="$t('menu.utility.clear_errored_deleted')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-delete-sweep"
           @click="amethyst.player.queue.clearErrored()"
         />
         <menu-splitter />
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'ALT', 'R']"
           :title="$t('menu.utility.refresh_all_metadata')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-refresh"
           @click="amethyst.player.queue.fetchAsyncData(true)"
         />
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'R']"
           :title="$t('menu.utility.refresh_window')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-refresh"
           @click="refreshWindow"
         />
 
@@ -108,7 +108,7 @@ provide("menuGroupRef", menuGroupRef);
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
           :title="$t('menu.utility.check_for_updates')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-update"
           @click="amethyst.checkForUpdates()"
         />
       </Menu>
@@ -116,21 +116,21 @@ provide("menuGroupRef", menuGroupRef);
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
           :title="$t('menu.view.zoom_in')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-zoom-in"
           :shortcuts="[commandOrControlSymbol, '+']"
           @click="amethyst.zoom('in')"
         />
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
           :title="$t('menu.view.zoom_out')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-zoom-out"
           :shortcuts="[commandOrControlSymbol, '-']"
           @click="amethyst.zoom('out')"
         />
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
           :title="$t('menu.view.reset_zoom')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-zoom-in-map"
           :shortcuts="[commandOrControlSymbol, '0']"
           @click="amethyst.zoom('reset')"
         />
@@ -139,30 +139,28 @@ provide("menuGroupRef", menuGroupRef);
         />
         <menu-option
           :title="$t('menu.view.settings')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-settings"
           :shortcuts="[commandOrControlSymbol, ',']"
           @click="$router.push({ name: 'settings.appearance' })"
         />
         <menu-option
           :title="$t('menu.view.show_developer_tools')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-bug-report"
           @click="amethyst.openDevTools()"
         />
       </Menu>
       <Menu :title="$t('menu.about')">
         <menu-option
           :title="$t('menu.about.documentation')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-menu-book"
           @click="amethyst.openLink('https://amethyst.pages.dev/')"
         />
         <menu-option
           :title="$t('menu.about.github_repository')"
-          :icon="AmethystIcon"
           @click="amethyst.openLink('https://github.com/geoxor/amethyst')"
         />
         <menu-option
           :title="$t('menu.about.discord_server')"
-          :icon="AmethystIcon"
           @click="amethyst.openLink('https://discord.gg/geoxor')"
         />
       </Menu>

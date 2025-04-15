@@ -8,7 +8,6 @@ import DropdownInput from "@/components/v2/DropdownInput.vue";
 import SettingsSetting from "@/components/v2/SettingsSetting.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
-import { AxisIcon, ClockIcon, SineIcon, VoltmeterIcon, WaveIcon } from "@/icons";
 import { FFT_SIZES } from "@shared/constants";
 const state = useState();
 
@@ -17,7 +16,7 @@ const state = useState();
 <template>
   <settings-setting
     :title="$t('settings.decibel_meter.title')"
-    :icon="VoltmeterIcon"
+    icon="ic:twotone-speed"
     :description="$t('settings.decibel_meter.description')"
   >
     <toggle-switch v-model="state.settings.value.showDbMeter" />
@@ -27,7 +26,7 @@ const state = useState();
           subsetting
           :title="$t('settings.decibel_meter.separate_pre_post.title')"
           :description="$t('settings.decibel_meter.separate_pre_post.description')"
-          :icon="VoltmeterIcon"
+          icon="ic:twotone-speed"
         >
           <toggle-switch
             v-model="state.settings.value.decibelMeterSeperatePrePost"
@@ -38,7 +37,7 @@ const state = useState();
           subsetting
           :title="$t('settings.decibel_meter.minimum_db.title')"
           :description="$t('settings.decibel_meter.minimum_db.description')"
-          :icon="VoltmeterIcon"
+          icon="ic:twotone-speed"
         >
           <slider-input
             v-model="state.settings.value.decibelMeterMinimumDb"
@@ -51,7 +50,7 @@ const state = useState();
           subsetting
           :title="$t('settings.fft_size.title')"
           :description="$t('settings.fft_size.description')"
-          :icon="VoltmeterIcon"
+          icon="ic:twotone-line-style"
         >
           <dropdown-input
             v-model="state.settings.value.decibelMeterFftSize"
@@ -63,7 +62,7 @@ const state = useState();
           subsetting
           :title="$t('settings.decibel_meter.smoothing_duration.title')"
           :description="$t('settings.decibel_meter.smoothing_duration.description')"
-          :icon="ClockIcon"
+          icon="ic:twotone-access-time"
         >
           <slider-input
             v-model="state.settings.value.meterSmoothingDuration"
@@ -78,7 +77,7 @@ const state = useState();
 
   <settings-setting
     :title="$t('settings.loudness_meter.title')"
-    :icon="WaveIcon"
+    icon="ic:twotone-waves"
     :description="$t('settings.loudness_meter.description')"
   >
     <toggle-switch v-model="state.settings.value.showLoudnessMeter" />
@@ -86,7 +85,7 @@ const state = useState();
 
   <settings-setting
     :title="$t('settings.vectorscope.title')"
-    :icon="AxisIcon"
+    icon="ic:twotone-fiber-smart-record"
     :description="$t('settings.vectorscope.description')"
   >
     <toggle-switch v-model="state.settings.value.showVectorscope" />
@@ -96,7 +95,7 @@ const state = useState();
           subsetting
           :title="$t('settings.vectorscope.lissajous.title')"
           :description="$t('settings.vectorscope.lissajous.description')"
-          :icon="AxisIcon"
+          icon="ic:twotone-fitbit"
         >
           <toggle-switch
             v-model="state.settings.value.lissajousVectorscope"
@@ -106,7 +105,7 @@ const state = useState();
           subsetting
           :title="$t('settings.vectorscope.line_thickness.title')"
           :description="$t('settings.vectorscope.line_thickness.description')"
-          :icon="VoltmeterIcon"
+          icon="ic:twotone-drive-file-rename-outline"
         >
           <slider-input
             v-model="state.settings.value.vectorscopeLineThickness"
@@ -119,7 +118,7 @@ const state = useState();
           subsetting
           :title="$t('settings.fft_size.title')"
           :description="$t('settings.fft_size.description')"
-          :icon="VoltmeterIcon"
+          icon="ic:twotone-line-style"
         >
           <dropdown-input
             v-model="state.settings.value.vectorscopeFftSize"
@@ -133,7 +132,7 @@ const state = useState();
 
   <settings-setting
     :title="$t('settings.spectrum_analyser.title')"
-    :icon="SineIcon"
+    icon="ic:twotone-graphic-eq"
     :description="$t('settings.spectrum_analyser.description')"
   >
     <toggle-switch v-model="state.settings.value.showSpectrum" />
@@ -143,7 +142,7 @@ const state = useState();
           subsetting
           :title="$t('settings.spectrum_analyser.logarithmic_spectrum.title')"
           :description="$t('settings.spectrum_analyser.logarithmic_spectrum.description')"
-          :icon="SineIcon"
+          icon="ic:twotone-pie-chart-outline"
         >
           <toggle-switch
             v-model="state.settings.value.useLogarithmicSpectrum"
@@ -153,7 +152,7 @@ const state = useState();
           subsetting
           :title="$t('settings.fft_size.title')"
           :description="$t('settings.fft_size.description')"
-          :icon="VoltmeterIcon"
+          icon="ic:twotone-line-style"
         >
           <dropdown-input
             v-model="state.settings.value.spectrumFftSize"

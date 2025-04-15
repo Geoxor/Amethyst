@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { amethyst, useState } from "@/amethyst";
-import {ExportIcon, ImportIcon, LanguageIcon, RemoveIcon, RocketIcon, UpdateIcon} from "@/icons";
-import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
-import SettingsSetting from "@/components/v2/SettingsSetting.vue";
-import LanguageDropdown from "@/components/v2/LanguageDropdown.vue";
 import ButtonInput from "@/components/v2/ButtonInput.vue";
+import LanguageDropdown from "@/components/v2/LanguageDropdown.vue";
+import SettingsSetting from "@/components/v2/SettingsSetting.vue";
+import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 
 const state = useState();
 
@@ -21,7 +20,7 @@ const handleToggleAutostart = () => {
 <template>
   <settings-setting
     v-if="amethyst.getCurrentPlatform() === 'desktop'"
-    :icon="UpdateIcon"
+    icon="ic:twotone-update"
     :title="$t('settings.auto_update.title')"
     :description="$t('settings.auto_update.description')"
   >
@@ -34,7 +33,7 @@ const handleToggleAutostart = () => {
     v-if="amethyst.getCurrentPlatform() === 'desktop'"
     :title="$t('settings.launch_on_startup.title')"
     :description="$t('settings.launch_on_startup.description')"
-    :icon="RocketIcon"
+    icon="ic:twotone-rocket-launch"
   >
     <toggle-switch
       v-model="state.settings.value.autoStart" 
@@ -43,36 +42,36 @@ const handleToggleAutostart = () => {
   </settings-setting>
 
   <settings-setting
-    :icon="LanguageIcon"
+    icon="ic:twotone-language"
     :title="$t('settings.language.title')"
     :description="$t('settings.language.description')"
   >
     <language-dropdown />
   </settings-setting>
   <settings-setting
-    :icon="ExportIcon"
+    icon="ic:twotone-file-upload"
     :title="$t('settings.import_export.title')"
     :description="$t('settings.import_export.description')"
   >
     <button-input
       :text="$t('settings.import_export.import')"
-      :icon="ImportIcon"
+      icon="ic:twotone-file-download"
       @click="amethyst.importSettings"
     />
     <button-input
       :text="$t('settings.import_export.export')"
-      :icon="ExportIcon"
+      icon="ic:twotone-file-upload"
       @click="amethyst.exportSettings"
     />
   </settings-setting>
   <settings-setting
-    :icon="RemoveIcon"
+    icon="ic:twotone-delete"
     :title="$t('settings.reset.title')"
     :description="$t('settings.reset.description')"
   >
     <button-input
       :text="$t('settings.reset.reset')"
-      :icon="RemoveIcon"
+      icon="ic:twotone-delete"
       @click="amethyst.resetSettings"
     />
   </settings-setting>

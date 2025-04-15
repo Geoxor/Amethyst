@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import NavigationButton from "@/components/NavigationButton.vue";
-import { AdjustIcon, AmethystIcon, CompassIcon, HeartIcon, ListIcon, PlaylistIcon, SettingsIcon } from "@/icons";
 import { amethyst } from "@/amethyst";
+import NavigationButton from "@/components/NavigationButton.vue";
+import { AmethystIcon } from "@/icons";
 </script>
 
 <template>
   <div class="flex flex-col h-full mt-2">
     <navigation-button
-      :icon="ListIcon"
+      icon="ic:twotone-queue-music"
       route-name="queue"
     />
 
@@ -27,12 +27,12 @@ import { amethyst } from "@/amethyst";
     /> -->
 
     <navigation-button
-      :icon="AdjustIcon"
+      icon="ic:twotone-format-list-bulleted"
       route-name="node-editor"
     />
 
     <navigation-button
-      :icon="SettingsIcon"
+      icon="ic:twotone-settings"
       route-name="settings"
     />
 

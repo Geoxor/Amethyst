@@ -1,8 +1,11 @@
 <script setup lang="ts">
-import { computed } from "vue";
-import TitleSubtitle from "./TitleSubtitle.vue";
-import { useRoute } from "vue-router";
 import { amethyst } from "@/amethyst";
+import { computed } from "vue";
+import { useRoute } from "vue-router";
+import TitleSubtitle from "./TitleSubtitle.vue";
+
+import { Icon } from "@iconify/vue";
+
 const route = useRoute();
 const props = defineProps<{title: string, description?: string, icon: any, routeName: string}>();
 const isActive = computed(() => route.name?.toString().startsWith(props.routeName) || props.routeName === route.name);
@@ -15,10 +18,11 @@ const isActive = computed(() => route.name?.toString().startsWith(props.routeNam
     class="duration-user-defined flex relative w-full gap-4 cursor-pointer bg-transparent text-text_title min-h-52px items-center py-2 px-4 rounded-8px"
     @click="$router.push({ name: routeName })"
   >
-    <component
-      :is="icon"
+    <Icon
+      :icon="icon"
       class="w-5 h-5 min-w-5 min-h-5"
     />
+
     <title-subtitle
       :title="title"
       :subtitle="description"

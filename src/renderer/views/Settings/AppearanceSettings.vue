@@ -4,7 +4,6 @@ import DropdownInput from "@/components/v2/DropdownInput.vue";
 import SettingsSetting from "@/components/v2/SettingsSetting.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
-import { BoldIcon, BugIcon, EyeIcon, FogIcon, LargeIconsIcon, OpacityIcon, SearchIcon, SkipIcon, SpinIcon, WaterIcon } from "@/icons";
 import { BLEND_MODES, FONT_WEIGHTS } from "@shared/constants";
 const state = useState();
 
@@ -14,7 +13,7 @@ const state = useState();
   <settings-setting
     :title="$t('settings.animation_duration.title')"
     :description="$t('settings.animation_duration.description')"
-    :icon="SkipIcon"
+    icon="ic:twotone-access-time"
   >
     <slider-input
       v-model="state.settings.value.animationDuration"
@@ -26,7 +25,7 @@ const state = useState();
   <settings-setting
     :title="$t('settings.font_weight.title')"
     :description="$t('settings.font_weight.description')"
-    :icon="BoldIcon"
+    icon="ic:twotone-format-bold"
   >
     <dropdown-input
       v-model="state.settings.value.fontWeight"
@@ -36,7 +35,7 @@ const state = useState();
   <settings-setting
     :title="$t('settings.ambient_background.title')"
     :description="$t('settings.ambient_background.description')"
-    :icon="LargeIconsIcon"
+    icon="ic:twotone-photo-size-select-actual"
   >
     <toggle-switch
       v-model="state.settings.value.showAmbientBackground" 
@@ -47,7 +46,7 @@ const state = useState();
           subsetting
           :title="$t('settings.ambient_background.blending_mode.title')"
           :description="$t('settings.ambient_background.blending_mode.description')"
-          :icon="WaterIcon"
+          icon="ic:twotone-water-drop"
         >
           <dropdown-input
             v-model="state.settings.value.ambientBackgroundBlendMode"
@@ -58,7 +57,7 @@ const state = useState();
           subsetting
           :title="$t('settings.ambient_background.spin_speed.title')"
           :description="$t('settings.ambient_background.spin_speed.description')"
-          :icon="SpinIcon"
+          icon="ic:twotone-rotate-90-degrees-ccw"
         >
           <slider-input
             v-model="state.settings.value.ambientBackgroundSpinSpeed"
@@ -71,7 +70,7 @@ const state = useState();
           subsetting
           :title="$t('settings.ambient_background.opacity.title')"
           :description="$t('settings.ambient_background.opacity.description')"
-          :icon="OpacityIcon"
+          icon="ic:twotone-opacity"
         >
           <slider-input
             v-model="state.settings.value.ambientBackgroundOpacity"
@@ -84,7 +83,7 @@ const state = useState();
           subsetting
           :title="$t('settings.ambient_background.blur_strength.title')"
           :description="$t('settings.ambient_background.blur_strength.description')"
-          :icon="FogIcon"
+          icon="ic:twotone-blur-linear"
         >
           <slider-input
             v-model="state.settings.value.ambientBackgroundBlurStrength"
@@ -97,7 +96,7 @@ const state = useState();
           subsetting
           :title="$t('settings.ambient_background.zoom.title')"
           :description="$t('settings.ambient_background.zoom.description')"
-          :icon="SearchIcon"
+          icon="ic:twotone-zoom-in"
         >
           <slider-input
             v-model="state.settings.value.ambientBackgroundZoom"
@@ -112,7 +111,7 @@ const state = useState();
   <settings-setting
     :title="$t('settings.neon_mode.title')"
     :description="$t('settings.neon_mode.description')"
-    :icon="EyeIcon"
+    icon="ic:twotone-remove-red-eye"
   >
     <toggle-switch
       v-model="state.settings.value.neonMode" 
@@ -121,7 +120,7 @@ const state = useState();
   <settings-setting
     :title="$t('settings.playback_controls.title')"
     :description="$t('settings.playback_controls.description')"
-    :icon="SkipIcon"
+    icon="ic:twotone-skip-next"
   >
     <toggle-switch
       v-model="state.settings.value.showPlaybackControls" 
@@ -130,7 +129,7 @@ const state = useState();
   <settings-setting
     :title="$t('settings.minimalist_mode.title')"
     :description="$t('settings.minimalist_mode.description')"
-    :icon="EyeIcon"
+    icon="ic:twotone-remove-red-eye"
   >
     <toggle-switch
       v-model="state.settings.value.minimalistMode" 
@@ -140,7 +139,7 @@ const state = useState();
   <settings-setting
     :title="$t('settings.cover_art.title')"
     :description="$t('settings.cover_art.description')"
-    :icon="LargeIconsIcon"
+    icon="ic:twotone-image"
   >
     <toggle-switch
       v-model="state.settings.value.showCoverArt" 
@@ -149,7 +148,7 @@ const state = useState();
   <settings-setting
     :title="$t('settings.debug_stats.title')"
     :description="$t('settings.debug_stats.description')"
-    :icon="BugIcon"
+    icon="ic:twotone-bug-report"
   >
     <toggle-switch
       v-model="state.settings.value.showDebugStats" 

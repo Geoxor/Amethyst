@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import SettingsCategory from "@/components/v2/SettingsCategory.vue";
-import { AddIcon, AmethystIcon, KeyboardIcon, SSDIcon, SpeakerIcon, SpeedometerIcon, SwatchesIcon, VoltmeterIcon } from "@/icons";
 </script>
 
 <template>
@@ -10,56 +9,56 @@ import { AddIcon, AmethystIcon, KeyboardIcon, SSDIcon, SpeakerIcon, SpeedometerI
       route-name="settings.appearance"
       :active="false"
       :description="$t('settings.appearance.description')"
-      :icon="SwatchesIcon"
+      icon="ic:twotone-palette"
     />
     <settings-category
       route-name="settings.performance"
       :title="$t('settings.performance.title')"
       :active="false"
       :description="$t('settings.performance.description')"
-      :icon="SpeedometerIcon"
+      icon="ic:twotone-area-chart"
     />
     <settings-category
       route-name="settings.metering"
       :title="$t('settings.metering.title')"
       :active="false"
       :description="$t('settings.metering.description')"
-      :icon="VoltmeterIcon"
+      icon="ic:twotone-analytics"
     />
     <settings-category
       route-name="settings.audio"
       :title="$t('settings.audio.title')"
       :active="false"
       :description="$t('settings.audio.description')"
-      :icon="SpeakerIcon"
+      icon="ic:twotone-volume-up"
     />
     <settings-category
       route-name="settings.media_sources"
       :title="$t('settings.media_sources.title')"
       :active="false"
       :description="$t('settings.media_sources.description')"
-      :icon="SSDIcon"
+      icon="ic:twotone-folder"
     />
     <settings-category
       route-name="settings.keybinds"
       :title="$t('settings.keybinds.title')"
       :active="false"
       :description="$t('settings.keybinds.description')"
-      :icon="KeyboardIcon"
+      icon="ic:twotone-keyboard"
     />
     <settings-category
       route-name="settings.integrations"
       :title="$t('settings.integrations.title')"
       :active="false"
       :description="$t('settings.integrations.description')"
-      :icon="AddIcon"
+      icon="ic:twotone-data-saver-off"
     />
     <settings-category
       route-name="settings.application"
       :title="$t('settings.application.title')"
       :active="false"
       :description="$t('settings.application.description')"
-      :icon="AmethystIcon"
+      icon="ic:twotone-settings-applications"
     />
   </div>
 </template>
