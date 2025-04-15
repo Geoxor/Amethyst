@@ -93,8 +93,8 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
         :player="amethyst.player"
       />
       <Icon
-        icon="ic:twotone-volume-up"
-        class="w-6"
+        icon="ic:round-volume-up"
+        class="w-5 min-w-5 h-5 min-h-5 opacity-75"
       />
       <slider
         id="volume"
