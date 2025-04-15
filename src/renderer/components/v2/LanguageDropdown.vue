@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
-import { ChevronIcon } from "@/icons";
+import { Icon } from "@iconify/vue";
 import { onClickOutside } from "@vueuse/core";
 import iso6391 from "iso-639-1";
 import { ref } from "vue";
@@ -46,7 +46,10 @@ const flagURL = (name: string) => {
       class="w-4 rounded-2px"
     >
     {{ convertLocaleToLanguage($i18n.locale) }}
-    <ChevronIcon class="w-4 h-4 min-w-4 min-h-4" />
+    <Icon
+      icon="ic:round-chevron-left"
+      class="w-5 h-5 -rotate-90 transform-gpu" 
+    />
     <transition name="slide">
       <menu
         v-if="showLanguageDropdown"

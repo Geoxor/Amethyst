@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ChevronIcon } from "@/icons";
+import { Icon } from "@iconify/vue";
 import { onClickOutside, useVModel } from "@vueuse/core";
 import { ref } from "vue";
 
@@ -25,7 +25,10 @@ const value = useVModel(props, "modelValue", emits);
     @click="showdropdown = true;"
   >
     {{ prefix }}{{ value }}{{ suffix }}
-    <ChevronIcon class="w-4 h-4" />
+    <Icon
+      icon="ic:round-chevron-left"
+      class="w-5 h-5 -rotate-90 transform-gpu" 
+    />
     <transition name="slide">
       <menu
         v-if="showdropdown"

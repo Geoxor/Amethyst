@@ -5,14 +5,14 @@ import CoverArt from "@/components/CoverArt.vue";
 
 import { InspectorBar, useInspector } from "@/components/Inspector";
 import NavigationBar from "@/components/NavigationBar.vue";
-import PlaybackControls from "@/components/v2/PlaybackControls.vue";
+import NavigationButton from "@/components/NavigationButton.vue";
 import TopBar from "@/components/TopBar.vue";
+import PlaybackControls from "@/components/v2/PlaybackControls.vue";
 import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
 import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
-import { AmethystIcon} from "@/icons";
+import { AmethystIcon } from "@/icons";
 import { Track } from "@/logic/track";
 import { onMounted, onUnmounted, ref } from "vue";
-import LoudnessMeter from "./components/visualizers/LoudnessMeter.vue";
 const state = useState();
 const ambientBackgroundImage = ref("");
 
