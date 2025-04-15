@@ -71,7 +71,7 @@ jobs:
         run: yarn package
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           path: |
             release/build/*.yml
@@ -105,7 +105,7 @@ jobs:
   #       run: yarn move-file ./src/android/app/build/outputs/apk/release/app-release-signed.apk ./release/build/android/amethyst-v$(node -p "require('./package.json').version").apk
 
   #     - name: Upload Artifacts
-  #       uses: actions/upload-artifact@v3
+  #       uses: actions/upload-artifact@v4
   #       with:
   #         path: |
   #           release/build/android/*.apk
@@ -132,7 +132,7 @@ jobs:
         run: USE_HARD_LINKS=false yarn package
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           path: |
             release/build/*.yml
@@ -165,7 +165,7 @@ jobs:
         run: yarn package
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           path: |
             release/build/*.yml
