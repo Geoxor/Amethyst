@@ -11,7 +11,7 @@
       fill="currentColor"
     />
     <path
-      opacity="0.65"
+      opacity="0.35"
       d="M18 12H12V6C12 4.343 10.657 3 9 3H6C4.343 3 3 4.343 3 6V15V18C3 19.657 4.343 21 6 21H9H18C19.657 21 21 19.657 21 18V15C21 13.343 19.657 12 18 12Z"
       fill="currentColor"
     />

@@ -43,7 +43,7 @@
       fill="currentColor"
     />
     <path
-      opacity="0.65"
+      opacity="0.35"
       d="M5 13C5 17.97 8.134 22 12 22C15.866 22 19 17.97 19 13C19 10.692 18.318 8.593 17.207 7H6.793C5.682 8.593 5 10.692 5 13Z"
       fill="currentColor"
     />
