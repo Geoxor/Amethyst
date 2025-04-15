@@ -6524,9 +6524,9 @@ vue-tsc@^1.6.1:
     "@vue/typescript" "1.8.10"
     semver "^7.3.8"
 
-vue-virtual-scroller@^2.0.0-beta.8:
-  version "2.0.0-beta.8"
-  resolved "https://registry.yarnpkg.com/vue-virtual-scroller/-/vue-virtual-scroller-2.0.0-beta.8.tgz#eeceda57e4faa5ba1763994c873923e2a956898b"
+vue-virtual-scroller@^2.0.0.8:
+  version "2.0.0.8"
+  resolved "https://registry.yarnpkg.com/vue-virtual-scroller/-/vue-virtual-scroller-2.0.0.8.tgz#eeceda57e4faa5ba1763994c873923e2a956898b"
   integrity sha512-b8/f5NQ5nIEBRTNi6GcPItE4s7kxNHw2AIHLtDp+2QvqdTjVN0FgONwX9cr53jWRgnu+HRLPaWDOR2JPI5MTfQ==
   dependencies:
     mitt "^2.1.0"

@@ -2,7 +2,7 @@
   "name": "amethyst",
   "author": "Geoxor <geoxor123@outlook.com>",
   "productName": "Amethyst",
-  "version": "2.0.0-beta",
+  "version": "2.0.0",
   "main": "./release/dist/main/main.js",
   "licenses": [
     {
@@ -365,7 +365,7 @@
     "vue": "^3.2.47",
     "vue-i18n": "^9.8.0",
     "vue-router": "4",
-    "vue-virtual-scroller": "^2.0.0-beta.8",
+    "vue-virtual-scroller": "^2.0.0.8",
     "windicss": "^3.5.6"
   },
   "devEngines": {
