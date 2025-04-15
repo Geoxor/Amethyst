@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ResetIcon, RemoveIcon, DisconnectIcon } from "@/icons/material";
+import { AmethystIcon } from "@/icons";
 import { AmethystAudioNode } from "@/logic/audio";
 import {amethyst} from "@/amethyst";
 const props = defineProps<{node: AmethystAudioNode}>();
@@ -12,7 +12,7 @@ const props = defineProps<{node: AmethystAudioNode}>();
       class="unhook"
       @click="node.disconnect()"
     >
-      <DisconnectIcon class="w-3" />
+      <AmethystIcon class="w-3" />
       Unhook
     </button>
     <button
@@ -20,7 +20,7 @@ const props = defineProps<{node: AmethystAudioNode}>();
       class="reset"
       @click="node.toggleBypass()"
     >
-      <DisconnectIcon class="w-3" />
+      <AmethystIcon class="w-3" />
       Bypass
     </button>
     <button
@@ -28,14 +28,14 @@ const props = defineProps<{node: AmethystAudioNode}>();
       class="reset"
       @click="node.reset()"
     >
-      <ResetIcon class="w-3" />
+      <AmethystIcon class="w-3" />
     </button>
     <button
       v-if="props.node.isRemovable"
       class="hover:bg-rose-600  hover:text-black"
       @click="amethyst.player.nodeManager.removeNode(props.node)"
     >
-      <RemoveIcon
+      <AmethystIcon
         class="w-3"
       />
     </button>

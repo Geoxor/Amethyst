@@ -1,24 +1,24 @@
 <script setup lang="ts">
 import { amethyst, useShortcuts } from "@/amethyst";
-import { Track } from "@/logic/track";
-import BaseChip from "@/components/BaseChip.vue";
-import { PlayIcon, ExternalLinkIcon, LoadingIcon, ProcessIcon, BinocularsIcon, ErrorIcon } from "@/icons/material";
-import Cover from "@/components/CoverArt.vue";
 import { useContextMenu } from "@/components/ContextMenu";
-import { RemoveIcon, ResetIcon } from "@/icons/material";
-import { useInspector } from "./Inspector";
+import Cover from "@/components/CoverArt.vue";
+import { AmethystIcon } from "@/icons";
 import { saveArrayBufferToFile } from "@/logic/dom";
 import { convertDfpwm } from "@/logic/encoding";
+import { Track } from "@/logic/track";
+import { Icon } from "@iconify/vue";
+import { useInspector } from "./Inspector";
 
 defineProps<{tracks: Track[]}>();
+
 const isHoldingControl = useShortcuts().isControlPressed;
 
 // Context Menu options for this component 
 const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
   useContextMenu().open({x, y}, [
-    { title: "Play", icon: PlayIcon, action: () => amethyst.player.play(track) },
-    { title: "Inspect", icon: BinocularsIcon, action: () => useInspector().inspectAndShow(track) },
-    { title: "Encode to .dfpwm...", icon: ProcessIcon, action: async () => {
+    { title: "Play", icon: AmethystIcon, action: () => amethyst.player.play(track) },
+    { title: "Inspect", icon: AmethystIcon, action: () => useInspector().inspectAndShow(track) },
+    { title: "Encode to .dfpwm...", icon: AmethystIcon, action: async () => {
       saveArrayBufferToFile(
         await convertDfpwm(await track.getArrayBuffer()), 
         {
@@ -26,202 +26,215 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           extension: "dfpwm"
       });
     }},
-    { title: "Show in Explorer...", icon: ExternalLinkIcon, action: () => amethyst.showItem(track.path) },
-    { title: "Export cover...", icon: ExternalLinkIcon, action: () => track.exportCover() },
-    { title: "Reload metadata", icon: ResetIcon, action: () => track.fetchAsyncData(true) },
-    { title: "Remove from queue", icon: RemoveIcon, red: true, action: () => amethyst.player.queue.remove(track) },
-    { title: "Delete from disk", icon: RemoveIcon, red: true, action: () => track.delete() },
+    { title: "Show in Explorer...", icon: AmethystIcon, action: () => amethyst.showItem(track.path) },
+    { title: "Export cover...", icon: AmethystIcon, action: () => track.exportCover() },
+    { title: "Reload metadata", icon: AmethystIcon, action: () => track.fetchAsyncData(true) },
+    { title: "Remove from queue", icon: AmethystIcon, red: true, action: () => amethyst.player.queue.remove(track) },
+    { title: "Delete from disk", icon: AmethystIcon, red: true, action: () => track.delete() },
   ]);
 };
 
 </script>
 
 <template>
-  <div class="text-12px min-h-0 h-full flex flex-col text-left relative select-none">
-    <header class="flex text-primary-900 font-bold mb-2 mr-1">
-      <div class="w-4" />
-      <div class="min-w-1/4">
-        Filename
-      </div>
-      <div class="th">
-        Artist
-      </div>
-      <div class="th">
-        Title
-      </div>
-      <div class="th">
-        Album
-      </div>
-      <div class="th max-w-16">
-        Container
-      </div>
-      <div class="th max-w-24">
-        Size <strong>{{ amethyst.player.queue.getTotalSizeFormatted() }}</strong>
-      </div>
-      <div class="th max-w-32">
-        Duration <strong>{{ amethyst.player.queue.getTotalDurationFormatted() }}</strong>
-      </div>
-    </header>
-    <RecycleScroller
-      class="h-full"
-      :items="tracks"
-      :item-size="16"
-      key-field="path"
-      :buffer="32"
-    >
-      <template
-        #default="{ item }"
-      >
-        <div
+  <div class="text-13px text-text_title min-h-0 h-full flex flex-col text-left relative select-none">
+    <div class="overflow-y-auto">
+      <table class="justify-between text-left">
+        <colgroup>
+          <col
+            span="1"
+            width="10"
+          >
+          <col
+            span="1"
+            width="50"
+          >
+          <col
+            span="2"
+            width="300"
+          >
+          <col
+            span="8"
+            width="200"
+          >
+        </colgroup>
+        <tr>
+          <!-- used as spacer for Status Icons name -->
+          <th class="th" />
+          <th class="th">
+            Cover
+          </th>
+          <th class="th">
+            Title
+          </th>
+          <th class="th ">
+            Artist
+          </th>
+          <th class="th">
+            Location
+          </th>
+          <th class="th">
+            Album
+          </th>
+          <th class="th">
+            Year
+          </th>
+          <th class="th">
+            Duration
+          </th>
+          <th class="th">
+            Format
+          </th>
+          <th class="th">
+            Favorite
+          </th>
+          <th class="th">
+            Bitrate
+          </th>
+          <th class="th">
+            Size
+          </th>
+        </tr>
+        <tr
+          v-for="(track, index) in tracks"
+          :key="index"
           :class="[
             isHoldingControl && 'control cursor-external-pointer', 
-            item.hasErrored && 'opacity-50 not-allowed',
-            item.deleted && 'opacity-50 !text-rose-400 not-allowed',
+            track.hasErrored && 'opacity-50 not-allowed',
+            track.deleted && 'opacity-50 !text-rose-400 not-allowed',
 
-            amethyst.player.getCurrentTrack()?.path == item.path && 'currentlyPlaying',
-            useInspector().state.isVisible && useInspector().state.currentItem == item && 'currentlyInspecting'
+            amethyst.player.getCurrentTrack()?.path == track.path && 'currentlyPlaying',
+            useInspector().state.isVisible && useInspector().state.currentItem == track && 'currentlyInspecting'
           ]"
           class="row"
-          @contextmenu="handleContextMenu($event, item)"
+          @contextmenu="handleContextMenu($event, track)"
           @keypress.prevent
-          @click="isHoldingControl ? amethyst.showItem(item.path) : amethyst.player.play(item)"
+          @click="isHoldingControl ? amethyst.showItem(track.path) : amethyst.player.play(track)"
         >
-          <div
-            class="td max-w-4"
-          >
-            <loading-icon
-              v-if="item.isLoading"
-              class="h-3 animate-spin w-3 min-h-3 min-w-3"
+          <td>
+            <PlayIcon
+              v-if="amethyst.player.getCurrentTrack()?.path == track.path "
+              class="h-5 w-5 min-h-5 min-w-5 mr-2 ml-2"
             />
-            <error-icon
-              v-else-if="item.hasErrored"
-              class="h-3 w-3 min-h-3 min-w-3"
+            <NotPlayingIcon
+              v-else
+              class="h-5 w-5 min-h-5 min-w-5 mr-2 ml-2"
             />
+          </td>
 
-            <RemoveIcon
-              v-else-if="item.deleted"
-              class="h-3 w-3 min-h-3 min-w-3"
+          <td>
+            <AmethystIcon
+              v-if="track.isLoading || track.deleted || track.hasErrored"
+              class="h-6 w-6 min-h-6 min-w-6 rounded-md"
             />
     
             <cover
               v-else
-              class="w-3 h-3"
-              :url="(item.isLoaded && item.getCover()) as string"
+              class="w-6 h-6 min-h-6 min-w-6 rounded-md"
+              :url="(track.isLoaded && track.getCover()) as string"
             />
-          </div>
-          <div
-            class="td flex gap-1 min-w-1/4"
-          >
-            {{ amethyst.player.getCurrentTrack()?.path == item.path ? "⏵ " : "" }}
-            <BinocularsIcon
-              v-if="useInspector().state.isVisible && useInspector().state.currentItem == item"
-              class="w-3 h-3"
+          </td>
+
+          <td>
+            <span v-if="track.getTitle()">{{ track.getTitle() }}</span>
+            <span v-else-if="track.getFilename()">{{ track.getFilename() }}</span>
+            <span v-else>N/A</span>
+          </td>
+
+          <td>
+            <span v-if="track.getArtistsFormatted()">{{ track.getArtistsFormatted() }}</span>
+            <span v-else>N/A</span>
+          </td>
+
+          <td>
+            <button
+              class="cursor-pointer hover:text-white"
+              @click.stop.prevent="amethyst.showItem(track.path)"
+            >
+              <SSDIcon class="h-5 w-5 min-h-5 min-w-5" />
+            </button>
+          </td>
+
+          <td>
+            <span v-if="track.getAlbumFormatted()">{{ track.getAlbumFormatted() }}</span>
+            <span v-else>N/A</span>
+          </td>
+
+          <td>
+            <span v-if="track.getMetadata()">{{ track.getMetadata()?.common.year }}</span>
+            <span v-else>N/A</span>
+          </td>
+
+          <td>
+            <span v-if="track.getDurationFormatted(true)">{{ track.getDurationFormatted(true) }}</span>
+            <span v-else>N/A</span>
+          </td>
+
+          <td>
+            <span v-if="track.getMetadata()">{{ track.getMetadata()?.format.container }}</span>
+            <span v-else>N/A</span>
+          </td>
+
+          <td class="pl-4">
+            <Icon
+              icon="ic:twotone-favorite"
+              class="h-4 w-4 min-h-4 min-w-4"
             />
-            
-            {{ item.getFilename() }}
-          </div>
-          <div class="td">
-            <span v-if="item.getArtistsFormatted()">
-              {{ item.getArtistsFormatted() }}
-            </span>
-            <span
-              v-else
-              class="text-primary-900 text-opacity-50"
-            >
-              n/a
-            </span>
-          </div>
+          </td>
 
-          <div class="td">
-            <span v-if="item.getTitle()">
-              {{ item.getTitle() }}
-            </span>
-            <span
-              v-else
-              class="text-primary-900 text-opacity-50"
-            >
-              n/a
-            </span>
-          </div>
+          <td>
+            <span v-if="track.getBitrateFormatted()">{{ track.getBitrateFormatted() }}</span>
+            <span v-else>N/A</span>
+          </td>
 
-          <div class="td">
-            <span v-if="item.getAlbumFormatted()">
-              {{ item.getAlbumFormatted() }}
-            </span>
-            <span
-              v-else
-              class="text-primary-900 text-opacity-50"
-            >
-              n/a
-            </span>
-          </div>
-          <div class="td max-w-16">
-            <BaseChip
-              v-if="item.getMetadata()?.format.container"
-              class="text-8px"
-            >
-              {{ item.getMetadata()?.format.container }}
-            </BaseChip>
-          </div>
-          <div class="td max-w-24">
-            {{ item.getFilesizeFormatted() }}
-          </div>
-          <div class="td max-w-32">
-            {{ item.getDurationFormatted(true) }}
-          </div>
-        </div>
-      </template>
-    </RecycleScroller>
+          <td>
+            <span v-if="track.getFilesizeFormatted()">{{ track.getFilesizeFormatted() }}</span>
+            <span v-else>N/A</span>
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
 </template>
 
 <style lang="postcss">
 
-.th,
-.td {
-  @apply flex-1 overflow-hidden;
-
-  & strong {
-    @apply text-primary-900 text-9px text-opacity-50;
-  }
+th {
+  @apply sticky top-0 z-10 bg-surface-900 pt-4 pb-4;
 }
 
-.td {
-  @apply overflow-hidden overflow-ellipsis;
+td {
+  @apply pt-2 pb-2;
+}
+
+tr {
+  @apply rounded-8px overflow-hidden;
 }
 
 .row {
-  @apply text-primary-900 h-4 w-full flex;
 
   &:hover {
-    @apply text-white;
+    @apply text-accent bg-surface-400 bg-opacity-20;
+
   }
 
   &.control:hover {
     @apply underline;
   } 
 
-  &.currentlyPlaying:not(:hover) {
-    @apply text-primary-800;
+  &.currentlyPlaying {
+    @apply text-primary bg-primary bg-opacity-10;
+    &:hover {
+      @apply bg-opacity-15;
+    }
   }
 
-  &.currentlyInspecting:not(:hover) {
-    @apply text-purple-400;
+  &.currentlyInspecting {
+    @apply text-primary bg-primary bg-opacity-10;
+    &:hover {
+      @apply bg-opacity-15;
+    }
   }
-}
-
-.vue-recycle-scroller__slot {
-  @apply flex;
-}
-
-.vue-recycle-scroller__slot,
-.vue-recycle-scroller__item-view {
-  @apply  text-left;
-}
-
-.vue-recycle-scroller__slot .th:first-child,
-.vue-recycle-scroller__item-view .td:first-child {
-  @apply w-4 max-w-4;
 }
 
 </style>

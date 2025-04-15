@@ -2,8 +2,8 @@
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
-import { Discord, FormatIcons } from "../plugins/amethyst.discord";
+import electron, { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
+// import { Discord, FormatIcons } from "../plugins/amethyst.discord";
 import {ALLOWED_AUDIO_EXTENSIONS} from "../shared/constants";
 import {sleep} from "../shared/logic";
 import { IS_DEV, store } from "./main";
@@ -36,7 +36,7 @@ const LOGO = `
   / /| | / __ \`__ \\/ _ \\/ __/ __ \\/ / / / ___/ __/
  / ___ |/ / / / / /  __/ /_/ / / / /_/ (__  ) /_  
 /_/  |_/_/ /_/ /_/\\___/\\__/_/ /_/\\__, /____/\\__/  
- v${APP_VERSION}                        /____/            
+ v${APP_VERSION}                    /____/            
 		`;
 
 import("chalk").then(({default: chalk}) => console.log(chalk.hex("868aff")(LOGO)));
@@ -70,7 +70,7 @@ export class MainWindow {
 		defaultWidth: 1280,
 		defaultHeight: 720,
 	});
-	private readonly discord: Discord;
+	// private readonly discord: Discord;
 
 	constructor() {
 
@@ -81,8 +81,8 @@ export class MainWindow {
 			y: this.windowState.y,
 			width: this.windowState.width,
 			height: this.windowState.height,
-			minHeight: 116,
-			minWidth: 836,
+			minHeight: 600,
+			minWidth: 800,
 			icon: icon(),
 			frame: false,
 			webPreferences: {
@@ -94,7 +94,7 @@ export class MainWindow {
 
 		this.windowState.manage(this.window);
 
-		this.discord = new Discord();
+		// this.discord = new Discord();
 	
 		// Let us register listeners on the window, so we can update the state
 		// automatically (the listeners will be removed when the window is closed)
@@ -117,7 +117,7 @@ export class MainWindow {
 			return;
 
 		const {default: sharp} = await import("sharp");
-
+		
 		return (
 			await sharp(cover).resize(resizeTo, resizeTo).webp().toBuffer()
 		).toString("base64");
@@ -201,29 +201,36 @@ export class MainWindow {
 		});
 	}
 
-	private async loadFolder(inputPath: string, filter: Electron.FileFilter[]) {
-		return new Promise((resolve, reject) => {
-			fs.readdir(inputPath, (error, files) => {
-				error && reject(error);
-				
-				Promise.all(
-					files.map(async file => {
-						const filePath = path.join(inputPath, file);
-						const stats = await fs.promises.stat(filePath);
-						if (stats.isDirectory()) {
-							return this.loadFolder(filePath, filter);
-						}
-						else if (stats.isFile()) {
-							const extensions = filter[0].extensions;
-							if (extensions.includes(path.extname(filePath).slice(1).toLowerCase())) {
-								return filePath;
-							}
-						}
-						return;
-					}),
-				).then(files => resolve(files.filter(file => !!file)));
+	private async loadFolder (
+		inputPath: string,
+		filters: Electron.FileFilter[]
+	): Promise<string[]> {
+		const result: string[] = [];
+	
+		function recurse(currentPath: string): void {
+			const files = fs.readdirSync(currentPath);
+	
+			files.forEach(file => {
+				const filePath = path.join(currentPath, file);
+				const stat = fs.statSync(filePath);
+	
+				if (stat.isDirectory()) {
+					recurse(filePath); // Recurse into subdirectories
+				} else {
+					// Check if the file matches any of the specified filters
+					if (
+						filters.some(filter =>
+							filter.extensions.some(ext => file.endsWith(`.${ext}`))
+						)
+					) {
+						result.push(filePath);
+					}
+				}
 			});
-		});
+		}
+	
+		recurse(inputPath);
+		return result;
 	}
 
 	private setIpcEvents(): void {
@@ -238,21 +245,26 @@ export class MainWindow {
 				return fs.promises.readFile(path);
 			},
 			"get-appdata-path": () => app.getPath("appData"),
-			"open-file-dialog": async (_: Event, [filters]: [Electron.FileFilter[]]) => {
+			"open-file-dialog": async (_: Event, [options]: [Electron.OpenDialogOptions]) => {
 				return dialog.showOpenDialog({
 					properties: ["openFile"],
-					filters,
+					filters: options.filters
 				});
 			},
 
-			"open-folder-dialog": async (_: Event, [filter]: [Electron.FileFilter[]]) => {
-				const result = await dialog.showOpenDialog({
+			"open-folder-dialog": async () => {
+				return dialog.showOpenDialog({
 					properties: ["openDirectory"],
 				});
+				// return {canceled: false, filePaths: await this.loadFolder(result.filePaths[0], filter) };
+			},
 
-				if (result.canceled) return result;
-
-				return {canceled: false, filePaths: await this.loadFolder(result.filePaths[0], filter) };
+			"get-app-metrics": async () => {
+				return app.getAppMetrics();
+			},
+			
+			"fetch-folder-content": async (_: Event, [path, filter]: [string, Electron.FileFilter[]]) => {
+				return this.loadFolder(path, filter);
 			},
 
 			"open-external": async (_: Event, [path]: string[]) => {
@@ -299,7 +311,7 @@ export class MainWindow {
 			"update-rich-presence": (_: Event, [args]: string[]) => {
 				const [title, time, format] = args;
 
-				this.discord.updateCurrentSong(title, time, format as FormatIcons);
+				// this.discord.updateCurrentSong(title, time, format as FormatIcons);
 			},
 
 			"set-vsync": (_: Event, [useVsync]: string[]) => {
@@ -309,13 +321,22 @@ export class MainWindow {
 				app.exit();
 			},
 
+			"set-autostart": (_: Event, [autoStart]: [boolean]) => {
+				store.set("autoStart", autoStart);
+				console.log(`Set store 'autoStart' to ${autoStart}`);
+				electron.app.setLoginItemSettings({
+					openAtLogin: autoStart,
+					path: electron.app.getPath("exe")
+				});
+			},
+
 			"set-autoupdates": (_: Event, [autoUpdatesEnabled]: string[]) => {
 				store.set("autoUpdatesEnabled", autoUpdatesEnabled);
 				console.log(`Set store 'autoUpdatesEnabled' to ${autoUpdatesEnabled}`);
 			},
 
 			"clear-rich-presence": () => {
-				this.discord.clearRichPresence();
+				// this.discord.clearRichPresence();
 			},
 
 			"check-for-updates": () => {

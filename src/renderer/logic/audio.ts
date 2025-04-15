@@ -39,6 +39,7 @@ export class AmethystAudioNode {
 
   public connectTo(target: AmethystAudioNode) {
     if (this.connectedTo.includes(target)) return;
+    if (target == this) return;
     this.connectedTo.push(target);
     this.connections.push({ 
       id: uuidv4(),
@@ -50,61 +51,66 @@ export class AmethystAudioNode {
 
   public disconnectFrom(target: AmethystAudioNode) {
     this.connectedTo.splice(this.connectedTo.indexOf(target), 1);
-    // TODO: make this get the indexes of all target connections because it only disconnects the first target
-    this.connections.splice(this.connections.findIndex(connection => connection.target === target.properties.id), 1);
+    this.connections = this.connections.filter(connection => connection.target != target.properties.id);
     this.post.disconnect(target.pre);
   }
 
   public disconnect() {
     if (this.isBypassed) this.toggleBypass();
 
-    // Disconnect descendants
+    const sources = new Array<AmethystAudioNode>;
+    const targets = new Array<AmethystAudioNode>;
+
+    // Get, store and disconnect all connections
     this.connections.forEach(connection => {
+      // Get node connected to this node
       const source = amethyst.player.nodeManager.nodes.value.find(node => node.connections.some(connection => connection.target === this.properties.id));
+      // Get node connected by this node
       const target = amethyst.player.nodeManager.nodes.value.find(node => node.properties.id === connection.target);
-      target && this.disconnectFrom(target);
-      
-      // And this node from it's current target
-      // And connect them together as if this node never existed between them
-      if (source && target) {
-        source.connectTo(target);
-      }
+      source && sources.push(source) && source.disconnectFrom(this);
+      target && targets.push(target) && this.disconnectFrom(target);
     });
 
-    // Disconnect parents
-    this.getParentNode()?.disconnectFrom(this);
+    sources.forEach(source => {
+      targets.forEach(target => {
+        source.connectTo(target);
+      });
+    });
   }
 
   public toggleBypass() {
-    if (this.isBypassed) {
-      this.connections.forEach(connection => {
-        const parent = this.getParentNode();
-        const child = amethyst.player.nodeManager.nodes.value.find(node => node.properties.id === connection.target);
-        
-        // Reconnect this node
-        child && this.post.connect(child.pre);
-        parent && parent.post.connect(this.pre);
-        parent && child && parent.post.disconnect(child.pre);
+    this.connections.forEach(connection => {
+      const parents = this.getParentNodes();
+      const children = amethyst.player.nodeManager.nodes.value.filter(node => node.properties.id === connection.target);
+      
+      if (this.isBypassed) {
+        // Reconnect children back to this node
+        children.forEach(child => this.post.connect(child.pre));
+
+        // Reconnect parents back to this node
+        parents.forEach(parent => parent.post.connect(this.pre));
+
+        // Disconnect parents from children
+        parents.forEach(parent => children.forEach(child => parent.post.disconnect(child.pre)));
 
         this.isBypassed = false;
-      });
-    } else {
-      this.connections.forEach(connection => {
-        const parent = this.getParentNode();
-        const child = amethyst.player.nodeManager.nodes.value.find(node => node.properties.id === connection.target);
+      } else {
+        // Disconnect children from this node
+        children.forEach(child => this.post.disconnect(child.pre));
         
-        // Bypass (disconnect) this node
-        child && this.post.disconnect(child.pre);
-        parent && parent.post.disconnect(this.pre);
-        parent && child && parent.post.connect(child.pre);
+        // Disconnect parents from this node
+        parents.forEach(parent => parent.post.disconnect(this.pre));
+
+        // Connect parents to children
+        parents.forEach(parent => children.forEach(child => parent.post.connect(child.pre)));
 
         this.isBypassed = true;
-      });
-    }
+      }
+    });
   }
 
-  public getParentNode(){
-    return amethyst.player.nodeManager.nodes.value.find(node => node.connectedTo.some(node => node.properties.id === this.properties.id));
+  public getParentNodes(){
+    return amethyst.player.nodeManager.nodes.value.filter(node => node.connectedTo.some(node => node.properties.id === this.properties.id));
   }
 
   public updatePosition(newPosition: {x: number, y: number}) {

@@ -3,15 +3,8 @@ import CustomNode from "@/components/nodes/CustomNode.vue";
 import EqualizerBand from "./EqualizerBand.vue";
 import { AmethystEightBandEqualizerNode } from ".";
 import {
-  FilterIcon,
-  HighShelfIcon,
-  LowShelfIcon,
-  LowpassIcon,
-  HighpassIcon,
-  BellIcon,
-  BandpassIcon,
-
-} from "@/icons/material";
+AmethystIcon
+} from "@/icons";
 import { Ref, onMounted, ref, watch } from "vue";
 import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
 import { getThemeColorHex } from "@/logic/color";
@@ -93,7 +86,7 @@ const FILTER_TYPES = [
   <CustomNode
     :node="node"
     title="8-Band equalizer"
-    :icon="FilterIcon"
+    :icon="AmethystIcon"
   >
     <div
       :key="componentKey"
@@ -144,27 +137,27 @@ const FILTER_TYPES = [
             @mousedown.stop
             @click="filter.type = filterType;"
           >
-            <HighShelfIcon
+            <AmethystIcon
               v-if="filterType == 'highshelf'"
               class="h-4 w-4"
             />
-            <LowShelfIcon
+            <AmethystIcon
               v-else-if="filterType == 'lowshelf'"
               class="h-4 w-4"
             />
-            <LowpassIcon
+            <AmethystIcon
               v-else-if="filterType == 'lowpass'"
               class="h-4 w-4"
             />
-            <HighpassIcon
+            <AmethystIcon
               v-else-if="filterType == 'highpass'"
               class="h-4 w-4"
             />
-            <BellIcon
+            <AmethystIcon
               v-else-if="filterType == 'peaking'"
               class="h-4 w-4"
             />
-            <BandpassIcon
+            <AmethystIcon
               v-else-if="filterType == 'bandpass'"
               class="h-4 w-4"
             />

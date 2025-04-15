@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import { useVModel } from "@vueuse/core";
-import BaseSwitch from "../input/BaseSwitch.vue";
+import ToggleSwitch from "../v2/ToggleSwitch.vue";
 const props = defineProps<{ text: string, icon?: any, modelValue: boolean }>();
 const emits = defineEmits(["update:modelValue"]);
 const value = useVModel(props, "modelValue", emits);
@@ -12,6 +12,6 @@ const value = useVModel(props, "modelValue", emits);
     :text="text"
     :icon="icon"
   >
-    <base-switch v-model="value" />
+    <toggle-switch v-model="value" />
   </settings-setting>
 </template>

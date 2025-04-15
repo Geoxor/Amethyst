@@ -1,9 +1,10 @@
 import { ref } from "vue";
-import { bytesToHuman, secondsToColinHuman, secondsToHuman } from "@shared/formating";
+import { bytesToHuman, secondsToColinHuman, secondsToHuman, bitrateToHuman } from "@shared/formating";
 import { IMetadata, LoadState, LoadStatus } from "@shared/types";
+import * as mm from "music-metadata-browser";
 import FileSaver from "file-saver";
 import mime from "mime-types";
-import { amethyst } from "@/amethyst";
+import { amethyst, favoriteTracks } from "@/amethyst";
 
 /**
  * Each playable audio file is an instance of this class
@@ -15,11 +16,21 @@ export class Track {
   public isLoaded = ref(false);
   public hasErrored = ref(false);
   public deleted: boolean = false;
+  public isFavorited: boolean = false;
   public path: string;
 
   public constructor(public absolutePath: string) {
-    // console.log("absolute path: ", absolutePath);
     this.path = absolutePath;
+    this.isFavorited = favoriteTracks.value.includes(this.path);
+  }
+
+  public toggleFavorite () {
+    this.isFavorited = !this.isFavorited;
+    if (this.isFavorited) {
+      favoriteTracks.value.push(this.path);
+    } else {
+      favoriteTracks.value.splice(favoriteTracks.value.indexOf(this.path), 1);
+    }
   }
 
   public getCachePath(absolute?: boolean) {
@@ -37,7 +48,7 @@ export class Track {
   }
 
   private async fetchCache() {
-    return (await fetch(this.getCachePath())).json();
+    return (JSON.parse(await window.fs.readFile(this.getCachePath(true), "utf-8")));
   }
 
   public async delete() {
@@ -63,7 +74,7 @@ export class Track {
         this.metadata.state = LoadStatus.Loaded;
         return this.metadata.data;
       }
-      this.metadata.data = await amethyst.getMetadata(this.absolutePath);
+      this.metadata.data = await this.readMetadata();
       this.metadata.state = LoadStatus.Loaded;
       return this.metadata.data;
     } catch (error) {
@@ -72,6 +83,41 @@ export class Track {
       return ;
     }
   };
+
+  /**
+   * Reads track metadata from disk
+   */
+  public async readMetadata() {
+    switch (amethyst.getCurrentPlatform()) {
+      case "desktop":
+        return window.electron.ipcRenderer.invoke<IMetadata>("get-metadata", [this.absolutePath]);
+      case "mobile":
+        const response = await fetch(decodeURIComponent(this.absolutePath));
+        const buffer = new Uint8Array(await response.arrayBuffer());
+        const {format, common} = await mm.parseBuffer(buffer, undefined);
+        const size = buffer.length;
+        return {format, common, size } as IMetadata;
+      default:
+        return Promise.reject();
+    }
+  }
+
+  public async loadCover() {
+    switch (amethyst.getCurrentPlatform()) {
+      case "desktop":
+        return window.electron.ipcRenderer.invoke<string>("get-cover", [this.absolutePath]);
+      case "mobile":
+        const response = await fetch(decodeURIComponent(this.absolutePath));
+        const buffer = new Uint8Array(await response.arrayBuffer());
+        const {common} = await mm.parseBuffer(buffer, undefined);
+        if (common.picture) {
+          return common.picture[0].data.toString("base64") as string;
+        }
+        return;
+      default:
+        return Promise.reject();
+    }
+  }
 
   /**
    * Fetches the resized cover art in base64
@@ -83,7 +129,7 @@ export class Track {
         this.cover.state = LoadStatus.Loaded;
         return this.cover.data;
       }
-      const data = await amethyst.getCover(this.absolutePath);
+      const data = await this.loadCover();
       this.cover.data = data ? `data:image/webp;base64,${data}` : undefined;
       this.cover.state = LoadStatus.Loaded;
       return this.cover.data;
@@ -191,6 +237,10 @@ export class Track {
    */
   public getFilesizeFormatted(){
     return bytesToHuman(this.getMetadata()?.size || 0);
+  }
+
+  public getBitrateFormatted(){
+    return bitrateToHuman(this.getMetadata()?.format.bitrate || 0);
   }
 
   /**

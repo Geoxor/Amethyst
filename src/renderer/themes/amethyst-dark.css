@@ -1,4 +1,15 @@
 .theme-amethyst-dark {
+  /* v2 */
+  --text-title: 206, 199, 254;
+  --text-subtitle: 102, 105, 155;
+  --primary: 218, 116, 254;
+  --accent: 134, 138, 255;
+
+  --playback-controls-background: 233, 229, 255;
+  --playback-controls-text: 25, 25, 47;
+  --slider-background: 148, 145, 181; 
+  --slider-fill: var(--playback-controls-text);
+
   --surface-1000: 11, 13, 19;    /* #0B0D13 */
   --surface-900: 15, 17, 25;     /* #0f1119 */
   --surface-800: 20, 22, 33;     /* #141621 */

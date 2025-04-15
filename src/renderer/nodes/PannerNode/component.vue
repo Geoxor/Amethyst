@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Slider from "@/components/input/BaseSlider.vue";
 import CustomNode from "@/components/nodes/CustomNode.vue";
-import {AzimuthIcon} from "@/icons/material";
+import {AmethystIcon} from "@/icons";
 import { AmethystPannerNode } from ".";
 defineProps<{ node: AmethystPannerNode }>();
 function clamp(input: number, min: number, max: number): number {
@@ -17,7 +17,7 @@ function map(current: number, in_min: number, in_max: number, out_min: number, o
   <CustomNode
     :node="node"
     title="Stereo Panner"
-    :icon="AzimuthIcon"
+    :icon="AmethystIcon"
   >
     <p class="font-aseprite">
       {{ map(node.pan, -1, 1,-180, 180).toFixed(2) }}°

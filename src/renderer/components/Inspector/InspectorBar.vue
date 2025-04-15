@@ -1,13 +1,10 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
-import { CloseIcon } from "@/icons/fluency";
-import { AudioFileIcon, ExternalLinkIcon, ImageIcon, ListIcon, PlaystationButtonsIcon, BinocularsIcon, LoadingIcon } from "@/icons/material";
-import ResetIcon from "@/icons/material/ResetIcon.vue";
-
+import { AmethystIcon } from "@/icons";
 import { Track } from "@/logic/track";
 import { bytesToHuman } from "@shared/formating";
 import { computed, onMounted, onUnmounted } from "vue";
-import { useInspector, getInspectableItemType } from ".";
+import { getInspectableItemType, useInspector } from ".";
 import BaseChip from "../BaseChip.vue";
 import { useContextMenu } from "../ContextMenu";
 import CoverArt from "../CoverArt.vue";
@@ -34,9 +31,9 @@ onUnmounted(() => {
   <div
     class="inspector absolute text-12px top-2 right-2 overflow-hidden w-min-64 rounded-4px z-30 text-primary-900 border-1 border-surface-600 bg-surface-1000"
   >
-    <div class="h-10 pl-3 flex w-full borderBottom justify-between items-center">
+    <div class="h-10 pl-3 flex w-full  justify-between items-center">
       <div class="flex gap-2 items-center">
-        <BinocularsIcon />
+        <AmethystIcon />
         <h1>Inspector</h1>
         <BaseChip>
           {{ getInspectableItemType(currentItem) }}
@@ -46,7 +43,7 @@ onUnmounted(() => {
         class="p-3 cursor-pointer hover:text-white"
         @click="inspector.hide()"
       >
-        <CloseIcon class="w-4 h-4" />
+        <AmethystIcon class="w-4 h-4" />
       </button>
     </div>
 
@@ -56,7 +53,7 @@ onUnmounted(() => {
     >
       <section>
         <h1>
-          <ListIcon />
+          <AmethystIcon />
           Metadata
           <loading-icon
             v-if="!currentItem.isLoaded"
@@ -88,28 +85,28 @@ onUnmounted(() => {
           @click="currentItem.fetchAsyncData(true)"
         >
           Refresh metadata
-          <ResetIcon />
         </button>
       </section>
       <section>
         <h1>
-          <ImageIcon />
+          <AmethystIcon />
           Covers
           <loading-icon
             v-if="!currentItem.isLoaded"
             class="h-3 animate-spin w-3 min-h-3 min-w-3"
           />
         </h1>
+        <!-- FIXME: Cover art data will sometimes not show, even though metadata is loaded https://files.catbox.moe/jusams.png -->
         <div
           v-for="(picture, i) of currentItem.getMetadata()?.common.picture"
           :key="picture.data.byteLength"
-          class="flex gap-2 py-1 borderBottom last:border-none"
+          class="flex gap-2 py-1 last:border-none"
         >
           <CoverArt 
             class="w-16 rounded-4px"
             :url="currentItem.getCoverByFace(i)"
             @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-              { title: 'Export cover...', icon: ExternalLinkIcon, action: () => currentItem.exportCover(i) },
+              { title: 'Export cover...', icon: AmethystIcon, action: () => currentItem.exportCover(i) },
             ]);"
           />
           <div class="flex flex-col gap-1 w-full">
@@ -132,7 +129,7 @@ onUnmounted(() => {
       </section>
       <section>
         <h1 class="">
-          <AudioFileIcon />
+          <AmethystIcon />
           File Info
         </h1>
 
@@ -149,12 +146,12 @@ onUnmounted(() => {
           @click="amethyst.showItem(currentItem.path)"
         >
           Show in explorer
-          <ExternalLinkIcon />
+          <AmethystIcon />
         </button>
       </section>
       <section>
         <h1>
-          <PlaystationButtonsIcon />
+          <AmethystIcon />
           Audio Properties
         </h1>
         <li>
@@ -188,7 +185,7 @@ onUnmounted(() => {
       </section>
       <section>
         <h1>
-          <PlaystationButtonsIcon />
+          <AmethystIcon />
           State
         </h1>
         <li>
@@ -208,7 +205,7 @@ onUnmounted(() => {
           @click="amethyst.showItem(currentItem.getCachePath())"
         >
           Show .amf
-          <ExternalLinkIcon />
+          <AmethystIcon />
         </button>
       </section>
     </div>

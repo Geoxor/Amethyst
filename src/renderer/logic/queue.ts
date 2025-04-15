@@ -91,18 +91,20 @@ export class Queue {
 
   /**
    * Adds a track to the queue
-   * @param path A filepath to the track
+   * @param item A filepath to the track
    */
-  public async add(path: string | string[]) {
-    if (path instanceof Array) {
-      path.forEach(path => this.list.value.set(path, new Track(path)));
-      await this.fetchAsyncData();
+  public async add(item: (string | string[]) | Track) {
+    if (item instanceof Track) {
+      this.list.value.set(item.path, item);
+    } else if (item instanceof Array) {
+      const paths = Array.from(item);
+      paths.forEach(path => this.list.value.set(path, new Track(path)));
+    } else if (typeof item === "string") {
+      this.list.value.set(item, new Track(item));
     } else {
-      const track = new Track(path);
-      this.list.value.set(path, track);
-      await track.fetchAsyncData();
+      throw new Error("Tried to create a track with an invalid path type");
     }
-
+    
     this.syncLocalStorage();
   }
 

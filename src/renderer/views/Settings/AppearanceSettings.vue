@@ -1,141 +1,157 @@
 <script setup lang="ts">
 import { useState } from "@/amethyst";
-import BaseKeyboardButton from "@/components/input/BaseKeyboardButton.vue";
-import BaseSwitch from "@/components/input/BaseSwitch.vue";
-import SettingsBinarySwitch from "@/components/settings/SettingsBinarySwitch.vue";
-import SettingsGroup from "@/components/settings/SettingsGroup.vue";
-import SettingsModifier from "@/components/settings/SettingsModifier.vue";
-import {PlayIcon, ImageIcon, BugIcon} from "@/icons/material";
+import DropdownInput from "@/components/v2/DropdownInput.vue";
+import SettingsSetting from "@/components/v2/SettingsSetting.vue";
+import SliderInput from "@/components/v2/SliderInput.vue";
+import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
+import { BLEND_MODES, FONT_WEIGHTS } from "@shared/constants";
 const state = useState();
-
-const BLEND_MODES = [
-  "normal",
-  "multiply",
-  "screen",
-  "overlay",
-  "darken",
-  "lighten",
-  "color-dodge",
-  "color-burn",
-  "hard-light",
-  "soft-light",
-  "difference",
-  "exclusion",
-  "hue",
-  "saturation",
-  "color",
-  "luminosity",
-];
 
 </script>
 
 <template>
-  <settings-group
-    :icon="ImageIcon"
-    text="Ambient Background"
-    description="Presents an overlay of the cover art for the currently playing song on the user interface."
+  <settings-setting
+    :title="$t('settings.animation_duration.title')"
+    :description="$t('settings.animation_duration.description')"
+    icon="ic:twotone-access-time"
   >
-    <template #main>
-      <base-switch v-model="state.settings.value.showAmbientBackground" />
-    </template>
-
-    <settings-binary-switch
-      v-model="state.settings.value.ambientBackgroundSpin"
-      text="Spin"
-    />
-    <settings-modifier
-      v-model="state.settings.value.ambientBackgroundSpinSpeed"
-      text="Spin speed"
-      :min="1"
-      :max="64"
-      :step="1"
-      :def="state.defaultSettings.ambientBackgroundSpinSpeed"
-    />
-    <settings-modifier
-      v-model="state.settings.value.ambientBackgroundBlurStrength"
-      text="Blur strength"
+    <slider-input
+      v-model="state.settings.value.animationDuration"
       :min="0"
-      :max="256"
-      :step="1"
-      :def="state.defaultSettings.ambientBackgroundBlurStrength"
+      :max="300"
+      :step="10"
     />
-
-    <settings-modifier
-      v-model="state.settings.value.ambientBackgroundZoom"
-      text="Zoom"
-      :min="0"
-      :max="1000"
-      :step="1"
-      :def="state.defaultSettings.ambientBackgroundZoom"
+  </settings-setting>
+  <settings-setting
+    :title="$t('settings.font_weight.title')"
+    :description="$t('settings.font_weight.description')"
+    icon="ic:twotone-format-bold"
+  >
+    <dropdown-input
+      v-model="state.settings.value.fontWeight"
+      :options="FONT_WEIGHTS"
     />
-    
-    <settings-modifier
-      v-model="state.settings.value.ambientBackgroundOpacity"
-      text="Opacity"
-      :min="0"
-      :max="100"
-      :step="1"
-      :def="state.defaultSettings.ambientBackgroundOpacity"
+  </settings-setting>
+  <settings-setting
+    :title="$t('settings.ambient_background.title')"
+    :description="$t('settings.ambient_background.description')"
+    icon="ic:twotone-photo-size-select-actual"
+  >
+    <toggle-switch
+      v-model="state.settings.value.showAmbientBackground" 
     />
-
-    <div class="text-primary-900 w-full gap-2 flex items-center justify-between hover:text-primary-800">
-      Mix Blend Mode
-      <select
-        v-model="state.settings.value.ambientBackgroundBlendMode"
-        class="bg-surface-600 w-full max-w-24 h-6 font-aseprite font-thin py-2"
-        @keydown.stop
-      >
-        <option
-          v-for="mode of BLEND_MODES"
-          :key="mode"
-          class="text-10px"
-          :value="mode"
+    <template #subsettings>
+      <div class="p-2 flex flex-col gap-2">
+        <settings-setting
+          subsetting
+          :title="$t('settings.ambient_background.blending_mode.title')"
+          :description="$t('settings.ambient_background.blending_mode.description')"
+          icon="ic:twotone-water-drop"
         >
-          {{ mode }}
-        </option>
-      </select>
-    </div>
-  </settings-group>
-
-  <settings-group 
-    :icon="ImageIcon"
-    description="Render the cover art near the playback controls located at the bottom of the interface."
-    text="Cover art"
-  >
-    <template #main>
-      <base-switch v-model="state.settings.value.showCoverArt" />
+          <dropdown-input
+            v-model="state.settings.value.ambientBackgroundBlendMode"
+            :options="BLEND_MODES"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.ambient_background.spin_speed.title')"
+          :description="$t('settings.ambient_background.spin_speed.description')"
+          icon="ic:twotone-rotate-90-degrees-ccw"
+        >
+          <slider-input
+            v-model="state.settings.value.ambientBackgroundSpinSpeed"
+            :min="0"
+            :max="100"
+            :step="1"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.ambient_background.opacity.title')"
+          :description="$t('settings.ambient_background.opacity.description')"
+          icon="ic:twotone-opacity"
+        >
+          <slider-input
+            v-model="state.settings.value.ambientBackgroundOpacity"
+            :min="0"
+            :max="100"
+            :step="2.5"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.ambient_background.blur_strength.title')"
+          :description="$t('settings.ambient_background.blur_strength.description')"
+          icon="ic:twotone-blur-linear"
+        >
+          <slider-input
+            v-model="state.settings.value.ambientBackgroundBlurStrength"
+            :min="0"
+            :max="128"
+            :step="4"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.ambient_background.zoom.title')"
+          :description="$t('settings.ambient_background.zoom.description')"
+          icon="ic:twotone-zoom-in"
+        >
+          <slider-input
+            v-model="state.settings.value.ambientBackgroundZoom"
+            :min="50"
+            :max="250"
+            :step="10"
+          />
+        </settings-setting>
+      </div>
     </template>
-  </settings-group>
-
-  <settings-group 
-    :icon="PlayIcon"
-    description="Display the playback controls at the bottom of the application."
-    text="Playback controls"
+  </settings-setting>
+  <settings-setting
+    :title="$t('settings.neon_mode.title')"
+    :description="$t('settings.neon_mode.description')"
+    icon="ic:twotone-remove-red-eye"
   >
-    <template #main>
-      <base-keyboard-button
-        :button="'F10'"
-      >
-        F10
-      </base-keyboard-button>
-
-      <base-switch v-model="state.settings.value.showPlaybackControls" />
-    </template>
-  </settings-group>
-
-  <settings-group
-    :icon="BugIcon"
-    text="Debug Statistics"
-    description="Show numbers such as samples, fps, processor usage and more at the top bar."
+    <toggle-switch
+      v-model="state.settings.value.neonMode" 
+    />
+  </settings-setting>
+  <settings-setting
+    :title="$t('settings.playback_controls.title')"
+    :description="$t('settings.playback_controls.description')"
+    icon="ic:twotone-skip-next"
   >
-    <template #main>
-      <base-keyboard-button
-        :button="'F9'"
-      >
-        F9
-      </base-keyboard-button>
-
-      <base-switch v-model="state.settings.value.showDebugStats" />
-    </template>
-  </settings-group>
+    <toggle-switch
+      v-model="state.settings.value.showPlaybackControls" 
+    />
+  </settings-setting>
+  <settings-setting
+    :title="$t('settings.minimalist_mode.title')"
+    :description="$t('settings.minimalist_mode.description')"
+    icon="ic:twotone-remove-red-eye"
+  >
+    <toggle-switch
+      v-model="state.settings.value.minimalistMode" 
+    />
+  </settings-setting>
+  
+  <settings-setting
+    :title="$t('settings.cover_art.title')"
+    :description="$t('settings.cover_art.description')"
+    icon="ic:twotone-image"
+  >
+    <toggle-switch
+      v-model="state.settings.value.showCoverArt" 
+    />
+  </settings-setting>
+  <settings-setting
+    :title="$t('settings.debug_stats.title')"
+    :description="$t('settings.debug_stats.description')"
+    icon="ic:twotone-bug-report"
+  >
+    <toggle-switch
+      v-model="state.settings.value.showDebugStats" 
+    />
+  </settings-setting>
 </template>

@@ -3,6 +3,16 @@ declare type os = typeof import("os");
 declare type path = typeof import("path");
 
 declare global {
+
+	interface Import {
+		meta: {
+			env: {
+				VITE_APP_TITLE: string
+				VITE_APP_PORT: number
+			}
+		}
+	}
+
   interface Window {
     fs: fs;
     os: os;

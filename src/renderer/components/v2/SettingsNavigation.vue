@@ -1,0 +1,64 @@
+<script setup lang="ts">
+import SettingsCategory from "@/components/v2/SettingsCategory.vue";
+</script>
+
+<template>
+  <div class="flex w-min flex-col">
+    <settings-category
+      :title="$t('settings.appearance.title')"
+      route-name="settings.appearance"
+      :active="false"
+      :description="$t('settings.appearance.description')"
+      icon="ic:twotone-palette"
+    />
+    <settings-category
+      route-name="settings.performance"
+      :title="$t('settings.performance.title')"
+      :active="false"
+      :description="$t('settings.performance.description')"
+      icon="ic:twotone-area-chart"
+    />
+    <settings-category
+      route-name="settings.metering"
+      :title="$t('settings.metering.title')"
+      :active="false"
+      :description="$t('settings.metering.description')"
+      icon="ic:twotone-analytics"
+    />
+    <settings-category
+      route-name="settings.audio"
+      :title="$t('settings.audio.title')"
+      :active="false"
+      :description="$t('settings.audio.description')"
+      icon="ic:twotone-volume-up"
+    />
+    <settings-category
+      route-name="settings.media_sources"
+      :title="$t('settings.media_sources.title')"
+      :active="false"
+      :description="$t('settings.media_sources.description')"
+      icon="ic:twotone-folder"
+    />
+    <settings-category
+      route-name="settings.keybinds"
+      :title="$t('settings.keybinds.title')"
+      :active="false"
+      :description="$t('settings.keybinds.description')"
+      icon="ic:twotone-keyboard"
+    />
+    <settings-category
+      route-name="settings.integrations"
+      :title="$t('settings.integrations.title')"
+      :active="false"
+      :description="$t('settings.integrations.description')"
+      icon="ic:twotone-data-saver-off"
+    />
+    <settings-category
+      route-name="settings.application"
+      :title="$t('settings.application.title')"
+      :active="false"
+      :description="$t('settings.application.description')"
+      icon="ic:twotone-settings-applications"
+    />
+  </div>
+</template>

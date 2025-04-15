@@ -24,3 +24,48 @@ export const ALLOWED_AUDIO_EXTENSIONS = [
   "dfpwm",
   "webm",
 ];
+
+export const FFT_SIZES = [
+  32, 
+  64, 
+  128, 
+  256, 
+  512, 
+  1024, 
+  2048, 
+  4096, 
+  8192, 
+  16384,
+  32768,
+];
+
+export const BLEND_MODES = [
+  "normal",
+  "multiply",
+  "screen",
+  "overlay",
+  "darken",
+  "lighten",
+  "color-dodge",
+  "color-burn",
+  "hard-light",
+  "soft-light",
+  "difference",
+  "exclusion",
+  "hue",
+  "saturation",
+  "color",
+  "luminosity",
+];
+
+export const FONT_WEIGHTS = [
+  "thin",
+  "extralight",
+  "light",
+  "normal",
+  "medium",
+  "semibold",
+  "bold",
+  "extrabold",
+  "black",
+];

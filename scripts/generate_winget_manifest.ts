@@ -21,7 +21,7 @@ Installers:
   InstallerType: nullsoft
   InstallerUrl: https://github.com/Geoxor/Amethyst/releases/download/v${version}/Amethyst-Setup-${version}.exe
   InstallerSha256: 7F973E9B821B772C6DF0362C5DB37899E556823BDB1ACB7CBF1F42868159AD26
-- Architecture: x32
+- Architecture: x86
   InstallerType: nullsoft
   InstallerUrl: https://github.com/Geoxor/Amethyst/releases/download/v${version}/Amethyst-Setup-${version}.exe
   InstallerSha256: 7F973E9B821B772C6DF0362C5DB37899E556823BDB1ACB7CBF1F42868159AD26
@@ -42,7 +42,7 @@ PackageLocale: en-US
 Publisher: Geoxor
 PackageName: Amethyst
 License: ${license}
-Copyright: Copyright © 2023 Geoxor
+Copyright: Copyright © 2024 Geoxor
 ShortDescription: A music player made with the web platform.
 ManifestType: defaultLocale
 ManifestVersion: 1.1.0

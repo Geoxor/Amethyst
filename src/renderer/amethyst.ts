@@ -2,20 +2,30 @@ import { Player } from "@/logic/player";
 import { MediaSession } from "@/mediaSession";
 import { Shortcuts } from "@/shortcuts";
 import { Store } from "@/state";
+import { MediaSourceManager } from "@/logic/mediaSources";
 import { Capacitor } from "@capacitor/core";
 import { StatusBar } from "@capacitor/status-bar";
 import {NavigationBar} from "@hugotomazi/capacitor-navigation-bar";
 import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
-import { IMetadata } from "@shared/types";
-import { FileFilter, OpenDialogReturnValue, SaveDialogReturnValue } from "electron";
+import { OpenDialogReturnValue, SaveDialogReturnValue } from "electron";
 import { watch } from "vue";
 import { flattenArray } from "./logic/math";
 import { Track } from "./logic/track";
 import { Directory } from "@capacitor/filesystem";
-import * as mm from "music-metadata-browser";
 import { router } from "./router";
+import "./logic/subsonic";
+import { createI18n } from "vue-i18n";
+import messages from "@intlify/unplugin-vue-i18n/messages";
+import { useLocalStorage } from "@vueuse/core";
+
+export const i18n = createI18n({
+  fallbackLocale: "en-US", // set fallback locale
+  locale: localStorage.getItem("settings") !== null ? JSON.parse(localStorage.getItem("settings")!).language : "en-US",
+  messages,
+});
 
 export type AmethystPlatforms = ReturnType<typeof amethyst.getCurrentPlatform>;
+export const favoriteTracks = useLocalStorage<string[]>("favoriteTracks", []);
 
 /**
  * Handles interfacing with operating system and unifies methods 
@@ -112,10 +122,10 @@ class AmethystBackend {
     return promises;
   }
 
-  public async openFileDialog(filters?: FileFilter[]): Promise<OpenDialogReturnValue> {
+  public async showOpenFileDialog(options?: Electron.OpenDialogOptions): Promise<OpenDialogReturnValue> {
     switch (this.getCurrentPlatform()) {
       case "desktop":
-        return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-file-dialog", [filters]);
+        return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-file-dialog", [options]);
       case "web":
         const fileInput = document.createElement("input");
           fileInput.type = "file";
@@ -145,10 +155,10 @@ class AmethystBackend {
     }
   }
   
-  public async openFolderDialog(filters?: Electron.FileFilter[]) {
+  public async showOpenFolderDialog() {
     switch (this.getCurrentPlatform()) {
       case "desktop":
-        return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-folder-dialog", [filters]);
+        return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-folder-dialog");
       default:
         return Promise.reject();
     }
@@ -173,49 +183,31 @@ class AmethystBackend {
   };
 
   public openAudioFilesAndAddToQueue = async () => {
-    amethyst.openFileDialog([{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }]).then(result => {
+    amethyst.showOpenFileDialog({filters: [{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }]}).then(result => {
       !result.canceled && amethyst.player.queue.add(result.filePaths);
     }).catch(error => console.error(error));
   };
   
   public openAudioFoldersAndAddToQueue = async () => {
-    amethyst.openFolderDialog([{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }]).then(result => {
-      !result.canceled && amethyst.player.queue.add(flattenArray(result.filePaths));
+    amethyst.showOpenFolderDialog().then(async result => {
+      if (!result.canceled) {
+        const files = await window.fs.readdir(result.filePaths[0]);
+        for (const idx in files) {
+          let found = false;
+          for (const extension of ALLOWED_AUDIO_EXTENSIONS) {
+            if (files[idx].endsWith(extension)) {
+              found = true;
+              files[idx] = window.path.join(result.filePaths[0], files[idx]);
+            }
+          } 
+          if (!found) {
+            files.splice(parseInt(idx), 1);
+          }
+        }
+        amethyst.player.queue.add(files);
+      }
     }).catch(error => console.error(error));
   };
-
-  // TODO: get rid of this stupid logic and make it be part of when loading a track
-  public async getMetadata(path: string) {
-    switch (this.getCurrentPlatform()) {
-      case "desktop":
-        return window.electron.ipcRenderer.invoke<IMetadata>("get-metadata", [path]);
-      case "mobile":
-        const response = await fetch(decodeURIComponent(path));
-        const buffer = new Uint8Array(await response.arrayBuffer());
-        const {format, common} = await mm.parseBuffer(buffer, undefined);
-        const size = buffer.length;
-        return {format, common, size } as IMetadata;
-      default:
-        return Promise.reject();
-    }
-  }
-
-  public async getCover(path: string) {
-    switch (this.getCurrentPlatform()) {
-      case "desktop":
-        return window.electron.ipcRenderer.invoke<string>("get-cover", [path]);
-        case "mobile":
-          const response = await fetch(decodeURIComponent(path));
-          const buffer = new Uint8Array(await response.arrayBuffer());
-          const {common} = await mm.parseBuffer(buffer, undefined);
-          if (common.picture) {
-            return common.picture[0].data.toString("base64") as string;
-          }
-          return;
-      default:
-        return Promise.reject();
-    }
-  }
 }
 
 export class Amethyst extends AmethystBackend {
@@ -228,10 +220,10 @@ export class Amethyst extends AmethystBackend {
   public shortcuts: Shortcuts = new Shortcuts();
   public player = new Player();
   public mediaSession: MediaSession | undefined = this.getCurrentPlatform() === "desktop" ? new MediaSession(this.player) : undefined;
-  
+  public mediaSourceManager: MediaSourceManager = new MediaSourceManager(this.player, this.store);
+
   public constructor() {
     super();
-
     // Init zoom from store
     document.body.style.zoom = this.store.settings.value.zoomLevel;
 
@@ -318,6 +310,40 @@ export class Amethyst extends AmethystBackend {
 
   public openSettings = () => {
     router.push({ name: "settings.appearance" });
+  };
+
+  public importSettings = async () => {
+    const dialog = await amethyst.showOpenFileDialog({
+      filters: [{ name: "Amethyst Configuration File", extensions: ["acf"] }],
+      defaultPath: "Amethyst Settings",
+    });
+  
+    if (dialog?.canceled || !dialog.filePaths[0]) return;
+  
+    const loadedSettings = await fetch(dialog.filePaths[0]);
+    const parsedSettings = await loadedSettings.json();
+  
+    Object.keys(amethyst.store.settings.value).forEach(key => {
+      // @ts-ignore
+      amethyst.store.settings.value[key] = parsedSettings[key];
+    });
+  };
+  
+  public exportSettings = async () => {
+    const dialog = await amethyst.showSaveFileDialog({
+      filters: [{ name: "Amethyst Configuration File", extensions: ["acf"] }],
+      defaultPath: "Amethyst Settings"
+    });
+    if (dialog?.canceled || !dialog?.filePath) return;
+  
+    return amethyst.writeFile(JSON.stringify(amethyst.store.settings.value, null, 2), dialog?.filePath);
+  };
+
+  public resetSettings = () => {
+		Object.keys(this.store.defaultSettings).forEach(key => {
+      // @ts-ignore
+      this.store.settings.value[key] = this.store.defaultSettings[key];
+    });
   };
 
   public reload = () => {

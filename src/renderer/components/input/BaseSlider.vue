@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useVModel } from "@vueuse/core";
-const props = defineProps<{ modelValue?: number | string}>();
+const props = defineProps<{ modelValue?: number | string }>();
 const emits = defineEmits(["update:modelValue"]);
 const value = useVModel(props, "modelValue", emits);
 </script>
@@ -19,9 +19,8 @@ input[type=range] {
 }
 
 input[type=range] {
-  background: rgb(var(--surface-600));
-  border-radius: 4px;
-  height: 6px;
+  background: rgb(var(--slider-background));
+  border-radius: 8px;
   overflow: hidden;
   appearance: none;
   -webkit-appearance: none;

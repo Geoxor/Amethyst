@@ -38,6 +38,16 @@ onMounted(() => {
 
   let lastPosition = [props.width / 2, props.height / 2];
 
+  watch(() => useState().state.isFocused, isFocused => {
+    if (useState().settings.value.pauseVisualsWhenUnfocused) {
+      if (!isFocused) shouldStopRendering = true;
+      else {
+        shouldStopRendering = false;
+        draw();
+      }
+    }
+  });
+
   function draw() {
     analyzerX.getFloatTimeDomainData(bufferX);
     analyzerY.getFloatTimeDomainData(bufferY);

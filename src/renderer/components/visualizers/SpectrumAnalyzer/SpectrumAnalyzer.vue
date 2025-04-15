@@ -1,60 +1,60 @@
 <script setup lang="ts">
-import { scaleLog, interpolateArray } from "@/logic/math";
-import { ref, Ref, onMounted, watch, onUnmounted } from "vue";
-import * as THREE from "three";
 import { useState } from "@/amethyst";
+import { interpolateArray, scaleLog } from "@/logic/math";
+import * as THREE from "three";
+import { Ref, onMounted, onUnmounted, ref, watch } from "vue";
 
 const props = defineProps<{ node: AudioNode }>();
 let shouldStopRendering = false;
 
 const getDimensions = () => {
+  if (!threeCanvas.value) return;
   const containerWidth = threeCanvas.value.parentElement!.getBoundingClientRect().width;
   const containerHeight = threeCanvas.value.parentElement!.getBoundingClientRect().height;
 
   const width = containerWidth * 4;
   const height = containerHeight * 4;
-  return {width, height};
+  return { width, height };
 };
 
 const threeCanvas = ref() as Ref<HTMLCanvasElement>;
 onMounted(async () => {
-  if(!threeCanvas.value) return;
-
-  const {width, height} = getDimensions();
+  const { width, height } = getDimensions() || {};
+  if (!width || !height) return;
 
   const cube = (width: number = 1.0, offset: number = 1.0): THREE.Vector2[] => {
-  const vertices: THREE.Vector2[] = [];
+    const vertices: THREE.Vector2[] = [];
 
-  // 1
-  // |\ 
-  // | \
-  // |  \
-  // |___\
-  // 0    2
+    // 1
+    // |\ 
+    // | \
+    // |  \
+    // |___\
+    // 0    2
 
-  vertices.push(new THREE.Vector2(0.0 * width + offset, 0.0) ); // 0
-  vertices.push(new THREE.Vector2(0.0 * width + offset, height * 4 ) ); // 1
-  vertices.push(new THREE.Vector2(1.0 * width + offset, 0.0) ); // 2
+    vertices.push(new THREE.Vector2(0.0 * width + offset, 0.0)); // 0
+    vertices.push(new THREE.Vector2(0.0 * width + offset, height * 4)); // 1
+    vertices.push(new THREE.Vector2(1.0 * width + offset, 0.0)); // 2
 
-  // 0_____1
-  //  \   |
-  //   \  |
-  //    \ |
-  //     \|
-  //      2
+    // 0_____1
+    //  \   |
+    //   \  |
+    //    \ |
+    //     \|
+    //      2
 
-  vertices.push(new THREE.Vector2(0.0 * width + offset, height * 4 ) ); // 0
-  vertices.push(new THREE.Vector2(1.0 * width + offset, height * 4 ) ); // 1
-  vertices.push(new THREE.Vector2(1.0 * width + offset, 0.0) ); // 2
-  
-  return vertices;
-};
+    vertices.push(new THREE.Vector2(0.0 * width + offset, height * 4)); // 0
+    vertices.push(new THREE.Vector2(1.0 * width + offset, height * 4)); // 1
+    vertices.push(new THREE.Vector2(1.0 * width + offset, 0.0)); // 2
+
+    return vertices;
+  };
 
   const TOTAL_BARS = 1000;
 
   const loader = new THREE.FileLoader();
-  const camera = new THREE.OrthographicCamera(0, width, -height * 1.25 , 0, 0, 10000 );
-  camera.position.set( 0, 0, 1);
+  const camera = new THREE.OrthographicCamera(0, width, -height * 1.25, 0, 0, 10000);
+  camera.position.set(0, 0, 1);
   const scene = new THREE.Scene();
   // init
 
@@ -63,8 +63,8 @@ onMounted(async () => {
   const vertices: THREE.Vector2[] = [];
   const indexes = [];
   const uniformData = {
-    u_amplitude:  {        
-      type: "iv1", 
+    u_amplitude: {
+      type: "iv1",
       value: [] as number[]
     },
     u_height: {
@@ -75,7 +75,7 @@ onMounted(async () => {
 
   for (let i = 0; i < TOTAL_BARS; i++) {
     vertices.push(...cube(width / TOTAL_BARS, i * (width / TOTAL_BARS)));
-    for (let j = 0; j < 12 ; j++) {
+    for (let j = 0; j < 12; j++) {
       indexes.push(i);
     }
 
@@ -100,13 +100,13 @@ onMounted(async () => {
   scene.add(mesh);
 
   const renderer = new THREE.WebGLRenderer({ canvas: threeCanvas.value, antialias: true });
-  renderer.setAnimationLoop(animation);
+  renderer.setAnimationLoop(draw);
   renderer.setSize(width, height);
-  renderer.setClearColor( 0x000000, 0 ); // the default
-  
+  renderer.setClearColor(0x000000, 0); // the default
+
   const resizeObserver = new ResizeObserver(() => {
-    const {width, height} = getDimensions();
-    renderer.setSize(width, height);
+    const d = getDimensions();
+    if (d) renderer.setSize(d.width, d.height);
 
   });
 
@@ -116,45 +116,48 @@ onMounted(async () => {
   const context = props.node.context;
   const analyser = context.createAnalyser();
   const gain = context.createGain();
-  
-	props.node.connect(gain);
+
+  props.node.connect(gain);
   gain.gain.value = 32;
-	gain.connect(analyser);
+  gain.connect(analyser);
 
   analyser.fftSize = useState().settings.value.spectrumFftSize;
-	analyser.smoothingTimeConstant = useState().settings.value.spectrumSmoothing;
-	watch(() => useState().settings.value.spectrumFftSize, () => analyser.fftSize = useState().settings.value.spectrumFftSize);
-	watch(() => useState().settings.value.spectrumSmoothing, () => analyser.smoothingTimeConstant = useState().settings.value.spectrumSmoothing);
+  analyser.smoothingTimeConstant = useState().settings.value.spectrumSmoothing;
+  watch(() => useState().settings.value.spectrumFftSize, () => analyser.fftSize = useState().settings.value.spectrumFftSize);
+  watch(() => useState().settings.value.spectrumSmoothing, () => analyser.smoothingTimeConstant = useState().settings.value.spectrumSmoothing);
 
-	// Don't change these
-	analyser.maxDecibels = 12;
-	analyser.minDecibels = -64;
+  // Don't change these
+  analyser.maxDecibels = 12;
+  analyser.minDecibels = -64;
 
-  function animation() {
-		const dataArray = new Uint8Array(analyser.frequencyBinCount);
+  watch(() => useState().state.isFocused, isFocused => {
+    if (useState().settings.value.pauseVisualsWhenUnfocused) {
+      if (!isFocused) shouldStopRendering = true;
+      else {
+        shouldStopRendering = false;
+        renderer.setAnimationLoop(draw); // 
+      }
+    }
+  });
 
-		analyser.getByteFrequencyData(dataArray);
+  function draw() {
+    const dataArray = new Uint8Array(analyser.frequencyBinCount);
+    analyser.getByteFrequencyData(dataArray);
 
-		const points = useState().settings.value.useLogarithmicSpectrum ? scaleLog(dataArray) : dataArray;
+    const points = useState().settings.value.useLogarithmicSpectrum ? scaleLog(dataArray) : dataArray;
     interpolateArray(Array.from(points), TOTAL_BARS).forEach((point, i) => {
       uniformData.u_amplitude.value[i] = point;
-    }); 
-
-    // mesh.rotation.x = time / 2000;
-    // mesh.rotation.y = time / 1000;
+    });
 
     if (shouldStopRendering) {
       renderer.dispose();
       geometry.dispose();
       material.dispose();
       renderer.setAnimationLoop(null);
-      return; 
-    } 
-
+      return;
+    }
     renderer.render(scene, camera);
   }
-
-  animation();
 });
 
 onUnmounted(() => shouldStopRendering = true);
