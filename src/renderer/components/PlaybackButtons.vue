@@ -73,7 +73,7 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
             @click="amethyst.player.previous()"
           />
           <div
-            class="flex items-center bg-playback-controls-text text-white rounded-full p-2 hover:bg-accent"
+            class="flex items-center bg-playback-controls-text text-white rounded-full p-2 hover:bg-accent hover:text-playback-controls-text"
             @click="amethyst.player.isPlaying.value ? amethyst.player.pause() : amethyst.player.play()"
           >
             <PauseIcon

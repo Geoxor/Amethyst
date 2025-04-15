@@ -5,12 +5,11 @@ import CoverArt from "@/components/CoverArt.vue";
 
 import { InspectorBar, useInspector } from "@/components/Inspector";
 import NavigationBar from "@/components/NavigationBar.vue";
-import NavigationButton from "@/components/NavigationButton.vue";
 import PlaybackControls from "@/components/v2/PlaybackControls.vue";
 import TopBar from "@/components/TopBar.vue";
 import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
 import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
-import { AdjustIcon, AmethystIcon, CompassIcon, HeartIcon, ListIcon, PlaylistIcon, SettingsIcon } from "@/icons";
+import { AmethystIcon} from "@/icons";
 import { Track } from "@/logic/track";
 import { onMounted, onUnmounted, ref } from "vue";
 import LoudnessMeter from "./components/visualizers/LoudnessMeter.vue";
@@ -127,43 +126,7 @@ onUnmounted(() => {
     </div>
     <div class="h-full whitespace-nowrap flex flex-col justify-between overflow-hidden">
       <div class="flex-1 flex h-full max-h-full relative overflow-hidden">
-        <navigation-bar v-if="amethyst.getCurrentPlatform() !== 'mobile'">
-          <navigation-button
-            :icon="ListIcon"
-            route-name="queue"
-          />
-
-          <navigation-button
-            :icon="CompassIcon"
-            route-name="discover"
-          />
-          
-          <navigation-button
-            :icon="PlaylistIcon"
-            route-name="playlists"
-          />
-
-          <navigation-button
-            :icon="HeartIcon"
-            route-name="favorites"
-          />
-
-          <navigation-button
-            :icon="AdjustIcon"
-            route-name="node-editor"
-          />
-
-          <navigation-button
-            :icon="SettingsIcon"
-            route-name="settings"
-          />
-
-          <navigation-button
-            v-if="amethyst.IS_DEV"
-            :icon="AmethystIcon"
-            route-name="playground"
-          />
-        </navigation-bar>
+        <navigation-bar v-if="amethyst.getCurrentPlatform() !== 'mobile'" />
 
         <div class="flex flex-col w-full">
           <router-view class="overflow-hidden disable-select no-drag" />
