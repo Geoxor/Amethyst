@@ -27,27 +27,6 @@ jobs:
       - name: Run eslint
         run: yarn lint
 
-  # tests:
-  #   name: Run unit tests
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #       with:
-  #         submodules: recursive
-  #     - uses: actions/setup-node@v4
-  #       with:
-  #         node-version: 18.0.0
-  #         cache: 'yarn'
-
-  #     - name: Install gcc dependencies
-  #       run: sudo apt update && sudo apt install gcc-multilib g++-multilib libvips
-
-  #     - name: Install Dependencies
-  #       run: yarn install
-
-  #     - name: Run Tests
-  #       run: npm test
-
   build-windows:
     name: Build Windows
     runs-on: windows-latest
@@ -71,43 +50,11 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
+          name: artifact-windows
           path: |
             release/build/*.yml
             release/build/*.yaml
             release/build/*.exe*
-
-  # build-android:
-  #   name: Build Android
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: write
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #       with:
-  #         submodules: recursive
-  #     - uses: actions/setup-node@v4
-  #       with:
-  #         node-version: 20.0.0
-  #         cache: 'yarn'
-
-  #     - name: Install Dependencies
-  #       run: yarn install
-
-  #     - name: Make gradlew executable
-  #       run: chmod +x ./src/android/gradlew
-        
-  #     - name: Build Amethyst
-  #       run: yarn build:renderer && yarn cap sync && yarn cap build android --keystorepath key.jks --androidreleasetype APK --keystorepass ${{ secrets.ANDROID_KEYSTORE_PASS }} --keystorealias key0 --keystorealiaspass ${{ secrets.ANDROID_KEYSTORE_ALIAS_PASS }}
-
-  #     - name: Move build files
-  #       run: yarn move-file ./src/android/app/build/outputs/apk/release/app-release-signed.apk ./release/build/android/amethyst-v$(node -p "require('./package.json').version").apk
-
-  #     - name: Upload Artifacts
-  #       uses: actions/upload-artifact@v4
-  #       with:
-  #         path: |
-  #           release/build/android/*.apk
-  #           release/build/android/*.json
 
   build-macos:
     name: Build MacOS
@@ -132,6 +79,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
+          name: artifact-macos
           path: |
             release/build/*.yml
             release/build/*.dmg
@@ -165,6 +113,7 @@ jobs:
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
+          name: artifact-linux
           path: |
             release/build/*.yml
             release/build/*.yaml
@@ -173,10 +122,10 @@ jobs:
             release/build/*.deb
             release/build/*.pacman
             release/build/*.snap
- 
+
   publish-releases:
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [build-windows, build-macos,  build-linux]
+    needs: [build-windows, build-macos, build-linux]
     name: Publish Releases
     runs-on: ubuntu-latest
     permissions:
