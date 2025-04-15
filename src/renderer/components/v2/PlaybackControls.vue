@@ -2,22 +2,60 @@
 // defineProps<{}>();
 // defineEmits([]);
 
-import DbMeter from "@/components/visualizers/DbMeter.vue";
-import { router } from "@/router";
 import { amethyst, useState } from "@/amethyst";
-import PlaybackButtons from "@/components/PlaybackButtons.vue";
+import { useContextMenu } from "@/components/ContextMenu";
 import CoverArt from "@/components/CoverArt.vue";
 import Slider from "@/components/input/BaseSlider.vue";
-import { SpeakerIcon } from "@/icons";
+import { useInspector } from "@/components/Inspector";
+import PlaybackButtons from "@/components/PlaybackButtons.vue";
+import DbMeter from "@/components/visualizers/DbMeter.vue";
+import { AmethystIcon, SpeakerIcon } from "@/icons";
+import { router } from "@/router";
+import { LoadStatus } from "@shared/types";
 
 const state = useState();
+
+const handleContextCoverMenu = ({x, y}: MouseEvent) => {
+  useContextMenu().open({x, y}, [
+    { title: "Inspect", icon: AmethystIcon, action: () => amethyst.player.getCurrentTrack() && useInspector().inspectAndShow(amethyst.player.getCurrentTrack()!) },
+    { title: "Export cover...", icon: AmethystIcon, action: () => amethyst.player.getCurrentTrack()?.exportCover() },
+    state.state.isShowingBigCover 
+      ? { title: "Hide cover", icon: AmethystIcon, action: () => state.state.isShowingBigCover = false }
+      : { title: "View cover", icon: AmethystIcon, action: () => state.state.isShowingBigCover = true },
+  ]);
+};
+
+const handleSeekMouseScroll = (e: WheelEvent) => {
+  const delta = Math.sign(e.deltaY);
+  const fineTuneStep = 1;
+  const normalTuneStep = 5;
+  const bigTuneStep = 20;
+
+  if (e.altKey)
+    delta < 0 ? amethyst.player.seekForward(fineTuneStep) : amethyst.player.seekBackward(fineTuneStep);
+  else if (e.shiftKey) 
+    delta < 0 ? amethyst.player.seekForward(bigTuneStep) : amethyst.player.seekBackward(bigTuneStep);
+  else
+    delta < 0 ? amethyst.player.seekForward(normalTuneStep) : amethyst.player.seekBackward(normalTuneStep);
+};
+
+const handleVolumeMouseScroll = (e: WheelEvent) => {
+  const delta = Math.sign(e.deltaY);
+  const fineTuneStep = 0.01;
+  const normalTuneStep = 0.05;
+  
+  if (e.altKey)
+    delta > 0 ? amethyst.player.volumeDown(fineTuneStep) : amethyst.player.volumeUp(fineTuneStep);
+  else 
+    delta > 0 ? amethyst.player.volumeDown(normalTuneStep) : amethyst.player.volumeUp(normalTuneStep);
+};
 
 </script>
 
 <template>
   <div class="absolute bottom-4 left-1/2 transform-gpu -translate-x-1/2 z-10">
     <div
-      class="flex relative items-center h-16 gap-2 p-2 rounded-8px min-w-640px text-black bg-playback-controls-background"
+      class="flex relative items-center h-16 gap-2 p-2 rounded-8px min-w-720px text-black bg-playback-controls-background"
     >
       <slider
         id="seek"

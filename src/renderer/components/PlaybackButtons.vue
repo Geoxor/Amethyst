@@ -1,50 +1,8 @@
 <script setup lang="ts">
-import { amethyst, useState } from "@/amethyst";
-import Cover from "@/components/CoverArt.vue";
-import Slider from "@/components/input/BaseSlider.vue";
-import { AmethystIcon, HeartIcon, NextIcon, PauseIcon, PlayIcon, PlaylistIcon, RepeatAllIcon, RepeatNoneIcon, RepeatOneIcon, ShuffleIcon } from "@/icons";
+import { amethyst } from "@/amethyst";
+import { HeartIcon, NextIcon, PauseIcon, PlayIcon, PlaylistIcon, RepeatAllIcon, RepeatNoneIcon, RepeatOneIcon, ShuffleIcon } from "@/icons";
 import { LoopMode } from "@/logic/player";
-import { LoadStatus } from "@shared/types";
 import { computed } from "vue";
-import { useContextMenu } from "./ContextMenu";
-import { useInspector } from "./Inspector";
-
-const state = useState();
-
-const handleVolumeMouseScroll = (e: WheelEvent) => {
-  const delta = Math.sign(e.deltaY);
-  const fineTuneStep = 0.01;
-  const normalTuneStep = 0.05;
-  
-  if (e.altKey)
-    delta > 0 ? amethyst.player.volumeDown(fineTuneStep) : amethyst.player.volumeUp(fineTuneStep);
-  else 
-    delta > 0 ? amethyst.player.volumeDown(normalTuneStep) : amethyst.player.volumeUp(normalTuneStep);
-};
-
-const handleContextCoverMenu = ({x, y}: MouseEvent) => {
-  useContextMenu().open({x, y}, [
-    { title: "Inspect", icon: AmethystIcon, action: () => amethyst.player.getCurrentTrack() && useInspector().inspectAndShow(amethyst.player.getCurrentTrack()!) },
-    { title: "Export cover...", icon: AmethystIcon, action: () => amethyst.player.getCurrentTrack()?.exportCover() },
-    state.state.isShowingBigCover 
-      ? { title: "Hide cover", icon: AmethystIcon, action: () => state.state.isShowingBigCover = false }
-      : { title: "View cover", icon: AmethystIcon, action: () => state.state.isShowingBigCover = true },
-  ]);
-};
-
-const handleSeekMouseScroll = (e: WheelEvent) => {
-  const delta = Math.sign(e.deltaY);
-  const fineTuneStep = 1;
-  const normalTuneStep = 5;
-  const bigTuneStep = 20;
-
-  if (e.altKey)
-    delta < 0 ? amethyst.player.seekForward(fineTuneStep) : amethyst.player.seekBackward(fineTuneStep);
-  else if (e.shiftKey) 
-    delta < 0 ? amethyst.player.seekForward(bigTuneStep) : amethyst.player.seekBackward(bigTuneStep);
-  else
-    delta < 0 ? amethyst.player.seekForward(normalTuneStep) : amethyst.player.seekBackward(normalTuneStep);
-};
 
 const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()?.isFavorited);
 
@@ -110,7 +68,7 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
         </div>
       </div>
 
-      <div class="flex justify-between disable-select no-drag max-w-32">
+      <div class="flex justify-between disable-select no-drag max-w-40">
         <div class="flex flex-col w-full py-1 font-bold gap-1">
           <h1
             class="text-13px hover:underline cursor-pointer overflow-hidden overflow-ellipsis"
@@ -121,19 +79,6 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
           <p class="text-10px text-text_subtitle overflow-hidden overflow-ellipsis">
             {{ amethyst.player.getCurrentTrack()?.getArtistsFormatted() || 'No artist' }}
           </p>
-        </div>
-        <div class="flex flex-col w-full max-w-24 mt-1 gap-2 items-end">
-          <slider
-            id="volume"
-            key="volume"
-            v-model="amethyst.player.volume.value"
-            class="w-full"
-            min="0"
-            max="1"
-            step="0.001"
-            @input="amethyst.player.setVolume(amethyst.player.volume.value)"
-            @wheel.passive="handleVolumeMouseScroll"
-          />
         </div>
       </div>
       <div class="flex flex py-1 gap-2 items-start justify-between disable-select no-drag">
