@@ -20,7 +20,7 @@ input[type=range] {
 
 input[type=range] {
   background: rgb(var(--slider-background));
-  border-radius: 4px;
+  border-radius: 8px;
   overflow: hidden;
   appearance: none;
   -webkit-appearance: none;

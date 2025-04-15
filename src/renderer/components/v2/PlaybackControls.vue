@@ -8,7 +8,6 @@ import { amethyst, useState } from "@/amethyst";
 import PlaybackButtons from "@/components/PlaybackButtons.vue";
 import CoverArt from "@/components/CoverArt.vue";
 import Slider from "@/components/input/BaseSlider.vue";
-import ResizableDiv from "@/components/ResizableDiv.vue";
 import { SpeakerIcon } from "@/icons";
 
 const state = useState();
