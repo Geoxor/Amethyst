@@ -16,7 +16,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20.0.0
-          cache: 'yarn'
+          cache: "yarn"
 
       - name: Install gcc dependencies
         run: sudo apt update && sudo apt install gcc-multilib g++-multilib libvips
@@ -39,7 +39,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20.0.0
-          cache: 'yarn'
+          cache: "yarn"
 
       - name: Install Dependencies
         run: yarn install
@@ -68,7 +68,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20.0.0
-          cache: 'yarn'
+          cache: "yarn"
 
       - name: Install Dependencies
         run: yarn install
@@ -99,7 +99,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20.0.0
-          cache: 'yarn'
+          cache: "yarn"
 
       - name: Install linux dependencies
         run: sudo apt update && sudo apt install rpm snapd libarchive-tools && sudo snap install snapcraft --classic && sudo snap install multipass --beta --classic
@@ -122,6 +122,40 @@ jobs:
             release/build/*.deb
             release/build/*.pacman
             release/build/*.snap
+
+  release-to-aur-git:
+    name: Release to AUR -git
+    runs-on: ubuntu-latest
+    # If we can't build, we should not release to AUR
+    needs: [build-linux]
+    if: needs.build-linux.result == 'success' && github.ref == 'refs/heads/master'
+    env:
+      AUR_SSH_KEY: ${{ secrets.AUR_SSH_KEY }}
+      COMMIT_LONGHASH: ${{ github.sha }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Login to AUR
+        run: |
+          echo "$AUR_SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-add ~/.ssh/id_rsa
+          ssh-keyscan aur.archlinux.org >> ~/.ssh/known_hosts
+      - name: Publish to AUR
+        run: |
+          PACKAGE_VERSION=$(cat package.json | jq ".version" | sed -e 's/\"//g')
+          COMMIT_SHORTHASH=$(echo $COMMIT_LONGHASH | cut -c1-7)
+          git clone ssh://aur@aur.archlinux.org/amethyst-player-git.git
+          cd amethyst-git
+          PKG_REVISION=$(grep -oP 'pkgver=v.*r\K.*' PKGBUILD | grep -oP "\d+" | head -n 1)
+          PKG_NEXT_REVISION=$((PKG_REVISION + 1))
+          PKG_VERSION=v${PACKAGE_VERSION}.r${PKG_NEXT_REVISION}.g${COMMIT_SHORTHASH}
+          git config user.email "github-actions@github.com"
+          git config user.name "GitHub Actions"
+          sed -i -E "s/pkgver=.*/pkgver=$PKG_VERSION/g" PKGBUILD
+          sed -i -E "s/pkgver = .*/pkgver = $PKG_VERSION/g" .SRCINFO
+          git commit -m "Update to $PKG_VERSION (Git ref: $COMMIT_LONGHASH)"
+          git push origin master
 
   publish-releases:
     if: startsWith(github.ref, 'refs/tags/v')
