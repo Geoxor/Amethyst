@@ -71,7 +71,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
     <!-- Spacer to keep the middle dock centered  -->
     <div
       v-else
-      class="w-0 xl:w-full max-w-240px"
+      class="w-0 lg:w-full max-w-240px"
     />
 
     <div
@@ -178,7 +178,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
     <!-- Spacer to keep the middle dock centered  -->
     <div
       v-else
-      class="w-0 xl:w-full max-w-240px"
+      class="w-0 lg:w-full max-w-240px"
     />
   </div>
 </template>
