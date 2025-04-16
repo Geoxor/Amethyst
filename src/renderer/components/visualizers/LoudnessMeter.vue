@@ -89,7 +89,7 @@ onMounted(() => {
       </div>
       
       <div class="flex justify-between w-full">
-        <p class="type">
+        <p class="type overflow-hidden overflow-ellipsis">
           Momentary
         </p>
         <div class="value">
@@ -107,7 +107,7 @@ onMounted(() => {
         />
       </div>
       <div class="flex justify-between w-full">
-        <p class="type">
+        <p class="type overflow-hidden overflow-ellipsis">
           Short-term
         </p>
         <div class="value">
@@ -125,7 +125,7 @@ onMounted(() => {
         />
       </div>
       <div class="flex justify-between w-full">
-        <p class="type">
+        <p class="type overflow-hidden overflow-ellipsis">
           Integrated
         </p>
         <div class="value">
