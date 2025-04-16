@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import CustomNode from "@/components/nodes/CustomNode.vue";
-import EqualizerBand from "./EqualizerBand.vue";
-import { AmethystEightBandEqualizerNode } from ".";
-import {
-AmethystIcon
-} from "@/icons";
-import { Ref, onMounted, ref, watch } from "vue";
 import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
+import {
+  AmethystIcon
+} from "@/icons";
 import { getThemeColorHex } from "@/logic/color";
+import { Ref, onMounted, ref, watch } from "vue";
+import { AmethystEightBandEqualizerNode } from ".";
+import EqualizerBand from "./EqualizerBand.vue";
 const props = defineProps<{ node: AmethystEightBandEqualizerNode }>();
 
 const componentKey = ref(0);
@@ -86,7 +86,7 @@ const FILTER_TYPES = [
   <CustomNode
     :node="node"
     title="8-Band equalizer"
-    :icon="AmethystIcon"
+    icon="ic:twotone-filter-list"
   >
     <div
       :key="componentKey"
