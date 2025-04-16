@@ -1,13 +1,18 @@
 <script setup lang="ts">
 import CustomNode from "@/components/nodes/CustomNode.vue";
 import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
-import {
-  AmethystIcon
-} from "@/icons";
 import { getThemeColorHex } from "@/logic/color";
 import { Ref, onMounted, ref, watch } from "vue";
 import { AmethystEightBandEqualizerNode } from ".";
 import EqualizerBand from "./EqualizerBand.vue";
+
+import BandpassIcon from "@/icons/equalizer/BandpassIcon.vue";
+import HighpassIcon from "@/icons/equalizer/HighpassIcon.vue";
+import HighShelfIcon from "@/icons/equalizer/HighShelfIcon.vue";
+import LowpassIcon from "@/icons/equalizer/LowpassIcon.vue";
+import LowShelfIcon from "@/icons/equalizer/LowShelfIcon.vue";
+import PeakIcon from "@/icons/equalizer/PeakIcon.vue";
+
 const props = defineProps<{ node: AmethystEightBandEqualizerNode }>();
 
 const componentKey = ref(0);
@@ -137,27 +142,27 @@ const FILTER_TYPES = [
             @mousedown.stop
             @click="filter.type = filterType;"
           >
-            <AmethystIcon
+            <HighShelfIcon
               v-if="filterType == 'highshelf'"
               class="h-4 w-4"
             />
-            <AmethystIcon
+            <LowShelfIcon
               v-else-if="filterType == 'lowshelf'"
               class="h-4 w-4"
             />
-            <AmethystIcon
+            <LowpassIcon
               v-else-if="filterType == 'lowpass'"
               class="h-4 w-4"
             />
-            <AmethystIcon
+            <HighpassIcon
               v-else-if="filterType == 'highpass'"
               class="h-4 w-4"
             />
-            <AmethystIcon
+            <PeakIcon
               v-else-if="filterType == 'peaking'"
               class="h-4 w-4"
             />
-            <AmethystIcon
+            <BandpassIcon
               v-else-if="filterType == 'bandpass'"
               class="h-4 w-4"
             />

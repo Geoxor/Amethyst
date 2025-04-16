@@ -86,6 +86,7 @@ const FILTER_TYPES = [
     <Slider
       v-model="node.frequencyPercent"
       max="100"
+      class="h-1.5"
       @mousedown.stop
     />
 
