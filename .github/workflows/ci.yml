@@ -149,7 +149,7 @@ jobs:
           PACKAGE_VERSION=$(cat package.json | jq ".version" | sed -e 's/\"//g')
           COMMIT_SHORTHASH=$(echo $COMMIT_LONGHASH | cut -c1-7)
           git clone ssh://aur@aur.archlinux.org/amethyst-player-git.git
-          cd amethyst-git
+          cd amethyst-player-git
           PKG_REVISION=$(grep -oP 'pkgver=v.*r\K.*' PKGBUILD | grep -oP "\d+" | head -n 1)
           PKG_NEXT_REVISION=$((PKG_REVISION + 1))
           PKG_VERSION=v${PACKAGE_VERSION}.r${PKG_NEXT_REVISION}.g${COMMIT_SHORTHASH}
