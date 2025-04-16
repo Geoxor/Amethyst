@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
 import NavigationButton from "@/components/NavigationButton.vue";
-import { AmethystIcon } from "@/icons";
 </script>
 
 <template>
@@ -38,7 +37,7 @@ import { AmethystIcon } from "@/icons";
 
     <navigation-button
       v-if="amethyst.IS_DEV"
-      :icon="AmethystIcon"
+      icon="ic:twotone-bug-report"
       route-name="playground"
     />
   </div>
