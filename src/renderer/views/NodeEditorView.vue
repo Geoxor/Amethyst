@@ -87,17 +87,17 @@ const computeNodePosition = ({x, y}: Coords) => {
 const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   {
     title: "Open File",
-    icon: AmethystIcon,
+    icon: "ic:twotone-file-open",
     action: handleOpenFile,
   },
   {
     title: "Save As",
-    icon: AmethystIcon,
+    icon: "ic:twotone-save-as",
     action: handleSaveFile,
   },
   {
     title: "Add FilterNode",
-    icon: AmethystIcon,
+    icon: "ic:twotone-plus",
     action: () => {
       amethyst.player.nodeManager.addNode(new AmethystFilterNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })),
       source && target && [source, target]);
@@ -105,7 +105,7 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   },
   {
     title: "Add EightBandEqualizerNode",
-    icon: AmethystIcon,
+    icon: "ic:twotone-plus",
     action: () => {
       amethyst.player.nodeManager.addNode(new AmethystEightBandEqualizerNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })), 
       source && target && [source, target]);
@@ -113,7 +113,7 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   },
   {
     title: "Add PannerNode", 
-    icon: AmethystIcon, 
+    icon: "ic:twotone-plus", 
     action: () => {
       amethyst.player.nodeManager.addNode(new AmethystPannerNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })), 
       source && target && [source, target]);
@@ -121,7 +121,7 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   },
   {
     title: "Add GainNode", 
-    icon: AmethystIcon, 
+    icon: "ic:twotone-plus", 
     action: () => {
       amethyst.player.nodeManager.addNode(new AmethystGainNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })), 
       source && target && [source, target]);
@@ -129,7 +129,7 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   },
   {
     title: "Add AmethystSpectrumNode", 
-    icon: AmethystIcon, 
+    icon: "ic:twotone-plus", 
     action: () => {
       amethyst.player.nodeManager.addNode(new AmethystSpectrumNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })), 
       source && target && [source, target]);
@@ -137,7 +137,7 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   },
   {
     title: "Reset All",
-    icon: AmethystIcon,
+    icon: "ic:twotone-restart-alt",
     action: handleReset,
     red: true,
   },
@@ -153,7 +153,7 @@ const handleEdgeContextMenu = (e: EdgeMouseEvent) => {
 
   const {x, y} = (e.event as MouseEvent);
   useContextMenu().open({x, y}, [
-    {title: "Remove connection", icon: AmethystIcon, red: true, action: () => source.disconnectFrom(target)},
+    {title: "Remove connection", icon: "ic:twotone-link-off", red: true, action: () => source.disconnectFrom(target)},
     ...nodeMenu({x, y, source, target}),
   ]);
 };
@@ -285,7 +285,7 @@ onKeyStroke("Delete", () => {
       v-model="elements"
       class="p-2"
       :snap-to-grid="state.settings.value.isSnappingToGrid"
-      :max-zoom="1.00"
+      :max-zoom="2.00"
       :min-zoom="1.00"
       :connection-line-style="{ stroke: getThemeColorHex('--primary-700') }"
       :fit-view-on-init="true"
@@ -353,9 +353,12 @@ onKeyStroke("Delete", () => {
       @apply visible opacity-100;
     }
   }
+  &:hover > div {
+    @apply border-accent border-opacity-50;
+  }
 
   &.selected > div {
-    @apply border-primary-700;
+    @apply border-accent;
   }
   &.selected .minimenu {
     @apply visible opacity-100;
@@ -368,16 +371,16 @@ onKeyStroke("Delete", () => {
   }
 
   &:hover path {
-    @apply stroke-primary-800;
+    @apply stroke-accent;
   }
 
   &.selected path {
-    @apply stroke-primary-700 !important;
+    @apply stroke-primary !important;
   }
 }
 
 .vue-flow__handle {
-  @apply border-primary-900 border-opacity-60 h-1/2 rounded-2px hover:border-primary-800 bg-surface-800 hover:bg-surface-600 duration-100transition-colors;
+  @apply border-surface-400 border-opacity-60 h-1/2 rounded-2px hover:border-accent bg-surface-800 hover:bg-surface-600 duration-100transition-colors;
 }
 
 </style>

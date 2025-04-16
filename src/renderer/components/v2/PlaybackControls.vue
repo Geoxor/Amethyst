@@ -82,10 +82,22 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
         @wheel.passive="handleSeekMouseScroll"
       />
       <db-meter
-        v-if="state.settings.value.showDbMeter && amethyst.player.source"
+        v-if="state.settings.value.showDbMeter && state.settings.value.decibelMeterSeperatePrePost && amethyst.player.source"
         :key="amethyst.player.nodeManager.getNodeConnectinsString()"
         class="duration-user-defined cursor-pointer"
         :node="amethyst.player.nodeManager.master.pre"
+        pre
+        :channels="amethyst.player.getCurrentTrack()?.getChannels()"
+        @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
+          { title: 'Hide decibel meter', icon: AmethystIcon, action: () => state.settings.value.showDbMeter = false },
+        ]);"
+        @click="router.currentRoute.value.name === 'audio-monitor' ? router.back() : router.push({ name: 'audio-monitor' })"
+      />
+      <db-meter
+        v-if="state.settings.value.showDbMeter && amethyst.player.source"
+        :key="amethyst.player.nodeManager.getNodeConnectinsString()"
+        class="duration-user-defined cursor-pointer"
+        :node="amethyst.player.nodeManager.master.post"
         post
         :channels="amethyst.player.getCurrentTrack()?.getChannels()"
         @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [

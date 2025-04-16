@@ -1,21 +1,22 @@
 <script setup lang="ts">
-import { useShortcuts, useState, amethyst } from "@/amethyst";
-import DbMeter from "@/components/visualizers/DbMeter.vue";
+import { amethyst, useShortcuts, useState } from "@/amethyst";
+import { useContextMenu } from "@/components/ContextMenu";
 import QuickMenu from "@/components/nodes/QuickMenu.vue";
+import DbMeter from "@/components/visualizers/DbMeter.vue";
 import { AmethystIcon } from "@/icons";
 import { AmethystAudioNode } from "@/logic/audio";
-import { Handle, Position } from "@vue-flow/core";
-import { useContextMenu } from "@/components/ContextMenu";
 import { IContextMenuOption } from "@/state";
+import { Icon } from "@iconify/vue";
+import { Handle, Position } from "@vue-flow/core";
 import BaseChip from "../BaseChip.vue";
 const state = useState();
-const props = defineProps<{ title: string, icon: any, description?: string, node: AmethystAudioNode, meterless?: boolean }>();
+const props = defineProps<{ title: string, icon: string, description?: string, node: AmethystAudioNode, meterless?: boolean }>();
 // Context Menu options for this component 
 const handleContextMenu = ({x, y}: MouseEvent) => {
   useContextMenu().open({x, y}, [
-    { title: "Unhook", icon: AmethystIcon, action: () => props.node.disconnect() },
-    { title: "Bypass", icon: AmethystIcon, action: () => props.node.toggleBypass() },
-    { title: "Reset", icon: AmethystIcon, action: () => props.node.reset() },
+    { title: "Unhook", icon: "ic:twotone-link-off", action: () => props.node.disconnect() },
+    { title: "Bypass", icon: "ic:twotone-power-settings-new", action: () => props.node.toggleBypass() },
+    { title: "Reset", icon: "ic:twotone-restart-alt", action: () => props.node.reset() },
     props.node.isRemovable ? { title: "Remove", icon: AmethystIcon, red: true, action: () => amethyst.player.nodeManager.removeNode(props.node) } : undefined,
   ].filter(o => !!o) as IContextMenuOption[]);
 };
@@ -24,7 +25,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
 
 <template>
   <div
-    class="duration-user-defined flex select-none h-full   gap-2 relative rounded-4px hover:border-primary-800 border-surface-500 flex gap-2 bg-surface-800 border-1 p-2"
+    class="duration-user-defined flex select-none h-full text-text_title gap-2 relative rounded-4px hover:border-primary-800 border-surface-500 flex gap-2 bg-surface-800 border-1 p-2"
     @contextmenu.stop="handleContextMenu"
   >
     <quick-menu :node="node" />
@@ -42,8 +43,8 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
 
     <div class="flex flex-col gap-2">
       <div class="flex gap-2 items-center">
-        <component
-          :is="icon"
+        <Icon
+          :icon="icon"
           class="text-green-400"
         />
         <h1 class="text-primary-600 uppercase text-9px flex-1">

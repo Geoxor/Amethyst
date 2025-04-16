@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import Slider from "@/components/input/BaseSlider.vue";
 import CustomNode from "@/components/nodes/CustomNode.vue";
-import {AmethystIcon} from "@/icons";
 import { AmethystGainNode } from ".";
 defineProps<{ node: AmethystGainNode }>();
 </script>
@@ -10,7 +9,7 @@ defineProps<{ node: AmethystGainNode }>();
   <CustomNode
     :node="node"
     title="Gain"
-    :icon="AmethystIcon"
+    icon="ic:twotone-volume-up"
   >
     <p class="font-aseprite">
       {{ (20 * Math.log10( node.gain)).toFixed(2) }} dB

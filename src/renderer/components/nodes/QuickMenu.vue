@@ -1,18 +1,21 @@
 <script setup lang="ts">
-import { AmethystIcon } from "@/icons";
+import { amethyst } from "@/amethyst";
 import { AmethystAudioNode } from "@/logic/audio";
-import {amethyst} from "@/amethyst";
+import { Icon } from "@iconify/vue";
 const props = defineProps<{node: AmethystAudioNode}>();
 
 </script>
 
 <template>
-  <div class="minimenu absolute cursor-pointer items-center -top-8 text-primary-1000 left-1/2 transform-gpu text-9px -translate-x-1/2 flex rounded-4px overflow-hidden bg-surface-800">
+  <div class="minimenu absolute text-text_title cursor-pointer items-center -top-8 text-primary-1000 left-1/2 transform-gpu text-9px -translate-x-1/2 flex rounded-4px overflow-hidden bg-surface-800">
     <button
       class="unhook"
       @click="node.disconnect()"
     >
-      <AmethystIcon class="w-3" />
+      <Icon
+        icon="ic:twotone-link-off"
+        class="w-4 h-4"
+      />
       Unhook
     </button>
     <button
@@ -20,7 +23,10 @@ const props = defineProps<{node: AmethystAudioNode}>();
       class="reset"
       @click="node.toggleBypass()"
     >
-      <AmethystIcon class="w-3" />
+      <Icon
+        icon="ic:twotone-power-settings-new"
+        class="w-4 h-4"
+      />
       Bypass
     </button>
     <button
@@ -28,15 +34,19 @@ const props = defineProps<{node: AmethystAudioNode}>();
       class="reset"
       @click="node.reset()"
     >
-      <AmethystIcon class="w-3" />
+      <Icon
+        icon="ic:twotone-restart-alt"
+        class="w-4 h-4"
+      />
     </button>
     <button
       v-if="props.node.isRemovable"
       class="hover:bg-rose-600  hover:text-black"
       @click="amethyst.player.nodeManager.removeNode(props.node)"
     >
-      <AmethystIcon
-        class="w-3"
+      <Icon
+        icon="ic:twotone-delete"
+        class="w-4 h-4"
       />
     </button>
   </div>

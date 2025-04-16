@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import Slider from "@/components/input/BaseSlider.vue";
 import CustomNode from "@/components/nodes/CustomNode.vue";
-import { AmethystIcon
+import {
+  AmethystIcon
 } from "@/icons";
 import { percentToLogValue } from "@/logic/math";
 import { watch } from "vue";
@@ -29,7 +30,7 @@ const FILTER_TYPES = [
   <CustomNode
     :node="node"
     title="12 dB/oct Filter"
-    :icon="AmethystIcon"
+    icon="ic:twotone-filter-list"
   >
     <div class="font-aseprite font-thin flex gap-2 items-center">
       <p class="text-primary-900 ">

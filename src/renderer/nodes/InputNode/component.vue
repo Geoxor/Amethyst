@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import CustomNode from "@/components/nodes/CustomNode.vue";
-import {AmethystIcon} from "@/icons";
 import { AmethystInputNode } from ".";
 defineProps<{ node: AmethystInputNode }>();
 
@@ -11,6 +10,6 @@ defineProps<{ node: AmethystInputNode }>();
     :node="node"
     title="Input"
     description="From Amethyst"
-    :icon="AmethystIcon"
+    icon="ic:twotone-input"
   />
 </template>
