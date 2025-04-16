@@ -1,26 +1,26 @@
 .theme-amethyst-dark {
   /* v2 */
-  --text-title: 206, 199, 254;
-  --text-subtitle: 102, 105, 155;
-  --primary: 218, 116, 254;
-  --accent: 134, 138, 255;
+  --text-title: 206, 199, 254;                            /* #cec7fe; */
+  --text-subtitle: 102, 105, 155;                         /* #66699b; */
+  --primary: 218, 116, 254;                               /* #da74fe; */
+  --accent: 134, 138, 255;                                /* #868aff; */
 
-  --playback-controls-background: 233, 229, 255;
-  --playback-controls-text: 25, 25, 47;
-  --slider-background: 148, 145, 181; 
+  --playback-controls-background: 233, 229, 255;          /* #e9e5ff */
+  --playback-controls-text: 25, 25, 47;                   /* #19192f */
+  --slider-background: 188, 184, 229;                     /* #BCB8E5 */
   --slider-fill: var(--playback-controls-text);
 
-  --surface-1000: 11, 13, 19;    /* #0B0D13 */
-  --surface-900: 15, 17, 25;     /* #0f1119 */
-  --surface-800: 20, 22, 33;     /* #141621 */
-  --surface-700: 24, 26, 39;     /* #181a27 */
-  --surface-600: 31, 33, 52;     /* #1f2134 */
-  --surface-500: 45, 45, 73;     /* #2d2d49 */
-  --surface-400: 56, 56, 84;     /* #383854 */
-  --primary-1000: 163, 163, 209; /* #5f5f85 */
-  --primary-900: 130, 130, 168;  /* #a3a3d1 */
-  --primary-800: 134, 138, 255;  /* #868aff */
-  --primary-700: 100, 106, 195;  /* #646ac3 */
+  --surface-1000: 11, 13, 19;                             /* #0B0D13 */
+  --surface-900: 15, 17, 25;                              /* #0f1119 */
+  --surface-800: 20, 22, 33;                              /* #141621 */
+  --surface-700: 24, 26, 39;                              /* #181a27 */
+  --surface-600: 31, 33, 52;                              /* #1f2134 */
+  --surface-500: 45, 45, 73;                              /* #2d2d49 */
+  --surface-400: 56, 56, 84;                              /* #383854 */
+  --primary-1000: 163, 163, 209;                          /* #5f5f85 */
+  --primary-900: 130, 130, 168;                           /* #a3a3d1 */
+  --primary-800: 134, 138, 255;                           /* #868aff */
+  --primary-700: 100, 106, 195;                           /* #646ac3 */
 
   --unlit-900: 101, 101, 138;
   --contrast: 255, 255, 255;
