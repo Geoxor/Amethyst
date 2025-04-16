@@ -212,13 +212,15 @@ const handleReset = () => {
   amethyst.player.setVolume(amethyst.player.volume.value);
 };
 
-onKeyStroke("Delete", () => {
-  dash.value.getSelectedNodes.forEach((nodeElement: any) => {
-    const node = amethyst.player.nodeManager.nodes.value
-      .find(node => node.properties.id === nodeElement.id);
+const removeSelectedNodes = dash.value?.getSelectedNodes.forEach((nodeElement: any) => {
+  const node = amethyst.player.nodeManager.nodes.value
+    .find(node => node.properties.id === nodeElement.id);
 
-    node && amethyst.player.nodeManager.removeNode(node);
-  });
+  node && amethyst.player.nodeManager.removeNode(node);
+});
+
+onKeyStroke("Delete", () => {
+  removeSelectedNodes();
 });
 
 </script>

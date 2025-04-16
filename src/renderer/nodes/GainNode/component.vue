@@ -18,6 +18,7 @@ defineProps<{ node: AmethystGainNode }>();
       v-model="node.gain"
       step="0.01"
       max="3"
+      class="h-1.5"
       min="0"
       @mousedown.stop
     />
