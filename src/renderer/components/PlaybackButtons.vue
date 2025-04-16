@@ -30,7 +30,7 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
           />
           <Icon
             icon="ic:round-skip-next"
-            class="h-5 w-5 opacity-75 hover:opacity-100  transform-gpu rotate-180"
+            class="h-5 w-5 opacity-75 hover:opacity-100 transform-gpu rotate-180"
             @click="amethyst.player.previous()"
           />
           <div

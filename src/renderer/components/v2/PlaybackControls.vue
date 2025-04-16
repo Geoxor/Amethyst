@@ -1,7 +1,4 @@
 <script setup lang="ts">
-// defineProps<{}>();
-// defineEmits([]);
-
 import { amethyst, useState } from "@/amethyst";
 import { useContextMenu } from "@/components/ContextMenu";
 import CoverArt from "@/components/CoverArt.vue";
@@ -17,6 +14,8 @@ import { Icon } from "@iconify/vue";
 import { LoadStatus } from "@shared/types";
 
 const state = useState();
+
+let lastVolumeBeforeMute = amethyst.player.volume.value;
 
 const handleContextCoverMenu = ({x, y}: MouseEvent) => {
   useContextMenu().open({x, y}, [
@@ -108,8 +107,32 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
         :player="amethyst.player"
       />
       <Icon
+        icon="ic:twotone-waves"
+        class="utilityButton"
+        :class="[
+          state.settings.value.showLoudnessMeter && 'text-accent'
+        ]"
+        @click="state.settings.value.showLoudnessMeter = !state.settings.value.showLoudnessMeter"
+      />
+      <Icon
+        icon="ic:twotone-graphic-eq"
+        class="utilityButton"
+        :class="[
+          state.settings.value.showSpectrum && 'text-accent'
+        ]"
+        @click="state.settings.value.showSpectrum = !state.settings.value.showSpectrum"
+      />
+      <Icon
+        v-if="amethyst.player.volume.value > 0"
         icon="ic:round-volume-up"
-        class="w-5 min-w-5 h-5 min-h-5 opacity-75"
+        class="utilityButton"
+        @click="lastVolumeBeforeMute = amethyst.player.volume.value; amethyst.player.setVolume(0);"
+      />
+      <Icon
+        v-else
+        icon="ic:round-volume-off"
+        class="utilityButton text-accent"
+        @click="amethyst.player.setVolume(lastVolumeBeforeMute);"
       />
       <slider
         id="volume"
@@ -138,4 +161,10 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
   </div>
 </template>
 
-<style scoped lang="postcss"></style>
+<style scoped lang="postcss">
+
+.utilityButton {
+  @apply w-5 min-w-5 h-5 min-h-5 opacity-75 hover:opacity-100;
+}
+
+</style>
