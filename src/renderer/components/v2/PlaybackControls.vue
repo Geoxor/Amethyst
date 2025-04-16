@@ -160,7 +160,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
     </div>
     <div
       v-if="state.settings.value.showSpectrum"
-      class="flex absolute -right-2 transform translate-x-full items-center h-16 gap-2 rounded-8px min-w-240px text-black bg-playback-controls-background"
+      class="flex absolute -right-2 transform overflow-hidden translate-x-full items-center h-16 gap-2 rounded-8px min-w-240px text-black bg-playback-controls-background"
       @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
         { title: 'Hide', icon: AmethystIcon, action: () => state.settings.value.showSpectrum = false },
       ]);"
