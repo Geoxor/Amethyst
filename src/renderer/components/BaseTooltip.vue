@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { Placement } from "@floating-ui/core";
 import BasePopover from "@/components/BasePopover.vue";
+import type { Placement } from "@floating-ui/core";
 defineProps<{
 	text?: string
 	placement?: Placement
@@ -18,7 +18,7 @@ defineProps<{
   >
     <slot />
     <template #content>
-      <p class=" text-primary-1000  text-11px">
+      <p class=" text-text_title text-11px">
         {{ text }}
       </p>
       <slot name="content" />

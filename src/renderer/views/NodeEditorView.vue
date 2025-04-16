@@ -4,7 +4,6 @@ import BaseToolbar from "@/components/BaseToolbar.vue";
 import BaseToolbarButton from "@/components/BaseToolbarButton.vue";
 import BaseToolbarSplitter from "@/components/BaseToolbarSplitter.vue";
 import { useContextMenu } from "@/components/ContextMenu";
-import { AmethystIcon } from "@/icons";
 import { AmethystAudioNode } from "@/logic/audio";
 import { getThemeColorHex } from "@/logic/color";
 import { AmethystEightBandEqualizerNode, AmethystFilterNode, AmethystGainNode, AmethystPannerNode, AmethystSpectrumNode } from "@/nodes";
@@ -231,7 +230,7 @@ onKeyStroke("Delete", () => {
   >
     <BaseToolbar>
       <BaseToolbarButton
-        :icon="AmethystIcon"
+        icon="ic:twotone-plus"
         tooltip-text="Add Node"
         @click="useContextMenu().open({x: $event.clientX, y: $event.clientY}, nodeMenu({x: $event.clientX, y: $event.clientY}));"
       />
@@ -247,12 +246,12 @@ onKeyStroke("Delete", () => {
       >
 
       <BaseToolbarButton
-        :icon="AmethystIcon"
+        icon="ic:twotone-fit-screen"
         tooltip-text="Fit to View"
         @click="fitToView"
       />
       <BaseToolbarButton
-        :icon="AmethystIcon"
+        icon="ic:twotone-grid-on"
         :active="state.settings.value.isSnappingToGrid"
         tooltip-text="Snap to Grid"
         @click="state.settings.value.isSnappingToGrid = !state.settings.value.isSnappingToGrid"
@@ -261,13 +260,13 @@ onKeyStroke("Delete", () => {
       <BaseToolbarSplitter />
 
       <BaseToolbarButton
-        :icon="AmethystIcon"
+        icon="ic:twotone-file-open"
         tooltip-text="Open File"
         @click="handleOpenFile"
       />
 
       <BaseToolbarButton
-        :icon="AmethystIcon"
+        icon="ic:twotone-save-as"
         tooltip-text="Save As"
         @click="handleSaveFile"
       />
@@ -275,7 +274,7 @@ onKeyStroke("Delete", () => {
       <BaseToolbarSplitter />
 
       <BaseToolbarButton
-        :icon="AmethystIcon"
+        icon="ic:twotone-restart-alt"
         tooltip-text="Reset All"
         @click="handleReset"
       />
