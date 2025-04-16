@@ -9,6 +9,8 @@ import Slider from "@/components/input/BaseSlider.vue";
 import { useInspector } from "@/components/Inspector";
 import PlaybackButtons from "@/components/PlaybackButtons.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
+import LoudnessMeter from "@/components/visualizers/LoudnessMeter.vue";
+import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
 import { AmethystIcon } from "@/icons";
 import { router } from "@/router";
 import { Icon } from "@iconify/vue";
@@ -54,7 +56,20 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
 </script>
 
 <template>
-  <div class="absolute bottom-4 left-1/2 transform-gpu -translate-x-1/2 z-10">
+  <div class="absolute bottom-4 flex gap-2 left-1/2 transform-gpu -translate-x-1/2 z-10">
+    <div
+      v-if="state.settings.value.showLoudnessMeter"
+      class="flex absolute -left-2 p-2 transform -translate-x-full items-center h-16 gap-2 rounded-8px min-w-240px text-black bg-playback-controls-background"
+      @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
+        { title: 'Hide', icon: AmethystIcon, action: () => state.settings.value.showLoudnessMeter = false },
+      ]);"
+    >
+      <loudness-meter
+        :key="amethyst.player.nodeManager.getNodeConnectinsString()"
+        :node="amethyst.player.nodeManager.master.pre"
+      />
+    </div>
+
     <div
       class="flex relative items-center h-16 gap-2 p-2 rounded-8px min-w-720px text-black bg-playback-controls-background"
     >
@@ -71,7 +86,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
         v-if="state.settings.value.showDbMeter && amethyst.player.source"
         :key="amethyst.player.nodeManager.getNodeConnectinsString()"
         class="duration-user-defined cursor-pointer"
-        :node="amethyst.player.nodeManager.master.post"
+        :node="amethyst.player.nodeManager.master.pre"
         post
         :channels="amethyst.player.getCurrentTrack()?.getChannels()"
         @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
@@ -106,6 +121,18 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
         step="0.001"
         @input="amethyst.player.setVolume(amethyst.player.volume.value)"
         @wheel.passive="handleVolumeMouseScroll"
+      />
+    </div>
+    <div
+      v-if="state.settings.value.showSpectrum"
+      class="flex absolute -right-2 transform translate-x-full items-center h-16 gap-2 rounded-8px min-w-240px text-black bg-playback-controls-background"
+      @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
+        { title: 'Hide', icon: AmethystIcon, action: () => state.settings.value.showSpectrum = false },
+      ]);"
+    >
+      <SpectrumAnalyzer
+        :key="amethyst.player.nodeManager.getNodeConnectinsString()"
+        :node="amethyst.player.nodeManager.master.pre"
       />
     </div>
   </div>
