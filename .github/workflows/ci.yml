@@ -140,4 +140,4 @@ jobs:
       - name: Post Releases
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "artifact-windows,artifact-macos,artifact-linux"
+          artifacts: "*"
