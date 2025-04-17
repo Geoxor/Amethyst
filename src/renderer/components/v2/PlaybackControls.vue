@@ -167,9 +167,8 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
         v-if="state.settings.value.showVectorscope && amethyst.player.source"
         :key="amethyst.player.nodeManager.getNodeConnectinsString()"
         :node="amethyst.player.nodeManager.master.pre"
-        :width="56"
-        :height="56"
-        class="clickable duration-user-defined cursor-pointer"
+        :width="48"
+        :height="48"
         @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
           { title: 'Hide Vectorscope', icon: AmethystIcon, action: () => state.settings.value.showVectorscope = false },
         ]);"
