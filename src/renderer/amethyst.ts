@@ -286,15 +286,17 @@ export class Amethyst extends AmethystBackend {
       event.preventDefault();
       event.stopPropagation();
 
-      amethyst.player.queue.add(Array.from(event.dataTransfer!.files).filter(f => {
-        const path = f.path;
-        const fileExt = path.split(".").pop();
-        if (ALLOWED_AUDIO_EXTENSIONS.includes((fileExt ?? "").toLowerCase())) {
-          return true;
-        }
-        return false;
-      }).map(f => f.path));
-      amethyst.player.play(amethyst.player.queue.getList()[amethyst.player.queue.getList().length - 1]);
+      const usableFiles = Array.from(event.dataTransfer!.files).filter(file => {
+        const path = file.path;
+        const extension = path.split(".").pop();
+
+        return extension && ALLOWED_AUDIO_EXTENSIONS.includes((extension).toLowerCase());
+      });
+
+      if (usableFiles.length === 0) return;
+      amethyst.player.queue.add(usableFiles.map(file => file.path));
+      // TODO: add logic that plays the new song if the user has that enabled as an option, 
+      // also if they drop a song that is already in the queue, find that song and play it if the user has that enabled as an option
     });
 
     document.addEventListener("dragover", e => {
