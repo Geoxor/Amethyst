@@ -7,7 +7,7 @@ import TitleSubtitle from "./TitleSubtitle.vue";
 import { Icon } from "@iconify/vue";
 
 const route = useRoute();
-const props = defineProps<{title: string, description?: string, icon: any, routeName: string}>();
+const props = defineProps<{title: string, description?: string, icon: any, routeName: string, fullwidthMin: boolean}>();
 const isActive = computed(() => route.name?.toString().startsWith(props.routeName) || props.routeName === route.name);
 
 </script>
@@ -15,7 +15,7 @@ const isActive = computed(() => route.name?.toString().startsWith(props.routeNam
 <template>
   <button
     :class="[isActive && 'active', amethyst.store.settings.value.neonMode && 'neonMode']"
-    class="duration-user-defined flex relative w-full gap-4 cursor-pointer bg-transparent text-text_title min-h-52px items-center py-2 px-4 rounded-8px"
+    class="duration-user-defined flex relative gap-4 cursor-pointer bg-transparent text-text_title min-h-52px items-center py-2 px-4 rounded-8px"
     @click="$router.push({ name: routeName })"
   >
     <Icon
@@ -26,6 +26,7 @@ const isActive = computed(() => route.name?.toString().startsWith(props.routeNam
     <title-subtitle
       :title="title"
       :subtitle="description"
+      :subtitle-ellipses="!props.fullwidthMin"
     />
     <div
       v-if="amethyst.store.settings.value.neonMode"
