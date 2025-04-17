@@ -66,6 +66,8 @@
 
   "settings.ambient_background.title": "Ambient background",
   "settings.ambient_background.description": "Presents an overlay of the cover art for the currently playing song on the UI",
+  "settings.ambient_background.spin.title": "Spin",
+  "settings.ambient_background.spin.description": "Rotates the background image in a circular motion constantly",
   "settings.ambient_background.spin_speed.title": "Spin speed",
   "settings.ambient_background.spin_speed.description": "How fast the background image will rotate",
   "settings.ambient_background.opacity.title": "Opacity",
@@ -130,6 +132,8 @@
   "settings.spectrum_analyser.description": "Displays a visual representation of the frequency content of the audio signal. It displays the frequency spectrum of the audio signal using a graph, where the x-axis represents the frequency range and the y-axis represents the amplitude. The spectrum analyzer can be used to analyze the frequency balance of the audio signal and to identify frequency peaks or notches",
   "settings.spectrum_analyser.logarithmic_spectrum.title": "Logarithmic spectrum",
   "settings.spectrum_analyser.logarithmic_spectrum.description": "Use logarithmic scaling for frequencies",
+  "settings.spectrum_analyser.smoothing_duration.title" : "Smoothing duration",
+  "settings.spectrum_analyser.smoothing_duration.description" : "Smoothly animate between data-frames (useful for smoothing out small FFT sizes that create jitter)",
 
   "settings.vsync.title": "VSync",
   "settings.vsync.description": "Constrain the user interface (UI) framerate of Amethyst to the refresh rate of the active display",
