@@ -150,6 +150,19 @@ const state = useState();
         </settings-setting>
         <settings-setting
           subsetting
+          :title="$t('settings.spectrum_analyser.smoothing_duration.title')"
+          :description="$t('settings.spectrum_analyser.smoothing_duration.description')"
+          icon="ic:twotone-access-time"
+        >
+          <slider-input
+            v-model="state.settings.value.spectrumSmoothing"
+            :min="0"
+            :max="1"
+            :step="0.01"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
           :title="$t('settings.fft_size.title')"
           :description="$t('settings.fft_size.description')"
           icon="ic:twotone-line-style"
