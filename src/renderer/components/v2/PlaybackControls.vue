@@ -12,6 +12,7 @@ import { AmethystIcon } from "@/icons";
 import { router } from "@/router";
 import { Icon } from "@iconify/vue";
 import { LoadStatus } from "@shared/types";
+import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 
 const state = useState();
 
@@ -161,6 +162,17 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
         step="0.001"
         @input="amethyst.player.setVolume(amethyst.player.volume.value)"
         @wheel.passive="handleVolumeMouseScroll"
+      />
+      <vectorscope
+        v-if="state.settings.value.showVectorscope && amethyst.player.source"
+        :key="amethyst.player.nodeManager.getNodeConnectinsString()"
+        :node="amethyst.player.nodeManager.master.pre"
+        :width="56"
+        :height="56"
+        class="clickable duration-user-defined cursor-pointer"
+        @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
+          { title: 'Hide Vectorscope', icon: AmethystIcon, action: () => state.settings.value.showVectorscope = false },
+        ]);"
       />
     </div>
     <div
