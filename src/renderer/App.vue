@@ -129,7 +129,7 @@ onUnmounted(() => {
         <navigation-bar v-if="amethyst.getCurrentPlatform() !== 'mobile'" />
 
         <div class="flex flex-col w-full">
-          <router-view class="overflow-hidden disable-select no-drag" />
+          <router-view class="overflow-hidden disable-select no-drag h-[85%]" />
           <div
             v-if="(state.settings.value.showBigVectorscope && !state.settings.value.showBigSpectrum) && amethyst.player.source"
             class="absolute bottom-0 right-0 z-10 opacity-95 p-2"
