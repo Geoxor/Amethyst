@@ -53,7 +53,7 @@ export class Player extends EventEmitter<{
   }
 
   private setPlayingTrack(track: Track) {
-    this.input.src = amethyst.getCurrentOperatingSystem() == "mac" ? `file://${track.path}` : track.path;
+    this.input.src = ["mac", "linux"].includes(amethyst.getCurrentOperatingSystem()) ? `file://${track.path}` : track.path;
     this.currentTrack.value = track;
     this.currentTrackIndex.value = this.queue.getList().indexOf(track);
     this.input.play();

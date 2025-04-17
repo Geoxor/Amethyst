@@ -15,9 +15,9 @@ export const TOTAL_CORES = os.cpus().length;
 export const RESOURCES_PATH = path.join(__dirname, "../".repeat(+app.isPackaged * 2 + 2), "assets");
 
 try {
-	fs.statSync(METADATA_CACHE_PATH);
+	console.log(fs.statSync(METADATA_CACHE_PATH));
 } catch (e) {
-	fs.promises.mkdir(METADATA_CACHE_PATH);
+	fs.promises.mkdir(METADATA_CACHE_PATH, {recursive: true});
 }
 
 export const icon = () => path.join(RESOURCES_PATH, "icon.png");
@@ -36,7 +36,7 @@ const LOGO = `
   / /| | / __ \`__ \\/ _ \\/ __/ __ \\/ / / / ___/ __/
  / ___ |/ / / / / /  __/ /_/ / / / /_/ (__  ) /_  
 /_/  |_/_/ /_/ /_/\\___/\\__/_/ /_/\\__, /____/\\__/  
- v${APP_VERSION}                    /____/            
+ v${APP_VERSION}                         /____/            
 		`;
 
 import("chalk").then(({default: chalk}) => console.log(chalk.hex("868aff")(LOGO)));
