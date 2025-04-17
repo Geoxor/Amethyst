@@ -78,6 +78,7 @@ onUnmounted(() => shouldStopRendering = true);
   <canvas
     :id="`vectorscope-${randomId}`"
     :class="[state.settings.value.lissajousVectorscope && 'lissajous bg-slider-background bg-opacity-50']"
+    class="transform rotate-90"
     :width="width"
     :height="height"
   />
@@ -85,6 +86,6 @@ onUnmounted(() => shouldStopRendering = true);
 
 <style scoped lang="postcss">
 .lissajous {
-	@apply transform rotate-45 scale-75 rounded-4px;
+	@apply rotate-45 scale-75 rounded-4px;
 }
 </style>
