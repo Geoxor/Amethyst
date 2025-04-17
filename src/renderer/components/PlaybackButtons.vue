@@ -9,7 +9,7 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
 </script>
 
 <template>
-  <div class="flex gap-2 justify-between items-center h-full w-full text-playback-controls-text">
+  <div class="flex gap-2 justify-between select-none items-center h-full w-full text-playback-controls-text">
     <div class="flex flex-col justify-between h-full w-full">
       <div
         :class="[amethyst.getCurrentPlatform() === 'mobile' ? 'rounded-full ' : 'rounded-4px']"
@@ -78,21 +78,17 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
         </div>
       </div>
 
-      <div class="flex justify-between disable-select no-drag max-w-40">
-        <div class="flex flex-col w-full py-1 font-bold gap-1">
-          <h1
-            class="text-13px hover:underline cursor-pointer overflow-hidden overflow-ellipsis"
-            @click=" amethyst.showItem(amethyst.player.getCurrentTrack()?.path!)"
-          >
-            {{ amethyst.player.getCurrentTrack()?.getTitleFormatted() || 'No track' }}
-          </h1>
-          <p class="text-10px text-text_subtitle overflow-hidden overflow-ellipsis">
-            {{ amethyst.player.getCurrentTrack()?.getArtistsFormatted() || 'No artist' }}
-          </p>
-        </div>
-      </div>
-      <div class="flex flex py-1 gap-2 items-start justify-between disable-select no-drag">
-        <p class="text-10px text-subtitle">
+      <div class="flex justify-between select-none max-w-40 flex-col h-full w-full py-0.5 font-bold">
+        <h1
+          class="text-13px hover:underline cursor-pointer overflow-hidden overflow-ellipsis"
+          @click=" amethyst.showItem(amethyst.player.getCurrentTrack()?.path!)"
+        >
+          {{ amethyst.player.getCurrentTrack()?.getTitleFormatted() || 'No track' }}
+        </h1>
+        <p class="text-10px overflow-hidden overflow-ellipsis">
+          {{ amethyst.player.getCurrentTrack()?.getArtistsFormatted() || 'No artist' }}
+        </p>
+        <p class="text-10px text-text_subtitle">
           {{ amethyst.player.currentTimeFormatted(true) }} /
           {{ amethyst.player.getCurrentTrack()?.getDurationFormatted(true) || '0:00' }}
         </p>
