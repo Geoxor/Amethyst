@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import {type Direction} from ".";
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import { type Direction } from ".";
+import { ref, onMounted, onBeforeUnmount, computed } from "vue";
 
 const emit = defineEmits<{
   (e: "reset"): void;
@@ -11,6 +11,9 @@ const emit = defineEmits<{
 
 const props = defineProps<{
   direction: Direction;
+  handlePosition?: string;
+  class?: string;
+  visible: boolean;
 }>();
 
 const resizing = ref(false);
@@ -49,20 +52,33 @@ onBeforeUnmount(() => {
   window.removeEventListener("mousemove", onMouseMove);
   window.removeEventListener("mouseup", onMouseUp);
 });
+
+// Determine the cursor style based on direction and handle position
+const cursorClass = computed(() => {
+  if (props.direction === "horizontal") {
+    return "handle-horizontal";
+  } else {
+    return "handle-vertical";
+  }
+});
 </script>
 
 <template>
   <button
     class="flex items-center justify-center p-4px"
-    :class="[props.direction === 'horizontal' ? 'handle-horizontal' : 'handle-vertical']"
-
+    :class="[cursorClass, props.class]"
     @dblclick="emit('reset')"
     @mousedown="onMouseDown"
     @click.stop
   >
-    <div 
+    <div
+      v-if="props.visible"
       class="border-r border-r-surface-500 pointer-events-none"
-      :class="[props.direction === 'horizontal' ? 'handle-horizontal-thumb' : 'handle-vertical-thumb']"
+      :class="[
+        props.direction === 'horizontal'
+          ? 'handle-horizontal-thumb'
+          : 'handle-vertical-thumb',
+      ]"
     />
   </button>
 </template>

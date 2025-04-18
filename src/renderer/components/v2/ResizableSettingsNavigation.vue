@@ -2,33 +2,33 @@
 import SettingsNavigation from "@/components/v2/SettingsNavigation.vue";
 import ResizableDiv from "../ResizableDiv";
 
-import { ref, onMounted, onBeforeUnmount } from "vue";
+import {ref, onMounted, onBeforeUnmount} from "vue";
 
 let hiddenNavigation = ref<HTMLElement | null>(null);
 let resizingParent = ref<HTMLElement | null>(null);
 let observer: ResizeObserver | null = null;
 
 function onResize() {
-    if (!hiddenNavigation.value) return;
-    if (!resizingParent.value) return;
-    console.log(hiddenNavigation.value.getBoundingClientRect().width);
+  if (!hiddenNavigation.value) return;
+  if (!resizingParent.value) return;
+  console.log(hiddenNavigation.value.getBoundingClientRect().width);
 
-    const width = hiddenNavigation.value.offsetWidth;
-    resizingParent.value.style.setProperty("--default-settings-nav-width", `${width + 10}px`);
+  const width = hiddenNavigation.value.offsetWidth;
+  resizingParent.value.style.setProperty("--default-settings-nav-width", `${width + 10}px`);
 }
 
 onMounted(() => {
-    if (!hiddenNavigation.value) return;
-    if (!resizingParent.value) return;
-    observer = new ResizeObserver(onResize);
-    observer.observe(hiddenNavigation.value);
-    onResize();
+  if (!hiddenNavigation.value) return;
+  if (!resizingParent.value) return;
+  observer = new ResizeObserver(onResize);
+  observer.observe(hiddenNavigation.value);
+  onResize();
 });
 
 onBeforeUnmount(() => {
-    if (!observer) return; 
-    observer.disconnect();
-    observer = null;
+  if (!observer) return;
+  observer.disconnect();
+  observer = null;
 });
 
 </script>
@@ -52,6 +52,7 @@ onBeforeUnmount(() => {
       name="settings-navigation"
       side="right"
       default-size="var(--default-settings-nav-width)"
+      :handles-visible="true"
     >
       <settings-navigation :fullwidth-min="false" />
     </resizable-div>
