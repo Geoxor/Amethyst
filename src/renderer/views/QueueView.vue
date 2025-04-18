@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { amethyst, useState } from "@/amethyst";
 
-import BaseToolbarButton from "@/components/BaseToolbarButton.vue";
 import DroppableContainer from "@/components/DroppableContainer.vue";
 import LazyList from "@/components/LazyList.vue";
 import RouteHeader from "@/components/v2/RouteHeader.vue";
 import SearchInput from "@/components/v2/SearchInput.vue";
-import { AmethystIcon } from "@/icons";
 import { Track } from "@/logic/track";
 import { useLocalStorage } from "@vueuse/core";
 import { onMounted, onUnmounted, watch } from "vue";
@@ -34,7 +32,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <droppable-container class="flex-col flex w-full py-2 gap-4 px-4 relative h-full">
+  <droppable-container class="flex-col flex w-full py-2 gap-4 px-4 relative">
     <route-header :title="$t('route.queue')">
       <search-input v-model="filterText" />
     </route-header>
