@@ -33,17 +33,17 @@ onUnmounted(() => {
   >
     <div class="h-10 pl-3 flex w-full  justify-between items-center">
       <div class="flex gap-2 items-center">
-        <AmethystIcon />
+        <amethyst-icon />
         <h1>Inspector</h1>
-        <BaseChip>
+        <base-chip>
           {{ getInspectableItemType(currentItem) }}
-        </BaseChip>
+        </base-chip>
       </div>
       <button
         class="p-3 cursor-pointer hover:text-white"
         @click="inspector.hide()"
       >
-        <AmethystIcon class="w-4 h-4" />
+        <amethyst-icon class="w-4 h-4" />
       </button>
     </div>
 
@@ -53,7 +53,7 @@ onUnmounted(() => {
     >
       <section>
         <h1>
-          <AmethystIcon />
+          <amethyst-icon />
           Metadata
           <loading-icon
             v-if="!currentItem.isLoaded"
@@ -89,7 +89,7 @@ onUnmounted(() => {
       </section>
       <section>
         <h1>
-          <AmethystIcon />
+          <amethyst-icon />
           Covers
           <loading-icon
             v-if="!currentItem.isLoaded"
@@ -102,7 +102,7 @@ onUnmounted(() => {
           :key="picture.data.byteLength"
           class="flex gap-2 py-1 last:border-none"
         >
-          <CoverArt 
+          <cover-art 
             class="w-16 rounded-4px"
             :url="currentItem.getCoverByFace(i)"
             @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
@@ -129,7 +129,7 @@ onUnmounted(() => {
       </section>
       <section>
         <h1 class="">
-          <AmethystIcon />
+          <amethyst-icon />
           File Info
         </h1>
 
@@ -146,12 +146,12 @@ onUnmounted(() => {
           @click="amethyst.showItem(currentItem.path)"
         >
           Show in explorer
-          <AmethystIcon />
+          <amethyst-icon />
         </button>
       </section>
       <section>
         <h1>
-          <AmethystIcon />
+          <amethyst-icon />
           Audio Properties
         </h1>
         <li>
@@ -185,7 +185,7 @@ onUnmounted(() => {
       </section>
       <section>
         <h1>
-          <AmethystIcon />
+          <amethyst-icon />
           State
         </h1>
         <li>
@@ -205,7 +205,7 @@ onUnmounted(() => {
           @click="amethyst.showItem(currentItem.getCachePath())"
         >
           Show .amf
-          <AmethystIcon />
+          <amethyst-icon />
         </button>
       </section>
     </div>

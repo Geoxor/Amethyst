@@ -10,7 +10,7 @@ defineProps<{ isMaximized: boolean }>();
       class="minimize"
       @click="emit('minimize')"
     >
-      <MinimizeIcon />
+      <minimize-icon />
     </button>
 
     <button
@@ -18,7 +18,7 @@ defineProps<{ isMaximized: boolean }>();
       class="maximize"
       @click="emit('maximize')"
     >
-      <MaximizeIcon />
+      <maximize-icon />
     </button>
 
     <button
@@ -26,14 +26,14 @@ defineProps<{ isMaximized: boolean }>();
       class="unmaximize"
       @click="emit('unmaximize')"
     >
-      <UnmaximizeIcon />
+      <unmaximize-icon />
     </button>
 
     <button
       class="close"
       @click="emit('close')"
     >
-      <CloseIcon />
+      <close-icon />
     </button>
   </div>
 </template>

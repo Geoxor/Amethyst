@@ -47,12 +47,12 @@ const playFavorites = () => {
   >
     <route-header :title="$t('route.favorites')">
       <div class="flex gap-2 text-text_subtitle items-center">
-        <ButtonInput
+        <button-input
           text="Play all"
           :icon="'ic:round-play-arrow'"
           @click="playFavorites"
         />
-        <SearchInput v-model="filterText" />
+        <search-input v-model="filterText" />
         <MediumIconsIcon />
         <slider-input
           v-model="amethyst.store.settings.value.coverGridSize"
@@ -65,7 +65,7 @@ const playFavorites = () => {
       </div>
     </route-header>
     <div class="flex gap-2 flex-wrap">
-      <TrackItem
+      <track-item
         v-for="track of filter(favorites, filterText) "
         :key="track.path"
         :track="track"

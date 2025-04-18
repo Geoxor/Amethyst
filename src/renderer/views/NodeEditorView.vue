@@ -230,14 +230,14 @@ onKeyStroke("Delete", () => {
     ref="nodeEditor"
     class="flex-1 h-full w-full  flex flex-col"
   >
-    <BaseToolbar>
-      <BaseToolbarButton
+    <base-toolbar>
+      <base-toolbar-button
         icon="ic:twotone-plus"
         tooltip-text="Add Node"
         @click="useContextMenu().open({x: $event.clientX, y: $event.clientY}, nodeMenu({x: $event.clientX, y: $event.clientY}));"
       />
 
-      <BaseToolbarSplitter />
+      <base-toolbar-splitter />
 
       <input
         v-model="amethyst.player.nodeManager.graphName.value"
@@ -247,73 +247,73 @@ onKeyStroke("Delete", () => {
         @keydown.stop
       >
 
-      <BaseToolbarButton
+      <base-toolbar-button
         icon="ic:twotone-fit-screen"
         tooltip-text="Fit to View"
         @click="fitToView"
       />
-      <BaseToolbarButton
+      <base-toolbar-button
         icon="ic:twotone-grid-on"
         :active="state.settings.value.isSnappingToGrid"
         tooltip-text="Snap to Grid"
         @click="state.settings.value.isSnappingToGrid = !state.settings.value.isSnappingToGrid"
       />
 
-      <BaseToolbarSplitter />
+      <base-toolbar-splitter />
 
-      <BaseToolbarButton
+      <base-toolbar-button
         icon="ic:twotone-file-open"
         tooltip-text="Open File"
         @click="handleOpenFile"
       />
 
-      <BaseToolbarButton
+      <base-toolbar-button
         icon="ic:twotone-save-as"
         tooltip-text="Save As"
         @click="handleSaveFile"
       />
       
-      <BaseToolbarSplitter />
+      <base-toolbar-splitter />
 
-      <BaseToolbarButton
+      <base-toolbar-button
         icon="ic:twotone-restart-alt"
         tooltip-text="Reset All"
         @click="handleReset"
       />
-    </BaseToolbar>
 
-    <VueFlow
-      ref="dash"
-      v-model="elements"
-      class="p-2"
-      :snap-to-grid="state.settings.value.isSnappingToGrid"
-      :max-zoom="2.00"
-      :min-zoom="1.00"
-      :connection-line-style="{ stroke: getThemeColorHex('--primary-700') }"
-      :fit-view-on-init="true"
-      :select-nodes-on-drag="false"
-      @node-drag-stop="handleNodeDragStop"
-      @connect="handleConnect"
-      @edge-context-menu="handleEdgeContextMenu"
-      @contextmenu.capture="handleContextMenu"
-    >
-      <Background
-        :size="0.5"
-        :variant="BackgroundVariant.Dots"
-        :pattern-color="getThemeColorHex('--surface-500')"
-      />
-
-      <template
-        v-for="node of amethyst.player.nodeManager.nodes.value"
-        :key="node.properties.id"
-        #[node.getSlotName()]
+      <vue-flow
+        ref="dash"
+        v-model="elements"
+        class="p-2"
+        :snap-to-grid="state.settings.value.isSnappingToGrid"
+        :max-zoom="2.00"
+        :min-zoom="1.00"
+        :connection-line-style="{ stroke: getThemeColorHex('--primary-700') }"
+        :fit-view-on-init="true"
+        :select-nodes-on-drag="false"
+        @node-drag-stop="handleNodeDragStop"
+        @connect="handleConnect"
+        @edge-context-menu="handleEdgeContextMenu"
+        @contextmenu.capture="handleContextMenu"
       >
-        <component
-          :is="node.component"
-          :node="node"
+        <background
+          :size="0.5"
+          :variant="BackgroundVariant.Dots"
+          :pattern-color="getThemeColorHex('--surface-500')"
         />
-      </template>
-    </VueFlow>
+
+        <template
+          v-for="node of amethyst.player.nodeManager.nodes.value"
+          :key="node.properties.id"
+          #[node.getSlotName()]
+        >
+          <component
+            :is="node.component"
+            :node="node"
+          />
+        </template>
+      </vue-flow>
+    </base-toolbar>
   </div>
 </template>
 <style lang="postcss">

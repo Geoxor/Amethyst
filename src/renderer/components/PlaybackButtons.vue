@@ -16,19 +16,19 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
         class="absolute -top-1 left-1/2 transform-gpu -translate-x-1/2 translate-y-1/2"
       >
         <div class="flex text-primary-800 gap-2 items-center">
-          <!-- <Icon
+          <!-- <icon
             icon="ic:round-favorite"
             class="h-5 w-5 opacity-75 hover:opacity-100"
             :class="[isCurrentTrackFavorited && 'text-primary']"
             @click="amethyst.player.getCurrentTrack()?.toggleFavorite()"
           /> -->
           <!-- <playlist-icon class="opacity-75 hover:opacity-100 " /> -->
-          <Icon
+          <icon
             icon="ic:round-shuffle"
             class="h-5 w-5 opacity-75 hover:opacity-100"
             @click="amethyst.player.shuffle()"
           />
-          <Icon
+          <icon
             icon="ic:round-skip-next"
             class="h-5 w-5 opacity-75 hover:opacity-100 transform-gpu rotate-180"
             @click="amethyst.player.previous()"
@@ -37,41 +37,41 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
             class="flex items-center bg-playback-controls-text text-playback-controls-background rounded-full p-2 hover:bg-accent hover:text-playback-controls-text"
             @click="amethyst.player.isPlaying.value ? amethyst.player.pause() : amethyst.player.play()"
           >
-            <Icon
+            <icon
               v-if="amethyst.player.isPlaying.value"
               icon="ic:round-pause"
               class="h-5 w-5 hover:opacity-100"
             />
-            <Icon
+            <icon
               v-else
               icon="ic:round-play-arrow"
               class="h-5 w-5 hover:opacity-100"
             />
           </div>
-          <Icon
+          <icon
             icon="ic:round-skip-next"
             class="h-5 w-5 opacity-75 hover:opacity-100"
             @click="amethyst.player.skip()"
           />
-          <Icon
+          <icon
             v-if="amethyst.player.loopMode.value == LoopMode.None"
             icon="ic:round-repeat"
             class="h-5 w-5 opacity-75 hover:opacity-100"
             @click="amethyst.player.loopAll()"
           />
-          <Icon
+          <icon
             v-if="amethyst.player.loopMode.value == LoopMode.All"
             icon="ic:round-repeat"
             class="h-5 w-5 opacity-75 text-accent hover:opacity-100"
             @click="amethyst.player.loopOne()"
           />
-          <Icon
+          <icon
             v-if="amethyst.player.loopMode.value == LoopMode.One"
             icon="ic:round-repeat-one"
             class="h-5 w-5 opacity-75 text-accent hover:opacity-100"
             @click="amethyst.player.loopNone()"
           />
-          <!-- <Icon
+          <!-- <icon
             icon="ic:round-playlist-add"
             class="h-5 w-5 opacity-75 hover:opacity-100"
           /> -->

@@ -25,7 +25,7 @@ const value = useVModel(props, "modelValue", emits);
     @click="showdropdown = true;"
   >
     {{ prefix }}{{ value }}{{ suffix }}
-    <Icon
+    <icon
       icon="ic:round-chevron-left"
       class="w-5 h-5 -rotate-90 transform-gpu" 
     />

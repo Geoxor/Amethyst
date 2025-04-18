@@ -20,7 +20,7 @@ const isActive = computed(() => route.name?.toString().startsWith(props.routeNam
     class="duration-user-defined items-center gap-2 transition-colors duration-user-defined flex relative disable-select p-4 no-drag text-text_title rounded-r-8px"
     @click="$router.push({ name: routeName })"
   >
-    <Icon
+    <icon
       v-if="icon"
       :icon="icon"
       class="h-5 w-5 min-h-5 min-w-5"

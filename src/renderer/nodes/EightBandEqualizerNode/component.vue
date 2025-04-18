@@ -88,7 +88,7 @@ const FILTER_TYPES = [
 </script>
 
 <template>
-  <CustomNode
+  <custom-node
     :node="node"
     title="8-Band equalizer"
     icon="ic:twotone-filter-list"
@@ -142,27 +142,27 @@ const FILTER_TYPES = [
             @mousedown.stop
             @click="filter.type = filterType;"
           >
-            <HighShelfIcon
+            <high-shelf-icon
               v-if="filterType == 'highshelf'"
               class="h-4 w-4"
             />
-            <LowShelfIcon
+            <low-shelf-icon
               v-else-if="filterType == 'lowshelf'"
               class="h-4 w-4"
             />
-            <LowpassIcon
+            <lowpass-icon
               v-else-if="filterType == 'lowpass'"
               class="h-4 w-4"
             />
-            <HighpassIcon
+            <highpass-icon
               v-else-if="filterType == 'highpass'"
               class="h-4 w-4"
             />
-            <PeakIcon
+            <peak-icon
               v-else-if="filterType == 'peaking'"
               class="h-4 w-4"
             />
-            <BandpassIcon
+            <bandpass-icon
               v-else-if="filterType == 'bandpass'"
               class="h-4 w-4"
             />
@@ -171,12 +171,12 @@ const FILTER_TYPES = [
       </div>
     </div>
     <div class="relative w-full bg-surface-1000 rounded-4px">
-      <SpectrumAnalyzer
+      <spectrum-analyzer
         class="h-168px w-full opacity-25 "
         :node="node.pre"
       />
       <div class="absolute top-0 left-0 right-0">
-        <SpectrumAnalyzer
+        <spectrum-analyzer
           class="h-168px w-full"
           :node="node.post"
         />
@@ -186,5 +186,5 @@ const FILTER_TYPES = [
         class="h-168px w-full absolute top-0 left-0"
       />
     </div>
-  </CustomNode>
+  </custom-node>
 </template>

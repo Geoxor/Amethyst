@@ -6,7 +6,7 @@ import AmethystLogo from "@/icons/AmethystLogo.vue";
   <div
     class="h-full w-full flex items-center justify-center"
   >
-    <AmethystLogo
+    <amethyst-logo
       class="w-32 h-32 opacity-35"
     />
   </div>

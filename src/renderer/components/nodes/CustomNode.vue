@@ -43,7 +43,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
 
     <div class="flex flex-col gap-2">
       <div class="flex gap-2 items-center">
-        <Icon
+        <icon
           :icon="icon"
           class="text-green-400"
         />
@@ -57,13 +57,13 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
             {{ node.properties.id }}
           </p>
         </h1>
-        <BaseChip
+        <base-chip
           v-if="node.isBypassed"
           class="animate-pulse"
           color="bg-red-500 text-red-500"
         >
           Bypassed
-        </BaseChip>
+        </base-chip>
       </div>
 
       <slot />
@@ -84,13 +84,13 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
     </div>
   </div>
 
-  <Handle
+  <handle
     id="a"
     type="source"
     :position="Position.Right"
     class=""
   />
-  <Handle
+  <handle
     id="b"
     type="target"
     :position="Position.Left"

@@ -12,7 +12,7 @@ const props = defineProps<{node: AmethystAudioNode}>();
       class="unhook"
       @click="node.disconnect()"
     >
-      <Icon
+      <icon
         icon="ic:twotone-link-off"
         class="w-4 h-4"
       />
@@ -23,7 +23,7 @@ const props = defineProps<{node: AmethystAudioNode}>();
       class="reset"
       @click="node.toggleBypass()"
     >
-      <Icon
+      <icon
         icon="ic:twotone-power-settings-new"
         class="w-4 h-4"
       />
@@ -34,7 +34,7 @@ const props = defineProps<{node: AmethystAudioNode}>();
       class="reset"
       @click="node.reset()"
     >
-      <Icon
+      <icon
         icon="ic:twotone-restart-alt"
         class="w-4 h-4"
       />
@@ -44,7 +44,7 @@ const props = defineProps<{node: AmethystAudioNode}>();
       class="hover:bg-rose-600  hover:text-black"
       @click="amethyst.player.nodeManager.removeNode(props.node)"
     >
-      <Icon
+      <icon
         icon="ic:twotone-delete"
         class="w-4 h-4"
       />

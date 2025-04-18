@@ -37,6 +37,10 @@
       "warn",
       "always"
     ],
+    "vue/component-name-in-template-casing": ["warn", "kebab-case", {
+      "registeredComponentsOnly": true,
+      "ignores": []
+    }],
     "@typescript-eslint/no-restricted-imports": "warn",
     "@typescript-eslint/quotes": [
       "warn",

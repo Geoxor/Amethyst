@@ -124,7 +124,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       <playback-buttons
         :player="amethyst.player"
       />
-      <Icon
+      <icon
         icon="ic:twotone-waves"
         class="utilityButton"
         :class="[
@@ -132,7 +132,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
         ]"
         @click="state.settings.value.showLoudnessMeter = !state.settings.value.showLoudnessMeter"
       />
-      <Icon
+      <icon
         icon="ic:twotone-graphic-eq"
         class="utilityButton"
         :class="[
@@ -140,13 +140,13 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
         ]"
         @click="state.settings.value.showSpectrum = !state.settings.value.showSpectrum"
       />
-      <Icon
+      <icon
         v-if="amethyst.player.volume.value > 0"
         icon="ic:round-volume-up"
         class="utilityButton"
         @click="lastVolumeBeforeMute = amethyst.player.volume.value; amethyst.player.setVolume(0);"
       />
-      <Icon
+      <icon
         v-else
         icon="ic:round-volume-off"
         class="utilityButton text-accent"
@@ -181,7 +181,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
         { title: 'Hide', icon: AmethystIcon, action: () => state.settings.value.showSpectrum = false },
       ]);"
     >
-      <SpectrumAnalyzer
+      <spectrum-analyzer
         :key="amethyst.player.nodeManager.getNodeConnectinsString()"
         :node="amethyst.player.nodeManager.master.pre"
       />

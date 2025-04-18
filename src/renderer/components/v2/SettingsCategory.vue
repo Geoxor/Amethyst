@@ -18,7 +18,7 @@ const isActive = computed(() => route.name?.toString().startsWith(props.routeNam
     class="duration-user-defined flex relative gap-4 cursor-pointer bg-transparent text-text_title min-h-52px items-center py-2 px-4 rounded-8px"
     @click="$router.push({ name: routeName })"
   >
-    <Icon
+    <icon
       :icon="icon"
       class="w-5 h-5 min-w-5 min-h-5"
     />

@@ -149,7 +149,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           </div>
 
           <div class="flex-none w-[50px]">
-            <AmethystIcon
+            <amethyst-icon
               v-if="item.isLoading || item.deleted || item.hasErrored"
               class="h-6 w-6 rounded-md"
             />
@@ -176,7 +176,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
               class="cursor-pointer hover:text-white"
               @click.stop.prevent="amethyst.showItem(item.path)"
             >
-              <Icon
+              <icon
                 icon="ic:twotone-folder-open"
                 class="h-4 w-4"
               />
@@ -204,7 +204,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           </div>
 
           <div class="flex-none w-[70px] pl-4">
-            <Icon
+            <icon
               icon="ic:twotone-favorite"
               class="h-4 w-4"
             />
