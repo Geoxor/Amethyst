@@ -5,8 +5,8 @@ import { AmethystIcon } from "@/icons";
 import { saveArrayBufferToFile } from "@/logic/dom";
 import { convertDfpwm } from "@/logic/encoding";
 import { Track } from "@/logic/track";
+import CoverArt from "./CoverArt.vue";
 import { useInspector } from "./Inspector";
-
 defineProps<{tracks: Track[]}>();
 
 const isHoldingControl = useShortcuts().isControlPressed;
@@ -152,10 +152,10 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
                 v-if="item.isLoading || item.deleted || item.hasErrored"
                 class="h-6 w-6 rounded-md"
               />
-              <cover
+              <cover-art
                 v-else
                 class="w-6 h-6 rounded-md"
-                :url="(item.isLoaded && item.getCover() ? item.getCover() : '') as string"
+                :url="item.isLoaded && item.getCover() ? item.getCover() : ''"
               />
             </div>
 
