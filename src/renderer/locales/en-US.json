@@ -139,6 +139,9 @@
   "settings.vsync.description": "Constrain the user interface (UI) framerate of Amethyst to the refresh rate of the active display",
   "settings.vsync.warning": "Restart Required",
 
+  "settings.fetch_metadata_on_startup.title": "Fetch metadata on startup",
+  "settings.fetch_metadata_on_startup.description": "Fetch metadata of all songs in queue on startup, this function is delayed by 5 seconds (experimental)",
+
   "settings.pause_visuals.title": "Pause visuals when unfocused",
   "settings.pause_visuals.description": "Pause visualizers when tabbing out of Amethyst to reduce the performance hit (useful for gaming or multi-tasking)",
 

@@ -65,6 +65,7 @@ export class Store {
 		fontWeight: "normal",
 		zoomLevel: 1.00,
 		animationDuration: 100, // 100ms
+		fetchMetadataOnStartup: true,
 		meterSmoothingDuration: 100,
 		language: "en-US",
 		saveMediaSources: [{}] as {type: MediaSourceType, path: string}[],

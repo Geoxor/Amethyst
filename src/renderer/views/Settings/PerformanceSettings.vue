@@ -1,12 +1,10 @@
 <script setup lang="ts">
 import { amethyst, useState } from "@/amethyst";
-import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
 import SettingsSetting from "@/components/v2/SettingsSetting.vue";
 import SubtitleText from "@/components/v2/SubtitleText.vue";
 import TitleText from "@/components/v2/TitleText.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 import { smoothTween } from "@/logic/dom";
-import { bytesToHuman } from "@shared/formating";
 import { useFps } from "@vueuse/core";
 import { onMounted, ref } from "vue";
 
@@ -63,29 +61,6 @@ onMounted(() => {
         <title-text :text="`${Number.isFinite(maxFps) && maxFps != -1 ? `${maxFps} fps` : 'loading'}`" />
       </div>
     </div>
-
-    <div class="p-4 w-full rounded-8px bg-[#141621] text-text_title flex gap-4 items-center justify-between">
-      <div
-        v-for="metric of appMetrics"
-        :key="metric.pid"
-        class="flex flex-col gap-2 w-full"
-      >
-        <div class="flex justify-between gap-2">
-          <subtitle-text
-            :text="metric.name || metric.serviceName || metric.type"
-            class="text-12px"
-          />
-          <!-- These are in KB so we multiplty by 1024 to turn them into bytes for our function to parse properly -->
-          <!-- https://www.electronjs.org/docs/latest/api/structures/memory-info -->
-          <subtitle-text
-            :text="bytesToHuman(metric.memory.workingSetSize * 1024)"
-            class="text-12px"
-          />
-        </div>
-        <processor-usage-meter :value="metric.cpu.percentCPUUsage" />
-      </div>
-    </div>
-
     <div class="p-4 w-min rounded-8px bg-[#141621] text-text_title flex flex-col gap-4">
       <div class="flex-col flex justify-center h-full gap-2">
         <subtitle-text
@@ -107,6 +82,16 @@ onMounted(() => {
     <toggle-switch
       v-model="state.settings.value.useVsync" 
       @change="handleToggleVsync"
+    />
+  </settings-setting>
+
+  <settings-setting
+    icon="mdi:flask"
+    :description="$t('settings.fetch_metadata_on_startup.description')"
+    :title="$t('settings.fetch_metadata_on_startup.title')"
+  >
+    <toggle-switch
+      v-model="state.settings.value.fetchMetadataOnStartup" 
     />
   </settings-setting>
 
