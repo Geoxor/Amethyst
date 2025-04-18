@@ -2,7 +2,7 @@
 import { amethyst, useState } from "@/amethyst";
 import ControlButtons from "@/components/input/ControlButtons.vue";
 import UpdateButton from "@/components/input/UpdateButton.vue";
-import Menu from "@/components/menu/MenuContainer.vue";
+import MenuContainer from "@/components/menu/MenuContainer.vue";
 import MenuOption from "@/components/menu/MenuOption.vue";
 import MenuSplitter from "@/components/menu/MenuSplitter.vue";
 import AmethystIcon from "@/icons/AmethystIcon.vue";
@@ -61,7 +61,7 @@ provide("menuGroupRef", menuGroupRef);
       >
         <amethyst-icon class="w-5 h-5" />
       </div>
-      <menu :title="$t('menu.file')">
+      <menu-container :title="$t('menu.file')">
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'O']"
           :title="$t('menu.file.open_audio')"
@@ -74,8 +74,8 @@ provide("menuGroupRef", menuGroupRef);
           icon="ic:twotone-folder"
           @click="amethyst.openAudioFoldersAndAddToQueue"
         />
-      </menu>
-      <menu :title="$t('menu.utility')">
+      </menu-container>
+      <menu-container :title="$t('menu.utility')">
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'SHIFT', 'X']"
           :title="$t('menu.utility.clear_queue')"
@@ -111,8 +111,8 @@ provide("menuGroupRef", menuGroupRef);
           icon="ic:twotone-update"
           @click="amethyst.checkForUpdates()"
         />
-      </menu>
-      <menu :title="$t('menu.view')">
+      </menu-container>
+      <menu-container :title="$t('menu.view')">
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
           :title="$t('menu.view.zoom_in')"
@@ -148,8 +148,8 @@ provide("menuGroupRef", menuGroupRef);
           icon="ic:twotone-bug-report"
           @click="amethyst.openDevTools()"
         />
-      </menu>
-      <menu :title="$t('menu.about')">
+      </menu-container>
+      <menu-container :title="$t('menu.about')">
         <menu-option
           :title="$t('menu.about.documentation')"
           icon="ic:twotone-menu-book"
@@ -163,8 +163,8 @@ provide("menuGroupRef", menuGroupRef);
           :title="$t('menu.about.discord_server')"
           @click="amethyst.openLink('https://discord.gg/geoxor')"
         />
-      </menu>
-      <menu
+      </menu-container>
+      <menu-container
         v-if="amethyst.IS_DEV"
         title="Debug"
       >
@@ -176,7 +176,7 @@ provide("menuGroupRef", menuGroupRef);
           title="Set 'updateReady' to 'false'"
           @click="state.state.updateReady = false;"
         />
-      </menu>
+      </menu-container>
     </div>
 
     <p class="absolute flex items-center gap-1 left-1/2 transform-gpu -translate-x-1/2 select-none">

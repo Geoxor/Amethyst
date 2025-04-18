@@ -280,40 +280,40 @@ onKeyStroke("Delete", () => {
         tooltip-text="Reset All"
         @click="handleReset"
       />
-
-      <vue-flow
-        ref="dash"
-        v-model="elements"
-        class="p-2"
-        :snap-to-grid="state.settings.value.isSnappingToGrid"
-        :max-zoom="2.00"
-        :min-zoom="1.00"
-        :connection-line-style="{ stroke: getThemeColorHex('--primary-700') }"
-        :fit-view-on-init="true"
-        :select-nodes-on-drag="false"
-        @node-drag-stop="handleNodeDragStop"
-        @connect="handleConnect"
-        @edge-context-menu="handleEdgeContextMenu"
-        @contextmenu.capture="handleContextMenu"
-      >
-        <background
-          :size="0.5"
-          :variant="BackgroundVariant.Dots"
-          :pattern-color="getThemeColorHex('--surface-500')"
-        />
-
-        <template
-          v-for="node of amethyst.player.nodeManager.nodes.value"
-          :key="node.properties.id"
-          #[node.getSlotName()]
-        >
-          <component
-            :is="node.component"
-            :node="node"
-          />
-        </template>
-      </vue-flow>
     </base-toolbar>
+
+    <vue-flow
+      ref="dash"
+      v-model="elements"
+      class="p-2"
+      :snap-to-grid="state.settings.value.isSnappingToGrid"
+      :max-zoom="2.00"
+      :min-zoom="1.00"
+      :connection-line-style="{ stroke: getThemeColorHex('--primary-700') }"
+      :fit-view-on-init="true"
+      :select-nodes-on-drag="false"
+      @node-drag-stop="handleNodeDragStop"
+      @connect="handleConnect"
+      @edge-context-menu="handleEdgeContextMenu"
+      @contextmenu.capture="handleContextMenu"
+    >
+      <background
+        :size="0.5"
+        :variant="BackgroundVariant.Dots"
+        :pattern-color="getThemeColorHex('--surface-500')"
+      />
+
+      <template
+        v-for="node of amethyst.player.nodeManager.nodes.value"
+        :key="node.properties.id"
+        #[node.getSlotName()]
+      >
+        <component
+          :is="node.component"
+          :node="node"
+        />
+      </template>
+    </vue-flow>
   </div>
 </template>
 <style lang="postcss">
