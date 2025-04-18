@@ -8,11 +8,11 @@ import PlaybackButtons from "@/components/PlaybackButtons.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import LoudnessMeter from "@/components/visualizers/LoudnessMeter.vue";
 import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
+import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 import { AmethystIcon } from "@/icons";
 import { router } from "@/router";
 import { Icon } from "@iconify/vue";
 import { LoadStatus } from "@shared/types";
-import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 
 const state = useState();
 
@@ -56,10 +56,10 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
 </script>
 
 <template>
-  <div class="absolute bottom-4 flex justify-center px-4 gap-2 w-full left-1/2 transform-gpu -translate-x-1/2 z-10">
+  <div class="absolute pointer-events-none bottom-4 flex justify-center px-4 gap-2 w-full left-1/2 transform-gpu -translate-x-1/2 z-10">
     <div
       v-if="state.settings.value.showLoudnessMeter"
-      class="flex p-2 items-center h-16 gap-2 rounded-8px w-full min-w-120px max-w-240px text-black bg-playback-controls-background"
+      class="flex pointer-events-auto p-2 items-center h-16 gap-2 rounded-8px w-full min-w-120px max-w-240px text-black bg-playback-controls-background"
       @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
         { title: 'Hide', icon: AmethystIcon, action: () => state.settings.value.showLoudnessMeter = false },
       ]);"
@@ -72,11 +72,11 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
     <!-- Spacer to keep the middle dock centered  -->
     <div
       v-else
-      class="w-0 lg:w-full max-w-240px"
+      class="w-0 lg:w-full max-w-240px select-none"
     />
 
     <div
-      class="flex relative items-center h-16 gap-2 p-2 rounded-8px min-w-540px w-full max-w-720px  text-black bg-playback-controls-background"
+      class="flex pointer-events-auto relative items-center h-16 gap-2 p-2 rounded-8px min-w-540px w-full max-w-720px  text-black bg-playback-controls-background"
     >
       <slider
         id="seek"
@@ -176,7 +176,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
     </div>
     <div
       v-if="state.settings.value.showSpectrum"
-      class="flex overflow-hidden items-center h-16 gap-2 rounded-8px transition w-full min-w-80px max-w-240px text-black bg-playback-controls-background"
+      class="flex pointer-events-auto overflow-hidden items-center h-16 gap-2 rounded-8px transition w-full min-w-80px max-w-240px text-black bg-playback-controls-background"
       @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
         { title: 'Hide', icon: AmethystIcon, action: () => state.settings.value.showSpectrum = false },
       ]);"
@@ -189,7 +189,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
     <!-- Spacer to keep the middle dock centered  -->
     <div
       v-else
-      class="w-0 lg:w-full max-w-240px"
+      class="w-0 lg:w-full max-w-240px select-none"
     />
   </div>
 </template>
