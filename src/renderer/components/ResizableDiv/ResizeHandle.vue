@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { type Direction } from ".";
-import { ref, onMounted, onBeforeUnmount, computed } from "vue";
+import {type Direction} from ".";
+import {ref, onMounted, onBeforeUnmount, computed} from "vue";
 
 const emit = defineEmits<{
   (e: "reset"): void;
@@ -39,6 +39,7 @@ function onMouseDown(event: MouseEvent) {
 }
 
 function onMouseUp() {
+  if (!resizing.value) return;
   resizing.value = false;
   offset.value = 0;
   emit("stopResizing");
@@ -61,26 +62,39 @@ const cursorClass = computed(() => {
     return "handle-vertical";
   }
 });
+
+const handlePositionClass = computed(() => {
+  if (props.direction === "horizontal") {
+    return "handle-position-horizontal";
+  } else {
+    return "handle-position-vertical";
+  }
+});
 </script>
 
 <template>
-  <button
-    class="flex items-center justify-center p-4px"
-    :class="[cursorClass, props.class]"
-    @dblclick="emit('reset')"
-    @mousedown="onMouseDown"
-    @click.stop
+  <div
+    class="relative"
+    :class="handlePositionClass"
   >
-    <div
-      v-if="props.visible"
-      class="border-r border-r-surface-500 pointer-events-none"
-      :class="[
-        props.direction === 'horizontal'
-          ? 'handle-horizontal-thumb'
-          : 'handle-vertical-thumb',
-      ]"
-    />
-  </button>
+    <button
+      class="flex items-center justify-center p-4px"
+      :class="[cursorClass, props.class, props.visible && 'absolute top-0 left-0']"
+      @dblclick="emit('reset')"
+      @mousedown="onMouseDown"
+      @click.stop
+    >
+      <div
+        v-if="props.visible"
+        class="border-r border-r-surface-500 pointer-events-none"
+        :class="[
+          props.direction === 'horizontal'
+            ? 'handle-horizontal-thumb'
+            : 'handle-vertical-thumb',
+        ]"
+      />
+    </button>
+  </div>
 </template>
 
 <style lang="postcss" scoped>
@@ -104,5 +118,15 @@ const cursorClass = computed(() => {
 .handle-vertical-thumb {
   height: 5em;
   width: 100%;
+}
+
+.handle-position-horizontal {
+  width: 100%;
+  height: 0;
+}
+
+.handle-position-vertical {
+  width: 0;
+  height: 100%;
 }
 </style>

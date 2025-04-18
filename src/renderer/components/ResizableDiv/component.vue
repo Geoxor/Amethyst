@@ -35,8 +35,6 @@ function reapplySize() {
 
   size = `calc(${size} + ${delta.value}px)`;
 
-  console.log("size = ", size, ", dir = ", direction.value);
-
   if (direction.value === "horizontal") {
     resizableDiv.value.style.height = size;
   } else {
@@ -117,8 +115,6 @@ function resetSize() {
   storedSize.value = null;
   delta.value = 0;
   reapplySize();
-
-  console.log("reset");
 }
 </script>
 

@@ -11,7 +11,6 @@ let observer: ResizeObserver | null = null;
 function onResize() {
   if (!hiddenNavigation.value) return;
   if (!resizingParent.value) return;
-  console.log(hiddenNavigation.value.getBoundingClientRect().width);
 
   const width = hiddenNavigation.value.offsetWidth;
   resizingParent.value.style.setProperty("--default-settings-nav-width", `${width + 10}px`);
