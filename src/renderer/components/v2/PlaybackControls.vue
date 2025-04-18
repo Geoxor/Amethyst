@@ -1,35 +1,35 @@
 <script setup lang="ts">
-import {amethyst, useState} from "@/amethyst";
-import {useContextMenu} from "@/components/ContextMenu";
+import { amethyst, useState } from "@/amethyst";
+import { useContextMenu } from "@/components/ContextMenu";
 import CoverArt from "@/components/CoverArt.vue";
 import Slider from "@/components/input/BaseSlider.vue";
-import {useInspector} from "@/components/Inspector";
+import { useInspector } from "@/components/Inspector";
 import PlaybackButtons from "@/components/PlaybackButtons.vue";
+import ResizableDiv from "@/components/ResizableDiv";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import LoudnessMeter from "@/components/visualizers/LoudnessMeter.vue";
-import ResizableDiv from "@/components/ResizableDiv";
-import {SpectrumAnalyzer} from "@/components/visualizers/SpectrumAnalyzer";
+import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
 import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
-import {AmethystIcon} from "@/icons";
-import {router} from "@/router";
-import {Icon} from "@iconify/vue";
-import {LoadStatus} from "@shared/types";
+import { AmethystIcon } from "@/icons";
+import { router } from "@/router";
+import { Icon } from "@iconify/vue";
+import { LoadStatus } from "@shared/types";
 
 const state = useState();
 
 let lastVolumeBeforeMute = amethyst.player.volume.value;
 
-const handleContextCoverMenu = ({x, y}: MouseEvent) => {
-  useContextMenu().open({x, y}, [
+const handleContextCoverMenu = ({ x, y }: MouseEvent) => {
+  useContextMenu().open({ x, y }, [
     {
       title: "Inspect",
       icon: AmethystIcon,
       action: () => amethyst.player.getCurrentTrack() && useInspector().inspectAndShow(amethyst.player.getCurrentTrack()!)
     },
-    {title: "Export cover...", icon: AmethystIcon, action: () => amethyst.player.getCurrentTrack()?.exportCover()},
+    { title: "Export cover...", icon: AmethystIcon, action: () => amethyst.player.getCurrentTrack()?.exportCover() },
     state.state.isShowingBigCover
-        ? {title: "Hide cover", icon: AmethystIcon, action: () => state.state.isShowingBigCover = false}
-        : {title: "View cover", icon: AmethystIcon, action: () => state.state.isShowingBigCover = true},
+      ? { title: "Hide cover", icon: AmethystIcon, action: () => state.state.isShowingBigCover = false }
+      : { title: "View cover", icon: AmethystIcon, action: () => state.state.isShowingBigCover = true },
   ]);
 };
 
@@ -67,7 +67,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
     <div
       v-if="state.settings.value.showLoudnessMeter"
       class="flex pointer-events-auto p-2 items-center h-16 gap-2 rounded-8px w-full min-w-120px max-w-240px text-black bg-playback-controls-background"
-      @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
+      @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
         { title: 'Hide', icon: AmethystIcon, action: () => state.settings.value.showLoudnessMeter = false },
       ]);"
     >
@@ -89,9 +89,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       default-size="720px"
       class="relative rounded-8px min-w-540px max-w-720px text-black pointer-events-auto bg-playback-controls-background"
     >
-      <div
-        class="flex items-center h-16 gap-2 p-2 w-full"
-      >
+      <div class="flex items-center h-16 gap-2 p-2 w-full">
         <slider
           id="seek"
           key="seek"
@@ -108,7 +106,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
           :node="amethyst.player.nodeManager.master.pre"
           pre
           :channels="amethyst.player.getCurrentTrack()?.getChannels()"
-          @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
+          @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
             { title: 'Hide decibel meter', icon: AmethystIcon, action: () => state.settings.value.showDbMeter = false },
           ]);"
           @click="router.currentRoute.value.name === 'audio-monitor' ? router.back() : router.push({ name: 'audio-monitor' })"
@@ -135,9 +133,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
           @contextmenu="handleContextCoverMenu"
           @click="amethyst.player.getCurrentTrack()?.cover.state === LoadStatus.Loaded && (state.state.isShowingBigCover = !state.state.isShowingBigCover)"
         />
-        <playback-buttons
-          :player="amethyst.player"
-        />
+        <playback-buttons :player="amethyst.player" />
         <icon
           icon="ic:twotone-waves"
           class="utilityButton"
@@ -183,7 +179,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
           :node="amethyst.player.nodeManager.master.pre"
           :width="48"
           :height="48"
-          @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
+          @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
             { title: 'Hide Vectorscope', icon: AmethystIcon, action: () => state.settings.value.showVectorscope = false },
           ]);"
         />
@@ -192,7 +188,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
     <div
       v-if="state.settings.value.showSpectrum"
       class="flex pointer-events-auto overflow-hidden items-center h-16 gap-2 rounded-8px transition w-full min-w-80px max-w-240px text-black bg-playback-controls-background"
-      @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
+      @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
         { title: 'Hide', icon: AmethystIcon, action: () => state.settings.value.showSpectrum = false },
       ]);"
     >
@@ -210,9 +206,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
 </template>
 
 <style scoped lang="postcss">
-
 .utilityButton {
   @apply w-5 min-w-5 h-5 min-h-5 opacity-75 hover:opacity-100;
 }
-
 </style>
