@@ -2,7 +2,7 @@
 import SettingsNavigation from "@/components/v2/SettingsNavigation.vue";
 import ResizableDiv from "../ResizableDiv";
 
-import {ref, onMounted, onBeforeUnmount} from "vue";
+import { onBeforeUnmount, onMounted, ref } from "vue";
 
 let hiddenNavigation = ref<HTMLElement | null>(null);
 let resizingParent = ref<HTMLElement | null>(null);

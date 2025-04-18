@@ -13,6 +13,6 @@ defineProps<{ url?: string }>();
     v-else
     class="flex items-center justify-center bg-slider-background bg-opacity-50 disable-select no-drag"
   >
-    <AmethystIcon />
+    <amethyst-icon />
   </div>
 </template>

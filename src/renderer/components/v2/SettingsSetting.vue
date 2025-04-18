@@ -12,7 +12,7 @@ defineProps<{subsetting?:boolean, title: string, description?: string, warning?:
     :class="[subsetting ? 'bg-[#101119] hover:bg-black hover:bg-opacity-20' : 'bg-[#141621] hover:bg-accent hover:bg-opacity-10']"
   >
     <div class="flex gap-4 items-center min-h-52px py-2 px-4 ">
-      <Icon
+      <icon
         :icon="icon"
         class="w-5 h-5 min-w-5 min-h-5"
       />
@@ -22,13 +22,13 @@ defineProps<{subsetting?:boolean, title: string, description?: string, warning?:
         class="whitespace-normal"
       />
       <div class="flex-1" />
-      <BaseChip
+      <base-chip
         v-if="warning"
       >
         <p class=" text-10px font-weight-user-defined">
           {{ warning }}
         </p>
-      </BaseChip>
+      </base-chip>
       <slot />
     </div>
     <slot

@@ -18,7 +18,7 @@ const handleMouseScroll = (e: WheelEvent) => {
     class="slider py-3"
     @wheel.prevent="handleMouseScroll"
   >
-    <Slider
+    <slider
       v-model="value"
       v-bind="$attrs"
       show-tooltip="drag"

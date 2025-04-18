@@ -55,6 +55,16 @@ const state = useState();
         </settings-setting>
         <settings-setting
           subsetting
+          :title="$t('settings.ambient_background.spin.title')"
+          :description="$t('settings.ambient_background.spin.description')"
+          icon="ic:twotone-rotate-90-degrees-ccw"
+        >
+          <toggle-switch
+            v-model="state.settings.value.ambientBackgroundSpin" 
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
           :title="$t('settings.ambient_background.spin_speed.title')"
           :description="$t('settings.ambient_background.spin_speed.description')"
           icon="ic:twotone-rotate-90-degrees-ccw"

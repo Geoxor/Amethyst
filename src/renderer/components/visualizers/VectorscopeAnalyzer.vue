@@ -12,7 +12,7 @@ let shouldStopRendering = false;
 onMounted(() => {
   const vectorscope = document.querySelector(`#vectorscope-${randomId}`) as HTMLCanvasElement;
   canvasCtx = vectorscope.getContext("2d")!;
-  canvasCtx.strokeStyle = `${getThemeColorHex("--primary-800")}99`;
+  canvasCtx.strokeStyle = `${getThemeColorHex("--accent")}99`;
   canvasCtx.lineWidth = state.settings.value.vectorscopeLineThickness;
   watch(() => state.settings.value.vectorscopeLineThickness, () => canvasCtx.lineWidth = state.settings.value.vectorscopeLineThickness);
 
@@ -75,21 +75,17 @@ onUnmounted(() => shouldStopRendering = true);
 </script>
 
 <template>
-  <div
-    :style="`min-width: ${width}px;`"
-    class="flex flex-col bg-surface-900 rounded-4px overflow-hidden"
-  >
-    <canvas
-      :id="`vectorscope-${randomId}`"
-      :class="[state.settings.value.lissajousVectorscope && 'lissajous']"
-      :width="width"
-      :height="height"
-    />
-  </div>
+  <canvas
+    :id="`vectorscope-${randomId}`"
+    :class="[state.settings.value.lissajousVectorscope && 'lissajous bg-slider-background bg-opacity-50']"
+    class="transform rotate-90"
+    :width="width"
+    :height="height"
+  />
 </template>
 
 <style scoped lang="postcss">
 .lissajous {
-	@apply transform rotate-45 scale-66 rounded-4px bg-black bg-opacity-25;
+	@apply rotate-45 scale-75 rounded-4px;
 }
 </style>

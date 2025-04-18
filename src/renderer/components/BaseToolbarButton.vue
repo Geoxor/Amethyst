@@ -6,7 +6,7 @@ defineProps<{ tooltipText?: string, active?: boolean, icon?: string, text?: stri
 </script>
 
 <template>
-  <BaseTooltip
+  <base-tooltip
     v-if="tooltipText"
     :text="tooltipText"
     :placement="'bottom'"
@@ -16,7 +16,7 @@ defineProps<{ tooltipText?: string, active?: boolean, icon?: string, text?: stri
       class="select-none text-primary-1000 rounded-2px p-1.5"
       v-bind="$attrs"
     >
-      <Icon
+      <icon
         v-if="icon"
         :icon="icon"
         class="h-4 w-5 min-h-4 min-w-5"
@@ -29,14 +29,14 @@ defineProps<{ tooltipText?: string, active?: boolean, icon?: string, text?: stri
         {{ text }}
       </p>
     </button>
-  </BaseTooltip>
+  </base-tooltip>
   <button
     v-else
     :class="active && 'active'"
     class="select-none text-primary-1000 rounded-2px p-1.5"
     v-bind="$attrs"
   >
-    <Icon
+    <icon
       v-if="icon"
       :icon="icon"
       class="h-4 w-5 min-h-4 min-w-5"

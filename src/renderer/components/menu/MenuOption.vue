@@ -20,7 +20,7 @@ defineProps<{
     class="text-left rounded-4px text-11px py-2 px-4 w-full flex justify-between items-center"
   >
     <div class="flex gap-4 items-center">
-      <Icon
+      <icon
         v-if="icon"
         :icon="icon"
         class="h-4 w-4"

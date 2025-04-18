@@ -46,7 +46,7 @@ const flagURL = (name: string) => {
       class="w-4 rounded-2px"
     >
     {{ convertLocaleToLanguage($i18n.locale) }}
-    <Icon
+    <icon
       icon="ic:round-chevron-left"
       class="w-5 h-5 -rotate-90 transform-gpu" 
     />

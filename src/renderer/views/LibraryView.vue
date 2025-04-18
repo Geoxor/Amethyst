@@ -20,7 +20,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
 
 <template>
   <div class="p-2 grid grid-cols-6 md:grid-cols-8 lg:grid-cols-12 xl:grid-cols-16 h-min gap-1 w-full overflow-y-auto">
-    <CoverArt
+    <cover-art
       v-for="track of amethyst.player.queue.getList()"
       :key="track.path"
       class="transform-gpu duration-50 cursor-pointer hover:scale-105 w-full col-span-1 rounded-4px"

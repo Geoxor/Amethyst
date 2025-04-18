@@ -32,7 +32,7 @@ const FILTER_TYPES = [
 </script>
 
 <template>
-  <CustomNode
+  <custom-node
     :node="node"
     title="12 dB/oct Filter"
     icon="ic:twotone-filter-list"
@@ -50,27 +50,27 @@ const FILTER_TYPES = [
           @mousedown.stop
           @click="node.type = filterType"
         >
-          <HighShelfIcon
+          <high-shelf-icon
             v-if="filterType == 'highshelf'"
             class="h-4 w-4"
           />
-          <LowShelfIcon
+          <low-shelf-icon
             v-else-if="filterType == 'lowshelf'"
             class="h-4 w-4"
           />
-          <LowpassIcon
+          <lowpass-icon
             v-else-if="filterType == 'lowpass'"
             class="h-4 w-4"
           />
-          <HighpassIcon
+          <highpass-icon
             v-else-if="filterType == 'highpass'"
             class="h-4 w-4"
           />
-          <PeakIcon
+          <peak-icon
             v-else-if="filterType == 'peaking'"
             class="h-4 w-4"
           />
-          <BandpassIcon
+          <bandpass-icon
             v-else-if="filterType == 'bandpass'"
             class="h-4 w-4"
           />
@@ -83,7 +83,7 @@ const FILTER_TYPES = [
       {{ Math.ceil(node.frequency) }} Hz <span class="text-primary-900 text-opacity-50">{{ Math.ceil(node.frequencyPercent) }}
         %</span>
     </p>
-    <Slider
+    <slider
       v-model="node.frequencyPercent"
       max="100"
       class="h-1.5"
@@ -95,7 +95,7 @@ const FILTER_TYPES = [
         node.Q
       }}
     </p>
-    <Slider
+    <slider
       v-model="node.Q"
       :min="-10"
       :max="10"
@@ -107,7 +107,7 @@ const FILTER_TYPES = [
         node.gain.toFixed(2)
       }} dB
     </p>
-    <Slider
+    <slider
       v-model="node.gain"
       :min="-24"
       :max="24"
@@ -115,5 +115,5 @@ const FILTER_TYPES = [
       step="0.01"
       @mousedown.stop
     />
-  </CustomNode>
+  </custom-node>
 </template>

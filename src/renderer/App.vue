@@ -2,14 +2,12 @@
 import { amethyst, useState } from "@/amethyst";
 import { ContextMenu, useContextMenu } from "@/components/ContextMenu";
 import CoverArt from "@/components/CoverArt.vue";
-
 import { InspectorBar, useInspector } from "@/components/Inspector";
 import NavigationBar from "@/components/NavigationBar.vue";
 import NavigationButton from "@/components/NavigationButton.vue";
 import TopBar from "@/components/TopBar.vue";
 import PlaybackControls from "@/components/v2/PlaybackControls.vue";
 import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
-import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 import { AmethystIcon } from "@/icons";
 import { Track } from "@/logic/track";
 import { onMounted, onUnmounted, ref } from "vue";
@@ -55,7 +53,7 @@ onUnmounted(() => {
         class="p-3 absolute top-1 right-1 cursor-pointer hover:text-white"
         @click="state.state.isShowingBigCover = false"
       >
-        <AmethystIcon class="w-4 h-4" />
+        <amethyst-icon class="w-4 h-4" />
       </button>
     </div>
 
@@ -138,7 +136,7 @@ onUnmounted(() => {
               class="p-3 absolute top-3 right-5 cursor-pointer text-primary-1000 hover:text-white"
               @click="state.settings.value.showBigVectorscope = false"
             >
-              <AmethystIcon class="w-4 h-4" />
+              <amethyst-icon class="w-4 h-4" />
             </button>
             <Vectorscope
               :key="amethyst.player.nodeManager.getNodeConnectinsString()"
@@ -164,9 +162,9 @@ onUnmounted(() => {
                 class="p-3 absolute z-10 top-1 right-3 cursor-pointer text-primary-1000 hover:text-white"
                 @click="state.settings.value.showBigSpectrum = false"
               >
-                <AmethystIcon class="w-4 h-4" />
+                <amethyst-icon class="w-4 h-4" />
               </button>
-              <SpectrumAnalyzer
+              <spectrum-analyzer
               
                 :key="amethyst.player.nodeManager.getNodeConnectinsString()"
                 class="h-64 min-h-64 w-full bg-surface-1000"
@@ -185,7 +183,7 @@ onUnmounted(() => {
                 class="p-3 absolute z-10 top-1 right-3 cursor-pointer text-primary-1000 hover:text-white"
                 @click="state.settings.value.showBigVectorscope = false"
               >
-                <AmethystIcon class="w-4 h-4" />
+                <amethyst-icon class="w-4 h-4" />
               </button>
               <Vectorscope
                 :key="amethyst.player.nodeManager.getNodeConnectinsString()"
@@ -247,7 +245,7 @@ onUnmounted(() => {
           ]);"
           @click="state.settings.value.showBigVectorscope = !state.settings.value.showBigVectorscope"
         />
-        <SpectrumAnalyzer
+        <spectrum-analyzer
           v-if="state.settings.value.showSpectrum && amethyst.player.source"
           :key="amethyst.player.nodeManager.getNodeConnectinsString()"
           class="clickable h-76px w-152px min-h-76px min-w-152px bg-surface-900 hover:bg-accent hover:bg-opacity-10 duration-user-defined cursor-pointer"

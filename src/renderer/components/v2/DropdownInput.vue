@@ -25,7 +25,7 @@ const value = useVModel(props, "modelValue", emits);
     @click="showdropdown = true;"
   >
     {{ prefix }}{{ value }}{{ suffix }}
-    <Icon
+    <icon
       icon="ic:round-chevron-left"
       class="w-5 h-5 -rotate-90 transform-gpu" 
     />
@@ -33,7 +33,7 @@ const value = useVModel(props, "modelValue", emits);
       <menu
         v-if="showdropdown"
         ref="dropdown"
-        class="dropdown absolute flex flex-col justify-start top-6 -right-0  p-1 rounded-8px bg-surface-600 z-10"
+        class="dropdown absolute flex flex-col justify-start top-6 -right-0  p-1 rounded-8px bg-surface-600 z-20"
       >
         <button
           v-for="(option, i) in options"

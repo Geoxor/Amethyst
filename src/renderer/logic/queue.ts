@@ -16,6 +16,7 @@ export class Queue {
     paths 
       ? this.add(paths)
       : this.add(this.savedQueue.value);
+    
   }
 
   public getList() {

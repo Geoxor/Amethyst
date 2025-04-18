@@ -6,7 +6,7 @@ defineProps<{ node: AmethystGainNode }>();
 </script>
 
 <template>
-  <CustomNode
+  <custom-node
     :node="node"
     title="Gain"
     icon="ic:twotone-volume-up"
@@ -14,7 +14,7 @@ defineProps<{ node: AmethystGainNode }>();
     <p class="font-aseprite">
       {{ (20 * Math.log10( node.gain)).toFixed(2) }} dB
     </p>
-    <Slider
+    <slider
       v-model="node.gain"
       step="0.01"
       max="3"
@@ -22,5 +22,5 @@ defineProps<{ node: AmethystGainNode }>();
       min="0"
       @mousedown.stop
     />
-  </CustomNode>
+  </custom-node>
 </template>

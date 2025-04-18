@@ -8,14 +8,14 @@ defineProps<{ node: AmethystSpectrumNode }>();
 </script>
 
 <template>
-  <CustomNode
+  <custom-node
     :node="node"
     title="Spectrum analyzer"
     :icon="AmethystIcon"
   >
-    <SpectrumAnalyzer
+    <spectrum-analyzer
       class="h-76px w-152px"
       :node="node.post"
     />
-  </CustomNode>
+  </custom-node>
 </template>

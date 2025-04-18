@@ -230,14 +230,14 @@ onKeyStroke("Delete", () => {
     ref="nodeEditor"
     class="flex-1 h-full w-full  flex flex-col"
   >
-    <BaseToolbar>
-      <BaseToolbarButton
+    <base-toolbar>
+      <base-toolbar-button
         icon="ic:twotone-plus"
         tooltip-text="Add Node"
         @click="useContextMenu().open({x: $event.clientX, y: $event.clientY}, nodeMenu({x: $event.clientX, y: $event.clientY}));"
       />
 
-      <BaseToolbarSplitter />
+      <base-toolbar-splitter />
 
       <input
         v-model="amethyst.player.nodeManager.graphName.value"
@@ -247,42 +247,42 @@ onKeyStroke("Delete", () => {
         @keydown.stop
       >
 
-      <BaseToolbarButton
+      <base-toolbar-button
         icon="ic:twotone-fit-screen"
         tooltip-text="Fit to View"
         @click="fitToView"
       />
-      <BaseToolbarButton
+      <base-toolbar-button
         icon="ic:twotone-grid-on"
         :active="state.settings.value.isSnappingToGrid"
         tooltip-text="Snap to Grid"
         @click="state.settings.value.isSnappingToGrid = !state.settings.value.isSnappingToGrid"
       />
 
-      <BaseToolbarSplitter />
+      <base-toolbar-splitter />
 
-      <BaseToolbarButton
+      <base-toolbar-button
         icon="ic:twotone-file-open"
         tooltip-text="Open File"
         @click="handleOpenFile"
       />
 
-      <BaseToolbarButton
+      <base-toolbar-button
         icon="ic:twotone-save-as"
         tooltip-text="Save As"
         @click="handleSaveFile"
       />
       
-      <BaseToolbarSplitter />
+      <base-toolbar-splitter />
 
-      <BaseToolbarButton
+      <base-toolbar-button
         icon="ic:twotone-restart-alt"
         tooltip-text="Reset All"
         @click="handleReset"
       />
-    </BaseToolbar>
+    </base-toolbar>
 
-    <VueFlow
+    <vue-flow
       ref="dash"
       v-model="elements"
       class="p-2"
@@ -297,7 +297,7 @@ onKeyStroke("Delete", () => {
       @edge-context-menu="handleEdgeContextMenu"
       @contextmenu.capture="handleContextMenu"
     >
-      <Background
+      <background
         :size="0.5"
         :variant="BackgroundVariant.Dots"
         :pattern-color="getThemeColorHex('--surface-500')"
@@ -313,7 +313,7 @@ onKeyStroke("Delete", () => {
           :node="node"
         />
       </template>
-    </VueFlow>
+    </vue-flow>
   </div>
 </template>
 <style lang="postcss">

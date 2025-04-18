@@ -6,7 +6,7 @@ defineProps<{ node: AmethystInputNode }>();
 </script>
 
 <template>
-  <CustomNode
+  <custom-node
     :node="node"
     title="Input"
     description="From Amethyst"

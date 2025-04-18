@@ -19,11 +19,11 @@ defineProps<{ text: string, description?: string, warning?: string, icon?: any, 
             <p class="capitalize">
               {{ text }}
             </p>
-            <BaseChip
+            <base-chip
               v-if="warning"
             >
               {{ warning }}
-            </BaseChip>
+            </base-chip>
           </div>
           <p
             v-if="description"

@@ -6,7 +6,7 @@ defineProps<{ node: AmethystAudioNode }>();
 </script>
 
 <template>
-  <CustomNode
+  <custom-node
     meterless
     :node="node"
     title="Master"

@@ -13,7 +13,7 @@ function map(current: number, in_min: number, in_max: number, out_min: number, o
 </script>
 
 <template>
-  <CustomNode
+  <custom-node
     :node="node"
     title="Stereo Panner"
     icon="ic:twotone-fiber-smart-record"
@@ -21,7 +21,7 @@ function map(current: number, in_min: number, in_max: number, out_min: number, o
     <p class="font-aseprite">
       {{ map(node.pan, -1, 1,-180, 180).toFixed(2) }}°
     </p>
-    <Slider
+    <slider
       v-model="node.pan"
       step="0.001"
       max="1"
@@ -29,5 +29,5 @@ function map(current: number, in_min: number, in_max: number, out_min: number, o
       class="h-1.5"
       @mousedown.stop
     />
-  </CustomNode>
+  </custom-node>
 </template>
