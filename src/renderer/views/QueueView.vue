@@ -16,7 +16,7 @@ const scrollToCurrentElement = (track?: Track) => {
   const currentTrack = track || amethyst.player.getCurrentTrack();
   if (!currentTrack || !active) return;
 
-  const estimatedPosition = amethyst.player.queue.search(filterText.value).indexOf(currentTrack) * 28;
+  const estimatedPosition = amethyst.player.queue.search(filterText.value).indexOf(currentTrack) * 40;
   active.scrollTo({ top: estimatedPosition, behavior: "smooth" });
 };
 
