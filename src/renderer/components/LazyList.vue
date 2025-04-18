@@ -5,8 +5,10 @@ import { AmethystIcon } from "@/icons";
 import { saveArrayBufferToFile } from "@/logic/dom";
 import { convertDfpwm } from "@/logic/encoding";
 import { Track } from "@/logic/track";
+import { Icon } from "@iconify/vue";
 import CoverArt from "./CoverArt.vue";
 import { useInspector } from "./Inspector";
+
 defineProps<{tracks: Track[]}>();
 
 const isHoldingControl = useShortcuts().isControlPressed;

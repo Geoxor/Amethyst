@@ -2,7 +2,6 @@
 import { amethyst, useState } from "@/amethyst";
 import { ContextMenu, useContextMenu } from "@/components/ContextMenu";
 import CoverArt from "@/components/CoverArt.vue";
-
 import { InspectorBar, useInspector } from "@/components/Inspector";
 import NavigationBar from "@/components/NavigationBar.vue";
 import NavigationButton from "@/components/NavigationButton.vue";
