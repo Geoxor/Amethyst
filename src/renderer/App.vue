@@ -44,7 +44,7 @@ onUnmounted(() => {
         :url="ambientBackgroundImage"
         class="w-full drop-shadow-2xl z-30"
         @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-          { title: 'Export cover...', icon: AmethystIcon, action: () => amethyst.player.getCurrentTrack()?.exportCover() },
+          { title: 'Export cover...', icon: 'ic:twotone-add-photo-alternate', action: () => amethyst.player.getCurrentTrack()?.exportCover() },
         ]);"
         @click="state.state.isShowingBigCover = !state.state.isShowingBigCover"
       />
@@ -145,7 +145,7 @@ onUnmounted(() => {
               class="h-64 w-64 bg-surface-1000"
               :node="amethyst.player.nodeManager.master.pre"
               @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-                { title: 'Hide', icon: AmethystIcon, action: () => state.settings.value.showBigVectorscope = false },
+                { title: 'Hide', icon: 'ic:twotone-remove-red-eye', action: () => state.settings.value.showBigVectorscope = false },
               ]);"
             />
           </div>
@@ -170,7 +170,7 @@ onUnmounted(() => {
                 class="h-64 min-h-64 w-full bg-surface-1000"
                 :node="amethyst.player.nodeManager.master.pre"
                 @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-                  { title: 'Hide', icon: AmethystIcon, action: () => state.settings.value.showBigSpectrum = false },
+                  { title: 'Hide', icon: 'ic:twotone-remove-red-eye', action: () => state.settings.value.showBigSpectrum = false },
                 ]);"
               />
             </div>
@@ -192,7 +192,7 @@ onUnmounted(() => {
                 class="h-64 w-64 bg-surface-1000"
                 :node="amethyst.player.nodeManager.master.pre"
                 @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-                  { title: 'Hide', icon: AmethystIcon, action: () => state.settings.value.showBigVectorscope = false },
+                  { title: 'Hide', icon: 'ic:twotone-remove-red-eye', action: () => state.settings.value.showBigVectorscope = false },
                 ]);"
               />
             </div>
@@ -202,66 +202,6 @@ onUnmounted(() => {
       </div>
 
       <playback-controls v-if="state.settings.value.showPlaybackControls" />
-      <!-- 
-      <div
-        v-if="state.settings.value.showPlaybackControls"
-        class="flex gap-2 items-center p-2 relative"
-        :class="[amethyst.getCurrentPlatform() === 'mobile' && 'mb-8 pb-6']"
-      >
-        <db-meter
-          v-if="state.settings.value.showDbMeter && state.settings.value.decibelMeterSeperatePrePost && amethyst.player.source"
-          :key="amethyst.player.nodeManager.getNodeConnectinsString()"
-          class="duration-user-defined cursor-pointer"
-          :node="amethyst.player.nodeManager.master.pre"
-          pre
-          :channels="amethyst.player.getCurrentTrack()?.getChannels()"
-          @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-            { title: 'Hide decibel meter', icon: AmethystIcon, action: () => state.settings.value.showDbMeter = false },
-          ]);"
-          @click="router.currentRoute.value.name === 'audio-monitor' ? router.back() : router.push({ name: 'audio-monitor' })"
-        />
-
-        <loudness-meter 
-          v-if="state.settings.value.showLoudnessMeter && amethyst.player.source"
-          :key="amethyst.player.nodeManager.getNodeConnectinsString()"
-          :node="amethyst.player.nodeManager.master.pre"
-        />
-
-        <vectorscope
-          v-if="state.settings.value.showVectorscope && amethyst.player.source"
-          :key="amethyst.player.nodeManager.getNodeConnectinsString()"
-          :node="amethyst.player.nodeManager.master.pre"
-          :width="76"
-          :height="76"
-          class="clickable hover:bg-accent hover:bg-opacity-10 duration-user-defined cursor-pointer"
-          :class="[
-            state.settings.value.showBigVectorscope && 'border-primary-700 bg-primary-700 bg-opacity-10 hover:bg-opacity-20'
-          ]"
-          @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-            { title: 'Hide Vectorscope', icon: AmethystIcon, action: () => state.settings.value.showVectorscope = false },
-            state.settings.value.showBigVectorscope 
-              ? { title: 'Minimize', icon: AmethystIcon, action: () => state.settings.value.showBigVectorscope = false }
-              : { title: 'Expand', icon: AmethystIcon, action: () => state.settings.value.showBigVectorscope = true },
-          ]);"
-          @click="state.settings.value.showBigVectorscope = !state.settings.value.showBigVectorscope"
-        />
-        <spectrum-analyzer
-          v-if="state.settings.value.showSpectrum && amethyst.player.source"
-          :key="amethyst.player.nodeManager.getNodeConnectinsString()"
-          class="clickable h-76px w-152px min-h-76px min-w-152px bg-surface-900 hover:bg-accent hover:bg-opacity-10 duration-user-defined cursor-pointer"
-          :class="[
-            state.settings.value.showBigSpectrum && 'border-primary-700 bg-primary-700 bg-opacity-10 hover:bg-opacity-20'
-          ]"
-          :node="amethyst.player.nodeManager.master.pre"
-          @click="state.settings.value.showBigSpectrum = !state.settings.value.showBigSpectrum"
-          @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-            { title: 'Hide Spectrum', icon: AmethystIcon, action: () => state.settings.value.showSpectrum = false },
-            state.settings.value.showBigSpectrum 
-              ? { title: 'Minimize', icon: AmethystIcon, action: () => state.settings.value.showBigSpectrum = false }
-              : { title: 'Expand', icon: AmethystIcon, action: () => state.settings.value.showBigSpectrum = true },
-          ]);"
-        />
-      </div> -->
     </div>
   </div>
 </template> 

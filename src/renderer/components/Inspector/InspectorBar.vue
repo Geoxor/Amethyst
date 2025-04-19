@@ -106,7 +106,7 @@ onUnmounted(() => {
             class="w-16 rounded-4px"
             :url="currentItem.getCoverByFace(i)"
             @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-              { title: 'Export cover...', icon: AmethystIcon, action: () => currentItem.exportCover(i) },
+              { title: 'Export cover...', icon: 'ic:twotone-add-photo-alternate', action: () => currentItem.exportCover(i) },
             ]);"
           />
           <div class="flex flex-col gap-1 w-full">

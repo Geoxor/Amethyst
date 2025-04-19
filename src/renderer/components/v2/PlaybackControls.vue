@@ -10,7 +10,6 @@ import DbMeter from "@/components/visualizers/DbMeter.vue";
 import LoudnessMeter from "@/components/visualizers/LoudnessMeter.vue";
 import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
 import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
-import { AmethystIcon } from "@/icons";
 import { router } from "@/router";
 import { Icon } from "@iconify/vue";
 import { LoadStatus } from "@shared/types";
@@ -23,13 +22,13 @@ const handleContextCoverMenu = ({ x, y }: MouseEvent) => {
   useContextMenu().open({ x, y }, [
     {
       title: "Inspect",
-      icon: AmethystIcon,
+      icon: "mdi:flask",
       action: () => amethyst.player.getCurrentTrack() && useInspector().inspectAndShow(amethyst.player.getCurrentTrack()!)
     },
-    { title: "Export cover...", icon: AmethystIcon, action: () => amethyst.player.getCurrentTrack()?.exportCover() },
+    { title: "Export cover...", icon: "ic:twotone-add-photo-alternate", action: () => amethyst.player.getCurrentTrack()?.exportCover() },
     state.state.isShowingBigCover
-      ? { title: "Hide cover", icon: AmethystIcon, action: () => state.state.isShowingBigCover = false }
-      : { title: "View cover", icon: AmethystIcon, action: () => state.state.isShowingBigCover = true },
+      ? { title: "Hide cover", icon: "ic:twotone-remove-red-eye", action: () => state.state.isShowingBigCover = false }
+      : { title: "View cover", icon: "ic:twotone-remove-red-eye", action: () => state.state.isShowingBigCover = true },
   ]);
 };
 
@@ -68,7 +67,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       v-if="state.settings.value.showLoudnessMeter"
       class="flex pointer-events-auto p-2 items-center h-16 gap-2 rounded-8px w-full min-w-120px max-w-240px text-black bg-playback-controls-background"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
-        { title: 'Hide', icon: AmethystIcon, action: () => state.settings.value.showLoudnessMeter = false },
+        { title: 'Hide', icon: 'ic:twotone-remove-red-eye', action: () => state.settings.value.showLoudnessMeter = false },
       ]);"
     >
       <loudness-meter
@@ -107,7 +106,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
           pre
           :channels="amethyst.player.getCurrentTrack()?.getChannels()"
           @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
-            { title: 'Hide decibel meter', icon: AmethystIcon, action: () => state.settings.value.showDbMeter = false },
+            { title: 'Hide decibel meter', icon: 'ic:twotone-remove-red-eye', action: () => state.settings.value.showDbMeter = false },
           ]);"
           @click="router.currentRoute.value.name === 'audio-monitor' ? router.back() : router.push({ name: 'audio-monitor' })"
         />
@@ -119,7 +118,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
           post
           :channels="amethyst.player.getCurrentTrack()?.getChannels()"
           @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
-            { title: 'Hide decibel meter', icon: AmethystIcon, action: () => state.settings.value.showDbMeter = false },
+            { title: 'Hide decibel meter', icon: 'ic:twotone-remove-red-eye', action: () => state.settings.value.showDbMeter = false },
           ]);"
           @click="router.currentRoute.value.name === 'audio-monitor' ? router.back() : router.push({ name: 'audio-monitor' })"
         />
@@ -180,7 +179,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
           :width="48"
           :height="48"
           @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
-            { title: 'Hide Vectorscope', icon: AmethystIcon, action: () => state.settings.value.showVectorscope = false },
+            { title: 'Hide Vectorscope', icon: 'ic:twotone-remove-red-eye', action: () => state.settings.value.showVectorscope = false },
           ]);"
         />
       </div>
@@ -189,7 +188,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       v-if="state.settings.value.showSpectrum"
       class="flex pointer-events-auto overflow-hidden items-center h-16 gap-2 rounded-8px transition w-full min-w-80px max-w-240px text-black bg-playback-controls-background"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
-        { title: 'Hide', icon: AmethystIcon, action: () => state.settings.value.showSpectrum = false },
+        { title: 'Hide', icon: 'ic:twotone-remove-red-eye', action: () => state.settings.value.showSpectrum = false },
       ]);"
     >
       <spectrum-analyzer

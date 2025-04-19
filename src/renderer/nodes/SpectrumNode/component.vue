@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import CustomNode from "@/components/nodes/CustomNode.vue";
 import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
-import { AmethystIcon } from "@/icons";
 import { AmethystSpectrumNode } from ".";
 defineProps<{ node: AmethystSpectrumNode }>();
 
@@ -11,7 +10,7 @@ defineProps<{ node: AmethystSpectrumNode }>();
   <custom-node
     :node="node"
     title="Spectrum analyzer"
-    :icon="AmethystIcon"
+    icon="ic:twotone-graphic-eq"
   >
     <spectrum-analyzer
       class="h-76px w-152px"

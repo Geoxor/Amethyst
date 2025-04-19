@@ -3,7 +3,6 @@ import { amethyst, useShortcuts, useState } from "@/amethyst";
 import { useContextMenu } from "@/components/ContextMenu";
 import QuickMenu from "@/components/nodes/QuickMenu.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
-import { AmethystIcon } from "@/icons";
 import { AmethystAudioNode } from "@/logic/audio";
 import { IContextMenuOption } from "@/state";
 import { Icon } from "@iconify/vue";
@@ -17,7 +16,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
     { title: "Unhook", icon: "ic:twotone-link-off", action: () => props.node.disconnect() },
     { title: "Bypass", icon: "ic:twotone-power-settings-new", action: () => props.node.toggleBypass() },
     { title: "Reset", icon: "ic:twotone-restart-alt", action: () => props.node.reset() },
-    props.node.isRemovable ? { title: "Remove", icon: AmethystIcon, red: true, action: () => amethyst.player.nodeManager.removeNode(props.node) } : undefined,
+    props.node.isRemovable ? { title: "Remove", icon: "ic:twotone-remove", red: true, action: () => amethyst.player.nodeManager.removeNode(props.node) } : undefined,
   ].filter(o => !!o) as IContextMenuOption[]);
 };
 
