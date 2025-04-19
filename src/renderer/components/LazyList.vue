@@ -28,7 +28,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
     { title: "Show in Explorer...", icon: "ic:twotone-pageview", action: () => amethyst.showItem(track.path) },
     { title: "Export cover...", icon: "ic:twotone-add-photo-alternate", action: () => track.exportCover() },
     { title: "Reload metadata", icon: "mdi:flask", action: () => track.fetchAsyncData(true) },
-    { title: "Remove from queue", icon: "ic:twotone-remove", red: true, action: () => amethyst.player.queue.remove(track) },
+    { title: "Remove from queue", icon: "ic:twotone-delete", red: true, action: () => amethyst.player.queue.remove(track) },
     { title: "Delete from disk", icon: "ic:twotone-delete-forever", red: true, action: () => track.delete() },
   ]);
 };

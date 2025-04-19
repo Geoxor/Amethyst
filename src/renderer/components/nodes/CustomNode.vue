@@ -16,7 +16,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
     { title: "Unhook", icon: "ic:twotone-link-off", action: () => props.node.disconnect() },
     { title: "Bypass", icon: "ic:twotone-power-settings-new", action: () => props.node.toggleBypass() },
     { title: "Reset", icon: "ic:twotone-restart-alt", action: () => props.node.reset() },
-    props.node.isRemovable ? { title: "Remove", icon: "ic:twotone-remove", red: true, action: () => amethyst.player.nodeManager.removeNode(props.node) } : undefined,
+    props.node.isRemovable ? { title: "Remove", icon: "ic:twotone-delete", red: true, action: () => amethyst.player.nodeManager.removeNode(props.node) } : undefined,
   ].filter(o => !!o) as IContextMenuOption[]);
 };
 
