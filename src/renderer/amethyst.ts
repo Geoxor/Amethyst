@@ -243,7 +243,7 @@ export class Amethyst extends AmethystBackend {
       }));
       window.electron.ipcRenderer.on<(string)[]>("play-folder", paths => amethyst.player.queue.add(flattenArray(paths)));
   
-      this.store.settings.value.fetchMetadataOnStartup && setTimeout(() => this.player.queue.getList().forEach(track => track.fetchAsyncData()), 5000);
+      this.store.settings.value.fetchMetadataOnStartup && setTimeout(() => this.player.queue.fetchAsyncData(), 1000);
 
       // #region move this to the discord plugin
       let richPresenceTimer: NodeJS.Timer | undefined;

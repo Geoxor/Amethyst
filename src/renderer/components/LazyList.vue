@@ -149,9 +149,20 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           </div>
 
           <div class="flex-none w-[50px]">
-            <amethyst-icon
-              v-if="item.isLoading || item.deleted || item.hasErrored"
-              class="h-6 w-6 rounded-md"
+            <icon
+              v-if="item.isLoading"
+              icon="line-md:loading-twotone-loop"
+              class="w-6 h-6 min-w-6 min-h-6 animate-spin"
+            />
+            <icon
+              v-else-if="item.hasErrored"
+              icon="ic:twotone-error"
+              class="w-6 h-6 min-w-6 min-h-6"
+            />
+            <icon
+              v-else-if="item.deleted"
+              icon="ic:twotone-link-off"
+              class="w-6 h-6 min-w-6 min-h-6"
             />
             <cover-art
               v-else
