@@ -18,6 +18,7 @@ try {
 	console.log(fs.statSync(METADATA_CACHE_PATH));
 } catch (e) {
 	fs.promises.mkdir(METADATA_CACHE_PATH, {recursive: true});
+	console.log(`Created metadata cache folder at ${METADATA_CACHE_PATH}`);
 }
 
 export const icon = () => path.join(RESOURCES_PATH, "icon.png");

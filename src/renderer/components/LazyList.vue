@@ -98,54 +98,16 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           @click="isHoldingControl ? amethyst.showItem(item.path) : amethyst.player.play(item)"
         >
           <div class="flex-none w-[40px]">
-            <div 
+            <icon
               v-if="amethyst.player.getCurrentTrack()?.path == item.path"
-              class="h-5 w-5"
-            >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M18.109 10.336L9.109 4.336C8.775 4.113 8.388 4 8 4C7.676 4 7.352 4.078 7.056 4.237C6.406 4.585 6 5.262 6 6V18C6 18.738 6.406 19.415 7.056 19.763C7.352 19.922 7.676 20 8 20C8.388 20 8.775 19.887 9.11 19.664L18.11 13.664C18.666 13.293 19 12.669 19 12C19 11.331 18.666 10.707 18.109 10.336Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </div>
-            <div 
+              icon="ic:round-play-arrow"
+              class="w-5 h-5 min-w-5 min-h-5"
+            />
+            <icon
               v-else
-              class="h-5 w-5"
-            >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M12.7557 4.14262L10.5173 1.88262C10.2323 1.59512 9.76817 1.59512 9.48317 1.88262L7.244 4.14262C6.92984 4.46012 7.15484 5.00012 7.60234 5.00012H12.3982C12.8448 5.00012 13.0698 4.46012 12.7557 4.14262Z"
-                  fill="#66699B"
-                />
-                <path
-                  d="M7.244 15.8575L9.48234 18.1175C9.76734 18.405 10.2315 18.405 10.5165 18.1175L12.7548 15.8575C13.0698 15.54 12.8448 15 12.3973 15H7.60234C7.15484 15 6.92984 15.54 7.244 15.8575Z"
-                  fill="#66699B"
-                />
-                <path
-                  opacity="0.35"
-                  d="M16.25 10.8335H3.75C3.06 10.8335 2.5 11.3935 2.5 12.0835C2.5 12.7735 3.06 13.3335 3.75 13.3335H16.25C16.94 13.3335 17.5 12.7735 17.5 12.0835C17.5 11.3935 16.94 10.8335 16.25 10.8335Z"
-                  fill="#66699B"
-                />
-                <path
-                  opacity="0.35"
-                  d="M16.25 6.6665H3.75C3.06 6.6665 2.5 7.2265 2.5 7.9165C2.5 8.6065 3.06 9.1665 3.75 9.1665H16.25C16.94 9.1665 17.5 8.6065 17.5 7.9165C17.5 7.2265 16.94 6.6665 16.25 6.6665Z"
-                  fill="#66699B"
-                />
-              </svg>
-            </div>
+              icon="ic:baseline-drag-handle"
+              class="w-5 h-5 min-w-5 min-h-5"
+            />
           </div>
 
           <div class="flex-none w-[50px]">
@@ -188,7 +150,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
               @click.stop.prevent="amethyst.showItem(item.path)"
             >
               <icon
-                icon="ic:twotone-folder-open"
+                icon="ic:baseline-folder-open"
                 class="h-4 w-4"
               />
             </button>
@@ -216,7 +178,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
 
           <div class="flex-none w-[70px] pl-4">
             <icon
-              icon="ic:twotone-favorite"
+              icon="ic:baseline-favorite-border"
               class="h-4 w-4"
             />
           </div>
