@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { amethyst, useShortcuts } from "@/amethyst";
 import { useContextMenu } from "@/components/ContextMenu";
-import { AmethystIcon } from "@/icons";
 import { saveArrayBufferToFile } from "@/logic/dom";
 import { convertDfpwm } from "@/logic/encoding";
 import { Track } from "@/logic/track";
@@ -16,9 +15,9 @@ const isHoldingControl = useShortcuts().isControlPressed;
 // Context Menu options for this component 
 const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
   useContextMenu().open({x, y}, [
-    { title: "Play", icon: AmethystIcon, action: () => amethyst.player.play(track) },
-    { title: "Inspect", icon: AmethystIcon, action: () => useInspector().inspectAndShow(track) },
-    { title: "Encode to .dfpwm...", icon: AmethystIcon, action: async () => {
+    { title: "Play", icon: "ic:round-play-arrow", action: () => amethyst.player.play(track) },
+    { title: "Inspect", icon: "mdi:flask", action: () => useInspector().inspectAndShow(track) },
+    { title: "Encode to .dfpwm...", icon: "ic:twotone-qr-code", action: async () => {
       saveArrayBufferToFile(
         await convertDfpwm(await track.getArrayBuffer()), 
         {
@@ -26,11 +25,11 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           extension: "dfpwm"
       });
     }},
-    { title: "Show in Explorer...", icon: AmethystIcon, action: () => amethyst.showItem(track.path) },
-    { title: "Export cover...", icon: AmethystIcon, action: () => track.exportCover() },
-    { title: "Reload metadata", icon: AmethystIcon, action: () => track.fetchAsyncData(true) },
-    { title: "Remove from queue", icon: AmethystIcon, red: true, action: () => amethyst.player.queue.remove(track) },
-    { title: "Delete from disk", icon: AmethystIcon, red: true, action: () => track.delete() },
+    { title: "Show in Explorer...", icon: "ic:twotone-pageview", action: () => amethyst.showItem(track.path) },
+    { title: "Export cover...", icon: "ic:twotone-add-photo-alternate", action: () => track.exportCover() },
+    { title: "Reload metadata", icon: "mdi:flask", action: () => track.fetchAsyncData(true) },
+    { title: "Remove from queue", icon: "ic:twotone-remove", red: true, action: () => amethyst.player.queue.remove(track) },
+    { title: "Delete from disk", icon: "ic:twotone-delete-forever", red: true, action: () => track.delete() },
   ]);
 };
 
