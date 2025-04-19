@@ -9,6 +9,7 @@ import WindiCSS from "vite-plugin-windicss";
 const PACKAGE_ROOT = __dirname;
 
 export default defineConfig({
+	
 	mode: process.env.MODE,
 	root: PACKAGE_ROOT,
 	define: {
@@ -18,6 +19,7 @@ export default defineConfig({
 		alias: {
 			"@/": `${join(PACKAGE_ROOT, "./")}/`,
 			"@shared/": `${join(PACKAGE_ROOT, "../shared")}/`,
+			util: "util/",
 		},
 	},
 	plugins: [
@@ -26,7 +28,7 @@ export default defineConfig({
 
     }),
 		nodePolyfills({
-			include: ["crypto", "buffer"],
+			include: ["crypto", "buffer", "path"],
 			globals: {
 				Buffer: true,
 			}

@@ -7,7 +7,6 @@ import NavigationBar from "@/components/NavigationBar.vue";
 import NavigationButton from "@/components/NavigationButton.vue";
 import TopBar from "@/components/TopBar.vue";
 import PlaybackControls from "@/components/v2/PlaybackControls.vue";
-import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
 import { AmethystIcon } from "@/icons";
 import { Track } from "@/logic/track";
 import { onMounted, onUnmounted, ref } from "vue";
@@ -128,75 +127,6 @@ onUnmounted(() => {
 
         <div class="flex flex-col w-full">
           <router-view class="overflow-hidden disable-select no-drag" />
-          <div
-            v-if="(state.settings.value.showBigVectorscope && !state.settings.value.showBigSpectrum) && amethyst.player.source"
-            class="absolute bottom-0 right-0 z-10 opacity-95 p-2"
-          >
-            <button
-              class="p-3 absolute top-3 right-5 cursor-pointer text-primary-1000 hover:text-white"
-              @click="state.settings.value.showBigVectorscope = false"
-            >
-              <amethyst-icon class="w-4 h-4" />
-            </button>
-            <Vectorscope
-              :key="amethyst.player.nodeManager.getNodeConnectinsString()"
-              :width="256"
-              :height="256"
-              class="h-64 w-64 bg-surface-1000"
-              :node="amethyst.player.nodeManager.master.pre"
-              @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-                { title: 'Hide', icon: 'ic:twotone-remove-red-eye', action: () => state.settings.value.showBigVectorscope = false },
-              ]);"
-            />
-          </div>
-          <div
-            v-if="(state.settings.value.showBigSpectrum && state.settings.value.showBigVectorscope) || (!state.settings.value.showBigVectorscope && state.settings.value.showBigSpectrum)"
-            class="flex justify-end w-full gap-2"
-            :class="[(state.settings.value.showBigSpectrum || state.settings.value.showBigVectorscope) && 'p-2']"
-          >
-            <div
-              v-if="state.settings.value.showBigSpectrum && amethyst.player.source"
-              class="w-full relative"
-            >
-              <button
-                class="p-3 absolute z-10 top-1 right-3 cursor-pointer text-primary-1000 hover:text-white"
-                @click="state.settings.value.showBigSpectrum = false"
-              >
-                <amethyst-icon class="w-4 h-4" />
-              </button>
-              <spectrum-analyzer
-              
-                :key="amethyst.player.nodeManager.getNodeConnectinsString()"
-                class="h-64 min-h-64 w-full bg-surface-1000"
-                :node="amethyst.player.nodeManager.master.pre"
-                @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-                  { title: 'Hide', icon: 'ic:twotone-remove-red-eye', action: () => state.settings.value.showBigSpectrum = false },
-                ]);"
-              />
-            </div>
-
-            <div
-              v-if="state.settings.value.showBigVectorscope && amethyst.player.source"
-              class="relative"
-            >
-              <button
-                class="p-3 absolute z-10 top-1 right-3 cursor-pointer text-primary-1000 hover:text-white"
-                @click="state.settings.value.showBigVectorscope = false"
-              >
-                <amethyst-icon class="w-4 h-4" />
-              </button>
-              <Vectorscope
-                :key="amethyst.player.nodeManager.getNodeConnectinsString()"
-                :width="256"
-                :height="256"
-                class="h-64 w-64 bg-surface-1000"
-                :node="amethyst.player.nodeManager.master.pre"
-                @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-                  { title: 'Hide', icon: 'ic:twotone-remove-red-eye', action: () => state.settings.value.showBigVectorscope = false },
-                ]);"
-              />
-            </div>
-          </div>
         </div>
         <inspector-bar v-if="useInspector().state.isVisible" />
       </div>
