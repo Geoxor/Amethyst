@@ -19,7 +19,7 @@
   "menu.view.zoom_out": "Menos zoom",
   "menu.view.reset_zoom": "Reiniciar zoom",
   "menu.view.settings": "Configurações",
-  "menu.view.show_developer_tools": "Mostrar ferramentas de desenvolvedor",
+  "menu.view.show_developer_tools": "Ferramentas de desenvolvedor",
   
   "menu.about": "Sobre",
   "menu.about.documentation": "Documentações...",
@@ -29,13 +29,13 @@
   "search.placeholder": "Buscar",
 
   "settings.local_sources.title": "Fontes locais",
-  "settings.local_sources.description": "Adicione pastas locais em sua biblioteca do Amethyst, elas vão atualizar toda hora em que o Amethyst detectar arquivos novos nessas pastas",
+  "settings.local_sources.description": "Adicionar pastas locais em sua biblioteca do Amethyst, elas vão atualizar toda hora em que o Amethyst detectar arquivos novos nessas pastas",
   "settings.local_sources.add_folder": "Adicionar pasta",
   "settings.local_sources.view": "Visualizar",
   "settings.media_source_type.local_folder": "Pasta local",
 
   "settings.appearance.title": "Aparência",
-  "settings.appearance.description": "Customizar plano de fundo, temas e acessibilidade",
+  "settings.appearance.description": "Customize o plano de fundo, temas e acessibilidade",
   
   "settings.performance.title": "Performance",
   "settings.performance.description": "Ajuste o VSync, animações e renderizações",
@@ -53,45 +53,47 @@
   "settings.keybinds.description": "Personalize atalhos de teclado para a sua experiência",
   
   "settings.integrations.title": "Integrações",
-  "settings.integrations.description": "Gerencie Discord e outras integrações",
+  "settings.integrations.description": "Gerencie o Discord e outras integrações",
   
   "settings.font_weight.title": "Espessura da fonte",
-  "settings.font_weight.description": "Quão espesso a fonte estará globalmente na interface",
+  "settings.font_weight.description": "Alterar a espessura da fonte globalmente na interface",
 
   "settings.application.title": "Aplicativo",
   "settings.application.description": "Gerencie atualizações e preferências de linguagem",
 
   "settings.animation_duration.title": "Duração de animações",
-  "settings.animation_duration.description": "Quão prolongado as animações irão durar nas interfaces do Amethyst",
+  "settings.animation_duration.description": "Alterar a velocidade das animações na interface do Amethyst",
 
   "settings.ambient_background.title": "Plano de fundo ambiente",
-  "settings.ambient_background.description": "Expõe uma sobreposição da arte da capa da musica atualmente em reprodução na interface",
+  "settings.ambient_background.description": "Exibir uma sobreposição da arte da capa da musica atualmente em reprodução na interface",
+  "settings.ambient_background.spin.title": "Rotação",
+  "settings.ambient_background.spin.description": "Rodar a imagem de fundo em um movimento circular constante",
   "settings.ambient_background.spin_speed.title": "Velocidade de rotação",
-  "settings.ambient_background.spin_speed.description": "Quão rápido a imagem de fundo irá girar",
+  "settings.ambient_background.spin_speed.description": "Alterar a velocidade de rotação da imagem de fundo",
   "settings.ambient_background.opacity.title": "Transparência",
-  "settings.ambient_background.opacity.description": "Quão visível a arte ambiente estará sobre a interface",
+  "settings.ambient_background.opacity.description": "Alterar a transparência da arte ambiente sobre a interface",
   "settings.ambient_background.blur_strength.title": "Intensidade do desfoque",
-  "settings.ambient_background.blur_strength.description": "Quanto desfoque aplicar em px",
+  "settings.ambient_background.blur_strength.description": "Alterar a quantidade de desfoque em pixels (px)",
   "settings.ambient_background.zoom.title": "Zoom",
-  "settings.ambient_background.zoom.description": "Ajuste o tamanho da arte ambiente, use para ter certeza que a arte cubra a tela inteira",
+  "settings.ambient_background.zoom.description": "Ajustar o tamanho da arte ambiente, tenha certeza que a arte cubra a tela inteira",
 
   "settings.ambient_background.blending_mode.title": "Modo de mesclagem",
-  "settings.ambient_background.blending_mode.description": "Mude o quanto que a arte ambiente se mescla com o plano de fundo",
+  "settings.ambient_background.blending_mode.description": "Alterar a maneira que a arte ambiente se mesclará com o plano de fundo",
 
   "settings.playback_controls.title": "Controles de reprodução",
-  "settings.playback_controls.description": "Exibe os controles de reprodução na parte inferior da interface",
+  "settings.playback_controls.description": "Exibir os controles de reprodução na parte inferior da interface",
 
   "settings.minimalist_mode.title": "Modo minimalista",
-  "settings.minimalist_mode.description": "Tenha uma interface menos detalhada para um visual mais limpo",
+  "settings.minimalist_mode.description": "Tenha uma interface menos detalhada para um visual limpo",
 
   "settings.neon_mode.title": "Modo neon",
-  "settings.neon_mode.description": "Mude o estilo de alguns elementos da interface para um design de neon luminoso",
+  "settings.neon_mode.description": "Alterar o estilo da interface para um design de neon brilhante",
 
   "settings.cover_art.title": "Arte da capa",
-  "settings.cover_art.description": "Exibe a arte da capa perto dos controles de reprodução na parte inferior da interface",
+  "settings.cover_art.description": "Exibir a arte da capa perto dos controles de reprodução na parte inferior da interface",
 
   "settings.debug_stats.title": "Estatísticas de depuração",
-  "settings.debug_stats.description": "Expõe números como amostras, FPS (Frames Por Segundo), uso de CPU e mais na parte superior da interface",
+  "settings.debug_stats.description": "Exibir números como amostras, FPS (Frames Por Segundo), uso de CPU e mais na parte superior da interface",
   
   "settings.discord_rpc.description" : "O Discord Rich Presence permite aos usuários compartilharem suas atividades atuais no Amethyst com o Discord. Quando ativado, o recurso RPC atualiza o status do usuário para mostrar a versão do Amethyst, musica ou playlist atualmente em reprodução, junto com o nome do artista e do álbum",
   
@@ -99,22 +101,22 @@
   "settings.auto_update.description": "Verificar e baixar atualizações automaticamente ao iniciar o Amethyst",
   
   "settings.launch_on_startup.title": "Abrir ao iniciar",
-  "settings.launch_on_startup.description": "Abrir Amethyst quando o seu sistema iniciar",
+  "settings.launch_on_startup.description": "Abrir Amethyst automaticamente quando o seu sistema iniciar",
 
   "settings.language.title": "Linguagem",
-  "settings.language.description": "Mude a linguagem do aplicativo",
+  "settings.language.description": "Alterar a linguagem do aplicativo",
 
   "settings.fft_size.title": "Tamanho do FFT",
-  "settings.fft_size.description": "Mude o tamanho da janela do Fast Fourier Transform, valores maiores resultam em dados de alta resolução mas com mais latência",
+  "settings.fft_size.description": "Alterar o tamanho da janela do Fast Fourier Transform, valores maiores resultam em dados de alta resolução ao custo de latência",
 
   "settings.decibel_meter.title": "Medidores de decibéis",
-  "settings.decibel_meter.description": "Mostrar uma representação visual do sinal de áudio em decibéis (dB). Exibe o nível sonóro atual do sinal de áudio em um gráfico, em que o eixo Y representa o nível sonóro em decibéis. O medidor de decibéis pode ser usado para monitorar a altura geral do sinal de áudio e para garantir que está entre níveis de audição seguros",
+  "settings.decibel_meter.description": "Mostrar uma representação visual do sinal de áudio em decibéis (dB). Exibe o nível sonoro atual do sinal de áudio em um gráfico, em que o eixo (Y) representa o nível sonoro em decibéis. O medidor de decibéis pode ser usado para monitorar a altura geral do sinal de áudio e para garantir que está entre níveis de audição seguros",
   "settings.decibel_meter.separate_pre_post.title": "Separar pré (PRE) e pós (POST)",
   "settings.decibel_meter.separate_pre_post.description": "Mostrar medidores de decibéis individuais, um para o sinal antes de entrar em um nódulo e um após",
   "settings.decibel_meter.minimum_db.title": "dB Mínimo",
-  "settings.decibel_meter.minimum_db.description": "Mude o valor mínimo em que o medidor de decibéis irá registrar",
+  "settings.decibel_meter.minimum_db.description": "Alterar o valor mínimo em que o medidor de decibéis irá registrar",
   "settings.decibel_meter.smoothing_duration.title" : "Duração da suavização",
-  "settings.decibel_meter.smoothing_duration.description" : "Suavise os medidores de decibéis entre quadros de dados (útil quando for suavizar tamanhos pequenos de FFT que criam tremores)",
+  "settings.decibel_meter.smoothing_duration.description" : "Suavizar os medidores de decibéis entre seus quadros de dados (útil quando utilizar tamanhos pequenos de FFT que causam tremores)",
 
   "settings.loudness_meter.title": "Medidor de intensidade sonora",
   "settings.loudness_meter.description": "Mostrar uma representação visual do nível de intensidade sonora percepcionada do sinal de áudio. O medidor de intensidade sonora é medido em Loudness Units Full Scale (LUFS), que é uma unidade de medida padronizada para intensidade sonora percepcionada",
@@ -122,24 +124,29 @@
   "settings.vectorscope.title": "Vectorscópio",
   "settings.vectorscope.description": "Mostrar uma representação visual do sinal de áudio estéreo. Exibe a fase relativa e o espaço estéreo utilizando um gráfico circular. O vectorscópio pode ser usado para verificar a imagem estéreo e a relação de fase do sinal de áudio",
   "settings.vectorscope.lissajous.title": "Lissajous",
-  "settings.vectorscope.lissajous.description": "Mostrar o vectorscópio diagonalmente em um padrão lissajous",
+  "settings.vectorscope.lissajous.description": "Mostrar o vectorscópio diagonalmente em um padrão Lissajous",
   "settings.vectorscope.line_thickness.title": "Espessura da linha",
-  "settings.vectorscope.line_thickness.description": "Mude o quão espesso / óbvio as linhas são",
+  "settings.vectorscope.line_thickness.description": "Alterar a espessura das linhas",
 
   "settings.spectrum_analyser.title": "Analisador de espectro",
-  "settings.spectrum_analyser.description": "Mostrar uma representação visual das frequências do sinal de áudio. Exibe o espectro das frequências do sinal de áudio em um gráfico, em que o eixo X representa a faixa de frequência e o eixo Y representa a amplitude. O analisador pode ser usado para observar o balanceamento das frequências do sinal de áudio e indentificar picos ou quedas",
+  "settings.spectrum_analyser.description": "Mostrar uma representação visual das frequências do sinal de áudio. Exibe o espectro das frequências do áudio em um gráfico, em que o eixo (X) representa a frequência e o eixo (Y) representa a amplitude. Este analisador é usado para observar o balanceamento das frequências do sinal de áudio e identificar picos ou quedas",
   "settings.spectrum_analyser.logarithmic_spectrum.title": "Espectro logarítmico",
-  "settings.spectrum_analyser.logarithmic_spectrum.description": "Utilize a escala logarítmica para as frequências",
+  "settings.spectrum_analyser.logarithmic_spectrum.description": "Utilizar a escala logarítmica para as frequências do espectro",
+  "settings.spectrum_analyser.smoothing_duration.title" : "Duração da suavização",
+  "settings.spectrum_analyser.smoothing_duration.description" : "Suavizar o espectro entre seus quadros de dados (útil quando utilizar tamanhos pequenos de FFT que causam tremores)",
 
   "settings.vsync.title": "VSync",
-  "settings.vsync.description": "Restringir a taxa de quadros da interface de usuário do Amethyst para a taxa de atualização do monitor ativo",
-  "settings.vsync.warning": "Reinício necessário",
+  "settings.vsync.description": "Restringir a taxa de quadros da interface de usuário para a taxa de atualização do monitor",
+  "settings.vsync.warning": "Reinicialização necessária",
+
+  "settings.fetch_metadata_on_startup.title": "Buscar metadados automaticamente",
+  "settings.fetch_metadata_on_startup.description": "Buscar os metadados de todas as músicas na lista de reprodução ao iniciar o Amethyst, esta opção está atrasada em 1 segundo (experimental)",
 
   "settings.pause_visuals.title": "Pausar visuais quando desfocado",
   "settings.pause_visuals.description": "Pausar visualizadores quando desfocar a janela do Amethyst a fim de reduzir problemas de performance (útil para jogos e multi-tarefas)",
 
   "settings.import_export.title": "Configurações de importação e exportação",
-  "settings.import_export.description": "Faça um backup das suas configurações em um arquivo ou importe configurações existêntes",
+  "settings.import_export.description": "Realizar um backup das suas configurações em um arquivo ou importe configurações existentes",
   "settings.import_export.import": "Importar",
   "settings.import_export.export": "Exportar",
 
