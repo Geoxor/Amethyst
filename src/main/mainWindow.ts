@@ -66,7 +66,7 @@ const notifications: Record<string, Function> = {
 
 export class MainWindow {
 	public readonly window: BrowserWindow;
-	public updateCheckerTimer: NodeJS.Timer | undefined;
+	public updateCheckerTimer: NodeJS.Timeout | undefined;
 	private windowState = windowStateKeeper({
 		defaultWidth: 1280,
 		defaultHeight: 720,
