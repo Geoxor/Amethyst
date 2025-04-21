@@ -44,6 +44,7 @@ const state = useState();
             :min="-90"
             :max="-6"
             :step="1"
+            suffix="dB"
           />
         </settings-setting>
         <settings-setting
@@ -69,6 +70,7 @@ const state = useState();
             :min="0"
             :max="300"
             :step="10"
+            suffix="ms"
           />
         </settings-setting>
       </div>
@@ -112,6 +114,7 @@ const state = useState();
             :min="0.1"
             :max="10"
             :step="1"
+            suffix="px"
           />
         </settings-setting>
         <settings-setting
@@ -159,6 +162,7 @@ const state = useState();
             :min="0"
             :max="1"
             :step="0.01"
+            suffix="ms"
           />
         </settings-setting>
         <settings-setting

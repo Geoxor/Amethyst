@@ -71,7 +71,7 @@ onUnmounted(() => {
         ]" 
         :style="`
         animation-play-state: ${state.settings.value.pauseVisualsWhenUnfocused && !state.state.isFocused ? 'paused' : 'running'};
-        animation-duration: ${65 - Math.round(1 + ((state.settings.value.ambientBackgroundSpinSpeed - 1) * 63 / 99))}s;
+        animation-duration: ${state.settings.value.ambientBackgroundSpinSpeed}s;
         opacity: ${state.settings.value.ambientBackgroundOpacity}%;
         filter: blur(${state.settings.value.ambientBackgroundBlurStrength}px);
       `"

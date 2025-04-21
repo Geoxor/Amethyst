@@ -20,6 +20,7 @@ const state = useState();
       :min="0"
       :max="300"
       :step="10"
+      suffix="ms"
     />
   </settings-setting>
   <settings-setting
@@ -72,8 +73,9 @@ const state = useState();
           <slider-input
             v-model="state.settings.value.ambientBackgroundSpinSpeed"
             :min="0"
-            :max="100"
-            :step="1"
+            :max="60"
+            :step="0.5"
+            suffix="sec/spin"
           />
         </settings-setting>
         <settings-setting
@@ -87,6 +89,7 @@ const state = useState();
             :min="0"
             :max="100"
             :step="2.5"
+            suffix="%"
           />
         </settings-setting>
         <settings-setting
@@ -100,6 +103,7 @@ const state = useState();
             :min="0"
             :max="128"
             :step="4"
+            suffix="px"
           />
         </settings-setting>
         <settings-setting
@@ -113,6 +117,7 @@ const state = useState();
             :min="50"
             :max="250"
             :step="10"
+            suffix="%"
           />
         </settings-setting>
       </div>

@@ -88,7 +88,7 @@ export class MainWindow {
 			frame: false,
 			webPreferences: {
 				preload: path.join(__dirname, "preload.js"),
-				webSecurity: true,
+				webSecurity: false,
 				nodeIntegration: true,
 			},
 		});
