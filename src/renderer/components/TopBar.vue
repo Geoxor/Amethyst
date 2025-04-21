@@ -191,7 +191,7 @@ provide("menuGroupRef", menuGroupRef);
         v-if="amethyst.IS_DEV"
         :color="state.state.isFocused ? undefined : 'bg-gray-500'"
       >
-        development
+        DEVELOPMENT
       </base-chip>
       <title-text
         class="opacity-50 font-normal capitalize"
