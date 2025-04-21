@@ -46,7 +46,7 @@ onBeforeUnmount(() => {
     class="contents"
   >
     <resizable-div
-      class="min-w-min"
+      class="min-w-min max-w-400px"
       container-class="flex flex-col"
       name="settings-navigation"
       side="right"
