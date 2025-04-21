@@ -155,7 +155,7 @@ const state = useState();
           subsetting
           :title="$t('settings.minimalist_mode.hide_category_titles.title')"
           :description="$t('settings.minimalist_mode.hide_category_titles.description')"
-          icon="ic:twotone-text-fields"
+          icon="ic:twotone-format-strikethrough"
         >
           <toggle-switch
             v-model="state.settings.value.hideCategoryTitles" 
