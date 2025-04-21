@@ -15,7 +15,7 @@ const isActive = computed(() => route.name?.toString().startsWith(props.routeNam
 <template>
   <button
     :class="[isActive && 'active', amethyst.store.settings.value.neonMode && 'neonMode']"
-    class="duration-user-defined flex relative gap-4 cursor-pointer bg-transparent text-text_title min-h-52px items-center py-2 px-4 rounded-8px"
+    class="duration-user-defined flex relative gap-4 cursor-pointer bg-transparent text-text_title max-h-52px items-center py-2 px-4 rounded-8px"
     @click="$router.push({ name: routeName })"
   >
     <icon
