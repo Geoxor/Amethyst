@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Slider from "@vueform/slider";
 import { useVModel } from "@vueuse/core";
+import BaseChip from "../BaseChip.vue";
 
 const props = defineProps<{ modelValue: number, step: number, prefix?: string, suffix: string, max: number, min: number}>();
 const emits = defineEmits(["update:modelValue"]);
@@ -16,9 +17,13 @@ const handleMouseScroll = (e: WheelEvent) => {
 </script>
 
 <template>
-  <p class="text-13px font-weight-user-defined">
-    {{ prefix }}{{ value }}{{ suffix }}
-  </p>
+  <base-chip color="accent">
+    <p class="text-10px font-weight-user-defined lowercase">
+      {{ prefix }}
+      {{ value }}
+      {{ suffix }}
+    </p>
+  </base-chip>
   <div
     class="slider py-3"
     @wheel.prevent="handleMouseScroll"
@@ -26,11 +31,11 @@ const handleMouseScroll = (e: WheelEvent) => {
     <slider
       v-model="value"
       v-bind="$attrs"
-      :min="props.min"
-      :max="props.max"
+      :min="min"
+      :max="max"
+      :step="step"
       show-tooltip="drag"
       tooltip-position="bottom"
-      :step="step"
     />
   </div>
 </template>
@@ -41,6 +46,9 @@ const handleMouseScroll = (e: WheelEvent) => {
   --slider-handle-width: 8px;
   --slider-handle-height: 20px;
   --slider-handle-bg: rgba(var(--text-title));
+  --slider-tooltip-bg: rgba(var(--accent));
+  --slider-focus-bg: rgba(var(--accent));
+  --slider-handle-ring-color: rgba(var(--accent), 0.25);
 }
 
 .slider-connect {
