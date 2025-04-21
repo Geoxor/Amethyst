@@ -35,9 +35,7 @@ const hasSubsetting = () => {
       <base-chip
         v-if="warning"
       >
-        <p class=" text-11px font-weight-user-defined">
-          {{ warning }}
-        </p>
+        {{ warning }}
       </base-chip>
       <slot />
     </div>
