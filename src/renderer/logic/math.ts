@@ -3,21 +3,37 @@ export const getLogIndex = (value: number, min: number, max: number) => {
   return min * (max / min) ** exp;
 };
 
-export const scaleLog = (array: Uint8Array): Uint8Array => {
-  const logArray = [];
+export const logParabolicSpectrum = (
+  dataArray: Uint8Array,
+  outputLength: number
+): Float32Array => {
+  const maxIndex = dataArray.length - 1;
+  const result = new Float32Array(outputLength);
 
-  for (let i = 1; i < array.length - 1; i++) {
-    const idx = getLogIndex(i, 1, array.length - 1);
-    const low = ~~idx;
-    const high = Math.ceil(idx);
-    const lv = array[low];
-    const hv = array[high];
-    const w = (idx - low) / (high - low);
-    const v = lv + (hv - lv) * w;
-    logArray.push(v);
+  for (let i = 0; i < outputLength; i++) {
+    // logarithmic virtual index
+    const logIndex = Math.pow(maxIndex, i / (outputLength - 1));
+
+    // floor to get base index, get fraction for interpolation
+    const base = Math.floor(logIndex);
+    const t = logIndex - base;
+
+    // get 3 y values for interpolation
+    const y0 = dataArray[Math.max(base - 1, 0)];
+    const y1 = dataArray[base];
+    const y2 = dataArray[Math.min(base + 1, maxIndex)];
+
+    // parabolic interpolation
+    const a = (y0 - 2 * y1 + y2) / 2;
+    const b = (y2 - y0) / 2;
+    const c = y1;
+
+    const y = a * t * t + b * t + c;
+
+    result[i] = y;
   }
 
-  return new Uint8Array(logArray);
+  return result;
 };
 
 /**
@@ -50,28 +66,6 @@ export const flattenArray = <T>(array: T[]): T[] => {
     else
       return acc.concat(item);
   }, [] as T[]);
-};
-
-export const interpolateArray = <T>(data: T[], fitCount: number): T[] => {
-  const linearInterpolate = function (before: any, after: any, atPoint: number) {
-    return before + (after - before) * atPoint;
-  };
-
-  const newData = [];
-  const springFactor = (data.length - 1) / (fitCount - 1);
-
-  newData[0] = data[0]; // for new allocation
-
-  for (let i = 1; i < fitCount - 1; i++) {
-    const tmp = i * springFactor;
-    const before = ~~Math.floor(tmp);
-    const after = ~~Math.ceil(tmp);
-    const atPoint = tmp - before;
-    newData[i] = linearInterpolate(data[before], data[after], atPoint);
-  }
-  newData[fitCount - 1] = data[data.length - 1]; // for new allocation
-
-  return newData;
 };
 
 export const percentToLogValue = (percentage: number, min: number, max: number) => {

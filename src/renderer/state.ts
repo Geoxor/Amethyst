@@ -29,7 +29,6 @@ export class Store {
 		showSpectrum: true,
 		showBigSpectrum: false,
 		spectrumFftSize: 8192,
-		useLogarithmicSpectrum: true,
 		spectrumSmoothing: 0.5,
 		showVectorscope: true,
 		showDbMeter: true,

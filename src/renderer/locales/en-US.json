@@ -132,8 +132,6 @@
 
   "settings.spectrum_analyser.title": "Spectrum analyzer",
   "settings.spectrum_analyser.description": "Displays a visual representation of the frequency content of the audio signal. It displays the frequency spectrum of the audio signal using a graph, where the x-axis represents the frequency range and the y-axis represents the amplitude. The spectrum analyzer can be used to analyze the frequency balance of the audio signal and to identify frequency peaks or notches",
-  "settings.spectrum_analyser.logarithmic_spectrum.title": "Logarithmic spectrum",
-  "settings.spectrum_analyser.logarithmic_spectrum.description": "Use logarithmic scaling for frequencies",
   "settings.spectrum_analyser.smoothing_duration.title" : "Smoothing duration",
   "settings.spectrum_analyser.smoothing_duration.description" : "Smoothly animate between data-frames (useful for smoothing out small FFT sizes that create jitter)",
 

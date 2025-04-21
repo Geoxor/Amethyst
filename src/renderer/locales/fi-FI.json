@@ -75,8 +75,6 @@
   "settings.vectorscope.lissajous.description": "Näytä diagonaalisesti lissajous-kuviona",
   "settings.spectrum_analyser.title": "Spektrianalysaattori",
   "settings.spectrum_analyser.description": "Näyttää äänisignaalin taajuussisällön visuaalisen esityksen. Se näyttää audiosignaalin taajuusspektrin kuvaajan avulla, jossa x-akseli edustaa taajuusaluetta ja y-akseli amplitudia. Spektrianalysaattorin avulla voidaan analysoida audiosignaalin taajuustasapainoa ja tunnistaa taajuuspiikkejä tai -notkoja.",
-  "settings.spectrum_analyser.logarithmic_spectrum.title": "Logaritminen taajuusspektri",
-  "settings.spectrum_analyser.logarithmic_spectrum.description": "Käytä logaritmista skaalausta taajuuksille",
   "settings.vsync.title": "VSync",
   "settings.vsync.description": "Rajoita Amethystin käyttöliittymän (UI) päivitysnopeus aktiivisen näytön virkistystaajuuteen.",
   "settings.vsync.warning": "Uudelleenkäynnistys vaaditaan",

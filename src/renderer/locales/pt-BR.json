@@ -130,8 +130,6 @@
 
   "settings.spectrum_analyser.title": "Analisador de espectro",
   "settings.spectrum_analyser.description": "Mostrar uma representação visual das frequências do sinal de áudio. Exibe o espectro das frequências do áudio em um gráfico, em que o eixo (X) representa a frequência e o eixo (Y) representa a amplitude. Este analisador é usado para observar o balanceamento das frequências do sinal de áudio e identificar picos ou quedas",
-  "settings.spectrum_analyser.logarithmic_spectrum.title": "Espectro logarítmico",
-  "settings.spectrum_analyser.logarithmic_spectrum.description": "Utilizar a escala logarítmica para as frequências do espectro",
   "settings.spectrum_analyser.smoothing_duration.title" : "Duração da suavização",
   "settings.spectrum_analyser.smoothing_duration.description" : "Suavizar o espectro entre seus quadros de dados (útil quando utilizar tamanhos pequenos de FFT que causam tremores)",
 

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useState } from "@/amethyst";
-import { interpolateArray, scaleLog } from "@/logic/math";
+import { logParabolicSpectrum } from "@/logic/math";
 import * as THREE from "three";
 import { Ref, onMounted, onUnmounted, ref, watch } from "vue";
 
@@ -50,7 +50,7 @@ onMounted(async () => {
     return vertices;
   };
 
-  const TOTAL_BARS = 512;
+  const TOTAL_BARS = 1024;
 
   const loader = new THREE.FileLoader();
   const camera = new THREE.OrthographicCamera(0, width, -height * 1.25, 0, 0, 10000);
@@ -143,8 +143,9 @@ onMounted(async () => {
     const dataArray = new Uint8Array(analyser.frequencyBinCount);
     analyser.getByteFrequencyData(dataArray);
 
-    const points = useState().settings.value.useLogarithmicSpectrum ? scaleLog(dataArray) : dataArray;
-    interpolateArray(Array.from(points), TOTAL_BARS).forEach((point, i) => {
+    const points = logParabolicSpectrum(dataArray, TOTAL_BARS);
+
+    points.forEach((point, i) => {
       uniformData.u_amplitude.value[i] = point;
     });
 

@@ -1,7 +1,7 @@
 precision highp float;
 
 // All the amplitude levels for each frequency 1-22050hz
-uniform int u_amplitude[ 512 ];
+uniform int u_amplitude[ 1024 ];
 uniform int u_height;
 
 // used to index the ampltude array for each bar instance
