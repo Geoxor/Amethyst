@@ -84,7 +84,7 @@ provide("menuGroupRef", menuGroupRef);
         />
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'SHIFT', 'Z']"
-          :title="$t('menu.utility.clear_errored_deleted')"
+          :title="$t('menu.utility.clear_errored_and_deleted')"
           icon="ic:twotone-delete-sweep"
           @click="amethyst.player.queue.clearErrored()"
         />

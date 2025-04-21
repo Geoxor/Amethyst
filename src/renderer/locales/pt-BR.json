@@ -9,7 +9,7 @@
   
   "menu.utility": "Utilidades",
   "menu.utility.clear_queue": "Limpar lista de reprodução",
-  "menu.utility.clear_errored_deleted": "Limpar deletados / com erro",
+  "menu.utility.clear_errored_and_deleted": "Limpar deletados / com erro",
   "menu.utility.refresh_all_metadata": "Atualizar todos os metadados",
   "menu.utility.refresh_window": "Atualizar janela",
   "menu.utility.check_for_updates": "Verificar atualizações",

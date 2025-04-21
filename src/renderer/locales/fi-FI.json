@@ -4,7 +4,7 @@
   "menu.file.open_audio_folder": "Avaa kansio...",
   "menu.utility": "Toiminnot",
   "menu.utility.clear_queue": "Tyhjennä jono",
-  "menu.utility.clear_errored_deleted": "Tyhjennä virheelliset / poistetut",
+  "menu.utility.clear_errored_and_deleted": "Tyhjennä virheelliset / poistetut",
   "menu.utility.refresh_all_metadata": "Virkistä kaikki metadata",
   "menu.utility.refresh_window": "Virkistä ikkuna",
   "menu.utility.check_for_updates": "Tarkista päivitykset",

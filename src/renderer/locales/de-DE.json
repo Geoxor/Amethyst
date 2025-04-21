@@ -4,7 +4,7 @@
   "menu.file.open_audio_folder": "Audio-Ordner öffnen...",
   "menu.utility": "Tools",
   "menu.utility.clear_queue": "Warteschlange leeren",
-  "menu.utility.clear_errored_deleted": "Fehlerhafte/Gelöschte löschen",
+  "menu.utility.clear_errored_and_deleted": "Fehlerhafte/Gelöschte löschen",
   "menu.utility.refresh_all_metadata": "Metadaten erneuern",
   "menu.utility.refresh_window": "Fenster erneuern",
   "menu.utility.check_for_updates": "Auf Updates prüfen",

@@ -9,7 +9,7 @@
   
   "menu.utility": "Utility",
   "menu.utility.clear_queue": "Clear queue",
-  "menu.utility.clear_errored_deleted": "Clear errored / deleted",
+  "menu.utility.clear_errored_and_deleted": "Clear errored / deleted",
   "menu.utility.refresh_all_metadata": "Refresh all metadata",
   "menu.utility.refresh_window": "Refresh window",
   "menu.utility.check_for_updates": "Check for updates",
