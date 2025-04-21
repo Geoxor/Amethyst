@@ -25,6 +25,7 @@ const router = useRouter();
     />
 
     <title-subtitle
+      v-if="!(amethyst.store.settings.value.minimalistMode && amethyst.store.settings.value.hideCategoryTitles)"
       :title="title"
       :subtitle="description"
       :subtitle-ellipses="!props.fullwidthMin"

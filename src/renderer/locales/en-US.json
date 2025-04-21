@@ -85,6 +85,8 @@
 
   "settings.minimalist_mode.title": "Minimalist mode",
   "settings.minimalist_mode.description": "Be less verbose on the UI to keep it clean",
+  "settings.minimalist_mode.hide_category_titles.title": "Hide setting titles",
+  "settings.minimalist_mode.hide_category_titles.description": "Hides the setting category title to match the navigation bar style",
 
   "settings.neon_mode.title": "Neon mode",
   "settings.neon_mode.description": "Changes the designs of certain UI elements to have a bloomy neon design",

@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { useState } from "@/amethyst";
 import SettingsNavigation from "@/components/v2/SettingsNavigation.vue";
 import ResizableDiv from "../ResizableDiv";
 
 import { onBeforeUnmount, onMounted, ref } from "vue";
-
+const state = useState();
 let hiddenNavigation = ref<HTMLElement | null>(null);
 let resizingParent = ref<HTMLElement | null>(null);
 let observer: ResizeObserver | null = null;
@@ -46,7 +47,10 @@ onBeforeUnmount(() => {
     class="contents"
   >
     <resizable-div
-      class="min-w-min max-w-400px"
+      class="min-w-min"
+      :class="[
+        state.settings.value.minimalistMode && state.settings.value.hideCategoryTitles ? 'max-w-min' : 'max-w-400px'
+      ]"
       container-class="flex flex-col"
       name="settings-navigation"
       side="right"

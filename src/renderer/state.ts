@@ -63,6 +63,7 @@ export class Store {
 		decibelMeterFftSize: 1024,
 		vectorscopeFftSize: 512,
 		fontWeight: "normal",
+		hideCategoryTitles: true,
 		zoomLevel: 1.00,
 		animationDuration: 100, // 100ms
 		fetchMetadataOnStartup: false,
