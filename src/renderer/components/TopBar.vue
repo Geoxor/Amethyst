@@ -168,7 +168,7 @@ provide("menuGroupRef", menuGroupRef);
       </menu-container>
       <menu-container
         v-if="amethyst.IS_DEV"
-        title="Debug"
+        title="Debug Tools"
       >
         <menu-option
           title="Set 'updateReady' to 'true'"
@@ -181,7 +181,7 @@ provide("menuGroupRef", menuGroupRef);
       </menu-container>
     </div>
 
-    <p class="absolute flex items-center gap-1 left-1/2 transform-gpu -translate-x-1/2 select-none">
+    <p class="absolute flex items-center gap-1 top-10px left-1/2 transform-gpu -translate-x-1/2 select-none">
       <title-text text="Amethyst" />
       <title-text
         class="opacity-50 font-normal capitalize"
