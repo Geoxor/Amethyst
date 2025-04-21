@@ -9,6 +9,7 @@ import AmethystIcon from "@/icons/AmethystIcon.vue";
 import { countDomElements, refreshWindow, smoothTween } from "@/logic/dom";
 import { useFps } from "@vueuse/core";
 import { computed, onMounted, provide, ref } from "vue";
+import { useRouter } from "vue-router";
 import BaseChip from "./BaseChip.vue";
 import TitleText from "./v2/TitleText.vue";
 
@@ -19,6 +20,7 @@ const fps = ref(0);
 const tweenedFps = ref(0);
 const domSize = ref(0);
 const latency = ref(0);
+const router = useRouter();
 
 onMounted(() => {
   setInterval(() => {
@@ -141,7 +143,7 @@ provide("menuGroupRef", menuGroupRef);
           :title="$t('menu.view.settings')"
           icon="ic:twotone-settings"
           :shortcuts="[commandOrControlSymbol, ',']"
-          @click="$router.push({ name: 'settings.appearance' })"
+          @click="router.push({ name: 'settings.appearance' })"
         />
         <menu-option
           :title="$t('menu.view.show_developer_tools')"
@@ -189,7 +191,7 @@ provide("menuGroupRef", menuGroupRef);
         v-if="amethyst.IS_DEV"
         :color="state.state.isFocused ? undefined : 'bg-gray-500'"
       >
-        dev
+        development
       </base-chip>
       <title-text
         class="opacity-50 font-normal capitalize"
