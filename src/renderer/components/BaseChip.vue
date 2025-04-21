@@ -4,7 +4,7 @@ defineProps<{ icon?: any, color?: string }>();
 
 <template>
   <div
-    class="select-none w-20 justify-center uppercase text-8px font-bold flex items-center leading-tight gap-1 rounded-full py-1 px-2"
+    class="select-none min-w-20 justify-center uppercase text-8px font-bold flex items-center leading-tight gap-1 rounded-full py-1 px-2"
     :class="color ? `bg-${color} bg-opacity-15 text-${color}` : 'bg-primary text-primary bg-opacity-15'"
   >
     <component
