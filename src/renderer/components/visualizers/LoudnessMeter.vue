@@ -79,7 +79,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="text-10px font-bold text-playback-controls-text w-full flex flex-col justify-between items-center h-full py-0.5 disable-select no-drag">
+  <div class="text-11px font-bold text-playback-controls-text w-full flex flex-col justify-between items-center h-full py-0.5 disable-select no-drag">
     <div class="meter">
       <div class="barBg">
         <div

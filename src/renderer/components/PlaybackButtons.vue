@@ -85,10 +85,10 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
         >
           {{ amethyst.player.getCurrentTrack()?.getTitleFormatted() || 'No track' }}
         </h1>
-        <p class="text-10px overflow-hidden overflow-ellipsis">
+        <p class="text-11px overflow-hidden overflow-ellipsis">
           {{ amethyst.player.getCurrentTrack()?.getArtistsFormatted() || 'No artist' }}
         </p>
-        <p class="text-10px text-text_subtitle">
+        <p class="text-11px text-text_subtitle">
           {{ amethyst.player.currentTimeFormatted(true) }} /
           {{ amethyst.player.getCurrentTrack()?.getDurationFormatted(true) || '0:00' }}
         </p>

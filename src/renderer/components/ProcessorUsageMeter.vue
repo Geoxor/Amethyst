@@ -7,7 +7,7 @@ defineProps<{value: number; }>();
 <template>
   <div class="flex justify-center relative items-center overflow-hidden bg-surface-600 text-primary-800 duration-250 rounded-8px w-full h-3.5 box-content ">
     <title-text
-      class="text-10px"
+      class="text-11px"
       :text="`${value.toFixed(0)} %`"
     />
     <div

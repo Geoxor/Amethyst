@@ -45,7 +45,7 @@ const FILTER_TYPES = [
         <button
           v-for="filterType of FILTER_TYPES"
           :key="filterType"
-          class="text-10px cursor-pointer px-1 py-0.5 bg-surface-900"
+          class="text-11px cursor-pointer px-1 py-0.5 bg-surface-900"
           :class="[node.type == filterType ? 'text-accent bg-accent bg-opacity-10' : 'text-surface-500']"
           @mousedown.stop
           @click="node.type = filterType"

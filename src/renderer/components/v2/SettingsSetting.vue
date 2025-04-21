@@ -25,7 +25,7 @@ defineProps<{subsetting?:boolean, title: string, description?: string, warning?:
       <base-chip
         v-if="warning"
       >
-        <p class=" text-10px font-weight-user-defined">
+        <p class=" text-11px font-weight-user-defined">
           {{ warning }}
         </p>
       </base-chip>
