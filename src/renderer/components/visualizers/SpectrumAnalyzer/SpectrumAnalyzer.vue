@@ -9,11 +9,11 @@ let shouldStopRendering = false;
 
 const getDimensions = () => {
   if (!threeCanvas.value) return;
-  const containerWidth = threeCanvas.value.parentElement!.getBoundingClientRect().width;
-  const containerHeight = threeCanvas.value.parentElement!.getBoundingClientRect().height;
+  const parentWidth = threeCanvas.value.parentElement!.getBoundingClientRect().width;
+  const parentHeight = threeCanvas.value.parentElement!.getBoundingClientRect().height;
 
-  const width = containerWidth * 4;
-  const height = containerHeight * 4;
+  const width = parentWidth;
+  const height = parentHeight;
   return { width, height };
 };
 
@@ -50,7 +50,7 @@ onMounted(async () => {
     return vertices;
   };
 
-  const TOTAL_BARS = 256;
+  const TOTAL_BARS = 512;
 
   const loader = new THREE.FileLoader();
   const camera = new THREE.OrthographicCamera(0, width, -height * 1.25, 0, 0, 10000);
@@ -88,7 +88,7 @@ onMounted(async () => {
 
   const material = new THREE.ShaderMaterial({
     wireframe: false,
-    transparent: true,
+    transparent: false,
     uniforms: uniformData,
     // @ts-ignore
     fragmentShader: await loader.loadAsync(new URL("./SpectrumFrag.glsl", import.meta.url).toString()) as string,
@@ -107,7 +107,6 @@ onMounted(async () => {
   const resizeObserver = new ResizeObserver(() => {
     const d = getDimensions();
     if (d) renderer.setSize(d.width, d.height);
-
   });
 
   resizeObserver.observe(threeCanvas.value.parentElement!);
@@ -151,11 +150,13 @@ onMounted(async () => {
 
     if (shouldStopRendering) {
       renderer.dispose();
+      renderer.forceContextLoss();
       geometry.dispose();
       material.dispose();
       renderer.setAnimationLoop(null);
       return;
     }
+
     renderer.render(scene, camera);
   }
 });
@@ -165,10 +166,10 @@ onUnmounted(() => shouldStopRendering = true);
 </script>
 
 <template>
-  <div class="relative overflow-hidden w-full h-full  rounded-4px">
+  <div class="relative overflow-hidden w-full h-full rounded-4px">
     <canvas
       ref="threeCanvas"
-      class="transform-gpu scale-25 origin-top-left absolute top-0 left-0"
+      class="origin-top-left absolute top-0 left-0"
     />
   </div>
 </template>

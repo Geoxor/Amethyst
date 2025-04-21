@@ -11,7 +11,7 @@ import RouteHeader from "@/components/v2/RouteHeader.vue";
   >
     <route-header :title="$t('route.audio_monitor')" />
     <decibel-meter
-      :key="amethyst.player.nodeManager.getNodeConnectinsString()"
+      :key="amethyst.player.nodeManager.getNodeConnectionsString()"
       :node="amethyst.player.nodeManager.master.post"
     />
   </div>
