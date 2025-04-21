@@ -128,8 +128,6 @@
 
   "settings.spectrum_analyser.title": "Analyseur de spectre",
   "settings.spectrum_analyser.description": "Affiche une représentation visuelle des fréquences du signal audio. Il montre le spectre de fréquences du signal audio à l'aide d'un graphique, où l'axe des x représente la plage de fréquences et l'axe des y représente l'amplitude. L'analyseur de spectre peut être utilisé pour analyser l'équilibre fréquentiel du signal audio et identifier les pics ou les creux de fréquence",
-  "settings.spectrum_analyser.logarithmic_spectrum.title": "Spectre logarithmique",
-  "settings.spectrum_analyser.logarithmic_spectrum.description": "Utiliser une échelle logarithmique pour les fréquences",
 
   "settings.vsync.title": "VSync",
   "settings.vsync.description": "Contraint la fréquence d'images d'Amethyst à la fréquence de rafraîchissement de l'écran actif",

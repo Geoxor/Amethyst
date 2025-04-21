@@ -242,6 +242,7 @@ export class MainWindow {
 			"maximize": () => this.window.maximize(),
 			"unmaximize": () => this.window.unmaximize(),
 			"close": () => this.window.close(),
+			"fullscreen": () => this.window.setFullScreen(!this.window.isFullScreen()),
 			"read-file": (_: Event, [path]: string[]) => {
 				return fs.promises.readFile(path);
 			},

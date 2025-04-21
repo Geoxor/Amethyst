@@ -71,7 +71,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       ]);"
     >
       <loudness-meter
-        :key="amethyst.player.nodeManager.getNodeConnectinsString()"
+        :key="amethyst.player.nodeManager.getNodeConnectionsString()"
         :node="amethyst.player.nodeManager.master.pre"
       />
     </div>
@@ -100,7 +100,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
         />
         <db-meter
           v-if="state.settings.value.showDbMeter && state.settings.value.decibelMeterSeperatePrePost && amethyst.player.source"
-          :key="amethyst.player.nodeManager.getNodeConnectinsString()"
+          :key="amethyst.player.nodeManager.getNodeConnectionsString()"
           class="duration-user-defined cursor-pointer"
           :node="amethyst.player.nodeManager.master.pre"
           pre
@@ -112,7 +112,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
         />
         <db-meter
           v-if="state.settings.value.showDbMeter && amethyst.player.source"
-          :key="amethyst.player.nodeManager.getNodeConnectinsString()"
+          :key="amethyst.player.nodeManager.getNodeConnectionsString()"
           class="duration-user-defined cursor-pointer"
           :node="amethyst.player.nodeManager.master.post"
           post
@@ -174,7 +174,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
         />
         <vectorscope
           v-if="state.settings.value.showVectorscope && amethyst.player.source"
-          :key="amethyst.player.nodeManager.getNodeConnectinsString()"
+          :key="amethyst.player.nodeManager.getNodeConnectionsString()"
           :node="amethyst.player.nodeManager.master.pre"
           :width="48"
           :height="48"
@@ -190,9 +190,10 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
         { title: 'Hide', icon: 'ic:twotone-remove-red-eye', action: () => state.settings.value.showSpectrum = false },
       ]);"
+      @click="state.settings.value.showBigSpectrum = !state.settings.value.showBigSpectrum"
     >
       <spectrum-analyzer
-        :key="amethyst.player.nodeManager.getNodeConnectinsString()"
+        :key="amethyst.player.nodeManager.getNodeConnectionsString()"
         :node="amethyst.player.nodeManager.master.pre"
       />
     </div>

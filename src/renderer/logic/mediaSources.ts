@@ -40,6 +40,8 @@ export class MediaSourceManager {
   };
   
   public removeMediaSource = async (mediaSource: MediaSource) => {
+    console.log(mediaSource);
+    
     const savedMediaSource = { type: mediaSource.type, path: mediaSource.path };
     const index = this.store.settings.value.saveMediaSources.findIndex(s => s.path == savedMediaSource.path);
     if (index == -1) return;

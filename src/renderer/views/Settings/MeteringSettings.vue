@@ -143,16 +143,6 @@ const state = useState();
       <div class="p-2 flex flex-col gap-2">
         <settings-setting
           subsetting
-          :title="$t('settings.spectrum_analyser.logarithmic_spectrum.title')"
-          :description="$t('settings.spectrum_analyser.logarithmic_spectrum.description')"
-          icon="ic:twotone-pie-chart-outline"
-        >
-          <toggle-switch
-            v-model="state.settings.value.useLogarithmicSpectrum"
-          />
-        </settings-setting>
-        <settings-setting
-          subsetting
           :title="$t('settings.spectrum_analyser.smoothing_duration.title')"
           :description="$t('settings.spectrum_analyser.smoothing_duration.description')"
           icon="ic:twotone-access-time"

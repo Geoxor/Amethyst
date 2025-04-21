@@ -7,9 +7,10 @@ import NavigationBar from "@/components/NavigationBar.vue";
 import NavigationButton from "@/components/NavigationButton.vue";
 import TopBar from "@/components/TopBar.vue";
 import PlaybackControls from "@/components/v2/PlaybackControls.vue";
+import SpectrumAnalyzer from "@/components/visualizers/SpectrumAnalyzer/SpectrumAnalyzer.vue";
 import { AmethystIcon } from "@/icons";
 import { Track } from "@/logic/track";
-import { onMounted, onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 const state = useState();
 const ambientBackgroundImage = ref("");
 
@@ -25,15 +26,27 @@ onUnmounted(() => {
   amethyst.player.off("play", setAmbientCover);
 });
 
+watch(() => state.settings.value.showBigSpectrum, () => {
+  window.electron.ipcRenderer.invoke("fullscreen");
+});
+
 </script>
 
 <template>
-  <div class="flex fixed flex-col bg-surface-900">
-    <div
-      v-if="state.state.isShowingBigCover"
-      class="pointer-events-auto z-20 top-10 left-0 absolute w-full h-full"
-      @click="state.state.isShowingBigCover = !state.state.isShowingBigCover"
+  <div
+    v-if="state.settings.value.showBigSpectrum"
+    class="absolute top-0 left-0 w-320px h-280px z-30 bg-surface-800 "
+    @click="state.settings.value.showBigSpectrum = false"
+  >
+    <spectrum-analyzer
+      key="big-spectrum-analyzer"
+      :node="amethyst.player.nodeManager.master.pre"
     />
+  </div>
+  <div
+    v-else
+    class="flex fixed flex-col bg-surface-900"
+  >
     <div
       v-if="state.state.isShowingBigCover"
       class="absolute select-none rounded-8px w-full sm:w-auto max-w-3/4 max-h-3/4 overflow-hidden top-1/2 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2 z-50"

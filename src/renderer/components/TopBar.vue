@@ -30,7 +30,7 @@ onMounted(() => {
     domSize.value = countDomElements();
     amethyst.player.getLatency().then(l => latency.value = l);
     // TODO: multiplatform support
-    smoothTween(tweenedFps.value, fpsCounter.value, 1000, (tweenedNumber => tweenedFps.value = ~~tweenedNumber));
+    smoothTween(tweenedFps.value, fpsCounter.value, 1000, (tweenedNumber => tweenedFps.value = Math.ceil(tweenedNumber)));
 
   }, 1000);
 });
@@ -206,9 +206,9 @@ provide("menuGroupRef", menuGroupRef);
         @click="min = Number.POSITIVE_INFINITY; max = Number.NEGATIVE_INFINITY;"
       >
         <div class="hidden lg:inline font-aseprite text-primary-900 text-opacity-50">
-          {{ domSize }}<strong class="text-primary-900 text-opacity-25">DOM </strong>
-          {{ amethyst.player.getBufferSize() }}<strong class="text-primary-900 text-opacity-25">smp</strong>
-          {{ latency.toFixed(2) }}<strong class="text-primary-900 text-opacity-25">ms</strong>
+          {{ domSize }}<span class="text-primary-900 text-opacity-25">DOM </span>
+          {{ amethyst.player.getBufferSize() }}<span class="text-primary-900 text-opacity-25">smp</span>
+          {{ latency.toFixed(2) }}<span class="text-primary-900 text-opacity-25">ms</span>
         </div>
         <div 
           :class="[
@@ -219,11 +219,6 @@ provide("menuGroupRef", menuGroupRef);
           class="font-aseprite"
         >
           {{ tweenedFps }}fps
-        </div>
-        <div
-          class="hidden lg:inline font-aseprite text-primary-900 text-opacity-50"
-        >
-          {{ min }}<strong class="text-primary-900 text-opacity-25">min</strong> {{ max }}<strong class="text-primary-900 text-opacity-25">max</strong>
         </div>
       </div>
     

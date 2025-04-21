@@ -226,7 +226,7 @@ export class AmethystAudioNodeManager {
     return allConnections;
   }
 
-  public getNodeConnectinsString() {
+  public getNodeConnectionsString() {
     return this.getNodeConnections().toString();
   }
 }
