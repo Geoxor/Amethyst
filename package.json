@@ -291,7 +291,7 @@
     "@hugotomazi/capacitor-navigation-bar": "^2.0.1",
     "@iconify/vue": "^4.3.0",
     "@types/discord-rpc": "^4.0.3",
-    "@types/file-saver": "^2.0.5",
+    "@types/file-saver": "^2.0.7",
     "@types/ip": "^1.1.0",
     "@types/mime-types": "^2.1.1",
     "@types/node": "^18.16.2",
