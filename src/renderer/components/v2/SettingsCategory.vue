@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
 import { computed } from "vue";
-import { useRoute } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 import TitleSubtitle from "./TitleSubtitle.vue";
 
 import { Icon } from "@iconify/vue";
@@ -9,14 +9,15 @@ import { Icon } from "@iconify/vue";
 const route = useRoute();
 const props = defineProps<{title: string, description?: string, icon: any, routeName: string, fullwidthMin: boolean}>();
 const isActive = computed(() => route.name?.toString().startsWith(props.routeName) || props.routeName === route.name);
+const router = useRouter();
 
 </script>
 
 <template>
   <button
     :class="[isActive && 'active', amethyst.store.settings.value.neonMode && 'neonMode']"
-    class="duration-user-defined flex relative gap-4 cursor-pointer bg-transparent text-text_title max-h-52px items-center py-2 px-4 rounded-8px"
-    @click="$router.push({ name: routeName })"
+    class="duration-user-defined flex relative gap-4 cursor-pointer bg-transparent text-text_title max-h-52px h-52px items-center py-2 px-4 rounded-8px"
+    @click="router.push({ name: routeName })"
   >
     <icon
       :icon="icon"
