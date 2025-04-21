@@ -284,19 +284,63 @@ export class Amethyst extends AmethystBackend {
       this.initMobile();
     }
 
-    document.addEventListener("drop", event => {
+    this.handleFileDrops();
+  }
+
+  private handleFileDrops() {
+
+    const filteredAllowedAudioExtensions = (path: string) => {
+      const extension = path.split(".").pop();
+      return extension && ALLOWED_AUDIO_EXTENSIONS.includes((extension).toLowerCase());
+    };
+
+    document.addEventListener("drop", async event => {
       event.preventDefault();
       event.stopPropagation();
 
-      const usableFiles = Array.from(event.dataTransfer!.files).filter(file => {
-        const path = file.path;
-        const extension = path.split(".").pop();
+      const droppedPath = event.dataTransfer!.files[0]!.path;
 
-        return extension && ALLOWED_AUDIO_EXTENSIONS.includes((extension).toLowerCase());
-      });
+      let usableFiles = 
+        Array.from(event.dataTransfer!.files)
+          .map(file => file.path)
+          .filter(filteredAllowedAudioExtensions);
 
+      // We are dealing with a file dropped
+      if (usableFiles.length !== 0) amethyst.player.queue.add(usableFiles);
+
+      // We are dealing with a folder dropped
+      else {
+        try {
+          await window.fs.access(droppedPath);
+          const paths = await window.fs.readdir(droppedPath);
+
+          // recursive for folders within folders, use window.fs is fs.promises
+          const recursiveReadDir = async (path: string) => {
+            const files = await window.fs.readdir(path);
+            for (const file of files) {
+              const filePath = window.path.join(path, file);
+              // try to check if it's a folder
+              try {
+                await window.fs.access(filePath);
+                await recursiveReadDir(filePath);
+              } catch (error) {
+                // Not a folder so add it as a file   
+                paths.push(filePath );
+              }
+            }
+          };
+
+          await recursiveReadDir(droppedPath);
+          
+          usableFiles = paths.filter(filteredAllowedAudioExtensions);
+        }
+        catch (error) {
+          return console.error(error, "Dropped path is not a folder");
+        };
+      }
+      
       if (usableFiles.length === 0) return;
-      amethyst.player.queue.add(usableFiles.map(file => file.path));
+      amethyst.player.queue.add(usableFiles);
       // TODO: add logic that plays the new song if the user has that enabled as an option, 
       // also if they drop a song that is already in the queue, find that song and play it if the user has that enabled as an option
     });
