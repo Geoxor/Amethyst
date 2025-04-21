@@ -8,7 +8,7 @@ import { StatusBar } from "@capacitor/status-bar";
 import {NavigationBar} from "@hugotomazi/capacitor-navigation-bar";
 import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
 import { OpenDialogReturnValue, SaveDialogReturnValue } from "electron";
-import { watch } from "vue";
+import { ref, watch } from "vue";
 import { flattenArray } from "./logic/math";
 import { Track } from "./logic/track";
 import { Directory } from "@capacitor/filesystem";
@@ -216,6 +216,7 @@ export class Amethyst extends AmethystBackend {
   public IS_DEV = import.meta.env.DEV;
   public APPDATA_PATH: string | undefined;
 
+  public isLoading = ref(false);
   public store: Store = new Store();
   public shortcuts: Shortcuts = new Shortcuts();
   public player = new Player();
@@ -288,6 +289,7 @@ export class Amethyst extends AmethystBackend {
   }
 
   private handleFileDrops() {
+    this.isLoading.value = true;
 
     const filteredAllowedAudioExtensions = (path: string) => {
       const extension = path.split(".").pop();
@@ -295,12 +297,15 @@ export class Amethyst extends AmethystBackend {
     };
 
     document.addEventListener("drop", async event => {
+      // TODO: add logic that plays the new song if the user has that enabled as an option, 
+      // also if they drop a song that is already in the queue, find that song and play it if the user has that enabled as an option
+
       event.preventDefault();
       event.stopPropagation();
 
       const droppedPath = event.dataTransfer!.files[0]!.path;
 
-      let usableFiles = 
+      const usableFiles = 
         Array.from(event.dataTransfer!.files)
           .map(file => file.path)
           .filter(filteredAllowedAudioExtensions);
@@ -312,8 +317,6 @@ export class Amethyst extends AmethystBackend {
       else {
         try {
           await window.fs.access(droppedPath);
-          const paths = await window.fs.readdir(droppedPath);
-
           // recursive for folders within folders, use window.fs is fs.promises
           const recursiveReadDir = async (path: string) => {
             const files = await window.fs.readdir(path);
@@ -325,24 +328,19 @@ export class Amethyst extends AmethystBackend {
                 await recursiveReadDir(filePath);
               } catch (error) {
                 // Not a folder so add it as a file   
-                paths.push(filePath );
+                amethyst.player.queue.add([filePath].filter(filteredAllowedAudioExtensions));
               }
             }
           };
 
           await recursiveReadDir(droppedPath);
-          
-          usableFiles = paths.filter(filteredAllowedAudioExtensions);
         }
         catch (error) {
           return console.error(error, "Dropped path is not a folder");
         };
+
+        this.isLoading.value = false;
       }
-      
-      if (usableFiles.length === 0) return;
-      amethyst.player.queue.add(usableFiles);
-      // TODO: add logic that plays the new song if the user has that enabled as an option, 
-      // also if they drop a song that is already in the queue, find that song and play it if the user has that enabled as an option
     });
 
     document.addEventListener("dragover", e => {

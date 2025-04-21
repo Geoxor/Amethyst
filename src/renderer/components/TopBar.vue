@@ -7,6 +7,7 @@ import MenuOption from "@/components/menu/MenuOption.vue";
 import MenuSplitter from "@/components/menu/MenuSplitter.vue";
 import AmethystIcon from "@/icons/AmethystIcon.vue";
 import { countDomElements, refreshWindow, smoothTween } from "@/logic/dom";
+import { Icon } from "@iconify/vue";
 import { useFps } from "@vueuse/core";
 import { computed, onMounted, provide, ref } from "vue";
 import { useRouter } from "vue-router";
@@ -182,6 +183,11 @@ provide("menuGroupRef", menuGroupRef);
     </div>
 
     <p class="absolute flex items-center gap-1 top-10px left-1/2 transform-gpu -translate-x-1/2 select-none">
+      <icon
+        v-if="amethyst.isLoading"
+        icon="line-md:loading-twotone-loop"
+        class="w-5 h-5 min-w-5 min-h-5 animate-spin"
+      />
       <title-text text="Amethyst" />
       <title-text
         class="opacity-50 font-normal capitalize"

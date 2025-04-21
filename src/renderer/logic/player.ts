@@ -27,6 +27,7 @@ export class Player extends EventEmitter<{
   public isPlaying = ref(false);
   public isStopped = ref(true);
   public isPaused = ref(false);
+
   public loopMode = ref(LoopMode.None);
   public currentTime = ref(0);
   public volume = useLocalStorage<number>("volume", 1);
