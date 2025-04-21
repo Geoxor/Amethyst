@@ -289,8 +289,6 @@ export class Amethyst extends AmethystBackend {
   }
 
   private handleFileDrops() {
-    this.isLoading.value = true;
-
     const filteredAllowedAudioExtensions = (path: string) => {
       const extension = path.split(".").pop();
       return extension && ALLOWED_AUDIO_EXTENSIONS.includes((extension).toLowerCase());
@@ -299,6 +297,7 @@ export class Amethyst extends AmethystBackend {
     document.addEventListener("drop", async event => {
       // TODO: add logic that plays the new song if the user has that enabled as an option, 
       // also if they drop a song that is already in the queue, find that song and play it if the user has that enabled as an option
+      this.isLoading.value = true;
 
       event.preventDefault();
       event.stopPropagation();
@@ -336,9 +335,11 @@ export class Amethyst extends AmethystBackend {
           await recursiveReadDir(droppedPath);
         }
         catch (error) {
+          this.isLoading.value = false;
           return console.error(error, "Dropped path is not a folder");
         };
-
+        
+        await amethyst.player.queue.fetchAsyncData();
         this.isLoading.value = false;
       }
     });

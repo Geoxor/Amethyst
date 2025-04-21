@@ -184,7 +184,7 @@ provide("menuGroupRef", menuGroupRef);
 
     <p class="absolute flex items-center gap-1 top-10px left-1/2 transform-gpu -translate-x-1/2 select-none">
       <icon
-        v-if="amethyst.isLoading"
+        v-if="amethyst.isLoading.value"
         icon="line-md:loading-twotone-loop"
         class="w-5 h-5 min-w-5 min-h-5 animate-spin"
       />
