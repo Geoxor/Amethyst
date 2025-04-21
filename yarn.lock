@@ -4329,10 +4329,10 @@ iso-3166-1@^2.1.1:
   resolved "https://registry.yarnpkg.com/iso-3166-1/-/iso-3166-1-2.1.1.tgz#79b80d2aebc3c9528d792bdbb8316c912fe37c68"
   integrity sha512-RZxXf8cw5Y8LyHZIwIRvKw8sWTIHh2/txBT+ehO0QroesVfnz3JNFFX4i/OC/Yuv2bDIVYrHna5PMvjtpefq5w==
 
-iso-639-1@^3.1.0:
-  version "3.1.0"
-  resolved "https://registry.yarnpkg.com/iso-639-1/-/iso-639-1-3.1.0.tgz#62611c680eba80ccedb57c3fa00d048f7c866693"
-  integrity sha512-rWcHp9dcNbxa5C8jA/cxFlWNFNwy5Vup0KcFvgA8sPQs9ZeJHj/Eq0Y8Yz2eL8XlWYpxw4iwh9FfTeVxyqdRMw==
+iso-639-1@^3.1.5:
+  version "3.1.5"
+  resolved "https://registry.yarnpkg.com/iso-639-1/-/iso-639-1-3.1.5.tgz#e8205aceeeea0f64d6b12f5fac6a943b0d5b452c"
+  integrity sha512-gXkz5+KN7HrG0Q5UGqSMO2qB9AsbEeyLP54kF1YrMsIxmu+g4BdB7rflReZTSTZGpfj8wywu6pfPBCylPIzGQA==
 
 isomorphic-timers-promises@^1.0.1:
   version "1.0.1"
