@@ -74,7 +74,7 @@ const state = useState();
             v-model="state.settings.value.ambientBackgroundSpinSpeed"
             :min="0"
             :max="60"
-            :step="0.1"
+            :step="1"
             suffix="sec/spin"
           />
         </settings-setting>

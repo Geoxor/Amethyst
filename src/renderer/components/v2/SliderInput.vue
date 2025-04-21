@@ -19,9 +19,7 @@ const handleMouseScroll = (e: WheelEvent) => {
 <template>
   <base-chip color="accent">
     <p class="text-10px font-weight-user-defined lowercase">
-      {{ prefix }}
-      {{ value }}
-      {{ suffix }}
+      <span class="text-accent text-opacity-75">{{ prefix }}</span> {{ value }} <span class="text-accent text-opacity-75">{{ suffix }}</span>
     </p>
   </base-chip>
   <div
