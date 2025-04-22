@@ -15,7 +15,7 @@ export enum LoopMode {
 
 export class Player extends EventEmitter<{
   play: Track;
-  metadataUpdate: Track;
+  currentTrackMetadataLoaded: Track;
   pause: Track;
   volume: number;
   shuffle: void;
@@ -61,7 +61,7 @@ export class Player extends EventEmitter<{
     this.input.play();
     if (!track.isLoaded) {
       await track.fetchAsyncData();
-      this.emit("metadataUpdate", track);
+      this.emit("currentTrackMetadataLoaded", track);
     }
   }
   
