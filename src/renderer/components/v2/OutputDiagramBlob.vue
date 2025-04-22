@@ -19,7 +19,7 @@ defineProps<{title: string, subtitle?: string}>();
       v-if="subtitle"
       class="w-full h-2px bg-surface-600 absolute top-24px -z-10"
     >
-      <div class="h-4 w-4 bg-surface-600 transform-gpu rotate-45 absolute left-10 -top-7px" />
+      <div class="h-4 w-4 bg-surface-600 transform-gpu rotate-45 absolute left-9 -top-7px" />
     </div>
   </div>
 </template>

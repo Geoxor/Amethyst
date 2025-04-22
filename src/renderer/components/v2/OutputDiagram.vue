@@ -31,7 +31,7 @@ const mimeType = computed(() => amethyst.player.getCurrentTrack()?.metadata.data
         <aac-logo v-else-if="mimeType == 'AAC'" />
         <icon
           v-else
-          class="h-6 w-6"
+          class="h-6 w-6 text-text_title"
           icon="ic:twotone-question-mark"
         />
       </output-diagram-blob>
