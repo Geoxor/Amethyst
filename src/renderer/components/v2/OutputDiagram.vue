@@ -18,7 +18,7 @@ const mimeType = computed(() => amethyst.player.getCurrentTrack()?.metadata.data
 <template>
   <div class="flex flex-col gap-4 w-full">
     <title-text text="Output Diagram" />
-    <div class="flex gap-2 items-top justify-between">
+    <div class="flex items-top justify-between">
       <output-diagram-blob
         title="Source"
         :subtitle="mimeType"
@@ -36,18 +36,26 @@ const mimeType = computed(() => amethyst.player.getCurrentTrack()?.metadata.data
         />
       </output-diagram-blob>
 
+      <div class="w-full h-2px bg-surface-600 mt-6" />
+
       <output-diagram-blob
         title="Decoder"
         subtitle="Web Audio API"
       >
         <javascript-logo />
       </output-diagram-blob>
+
+      <div class="w-full h-2px bg-surface-600 mt-6" />
+
       <output-diagram-blob
         title="DSP"
         subtitle="Amethyst DSP"
       >
         <amethyst-icon class="text-accent" />
       </output-diagram-blob>
+
+      <div class="w-full h-2px bg-surface-600 mt-6" />
+
       <output-diagram-blob
         title="Output"
       >
