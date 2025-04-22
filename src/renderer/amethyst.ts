@@ -192,6 +192,7 @@ class AmethystBackend {
     amethyst.showOpenFolderDialog().then(async result => {
       if (!result.canceled) {
         const files = await window.fs.readdir(result.filePaths[0]);
+
         for (const idx in files) {
           let found = false;
           for (const extension of ALLOWED_AUDIO_EXTENSIONS) {
@@ -199,11 +200,17 @@ class AmethystBackend {
               found = true;
               files[idx] = window.path.join(result.filePaths[0], files[idx]);
             }
-          } 
+          }
           if (!found) {
             files.splice(parseInt(idx), 1);
           }
         }
+
+        for (const idx in files) {
+          if (!files[idx].startsWith(result.filePaths[0]))
+            files[idx] = window.path.join(result.filePaths[0], files[idx]);
+        }
+
         amethyst.player.queue.add(files);
       }
     }).catch(error => console.error(error));
