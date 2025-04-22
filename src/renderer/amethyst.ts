@@ -187,7 +187,7 @@ class AmethystBackend {
       !result.canceled && amethyst.player.queue.add(result.filePaths);
     }).catch(error => console.error(error));
   };
-  
+
   public openAudioFoldersAndAddToQueue = async () => {
     amethyst.showOpenFolderDialog().then(async result => {
       !result.canceled && amethyst.player.queue.add(await this.scanFolderForFiles(result.filePaths[0]));
@@ -195,38 +195,23 @@ class AmethystBackend {
   };
 
   private scanFolderForFiles = async (path: string) => {
-    let files = await window.fs.readdir(path);
-    const subFolderFiles: string[][] = [];
+    const files = await window.fs.readdir(path);
+    const result: string[] = [];
 
-    for (let idx = 0; idx < files.length; idx++) {
-      if (files[idx] == undefined) continue;
+    for (const file of files) {
+      const fullPath = window.path.join(path, file);
 
-      const filePath = window.path.join(path, files[idx]);
-
-      if (!files[idx].includes(".")) {
-        files.splice(idx, 1);
-        subFolderFiles.push(await this.scanFolderForFiles(filePath));
-      } else {
-        let found = false;
-        for (const extension of ALLOWED_AUDIO_EXTENSIONS) {
-          if (files[idx].endsWith(extension)) {
-            found = true;
-            files[idx] = filePath;
-          }
-        }
-        if (!found) {
-          files.splice(idx, 1);
-        }
+      // Not the best solution, but stat doesn't have isDirectory() for some reason
+      if (!file.includes(".")) {
+        result.push(...await this.scanFolderForFiles(fullPath));
+      } else if (ALLOWED_AUDIO_EXTENSIONS.some(extension =>
+        file.endsWith(extension)
+      )) {
+        result.push(fullPath);
       }
     }
 
-    for (const idx in files)
-      if (!files[idx].startsWith(path))
-        files[idx] = window.path.join(path, files[idx]);
-
-    files = files.concat(...subFolderFiles);
-
-    return files;
+    return result;
   };
 }
 
