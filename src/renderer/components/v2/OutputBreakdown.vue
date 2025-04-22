@@ -26,7 +26,7 @@ onMounted(() => {
 
 <template>
   <div class="flex flex-col gap-3 w-full">
-    <title-text text="Output Breakdown" />
+    <title-text :text="$t('output_breakdown.title')" />
     <div class="flex gap-2">
       <div class="layout w-112px h-112px min-w-112px flex items-center justify-center bg-surface-1000 rounded-8px">
         <icon10 v-if="currentChannels == 1" />

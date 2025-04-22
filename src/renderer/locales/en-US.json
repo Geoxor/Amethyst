@@ -2,6 +2,15 @@
   "route.queue": "Queue",
   "route.favorites": "Favorites",
   "route.audio_monitor": "Audio monitor",
+  
+  "output_diagram.title": "Output diagram",
+  "output_diagram.source.title": "Source",
+  "output_diagram.decoder.title": "Decoder",
+  "output_diagram.dsp.title": "DSP",
+  "output_diagram.output.title": "Output",
+
+  "output_breakdown.title": "Output Breakdown",
+
 
   "menu.file": "File",
   "menu.file.open_audio": "Open audio...",

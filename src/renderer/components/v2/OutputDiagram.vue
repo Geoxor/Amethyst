@@ -11,16 +11,26 @@ import OggLogo from "@/icons/logos/OggLogo.vue";
 import OpusLogo from "@/icons/logos/OpusLogo.vue";
 import WindowsLogo from "@/icons/logos/WindowsLogo.vue";
 import { Icon } from "@iconify/vue";
-import { computed } from "vue";
-const mimeType = computed(() => amethyst.player.getCurrentTrack()?.metadata.data?.format.codec || "Paused");
+import { onMounted, ref } from "vue";
+const mimeType = ref("none");
+
+onMounted(() => {
+  mimeType.value = amethyst.player.getCurrentTrack()?.metadata.data?.format.codec || "none";
+
+  amethyst.player.on("play", async track => {
+    const metadata = track.getMetadata();
+    if (!metadata) return;
+    mimeType.value = metadata.format.codec!;
+  });
+});
 </script>
 
 <template>
   <div class="flex flex-col gap-3 w-full">
-    <title-text text="Output Diagram" />
+    <title-text :text="$t('output_diagram.title')" />
     <div class="flex items-top justify-between">
       <output-diagram-blob
-        title="Source"
+        :title="$t('output_diagram.source.title')"
         :subtitle="mimeType"
       >
         <flac-logo v-if="mimeType == 'FLAC'" />
@@ -39,7 +49,7 @@ const mimeType = computed(() => amethyst.player.getCurrentTrack()?.metadata.data
       <div class="w-full h-2px bg-surface-600 mt-6" />
 
       <output-diagram-blob
-        title="Decoder"
+        :title="$t('output_diagram.decoder.title')"
         subtitle="Web Audio API"
       >
         <javascript-logo />
@@ -48,7 +58,7 @@ const mimeType = computed(() => amethyst.player.getCurrentTrack()?.metadata.data
       <div class="w-full h-2px bg-surface-600 mt-6" />
 
       <output-diagram-blob
-        title="DSP"
+        :title="$t('output_diagram.dsp.title')"
         subtitle="Amethyst DSP"
       >
         <amethyst-icon class="text-accent" />
@@ -57,7 +67,7 @@ const mimeType = computed(() => amethyst.player.getCurrentTrack()?.metadata.data
       <div class="w-full h-2px bg-surface-600 mt-6" />
 
       <output-diagram-blob
-        title="Output"
+        :title="$t('output_diagram.output.title')"
       >
         <icon
           icon="ic:twotone-volume-up" 
