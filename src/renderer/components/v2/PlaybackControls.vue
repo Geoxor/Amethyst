@@ -95,6 +95,11 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
           v-if="state.settings.value.showOutputDiagram"
           class="flex gap-4 flex-col w-full bg-playback-controls-background absolute bottom-50px p-4 pb-8 rounded-8px -z-5 left-0 "
         >
+          <icon
+            icon="ic:twotone-close"
+            class="utilityButton absolute top-3 right-3 cursor-pointer"
+            @click="state.settings.value.showOutputDiagram = false"
+          />
           <output-breakdown />
           <output-diagram />
         </div>
@@ -143,7 +148,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
         />
         <playback-buttons :player="amethyst.player" />
         <icon
-          icon="ic:twotone-info"
+          icon="mdi:information-slab-box-outline"
           class="utilityButton"
           :class="[
             state.settings.value.showOutputDiagram && 'text-accent'

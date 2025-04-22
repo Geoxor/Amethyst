@@ -39,7 +39,7 @@ onMounted(() => {
       </div>
       <subtitle-text
         class="whitespace-normal max-w-120"
-        :text="`Currently outputting ${currentChannels} channels simultaneously at a sampel-rate of ${amethyst.player.context.sampleRate} in ${currentBits}bit using device ${currentAudioDevice} with a latency of ${audioLatency}ms`"
+        :text="`Currently outputting ${currentChannels} channels simultaneously at a sampel-rate of ${amethyst.player.context.sampleRate}Hz in ${currentBits}bit using device ${currentAudioDevice} with a latency of ${audioLatency}ms`"
       />
     </div>
   </div>
@@ -48,6 +48,5 @@ onMounted(() => {
 <style scoped lang="postcss">
 
 .layout svg {
-  @apply w-72px h-72px;
 }
 </style>
