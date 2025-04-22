@@ -31,7 +31,10 @@ onUnmounted(() => {
 const fitToView = () => dash.value.fitView();
 
 const state = useState();
-const elements = computed(() => [...amethyst.player.nodeManager.getNodeProperties(), ...amethyst.player.nodeManager.getNodeConnections()]);
+const elements = computed({
+  get: () => [...amethyst.player.nodeManager.getNodeProperties(), ...amethyst.player.nodeManager.getNodeConnections()],
+  set: () => {}
+});
 
 const getDashCoords = () => {
   const transformationPane = document.getElementsByClassName("vue-flow__transformationpane")[0]! as HTMLDivElement;
