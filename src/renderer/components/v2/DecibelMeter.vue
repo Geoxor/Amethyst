@@ -92,7 +92,7 @@ onUnmounted(() => shouldStopRendering = true);
 </script>
 
 <template>
-  <div class="flex h-full w-full p-2 flex gap-1">
+  <div class="flex h-full p-2 flex gap-1 ">
     <div
       v-for="i of CHANNELS"
       :key="i"

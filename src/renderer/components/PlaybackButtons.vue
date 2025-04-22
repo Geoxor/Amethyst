@@ -2,10 +2,10 @@
 import { amethyst } from "@/amethyst";
 import { LoopMode } from "@/logic/player";
 import { Icon } from "@iconify/vue";
+import { secondsToColinHuman } from "@shared/formating";
 import { computed } from "vue";
 
 const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()?.isFavorited);
-
 </script>
 
 <template>
@@ -90,7 +90,7 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
         </p>
         <p class="text-11px text-text_subtitle">
           {{ amethyst.player.currentTimeFormatted(true) }} /
-          {{ amethyst.player.getCurrentTrack()?.getDurationFormatted(true) || '0:00' }}
+          {{ secondsToColinHuman(amethyst.player.input.duration) || '0:00' }}
         </p>
       </div>
     </div>

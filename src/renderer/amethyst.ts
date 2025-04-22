@@ -340,8 +340,8 @@ export class Amethyst extends AmethystBackend {
         };
         
         await amethyst.player.queue.fetchAsyncData();
-        this.isLoading.value = false;
       }
+      this.isLoading.value = false;
     });
 
     document.addEventListener("dragover", e => {

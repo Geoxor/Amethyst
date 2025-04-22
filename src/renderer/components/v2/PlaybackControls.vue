@@ -94,7 +94,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
           key="seek"
           v-model="amethyst.player.currentTime.value"
           class="w-full h-8 absolute -top-1.5 hover:-top-3 w-full left-0 -z-1"
-          :max="amethyst.player.getCurrentTrack()?.getDurationSeconds()"
+          :max="amethyst.player.input.duration"
           @input="amethyst.player.seekTo(amethyst.player.currentTime.value)"
           @wheel.passive="handleSeekMouseScroll"
         />

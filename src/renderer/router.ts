@@ -4,10 +4,8 @@ const routes: RouteRecordRaw[] = [
   { path: "/", redirect: { name: "queue" } },
   { path: "/node-editor", name: "node-editor", component: () => import("@/views/NodeEditorView.vue") },
   { path: "/queue", name: "queue", component: () => import("@/views/QueueView.vue") },
-  { path: "/media", name: "media", component: () => import("@/views/MediaView.vue") },
   { path: "/playground", name: "playground", component: () => import("@/views/PlaygroundView.vue") },
   { path: "/audio-monitor", name: "audio-monitor", component: () => import("@/views/AudioMonitorView.vue") },
-  { path: "/favorites", name: "favorites", component: () => import("@/views/FavoritesView.vue") },
   { path: "/settings", name: "settings", component: () => import("@/views/Settings/SettingsView.vue"),
     children: [
       { path: "/appearance", name: "settings.appearance", component: () => import("@/views/Settings/AppearanceSettings.vue") },

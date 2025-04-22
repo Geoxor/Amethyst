@@ -4,7 +4,6 @@ export const ALLOWED_AUDIO_EXTENSIONS = [
   "oga", 
   "ogx", 
   "ogm", 
-  "spx", 
   "opus", 
   "wav", 
   "wave", 
