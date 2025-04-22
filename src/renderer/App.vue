@@ -181,7 +181,7 @@ watch(() => state.settings.value.showBigSpectrum, () => {
 
 * {
   cursor: url("./cursors/default.png"), auto;
-  font-family: jost;
+  font-family: jost, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 *.font-aseprite {
