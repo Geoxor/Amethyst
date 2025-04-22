@@ -10,7 +10,9 @@ import PlaybackControls from "@/components/v2/PlaybackControls.vue";
 import SpectrumAnalyzer from "@/components/visualizers/SpectrumAnalyzer/SpectrumAnalyzer.vue";
 import { AmethystIcon } from "@/icons";
 import { Track } from "@/logic/track";
+import { Icon } from "@iconify/vue";
 import { onMounted, onUnmounted, ref, watch } from "vue";
+
 const state = useState();
 const ambientBackgroundImage = ref("");
 
@@ -61,12 +63,11 @@ watch(() => state.settings.value.showBigSpectrum, () => {
         @click="state.state.isShowingBigCover = !state.state.isShowingBigCover"
       />
 
-      <button
-        class="p-3 absolute top-1 right-1 cursor-pointer hover:text-white"
+      <icon
+        icon="ic:twotone-close"
+        class="utilityButton absolute top-3 right-3 cursor-pointer"
         @click="state.state.isShowingBigCover = false"
-      >
-        <amethyst-icon class="w-4 h-4" />
-      </button>
+      />
     </div>
 
     <div

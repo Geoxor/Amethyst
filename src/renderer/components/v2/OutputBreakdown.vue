@@ -25,7 +25,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 w-full">
+  <div class="flex flex-col gap-3 w-full">
     <title-text text="Output Breakdown" />
     <div class="flex gap-2">
       <div class="layout w-112px h-112px min-w-112px flex items-center justify-center bg-surface-1000 rounded-8px">
@@ -47,6 +47,4 @@ onMounted(() => {
 
 <style scoped lang="postcss">
 
-.layout svg {
-}
 </style>

@@ -5,16 +5,20 @@ defineProps<{title: string, subtitle?: string}>();
 </script>
 
 <template>
-  <div class="flex flex-col gap-2 relative">
+  <div class="flex flex-col gap-3 relative">
     <div class="flex items-center justify-center h-48px w-48px bg-surface-600 rounded-8px">
       <slot />
     </div>
     
-    <title-text :text="title" />
-    <subtitle-text
-      v-if="subtitle"
-      :text="subtitle"
-    />
+    <div class="flex flex-col">
+      <title-text
+        :text="title"
+      />
+      <subtitle-text
+        v-if="subtitle"
+        :text="subtitle"
+      />
+    </div>
     <div
       v-if="subtitle"
       class="w-full h-2px bg-surface-600 absolute top-24px -z-10"

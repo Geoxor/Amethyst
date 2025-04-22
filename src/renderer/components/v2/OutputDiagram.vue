@@ -16,7 +16,7 @@ const mimeType = computed(() => amethyst.player.getCurrentTrack()?.metadata.data
 </script>
 
 <template>
-  <div class="flex flex-col gap-4 w-full">
+  <div class="flex flex-col gap-3 w-full">
     <title-text text="Output Diagram" />
     <div class="flex items-top justify-between">
       <output-diagram-blob
@@ -28,7 +28,7 @@ const mimeType = computed(() => amethyst.player.getCurrentTrack()?.metadata.data
         <opus-logo v-else-if="mimeType == 'Opus'" />
         <ogg-logo v-else-if="mimeType == 'Vorbis I'" />
         <windows-logo v-else-if="['PCM', 'non-PCM (65534)'].includes(mimeType)" />
-        <aac-logo v-else-if="mimeType == 'AAC'" />
+        <aac-logo v-else-if="['AAC', 'MPEG-4/AAC'].includes(mimeType)" />
         <icon
           v-else
           class="h-6 w-6 text-text_title"
