@@ -10,12 +10,13 @@ import Mp3Logo from "@/icons/logos/Mp3Logo.vue";
 import OggLogo from "@/icons/logos/OggLogo.vue";
 import OpusLogo from "@/icons/logos/OpusLogo.vue";
 import WindowsLogo from "@/icons/logos/WindowsLogo.vue";
+import { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
 import { onMounted, ref } from "vue";
 
 const mimeType = ref("none");
 
-const updateMimeType = (track: any) => {
+const updateMimeType = (track: Track) => {
   const metadata = track.getMetadata();
   if (!metadata) return;
   mimeType.value = metadata.format.codec!;
