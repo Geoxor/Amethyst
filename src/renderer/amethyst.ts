@@ -195,7 +195,6 @@ class AmethystBackend {
   };
 
   private scanFolderForFiles = async (path: string) => {
-    console.log(path);
     let files = await window.fs.readdir(path);
     const subFolderFiles: string[][] = [];
 
