@@ -190,30 +190,44 @@ class AmethystBackend {
   
   public openAudioFoldersAndAddToQueue = async () => {
     amethyst.showOpenFolderDialog().then(async result => {
-      if (!result.canceled) {
-        const files = await window.fs.readdir(result.filePaths[0]);
-
-        for (const idx in files) {
-          let found = false;
-          for (const extension of ALLOWED_AUDIO_EXTENSIONS) {
-            if (files[idx].endsWith(extension)) {
-              found = true;
-              files[idx] = window.path.join(result.filePaths[0], files[idx]);
-            }
-          }
-          if (!found) {
-            files.splice(parseInt(idx), 1);
-          }
-        }
-
-        for (const idx in files) {
-          if (!files[idx].startsWith(result.filePaths[0]))
-            files[idx] = window.path.join(result.filePaths[0], files[idx]);
-        }
-
-        amethyst.player.queue.add(files);
-      }
+      !result.canceled && amethyst.player.queue.add(await this.scanFolderForFiles(result.filePaths[0]));
     }).catch(error => console.error(error));
+  };
+
+  private scanFolderForFiles = async (path: string) => {
+    console.log(path);
+    let files = await window.fs.readdir(path);
+    const subFolderFiles: string[][] = [];
+
+    for (let idx = 0; idx < files.length; idx++) {
+      if (files[idx] == undefined) continue;
+
+      const filePath = window.path.join(path, files[idx]);
+
+      if (!files[idx].includes(".")) {
+        files.splice(idx, 1);
+        subFolderFiles.push(await this.scanFolderForFiles(filePath));
+      } else {
+        let found = false;
+        for (const extension of ALLOWED_AUDIO_EXTENSIONS) {
+          if (files[idx].endsWith(extension)) {
+            found = true;
+            files[idx] = filePath;
+          }
+        }
+        if (!found) {
+          files.splice(idx, 1);
+        }
+      }
+    }
+
+    for (const idx in files)
+      if (!files[idx].startsWith(path))
+        files[idx] = window.path.join(path, files[idx]);
+
+    files = files.concat(...subFolderFiles);
+
+    return files;
   };
 }
 
@@ -230,7 +244,7 @@ export class Amethyst extends AmethystBackend {
   public mediaSession: MediaSession | undefined = this.getCurrentPlatform() === "desktop" ? new MediaSession(this.player) : undefined;
   public mediaSourceManager: MediaSourceManager = new MediaSourceManager(this.player, this.store);
 
-  public audioDevice: MediaDeviceInfo;;
+  public audioDevice: MediaDeviceInfo;
 
   public constructor() {
     super();
