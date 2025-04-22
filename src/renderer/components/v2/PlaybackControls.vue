@@ -6,6 +6,8 @@ import Slider from "@/components/input/BaseSlider.vue";
 import { useInspector } from "@/components/Inspector";
 import PlaybackButtons from "@/components/PlaybackButtons.vue";
 import ResizableDiv from "@/components/ResizableDiv";
+import OutputBreakdown from "@/components/v2/OutputBreakdown.vue";
+import OutputDiagram from "@/components/v2/OutputDiagram.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import LoudnessMeter from "@/components/visualizers/LoudnessMeter.vue";
 import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
@@ -78,17 +80,24 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
     <!-- Spacer to keep the middle dock centered  -->
     <div
       v-else
-      class="w-0 lg:w-full max-w-240px select-none"
+      class="w-0 xl:w-full max-w-240px select-none"
     />
 
     <resizable-div
       name="playback-controls"
       side="centerVertical"
       :handles-visible="false"
-      default-size="720px"
-      class="relative rounded-8px min-w-580px max-w-720px text-black pointer-events-auto bg-playback-controls-background"
+      default-size="960px"
+      class="relative rounded-8px min-w-580px max-w-960px text-black pointer-events-auto bg-playback-controls-background"
     >
       <div class="flex items-center h-16 gap-2 p-2 w-full">
+        <div 
+          v-if="state.settings.value.showOutputDiagram"
+          class="flex gap-4 flex-col w-full bg-playback-controls-background absolute bottom-50px p-4 pb-8 rounded-8px -z-5 left-0 "
+        >
+          <output-breakdown />
+          <output-diagram />
+        </div>
         <slider
           id="seek"
           key="seek"
@@ -133,6 +142,14 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
           @click="amethyst.player.getCurrentTrack()?.cover.state === LoadStatus.Loaded && (state.state.isShowingBigCover = !state.state.isShowingBigCover)"
         />
         <playback-buttons :player="amethyst.player" />
+        <icon
+          icon="ic:twotone-info"
+          class="utilityButton"
+          :class="[
+            state.settings.value.showOutputDiagram && 'text-accent'
+          ]"
+          @click="state.settings.value.showOutputDiagram = !state.settings.value.showOutputDiagram"
+        />
         <icon
           icon="ic:twotone-waves"
           class="utilityButton"
@@ -200,7 +217,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
     <!-- Spacer to keep the middle dock centered  -->
     <div
       v-else
-      class="w-0 lg:w-full max-w-240px select-none"
+      class="w-0 xl:w-full max-w-240px select-none"
     />
   </div>
 </template>

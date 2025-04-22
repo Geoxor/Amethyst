@@ -43,6 +43,7 @@ export class Store {
 		showPlaybackControls: true,
 		followQueue: false,
 		showInspector: true,
+		showOutputDiagram: false,
 		isSnappingToGrid: false,
 		lissajousVectorscope: true,
 		showLoudnessMeter: true,

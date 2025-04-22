@@ -27,7 +27,7 @@ const mimeType = computed(() => amethyst.player.getCurrentTrack()?.metadata.data
         <mp3-logo v-else-if="mimeType == 'MPEG 1 Layer 3'" />
         <opus-logo v-else-if="mimeType == 'Opus'" />
         <ogg-logo v-else-if="mimeType == 'Vorbis I'" />
-        <windows-logo v-else-if="mimeType == 'PCM'" />
+        <windows-logo v-else-if="['PCM', 'non-PCM (65534)'].includes(mimeType)" />
         <aac-logo v-else-if="mimeType == 'AAC'" />
         <icon
           v-else
@@ -61,7 +61,7 @@ const mimeType = computed(() => amethyst.player.getCurrentTrack()?.metadata.data
       >
         <icon
           icon="ic:twotone-volume-up" 
-          class="h-6 w-6"
+          class="h-6 w-6 text-text_title"
         />
       </output-diagram-blob>
     </div>

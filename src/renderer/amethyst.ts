@@ -223,8 +223,15 @@ export class Amethyst extends AmethystBackend {
   public mediaSession: MediaSession | undefined = this.getCurrentPlatform() === "desktop" ? new MediaSession(this.player) : undefined;
   public mediaSourceManager: MediaSourceManager = new MediaSourceManager(this.player, this.store);
 
+  public audioDevice: MediaDeviceInfo;;
+
   public constructor() {
     super();
+
+    navigator.mediaDevices.enumerateDevices()
+      .then( mediaDevices => 
+        this.audioDevice = mediaDevices.find(device => device.deviceId == "default" && device.kind == "audiooutput"));
+        
     // Init zoom from store
     document.body.style.zoom = this.store.settings.value.zoomLevel;
 

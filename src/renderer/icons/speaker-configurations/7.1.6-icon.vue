@@ -71,14 +71,6 @@
       stroke-opacity="0.25"
     />
     <line
-      x1="75"
-      y1="80.5"
-      x2="11"
-      y2="80.5"
-      stroke="#868AFF"
-      stroke-opacity="0.25"
-    />
-    <line
       x1="11"
       y1="42.5"
       x2="17"
@@ -107,6 +99,14 @@
       y1="42.5"
       x2="75"
       y2="42.5"
+      stroke="#868AFF"
+      stroke-opacity="0.25"
+    />
+    <line
+      x1="75"
+      y1="80.5"
+      x2="11"
+      y2="80.5"
       stroke="#868AFF"
       stroke-opacity="0.25"
     />
@@ -151,44 +151,24 @@
       stroke="#868AFF"
     />
     <rect
-      x="0.5"
-      y="37.5"
+      x="57.5"
+      y="12.5"
       width="10"
       height="10"
       rx="0.5"
-      fill="#868AFF"
+      fill="#CEC7FE"
       fill-opacity="0.1"
-      stroke="#868AFF"
+      stroke="#CEC7FE"
     />
     <rect
-      x="75.5"
-      y="37.5"
+      x="17.5"
+      y="12.5"
       width="10"
       height="10"
       rx="0.5"
-      fill="#868AFF"
+      fill="#CEC7FE"
       fill-opacity="0.1"
-      stroke="#868AFF"
-    />
-    <rect
-      x="75.5"
-      y="75.5"
-      width="10"
-      height="10"
-      rx="0.5"
-      fill="#868AFF"
-      fill-opacity="0.1"
-      stroke="#868AFF"
-    />
-    <rect
-      x="0.5"
-      y="75.5"
-      width="10"
-      height="10"
-      rx="0.5"
-      fill="#868AFF"
-      fill-opacity="0.1"
-      stroke="#868AFF"
+      stroke="#CEC7FE"
     />
     <rect
       x="57.5"
@@ -209,6 +189,66 @@
       fill="#CEC7FE"
       fill-opacity="0.1"
       stroke="#CEC7FE"
+    />
+    <rect
+      x="57.5"
+      y="62.5"
+      width="10"
+      height="10"
+      rx="0.5"
+      fill="#CEC7FE"
+      fill-opacity="0.1"
+      stroke="#CEC7FE"
+    />
+    <rect
+      x="17.5"
+      y="62.5"
+      width="10"
+      height="10"
+      rx="0.5"
+      fill="#CEC7FE"
+      fill-opacity="0.1"
+      stroke="#CEC7FE"
+    />
+    <rect
+      x="0.5"
+      y="37.5"
+      width="10"
+      height="10"
+      rx="0.5"
+      fill="#868AFF"
+      fill-opacity="0.1"
+      stroke="#868AFF"
+    />
+    <rect
+      x="75.5"
+      y="37.5"
+      width="10"
+      height="10"
+      rx="0.5"
+      fill="#868AFF"
+      fill-opacity="0.1"
+      stroke="#868AFF"
+    />
+    <rect
+      x="75.5"
+      y="75.5"
+      width="10"
+      height="10"
+      rx="0.5"
+      fill="#868AFF"
+      fill-opacity="0.1"
+      stroke="#868AFF"
+    />
+    <rect
+      x="0.5"
+      y="75.5"
+      width="10"
+      height="10"
+      rx="0.5"
+      fill="#868AFF"
+      fill-opacity="0.1"
+      stroke="#868AFF"
     />
   </svg>
 </template>

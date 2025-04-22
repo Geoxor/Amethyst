@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
 import DecibelMeter from "@/components/v2/DecibelMeter.vue";
+import OutputBreakdown from "@/components/v2/OutputBreakdown.vue";
 import OutputDiagram from "@/components/v2/OutputDiagram.vue";
 import RouteHeader from "@/components/v2/RouteHeader.vue";
 </script>
@@ -16,7 +17,10 @@ import RouteHeader from "@/components/v2/RouteHeader.vue";
         :key="amethyst.player.nodeManager.getNodeConnectionsString()"
         :node="amethyst.player.nodeManager.master.post"
       />
-      <output-diagram />
+      <div class="flex gap-2 flex-col w-full">
+        <output-breakdown />
+        <output-diagram />
+      </div>
     </div>
   </div>
 </template>
