@@ -15,6 +15,7 @@ export enum LoopMode {
 
 export class Player extends EventEmitter<{
   play: Track;
+  metadataUpdate: Track;
   pause: Track;
   volume: number;
   shuffle: void;
@@ -53,13 +54,14 @@ export class Player extends EventEmitter<{
     this.nodeManager.master.post.gain.value = this.volume.value;
   }
 
-  private setPlayingTrack(track: Track) {
+  private async setPlayingTrack(track: Track) {
     this.input.src = ["mac", "linux"].includes(amethyst.getCurrentOperatingSystem()) ? `file://${track.path}` : track.path;
     this.currentTrack.value = track;
     this.currentTrackIndex.value = this.queue.getList().indexOf(track);
     this.input.play();
     if (!track.isLoaded) {
-      track.fetchAsyncData();
+      await track.fetchAsyncData();
+      this.emit("metadataUpdate", track);
     }
   }
   

@@ -12,16 +12,19 @@ import OpusLogo from "@/icons/logos/OpusLogo.vue";
 import WindowsLogo from "@/icons/logos/WindowsLogo.vue";
 import { Icon } from "@iconify/vue";
 import { onMounted, ref } from "vue";
+
 const mimeType = ref("none");
+
+const updateMimeType = (track: any) => {
+  const metadata = track.getMetadata();
+  if (!metadata) return;
+  mimeType.value = metadata.format.codec!;
+};
 
 onMounted(() => {
   mimeType.value = amethyst.player.getCurrentTrack()?.metadata.data?.format.codec || "none";
-
-  amethyst.player.on("play", async track => {
-    const metadata = track.getMetadata();
-    if (!metadata) return;
-    mimeType.value = metadata.format.codec!;
-  });
+  amethyst.player.on("play", updateMimeType);
+  amethyst.player.on("metadataUpdate", updateMimeType);
 });
 </script>
 
