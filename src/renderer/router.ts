@@ -33,5 +33,5 @@ router.beforeEach(guard => {
   const routeName = guard.name!.toString();
 
   if (routeName == "settings") router.push({ name: lastSettingsRoute });
-  if (routeName.startsWith("settings")) lastSettingsRoute = routeName;
+  if (routeName.startsWith("settings.")) lastSettingsRoute = routeName;
 });
