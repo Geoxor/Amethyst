@@ -12,9 +12,11 @@ export interface IContextMenuOption {
 	action: () => any;
 }
 
-export class State extends EventEmitter<{
-  themeChange: string;
-}> {
+export interface StateEvents {
+	"theme:change": string;
+}
+
+export class State extends EventEmitter<StateEvents> {
 	public window = reactive({
 		isMinimized: false,
 		isFocused: true,
@@ -82,7 +84,7 @@ export class State extends EventEmitter<{
 			const dom = document.querySelector("html");
 			dom!.className = `theme-${this.settings.value.theme}`;
 		}
-		this.emit("themeChange", this.settings.value.theme);
+		this.emit("theme:change", this.settings.value.theme);
 	};
 
 	constructor() {

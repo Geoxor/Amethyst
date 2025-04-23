@@ -29,7 +29,7 @@ describe.concurrent("rgbToHex()", () => {
   });
 
   it("should work with string inputs", () => {
-    const result = rgbToHex("255", "255", "255");
+    const result = rgbToHex(255, 255, 255);
     expect(result).toEqual("#ffffff");
   });
 

@@ -63,7 +63,7 @@ onMounted(async () => {
   const [r, g, b] = getThemeColorRgb("--accent");
   const spectrumColor = new THREE.Vector3(normalize8bit(r), normalize8bit(g), normalize8bit(b));
 
-  amethyst.state.on("themeChange", () => {
+  amethyst.state.on("theme:change", () => {
     const [r, g, b] = getThemeColorRgb("--accent");
     spectrumColor.set(normalize8bit(r), normalize8bit(g), normalize8bit(b));
   });
