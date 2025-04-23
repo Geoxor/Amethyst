@@ -35,7 +35,8 @@
     "gen:scoop": "yarn tsx ./scripts/generate_scoop_manifest.ts",
     "gen:winget": "yarn tsx ./scripts/generate_winget_manifest.ts",
     "gen:aur": "yarn tsx ./scripts/generate_aur_manifest.ts",
-    "gen:locales": "yarn tsx ./scripts/sync_locale_keys.ts"
+    "gen:locales": "yarn tsx ./scripts/sync_locale_keys.ts",
+    "test:browser": "vitest --workspace=vitest.workspace.ts"
   },
   "electronmon": {
     "patterns": [
@@ -289,6 +290,7 @@
     "@capawesome/capacitor-file-picker": "^5.0.0",
     "@hugotomazi/capacitor-navigation-bar": "^2.0.1",
     "@iconify/vue": "^4.3.0",
+    "@playwright/test": "1.47.2",
     "@types/discord-rpc": "^4.0.3",
     "@types/file-saver": "^2.0.5",
     "@types/ip": "^1.1.0",
@@ -300,7 +302,8 @@
     "@types/three": "^0.150.0",
     "@typescript-eslint/eslint-plugin": "^5.59.1",
     "@typescript-eslint/parser": "^5.59.1",
-    "@vitejs/plugin-vue": "^4.2.1",
+    "@vitejs/plugin-vue": "^5.2.3",
+    "@vitest/browser": "^3.1.2",
     "@vue/eslint-config-typescript": "^11.0.3",
     "@vue/test-utils": "^2.2.7",
     "concurrently": "^8.0.1",
@@ -320,6 +323,7 @@
     "husky": "^8.0.3",
     "ip": "^1.1.8",
     "move-file-cli": "^3.0.0",
+    "playwright": "1.47.2",
     "postcss": "^8.5.3",
     "prettier": "^2.8.8",
     "rimraf": "^5.0.0",
@@ -328,6 +332,7 @@
     "tsx": "^3.12.6",
     "typescript": "^5.0.4",
     "vitest": "^3.1.2",
+    "vitest-browser-vue": "^0.2.0",
     "vue-tsc": "^1.6.1"
   },
   "dependencies": {
