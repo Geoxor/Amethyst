@@ -11,6 +11,7 @@ const routes: RouteRecordRaw[] = [
     children: [
       { path: "/appearance", name: "settings.appearance", component: () => import("@/views/Settings/AppearanceSettings.vue") },
       { path: "/performance", name: "settings.performance", component: () => import("@/views/Settings/PerformanceSettings.vue") },
+      { path: "/behaviour", name: "settings.behaviour", component: () => import("@/views/Settings/BehaviourSettings.vue") },
       { path: "/metering", name: "settings.metering", component: () => import("@/views/Settings/MeteringSettings.vue") },
       { path: "/audio", name: "settings.audio", component: () => import("@/views/Settings/AudioSettings.vue") },
       { path: "/media-sources", name: "settings.media_sources", component: () => import("@/views/Settings/MediaSourceSettings.vue") },

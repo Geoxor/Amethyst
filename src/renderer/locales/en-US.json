@@ -48,6 +48,9 @@
   "settings.performance.title": "Performance",
   "settings.performance.description": "VSync, animations and rendering",
   
+  "settings.behaviour.title": "Behaviour",
+  "settings.behaviour.description": "Autoplay, parsing",
+
   "settings.metering.title": "Metering",
   "settings.metering.description": "Spectrums, vectorscope and meters",
   

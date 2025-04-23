@@ -8,7 +8,6 @@ try {
 } catch (error) {
   fs.mkdirSync("./manifests/winget/", {recursive: true});
 }
-// TODO: Get SHA256 for the installer
 fs.writeFileSync("./manifests/winget/Geoxor.Amethyst.installer.yaml", `
 # Automatically updated by generate_winget_manifest.ts
 # Created using wingetcreate 1.0.4.0

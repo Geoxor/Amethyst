@@ -25,6 +25,14 @@ defineProps<{
     icon="ic:twotone-area-chart"
   />
   <settings-category
+    route-name="settings.behaviour"
+    :title="$t('settings.behaviour.title')"
+    :active="false"
+    :fullwidth-min="fullwidthMin"
+    :description="$t('settings.behaviour.description')"
+    icon="ic:twotone-settings-suggest"
+  />
+  <settings-category
     route-name="settings.metering"
     :title="$t('settings.metering.title')"
     :active="false"
