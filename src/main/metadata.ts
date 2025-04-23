@@ -1,6 +1,6 @@
 import fs from "fs";
 import * as mm from "music-metadata/lib/core";
-import { IMetadata } from "../shared/types";
+import type { IMetadata } from "../shared/types";
 
 export class Metadata {
 	public static async getMetadata(path?: string): Promise<IMetadata | undefined> {

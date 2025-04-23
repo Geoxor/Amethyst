@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
-import { Track } from "@/logic/track";
+import type { Track } from "@/logic/track";
 import { computed, onMounted, ref } from "vue";
 import CoverArt from "../CoverArt.vue";
 
@@ -10,7 +10,7 @@ onMounted(() => {
   props.track.getCoverAsBlob().then(blob => coverUrl.value = URL.createObjectURL(blob));
 });
 
-const coverGridSize = computed(() => amethyst.store.settings.value.coverGridSize);
+const coverGridSize = computed(() => amethyst.state.settings.value.coverGridSize);
 
 </script>
 

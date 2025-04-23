@@ -1,7 +1,8 @@
 import { useLocalStorage } from "@vueuse/core";
 import { reactive, watch } from "vue";
-import { MediaSourceType } from "./logic/mediaSources";
+import type { MediaSourceType } from "./logic/mediaSources";
 import { FONT_WEIGHTS } from "@shared/constants";
+import { EventEmitter } from "./logic/eventEmitter";
 
 export interface IContextMenuOption {
 	title: string;
@@ -11,15 +12,18 @@ export interface IContextMenuOption {
 	action: () => any;
 }
 
-export class Store {
-	public state = reactive({
+export interface StateEvents {
+	"theme:change": string;
+}
+
+export class State extends EventEmitter<StateEvents> {
+	public window = reactive({
 		isMinimized: false,
 		isFocused: true,
 		isCheckingForUpdates: false,
 		isMaximized: false,
 		isShowingBigCover: false,
 		updateReady: false,
-		theme: "amethyst-dark",
 	});
 
 	public defaultSettings = {
@@ -39,6 +43,7 @@ export class Store {
 		ambientBackgroundSpinSpeed: 64,
 		ambientBackgroundZoom: 130,
 		ambientBackgroundBlendMode: "color-dodge",
+		theme: "amethyst-dark",
 		vectorscopeLineThickness: 1,
 		showPlaybackControls: true,
 		followQueue: false,
@@ -77,11 +82,13 @@ export class Store {
 	public applyCurrentTheme = () => {
 		if (typeof document !== "undefined") {
 			const dom = document.querySelector("html");
-			dom!.className = `theme-${this.state.theme}`;
+			dom!.className = `theme-${this.settings.value.theme}`;
 		}
+		this.emit("theme:change", this.settings.value.theme);
 	};
 
 	constructor() {
+		super();
 		this.applyCurrentTheme();
 		Object.keys(this.defaultSettings).forEach(key => {
 			// @ts-ignore
@@ -106,6 +113,10 @@ export class Store {
 
 		watch(() => this.settings.value.fontWeight, newValue => {
 			document.documentElement.style.setProperty("--font-weight", `${(FONT_WEIGHTS.indexOf(newValue) + 1) * 100}`);
+		});
+
+		watch(() => this.settings.value.theme, () => {
+			this.applyCurrentTheme();
 		});
 	}
 }

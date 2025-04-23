@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Slider from "@/components/input/BaseSlider.vue";
 import CustomNode from "@/components/nodes/CustomNode.vue";
-import { AmethystGainNode } from ".";
+import type { AmethystGainNode } from ".";
 defineProps<{ node: AmethystGainNode }>();
 </script>
 

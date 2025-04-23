@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/consistent-type-imports */
 declare type fs = typeof import("fs/promises");
 declare type os = typeof import("os");
 declare type path = typeof import("path");

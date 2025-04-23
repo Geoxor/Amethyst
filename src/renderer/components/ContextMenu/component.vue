@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import MenuOption from "@/components/menu/MenuOption.vue";
-import { IContextMenuOption } from "@/state";
+import type { IContextMenuOption } from "@/state";
 import { onClickOutside } from "@vueuse/core";
 import { nextTick, onMounted, ref, watch } from "vue";
 import { useContextMenu } from ".";

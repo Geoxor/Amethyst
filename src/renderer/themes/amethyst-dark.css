@@ -5,6 +5,8 @@
   --primary: 218, 116, 254;                               /* #da74fe; */
   --accent: 134, 138, 255;                                /* #868aff; */
 
+  --settings-setting-background: 20, 22, 33;              /* #141621 */
+  --settings-subsetting-background: 16, 17, 25;           /* #101119 */
   --playback-controls-background: 233, 229, 255;          /* #e9e5ff */
   --playback-controls-text: 25, 25, 47;                   /* #19192f */
   --slider-background: 188, 184, 229;                     /* #BCB8E5 */

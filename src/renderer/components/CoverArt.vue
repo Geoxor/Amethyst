@@ -6,6 +6,7 @@ defineProps<{ url?: string }>();
   <img
     v-if="url"
     :src="url"
+    alt="Cover Art"
     class="disable-select no-drag bg-slider-background"
   >
   <div

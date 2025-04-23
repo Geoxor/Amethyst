@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { useState } from "@/amethyst";
-import { logParabolicSpectrum } from "@/logic/math";
+import { amethyst } from "@/amethyst";
+import { getThemeColorRgb } from "@/logic/color";
+import { logParabolicSpectrum, normalize8bit } from "@/logic/math";
 import * as THREE from "three";
-import { Ref, onMounted, onUnmounted, ref, watch } from "vue";
+import type { Ref } from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 
 const props = defineProps<{ node: AudioNode }>();
 let shouldStopRendering = false;
@@ -56,13 +58,25 @@ onMounted(async () => {
   const camera = new THREE.OrthographicCamera(0, width, -height * 1.25, 0, 0, 10000);
   camera.position.set(0, 0, 1);
   const scene = new THREE.Scene();
-  // init
+  
+  // get color for the spectrum from the current theme
+  const [r, g, b] = getThemeColorRgb("--accent");
+  const spectrumColor = new THREE.Vector3(normalize8bit(r), normalize8bit(g), normalize8bit(b));
+
+  amethyst.state.on("theme:change", () => {
+    const [r, g, b] = getThemeColorRgb("--accent");
+    spectrumColor.set(normalize8bit(r), normalize8bit(g), normalize8bit(b));
+  });
 
   // const geometry = new THREE.PlaneGeometry(1.0, 1.0);
   const geometry = new THREE.BufferGeometry().setFromPoints([]);
   const vertices: THREE.Vector2[] = [];
   const indexes = [];
   const uniformData = {
+    u_color: {
+      type: "v3",
+      value: spectrumColor
+    },
     u_amplitude: {
       type: "iv1",
       value: [] as number[]
@@ -120,17 +134,17 @@ onMounted(async () => {
   gain.gain.value = 32;
   gain.connect(analyser);
 
-  analyser.fftSize = useState().settings.value.spectrumFftSize;
-  analyser.smoothingTimeConstant = useState().settings.value.spectrumSmoothing;
-  watch(() => useState().settings.value.spectrumFftSize, () => analyser.fftSize = useState().settings.value.spectrumFftSize);
-  watch(() => useState().settings.value.spectrumSmoothing, () => analyser.smoothingTimeConstant = useState().settings.value.spectrumSmoothing);
+  analyser.fftSize = amethyst.state.settings.value.spectrumFftSize;
+  analyser.smoothingTimeConstant = amethyst.state.settings.value.spectrumSmoothing;
+  watch(() => amethyst.state.settings.value.spectrumFftSize, () => analyser.fftSize = amethyst.state.settings.value.spectrumFftSize);
+  watch(() => amethyst.state.settings.value.spectrumSmoothing, () => analyser.smoothingTimeConstant = amethyst.state.settings.value.spectrumSmoothing);
 
   // Don't change these
   analyser.maxDecibels = 12;
   analyser.minDecibels = -64;
 
-  watch(() => useState().state.isFocused, isFocused => {
-    if (useState().settings.value.pauseVisualsWhenUnfocused) {
+  watch(() => amethyst.state.window.isFocused, isFocused => {
+    if (amethyst.state.settings.value.pauseVisualsWhenUnfocused) {
       if (!isFocused) shouldStopRendering = true;
       else {
         shouldStopRendering = false;

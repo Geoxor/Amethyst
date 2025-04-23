@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import { amethyst, useState } from "@/amethyst";
+import { amethyst } from "@/amethyst";
 
 import DroppableContainer from "@/components/DroppableContainer.vue";
 import LazyList from "@/components/LazyList.vue";
 import RouteHeader from "@/components/v2/RouteHeader.vue";
 import SearchInput from "@/components/v2/SearchInput.vue";
-import { Track } from "@/logic/track";
+import type { Track } from "@/logic/track";
 import { useLocalStorage } from "@vueuse/core";
 import { onMounted, onUnmounted, watch } from "vue";
-const state = useState();
+
 const filterText = useLocalStorage("filterText", "");
 
 const scrollToCurrentElement = (track?: Track) => {
@@ -20,8 +20,8 @@ const scrollToCurrentElement = (track?: Track) => {
   active.scrollTo({ top: estimatedPosition, behavior: "smooth" });
 };
 
-const autoscroll = () => state.settings.value.followQueue && scrollToCurrentElement();
-watch(() => state.settings.value.followQueue, () => autoscroll());
+const autoscroll = () => amethyst.state.settings.value.followQueue && scrollToCurrentElement();
+watch(() => amethyst.state.settings.value.followQueue, () => autoscroll());
 onMounted(() => {
   amethyst.player.on("play", autoscroll);
 });

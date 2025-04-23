@@ -1,6 +1,7 @@
 import { ref } from "vue";
 import { bytesToHuman, secondsToColinHuman, secondsToHuman, bitrateToHuman } from "@shared/formating";
-import { IMetadata, LoadState, LoadStatus } from "@shared/types";
+import type { IMetadata, LoadState} from "@shared/types";
+import { LoadStatus } from "@shared/types";
 import * as mm from "music-metadata-browser";
 import FileSaver from "file-saver";
 import mime from "mime-types";

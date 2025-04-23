@@ -2,7 +2,7 @@
 import { amethyst } from "@/amethyst";
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import TitleSubtitle from "./TitleSubtitle.vue";
+import TitleSubtitle from "../v2/TitleSubtitle.vue";
 
 import { Icon } from "@iconify/vue";
 
@@ -15,7 +15,7 @@ const router = useRouter();
 
 <template>
   <button
-    :class="[isActive && 'active', amethyst.store.settings.value.neonMode && 'neonMode']"
+    :class="[isActive && 'active', amethyst.state.settings.value.neonMode && 'neonMode']"
     class="duration-user-defined flex relative gap-4 cursor-pointer bg-transparent text-text_title max-h-52px h-52px items-center py-2 px-4 rounded-8px"
     @click="router.push({ name: routeName })"
   >
@@ -25,13 +25,13 @@ const router = useRouter();
     />
 
     <title-subtitle
-      v-if="!(amethyst.store.settings.value.minimalistMode && amethyst.store.settings.value.hideCategoryTitles)"
+      v-if="!(amethyst.state.settings.value.minimalistMode && amethyst.state.settings.value.hideCategoryTitles)"
       :title="title"
       :subtitle="description"
       :subtitle-ellipses="!props.fullwidthMin"
     />
     <div
-      v-if="amethyst.store.settings.value.neonMode"
+      v-if="amethyst.state.settings.value.neonMode"
       class="blurLayer w-full opacity-0 duration-user-defined z-0 bg-primary filter h-full absolute top-0 left-0 blur-16px"
     />
   </button>

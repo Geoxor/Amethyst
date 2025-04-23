@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import CustomNode from "@/components/nodes/CustomNode.vue";
-import { AmethystAudioNode } from "@/logic/audio";
+import type { AmethystAudioNode } from "@/logic/audio";
 defineProps<{ node: AmethystAudioNode }>();
 
 </script>

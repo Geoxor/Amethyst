@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import TitleText from "./TitleText.vue";
+import { amethyst } from "@/amethyst";
+import { onBeforeUnmount, onMounted, ref } from "vue";
 import SubtitleText from "./SubtitleText.vue";
-import { useState } from "@/amethyst";
-import { onMounted, onBeforeUnmount, ref } from "vue";
+import TitleText from "./TitleText.vue";
 const props = defineProps<{ title?: string, subtitle?: string; alignment?: "left" | "center" | "right", subtitleEllipses?: boolean }>();
-const state = useState();
 
 const titleRef = ref<HTMLDivElement>();
 const subtitleRef = ref<HTMLDivElement>();
@@ -56,7 +55,7 @@ onBeforeUnmount(() => {
       />
     </div>
     <div
-      v-if="!state.settings.value.minimalistMode"
+      v-if="!amethyst.state.settings.value.minimalistMode"
       class="contents"
     >
       <div

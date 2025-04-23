@@ -1,10 +1,9 @@
 <script setup lang="ts">
-import { useState } from "@/amethyst";
+import { amethyst } from "@/amethyst";
 import { getThemeColorHex } from "@/logic/color";
 import { onMounted, onUnmounted, watch } from "vue";
 
 const props = defineProps<{ node: AudioNode, width: number, height: number }>();
-const state = useState();
 const randomId = Date.now();
 let canvasCtx: CanvasRenderingContext2D;
 let shouldStopRendering = false;
@@ -13,18 +12,18 @@ onMounted(() => {
   const vectorscope = document.querySelector(`#vectorscope-${randomId}`) as HTMLCanvasElement;
   canvasCtx = vectorscope.getContext("2d")!;
   canvasCtx.strokeStyle = `${getThemeColorHex("--accent")}99`;
-  canvasCtx.lineWidth = state.settings.value.vectorscopeLineThickness;
-  watch(() => state.settings.value.vectorscopeLineThickness, () => canvasCtx.lineWidth = state.settings.value.vectorscopeLineThickness);
+  canvasCtx.lineWidth = amethyst.state.settings.value.vectorscopeLineThickness;
+  watch(() => amethyst.state.settings.value.vectorscopeLineThickness, () => canvasCtx.lineWidth = amethyst.state.settings.value.vectorscopeLineThickness);
 
   const { context } = props.node;
   const analyzerX = context.createAnalyser();
   const analyzerY = context.createAnalyser();
-  analyzerX.fftSize = state.settings.value.vectorscopeFftSize;
-  analyzerY.fftSize = state.settings.value.vectorscopeFftSize;
+  analyzerX.fftSize = amethyst.state.settings.value.vectorscopeFftSize;
+  analyzerY.fftSize = amethyst.state.settings.value.vectorscopeFftSize;
   let bufferX = new Float32Array(analyzerX.fftSize);
   let bufferY = new Float32Array(analyzerY.fftSize);
 
-	watch(() => state.settings.value.vectorscopeFftSize, value => {
+	watch(() => amethyst.state.settings.value.vectorscopeFftSize, value => {
     analyzerX.fftSize = value;
     analyzerY.fftSize = value;
     bufferX = new Float32Array(value);
@@ -38,8 +37,8 @@ onMounted(() => {
 
   let lastPosition = [props.width / 2, props.height / 2];
 
-  watch(() => useState().state.isFocused, isFocused => {
-    if (useState().settings.value.pauseVisualsWhenUnfocused) {
+  watch(() => amethyst.state.window.isFocused, isFocused => {
+    if (amethyst.state.settings.value.pauseVisualsWhenUnfocused) {
       if (!isFocused) shouldStopRendering = true;
       else {
         shouldStopRendering = false;
@@ -77,7 +76,7 @@ onUnmounted(() => shouldStopRendering = true);
 <template>
   <canvas
     :id="`vectorscope-${randomId}`"
-    :class="[state.settings.value.lissajousVectorscope && 'lissajous bg-slider-background bg-opacity-50']"
+    :class="[amethyst.state.settings.value.lissajousVectorscope && 'lissajous bg-slider-background bg-opacity-50']"
     class="transform rotate-90"
     :width="width"
     :height="height"

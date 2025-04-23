@@ -10,7 +10,7 @@ import Mp3Logo from "@/icons/logos/Mp3Logo.vue";
 import OggLogo from "@/icons/logos/OggLogo.vue";
 import OpusLogo from "@/icons/logos/OpusLogo.vue";
 import WindowsLogo from "@/icons/logos/WindowsLogo.vue";
-import { Track } from "@/logic/track";
+import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
 import { onMounted, ref } from "vue";
 
@@ -37,17 +37,19 @@ onMounted(() => {
         :title="$t('output_diagram.source.title')"
         :subtitle="mimeType"
       >
-        <flac-logo v-if="mimeType == 'FLAC'" />
-        <mp3-logo v-else-if="mimeType == 'MPEG 1 Layer 3'" />
-        <opus-logo v-else-if="mimeType == 'Opus'" />
-        <ogg-logo v-else-if="mimeType == 'Vorbis I'" />
-        <windows-logo v-else-if="['PCM', 'non-PCM (65534)', 'IEEE_FLOAT'].includes(mimeType)" />
-        <aac-logo v-else-if="['AAC', 'MPEG-4/AAC'].includes(mimeType)" />
-        <icon
-          v-else
-          class="h-6 w-6 text-text_title"
-          icon="ic:twotone-question-mark"
-        />
+        <span class=" text-text_title">
+          <flac-logo v-if="mimeType == 'FLAC'" />
+          <mp3-logo v-else-if="mimeType == 'MPEG 1 Layer 3'" />
+          <opus-logo v-else-if="mimeType == 'Opus'" />
+          <ogg-logo v-else-if="mimeType == 'Vorbis I'" />
+          <windows-logo v-else-if="['PCM', 'non-PCM (65534)', 'IEEE_FLOAT'].includes(mimeType)" />
+          <aac-logo v-else-if="['AAC', 'MPEG-4/AAC'].includes(mimeType)" />
+          <icon
+            v-else
+            class="h-6 w-6 text-text_title"
+            icon="ic:twotone-question-mark"
+          />
+        </span>
       </output-diagram-blob>
 
       <div class="w-full h-2px bg-surface-600 mt-6" />

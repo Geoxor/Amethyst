@@ -3,7 +3,7 @@ import Slider from "@/components/input/BaseSlider.vue";
 import CustomNode from "@/components/nodes/CustomNode.vue";
 import { percentToLogValue } from "@/logic/math";
 import { watch } from "vue";
-import { AmethystFilterNode } from ".";
+import type { AmethystFilterNode } from ".";
 
 import BandpassIcon from "@/icons/equalizer/BandpassIcon.vue";
 import HighpassIcon from "@/icons/equalizer/HighpassIcon.vue";

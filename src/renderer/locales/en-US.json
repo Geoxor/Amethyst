@@ -66,6 +66,9 @@
   "settings.font_weight.title": "Font weight",
   "settings.font_weight.description": "Changes how bold the font will be globally in the UI",
 
+  "settings.theme.title": "Theme",
+  "settings.theme.description": "Changes the theme of the application, this will change the background and the color of the UI elements",
+
   "settings.application.title": "Application",
   "settings.application.description": "Updates and language preferences",
 

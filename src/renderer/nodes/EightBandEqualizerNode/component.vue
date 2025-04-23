@@ -2,8 +2,9 @@
 import CustomNode from "@/components/nodes/CustomNode.vue";
 import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
 import { getThemeColorHex } from "@/logic/color";
-import { Ref, onMounted, ref, watch } from "vue";
-import { AmethystEightBandEqualizerNode } from ".";
+import type { Ref} from "vue";
+import { onMounted, ref, watch } from "vue";
+import type { AmethystEightBandEqualizerNode } from ".";
 import EqualizerBand from "./EqualizerBand.vue";
 
 import BandpassIcon from "@/icons/equalizer/BandpassIcon.vue";

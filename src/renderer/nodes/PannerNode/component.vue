@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Slider from "@/components/input/BaseSlider.vue";
 import CustomNode from "@/components/nodes/CustomNode.vue";
-import { AmethystPannerNode } from ".";
+import type { AmethystPannerNode } from ".";
 defineProps<{ node: AmethystPannerNode }>();
 function clamp(input: number, min: number, max: number): number {
   return input < min ? min : input > max ? max : input;

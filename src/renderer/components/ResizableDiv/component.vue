@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import {useLocalStorage} from "@vueuse/core";
-import {onMounted, Ref, ref} from "vue";
+import type { Ref} from "vue";
+import {onMounted, ref} from "vue";
 import {type ResizeSide, type Direction, getResizeDirection} from ".";
 import {computed} from "vue";
 import ResizeHandle from "./ResizeHandle.vue";

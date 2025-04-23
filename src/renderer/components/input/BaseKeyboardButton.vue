@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { useShortcuts, useState } from "@/amethyst";
-import { KeyFilter, onKeyDown, onKeyUp } from "@vueuse/core";
+import { amethyst } from "@/amethyst";
+import type { KeyFilter } from "@vueuse/core";
+import { onKeyDown, onKeyUp } from "@vueuse/core";
 import { onMounted, ref, watch } from "vue";
 const props = defineProps<{
   button: KeyFilter,
@@ -10,13 +11,13 @@ let active = ref(false);
 
 onMounted(() => {
   if (props.button === "CTRL") {
-    watch(() => useShortcuts().isControlPressed.value, value => active.value = value);
+    watch(() => amethyst.shortcuts.isControlPressed.value, value => active.value = value);
   }
   else if (props.button === "SHIFT") {
-    watch(() => useShortcuts().isShiftPressed.value, value => active.value = value);
+    watch(() => amethyst.shortcuts.isShiftPressed.value, value => active.value = value);
   }
   else if (props.button === "ALT") {
-    watch(() => useShortcuts().isAltPressed.value, value => active.value = value);
+    watch(() => amethyst.shortcuts.isAltPressed.value, value => active.value = value);
   }
   else {
     // Deals with lowercase and uppercase
@@ -27,7 +28,7 @@ onMounted(() => {
   }
 
   // Fixes sticky buttons when a popup happens and we lose focus
-  watch(() => useState().state.isFocused, isFocused => {
+  watch(() => amethyst.state.window.isFocused, isFocused => {
     if (!isFocused) active.value = false;
   });
 });

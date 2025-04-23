@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { amethyst, useState } from "@/amethyst";
+import { amethyst } from "@/amethyst";
 import ControlButtons from "@/components/input/ControlButtons.vue";
 import UpdateButton from "@/components/input/UpdateButton.vue";
 import MenuContainer from "@/components/menu/MenuContainer.vue";
@@ -36,8 +36,6 @@ onMounted(() => {
   }, 1000);
 });
 
-const state = useState();
-
 const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem() === "mac" ? "⌘" : "CTRL");
 
 const menuGroupRef = ref<{
@@ -52,7 +50,7 @@ provide("menuGroupRef", menuGroupRef);
 <template>
   <div
     class=" z-100 font-main drag h-40px pr-2 text-12px select-none flex justify-between items-center transition-colors duration-user-defined"
-    :class="[state.state.isFocused ? 'text-text_title' : 'text-text_subtitle']"
+    :class="[amethyst.state.window.isFocused ? 'text-text_title' : 'text-text_subtitle']"
   >
     <div
       class="flex no-drag h-full items-center"
@@ -173,11 +171,11 @@ provide("menuGroupRef", menuGroupRef);
       >
         <menu-option
           title="Set 'updateReady' to 'true'"
-          @click="state.state.updateReady = true;"
+          @click="amethyst.state.window.updateReady = true;"
         />
         <menu-option
           title="Set 'updateReady' to 'false'"
-          @click="state.state.updateReady = false;"
+          @click="amethyst.state.window.updateReady = false;"
         />
       </menu-container>
     </div>
@@ -195,7 +193,7 @@ provide("menuGroupRef", menuGroupRef);
       />
       <base-chip
         v-if="amethyst.IS_DEV"
-        :color="state.state.isFocused ? undefined : 'bg-gray-500'"
+        :color="amethyst.state.window.isFocused ? undefined : 'bg-gray-500'"
       >
         Development
       </base-chip>
@@ -207,7 +205,7 @@ provide("menuGroupRef", menuGroupRef);
 
     <div class="flex gap-1.25 h-6 items-center overflow-hidden font-aseprite whitespace-nowrap">
       <div
-        v-if="state.settings.value.showDebugStats"
+        v-if="amethyst.state.settings.value.showDebugStats"
         class="w-56 flex gap-1 justify-end no-drag" 
         @click="min = Number.POSITIVE_INFINITY; max = Number.NEGATIVE_INFINITY;"
       >
@@ -229,13 +227,13 @@ provide("menuGroupRef", menuGroupRef);
       </div>
     
       <update-button
-        v-if="state.state.updateReady"
+        v-if="amethyst.state.window.updateReady"
         @click="amethyst.performWindowAction('close')"
       />
         
       <control-buttons
         v-if="amethyst.getCurrentPlatform() === 'desktop' && amethyst.getCurrentOperatingSystem() != 'mac'"
-        :is-maximized="state.state.isMaximized"
+        :is-maximized="amethyst.state.window.isMaximized"
         @close="amethyst.performWindowAction('close')"
         @minimize="amethyst.performWindowAction('minimize')"
         @maximize="amethyst.performWindowAction('maximize')"

@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { amethyst, useShortcuts } from "@/amethyst";
+import { amethyst } from "@/amethyst";
 import { useContextMenu } from "@/components/ContextMenu";
 import { saveArrayBufferToFile } from "@/logic/dom";
 import { convertDfpwm } from "@/logic/encoding";
-import { Track } from "@/logic/track";
+import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
 import CoverArt from "./CoverArt.vue";
 import { useInspector } from "./Inspector";
 
 defineProps<{tracks: Track[]}>();
 
-const isHoldingControl = useShortcuts().isControlPressed;
+const isHoldingControl = amethyst.shortcuts.isControlPressed;
 
 // Context Menu options for this component 
 const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {

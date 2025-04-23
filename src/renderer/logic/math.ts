@@ -3,6 +3,10 @@ export const getLogIndex = (value: number, min: number, max: number) => {
   return min * (max / min) ** exp;
 };
 
+export const normalize8bit = (value: number): number => {
+  return Math.max(0, Math.min(255, value)) / 255;
+};
+
 export const logParabolicSpectrum = (
   dataArray: Uint8Array,
   outputLength: number
