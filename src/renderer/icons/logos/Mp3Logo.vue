@@ -3,7 +3,7 @@
     width="24"
     height="12"
     viewBox="0 0 24 12"
-    fill="#CEC7FE"
+    fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
   >
     <path
