@@ -2,6 +2,7 @@ import { useLocalStorage } from "@vueuse/core";
 import { reactive, watch } from "vue";
 import type { MediaSourceType } from "./logic/mediaSources";
 import { FONT_WEIGHTS } from "@shared/constants";
+import { EventEmitter } from "./logic/eventEmitter";
 
 export interface IContextMenuOption {
 	title: string;
@@ -11,8 +12,10 @@ export interface IContextMenuOption {
 	action: () => any;
 }
 
-export class Store {
-	public state = reactive({
+export class State extends EventEmitter<{
+  themeChange: string;
+}> {
+	public window = reactive({
 		isMinimized: false,
 		isFocused: true,
 		isCheckingForUpdates: false,
@@ -79,9 +82,11 @@ export class Store {
 			const dom = document.querySelector("html");
 			dom!.className = `theme-${this.settings.value.theme}`;
 		}
+		this.emit("themeChange", this.settings.value.theme);
 	};
 
 	constructor() {
+		super();
 		this.applyCurrentTheme();
 		Object.keys(this.defaultSettings).forEach(key => {
 			// @ts-ignore

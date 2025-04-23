@@ -1,7 +1,7 @@
 import { Player } from "@/logic/player";
 import { MediaSession } from "@/mediaSession";
 import { Shortcuts } from "@/shortcuts";
-import { Store } from "@/state";
+import { State } from "@/state";
 import { MediaSourceManager } from "@/logic/mediaSources";
 import { Capacitor } from "@capacitor/core";
 import { StatusBar } from "@capacitor/status-bar";
@@ -17,6 +17,7 @@ import "./logic/subsonic";
 import { createI18n } from "vue-i18n";
 import messages from "@intlify/unplugin-vue-i18n/messages";
 import { useLocalStorage } from "@vueuse/core";
+import { EventEmitter } from "@/logic/eventEmitter";
 
 export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale
@@ -31,7 +32,7 @@ export const favoriteTracks = useLocalStorage<string[]>("favoriteTracks", []);
  * Handles interfacing with operating system and unifies methods 
  * to a simple form for all the platforms
  */
-class AmethystBackend {
+class AmethystBackend{
   public constructor() {
     console.log(`Current platform: ${this.getCurrentPlatform()}`);
     console.log(`Current operating system: ${this.getCurrentOperatingSystem()}`);
@@ -217,11 +218,11 @@ export class Amethyst extends AmethystBackend {
   public APPDATA_PATH: string | undefined;
 
   public isLoading = ref(false);
-  public store: Store = new Store();
+  public state: State = new State();
   public shortcuts: Shortcuts = new Shortcuts();
   public player = new Player();
   public mediaSession: MediaSession | undefined = this.getCurrentPlatform() === "desktop" ? new MediaSession(this.player) : undefined;
-  public mediaSourceManager: MediaSourceManager = new MediaSourceManager(this.player, this.store);
+  public mediaSourceManager: MediaSourceManager = new MediaSourceManager(this.player, this.state);
 
   public audioDevice: MediaDeviceInfo;;
 
@@ -233,25 +234,25 @@ export class Amethyst extends AmethystBackend {
         this.audioDevice = mediaDevices.find(device => device.deviceId == "default" && device.kind == "audiooutput"));
         
     // Init zoom from store
-    document.body.style.zoom = this.store.settings.value.zoomLevel;
+    document.body.style.zoom = this.state.settings.value.zoomLevel;
 
     if (this.getCurrentPlatform() === "desktop") {
       window.electron.ipcRenderer.invoke<string>("get-appdata-path").then(path => this.APPDATA_PATH = path);
 
-      window.electron.ipcRenderer.on("maximize", () => this.store.state.isMaximized = true);
-      window.electron.ipcRenderer.on("unmaximize", () => this.store.state.isMaximized = false);
-      window.electron.ipcRenderer.on("minimize", () => this.store.state.isMinimized = true);
-      window.electron.ipcRenderer.on("focus", () => this.store.state.isFocused = true);
-      window.electron.ipcRenderer.on("unfocus", () => this.store.state.isFocused = false);
+      window.electron.ipcRenderer.on("maximize", () => this.state.window.isMaximized = true);
+      window.electron.ipcRenderer.on("unmaximize", () => this.state.window.isMaximized = false);
+      window.electron.ipcRenderer.on("minimize", () => this.state.window.isMinimized = true);
+      window.electron.ipcRenderer.on("focus", () => this.state.window.isFocused = true);
+      window.electron.ipcRenderer.on("unfocus", () => this.state.window.isFocused = false);
 
-      window.electron.ipcRenderer.on("update", () => this.store.state.updateReady = true);
+      window.electron.ipcRenderer.on("update", () => this.state.window.updateReady = true);
 
       window.electron.ipcRenderer.on<string>("play-file", path => path !== "--require" && amethyst.player.queue.add(path).then(() => {
         amethyst.player.play(amethyst.player.queue.getList().findIndex(track => track.path == path));
       }));
       window.electron.ipcRenderer.on<(string)[]>("play-folder", paths => amethyst.player.queue.add(flattenArray(paths)));
   
-      this.store.settings.value.fetchMetadataOnStartup && setTimeout(() => this.player.queue.fetchAsyncData(), 1000);
+      this.state.settings.value.fetchMetadataOnStartup && setTimeout(() => this.player.queue.fetchAsyncData(), 1000);
 
       // #region move this to the discord plugin
       let richPresenceTimer: NodeJS.Timer | undefined;
@@ -276,13 +277,13 @@ export class Amethyst extends AmethystBackend {
         currentTrack && updateRichPresence(currentTrack);
       };
 
-      if (this.store.settings.value.useDiscordRichPresence) {
+      if (this.state.settings.value.useDiscordRichPresence) {
         this.player.on("play", () => {
           updateWithCurrentTrack();
         });
       };
 
-      watch(() => this.store.settings.value.useDiscordRichPresence, value => {
+      watch(() => this.state.settings.value.useDiscordRichPresence, value => {
         value ? updateWithCurrentTrack() : richPresenceTimer && clearInterval(richPresenceTimer);
       });
       // #endregion
@@ -377,9 +378,9 @@ export class Amethyst extends AmethystBackend {
     const loadedSettings = await fetch(dialog.filePaths[0]);
     const parsedSettings = await loadedSettings.json();
   
-    Object.keys(amethyst.store.settings.value).forEach(key => {
+    Object.keys(amethyst.state.settings.value).forEach(key => {
       // @ts-ignore
-      amethyst.store.settings.value[key] = parsedSettings[key];
+      amethyst.state.settings.value[key] = parsedSettings[key];
     });
   };
   
@@ -390,13 +391,13 @@ export class Amethyst extends AmethystBackend {
     });
     if (dialog?.canceled || !dialog?.filePath) return;
   
-    return amethyst.writeFile(JSON.stringify(amethyst.store.settings.value, null, 2), dialog?.filePath);
+    return amethyst.writeFile(JSON.stringify(amethyst.state.settings.value, null, 2), dialog?.filePath);
   };
 
   public resetSettings = () => {
-		Object.keys(this.store.defaultSettings).forEach(key => {
+		Object.keys(this.state.defaultSettings).forEach(key => {
       // @ts-ignore
-      this.store.settings.value[key] = this.store.defaultSettings[key];
+      this.state.settings.value[key] = this.state.defaultSettings[key];
     });
   };
 
@@ -405,7 +406,7 @@ export class Amethyst extends AmethystBackend {
   };
 
   public zoom(action: "in" | "out" | "reset") {
-    const currentZoom = amethyst.store.settings.value.zoomLevel;
+    const currentZoom = amethyst.state.settings.value.zoomLevel;
     let newZoom = currentZoom;
 
     switch (action) {
@@ -416,12 +417,12 @@ export class Amethyst extends AmethystBackend {
         newZoom = currentZoom - .125;
         break;
       case "reset":
-        newZoom = amethyst.store.defaultSettings.zoomLevel;
+        newZoom = amethyst.state.defaultSettings.zoomLevel;
         break;
     }
 
     // Update store with new zoom level
-    amethyst.store.settings.value.zoomLevel = newZoom;
+    amethyst.state.settings.value.zoomLevel = newZoom;
 
     // Set new zoom level
     document.body.style.zoom = newZoom;
@@ -437,8 +438,8 @@ export class Amethyst extends AmethystBackend {
 
   private syncWindowState = async () => {
     const windowState = await window.electron.ipcRenderer.invoke<{ isMinimized: boolean; isMaximized: boolean }>("sync-window-state");
-    this.store.state.isMinimized = windowState.isMinimized;
-    this.store.state.isMaximized = windowState.isMaximized;
+    this.state.window.isMinimized = windowState.isMinimized;
+    this.state.window.isMaximized = windowState.isMaximized;
   };
 
   private async initMobile() {
@@ -489,7 +490,7 @@ export class Amethyst extends AmethystBackend {
   };
 
   public async checkForUpdates() {
-    this.store.state.isCheckingForUpdates = true;
+    this.state.window.isCheckingForUpdates = true;
     try {
       switch (this.getCurrentPlatform()) {
         case "desktop":
@@ -502,15 +503,12 @@ export class Amethyst extends AmethystBackend {
     } catch (error) {
       console.log(error);
     }
-    this.store.state.isCheckingForUpdates = false;
+    this.state.window.isCheckingForUpdates = false;
   }
 
 }
 
 export const amethyst = new Amethyst();
-
-export const useState = () => amethyst.store;
-export const useShortcuts = () => amethyst.shortcuts;
 
 // interface IPluginDefinitionParameters {
 //   store: Store, 

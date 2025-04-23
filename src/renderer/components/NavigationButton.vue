@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { useState } from "@/amethyst";
+import { amethyst } from "@/amethyst";
 import { Icon } from "@iconify/vue";
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-const state = useState();
 const props = defineProps<{ icon: any, routeName: string, mobile?: boolean}>();
 const route = useRoute();
 const isActive = computed(() => route.name?.toString().startsWith(props.routeName) || props.routeName === route.name);
@@ -15,7 +14,7 @@ const router = useRouter();
     :class="[
       isActive && 'active',
       mobile && 'rounded-full',
-      state.state.isFocused ? 'text-text_title' : 'text-text_subtitle'
+      amethyst.state.window.isFocused ? 'text-text_title' : 'text-text_subtitle'
     ]"
 
     class="duration-user-defined items-center gap-2 transition-colors duration-user-defined flex relative disable-select p-4 no-drag text-text_title rounded-r-8px"

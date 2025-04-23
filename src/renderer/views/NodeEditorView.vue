@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { amethyst, useState } from "@/amethyst";
+import { amethyst } from "@/amethyst";
 import BaseToolbar from "@/components/BaseToolbar.vue";
 import BaseToolbarButton from "@/components/BaseToolbarButton.vue";
 import BaseToolbarSplitter from "@/components/BaseToolbarSplitter.vue";
@@ -31,7 +31,6 @@ onUnmounted(() => {
 // Proxy function because dash.value is innaccessible in template code
 const fitToView = () => dash.value.fitView();
 
-const state = useState();
 const elements = computed({
   get: () => [...amethyst.player.nodeManager.getNodeProperties(), ...amethyst.player.nodeManager.getNodeConnections()],
   set: () => {}
@@ -85,7 +84,7 @@ const getDashCoords = () => {
 
 const computeNodePosition = ({x, y}: Coords) => {
   const {x: dashX, y: dashY} = getDashCoords();
-  return { x: -dashX + x / amethyst.store.settings.value.zoomLevel, y: -dashY + y / amethyst.store.settings.value.zoomLevel};
+  return { x: -dashX + x / amethyst.state.settings.value.zoomLevel, y: -dashY + y / amethyst.state.settings.value.zoomLevel};
 };
 
 const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
@@ -258,9 +257,9 @@ onKeyStroke("Delete", () => {
       />
       <base-toolbar-button
         icon="ic:twotone-grid-on"
-        :active="state.settings.value.isSnappingToGrid"
+        :active="amethyst.state.settings.value.isSnappingToGrid"
         tooltip-text="Snap to Grid"
-        @click="state.settings.value.isSnappingToGrid = !state.settings.value.isSnappingToGrid"
+        @click="amethyst.state.settings.value.isSnappingToGrid = !amethyst.state.settings.value.isSnappingToGrid"
       />
 
       <base-toolbar-splitter />
@@ -290,7 +289,7 @@ onKeyStroke("Delete", () => {
       ref="dash"
       v-model="elements"
       class="p-2"
-      :snap-to-grid="state.settings.value.isSnappingToGrid"
+      :snap-to-grid="amethyst.state.settings.value.isSnappingToGrid"
       :max-zoom="2.00"
       :min-zoom="1.00"
       :connection-line-style="{ stroke: getThemeColorHex('--primary-700') }"

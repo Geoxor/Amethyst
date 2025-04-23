@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useState } from "@/amethyst";
+import { amethyst } from "@/amethyst";
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 const props = defineProps<{ node: AudioNode, channels?: number, pre?: boolean }>();
 const FLOOR = -120;
@@ -17,19 +17,19 @@ onMounted(() => {
   const splitter = context.createChannelSplitter(MAX_CHANNELS);
   const analyzers = Array.from({ length: MAX_CHANNELS }, () => {
     const analyzer = context.createAnalyser();
-    analyzer.fftSize = useState().settings.value.decibelMeterFftSize;
+    analyzer.fftSize = amethyst.state.settings.value.decibelMeterFftSize;
     return analyzer;
   });
 
   let buffers = analyzers.map(analyzer => new Float32Array(analyzer.fftSize));
   
-  watch(() => useState().settings.value.decibelMeterFftSize, value => {
+  watch(() => amethyst.state.settings.value.decibelMeterFftSize, value => {
     analyzers.forEach(a => a.fftSize = value);
     buffers = analyzers.map(() => new Float32Array(value));
   });
 
-  watch(() => useState().state.isFocused, isFocused => {
-    if (useState().settings.value.pauseVisualsWhenUnfocused) {
+  watch(() => amethyst.state.window.isFocused, isFocused => {
+    if (amethyst.state.settings.value.pauseVisualsWhenUnfocused) {
       if (!isFocused) shouldStopRendering = true;
       else {
         shouldStopRendering = false;
@@ -66,7 +66,7 @@ onMounted(() => {
 });
 
 const computedWidth = (value: number): number => {
-  const width = (1 + value / Math.abs(useState().settings.value.decibelMeterMinimumDb)) * 90;
+  const width = (1 + value / Math.abs(amethyst.state.settings.value.decibelMeterMinimumDb)) * 90;
   return Math.min(100, Math.max(0.01, width));
 };
 
@@ -129,7 +129,7 @@ onUnmounted(() => shouldStopRendering = true);
       PRE
     </div>
     <div
-      v-else-if="useState().settings.value.decibelMeterSeperatePrePost"
+      v-else-if="amethyst.state.settings.value.decibelMeterSeperatePrePost"
       class="div text-surface-600 w-full font-bold text-5px  bg-green-500 py-0.2 px-0.3 rounded-1px flex items-center justify-center"
     >
       POST

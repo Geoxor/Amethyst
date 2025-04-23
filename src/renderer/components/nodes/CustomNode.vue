@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { amethyst, useShortcuts, useState } from "@/amethyst";
+import { amethyst } from "@/amethyst";
 import { useContextMenu } from "@/components/ContextMenu";
 import QuickMenu from "@/components/nodes/QuickMenu.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
@@ -8,7 +8,7 @@ import type { IContextMenuOption } from "@/state";
 import { Icon } from "@iconify/vue";
 import { Handle, Position } from "@vue-flow/core";
 import BaseChip from "../BaseChip.vue";
-const state = useState();
+
 const props = defineProps<{ title: string, icon: string, description?: string, node: AmethystAudioNode, meterless?: boolean }>();
 // Context Menu options for this component 
 const handleContextMenu = ({x, y}: MouseEvent) => {
@@ -30,7 +30,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
     <quick-menu :node="node" />
 
     <div
-      v-if="!meterless && state.settings.value.decibelMeterSeperatePrePost"
+      v-if="!meterless && amethyst.state.settings.value.decibelMeterSeperatePrePost"
       class="flex "
     >
       <db-meter
@@ -50,7 +50,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
           {{ title }} 
 
           <p
-            v-if="useShortcuts().isAltPressed.value"
+            v-if="amethyst.shortcuts.isAltPressed.value"
             class="mt-0.5 text-surface-400 text-4px font-aseprite"
           >
             {{ node.properties.id }}

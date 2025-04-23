@@ -1,8 +1,7 @@
 <script setup lang="ts">
-import { amethyst, useState } from "@/amethyst";
+import { amethyst } from "@/amethyst";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
-const state = useState();
 
 </script>
 
@@ -14,6 +13,6 @@ const state = useState();
     :platforms="['desktop']"
     icon="ic:twotone-discord"
   >
-    <toggle-switch v-model="state.settings.value.useDiscordRichPresence" />
+    <toggle-switch v-model="amethyst.state.settings.value.useDiscordRichPresence" />
   </settings-setting>
 </template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useState } from "@/amethyst";
+import { amethyst } from "@/amethyst";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import DropdownInput from "@/components/v2/DropdownInput.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
@@ -15,8 +15,6 @@ const AVAILABLE_THEMES = [
   "sapphire-dark" // is missing css variables
 ];
 
-const state = useState();
-
 </script>
 
 <template>
@@ -26,7 +24,7 @@ const state = useState();
     icon="ic:twotone-access-time"
   >
     <slider-input
-      v-model="state.settings.value.animationDuration"
+      v-model="amethyst.state.settings.value.animationDuration"
       :min="0"
       :max="300"
       :step="10"
@@ -39,7 +37,7 @@ const state = useState();
     icon="ic:twotone-format-bold"
   >
     <dropdown-input
-      v-model="state.settings.value.fontWeight"
+      v-model="amethyst.state.settings.value.fontWeight"
       :options="FONT_WEIGHTS"
     />
   </settings-setting>
@@ -49,7 +47,7 @@ const state = useState();
     icon="ic:twotone-palette"
   >
     <dropdown-input
-      v-model="state.settings.value.theme"
+      v-model="amethyst.state.settings.value.theme"
       :options="AVAILABLE_THEMES"
     />
   </settings-setting>
@@ -59,7 +57,7 @@ const state = useState();
     icon="ic:twotone-photo-size-select-actual"
   >
     <toggle-switch
-      v-model="state.settings.value.showAmbientBackground" 
+      v-model="amethyst.state.settings.value.showAmbientBackground" 
     />
     <template #subsettings>
       <div class="p-2 flex flex-col gap-2">
@@ -70,7 +68,7 @@ const state = useState();
           icon="ic:twotone-water-drop"
         >
           <dropdown-input
-            v-model="state.settings.value.ambientBackgroundBlendMode"
+            v-model="amethyst.state.settings.value.ambientBackgroundBlendMode"
             :options="BLEND_MODES"
           />
         </settings-setting>
@@ -81,7 +79,7 @@ const state = useState();
           icon="ic:twotone-rotate-90-degrees-ccw"
         >
           <toggle-switch
-            v-model="state.settings.value.ambientBackgroundSpin" 
+            v-model="amethyst.state.settings.value.ambientBackgroundSpin" 
           />
         </settings-setting>
         <settings-setting
@@ -91,7 +89,7 @@ const state = useState();
           icon="ic:twotone-rotate-90-degrees-ccw"
         >
           <slider-input
-            v-model="state.settings.value.ambientBackgroundSpinSpeed"
+            v-model="amethyst.state.settings.value.ambientBackgroundSpinSpeed"
             :min="0"
             :max="60"
             :step="1"
@@ -105,7 +103,7 @@ const state = useState();
           icon="ic:twotone-opacity"
         >
           <slider-input
-            v-model="state.settings.value.ambientBackgroundOpacity"
+            v-model="amethyst.state.settings.value.ambientBackgroundOpacity"
             :min="0"
             :max="100"
             :step="2.5"
@@ -119,7 +117,7 @@ const state = useState();
           icon="ic:twotone-blur-linear"
         >
           <slider-input
-            v-model="state.settings.value.ambientBackgroundBlurStrength"
+            v-model="amethyst.state.settings.value.ambientBackgroundBlurStrength"
             :min="0"
             :max="128"
             :step="4"
@@ -133,7 +131,7 @@ const state = useState();
           icon="ic:twotone-zoom-in"
         >
           <slider-input
-            v-model="state.settings.value.ambientBackgroundZoom"
+            v-model="amethyst.state.settings.value.ambientBackgroundZoom"
             :min="50"
             :max="250"
             :step="10"
@@ -149,7 +147,7 @@ const state = useState();
     icon="ic:twotone-remove-red-eye"
   >
     <toggle-switch
-      v-model="state.settings.value.neonMode" 
+      v-model="amethyst.state.settings.value.neonMode" 
     />
   </settings-setting>
   <settings-setting
@@ -158,7 +156,7 @@ const state = useState();
     icon="ic:twotone-skip-next"
   >
     <toggle-switch
-      v-model="state.settings.value.showPlaybackControls" 
+      v-model="amethyst.state.settings.value.showPlaybackControls" 
     />
   </settings-setting>
   <settings-setting
@@ -167,7 +165,7 @@ const state = useState();
     icon="ic:twotone-remove-red-eye"
   >
     <toggle-switch
-      v-model="state.settings.value.minimalistMode" 
+      v-model="amethyst.state.settings.value.minimalistMode" 
     />
     <template #subsettings>
       <div class="p-2 flex flex-col gap-2">
@@ -178,7 +176,7 @@ const state = useState();
           icon="ic:twotone-format-strikethrough"
         >
           <toggle-switch
-            v-model="state.settings.value.hideCategoryTitles" 
+            v-model="amethyst.state.settings.value.hideCategoryTitles" 
           />
         </settings-setting>
       </div>
@@ -191,7 +189,7 @@ const state = useState();
     icon="ic:twotone-image"
   >
     <toggle-switch
-      v-model="state.settings.value.showCoverArt" 
+      v-model="amethyst.state.settings.value.showCoverArt" 
     />
   </settings-setting>
   <settings-setting
@@ -200,7 +198,7 @@ const state = useState();
     icon="ic:twotone-bug-report"
   >
     <toggle-switch
-      v-model="state.settings.value.showDebugStats" 
+      v-model="amethyst.state.settings.value.showDebugStats" 
     />
   </settings-setting>
 </template>

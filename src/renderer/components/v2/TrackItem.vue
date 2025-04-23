@@ -10,7 +10,7 @@ onMounted(() => {
   props.track.getCoverAsBlob().then(blob => coverUrl.value = URL.createObjectURL(blob));
 });
 
-const coverGridSize = computed(() => amethyst.store.settings.value.coverGridSize);
+const coverGridSize = computed(() => amethyst.state.settings.value.coverGridSize);
 
 </script>
 

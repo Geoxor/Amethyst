@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { amethyst, useState } from "@/amethyst";
+import { amethyst } from "@/amethyst";
 import { ContextMenu, useContextMenu } from "@/components/ContextMenu";
 import CoverArt from "@/components/CoverArt.vue";
 import { InspectorBar, useInspector } from "@/components/Inspector";
@@ -13,7 +13,6 @@ import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
 import { onMounted, onUnmounted, ref, watch } from "vue";
 
-const state = useState();
 const ambientBackgroundImage = ref("");
 
 const setAmbientCover = async (track: Track) => {
@@ -30,7 +29,7 @@ onUnmounted(() => {
   amethyst.player.off("play", setAmbientCover);
 });
 
-watch(() => state.settings.value.showBigSpectrum, () => {
+watch(() => amethyst.state.settings.value.showBigSpectrum, () => {
   window.electron.ipcRenderer.invoke("fullscreen");
 });
 
@@ -38,9 +37,9 @@ watch(() => state.settings.value.showBigSpectrum, () => {
 
 <template>
   <div
-    v-if="state.settings.value.showBigSpectrum"
+    v-if="amethyst.state.settings.value.showBigSpectrum"
     class="absolute top-0 left-0 w-320px h-280px z-30 bg-surface-800 "
-    @click="state.settings.value.showBigSpectrum = false"
+    @click="amethyst.state.settings.value.showBigSpectrum = false"
   >
     <spectrum-analyzer
       key="big-spectrum-analyzer"
@@ -52,7 +51,7 @@ watch(() => state.settings.value.showBigSpectrum, () => {
     class="flex fixed flex-col bg-surface-900"
   >
     <div
-      v-if="state.state.isShowingBigCover"
+      v-if="amethyst.state.window.isShowingBigCover"
       class="absolute select-none rounded-8px w-full sm:w-auto max-w-3/4 max-h-3/4 overflow-hidden top-1/2 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2 z-50"
       style="aspect-ratio: 1/1;"
     >
@@ -62,34 +61,34 @@ watch(() => state.settings.value.showBigSpectrum, () => {
         @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
           { title: 'Export cover...', icon: 'ic:twotone-add-photo-alternate', action: () => amethyst.player.getCurrentTrack()?.exportCover() },
         ]);"
-        @click="state.state.isShowingBigCover = !state.state.isShowingBigCover"
+        @click="amethyst.state.window.isShowingBigCover = !amethyst.state.window.isShowingBigCover"
       />
 
       <icon
         icon="ic:twotone-close"
         class="utilityButton absolute top-3 right-3 cursor-pointer"
-        @click="state.state.isShowingBigCover = false"
+        @click="amethyst.state.window.isShowingBigCover = false"
       />
     </div>
 
     <div
-      v-if="state.settings.value.showAmbientBackground && ambientBackgroundImage"
+      v-if="amethyst.state.settings.value.showAmbientBackground && ambientBackgroundImage"
       :style="`
-        transform: translate(-50%, -50%) scale(${state.settings.value.ambientBackgroundZoom}%);
-        mix-blend-mode: ${state.settings.value.ambientBackgroundBlendMode};
+        transform: translate(-50%, -50%) scale(${amethyst.state.settings.value.ambientBackgroundZoom}%);
+        mix-blend-mode: ${amethyst.state.settings.value.ambientBackgroundBlendMode};
       `"
       class="absolute z-1000 select-none pointer-events-none top-1/2 transform-gpu -translate-y-1/2 left-1/2 -translate-x-1/2 w-full"
     >
       <cover-art 
         class="w-full h-full" 
         :class="[
-          state.settings.value.ambientBackgroundSpin && 'animate-spin'
+          amethyst.state.settings.value.ambientBackgroundSpin && 'animate-spin'
         ]" 
         :style="`
-        animation-play-state: ${state.settings.value.pauseVisualsWhenUnfocused && !state.state.isFocused ? 'paused' : 'running'};
-        animation-duration: ${state.settings.value.ambientBackgroundSpinSpeed}s;
-        opacity: ${state.settings.value.ambientBackgroundOpacity}%;
-        filter: blur(${state.settings.value.ambientBackgroundBlurStrength}px);
+        animation-play-amethyst.state: ${amethyst.state.settings.value.pauseVisualsWhenUnfocused && !amethyst.state.window.isFocused ? 'paused' : 'running'};
+        animation-duration: ${amethyst.state.settings.value.ambientBackgroundSpinSpeed}s;
+        opacity: ${amethyst.state.settings.value.ambientBackgroundOpacity}%;
+        filter: blur(${amethyst.state.settings.value.ambientBackgroundBlurStrength}px);
       `"
         :url="ambientBackgroundImage"
       />
@@ -147,7 +146,7 @@ watch(() => state.settings.value.showBigSpectrum, () => {
         <inspector-bar v-if="useInspector().state.isVisible" />
       </div>
 
-      <playback-controls v-if="state.settings.value.showPlaybackControls" />
+      <playback-controls v-if="amethyst.state.settings.value.showPlaybackControls" />
     </div>
   </div>
 </template> 
