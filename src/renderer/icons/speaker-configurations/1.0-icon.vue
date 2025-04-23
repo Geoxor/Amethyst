@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import { getThemeColorHex } from "@/logic/color";
+</script>
+
 <template>
   <svg
     width="86"
@@ -11,7 +15,7 @@
       y1="5.5"
       x2="48"
       y2="5.5"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
       stroke-opacity="0.25"
     />
     <line
@@ -19,7 +23,7 @@
       y1="5.5"
       x2="6"
       y2="5.5"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
       stroke-opacity="0.25"
     />
     <rect
@@ -28,16 +32,16 @@
       width="10"
       height="10"
       rx="0.5"
-      fill="#868AFF"
+      :fill="getThemeColorHex('--accent')"
       fill-opacity="0.1"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
     />
     <line
       x1="5.5"
       y1="81"
       x2="5.5"
       y2="5"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
       stroke-opacity="0.25"
     />
     <line
@@ -45,7 +49,7 @@
       y1="81"
       x2="80.5"
       y2="5"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
       stroke-opacity="0.25"
     />
     <line
@@ -53,7 +57,7 @@
       y1="80"
       x2="42.5"
       y2="11"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
       stroke-opacity="0.25"
     />
     <line
@@ -61,7 +65,7 @@
       y1="42.5"
       x2="42"
       y2="42.5"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
       stroke-opacity="0.25"
     />
     <line
@@ -69,7 +73,7 @@
       y1="42.5"
       x2="80"
       y2="42.5"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
       stroke-opacity="0.25"
     />
     <line
@@ -77,7 +81,7 @@
       y1="80.5"
       x2="6"
       y2="80.5"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
       stroke-opacity="0.25"
     />
   </svg>

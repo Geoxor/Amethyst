@@ -30,7 +30,7 @@ defineProps<{
     :active="false"
     :fullwidth-min="fullwidthMin"
     :description="$t('settings.behaviour.description')"
-    icon="ic:twotone-settings-suggest"
+    icon="ic:twotone-psychology"
   />
   <settings-category
     route-name="settings.metering"

@@ -1,3 +1,7 @@
+<script setup lang="ts"> 
+import { getThemeColorHex } from "@/logic/color";
+</script>
+
 <template>
   <svg
     width="86"
@@ -11,7 +15,7 @@
       y1="5.5"
       x2="11"
       y2="5.5"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
       stroke-opacity="0.25"
     />
     <line
@@ -19,7 +23,7 @@
       y1="80"
       x2="42.5"
       y2="29"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
       stroke-opacity="0.25"
     />
     <line
@@ -27,7 +31,7 @@
       y1="18"
       x2="42.5"
       y2="6"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
       stroke-opacity="0.25"
     />
     <line
@@ -35,7 +39,7 @@
       y1="80.5"
       x2="11"
       y2="80.5"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
       stroke-opacity="0.25"
     />
     <line
@@ -43,7 +47,7 @@
       y1="42.5"
       x2="17"
       y2="42.5"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
       stroke-opacity="0.25"
     />
     <line
@@ -51,7 +55,7 @@
       y1="42.5"
       x2="42"
       y2="42.5"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
       stroke-opacity="0.25"
     />
     <line
@@ -59,7 +63,7 @@
       y1="42.5"
       x2="57"
       y2="42.5"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
       stroke-opacity="0.25"
     />
     <line
@@ -67,7 +71,7 @@
       y1="42.5"
       x2="80"
       y2="42.5"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
       stroke-opacity="0.25"
     />
     <line
@@ -75,7 +79,7 @@
       y1="75"
       x2="5.5"
       y2="11"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
       stroke-opacity="0.25"
     />
     <line
@@ -83,7 +87,7 @@
       y1="75"
       x2="80.5"
       y2="11"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
       stroke-opacity="0.25"
     />
     <rect
@@ -92,9 +96,9 @@
       width="16"
       height="10"
       rx="5"
-      fill="#DA74FE"
+      :fill="getThemeColorHex('--primary')"
       fill-opacity="0.1"
-      stroke="#DA74FE"
+      :stroke="getThemeColorHex('--primary')"
     />
     <rect
       x="0.5"
@@ -102,9 +106,9 @@
       width="10"
       height="10"
       rx="0.5"
-      fill="#868AFF"
+      :fill="getThemeColorHex('--accent')"
       fill-opacity="0.1"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
     />
     <rect
       x="75.5"
@@ -112,9 +116,9 @@
       width="10"
       height="10"
       rx="0.5"
-      fill="#868AFF"
+      :fill="getThemeColorHex('--accent')"
       fill-opacity="0.1"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
     />
     <rect
       x="75.5"
@@ -122,9 +126,9 @@
       width="10"
       height="10"
       rx="0.5"
-      fill="#868AFF"
+      :fill="getThemeColorHex('--accent')"
       fill-opacity="0.1"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
     />
     <rect
       x="0.5"
@@ -132,9 +136,9 @@
       width="10"
       height="10"
       rx="0.5"
-      fill="#868AFF"
+      :fill="getThemeColorHex('--accent')"
       fill-opacity="0.1"
-      stroke="#868AFF"
+      :stroke="getThemeColorHex('--accent')"
     />
     <rect
       x="57.5"
@@ -142,9 +146,9 @@
       width="10"
       height="10"
       rx="0.5"
-      fill="#CEC7FE"
+      :fill="getThemeColorHex('--text-title')"
       fill-opacity="0.1"
-      stroke="#CEC7FE"
+      :stroke="getThemeColorHex('--text-title')"
     />
     <rect
       x="17.5"
@@ -152,9 +156,9 @@
       width="10"
       height="10"
       rx="0.5"
-      fill="#CEC7FE"
+      :fill="getThemeColorHex('--text-title')"
       fill-opacity="0.1"
-      stroke="#CEC7FE"
+      :stroke="getThemeColorHex('--text-title')"
     />
   </svg>
 </template>
