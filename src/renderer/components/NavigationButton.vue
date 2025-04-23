@@ -42,9 +42,9 @@ button:hover:not(.active) {
 }
 
 button.active {
-  @apply bg-accent text-[#101119];
+  @apply bg-accent text-settings-subsetting-background;
   & p, h1 {
-    @apply text-[#101119];
+    @apply text-settings-subsetting-background;
   }
 }
 

@@ -5,6 +5,16 @@ import DropdownInput from "@/components/v2/DropdownInput.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 import { BLEND_MODES, FONT_WEIGHTS } from "@shared/constants";
+
+const AVAILABLE_THEMES = [
+  "amethyst-dark",
+  "emerald-dark",
+  "onyx-dark", // is missing css variables
+  "rose-dark", // is missing css variables
+  "ruby-dark", // is missing css variables
+  "sapphire-dark" // is missing css variables
+];
+
 const state = useState();
 
 </script>
@@ -31,6 +41,16 @@ const state = useState();
     <dropdown-input
       v-model="state.settings.value.fontWeight"
       :options="FONT_WEIGHTS"
+    />
+  </settings-setting>
+  <settings-setting
+    :title="$t('settings.theme.title')"
+    :description="$t('settings.theme.description')"
+    icon="ic:twotone-palette"
+  >
+    <dropdown-input
+      v-model="state.settings.value.theme"
+      :options="AVAILABLE_THEMES"
     />
   </settings-setting>
   <settings-setting

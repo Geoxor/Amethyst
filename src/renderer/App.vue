@@ -17,7 +17,9 @@ const state = useState();
 const ambientBackgroundImage = ref("");
 
 const setAmbientCover = async (track: Track) => {
-  track.getCoverAsBlob().then(blob => ambientBackgroundImage.value = URL.createObjectURL(blob));
+  track.getCoverAsBlob()
+    .then(blob => ambientBackgroundImage.value = URL.createObjectURL(blob))
+    .catch(() => ambientBackgroundImage.value = "");
 };
 
 onMounted(() => {
@@ -164,130 +166,5 @@ watch(() => state.settings.value.showBigSpectrum, () => {
 /* this contains the default theme, these are optional styles */
 @import '@vue-flow/core/dist/theme-default.css';
 
-@font-face {
-  font-family: "jost";
-  src: url("../../assets/fonts/jost.ttf");
-}
-
-@font-face {
-  font-family: "zen-dots";
-  src: url("../../assets/fonts/zen-dots.ttf");
-}
-
-@font-face {
-  font-family: "aseprite";
-  src: url("../../assets/fonts/aseprite-remix.ttf");
-}
-
-* {
-  cursor: url("./icons/cursors/default.png"), auto;
-  font-family: jost, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
-*.font-aseprite {
-  font-family: "aseprite";
-  @apply text-7px;
-}
-
-*.font-zen-dots {
-  font-family: "zen-dots";
-  @apply text-20px;
-}
-
-*.font-aseprite * {
-  font-family: "aseprite";
-}
-
-*.duration-user-defined {
-  transition-duration: var(--transition-duration);
-}
-
-*.duration-meter-user-defined {
-  transition-duration: var(--smoothing-duration);
-}
-
-*.font-weight-user-defined {
-  font-weight: var(--font-weight);
-}
-
-.cursor-pointer,
-.cursor-pointer * {
-  cursor: url("./icons/cursors/pointer.png") 4 0, auto !important;
-}
-
-.cursor-heart-pointer,
-.cursor-heart-pointer * {
-  cursor: url("./icons/cursors/heart-pointer.png") 4 0, auto !important;
-}
-
-.cursor-external-pointer,
-.cursor-external-pointer * {
-  cursor: url("./icons/cursors/external-pointer.png") 4 0, auto !important;
-}
-
-.not-allowed,
-.not-allowed * {
-  cursor: not-allowed !important;
-}
-
-* {
-  @apply !outline-none;
-  cursor: url("./icons/cursors/default.png"), auto !important;
-}
-
-/*  Fixes the white bg showing up when resizing */
-html,
-body,
-#app,
-#app {
-  @apply bg-surface-900;
-}
-
-html,
-body,
-#app,
-#app>div {
-  @apply h-full w-full;
-}
-
-*::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
-}
-
-*:hover::-webkit-scrollbar {
-  overflow-y: overlay;
-}
-
-*::-webkit-scrollbar-track,
-*::-webkit-scrollbar-corner {
-  border-radius: 20px;
-  @apply bg-surface-700;
-}
-
-*::-webkit-scrollbar-thumb {
-  border-radius: 20px;
-  @apply bg-surface-500;
-  border: transparent;
-}
-
-.drag {
-  -webkit-app-region: drag;
-}
-
-.no-drag {
-  -webkit-app-region: no-drag;
-}
-
-.clickable {
-  @apply cursor-pointer border-1 border-transparent hover:bg-primary-700 hover:bg-opacity-10;
-}
-
-.disable-select {
-  -webkit-user-select: none;  
-  -moz-user-select: none;    
-  -ms-user-select: none;      
-  user-select: none;
-}
-
+@import url(base.css);
 </style>

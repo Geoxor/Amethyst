@@ -25,6 +25,8 @@ export default defineConfig({
 		extend: {
 			colors: {
 				// v2
+				...returnColorVariable("settings-setting-background"),
+				...returnColorVariable("settings-subsetting-background"),
 				...returnColorVariable("playback-controls-background"),
 				...returnColorVariable("playback-controls-text"),
 				...returnColorVariable("slider-background"),

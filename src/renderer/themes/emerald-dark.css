@@ -1,4 +1,16 @@
 .theme-emerald-dark {
+    --text-title: 252, 255, 246;                            /* #FCFFF6; */  
+    --text-subtitle: 188, 195, 177;                         /* #BCC3B1; */  
+    --primary: 172, 228, 59;                                /* #ACE43B; */
+    --accent: 97, 179, 123;                                 /* #61B37B; */
+  
+    --settings-setting-background: var(--surface-800);      
+    --settings-subsetting-background: var(--surface-900);   
+    --playback-controls-background: 253, 255, 240;          /* #FDFFF0 */
+    --playback-controls-text: var(--surface-800);
+    --slider-background: 213, 217, 194;                     /* #D5D9C2 */
+    --slider-fill: var(--playback-controls-text);
+
     --surface-1000: 16, 20, 15;     /* #10140F */
     --surface-900: 20, 25, 19;      /* #141913 */
     --surface-800: 26, 31, 23;      /* #1A1F17 */
