@@ -131,7 +131,6 @@ onMounted(async () => {
   const gain = context.createGain();
 
   props.node.connect(gain);
-  gain.gain.value = 32;
   gain.connect(analyser);
 
   analyser.fftSize = amethyst.state.settings.value.spectrumFftSize;
@@ -140,8 +139,8 @@ onMounted(async () => {
   watch(() => amethyst.state.settings.value.spectrumSmoothing, () => analyser.smoothingTimeConstant = amethyst.state.settings.value.spectrumSmoothing);
 
   // Don't change these
-  analyser.maxDecibels = 12;
-  analyser.minDecibels = -64;
+  analyser.maxDecibels = -0;
+  analyser.minDecibels = -128;
 
   watch(() => amethyst.state.window.isFocused, isFocused => {
     if (amethyst.state.settings.value.pauseVisualsWhenUnfocused) {
