@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useShortcuts, useState } from "@/amethyst";
-import { KeyFilter, onKeyDown, onKeyUp } from "@vueuse/core";
+import type { KeyFilter} from "@vueuse/core";
+import { onKeyDown, onKeyUp } from "@vueuse/core";
 import { onMounted, ref, watch } from "vue";
 const props = defineProps<{
   button: KeyFilter,

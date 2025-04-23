@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useState } from "@/amethyst";
-import SettingsNavigation from "@/components/v2/SettingsNavigation.vue";
+import SettingsNavigation from "@/components/settings/SettingsNavigation.vue";
 import ResizableDiv from "../ResizableDiv";
 
 import { onBeforeUnmount, onMounted, ref } from "vue";

@@ -2,7 +2,8 @@
 import { useState } from "@/amethyst";
 import { logParabolicSpectrum } from "@/logic/math";
 import * as THREE from "three";
-import { Ref, onMounted, onUnmounted, ref, watch } from "vue";
+import type { Ref} from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 
 const props = defineProps<{ node: AudioNode }>();
 let shouldStopRendering = false;

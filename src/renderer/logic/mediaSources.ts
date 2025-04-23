@@ -1,8 +1,9 @@
 import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
 import { Track } from "./track";
-import { Ref, ref } from "vue";
-import { Player } from "./player";
-import { Store } from "@/state";
+import type { Ref} from "vue";
+import { ref } from "vue";
+import type { Player } from "./player";
+import type { Store } from "@/state";
 
 export enum MediaSourceType {
   LocalFolder = "settings.media_source_type.local_folder",

@@ -1,6 +1,6 @@
 import { useLocalStorage } from "@vueuse/core";
 import { reactive, watch } from "vue";
-import { MediaSourceType } from "./logic/mediaSources";
+import type { MediaSourceType } from "./logic/mediaSources";
 import { FONT_WEIGHTS } from "@shared/constants";
 
 export interface IContextMenuOption {

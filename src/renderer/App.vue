@@ -9,7 +9,7 @@ import TopBar from "@/components/TopBar.vue";
 import PlaybackControls from "@/components/v2/PlaybackControls.vue";
 import SpectrumAnalyzer from "@/components/visualizers/SpectrumAnalyzer/SpectrumAnalyzer.vue";
 import { AmethystIcon } from "@/icons";
-import { Track } from "@/logic/track";
+import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
 import { onMounted, onUnmounted, ref, watch } from "vue";
 
@@ -180,7 +180,7 @@ watch(() => state.settings.value.showBigSpectrum, () => {
 }
 
 * {
-  cursor: url("./cursors/default.png"), auto;
+  cursor: url("./icons/cursors/default.png"), auto;
   font-family: jost, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
@@ -212,17 +212,17 @@ watch(() => state.settings.value.showBigSpectrum, () => {
 
 .cursor-pointer,
 .cursor-pointer * {
-  cursor: url("./cursors/pointer.png") 4 0, auto !important;
+  cursor: url("./icons/cursors/pointer.png") 4 0, auto !important;
 }
 
 .cursor-heart-pointer,
 .cursor-heart-pointer * {
-  cursor: url("./cursors/heart-pointer.png") 4 0, auto !important;
+  cursor: url("./icons/cursors/heart-pointer.png") 4 0, auto !important;
 }
 
 .cursor-external-pointer,
 .cursor-external-pointer * {
-  cursor: url("./cursors/external-pointer.png") 4 0, auto !important;
+  cursor: url("./icons/cursors/external-pointer.png") 4 0, auto !important;
 }
 
 .not-allowed,
@@ -232,7 +232,7 @@ watch(() => state.settings.value.showBigSpectrum, () => {
 
 * {
   @apply !outline-none;
-  cursor: url("./cursors/default.png"), auto !important;
+  cursor: url("./icons/cursors/default.png"), auto !important;
 }
 
 /*  Fixes the white bg showing up when resizing */

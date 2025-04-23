@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Ref, onMounted, ref, watch } from "vue";
+import type { Ref} from "vue";
+import { onMounted, ref, watch } from "vue";
 // @ts-ignore no types
 import { amethyst, useState } from "@/amethyst";
 import { smoothTween } from "@/logic/dom";

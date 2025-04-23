@@ -2,7 +2,7 @@
 import { amethyst } from "@/amethyst";
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
-import TitleSubtitle from "./TitleSubtitle.vue";
+import TitleSubtitle from "../v2/TitleSubtitle.vue";
 
 import { Icon } from "@iconify/vue";
 

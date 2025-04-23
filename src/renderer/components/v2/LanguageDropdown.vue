@@ -30,7 +30,7 @@ const convertLocaleToLanguage = (locale: string) => {
 // For production we need to get the meta url
 const flagURL = (name: string) => {
     // @ts-ignore
-  return new URL(`/flags/${name}.svg`, import.meta.url).toString();
+  return new URL(`/icons/flags/${name}.svg`, import.meta.url).toString();
 };
 
 </script>

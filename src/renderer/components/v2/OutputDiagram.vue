@@ -10,7 +10,7 @@ import Mp3Logo from "@/icons/logos/Mp3Logo.vue";
 import OggLogo from "@/icons/logos/OggLogo.vue";
 import OpusLogo from "@/icons/logos/OpusLogo.vue";
 import WindowsLogo from "@/icons/logos/WindowsLogo.vue";
-import { Track } from "@/logic/track";
+import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
 import { onMounted, ref } from "vue";
 

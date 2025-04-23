@@ -1,4 +1,4 @@
-import { IFormat, ICommonTagsResult } from "music-metadata";
+import type { IFormat, ICommonTagsResult } from "music-metadata";
 
 export enum LoadStatus {
   Loading,

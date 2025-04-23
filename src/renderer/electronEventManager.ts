@@ -1,5 +1,5 @@
 import type { Store } from "@/state";
-import { IMetadata } from "@shared/types";
+import type { IMetadata } from "@shared/types";
 export class ElectronEventManager {
   public ipc = window.electron.ipcRenderer;
   public APPDATA_PATH = "";

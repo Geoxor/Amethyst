@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import SettingsCategory from "@/components/v2/SettingsCategory.vue";
+import SettingsCategory from "@/components/settings/SettingsCategory.vue";
 
 defineProps<{
   fullwidthMin: boolean;

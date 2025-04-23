@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useState } from "@/amethyst";
+import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import DropdownInput from "@/components/v2/DropdownInput.vue";
-import SettingsSetting from "@/components/v2/SettingsSetting.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 import { BLEND_MODES, FONT_WEIGHTS } from "@shared/constants";

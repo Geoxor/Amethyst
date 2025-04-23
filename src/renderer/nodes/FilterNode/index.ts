@@ -1,5 +1,5 @@
 import { AmethystAudioNode } from "@/logic/audio";
-import { NodeProperties } from "@/logic/audioManager";
+import type { NodeProperties } from "@/logic/audioManager";
 import { ref } from "vue";
 import component from "./component.vue";
 import { logValueToPercentage } from "@/logic/math";

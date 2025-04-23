@@ -2,7 +2,8 @@
 import fs from "fs";
 import os from "os";
 import path from "path";
-import electron, { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
+import type { Event} from "electron";
+import electron, { app, BrowserWindow, dialog, ipcMain, Notification, shell } from "electron";
 // import { Discord, FormatIcons } from "../plugins/amethyst.discord";
 import {ALLOWED_AUDIO_EXTENSIONS} from "../shared/constants";
 import {sleep} from "../shared/logic";

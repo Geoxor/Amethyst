@@ -32,6 +32,7 @@
     "no-mixed-spaces-and-tabs": "warn",
     "@typescript-eslint/indent": "off",
     "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/consistent-type-imports": "warn",
     "@typescript-eslint/no-unused-vars": "warn",
     "@typescript-eslint/semi": [
       "warn",
@@ -94,12 +95,10 @@
   ],
   "settings": {
     "import/resolver": {
+      
       "alias": {
         "map": [
-          [
-            "@",
-            "./src/renderer"
-          ]
+          ["@", "./src/renderer"]
         ],
         "extensions": [
           ".ts",

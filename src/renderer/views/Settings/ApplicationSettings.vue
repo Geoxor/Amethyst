@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { amethyst, useState } from "@/amethyst";
+import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import ButtonInput from "@/components/v2/ButtonInput.vue";
 import LanguageDropdown from "@/components/v2/LanguageDropdown.vue";
-import SettingsSetting from "@/components/v2/SettingsSetting.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 
 const state = useState();

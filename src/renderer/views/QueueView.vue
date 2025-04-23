@@ -5,7 +5,7 @@ import DroppableContainer from "@/components/DroppableContainer.vue";
 import LazyList from "@/components/LazyList.vue";
 import RouteHeader from "@/components/v2/RouteHeader.vue";
 import SearchInput from "@/components/v2/SearchInput.vue";
-import { Track } from "@/logic/track";
+import type { Track } from "@/logic/track";
 import { useLocalStorage } from "@vueuse/core";
 import { onMounted, onUnmounted, watch } from "vue";
 const state = useState();

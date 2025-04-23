@@ -5,10 +5,11 @@ import { AmethystGainNode,
   AmethystMasterNode,
   AmethystOutputNode,
   AmethystSpectrumNode, } from "@/nodes";
-import { Coords } from "@shared/types";
-import { Position as SourcePosition } from "@vue-flow/core";
-import { Ref, ref } from "vue";
-import { AmethystAudioNode } from "./audio";
+import type { Coords } from "@shared/types";
+import type { Position as SourcePosition } from "@vue-flow/core";
+import type { Ref} from "vue";
+import { ref } from "vue";
+import type { AmethystAudioNode } from "./audio";
 import { useLocalStorage } from "@vueuse/core";
 
 const audioNodes: Record<string, any> = {

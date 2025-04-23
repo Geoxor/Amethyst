@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { amethyst, useState } from "@/amethyst";
-import SettingsSetting from "@/components/v2/SettingsSetting.vue";
+import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import SubtitleText from "@/components/v2/SubtitleText.vue";
 import TitleText from "@/components/v2/TitleText.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";

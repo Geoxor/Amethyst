@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
-import { Track } from "@/logic/track";
+import type { Track } from "@/logic/track";
 import { computed, onMounted, ref } from "vue";
 import CoverArt from "../CoverArt.vue";
 
