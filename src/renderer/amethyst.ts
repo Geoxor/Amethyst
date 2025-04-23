@@ -202,13 +202,13 @@ class AmethystBackend{
     for (const file of files) {
       const fullPath = window.path.join(path, file);
 
-      // Not the best solution, but stat doesn't have isDirectory() for some reason
-      if (!file.includes(".")) {
+      // Attempt to read the path as a folder
+      try {
+        await window.fs.access(fullPath);
         result.push(...await this.scanFolderForFiles(fullPath));
-      } else if (ALLOWED_AUDIO_EXTENSIONS.some(extension =>
-        file.endsWith(extension)
-      )) {
-        result.push(fullPath);
+      } catch (_) {
+        if (ALLOWED_AUDIO_EXTENSIONS.some(extension => file.endsWith(extension)))
+          result.push(fullPath);
       }
     }
 
