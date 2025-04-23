@@ -224,7 +224,7 @@ export class Amethyst extends AmethystBackend {
   public mediaSession: MediaSession | undefined = this.getCurrentPlatform() === "desktop" ? new MediaSession(this.player) : undefined;
   public mediaSourceManager: MediaSourceManager = new MediaSourceManager(this.player, this.state);
 
-  public audioDevice: MediaDeviceInfo;;
+  public audioDevice: MediaDeviceInfo | undefined;
 
   public constructor() {
     super();
@@ -234,7 +234,7 @@ export class Amethyst extends AmethystBackend {
         this.audioDevice = mediaDevices.find(device => device.deviceId == "default" && device.kind == "audiooutput"));
         
     // Init zoom from store
-    document.body.style.zoom = this.state.settings.value.zoomLevel;
+    document.body.style.zoom = this.state.settings.value.zoomLevel.toString();
 
     if (this.getCurrentPlatform() === "desktop") {
       window.electron.ipcRenderer.invoke<string>("get-appdata-path").then(path => this.APPDATA_PATH = path);
@@ -425,7 +425,7 @@ export class Amethyst extends AmethystBackend {
     amethyst.state.settings.value.zoomLevel = newZoom;
 
     // Set new zoom level
-    document.body.style.zoom = newZoom;
+    document.body.style.zoom = newZoom.toString();
   }
 
   public performWindowAction(action: "close" | "maximize" | "unmaximize" | "minimize"): void {
