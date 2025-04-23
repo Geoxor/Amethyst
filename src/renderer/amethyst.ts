@@ -216,7 +216,6 @@ export class Amethyst extends AmethystBackend {
   // @ts-ignore
   public IS_DEV = import.meta.env.DEV;
   public APPDATA_PATH: string | undefined;
-
   public isLoading = ref(false);
   public state: State = new State();
   public shortcuts: Shortcuts = new Shortcuts();
@@ -229,7 +228,7 @@ export class Amethyst extends AmethystBackend {
   public constructor() {
     super();
 
-    navigator.mediaDevices.enumerateDevices()
+    navigator.mediaDevices?.enumerateDevices()
       .then( mediaDevices => 
         this.audioDevice = mediaDevices.find(device => device.deviceId == "default" && device.kind == "audiooutput"));
         
@@ -253,40 +252,6 @@ export class Amethyst extends AmethystBackend {
       window.electron.ipcRenderer.on<(string)[]>("play-folder", paths => amethyst.player.queue.add(flattenArray(paths)));
   
       this.state.settings.value.fetchMetadataOnStartup && setTimeout(() => this.player.queue.fetchAsyncData(), 1000);
-
-      // #region move this to the discord plugin
-      let richPresenceTimer: NodeJS.Timer | undefined;
-
-      const updateRichPresence = (track: Track) => {
-        const sendData = () => {
-        const args = [
-          track.getArtistsFormatted() && track.getTitleFormatted() ? `${track.getArtistsFormatted()} - ${track.getTitleFormatted()}` : track.getFilename(),
-            this.player.isPaused.value ? "Paused" : `${this.player.currentTimeFormatted(true)} - ${track.getDurationFormatted(true)}`,
-            track.metadata.data?.format.container?.toLowerCase() || "unknown format"
-          ];
-          window.electron.ipcRenderer.invoke("update-rich-presence", [args]);
-        };
-
-        richPresenceTimer && clearInterval(richPresenceTimer);
-        sendData();
-        richPresenceTimer = setInterval(() => sendData(), 1000);
-      };
-
-      const updateWithCurrentTrack = () => {
-        const currentTrack = this.player.getCurrentTrack();
-        currentTrack && updateRichPresence(currentTrack);
-      };
-
-      if (this.state.settings.value.useDiscordRichPresence) {
-        this.player.on("play", () => {
-          updateWithCurrentTrack();
-        });
-      };
-
-      watch(() => this.state.settings.value.useDiscordRichPresence, value => {
-        value ? updateWithCurrentTrack() : richPresenceTimer && clearInterval(richPresenceTimer);
-      });
-      // #endregion
     }
 
     if (this.getCurrentPlatform() === "mobile") {
