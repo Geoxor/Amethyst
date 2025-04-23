@@ -188,26 +188,31 @@ export class AmethystBackend{
       !result.canceled && amethyst.player.queue.add(result.filePaths);
     }).catch(error => console.error(error));
   };
-  
+
   public openAudioFoldersAndAddToQueue = async () => {
     amethyst.showOpenFolderDialog().then(async result => {
-      if (!result.canceled) {
-        const files = await window.fs.readdir(result.filePaths[0]);
-        for (const idx in files) {
-          let found = false;
-          for (const extension of ALLOWED_AUDIO_EXTENSIONS) {
-            if (files[idx].endsWith(extension)) {
-              found = true;
-              files[idx] = window.path.join(result.filePaths[0], files[idx]);
-            }
-          } 
-          if (!found) {
-            files.splice(parseInt(idx), 1);
-          }
-        }
-        amethyst.player.queue.add(files);
-      }
+      !result.canceled && amethyst.player.queue.add(await this.scanFolderForFiles(result.filePaths[0]));
     }).catch(error => console.error(error));
+  };
+
+  private scanFolderForFiles = async (path: string) => {
+    const files = await window.fs.readdir(path);
+    const result: string[] = [];
+
+    for (const file of files) {
+      const fullPath = window.path.join(path, file);
+
+      // Attempt to read the path as a folder
+      try {
+        await window.fs.access(fullPath);
+        result.push(...await this.scanFolderForFiles(fullPath));
+      } catch (_) {
+        if (ALLOWED_AUDIO_EXTENSIONS.some(extension => file.endsWith(extension)))
+          result.push(fullPath);
+      }
+    }
+
+    return result;
   };
 }
 
