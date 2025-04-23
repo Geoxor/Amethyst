@@ -85,16 +85,6 @@ onMounted(() => {
   </settings-setting>
 
   <settings-setting
-    icon="mdi:flask"
-    :description="$t('settings.fetch_metadata_on_startup.description')"
-    :title="$t('settings.fetch_metadata_on_startup.title')"
-  >
-    <toggle-switch
-      v-model="amethyst.state.settings.value.fetchMetadataOnStartup" 
-    />
-  </settings-setting>
-
-  <settings-setting
     icon="ic:twotone-pause"
     :description="$t('settings.pause_visuals.description')"
     :title="$t('settings.pause_visuals.title')"

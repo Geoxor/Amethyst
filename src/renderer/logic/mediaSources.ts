@@ -2,8 +2,7 @@ import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
 import { Track } from "./track";
 import type { Ref} from "vue";
 import { ref } from "vue";
-import type { Player } from "./player";
-import type { Store } from "@/state";
+import type { Amethyst } from "@/amethyst";
 
 export enum MediaSourceType {
   LocalFolder = "settings.media_source_type.local_folder",
@@ -13,29 +12,27 @@ export enum MediaSourceType {
 export class MediaSourceManager {
   public mediaSources = ref<MediaSource[]>([]);
  
-  public constructor(protected player: Player, protected store: Store) {
-    this.store.settings.value.saveMediaSources.forEach(savedSource => {
+  public constructor(protected amethyst: Amethyst) {
+    this.amethyst.state.settings.value.saveMediaSources.forEach(savedSource => {
       if (savedSource.path) {
-        this.mediaSources.value.push(new LocalMediaSource(this.player, this.store, savedSource.path));
+        this.mediaSources.value.push(new LocalMediaSource(this.amethyst, savedSource.path));
       }
     });
   }
 
   public addLocalSource = async () => {
-    // dynamic import to avoid circular dependency causing a paradox
-    // TODO: fix this ^ maybe move all the FS related shit into its own file
-    const dialog = await (await import("@/amethyst")).amethyst.showOpenFolderDialog();
+    const dialog = await this.amethyst.showOpenFolderDialog();
     const path = dialog.filePaths[0];
   
     if (dialog.canceled || !path) return;
   
     // Avoid adding folders if they already exist
-    if (this.store.settings.value.saveMediaSources.some(savedSource => savedSource.path == path)) return;
+    if (this.amethyst.state.settings.value.saveMediaSources.some(savedSource => savedSource.path == path)) return;
 
-    const mediaSource = new LocalMediaSource(this.player, this.store, path);
+    const mediaSource = new LocalMediaSource(this.amethyst, path);
     
     if (mediaSource.type && mediaSource.path) {
-      this.store.settings.value.saveMediaSources.push({type: mediaSource.type, path: mediaSource.path});
+      this.amethyst.state.settings.value.saveMediaSources.push({type: mediaSource.type, path: mediaSource.path});
       this.mediaSources.value.push(mediaSource);
     }
   };
@@ -44,9 +41,9 @@ export class MediaSourceManager {
     console.log(mediaSource);
     
     const savedMediaSource = { type: mediaSource.type, path: mediaSource.path };
-    const index = this.store.settings.value.saveMediaSources.findIndex(s => s.path == savedMediaSource.path);
+    const index = this.amethyst.state.settings.value.saveMediaSources.findIndex(s => s.path == savedMediaSource.path);
     if (index == -1) return;
-    this.store.settings.value.saveMediaSources.splice(index, 1);
+    this.amethyst.state.settings.value.saveMediaSources.splice(index, 1);
     this.mediaSources.value.splice(index, 1);
   };
 }
@@ -58,7 +55,7 @@ export class MediaSource {
   public name: string = "generic";
   public tracks: Track[] = [];
 
-  public constructor(protected player: Player, protected store: Store, public path: string) {
+  public constructor(protected amethyst: Amethyst, public path: string) {
     this.fetchMedia();
   }
 
@@ -66,17 +63,17 @@ export class MediaSource {
     const paths = await window.electron.ipcRenderer.invoke<string[]>("fetch-folder-content", [this.path, [{name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS}]]);
     const audioFiles = paths.filter(file => ALLOWED_AUDIO_EXTENSIONS.some(ext => file.endsWith(ext)));
     this.totalTracks.value = audioFiles.length;
-    this.tracks = audioFiles.map(path => new Track(path));
+    this.tracks = audioFiles.map(path => new Track(this.amethyst, path));
     
     // TODO: temporarily add tracks to the queue till theres discovery view added
-    this.tracks.forEach(track => this.player.queue.add(track));
-    await this.player.queue.fetchAsyncData();
+    this.tracks.forEach(track => this.amethyst.player.queue.add(track));
+    await this.amethyst.player.queue.fetchAsyncData();
   }
 }
 
 export class LocalMediaSource extends MediaSource {
-  public constructor(protected player: Player, protected store: Store, public path: string) {
-    super(player, store, path);
+  public constructor(protected amethyst: Amethyst, public path: string) {
+    super(amethyst, path);
 
     this.type = MediaSourceType.LocalFolder;
     this.name = window.path.parse(this.path).base;

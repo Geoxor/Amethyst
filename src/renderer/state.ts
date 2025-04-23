@@ -46,6 +46,7 @@ export class State extends EventEmitter<StateEvents> {
 		theme: "amethyst-dark",
 		vectorscopeLineThickness: 1,
 		showPlaybackControls: true,
+		autoPlayOnStartup: false,
 		followQueue: false,
 		showInspector: true,
 		showOutputDiagram: false,

@@ -32,7 +32,7 @@ export const favoriteTracks = useLocalStorage<string[]>("favoriteTracks", []);
  * Handles interfacing with operating system and unifies methods 
  * to a simple form for all the platforms
  */
-class AmethystBackend{
+export class AmethystBackend{
   public constructor() {
     console.log(`Current platform: ${this.getCurrentPlatform()}`);
     console.log(`Current operating system: ${this.getCurrentOperatingSystem()}`);
@@ -217,11 +217,11 @@ export class Amethyst extends AmethystBackend {
   public IS_DEV = import.meta.env.DEV;
   public APPDATA_PATH: string | undefined;
   public isLoading = ref(false);
+  public player = new Player(this);
   public state: State = new State();
   public shortcuts: Shortcuts = new Shortcuts();
-  public player = new Player();
   public mediaSession: MediaSession | undefined = this.getCurrentPlatform() === "desktop" ? new MediaSession(this.player) : undefined;
-  public mediaSourceManager: MediaSourceManager = new MediaSourceManager(this.player, this.state);
+  public mediaSourceManager: MediaSourceManager = new MediaSourceManager(this);
 
   public audioDevice: MediaDeviceInfo | undefined;
 
@@ -259,6 +259,11 @@ export class Amethyst extends AmethystBackend {
     }
 
     this.handleFileDrops();
+
+    if (this.state.settings.value.autoPlayOnStartup) {
+      const track = this.player.queue.getTrack(0);
+      track && this.player.play(track);
+    }
   }
 
   private handleFileDrops() {

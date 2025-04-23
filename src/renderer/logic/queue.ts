@@ -4,6 +4,7 @@ import { ref } from "vue";
 import { bytesToHuman, secondsToHuman } from "@shared/formating";
 import { fisherYatesShuffle } from "./math";
 import { Track } from "./track";
+import type { Amethyst } from "@/amethyst";
 
 export class Queue {
   private savedQueue = useLocalStorage<string[]>("queuev2", []);
@@ -12,7 +13,7 @@ export class Queue {
   public totalSize = ref(0);
   public totalDuration = ref(0);
 
-  public constructor(paths?: string[]) {
+  public constructor(private amethyst: Amethyst, paths?: string[]) {
     paths 
       ? this.add(paths)
       : this.add(this.savedQueue.value);
@@ -99,9 +100,9 @@ export class Queue {
       this.list.value.set(item.path, item);
     } else if (item instanceof Array) {
       const paths = Array.from(item);
-      paths.forEach(path => this.list.value.set(path, new Track(path)));
+      paths.forEach(path => this.list.value.set(path, new Track(this.amethyst, path)));
     } else if (typeof item === "string") {
-      this.list.value.set(item, new Track(item));
+      this.list.value.set(item, new Track(this.amethyst, item));
     } else {
       throw new Error("Tried to create a track with an invalid path type");
     }
