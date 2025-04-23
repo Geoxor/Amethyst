@@ -6,6 +6,27 @@ on:
       - "**/*.md"
 
 jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.0.0
+          cache: "yarn"
+
+      - name: Install gcc dependencies
+        run: sudo apt update && sudo apt install gcc-multilib g++-multilib libvips
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Run tests
+        run: yarn test
+
   lint:
     name: Check for lint
     runs-on: ubuntu-latest
