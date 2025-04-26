@@ -8,15 +8,14 @@ const value = useModelValue(props, "modelValue", emits);
 
 <template>
   <button
-    class="px-4 cursor-pointer py-1 w-12 min-w-12 rounded-full relative"
+    class="px-4 cursor-pointer py-1.5 w-12 min-w-12 flex justify-center rounded-full relative"
     :class="[value ? (amethyst.state.settings.value.neonMode ? 'neonMode' : 'bg-primary text-surface-700') : 'bg-accent bg-opacity-15']"
     @click="emits('update:modelValue', !value); emits('change')"
   >
-    <p 
-      class="pointer-events-none text-11px font-weight-user-defined"
-    >
-      {{ value ? 'I' : 'O' }}
-    </p>
+    <div
+      class="w-3 rounded-full h-1"
+      :class="[value ? 'bg-surface-400' : 'bg-accent' ]"
+    />
     <div
       v-if="amethyst.state.settings.value.neonMode && value"
       class="w-full opacity-50 duration-user-defined blurLayer z-0 bg-primary filter h-full absolute top-0 left-0 blur-16px"

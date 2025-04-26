@@ -4,6 +4,9 @@ import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import DropdownInput from "@/components/v2/DropdownInput.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
+import AmethystDarkSkeleton from "@/themes/AmethystDarkSkeleton.vue";
+import EmeraldDarkSkeleton from "@/themes/EmeraldDarkSkeleton.vue";
+import OnyxDarkSkeleton from "@/themes/OnyxDarkSkeleton.vue";
 import { BLEND_MODES, FONT_WEIGHTS } from "@shared/constants";
 
 const AVAILABLE_THEMES = [
@@ -50,6 +53,25 @@ const AVAILABLE_THEMES = [
       v-model="amethyst.state.settings.value.theme"
       :options="AVAILABLE_THEMES"
     />
+    <template #subsettings>
+      <div class="flex gap-2 p-4">
+        <amethyst-dark-skeleton
+          class="theme-skeleton cursor-pointer"
+          :class="[amethyst.state.settings.value.theme === 'amethyst-dark' && 'active']"
+          @click="amethyst.state.settings.value.theme = 'amethyst-dark' "
+        />
+        <emerald-dark-skeleton
+          class="theme-skeleton cursor-pointer"
+          :class="[amethyst.state.settings.value.theme === 'emerald-dark' && 'active']"
+          @click="amethyst.state.settings.value.theme = 'emerald-dark'"
+        />
+        <onyx-dark-skeleton
+          class="theme-skeleton cursor-pointer"
+          :class="[amethyst.state.settings.value.theme === 'onyx-dark' && 'active']"
+          @click="amethyst.state.settings.value.theme = 'onyx-dark'"
+        />
+      </div>
+    </template>
   </settings-setting>
   <settings-setting
     :title="$t('settings.ambient_background.title')"
@@ -202,3 +224,17 @@ const AVAILABLE_THEMES = [
     />
   </settings-setting>
 </template>
+
+<style scoped lang="postcss">
+.theme-skeleton {
+  @apply border-2 border-transparent box-content rounded-8px;
+
+  &:hover {
+    @apply border-surface-400;
+  }
+
+  &.active {
+    @apply border-accent;
+  }
+}
+</style>
