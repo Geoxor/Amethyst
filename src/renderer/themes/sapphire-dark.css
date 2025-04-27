@@ -1,7 +1,30 @@
 .theme-sapphire-dark {
+    --text-title: 252, 255, 246;        /* #FCFFF6 */   
+    /* main text */
+    --text-subtitle: 124, 172, 232;     /* #7CACE8 */
+    /* smaller text */
+    --primary: 119, 177, 243;           /* #77B1F3 */
+    /* buttons and stuff */
+    --accent: 116, 161, 217;            /* #74A1D9 */
+    /* spectrum, settings sliders, settings drop-down text, current page highlight and other stuff */
+
+    --settings-setting-background: var(--surface-700);    
+    /* main containers in settings (Theme, Ambient art etc.) */
+    --settings-subsetting-background: var(--surface-800);  
+    /* smaller containers like ambient art spin */
+     
+    --playback-controls-background: var(--surface-700);
+    --playback-controls-text: 252, 255, 246;                /* #FCFFF6 */
+    /* buttons and text on playback control bar */
+    
+    --slider-background: var(--primary-900);
+    /* background of slider, LUFs, volume control and vectorscope */
+    --slider-fill: var(--primary);
+    /* LUF bars fill */
+
     --surface-1000: 8, 14, 25;      /* #080E19 */
     --surface-900: 12, 20, 35;      /* #0C1423 */
-    --surface-800: 17, 28, 49;      /* #111C31 */
+    --surface-800: 12, 28, 49;      /* #111C31 */
     --surface-700: 21, 37, 65;      /* #152541 */
     --surface-600: 27, 47, 83;      /* #1B2F53 */
     --surface-500: 39, 67, 119;     /* #274377 */
@@ -11,7 +34,8 @@
     --primary-800: 71, 90, 153;     /* #475A99 */
     --primary-700: 52, 67, 114;     /* #344372 */
     
-    --unlit-900: 67, 83, 115;
-    --contrast: 255, 255, 255;
+    --unlit-900: 86, 132, 188;      /* #5684BC */
+    /* navbar items color when window is not active */
+    --contrast: 255, 255, 255;      /* #FFFFFF */
     color: rgb(var(--contrast));
 }
