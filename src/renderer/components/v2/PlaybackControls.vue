@@ -86,7 +86,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       side="centerVertical"
       :handles-visible="false"
       default-size="960px"
-      class="relative rounded-8px min-w-580px max-w-960px text-black pointer-events-auto bg-playback-controls-background"
+      class="relative rounded-8px min-w-580px max-w-960px text-playback-controls-text pointer-events-auto bg-playback-controls-background"
     >
       <div class="flex items-center h-16 gap-2 p-2 w-full">
         <div 
