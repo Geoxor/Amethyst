@@ -51,7 +51,7 @@ kbd {
   box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 0px 2px rgb(var(--surface-600));
 
   &.active {
-    @apply border-primary-700 bg-primary-800 text-black;
+    @apply border-primary-700 bg-primary-800 ;
     box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 0px 2px rgb(var(--primary-800));
   }
 }

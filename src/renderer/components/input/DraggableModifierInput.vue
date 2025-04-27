@@ -117,7 +117,7 @@ watch(model, () => {
       <p class="opacity-0">
         {{ displayValue }}
       </p>
-      <h2 class="text-black absolute top-3px">
+      <h2 class=" absolute top-3px">
         {{ displayValue }}
       </h2>
     </div>

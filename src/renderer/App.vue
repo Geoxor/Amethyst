@@ -95,7 +95,7 @@ watch(() => amethyst.state.settings.value.showBigSpectrum, () => {
     </div>
     <div
       v-if="amethyst.getCurrentPlatform() === 'web'"
-      class="h-6 bg-yellow-500 text-black items-center flex gap-1 justify-center select-none w-full text-12px"
+      class="h-6 bg-yellow-500  items-center flex gap-1 justify-center select-none w-full text-12px"
     >
       Amethyst Web is heavily disfunctional due to 
       Chrome's security policies regarding filesystem access, for the best experience <a
