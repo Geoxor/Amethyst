@@ -8,7 +8,6 @@ try {
 } catch (error) {
   fs.mkdirSync("./manifests/winget/", {recursive: true});
 }
-// TODO: Get SHA256 for the installer
 fs.writeFileSync("./manifests/winget/Geoxor.Amethyst.installer.yaml", `
 # Automatically updated by generate_winget_manifest.ts
 # Created using wingetcreate 1.0.4.0
@@ -42,7 +41,7 @@ PackageLocale: en-US
 Publisher: Geoxor
 PackageName: Amethyst
 License: ${license}
-Copyright: Copyright © 2024 Geoxor
+Copyright: Copyright © ${new Date().getFullYear()} Geoxor
 ShortDescription: A music player made with the web platform.
 ManifestType: defaultLocale
 ManifestVersion: 1.1.0

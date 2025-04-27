@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AmethystPlatforms } from "@/amethyst";
+import type { AmethystPlatforms } from "@/amethyst";
 import BaseChip from "@/components/BaseChip.vue";
 
 defineProps<{ text: string, description?: string, warning?: string, icon?: any, platforms?: AmethystPlatforms[] }>();
@@ -19,11 +19,11 @@ defineProps<{ text: string, description?: string, warning?: string, icon?: any, 
             <p class="capitalize">
               {{ text }}
             </p>
-            <BaseChip
+            <base-chip
               v-if="warning"
             >
               {{ warning }}
-            </BaseChip>
+            </base-chip>
           </div>
           <p
             v-if="description"

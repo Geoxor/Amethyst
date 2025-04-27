@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
-import { ChevronIcon } from "@/icons";
+import { Icon } from "@iconify/vue";
 import { onClickOutside } from "@vueuse/core";
 import iso6391 from "iso-639-1";
 import { ref } from "vue";
@@ -30,7 +30,7 @@ const convertLocaleToLanguage = (locale: string) => {
 // For production we need to get the meta url
 const flagURL = (name: string) => {
     // @ts-ignore
-  return new URL(`/flags/${name}.svg`, import.meta.url).toString();
+  return new URL(`/icons/flags/${name}.svg`, import.meta.url).toString();
 };
 
 </script>
@@ -46,7 +46,10 @@ const flagURL = (name: string) => {
       class="w-4 rounded-2px"
     >
     {{ convertLocaleToLanguage($i18n.locale) }}
-    <ChevronIcon class="w-4 h-4 min-w-4 min-h-4" />
+    <icon
+      icon="ic:round-chevron-left"
+      class="w-5 h-5 -rotate-90 transform-gpu" 
+    />
     <transition name="slide">
       <menu
         v-if="showLanguageDropdown"
@@ -59,7 +62,7 @@ const flagURL = (name: string) => {
           class="flex items-center gap-2 py-2 px-4 flex w-full justify-start hover:bg-surface-400 font-weight-user-defined text-text_title rounded-6px"
           :value="lang"
           :class="$i18n.locale == lang && 'active'"
-          @click="$i18n.locale = lang; amethyst.store.settings.value.language = lang;"
+          @click="$i18n.locale = lang; amethyst.state.settings.value.language = lang;"
         >
           <img
             :src="flagURL(lang.split('-')[1].toLocaleLowerCase())"

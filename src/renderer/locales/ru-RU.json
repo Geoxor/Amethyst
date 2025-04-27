@@ -9,7 +9,7 @@
 
   "menu.utility": "Утилиты",
   "menu.utility.clear_queue": "Очистить очередь",
-  "menu.utility.clear_errored_deleted": "Очистить поврежденные / удаленные файлы",
+  "menu.utility.clear_errored_and_deleted": "Очистить поврежденные / удаленные файлы",
   "menu.utility.refresh_all_metadata": "Обновить все метаданные",
   "menu.utility.refresh_window": "Обновить окно",
   "menu.utility.check_for_updates": "Проверить обновления",
@@ -128,8 +128,6 @@
 
   "settings.spectrum_analyser.title": "Спектральный анализатор",
   "settings.spectrum_analyser.description": "Отображает визуальное представление частотного содержания аудиосигнала. Показывает частотный спектр аудиосигнала с использованием графика, где ось X представляет диапазон частот, а ось Y представляет амплитуду. Спектральный анализатор можно использовать для анализа частотного баланса аудиосигнала и выявления частотных пиков или углублений",
-  "settings.spectrum_analyser.logarithmic_spectrum.title": "Логарифмический спектр",
-  "settings.spectrum_analyser.logarithmic_spectrum.description": "Использует логарифмическое шкалирование для частот",
 
   "settings.vsync.title": "Вертикальная синхронизация (VSync)",
   "settings.vsync.description": "Ограничивает частоту кадров пользовательского интерфейса (UI) Amethyst частотой обновления активного дисплея",

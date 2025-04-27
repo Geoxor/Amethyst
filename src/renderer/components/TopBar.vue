@@ -1,14 +1,16 @@
 <script lang="ts" setup>
-import { amethyst, useState } from "@/amethyst";
+import { amethyst } from "@/amethyst";
 import ControlButtons from "@/components/input/ControlButtons.vue";
 import UpdateButton from "@/components/input/UpdateButton.vue";
-import Menu from "@/components/menu/MenuContainer.vue";
+import MenuContainer from "@/components/menu/MenuContainer.vue";
 import MenuOption from "@/components/menu/MenuOption.vue";
 import MenuSplitter from "@/components/menu/MenuSplitter.vue";
-import { AmethystIcon } from "@/icons";
+import AmethystIcon from "@/icons/AmethystIcon.vue";
 import { countDomElements, refreshWindow, smoothTween } from "@/logic/dom";
+import { Icon } from "@iconify/vue";
 import { useFps } from "@vueuse/core";
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, provide, ref } from "vue";
+import { useRouter } from "vue-router";
 import BaseChip from "./BaseChip.vue";
 import TitleText from "./v2/TitleText.vue";
 
@@ -19,6 +21,7 @@ const fps = ref(0);
 const tweenedFps = ref(0);
 const domSize = ref(0);
 const latency = ref(0);
+const router = useRouter();
 
 onMounted(() => {
   setInterval(() => {
@@ -28,21 +31,26 @@ onMounted(() => {
     domSize.value = countDomElements();
     amethyst.player.getLatency().then(l => latency.value = l);
     // TODO: multiplatform support
-    smoothTween(tweenedFps.value, fpsCounter.value, 1000, (tweenedNumber => tweenedFps.value = ~~tweenedNumber));
+    smoothTween(tweenedFps.value, fpsCounter.value, 1000, (tweenedNumber => tweenedFps.value = Math.ceil(tweenedNumber)));
 
   }, 1000);
 });
 
-const state = useState();
-
 const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem() === "mac" ? "⌘" : "CTRL");
 
+const menuGroupRef = ref<{
+  activeMenu: string | null;
+}>({
+  activeMenu: null
+});
+
+provide("menuGroupRef", menuGroupRef);
 </script>
 
 <template>
   <div
-    class=" z-100 font-main drag h-40px pr-2 text-12px select-none flex justify-between items-center"
-    :class="[state.state.isFocused ? 'text-text_title' : 'text-text_subtitle']"
+    class=" z-100 font-main drag h-40px pr-2 text-12px select-none flex justify-between items-center transition-colors duration-user-defined"
+    :class="[amethyst.state.window.isFocused ? 'text-text_title' : 'text-text_subtitle']"
   >
     <div
       class="flex no-drag h-full items-center"
@@ -52,46 +60,46 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
       <div
         class="duration-user-defined logo w-52px h-full items-center flex justify-center cursor-heart-pointer rounded-br-8px hover:bg-primary hover:bg-opacity-10 hover:text-primary"
       >
-        <AmethystIcon class="w-5 h-5" />
+        <amethyst-icon class="w-5 h-5" />
       </div>
-      <Menu :title="$t('menu.file')">
+      <menu-container :title="$t('menu.file')">
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'O']"
           :title="$t('menu.file.open_audio')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-audio-file"
           @click="amethyst.openAudioFilesAndAddToQueue"
         />
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'SHIFT', 'O']"
           :title="$t('menu.file.open_audio_folder')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-folder"
           @click="amethyst.openAudioFoldersAndAddToQueue"
         />
-      </Menu>
-      <Menu :title="$t('menu.utility')">
+      </menu-container>
+      <menu-container :title="$t('menu.utility')">
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'SHIFT', 'X']"
           :title="$t('menu.utility.clear_queue')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-delete-sweep"
           @click="amethyst.player.queue.clear()"
         />
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'SHIFT', 'Z']"
-          :title="$t('menu.utility.clear_errored_deleted')"
-          :icon="AmethystIcon"
+          :title="$t('menu.utility.clear_errored_and_deleted')"
+          icon="ic:twotone-delete-sweep"
           @click="amethyst.player.queue.clearErrored()"
         />
         <menu-splitter />
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'ALT', 'R']"
           :title="$t('menu.utility.refresh_all_metadata')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-refresh"
           @click="amethyst.player.queue.fetchAsyncData(true)"
         />
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'R']"
           :title="$t('menu.utility.refresh_window')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-refresh"
           @click="refreshWindow"
         />
 
@@ -101,29 +109,29 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
           :title="$t('menu.utility.check_for_updates')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-update"
           @click="amethyst.checkForUpdates()"
         />
-      </Menu>
-      <Menu :title="$t('menu.view')">
+      </menu-container>
+      <menu-container :title="$t('menu.view')">
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
           :title="$t('menu.view.zoom_in')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-zoom-in"
           :shortcuts="[commandOrControlSymbol, '+']"
           @click="amethyst.zoom('in')"
         />
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
           :title="$t('menu.view.zoom_out')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-zoom-out"
           :shortcuts="[commandOrControlSymbol, '-']"
           @click="amethyst.zoom('out')"
         />
         <menu-option
           v-if="amethyst.getCurrentPlatform() === 'desktop'"
           :title="$t('menu.view.reset_zoom')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-zoom-in-map"
           :shortcuts="[commandOrControlSymbol, '0']"
           @click="amethyst.zoom('reset')"
         />
@@ -132,60 +140,63 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
         />
         <menu-option
           :title="$t('menu.view.settings')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-settings"
           :shortcuts="[commandOrControlSymbol, ',']"
-          @click="$router.push({ name: 'settings.appearance' })"
+          @click="router.push({ name: 'settings.appearance' })"
         />
         <menu-option
           :title="$t('menu.view.show_developer_tools')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-bug-report"
           @click="amethyst.openDevTools()"
         />
-      </Menu>
-      <Menu :title="$t('menu.about')">
+      </menu-container>
+      <menu-container :title="$t('menu.about')">
         <menu-option
           :title="$t('menu.about.documentation')"
-          :icon="AmethystIcon"
+          icon="ic:twotone-menu-book"
           @click="amethyst.openLink('https://amethyst.pages.dev/')"
         />
         <menu-option
           :title="$t('menu.about.github_repository')"
-          :icon="AmethystIcon"
           @click="amethyst.openLink('https://github.com/geoxor/amethyst')"
         />
         <menu-option
           :title="$t('menu.about.discord_server')"
-          :icon="AmethystIcon"
           @click="amethyst.openLink('https://discord.gg/geoxor')"
         />
-      </Menu>
-      <Menu
+      </menu-container>
+      <menu-container
         v-if="amethyst.IS_DEV"
-        title="Debug"
+        title="Debug Tools"
       >
         <menu-option
           title="Set 'updateReady' to 'true'"
-          @click="state.state.updateReady = true;"
+          @click="amethyst.state.window.updateReady = true;"
         />
         <menu-option
           title="Set 'updateReady' to 'false'"
-          @click="state.state.updateReady = false;"
+          @click="amethyst.state.window.updateReady = false;"
         />
-      </Menu>
+      </menu-container>
     </div>
 
-    <p class="absolute flex items-center gap-1 left-1/2 transform-gpu -translate-x-1/2 select-none ">
+    <p class="absolute flex items-center gap-1 top-10px left-1/2 transform-gpu -translate-x-1/2 select-none">
+      <icon
+        v-if="amethyst.isLoading.value"
+        icon="line-md:loading-twotone-loop"
+        class="w-5 h-5 min-w-5 min-h-5 animate-spin"
+      />
       <title-text text="Amethyst" />
       <title-text
         class="opacity-50 font-normal capitalize"
         :text="amethyst.getCurrentPlatform()"
       />
-      <BaseChip
+      <base-chip
         v-if="amethyst.IS_DEV"
-        :color="state.state.isFocused ? undefined : 'bg-gray-500'"
+        :color="amethyst.state.window.isFocused ? undefined : 'bg-gray-500'"
       >
-        dev
-      </BaseChip>
+        Development
+      </base-chip>
       <title-text
         class="opacity-50 font-normal capitalize"
         :text="amethyst.VERSION"
@@ -194,14 +205,14 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
 
     <div class="flex gap-1.25 h-6 items-center overflow-hidden font-aseprite whitespace-nowrap">
       <div
-        v-if="state.settings.value.showDebugStats"
+        v-if="amethyst.state.settings.value.showDebugStats"
         class="w-56 flex gap-1 justify-end no-drag" 
         @click="min = Number.POSITIVE_INFINITY; max = Number.NEGATIVE_INFINITY;"
       >
         <div class="hidden lg:inline font-aseprite text-primary-900 text-opacity-50">
-          {{ domSize }}<strong class="text-primary-900 text-opacity-25">DOM </strong>
-          {{ amethyst.player.getBufferSize() }}<strong class="text-primary-900 text-opacity-25">smp</strong>
-          {{ latency.toFixed(2) }}<strong class="text-primary-900 text-opacity-25">ms</strong>
+          {{ domSize }}<span class="text-primary-900 text-opacity-25">DOM </span>
+          {{ amethyst.player.getBufferSize() }}<span class="text-primary-900 text-opacity-25">smp</span>
+          {{ latency.toFixed(2) }}<span class="text-primary-900 text-opacity-25">ms</span>
         </div>
         <div 
           :class="[
@@ -213,21 +224,16 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
         >
           {{ tweenedFps }}fps
         </div>
-        <div
-          class="hidden lg:inline font-aseprite text-primary-900 text-opacity-50"
-        >
-          {{ min }}<strong class="text-primary-900 text-opacity-25">min</strong> {{ max }}<strong class="text-primary-900 text-opacity-25">max</strong>
-        </div>
       </div>
     
       <update-button
-        v-if="state.state.updateReady"
+        v-if="amethyst.state.window.updateReady"
         @click="amethyst.performWindowAction('close')"
       />
         
       <control-buttons
         v-if="amethyst.getCurrentPlatform() === 'desktop' && amethyst.getCurrentOperatingSystem() != 'mac'"
-        :is-maximized="state.state.isMaximized"
+        :is-maximized="amethyst.state.window.isMaximized"
         @close="amethyst.performWindowAction('close')"
         @minimize="amethyst.performWindowAction('minimize')"
         @maximize="amethyst.performWindowAction('maximize')"

@@ -1,11 +1,17 @@
 <script setup lang="ts">
 import Slider from "@/components/input/BaseSlider.vue";
 import CustomNode from "@/components/nodes/CustomNode.vue";
-import { AmethystIcon
-} from "@/icons";
 import { percentToLogValue } from "@/logic/math";
 import { watch } from "vue";
-import { AmethystFilterNode } from ".";
+import type { AmethystFilterNode } from ".";
+
+import BandpassIcon from "@/icons/equalizer/BandpassIcon.vue";
+import HighpassIcon from "@/icons/equalizer/HighpassIcon.vue";
+import HighShelfIcon from "@/icons/equalizer/HighShelfIcon.vue";
+import LowpassIcon from "@/icons/equalizer/LowpassIcon.vue";
+import LowShelfIcon from "@/icons/equalizer/LowShelfIcon.vue";
+import PeakIcon from "@/icons/equalizer/PeakIcon.vue";
+
 const props = defineProps<{ node: AmethystFilterNode }>();
 
 watch(() => props.node.frequencyPercent, percent => {
@@ -26,10 +32,10 @@ const FILTER_TYPES = [
 </script>
 
 <template>
-  <CustomNode
+  <custom-node
     :node="node"
     title="12 dB/oct Filter"
-    :icon="AmethystIcon"
+    icon="ic:twotone-filter-list"
   >
     <div class="font-aseprite font-thin flex gap-2 items-center">
       <p class="text-primary-900 ">
@@ -39,32 +45,32 @@ const FILTER_TYPES = [
         <button
           v-for="filterType of FILTER_TYPES"
           :key="filterType"
-          class="text-10px cursor-pointer px-1 py-0.5 bg-surface-900"
-          :class="[node.type == filterType ? 'text-primary-800 bg-primary-800 bg-opacity-10' : 'text-surface-500']"
+          class="text-11px cursor-pointer px-1 py-0.5 bg-surface-900"
+          :class="[node.type == filterType ? 'text-accent bg-accent bg-opacity-10' : 'text-surface-500']"
           @mousedown.stop
           @click="node.type = filterType"
         >
-          <AmethystIcon
+          <high-shelf-icon
             v-if="filterType == 'highshelf'"
             class="h-4 w-4"
           />
-          <AmethystIcon
+          <low-shelf-icon
             v-else-if="filterType == 'lowshelf'"
             class="h-4 w-4"
           />
-          <AmethystIcon
+          <lowpass-icon
             v-else-if="filterType == 'lowpass'"
             class="h-4 w-4"
           />
-          <AmethystIcon
+          <highpass-icon
             v-else-if="filterType == 'highpass'"
             class="h-4 w-4"
           />
-          <AmethystIcon
+          <peak-icon
             v-else-if="filterType == 'peaking'"
             class="h-4 w-4"
           />
-          <AmethystIcon
+          <bandpass-icon
             v-else-if="filterType == 'bandpass'"
             class="h-4 w-4"
           />
@@ -77,9 +83,10 @@ const FILTER_TYPES = [
       {{ Math.ceil(node.frequency) }} Hz <span class="text-primary-900 text-opacity-50">{{ Math.ceil(node.frequencyPercent) }}
         %</span>
     </p>
-    <Slider
+    <slider
       v-model="node.frequencyPercent"
       max="100"
+      class="h-1.5"
       @mousedown.stop
     />
 
@@ -88,10 +95,11 @@ const FILTER_TYPES = [
         node.Q
       }}
     </p>
-    <Slider
+    <slider
       v-model="node.Q"
       :min="-10"
       :max="10"
+      class="h-1.5"
       @mousedown.stop
     />
     <p class="font-aseprite font-thin">
@@ -99,12 +107,13 @@ const FILTER_TYPES = [
         node.gain.toFixed(2)
       }} dB
     </p>
-    <Slider
+    <slider
       v-model="node.gain"
       :min="-24"
       :max="24"
+      class="h-1.5"
       step="0.01"
       @mousedown.stop
     />
-  </CustomNode>
+  </custom-node>
 </template>

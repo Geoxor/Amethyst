@@ -1,5 +1,5 @@
-import { IContextMenuOption } from "@/state";
-import { Coords } from "@shared/types";
+import type { IContextMenuOption } from "@/state";
+import type { Coords } from "@shared/types";
 import { reactive, markRaw } from "vue";
 import ContextMenu from "./component.vue";
 import { amethyst } from "@/amethyst";
@@ -14,7 +14,7 @@ const instance = {
     options: [] as IContextMenuOption[],
   }),
   open: ({x, y}: Coords, options: IContextMenuOption[]) => {
-    instance.state.position = { x: x / amethyst.store.settings.value.zoomLevel + 6, y: y / amethyst.store.settings.value.zoomLevel + 6 };
+    instance.state.position = { x: x / amethyst.state.settings.value.zoomLevel + 6, y: y / amethyst.state.settings.value.zoomLevel + 6 };
     instance.state.options = markRaw(options);
     instance.state.isVisible = true;
   }

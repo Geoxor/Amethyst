@@ -1,10 +1,11 @@
 <script lang="ts" setup>
+import { Icon } from "@iconify/vue";
 import BaseKeyboardButton from "../input/BaseKeyboardButton.vue";
 import TitleText from "../v2/TitleText.vue";
 
 defineProps<{
   title: string
-  icon?: any
+  icon?: string
   red?: boolean,
   shortcuts?: string[]
 }>();
@@ -16,12 +17,12 @@ defineProps<{
       title.includes('...') && 'cursor-pointer',
       red ? 'hover:bg-rose-600 hover:text-black hover:font-bold' : 'hover:bg-surface-600 hover:text-primary-800'
     ]"
-    class="text-left rounded-4px text-11px py-2 px-4 w-full flex justify-between items-center"
+    class="text-left text-11px py-2 px-4 w-full flex justify-between items-center"
   >
     <div class="flex gap-4 items-center">
-      <component
-        :is="icon"
+      <icon
         v-if="icon"
+        :icon="icon"
         class="h-4 w-4"
       />
       <div

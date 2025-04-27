@@ -1,3 +1,12 @@
 {
-  "recommendations": ["Wiensss.region-highlighter","dbaeumer.vscode-eslint", "naumovs.color-highlight", "zokugun.explicit-folding", "voorjaar.windicss-intellisense", "wayou.vscode-todo-highlight", "cpylua.language-postcss"]
+  "recommendations": [
+    "Wiensss.region-highlighter",
+    "dbaeumer.vscode-eslint",
+    "naumovs.color-highlight",
+    "zokugun.explicit-folding",
+    "voorjaar.windicss-intellisense",
+    "wayou.vscode-todo-highlight",
+    "vitest.explorer",
+    "cpylua.language-postcss"
+  ]
 }

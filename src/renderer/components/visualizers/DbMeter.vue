@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useState } from "@/amethyst";
+import { amethyst } from "@/amethyst";
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 const props = defineProps<{ node: AudioNode, channels?: number, pre?: boolean }>();
 const FLOOR = -120;
 const MAX_CHANNELS = 16;
-const currentChannels = computed(() => props.channels || MAX_CHANNELS);
+const currentChannels = computed(() => props.channels || 2);
 const width = 4;
 
 let shouldStopRendering = false;
@@ -17,19 +17,19 @@ onMounted(() => {
   const splitter = context.createChannelSplitter(MAX_CHANNELS);
   const analyzers = Array.from({ length: MAX_CHANNELS }, () => {
     const analyzer = context.createAnalyser();
-    analyzer.fftSize = useState().settings.value.decibelMeterFftSize;
+    analyzer.fftSize = amethyst.state.settings.value.decibelMeterFftSize;
     return analyzer;
   });
 
   let buffers = analyzers.map(analyzer => new Float32Array(analyzer.fftSize));
   
-  watch(() => useState().settings.value.decibelMeterFftSize, value => {
+  watch(() => amethyst.state.settings.value.decibelMeterFftSize, value => {
     analyzers.forEach(a => a.fftSize = value);
     buffers = analyzers.map(() => new Float32Array(value));
   });
 
-  watch(() => useState().state.isFocused, isFocused => {
-    if (useState().settings.value.pauseVisualsWhenUnfocused) {
+  watch(() => amethyst.state.window.isFocused, isFocused => {
+    if (amethyst.state.settings.value.pauseVisualsWhenUnfocused) {
       if (!isFocused) shouldStopRendering = true;
       else {
         shouldStopRendering = false;
@@ -66,7 +66,7 @@ onMounted(() => {
 });
 
 const computedWidth = (value: number): number => {
-  const width = (1 + value / Math.abs(useState().settings.value.decibelMeterMinimumDb)) * 90;
+  const width = (1 + value / Math.abs(amethyst.state.settings.value.decibelMeterMinimumDb)) * 90;
   return Math.min(100, Math.max(0.01, width));
 };
 
@@ -90,15 +90,15 @@ onUnmounted(() => shouldStopRendering = true);
       >
         <div
           :style="`width: ${width}px;`"
-          class="absolute top-0 left-0 bg-surface-700 h-full rounded-full"
+          class="absolute top-0 left-0 bg-slider-background h-full rounded-full"
         />
         <div
           :style="`width: ${width}px;`"
-          class="absolute bottom-0 bg-surface-600 h-90/100 rounded-full"
+          class="absolute bottom-0 bg-slider-background h-90/100 rounded-full"
         />
 
         <div
-          :class="channelData[i - 1][0].value > 0 ?'bg-rose-600' : 'bg-accent bg-opacity-50'"
+          :class="channelData[i - 1][0].value > 0 ?'bg-rose-600' : 'bg-slider-fill bg-opacity-50'"
           class="rounded-full duration-meter-user-defined absolute bottom-0"
           :style="`width: ${width}px; height: ${computedWidth(channelData[i - 1][0].value)}%`"
         />
@@ -114,7 +114,7 @@ onUnmounted(() => shouldStopRendering = true);
         :style="`left: ${((width + 2) * currentChannels + currentChannels)}px;`"
       >
         <line
-          class="stroke-cap-round stroke-surface-500"
+          class="stroke-cap-round stroke-slider-fill"
           x1="2"
           y1="2"
           x2="2"
@@ -129,7 +129,7 @@ onUnmounted(() => shouldStopRendering = true);
       PRE
     </div>
     <div
-      v-else-if="useState().settings.value.decibelMeterSeperatePrePost"
+      v-else-if="amethyst.state.settings.value.decibelMeterSeperatePrePost"
       class="div text-surface-600 w-full font-bold text-5px  bg-green-500 py-0.2 px-0.3 rounded-1px flex items-center justify-center"
     >
       POST
@@ -143,6 +143,6 @@ svg {
 }
 
 line {
-	stroke-dasharray: 0 8;
+	stroke-dasharray: 0 9;
 }
 </style>

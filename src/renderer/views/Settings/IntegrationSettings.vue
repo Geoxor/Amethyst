@@ -1,9 +1,7 @@
 <script setup lang="ts">
-import { amethyst, useState } from "@/amethyst";
-import SettingsSetting from "@/components/v2/SettingsSetting.vue";
+import { amethyst } from "@/amethyst";
+import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
-import { DiscordIcon } from "@/icons";
-const state = useState();
 
 </script>
 
@@ -13,8 +11,8 @@ const state = useState();
     title="Discord Rich Presence (RPC)"
     :description="$t('settings.discord_rpc.description')"
     :platforms="['desktop']"
-    :icon="DiscordIcon"
+    icon="ic:twotone-discord"
   >
-    <toggle-switch v-model="state.settings.value.useDiscordRichPresence" />
+    <toggle-switch v-model="amethyst.state.settings.value.useDiscordRichPresence" />
   </settings-setting>
 </template>

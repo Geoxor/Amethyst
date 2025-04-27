@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { Icon } from "@iconify/vue";
 import BaseTooltip from "./BaseTooltip.vue";
 
-defineProps<{ tooltipText?: string, active?: boolean, icon?: any, text?: string }>();
+defineProps<{ tooltipText?: string, active?: boolean, icon?: string, text?: string }>();
 </script>
 
 <template>
-  <BaseTooltip
+  <base-tooltip
     v-if="tooltipText"
     :text="tooltipText"
     :placement="'bottom'"
@@ -15,9 +16,10 @@ defineProps<{ tooltipText?: string, active?: boolean, icon?: any, text?: string 
       class="select-none text-primary-1000 rounded-2px p-1.5"
       v-bind="$attrs"
     >
-      <component
-        :is="icon"
+      <icon
         v-if="icon"
+        :icon="icon"
+        class="h-4 w-5 min-h-4 min-w-5"
       />
 
       <p
@@ -27,16 +29,17 @@ defineProps<{ tooltipText?: string, active?: boolean, icon?: any, text?: string 
         {{ text }}
       </p>
     </button>
-  </BaseTooltip>
+  </base-tooltip>
   <button
     v-else
     :class="active && 'active'"
     class="select-none text-primary-1000 rounded-2px p-1.5"
     v-bind="$attrs"
   >
-    <component
-      :is="icon"
+    <icon
       v-if="icon"
+      :icon="icon"
+      class="h-4 w-5 min-h-4 min-w-5"
     />
 
     <p
@@ -50,8 +53,10 @@ defineProps<{ tooltipText?: string, active?: boolean, icon?: any, text?: string 
 
 <style scoped lang="postcss">
 button {
+  @apply text-text_title;
+
   &.active, &:hover {
-    @apply bg-primary-800 hover:bg-primary-800 text-black;
+    @apply bg-primary-800 hover:bg-accent-800 text-accent;
   }
 }
 </style>

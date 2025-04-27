@@ -1,16 +1,14 @@
 <script setup lang="ts">
-import { amethyst, useState } from "@/amethyst";
+import { amethyst } from "@/amethyst";
 
-import BaseToolbarButton from "@/components/BaseToolbarButton.vue";
 import DroppableContainer from "@/components/DroppableContainer.vue";
 import LazyList from "@/components/LazyList.vue";
 import RouteHeader from "@/components/v2/RouteHeader.vue";
 import SearchInput from "@/components/v2/SearchInput.vue";
-import { AmethystIcon } from "@/icons";
-import { Track } from "@/logic/track";
+import type { Track } from "@/logic/track";
 import { useLocalStorage } from "@vueuse/core";
 import { onMounted, onUnmounted, watch } from "vue";
-const state = useState();
+
 const filterText = useLocalStorage("filterText", "");
 
 const scrollToCurrentElement = (track?: Track) => {
@@ -18,12 +16,12 @@ const scrollToCurrentElement = (track?: Track) => {
   const currentTrack = track || amethyst.player.getCurrentTrack();
   if (!currentTrack || !active) return;
 
-  const estimatedPosition = amethyst.player.queue.search(filterText.value).indexOf(currentTrack) * 28;
+  const estimatedPosition = amethyst.player.queue.search(filterText.value).indexOf(currentTrack) * 40;
   active.scrollTo({ top: estimatedPosition, behavior: "smooth" });
 };
 
-const autoscroll = () => state.settings.value.followQueue && scrollToCurrentElement();
-watch(() => state.settings.value.followQueue, () => autoscroll());
+const autoscroll = () => amethyst.state.settings.value.followQueue && scrollToCurrentElement();
+watch(() => amethyst.state.settings.value.followQueue, () => autoscroll());
 onMounted(() => {
   amethyst.player.on("play", autoscroll);
 });
@@ -34,18 +32,11 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <droppable-container class="flex-col flex w-full py-2 gap-4 px-4 relative h-full">
+  <droppable-container class="flex-col flex w-full py-2 gap-4 px-4 relative">
     <route-header :title="$t('route.queue')">
       <search-input v-model="filterText" />
     </route-header>
-
-    <base-toolbar-button
-      class="absolute bottom-2 right-4.5 z-10 "
-      :icon="AmethystIcon"
-      :active="state.settings.value.followQueue"
-      @click="state.settings.value.followQueue = !state.settings.value.followQueue;"
-    /> 
-
+    
     <lazy-list
       :key="filterText.length"
       :tracks="amethyst.player.queue.search(filterText)"

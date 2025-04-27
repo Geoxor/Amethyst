@@ -1,10 +1,12 @@
 import { ref } from "vue";
-import { bytesToHuman, secondsToColinHuman, secondsToHuman } from "@shared/formating";
-import { IMetadata, LoadState, LoadStatus } from "@shared/types";
+import { bytesToHuman, secondsToColinHuman, secondsToHuman, bitrateToHuman } from "@shared/formating";
+import type { IMetadata, LoadState} from "@shared/types";
+import { LoadStatus } from "@shared/types";
 import * as mm from "music-metadata-browser";
 import FileSaver from "file-saver";
 import mime from "mime-types";
-import { amethyst, favoriteTracks } from "@/amethyst";
+import type { Amethyst} from "@/amethyst";
+import { favoriteTracks } from "@/amethyst";
 
 /**
  * Each playable audio file is an instance of this class
@@ -19,7 +21,7 @@ export class Track {
   public isFavorited: boolean = false;
   public path: string;
 
-  public constructor(public absolutePath: string) {
+  public constructor(private amethyst: Amethyst, public absolutePath: string) {
     this.path = absolutePath;
     this.isFavorited = favoriteTracks.value.includes(this.path);
   }
@@ -34,7 +36,7 @@ export class Track {
   }
 
   public getCachePath(absolute?: boolean) {
-    const amfPath = window.path.join(amethyst.APPDATA_PATH || "" , "/amethyst/Metadata Cache", this.getFilename() + ".amf");
+    const amfPath = window.path.join(this.amethyst.APPDATA_PATH || "" , "/amethyst/Metadata Cache", this.getFilename() + ".amf");
     return absolute ? amfPath : `file://${amfPath}`;
   }
  
@@ -48,7 +50,7 @@ export class Track {
   }
 
   private async fetchCache() {
-    return (JSON.parse(await window.fs.readFile(this.getCachePath(true), 'utf-8')));
+    return (JSON.parse(await window.fs.readFile(this.getCachePath(true), "utf-8")));
   }
 
   public async delete() {
@@ -88,7 +90,7 @@ export class Track {
    * Reads track metadata from disk
    */
   public async readMetadata() {
-    switch (amethyst.getCurrentPlatform()) {
+    switch (this.amethyst.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<IMetadata>("get-metadata", [this.absolutePath]);
       case "mobile":
@@ -103,7 +105,7 @@ export class Track {
   }
 
   public async loadCover() {
-    switch (amethyst.getCurrentPlatform()) {
+    switch (this.amethyst.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<string>("get-cover", [this.absolutePath]);
       case "mobile":
@@ -152,7 +154,7 @@ export class Track {
       metadata.common.picture = [];
     }
     
-    if (amethyst.getCurrentPlatform() === "desktop") {
+    if (this.amethyst.getCurrentPlatform() === "desktop") {
       window.fs.writeFile(this.getCachePath(true), JSON.stringify({
         cover,
         metadata,
@@ -211,7 +213,7 @@ export class Track {
    * @example "02. Daft Punk - Get Lucky.flac"
    */
   public getFilename() {
-    switch (amethyst.getCurrentPlatform()) {
+    switch (this.amethyst.getCurrentPlatform()) {
       case "desktop":
         const { base } = window.path.parse(this.absolutePath);
         return base;
@@ -237,6 +239,10 @@ export class Track {
    */
   public getFilesizeFormatted(){
     return bytesToHuman(this.getMetadata()?.size || 0);
+  }
+
+  public getBitrateFormatted(){
+    return bitrateToHuman(this.getMetadata()?.format.bitrate || 0);
   }
 
   /**

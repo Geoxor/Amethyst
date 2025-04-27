@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import { amethyst, useState } from "@/amethyst";
+import { amethyst } from "@/amethyst";
 import BaseToolbar from "@/components/BaseToolbar.vue";
 import BaseToolbarButton from "@/components/BaseToolbarButton.vue";
 import BaseToolbarSplitter from "@/components/BaseToolbarSplitter.vue";
 import { useContextMenu } from "@/components/ContextMenu";
-import { AmethystIcon } from "@/icons";
-import { AmethystAudioNode } from "@/logic/audio";
+import type { AmethystAudioNode } from "@/logic/audio";
 import { getThemeColorHex } from "@/logic/color";
 import { AmethystEightBandEqualizerNode, AmethystFilterNode, AmethystGainNode, AmethystPannerNode, AmethystSpectrumNode } from "@/nodes";
-import { Coords } from "@shared/types";
+import type { Coords } from "@shared/types";
 import { Background, BackgroundVariant } from "@vue-flow/additional-components";
-import { Connection, EdgeMouseEvent, NodeDragEvent, VueFlow } from "@vue-flow/core";
+import type { Connection, EdgeMouseEvent, NodeDragEvent} from "@vue-flow/core";
+import { VueFlow } from "@vue-flow/core";
 import { onKeyStroke } from "@vueuse/core";
 import { computed, onMounted, onUnmounted, ref } from "vue";
 const dash = ref();
@@ -31,8 +31,10 @@ onUnmounted(() => {
 // Proxy function because dash.value is innaccessible in template code
 const fitToView = () => dash.value.fitView();
 
-const state = useState();
-const elements = computed(() => [...amethyst.player.nodeManager.getNodeProperties(), ...amethyst.player.nodeManager.getNodeConnections()]);
+const elements = computed({
+  get: () => [...amethyst.player.nodeManager.getNodeProperties(), ...amethyst.player.nodeManager.getNodeConnections()],
+  set: () => {}
+});
 
 const getDashCoords = () => {
   const transformationPane = document.getElementsByClassName("vue-flow__transformationpane")[0]! as HTMLDivElement;
@@ -82,23 +84,23 @@ const getDashCoords = () => {
 
 const computeNodePosition = ({x, y}: Coords) => {
   const {x: dashX, y: dashY} = getDashCoords();
-  return { x: -dashX + x / amethyst.store.settings.value.zoomLevel, y: -dashY + y / amethyst.store.settings.value.zoomLevel};
+  return { x: -dashX + x / amethyst.state.settings.value.zoomLevel, y: -dashY + y / amethyst.state.settings.value.zoomLevel};
 };
 
 const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   {
     title: "Open File",
-    icon: AmethystIcon,
+    icon: "ic:twotone-file-open",
     action: handleOpenFile,
   },
   {
     title: "Save As",
-    icon: AmethystIcon,
+    icon: "ic:twotone-save-as",
     action: handleSaveFile,
   },
   {
     title: "Add FilterNode",
-    icon: AmethystIcon,
+    icon: "ic:twotone-plus",
     action: () => {
       amethyst.player.nodeManager.addNode(new AmethystFilterNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })),
       source && target && [source, target]);
@@ -106,7 +108,7 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   },
   {
     title: "Add EightBandEqualizerNode",
-    icon: AmethystIcon,
+    icon: "ic:twotone-plus",
     action: () => {
       amethyst.player.nodeManager.addNode(new AmethystEightBandEqualizerNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })), 
       source && target && [source, target]);
@@ -114,7 +116,7 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   },
   {
     title: "Add PannerNode", 
-    icon: AmethystIcon, 
+    icon: "ic:twotone-plus", 
     action: () => {
       amethyst.player.nodeManager.addNode(new AmethystPannerNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })), 
       source && target && [source, target]);
@@ -122,7 +124,7 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   },
   {
     title: "Add GainNode", 
-    icon: AmethystIcon, 
+    icon: "ic:twotone-plus", 
     action: () => {
       amethyst.player.nodeManager.addNode(new AmethystGainNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })), 
       source && target && [source, target]);
@@ -130,7 +132,7 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   },
   {
     title: "Add AmethystSpectrumNode", 
-    icon: AmethystIcon, 
+    icon: "ic:twotone-plus", 
     action: () => {
       amethyst.player.nodeManager.addNode(new AmethystSpectrumNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })), 
       source && target && [source, target]);
@@ -138,7 +140,7 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   },
   {
     title: "Reset All",
-    icon: AmethystIcon,
+    icon: "ic:twotone-restart-alt",
     action: handleReset,
     red: true,
   },
@@ -154,7 +156,7 @@ const handleEdgeContextMenu = (e: EdgeMouseEvent) => {
 
   const {x, y} = (e.event as MouseEvent);
   useContextMenu().open({x, y}, [
-    {title: "Remove connection", icon: AmethystIcon, red: true, action: () => source.disconnectFrom(target)},
+    {title: "Remove connection", icon: "ic:twotone-link-off", red: true, action: () => source.disconnectFrom(target)},
     ...nodeMenu({x, y, source, target}),
   ]);
 };
@@ -213,13 +215,15 @@ const handleReset = () => {
   amethyst.player.setVolume(amethyst.player.volume.value);
 };
 
-onKeyStroke("Delete", () => {
-  dash.value.getSelectedNodes.forEach((nodeElement: any) => {
-    const node = amethyst.player.nodeManager.nodes.value
-      .find(node => node.properties.id === nodeElement.id);
+const removeSelectedNodes = dash.value?.getSelectedNodes.forEach((nodeElement: any) => {
+  const node = amethyst.player.nodeManager.nodes.value
+    .find(node => node.properties.id === nodeElement.id);
 
-    node && amethyst.player.nodeManager.removeNode(node);
-  });
+  node && amethyst.player.nodeManager.removeNode(node);
+});
+
+onKeyStroke("Delete", () => {
+  removeSelectedNodes();
 });
 
 </script>
@@ -229,14 +233,14 @@ onKeyStroke("Delete", () => {
     ref="nodeEditor"
     class="flex-1 h-full w-full  flex flex-col"
   >
-    <BaseToolbar>
-      <BaseToolbarButton
-        :icon="AmethystIcon"
+    <base-toolbar>
+      <base-toolbar-button
+        icon="ic:twotone-plus"
         tooltip-text="Add Node"
         @click="useContextMenu().open({x: $event.clientX, y: $event.clientY}, nodeMenu({x: $event.clientX, y: $event.clientY}));"
       />
 
-      <BaseToolbarSplitter />
+      <base-toolbar-splitter />
 
       <input
         v-model="amethyst.player.nodeManager.graphName.value"
@@ -246,47 +250,47 @@ onKeyStroke("Delete", () => {
         @keydown.stop
       >
 
-      <BaseToolbarButton
-        :icon="AmethystIcon"
+      <base-toolbar-button
+        icon="ic:twotone-fit-screen"
         tooltip-text="Fit to View"
         @click="fitToView"
       />
-      <BaseToolbarButton
-        :icon="AmethystIcon"
-        :active="state.settings.value.isSnappingToGrid"
+      <base-toolbar-button
+        icon="ic:twotone-grid-on"
+        :active="amethyst.state.settings.value.isSnappingToGrid"
         tooltip-text="Snap to Grid"
-        @click="state.settings.value.isSnappingToGrid = !state.settings.value.isSnappingToGrid"
+        @click="amethyst.state.settings.value.isSnappingToGrid = !amethyst.state.settings.value.isSnappingToGrid"
       />
 
-      <BaseToolbarSplitter />
+      <base-toolbar-splitter />
 
-      <BaseToolbarButton
-        :icon="AmethystIcon"
+      <base-toolbar-button
+        icon="ic:twotone-file-open"
         tooltip-text="Open File"
         @click="handleOpenFile"
       />
 
-      <BaseToolbarButton
-        :icon="AmethystIcon"
+      <base-toolbar-button
+        icon="ic:twotone-save-as"
         tooltip-text="Save As"
         @click="handleSaveFile"
       />
       
-      <BaseToolbarSplitter />
+      <base-toolbar-splitter />
 
-      <BaseToolbarButton
-        :icon="AmethystIcon"
+      <base-toolbar-button
+        icon="ic:twotone-restart-alt"
         tooltip-text="Reset All"
         @click="handleReset"
       />
-    </BaseToolbar>
+    </base-toolbar>
 
-    <VueFlow
+    <vue-flow
       ref="dash"
       v-model="elements"
       class="p-2"
-      :snap-to-grid="state.settings.value.isSnappingToGrid"
-      :max-zoom="1.00"
+      :snap-to-grid="amethyst.state.settings.value.isSnappingToGrid"
+      :max-zoom="2.00"
       :min-zoom="1.00"
       :connection-line-style="{ stroke: getThemeColorHex('--primary-700') }"
       :fit-view-on-init="true"
@@ -296,7 +300,7 @@ onKeyStroke("Delete", () => {
       @edge-context-menu="handleEdgeContextMenu"
       @contextmenu.capture="handleContextMenu"
     >
-      <Background
+      <background
         :size="0.5"
         :variant="BackgroundVariant.Dots"
         :pattern-color="getThemeColorHex('--surface-500')"
@@ -312,7 +316,7 @@ onKeyStroke("Delete", () => {
           :node="node"
         />
       </template>
-    </VueFlow>
+    </vue-flow>
   </div>
 </template>
 <style lang="postcss">
@@ -354,9 +358,12 @@ onKeyStroke("Delete", () => {
       @apply visible opacity-100;
     }
   }
+  &:hover > div {
+    @apply border-accent border-opacity-50;
+  }
 
   &.selected > div {
-    @apply border-primary-700;
+    @apply border-accent;
   }
   &.selected .minimenu {
     @apply visible opacity-100;
@@ -369,16 +376,16 @@ onKeyStroke("Delete", () => {
   }
 
   &:hover path {
-    @apply stroke-primary-800;
+    @apply stroke-accent;
   }
 
   &.selected path {
-    @apply stroke-primary-700 !important;
+    @apply stroke-primary !important;
   }
 }
 
 .vue-flow__handle {
-  @apply border-primary-900 border-opacity-60 h-1/2 rounded-2px hover:border-primary-800 bg-surface-800 hover:bg-surface-600 duration-100transition-colors;
+  @apply border-surface-400 border-opacity-60 h-1/2 rounded-2px hover:border-accent bg-surface-800 hover:bg-surface-600 duration-100transition-colors;
 }
 
 </style>

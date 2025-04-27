@@ -13,6 +13,8 @@ function cssVarRgbHelper(cssVariable: string) {
 	};
 }
 
+const returnColorVariable = (variableName: string) => ({[variableName]: cssVarRgbHelper(variableName)});
+
 export default defineConfig({
 	darkMode: "class",
 	plugins: [typography()],
@@ -23,6 +25,14 @@ export default defineConfig({
 		extend: {
 			colors: {
 				// v2
+				...returnColorVariable("settings-setting-background"),
+				...returnColorVariable("settings-subsetting-background"),
+				...returnColorVariable("playback-controls-background"),
+				...returnColorVariable("playback-controls-text"),
+				...returnColorVariable("slider-background"),
+				...returnColorVariable("slider-fill"),
+
+				///
 				text_title: cssVarRgbHelper("text-title"),
 				text_subtitle: cssVarRgbHelper("text-subtitle"),
 				accent: cssVarRgbHelper("accent"),

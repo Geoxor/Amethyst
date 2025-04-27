@@ -1,11 +1,38 @@
-
 <script setup lang="ts">
-import TitleText from "./TitleText.vue";
+import { amethyst } from "@/amethyst";
+import { onBeforeUnmount, onMounted, ref } from "vue";
 import SubtitleText from "./SubtitleText.vue";
-import { useState } from "@/amethyst";
-defineProps<{title?: string, subtitle?: string; alignment?: "left" | "center" | "right"}>();
-const state = useState();
+import TitleText from "./TitleText.vue";
+const props = defineProps<{ title?: string, subtitle?: string; alignment?: "left" | "center" | "right", subtitleEllipses?: boolean }>();
 
+const titleRef = ref<HTMLDivElement>();
+const subtitleRef = ref<HTMLDivElement>();
+
+function onResizeTitle() {
+  if (!titleRef.value) return;
+  if (!subtitleRef.value) return;
+  const titleWidth = titleRef.value.offsetWidth;
+  subtitleRef.value.style.maxWidth = `${titleWidth}px`;
+  subtitleRef.value.style.width = `${titleWidth}px`;
+}
+
+let observer: ResizeObserver | null = null;
+
+onMounted(() => {
+  if (!props.subtitleEllipses) return;
+  onResizeTitle();
+  observer = new ResizeObserver(() => {
+    onResizeTitle();
+  });
+  observer.observe(titleRef.value!);
+});
+
+onBeforeUnmount(() => {
+  if (observer) {
+    observer.disconnect();
+    observer = null;
+  }
+});
 </script>
 
 <template>
@@ -15,16 +42,42 @@ const state = useState();
       alignment == 'left' && 'text-left',
       alignment == 'center' && 'text-center',
       alignment == 'right' && 'text-right',
+      subtitleEllipses && 'w-full',
     ]"
   >
-    <title-text
-      :text="title ?? 'Title'"
-      class="duration-user-defined"
-    />
-    <subtitle-text
-      v-if="!state.settings.value.minimalistMode"
-      :text="subtitle || 'Subtitle'"
-      class="duration-user-defined"
-    />
+    <div
+      ref="titleRef"
+      class="w-full"
+    >
+      <title-text
+        :text="title ?? 'Title'"
+        class="duration-user-defined"
+      />
+    </div>
+    <div
+      v-if="!amethyst.state.settings.value.minimalistMode"
+      class="contents"
+    >
+      <div
+        v-if="subtitleEllipses"
+        class="w-full"
+      >
+        <div class="w-0">
+          <div
+            ref="subtitleRef"
+          >
+            <subtitle-text
+              :text="subtitle || 'Subtitle'"
+              class="duration-user-defined"
+            />
+          </div>
+        </div>
+      </div>
+      <subtitle-text
+        v-else
+        :text="subtitle || 'Subtitle'"
+        class="duration-user-defined"
+      />
+    </div>
   </div>
 </template>

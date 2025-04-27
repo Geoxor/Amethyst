@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
-import { Track } from "@/logic/track";
+import type { Track } from "@/logic/track";
 import { computed, onMounted, ref } from "vue";
 import CoverArt from "../CoverArt.vue";
 
@@ -10,7 +10,7 @@ onMounted(() => {
   props.track.getCoverAsBlob().then(blob => coverUrl.value = URL.createObjectURL(blob));
 });
 
-const coverGridSize = computed(() => amethyst.store.settings.value.coverGridSize);
+const coverGridSize = computed(() => amethyst.state.settings.value.coverGridSize);
 
 </script>
 
@@ -29,7 +29,7 @@ const coverGridSize = computed(() => amethyst.store.settings.value.coverGridSize
       <h1 class="text-text_title text-13px font-weight-user-defined w-full overflow-hidden overflow-ellipsis">
         {{ track.getTitle() || track.getFilename() }}
       </h1>
-      <p class="text-text_subtitle text-10px font-weight-user-defined w-full overflow-hidden overflow-ellipsis">
+      <p class="text-text_subtitle text-11px font-weight-user-defined w-full overflow-hidden overflow-ellipsis">
         {{ track.getArtistsFormatted() || 'Unknown Artist' }}
       </p>
     </div>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import BaseSlider from "@/components/input/BaseSlider.vue";
-import { watch, ref } from "vue";
+import { ref, watch } from "vue";
 
 const props = defineProps<{
   param: AudioParam,
@@ -38,7 +38,7 @@ function antilog10(value: number) {
 <template>
   <div class="flex gap-2 justify-between w-full">
     {{ (log ? antilog10(paramValue) : paramValue).toFixed(digits) }} {{ suffix }}
-    <BaseSlider 
+    <base-slider 
       v-model="paramValue"
       class="w-24"
       type="range"

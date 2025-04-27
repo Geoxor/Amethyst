@@ -5,7 +5,7 @@ import { ref } from "vue";
 import { AmethystAudioNodeManager } from "./audioManager";
 import { EventEmitter } from "./eventEmitter";
 import { secondsToColinHuman, secondsToHuman } from "@shared/formating";
-import { amethyst } from "@/amethyst";
+import type { Amethyst } from "@/amethyst";
 
 export enum LoopMode {
 	None,
@@ -15,29 +15,32 @@ export enum LoopMode {
 
 export class Player extends EventEmitter<{
   play: Track;
+  currentTrackMetadataLoaded: Track;
   pause: Track;
   volume: number;
   shuffle: void;
   stop: void;
   timeupdate: number;
 }> {
+  ;
+
   private currentTrack = ref<Track>();
   private currentTrackIndex = ref(0);
-
   public isPlaying = ref(false);
   public isStopped = ref(true);
   public isPaused = ref(false);
+
   public loopMode = ref(LoopMode.None);
   public currentTime = ref(0);
   public volume = useLocalStorage<number>("volume", 1);
-  public queue = new Queue();
+  public queue = new Queue(this.amethyst);
 
   public input = new Audio();
-  protected context = new AudioContext({latencyHint: "interactive"});
+  public context = new AudioContext({latencyHint: "interactive"});
   public source = this.context.createMediaElementSource(this.input);
   public nodeManager: AmethystAudioNodeManager;
 
-  public constructor(){
+  public constructor(private amethyst: Amethyst) {
     super();
 
     // Set multichannel support
@@ -52,13 +55,14 @@ export class Player extends EventEmitter<{
     this.nodeManager.master.post.gain.value = this.volume.value;
   }
 
-  private setPlayingTrack(track: Track) {
-    this.input.src = amethyst.getCurrentOperatingSystem() == 'mac' ? `file://${track.path}` : track.path;
+  private async setPlayingTrack(track: Track) {
+    this.input.src = ["mac", "linux"].includes(this.amethyst.getCurrentOperatingSystem()) ? `file://${track.path}` : track.path;
     this.currentTrack.value = track;
     this.currentTrackIndex.value = this.queue.getList().indexOf(track);
     this.input.play();
     if (!track.isLoaded) {
-      track.fetchAsyncData();
+      await track.fetchAsyncData();
+      this.emit("currentTrackMetadataLoaded", track);
     }
   }
   

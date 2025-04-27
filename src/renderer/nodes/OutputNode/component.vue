@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import CustomNode from "@/components/nodes/CustomNode.vue";
-import {AmethystIcon} from "@/icons";
-import { AmethystOutputNode } from ".";
+import type { AmethystOutputNode } from ".";
 defineProps<{ node: AmethystOutputNode }>();
 
 </script>
 
 <template>
-  <CustomNode
+  <custom-node
     meterless
     :node="node"
     title="Output"
     description="To Speakers"
-    :icon="AmethystIcon"
+    icon="ic:twotone-output"
   />
 </template>

@@ -1,4 +1,4 @@
-import { Player } from "./logic/player";
+import type { Player } from "./logic/player";
 
 export class MediaSession {
   public constructor(private player: Player) {

@@ -1,19 +1,16 @@
 <script setup lang="ts">
-import { amethyst, useState } from "@/amethyst";
-import {ExportIcon, ImportIcon, LanguageIcon, RemoveIcon, RocketIcon, UpdateIcon} from "@/icons";
-import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
-import SettingsSetting from "@/components/v2/SettingsSetting.vue";
-import LanguageDropdown from "@/components/v2/LanguageDropdown.vue";
+import { amethyst } from "@/amethyst";
+import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import ButtonInput from "@/components/v2/ButtonInput.vue";
-
-const state = useState();
+import LanguageDropdown from "@/components/v2/LanguageDropdown.vue";
+import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 
 const handleToggleAutoUpdates = () => {
-  window.electron.ipcRenderer.invoke("set-autoupdates", [state.settings.value.autoUpdatesEnabled]);
+  window.electron.ipcRenderer.invoke("set-autoupdates", [amethyst.state.settings.value.autoUpdatesEnabled]);
 };
 
 const handleToggleAutostart = () => {
-  window.electron.ipcRenderer.invoke("set-autostart", [state.settings.value.autoStart]);
+  window.electron.ipcRenderer.invoke("set-autostart", [amethyst.state.settings.value.autoStart]);
 };
 
 </script>
@@ -21,12 +18,12 @@ const handleToggleAutostart = () => {
 <template>
   <settings-setting
     v-if="amethyst.getCurrentPlatform() === 'desktop'"
-    :icon="UpdateIcon"
+    icon="ic:twotone-update"
     :title="$t('settings.auto_update.title')"
     :description="$t('settings.auto_update.description')"
   >
     <toggle-switch
-      v-model="state.settings.value.autoUpdatesEnabled" 
+      v-model="amethyst.state.settings.value.autoUpdatesEnabled" 
       @change="handleToggleAutoUpdates"
     />
   </settings-setting>
@@ -34,45 +31,45 @@ const handleToggleAutostart = () => {
     v-if="amethyst.getCurrentPlatform() === 'desktop'"
     :title="$t('settings.launch_on_startup.title')"
     :description="$t('settings.launch_on_startup.description')"
-    :icon="RocketIcon"
+    icon="ic:twotone-rocket-launch"
   >
     <toggle-switch
-      v-model="state.settings.value.autoStart" 
+      v-model="amethyst.state.settings.value.autoStart" 
       @change="handleToggleAutostart"
     />
   </settings-setting>
 
   <settings-setting
-    :icon="LanguageIcon"
+    icon="ic:twotone-language"
     :title="$t('settings.language.title')"
     :description="$t('settings.language.description')"
   >
     <language-dropdown />
   </settings-setting>
   <settings-setting
-    :icon="ExportIcon"
+    icon="ic:twotone-file-upload"
     :title="$t('settings.import_export.title')"
     :description="$t('settings.import_export.description')"
   >
     <button-input
       :text="$t('settings.import_export.import')"
-      :icon="ImportIcon"
+      icon="ic:twotone-file-download"
       @click="amethyst.importSettings"
     />
     <button-input
       :text="$t('settings.import_export.export')"
-      :icon="ExportIcon"
+      icon="ic:twotone-file-upload"
       @click="amethyst.exportSettings"
     />
   </settings-setting>
   <settings-setting
-    :icon="RemoveIcon"
+    icon="ic:twotone-delete"
     :title="$t('settings.reset.title')"
     :description="$t('settings.reset.description')"
   >
     <button-input
       :text="$t('settings.reset.reset')"
-      :icon="RemoveIcon"
+      icon="ic:twotone-delete"
       @click="amethyst.resetSettings"
     />
   </settings-setting>

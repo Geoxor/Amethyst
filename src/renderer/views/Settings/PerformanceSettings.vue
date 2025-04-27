@@ -1,19 +1,15 @@
 <script setup lang="ts">
-import { amethyst, useState } from "@/amethyst";
-import ProcessorUsageMeter from "@/components/ProcessorUsageMeter.vue";
-import SettingsSetting from "@/components/v2/SettingsSetting.vue";
+import { amethyst } from "@/amethyst";
+import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import SubtitleText from "@/components/v2/SubtitleText.vue";
 import TitleText from "@/components/v2/TitleText.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
-import { MonitorIcon, StarsIcon } from "@/icons";
 import { smoothTween } from "@/logic/dom";
-import { bytesToHuman } from "@shared/formating";
 import { useFps } from "@vueuse/core";
 import { onMounted, ref } from "vue";
 
-const state = useState();
 const handleToggleVsync = () => {
-  window.electron.ipcRenderer.invoke("set-vsync", [state.settings.value.useVsync]);
+  window.electron.ipcRenderer.invoke("set-vsync", [amethyst.state.settings.value.useVsync]);
 };
 
 const minFps = ref(Number.POSITIVE_INFINITY);
@@ -41,7 +37,7 @@ onMounted(() => {
 
 <template>
   <div class="w-full flex gap-2">
-    <div class="p-4 w-min rounded-8px bg-[#141621] text-text_title flex gap-4 items-center justify-between">
+    <div class="p-4 w-min rounded-8px bg-settings-setting-background text-text_title flex gap-4 items-center justify-between">
       <div class="flex-col flex justify-center h-full gap-2">
         <subtitle-text
           text="Minimum Framerate"
@@ -64,30 +60,7 @@ onMounted(() => {
         <title-text :text="`${Number.isFinite(maxFps) && maxFps != -1 ? `${maxFps} fps` : 'loading'}`" />
       </div>
     </div>
-
-    <div class="p-4 w-full rounded-8px bg-[#141621] text-text_title flex gap-4 items-center justify-between">
-      <div
-        v-for="metric of appMetrics"
-        :key="metric.pid"
-        class="flex flex-col gap-2 w-full"
-      >
-        <div class="flex justify-between gap-2">
-          <subtitle-text
-            :text="metric.name || metric.serviceName || metric.type"
-            class="text-12px"
-          />
-          <!-- These are in KB so we multiplty by 1024 to turn them into bytes for our function to parse properly -->
-          <!-- https://www.electronjs.org/docs/latest/api/structures/memory-info -->
-          <subtitle-text
-            :text="bytesToHuman(metric.memory.workingSetSize * 1024)"
-            class="text-12px"
-          />
-        </div>
-        <processor-usage-meter :value="metric.cpu.percentCPUUsage" />
-      </div>
-    </div>
-
-    <div class="p-4 w-min rounded-8px bg-[#141621] text-text_title flex flex-col gap-4">
+    <div class="p-4 w-min rounded-8px bg-settings-setting-background text-text_title flex flex-col gap-4">
       <div class="flex-col flex justify-center h-full gap-2">
         <subtitle-text
           text="Audio Latency"
@@ -99,25 +72,25 @@ onMounted(() => {
   </div>
   <settings-setting
     v-if="amethyst.getCurrentPlatform() === 'desktop'"
-    :icon="MonitorIcon"
+    icon="ic:twotone-monitor-heart"
     :description="$t('settings.vsync.description')"
     :title="$t('settings.vsync.title')"
     :warning="$t('settings.vsync.warning')"
     :platforms="['desktop']"
   >
     <toggle-switch
-      v-model="state.settings.value.useVsync" 
+      v-model="amethyst.state.settings.value.useVsync" 
       @change="handleToggleVsync"
     />
   </settings-setting>
 
   <settings-setting
-    :icon="StarsIcon"
+    icon="ic:twotone-pause"
     :description="$t('settings.pause_visuals.description')"
     :title="$t('settings.pause_visuals.title')"
   >
     <toggle-switch
-      v-model="state.settings.value.pauseVisualsWhenUnfocused" 
+      v-model="amethyst.state.settings.value.pauseVisualsWhenUnfocused" 
     />
   </settings-setting>
 </template>

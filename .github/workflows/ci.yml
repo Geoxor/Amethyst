@@ -4,21 +4,43 @@ on:
   push:
     paths-ignore:
       - "**/*.md"
-  pull_request_target:
-  workflow_dispatch:
 
 jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.0.0
+          cache: "yarn"
+
+      - name: Install gcc dependencies
+        run: sudo apt update && sudo apt install gcc-multilib g++-multilib libvips
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Install Test Dependencies
+        run: yarn playwright install
+
+      - name: Run tests
+        run: yarn test
+
   lint:
     name: Check for lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18.0.0
-          cache: 'yarn'
+          node-version: 20.0.0
+          cache: "yarn"
 
       - name: Install gcc dependencies
         run: sudo apt update && sudo apt install gcc-multilib g++-multilib libvips
@@ -29,40 +51,19 @@ jobs:
       - name: Run eslint
         run: yarn lint
 
-  # tests:
-  #   name: Run unit tests
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #       with:
-  #         submodules: recursive
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 18.0.0
-  #         cache: 'yarn'
-
-  #     - name: Install gcc dependencies
-  #       run: sudo apt update && sudo apt install gcc-multilib g++-multilib libvips
-
-  #     - name: Install Dependencies
-  #       run: yarn install
-
-  #     - name: Run Tests
-  #       run: npm test
-
   build-windows:
     name: Build Windows
     runs-on: windows-latest
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18.0.0
-          cache: 'yarn'
+          node-version: 20.0.0
+          cache: "yarn"
 
       - name: Install Dependencies
         run: yarn install
@@ -71,45 +72,13 @@ jobs:
         run: yarn package
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
+          name: artifact-windows
           path: |
             release/build/*.yml
             release/build/*.yaml
             release/build/*.exe*
-
-  # build-android:
-  #   name: Build Android
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     contents: write
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #       with:
-  #         submodules: recursive
-  #     - uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 18.0.0
-  #         cache: 'yarn'
-
-  #     - name: Install Dependencies
-  #       run: yarn install
-
-  #     - name: Make gradlew executable
-  #       run: chmod +x ./src/android/gradlew
-        
-  #     - name: Build Amethyst
-  #       run: yarn build:renderer && yarn cap sync && yarn cap build android --keystorepath key.jks --androidreleasetype APK --keystorepass ${{ secrets.ANDROID_KEYSTORE_PASS }} --keystorealias key0 --keystorealiaspass ${{ secrets.ANDROID_KEYSTORE_ALIAS_PASS }}
-
-  #     - name: Move build files
-  #       run: yarn move-file ./src/android/app/build/outputs/apk/release/app-release-signed.apk ./release/build/android/amethyst-v$(node -p "require('./package.json').version").apk
-
-  #     - name: Upload Artifacts
-  #       uses: actions/upload-artifact@v3
-  #       with:
-  #         path: |
-  #           release/build/android/*.apk
-  #           release/build/android/*.json
 
   build-macos:
     name: Build MacOS
@@ -117,13 +86,13 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18.0.0
-          cache: 'yarn'
+          node-version: 20.0.0
+          cache: "yarn"
 
       - name: Install Dependencies
         run: yarn install
@@ -132,8 +101,9 @@ jobs:
         run: USE_HARD_LINKS=false yarn package
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
+          name: artifact-macos
           path: |
             release/build/*.yml
             release/build/*.dmg
@@ -147,13 +117,13 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           submodules: recursive
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: 18.0.0
-          cache: 'yarn'
+          node-version: 20.0.0
+          cache: "yarn"
 
       - name: Install linux dependencies
         run: sudo apt update && sudo apt install rpm snapd libarchive-tools && sudo snap install snapcraft --classic && sudo snap install multipass --beta --classic
@@ -165,8 +135,9 @@ jobs:
         run: yarn package
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
+          name: artifact-linux
           path: |
             release/build/*.yml
             release/build/*.yaml
@@ -175,21 +146,60 @@ jobs:
             release/build/*.deb
             release/build/*.pacman
             release/build/*.snap
- 
+
+  release-to-aur-git:
+    name: Release to AUR -git
+    runs-on: ubuntu-latest
+    # If we can't build, we should not release to AUR
+    needs: [build-linux]
+    if: needs.build-linux.result == 'success' && github.ref == 'refs/heads/master'
+    env:
+      AUR_SSH_KEY: ${{ secrets.AUR_SSH_KEY }}
+      COMMIT_LONGHASH: ${{ github.sha }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Login to AUR
+        run: |
+          mkdir -p ~/.ssh
+          echo "$AUR_SSH_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          echo "Host aur.archlinux.org" >> ~/.ssh/config
+          echo "  IdentityFile ~/.ssh/id_rsa" >> ~/.ssh/config
+          echo "  StrictHostKeyChecking no" >> ~/.ssh/config
+          echo "  User aur" >> ~/.ssh/config
+      - name: Publish to AUR
+        run: |
+          PACKAGE_VERSION=$(cat package.json | jq ".version" | sed -e 's/\"//g')
+          COMMIT_SHORTHASH=$(echo $COMMIT_LONGHASH | cut -c1-7)
+          git clone ssh://aur@aur.archlinux.org/amethyst-player-git.git
+          cd amethyst-player-git
+          PKG_REVISION=$(grep -oP 'pkgver=v.*r\K.*' PKGBUILD | grep -oP "\d+" | head -n 1)
+          PKG_NEXT_REVISION=$((PKG_REVISION + 1))
+          PKG_VERSION=v${PACKAGE_VERSION}.r${PKG_NEXT_REVISION}.g${COMMIT_SHORTHASH}
+          git config user.email "github-actions@github.com"
+          git config user.name "GitHub Actions"
+          sed -i -E "s/pkgver=.*/pkgver=$PKG_VERSION/g" PKGBUILD
+          sed -i -E "s/pkgver = .*/pkgver = $PKG_VERSION/g" .SRCINFO
+          git add PKGBUILD .SRCINFO
+          git commit -m "Update to $PKG_VERSION (Git ref: $COMMIT_LONGHASH)"
+          git push origin master
+
   publish-releases:
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [build-windows, build-macos,  build-linux]
+    needs: [build-windows, build-macos, build-linux]
     name: Publish Releases
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
       - name: Download All Artifacts
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
-          name: artifact
+          pattern: artifact-*
+          merge-multiple: true
 
       - name: Post Releases
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "./*"
+          artifacts: "*"

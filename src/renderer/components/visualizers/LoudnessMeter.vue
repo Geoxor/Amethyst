@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Ref, onMounted, ref } from "vue";
+import type { Ref } from "vue";
+import { onMounted, ref, watch } from "vue";
 // @ts-ignore no types
 import { amethyst } from "@/amethyst";
 import { smoothTween } from "@/logic/dom";
@@ -58,36 +59,42 @@ onMounted(() => {
   loudnessMeter.start();
 
   amethyst.player.on("play", () => {
-    loudnessMeter.reset();
-    loudnessMeter.resume();
-    momentaryMax.value = MINIMUM_LUFS;
-    shortTermMax.value = MINIMUM_LUFS;
-    integratedMax.value = MINIMUM_LUFS;
+    if (amethyst.state.window.isFocused) {
+      loudnessMeter.reset();
+      loudnessMeter.resume();
+      momentaryMax.value = MINIMUM_LUFS;
+      shortTermMax.value = MINIMUM_LUFS;
+      integratedMax.value = MINIMUM_LUFS;
+    }
   });
   amethyst.player.on("pause", () => loudnessMeter.pause());
+
+  watch(() => amethyst.state.window.isFocused, isFocused => {
+    if (amethyst.state.settings.value.pauseVisualsWhenUnfocused) {
+      if (!isFocused) loudnessMeter.pause();
+      else loudnessMeter.resume();
+    }
+  });
 });
 
 </script>
 
 <template>
-  <div class="text-9px text-text_subtitle w-full max-w-40 flex flex-col justify-between h-full py-0.5 disable-select no-drag">
+  <div class="text-11px font-bold text-playback-controls-text w-full flex flex-col justify-between items-center h-full py-0.5 disable-select no-drag">
     <div class="meter">
       <div class="barBg">
         <div
-          class="bar bg-primary duration-100"
+          class="bar bg-slider-fill duration-100"
           :style="`width: ${computeWidthPercentage(MINIMUM_LUFS, 0, momentary)}%`"
         />
       </div>
       
       <div class="flex justify-between w-full">
-        <p class="type">
+        <p class="type overflow-hidden overflow-ellipsis">
           Momentary
         </p>
         <div class="value">
-          <p class="text-primary-900 text-opacity-50">
-            max {{ momentaryMax.toFixed(2) }}
-          </p> 
-          <p class="text-text_title">
+          <p>
             {{ momentary.toFixed(2) }} LUFs
           </p>
         </div>
@@ -96,19 +103,16 @@ onMounted(() => {
     <div class="meter">
       <div class="barBg">
         <div
-          class="bar bg-primary duration-100"
+          class="bar bg-slider-fill duration-100"
           :style="`width: ${computeWidthPercentage(MINIMUM_LUFS, 0, shortTerm)}%`"
         />
       </div>
       <div class="flex justify-between w-full">
-        <p class="type">
+        <p class="type overflow-hidden overflow-ellipsis">
           Short-term
         </p>
         <div class="value">
-          <p class="text-primary-900 text-opacity-50">
-            max {{ shortTermMax.toFixed(2) }}
-          </p> 
-          <p class="text-text_title">
+          <p>
             {{ shortTerm.toFixed(2) }} LUFs
           </p>
         </div>
@@ -117,19 +121,16 @@ onMounted(() => {
     <div class="meter">
       <div class="barBg">
         <div
-          class="bar bg-primary duration-1000"
+          class="bar bg-slider-fill duration-1000"
           :style="`width: ${computeWidthPercentage(MINIMUM_LUFS, 0, integrated)}%`"
         />
       </div>
       <div class="flex justify-between w-full">
-        <p class="type">
+        <p class="type overflow-hidden overflow-ellipsis">
           Integrated
         </p>
         <div class="value">
-          <p class="text-primary-900 text-opacity-50">
-            max {{ integratedMax.toFixed(2) }}
-          </p> 
-          <p class="text-text_title">
+          <p>
             {{ integrated.toFixed(2) }} LUFs
           </p>
         </div>
@@ -140,19 +141,19 @@ onMounted(() => {
 
 <style scoped lang="postcss">
 .meter {
-  @apply flex flex-col gap-1.5;
+  @apply flex gap-1.5 w-full;
 }
 .barBg {
-  @apply bg-surface-600 w-full overflow-hidden rounded-2px;
+  @apply bg-slider-background w-full overflow-hidden rounded-2px;
 }
 .bar {
-  @apply h-1 rounded-2px ;
+  @apply h-full rounded-2px ;
 }
 
 .value {
   @apply flex;
   p {
-    @apply w-13;
+    @apply w-14;
     text-align: end;
   }
 }

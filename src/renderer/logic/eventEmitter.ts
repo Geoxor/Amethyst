@@ -1,4 +1,5 @@
-import mitt, { EventType } from "mitt";
+import type { EventType } from "mitt";
+import mitt from "mitt";
 
 export class EventEmitter<T extends Record<EventType, any>> {
   private events = mitt<T>();

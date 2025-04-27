@@ -4,7 +4,6 @@ export const ALLOWED_AUDIO_EXTENSIONS = [
   "oga", 
   "ogx", 
   "ogm", 
-  "spx", 
   "opus", 
   "wav", 
   "wave", 
@@ -21,7 +20,6 @@ export const ALLOWED_AUDIO_EXTENSIONS = [
   "mp3", 
   "m4a",
   "mp4",
-  "dfpwm",
   "webm",
 ];
 

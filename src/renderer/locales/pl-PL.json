@@ -38,8 +38,6 @@
   "settings.vectorscope.lissajous.description": "Obraca wektoroskop",
   "settings.spectrum_analyser.title": "Analizator spektrum",
   "settings.spectrum_analyser.description": "Wyświetla wizualną reprezentację częstotliwości sygnału audio. Wyświetla widmo częstotliwości sygnału audio za pomocą wykresu, gdzie oś x reprezentuje zakres częstotliwości, a oś y reprezentuje amplitudę. Analizator widma może być używany do analizowania balansu częstotliwości sygnału audio i identyfikowania szczytów częstotliwości lub wcięć.",
-  "settings.spectrum_analyser.logarithmic_spectrum.title": "Spektrum logarytmiczne",
-  "settings.spectrum_analyser.logarithmic_spectrum.description": "Użyj logarytmicznej skali dla spektrum",
   "settings.vsync.title": "VSync",
   "settings.vsync.description": "Ogranicza liczbę klatek na sekundę interfejsu użytkownika (UI) Amethyst do częstotliwości odświeżania aktywnego wyświetlacza.",
   "settings.vsync.warning": "Wymagany restart"

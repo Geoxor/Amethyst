@@ -1,26 +1,28 @@
 <script setup lang="ts">
-import { scaleLog, interpolateArray } from "@/logic/math";
-import { ref, Ref, onMounted, watch, onUnmounted } from "vue";
+import { amethyst } from "@/amethyst";
+import { getThemeColorRgb } from "@/logic/color";
+import { logParabolicSpectrum, normalize8bit } from "@/logic/math";
 import * as THREE from "three";
-import { useState } from "@/amethyst";
+import type { Ref } from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 
 const props = defineProps<{ node: AudioNode }>();
 let shouldStopRendering = false;
 
 const getDimensions = () => {
-  const containerWidth = threeCanvas.value.parentElement!.getBoundingClientRect().width;
-  const containerHeight = threeCanvas.value.parentElement!.getBoundingClientRect().height;
+  if (!threeCanvas.value) return;
+  const parentWidth = threeCanvas.value.parentElement!.getBoundingClientRect().width;
+  const parentHeight = threeCanvas.value.parentElement!.getBoundingClientRect().height;
 
-  const width = containerWidth * 4;
-  const height = containerHeight * 4;
+  const width = parentWidth;
+  const height = parentHeight;
   return { width, height };
 };
 
 const threeCanvas = ref() as Ref<HTMLCanvasElement>;
 onMounted(async () => {
-  if (!threeCanvas.value) return;
-
-  const { width, height } = getDimensions();
+  const { width, height } = getDimensions() || {};
+  if (!width || !height) return;
 
   const cube = (width: number = 1.0, offset: number = 1.0): THREE.Vector2[] => {
     const vertices: THREE.Vector2[] = [];
@@ -50,19 +52,31 @@ onMounted(async () => {
     return vertices;
   };
 
-  const TOTAL_BARS = 1000;
+  const TOTAL_BARS = 960;
 
   const loader = new THREE.FileLoader();
   const camera = new THREE.OrthographicCamera(0, width, -height * 1.25, 0, 0, 10000);
   camera.position.set(0, 0, 1);
   const scene = new THREE.Scene();
-  // init
+  
+  // get color for the spectrum from the current theme
+  const [r, g, b] = getThemeColorRgb("--accent");
+  const spectrumColor = new THREE.Vector3(normalize8bit(r), normalize8bit(g), normalize8bit(b));
+
+  amethyst.state.on("theme:change", () => {
+    const [r, g, b] = getThemeColorRgb("--accent");
+    spectrumColor.set(normalize8bit(r), normalize8bit(g), normalize8bit(b));
+  });
 
   // const geometry = new THREE.PlaneGeometry(1.0, 1.0);
   const geometry = new THREE.BufferGeometry().setFromPoints([]);
   const vertices: THREE.Vector2[] = [];
   const indexes = [];
   const uniformData = {
+    u_color: {
+      type: "v3",
+      value: spectrumColor
+    },
     u_amplitude: {
       type: "iv1",
       value: [] as number[]
@@ -88,7 +102,7 @@ onMounted(async () => {
 
   const material = new THREE.ShaderMaterial({
     wireframe: false,
-    transparent: true,
+    transparent: false,
     uniforms: uniformData,
     // @ts-ignore
     fragmentShader: await loader.loadAsync(new URL("./SpectrumFrag.glsl", import.meta.url).toString()) as string,
@@ -105,9 +119,8 @@ onMounted(async () => {
   renderer.setClearColor(0x000000, 0); // the default
 
   const resizeObserver = new ResizeObserver(() => {
-    const { width, height } = getDimensions();
-    renderer.setSize(width, height);
-
+    const d = getDimensions();
+    if (d) renderer.setSize(d.width, d.height);
   });
 
   resizeObserver.observe(threeCanvas.value.parentElement!);
@@ -118,20 +131,19 @@ onMounted(async () => {
   const gain = context.createGain();
 
   props.node.connect(gain);
-  gain.gain.value = 32;
   gain.connect(analyser);
 
-  analyser.fftSize = useState().settings.value.spectrumFftSize;
-  analyser.smoothingTimeConstant = useState().settings.value.spectrumSmoothing;
-  watch(() => useState().settings.value.spectrumFftSize, () => analyser.fftSize = useState().settings.value.spectrumFftSize);
-  watch(() => useState().settings.value.spectrumSmoothing, () => analyser.smoothingTimeConstant = useState().settings.value.spectrumSmoothing);
+  analyser.fftSize = amethyst.state.settings.value.spectrumFftSize;
+  analyser.smoothingTimeConstant = amethyst.state.settings.value.spectrumSmoothing;
+  watch(() => amethyst.state.settings.value.spectrumFftSize, () => analyser.fftSize = amethyst.state.settings.value.spectrumFftSize);
+  watch(() => amethyst.state.settings.value.spectrumSmoothing, () => analyser.smoothingTimeConstant = amethyst.state.settings.value.spectrumSmoothing);
 
   // Don't change these
-  analyser.maxDecibels = 12;
-  analyser.minDecibels = -64;
+  analyser.maxDecibels = -0;
+  analyser.minDecibels = -128;
 
-  watch(() => useState().state.isFocused, isFocused => {
-    if (useState().settings.value.pauseVisualsWhenUnfocused) {
+  watch(() => amethyst.state.window.isFocused, isFocused => {
+    if (amethyst.state.settings.value.pauseVisualsWhenUnfocused) {
       if (!isFocused) shouldStopRendering = true;
       else {
         shouldStopRendering = false;
@@ -144,18 +156,21 @@ onMounted(async () => {
     const dataArray = new Uint8Array(analyser.frequencyBinCount);
     analyser.getByteFrequencyData(dataArray);
 
-    const points = useState().settings.value.useLogarithmicSpectrum ? scaleLog(dataArray) : dataArray;
-    interpolateArray(Array.from(points), TOTAL_BARS).forEach((point, i) => {
+    const points = logParabolicSpectrum(dataArray, TOTAL_BARS);
+
+    points.forEach((point, i) => {
       uniformData.u_amplitude.value[i] = point;
     });
 
     if (shouldStopRendering) {
       renderer.dispose();
+      renderer.forceContextLoss();
       geometry.dispose();
       material.dispose();
       renderer.setAnimationLoop(null);
       return;
     }
+
     renderer.render(scene, camera);
   }
 });
@@ -165,10 +180,10 @@ onUnmounted(() => shouldStopRendering = true);
 </script>
 
 <template>
-  <div class="relative overflow-hidden w-full h-full  rounded-4px">
+  <div class="relative overflow-hidden w-full h-full rounded-4px">
     <canvas
       ref="threeCanvas"
-      class="transform-gpu scale-25 origin-top-left absolute top-0 left-0"
+      class="origin-top-left absolute top-0 left-0"
     />
   </div>
 </template>

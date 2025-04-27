@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { AddIcon, EyeIcon, FolderIcon, RemoveIcon } from "@/icons";
-import SettingsSetting from "@/components/v2/SettingsSetting.vue";
 import { amethyst } from "@/amethyst";
-import ButtonInput from "@/components/v2/ButtonInput.vue";
 import BaseChip from "@/components/BaseChip.vue";
+import SettingsSetting from "@/components/settings/SettingsSetting.vue";
+import ButtonInput from "@/components/v2/ButtonInput.vue";
 
 </script>
 
@@ -11,11 +10,11 @@ import BaseChip from "@/components/BaseChip.vue";
   <settings-setting
     :title="$t('settings.local_sources.title')"
     :description="$t('settings.local_sources.description')"
-    :icon="FolderIcon"
+    icon="ic:twotone-folder"
   >
     <button-input
       :text="$t('settings.local_sources.add_folder')"
-      :icon="AddIcon"
+      icon="ic:twotone-plus"
       @click="amethyst.mediaSourceManager.addLocalSource"
     />
     <template
@@ -29,18 +28,18 @@ import BaseChip from "@/components/BaseChip.vue";
           subsetting
           :title="source.name"
           :description="$t(source.type)"
-          :icon="FolderIcon"
+          icon="ic:twotone-snippet-folder"
         >
           <base-chip>
             {{ source.totalTracks }} Tracks
           </base-chip>
           <button-input
             :text="$t('settings.local_sources.view')"
-            :icon="EyeIcon"
+            icon="ic:twotone-remove-red-eye"
             @click="amethyst.showItem(source.path)"
           />
           <button-input
-            :icon="RemoveIcon"
+            icon="ic:twotone-delete"
             @click="amethyst.mediaSourceManager.removeMediaSource(source)"
           />
         </settings-setting>

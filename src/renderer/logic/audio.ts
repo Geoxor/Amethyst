@@ -1,6 +1,7 @@
 import { Position } from "@vue-flow/core";
-import { DefineComponent, markRaw } from "vue";
-import { Connection, NodeProperties } from "./audioManager";
+import type { DefineComponent} from "vue";
+import { markRaw } from "vue";
+import type { Connection, NodeProperties } from "./audioManager";
 import { v4 as uuidv4 } from "uuid";
 import { amethyst } from "@/amethyst";
  
@@ -79,35 +80,38 @@ export class AmethystAudioNode {
   }
 
   public toggleBypass() {
-    if (this.isBypassed) {
-      this.connections.forEach(connection => {
-        const parent = this.getParentNode();
-        const child = amethyst.player.nodeManager.nodes.value.find(node => node.properties.id === connection.target);
-        
-        // Reconnect this node
-        child && this.post.connect(child.pre);
-        parent && parent.post.connect(this.pre);
-        parent && child && parent.post.disconnect(child.pre);
+    this.connections.forEach(connection => {
+      const parents = this.getParentNodes();
+      const children = amethyst.player.nodeManager.nodes.value.filter(node => node.properties.id === connection.target);
+      
+      if (this.isBypassed) {
+        // Reconnect children back to this node
+        children.forEach(child => this.post.connect(child.pre));
+
+        // Reconnect parents back to this node
+        parents.forEach(parent => parent.post.connect(this.pre));
+
+        // Disconnect parents from children
+        parents.forEach(parent => children.forEach(child => parent.post.disconnect(child.pre)));
 
         this.isBypassed = false;
-      });
-    } else {
-      this.connections.forEach(connection => {
-        const parent = this.getParentNode();
-        const child = amethyst.player.nodeManager.nodes.value.find(node => node.properties.id === connection.target);
+      } else {
+        // Disconnect children from this node
+        children.forEach(child => this.post.disconnect(child.pre));
         
-        // Bypass (disconnect) this node
-        child && this.post.disconnect(child.pre);
-        parent && parent.post.disconnect(this.pre);
-        parent && child && parent.post.connect(child.pre);
+        // Disconnect parents from this node
+        parents.forEach(parent => parent.post.disconnect(this.pre));
+
+        // Connect parents to children
+        parents.forEach(parent => children.forEach(child => parent.post.connect(child.pre)));
 
         this.isBypassed = true;
-      });
-    }
+      }
+    });
   }
 
-  public getParentNode(){
-    return amethyst.player.nodeManager.nodes.value.find(node => node.connectedTo.some(node => node.properties.id === this.properties.id));
+  public getParentNodes(){
+    return amethyst.player.nodeManager.nodes.value.filter(node => node.connectedTo.some(node => node.properties.id === this.properties.id));
   }
 
   public updatePosition(newPosition: {x: number, y: number}) {

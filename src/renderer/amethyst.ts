@@ -1,26 +1,27 @@
 import { Player } from "@/logic/player";
 import { MediaSession } from "@/mediaSession";
 import { Shortcuts } from "@/shortcuts";
-import { Store } from "@/state";
+import { State } from "@/state";
 import { MediaSourceManager } from "@/logic/mediaSources";
 import { Capacitor } from "@capacitor/core";
 import { StatusBar } from "@capacitor/status-bar";
 import {NavigationBar} from "@hugotomazi/capacitor-navigation-bar";
 import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
-import { OpenDialogReturnValue, SaveDialogReturnValue } from "electron";
-import { watch } from "vue";
+import type { OpenDialogReturnValue, SaveDialogReturnValue } from "electron";
+import { ref, watch } from "vue";
 import { flattenArray } from "./logic/math";
-import { Track } from "./logic/track";
+import type { Track } from "./logic/track";
 import { Directory } from "@capacitor/filesystem";
 import { router } from "./router";
 import "./logic/subsonic";
 import { createI18n } from "vue-i18n";
 import messages from "@intlify/unplugin-vue-i18n/messages";
 import { useLocalStorage } from "@vueuse/core";
+import { EventEmitter } from "@/logic/eventEmitter";
 
 export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale
-  locale: JSON.parse(localStorage.getItem("settings")!).language,
+  locale: localStorage.getItem("settings") !== null ? JSON.parse(localStorage.getItem("settings")!).language : "en-US",
   messages,
 });
 
@@ -31,7 +32,7 @@ export const favoriteTracks = useLocalStorage<string[]>("favoriteTracks", []);
  * Handles interfacing with operating system and unifies methods 
  * to a simple form for all the platforms
  */
-class AmethystBackend {
+export class AmethystBackend{
   public constructor() {
     console.log(`Current platform: ${this.getCurrentPlatform()}`);
     console.log(`Current operating system: ${this.getCurrentOperatingSystem()}`);
@@ -187,11 +188,31 @@ class AmethystBackend {
       !result.canceled && amethyst.player.queue.add(result.filePaths);
     }).catch(error => console.error(error));
   };
-  
+
   public openAudioFoldersAndAddToQueue = async () => {
-    // amethyst.showOpenFolderDialog().then(result => {
-    //   !result.canceled && amethyst.player.queue.add(flattenArray(result.filePaths));
-    // }).catch(error => console.error(error));
+    amethyst.showOpenFolderDialog().then(async result => {
+      !result.canceled && amethyst.player.queue.add(await this.scanFolderForFiles(result.filePaths[0]));
+    }).catch(error => console.error(error));
+  };
+
+  private scanFolderForFiles = async (path: string) => {
+    const files = await window.fs.readdir(path);
+    const result: string[] = [];
+
+    for (const file of files) {
+      const fullPath = window.path.join(path, file);
+
+      // Attempt to read the path as a folder
+      try {
+        await window.fs.access(fullPath);
+        result.push(...await this.scanFolderForFiles(fullPath));
+      } catch (_) {
+        if (ALLOWED_AUDIO_EXTENSIONS.some(extension => file.endsWith(extension)))
+          result.push(fullPath);
+      }
+    }
+
+    return result;
   };
 }
 
@@ -200,86 +221,110 @@ export class Amethyst extends AmethystBackend {
   // @ts-ignore
   public IS_DEV = import.meta.env.DEV;
   public APPDATA_PATH: string | undefined;
-
-  public store: Store = new Store();
+  public isLoading = ref(false);
+  public player = new Player(this);
+  public state: State = new State();
   public shortcuts: Shortcuts = new Shortcuts();
-  public player = new Player();
   public mediaSession: MediaSession | undefined = this.getCurrentPlatform() === "desktop" ? new MediaSession(this.player) : undefined;
-  public mediaSourceManager: MediaSourceManager = new MediaSourceManager(this.player, this.store);
+  public mediaSourceManager: MediaSourceManager = new MediaSourceManager(this);
+
+  public audioDevice: MediaDeviceInfo | undefined;
 
   public constructor() {
     super();
+
+    navigator.mediaDevices?.enumerateDevices()
+      .then( mediaDevices => 
+        this.audioDevice = mediaDevices.find(device => device.deviceId == "default" && device.kind == "audiooutput"));
+        
     // Init zoom from store
-    document.body.style.zoom = this.store.settings.value.zoomLevel;
+    document.body.style.zoom = this.state.settings.value.zoomLevel.toString();
 
     if (this.getCurrentPlatform() === "desktop") {
       window.electron.ipcRenderer.invoke<string>("get-appdata-path").then(path => this.APPDATA_PATH = path);
 
-      window.electron.ipcRenderer.on("maximize", () => this.store.state.isMaximized = true);
-      window.electron.ipcRenderer.on("unmaximize", () => this.store.state.isMaximized = false);
-      window.electron.ipcRenderer.on("minimize", () => this.store.state.isMinimized = true);
-      window.electron.ipcRenderer.on("focus", () => this.store.state.isFocused = true);
-      window.electron.ipcRenderer.on("unfocus", () => this.store.state.isFocused = false);
+      window.electron.ipcRenderer.on("maximize", () => this.state.window.isMaximized = true);
+      window.electron.ipcRenderer.on("unmaximize", () => this.state.window.isMaximized = false);
+      window.electron.ipcRenderer.on("minimize", () => this.state.window.isMinimized = true);
+      window.electron.ipcRenderer.on("focus", () => this.state.window.isFocused = true);
+      window.electron.ipcRenderer.on("unfocus", () => this.state.window.isFocused = false);
 
-      window.electron.ipcRenderer.on("update", () => this.store.state.updateReady = true);
+      window.electron.ipcRenderer.on("update", () => this.state.window.updateReady = true);
 
       window.electron.ipcRenderer.on<string>("play-file", path => path !== "--require" && amethyst.player.queue.add(path).then(() => {
         amethyst.player.play(amethyst.player.queue.getList().findIndex(track => track.path == path));
       }));
       window.electron.ipcRenderer.on<(string)[]>("play-folder", paths => amethyst.player.queue.add(flattenArray(paths)));
   
-      // #region move this to the discord plugin
-      let richPresenceTimer: NodeJS.Timer | undefined;
-
-      const updateRichPresence = (track: Track) => {
-        const sendData = () => {
-        const args = [
-          track.getArtistsFormatted() && track.getTitleFormatted() ? `${track.getArtistsFormatted()} - ${track.getTitleFormatted()}` : track.getFilename(),
-            this.player.isPaused.value ? "Paused" : `${this.player.currentTimeFormatted(true)} - ${track.getDurationFormatted(true)}`,
-            track.metadata.data?.format.container?.toLowerCase() || "unknown format"
-          ];
-          window.electron.ipcRenderer.invoke("update-rich-presence", [args]);
-        };
-
-        richPresenceTimer && clearInterval(richPresenceTimer);
-        sendData();
-        richPresenceTimer = setInterval(() => sendData(), 1000);
-      };
-
-      const updateWithCurrentTrack = () => {
-        const currentTrack = this.player.getCurrentTrack();
-        currentTrack && updateRichPresence(currentTrack);
-      };
-
-      if (this.store.settings.value.useDiscordRichPresence) {
-        this.player.on("play", () => {
-          updateWithCurrentTrack();
-        });
-      };
-
-      watch(() => this.store.settings.value.useDiscordRichPresence, value => {
-        value ? updateWithCurrentTrack() : richPresenceTimer && clearInterval(richPresenceTimer);
-      });
-      // #endregion
+      this.state.settings.value.fetchMetadataOnStartup && setTimeout(() => this.player.queue.fetchAsyncData(), 1000);
     }
 
     if (this.getCurrentPlatform() === "mobile") {
       this.initMobile();
     }
 
-    document.addEventListener("drop", event => {
+    this.handleFileDrops();
+
+    if (this.state.settings.value.autoPlayOnStartup) {
+      const track = this.player.queue.getTrack(0);
+      track && this.player.play(track);
+    }
+  }
+
+  private handleFileDrops() {
+    const filteredAllowedAudioExtensions = (path: string) => {
+      const extension = path.split(".").pop();
+      return extension && ALLOWED_AUDIO_EXTENSIONS.includes((extension).toLowerCase());
+    };
+
+    document.addEventListener("drop", async event => {
+      // TODO: add logic that plays the new song if the user has that enabled as an option, 
+      // also if they drop a song that is already in the queue, find that song and play it if the user has that enabled as an option
+      this.isLoading.value = true;
+
       event.preventDefault();
       event.stopPropagation();
 
-      amethyst.player.queue.add(Array.from(event.dataTransfer!.files).filter(f => {
-        const path = f.path;
-        const fileExt = path.split(".").pop();
-        if (ALLOWED_AUDIO_EXTENSIONS.includes((fileExt ?? "").toLowerCase())) {
-          return true;
+      const droppedPath = event.dataTransfer!.files[0]!.path;
+
+      const usableFiles = 
+        Array.from(event.dataTransfer!.files)
+          .map(file => file.path)
+          .filter(filteredAllowedAudioExtensions);
+
+      // We are dealing with a file dropped
+      if (usableFiles.length !== 0) amethyst.player.queue.add(usableFiles);
+
+      // We are dealing with a folder dropped
+      else {
+        try {
+          await window.fs.access(droppedPath);
+          // recursive for folders within folders, use window.fs is fs.promises
+          const recursiveReadDir = async (path: string) => {
+            const files = await window.fs.readdir(path);
+            for (const file of files) {
+              const filePath = window.path.join(path, file);
+              // try to check if it's a folder
+              try {
+                await window.fs.access(filePath);
+                await recursiveReadDir(filePath);
+              } catch (error) {
+                // Not a folder so add it as a file   
+                amethyst.player.queue.add([filePath].filter(filteredAllowedAudioExtensions));
+              }
+            }
+          };
+
+          await recursiveReadDir(droppedPath);
         }
-        return false;
-      }).map(f => f.path));
-      amethyst.player.play(amethyst.player.queue.getList()[amethyst.player.queue.getList().length - 1]);
+        catch (error) {
+          this.isLoading.value = false;
+          return console.error(error, "Dropped path is not a folder");
+        };
+        
+        await amethyst.player.queue.fetchAsyncData();
+      }
+      this.isLoading.value = false;
     });
 
     document.addEventListener("dragover", e => {
@@ -308,9 +353,9 @@ export class Amethyst extends AmethystBackend {
     const loadedSettings = await fetch(dialog.filePaths[0]);
     const parsedSettings = await loadedSettings.json();
   
-    Object.keys(amethyst.store.settings.value).forEach(key => {
+    Object.keys(amethyst.state.settings.value).forEach(key => {
       // @ts-ignore
-      amethyst.store.settings.value[key] = parsedSettings[key];
+      amethyst.state.settings.value[key] = parsedSettings[key];
     });
   };
   
@@ -321,13 +366,13 @@ export class Amethyst extends AmethystBackend {
     });
     if (dialog?.canceled || !dialog?.filePath) return;
   
-    return amethyst.writeFile(JSON.stringify(amethyst.store.settings.value, null, 2), dialog?.filePath);
+    return amethyst.writeFile(JSON.stringify(amethyst.state.settings.value, null, 2), dialog?.filePath);
   };
 
   public resetSettings = () => {
-		Object.keys(this.store.defaultSettings).forEach(key => {
+		Object.keys(this.state.defaultSettings).forEach(key => {
       // @ts-ignore
-      this.store.settings.value[key] = this.store.defaultSettings[key];
+      this.state.settings.value[key] = this.state.defaultSettings[key];
     });
   };
 
@@ -336,7 +381,7 @@ export class Amethyst extends AmethystBackend {
   };
 
   public zoom(action: "in" | "out" | "reset") {
-    const currentZoom = amethyst.store.settings.value.zoomLevel;
+    const currentZoom = amethyst.state.settings.value.zoomLevel;
     let newZoom = currentZoom;
 
     switch (action) {
@@ -347,15 +392,15 @@ export class Amethyst extends AmethystBackend {
         newZoom = currentZoom - .125;
         break;
       case "reset":
-        newZoom = amethyst.store.defaultSettings.zoomLevel;
+        newZoom = amethyst.state.defaultSettings.zoomLevel;
         break;
     }
 
     // Update store with new zoom level
-    amethyst.store.settings.value.zoomLevel = newZoom;
+    amethyst.state.settings.value.zoomLevel = newZoom;
 
     // Set new zoom level
-    document.body.style.zoom = newZoom;
+    document.body.style.zoom = newZoom.toString();
   }
 
   public performWindowAction(action: "close" | "maximize" | "unmaximize" | "minimize"): void {
@@ -368,8 +413,8 @@ export class Amethyst extends AmethystBackend {
 
   private syncWindowState = async () => {
     const windowState = await window.electron.ipcRenderer.invoke<{ isMinimized: boolean; isMaximized: boolean }>("sync-window-state");
-    this.store.state.isMinimized = windowState.isMinimized;
-    this.store.state.isMaximized = windowState.isMaximized;
+    this.state.window.isMinimized = windowState.isMinimized;
+    this.state.window.isMaximized = windowState.isMaximized;
   };
 
   private async initMobile() {
@@ -420,7 +465,7 @@ export class Amethyst extends AmethystBackend {
   };
 
   public async checkForUpdates() {
-    this.store.state.isCheckingForUpdates = true;
+    this.state.window.isCheckingForUpdates = true;
     try {
       switch (this.getCurrentPlatform()) {
         case "desktop":
@@ -433,15 +478,12 @@ export class Amethyst extends AmethystBackend {
     } catch (error) {
       console.log(error);
     }
-    this.store.state.isCheckingForUpdates = false;
+    this.state.window.isCheckingForUpdates = false;
   }
 
 }
 
 export const amethyst = new Amethyst();
-
-export const useState = () => amethyst.store;
-export const useShortcuts = () => amethyst.shortcuts;
 
 // interface IPluginDefinitionParameters {
 //   store: Store, 

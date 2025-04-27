@@ -2,8 +2,9 @@
 import fs from "fs";
 import os from "os";
 import path from "path";
-import electron, { app, BrowserWindow, dialog, Event, ipcMain, Notification, shell } from "electron";
-import { Discord, FormatIcons } from "../plugins/amethyst.discord";
+import type { Event} from "electron";
+import electron, { app, BrowserWindow, dialog, ipcMain, Notification, shell } from "electron";
+// import { Discord, FormatIcons } from "../plugins/amethyst.discord";
 import {ALLOWED_AUDIO_EXTENSIONS} from "../shared/constants";
 import {sleep} from "../shared/logic";
 import { IS_DEV, store } from "./main";
@@ -15,9 +16,10 @@ export const TOTAL_CORES = os.cpus().length;
 export const RESOURCES_PATH = path.join(__dirname, "../".repeat(+app.isPackaged * 2 + 2), "assets");
 
 try {
-	fs.statSync(METADATA_CACHE_PATH);
+	console.log(fs.statSync(METADATA_CACHE_PATH));
 } catch (e) {
-	fs.promises.mkdir(METADATA_CACHE_PATH);
+	fs.promises.mkdir(METADATA_CACHE_PATH, {recursive: true});
+	console.log(`Created metadata cache folder at ${METADATA_CACHE_PATH}`);
 }
 
 export const icon = () => path.join(RESOURCES_PATH, "icon.png");
@@ -36,7 +38,7 @@ const LOGO = `
   / /| | / __ \`__ \\/ _ \\/ __/ __ \\/ / / / ___/ __/
  / ___ |/ / / / / /  __/ /_/ / / / /_/ (__  ) /_  
 /_/  |_/_/ /_/ /_/\\___/\\__/_/ /_/\\__, /____/\\__/  
- v${APP_VERSION}                    /____/            
+ v${APP_VERSION}                         /____/            
 		`;
 
 import("chalk").then(({default: chalk}) => console.log(chalk.hex("868aff")(LOGO)));
@@ -65,12 +67,12 @@ const notifications: Record<string, Function> = {
 
 export class MainWindow {
 	public readonly window: BrowserWindow;
-	public updateCheckerTimer: NodeJS.Timer | undefined;
+	public updateCheckerTimer: NodeJS.Timeout | undefined;
 	private windowState = windowStateKeeper({
 		defaultWidth: 1280,
 		defaultHeight: 720,
 	});
-	private readonly discord: Discord;
+	// private readonly discord: Discord;
 
 	constructor() {
 
@@ -82,7 +84,7 @@ export class MainWindow {
 			width: this.windowState.width,
 			height: this.windowState.height,
 			minHeight: 600,
-			minWidth: 800,
+			minWidth: 960,
 			icon: icon(),
 			frame: false,
 			webPreferences: {
@@ -94,7 +96,7 @@ export class MainWindow {
 
 		this.windowState.manage(this.window);
 
-		this.discord = new Discord();
+		// this.discord = new Discord();
 	
 		// Let us register listeners on the window, so we can update the state
 		// automatically (the listeners will be removed when the window is closed)
@@ -241,6 +243,7 @@ export class MainWindow {
 			"maximize": () => this.window.maximize(),
 			"unmaximize": () => this.window.unmaximize(),
 			"close": () => this.window.close(),
+			"fullscreen": () => this.window.setFullScreen(!this.window.isFullScreen()),
 			"read-file": (_: Event, [path]: string[]) => {
 				return fs.promises.readFile(path);
 			},
@@ -311,7 +314,7 @@ export class MainWindow {
 			"update-rich-presence": (_: Event, [args]: string[]) => {
 				const [title, time, format] = args;
 
-				this.discord.updateCurrentSong(title, time, format as FormatIcons);
+				// this.discord.updateCurrentSong(title, time, format as FormatIcons);
 			},
 
 			"set-vsync": (_: Event, [useVsync]: string[]) => {
@@ -336,7 +339,7 @@ export class MainWindow {
 			},
 
 			"clear-rich-presence": () => {
-				this.discord.clearRichPresence();
+				// this.discord.clearRichPresence();
 			},
 
 			"check-for-updates": () => {

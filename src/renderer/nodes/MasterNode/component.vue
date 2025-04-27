@@ -1,17 +1,16 @@
 <script setup lang="ts">
 import CustomNode from "@/components/nodes/CustomNode.vue";
-import {AmethystIcon} from "@/icons";
-import { AmethystAudioNode } from "@/logic/audio";
+import type { AmethystAudioNode } from "@/logic/audio";
 defineProps<{ node: AmethystAudioNode }>();
 
 </script>
 
 <template>
-  <CustomNode
+  <custom-node
     meterless
     :node="node"
     title="Master"
     description="To Outputs"
-    :icon="AmethystIcon"
+    icon="ic:twotone-mediation"
   />
 </template>

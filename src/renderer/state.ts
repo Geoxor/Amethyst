@@ -1,7 +1,8 @@
 import { useLocalStorage } from "@vueuse/core";
 import { reactive, watch } from "vue";
-import { MediaSourceType } from "./logic/mediaSources";
+import type { MediaSourceType } from "./logic/mediaSources";
 import { FONT_WEIGHTS } from "@shared/constants";
+import { EventEmitter } from "./logic/eventEmitter";
 
 export interface IContextMenuOption {
 	title: string;
@@ -11,15 +12,18 @@ export interface IContextMenuOption {
 	action: () => any;
 }
 
-export class Store {
-	public state = reactive({
+export interface StateEvents {
+	"theme:change": string;
+}
+
+export class State extends EventEmitter<StateEvents> {
+	public window = reactive({
 		isMinimized: false,
 		isFocused: true,
 		isCheckingForUpdates: false,
 		isMaximized: false,
 		isShowingBigCover: false,
 		updateReady: false,
-		theme: "amethyst-dark",
 	});
 
 	public defaultSettings = {
@@ -28,25 +32,27 @@ export class Store {
 		coverGridSize: 128,
 		showSpectrum: true,
 		showBigSpectrum: false,
+		spectrumFftSize: 8192,
+		spectrumSmoothing: 0.5,
 		showVectorscope: true,
 		showDbMeter: true,
 		showAmbientBackground: false,
-		ambientBackgroundOpacity: 32,
+		ambientBackgroundOpacity: 10,
 		ambientBackgroundSpin: true,
 		ambientBackgroundBlurStrength: 32,
 		ambientBackgroundSpinSpeed: 64,
-		ambientBackgroundZoom: 125,
+		ambientBackgroundZoom: 130,
 		ambientBackgroundBlendMode: "color-dodge",
-		spectrumFftSize: 8192,
-		spectrumSmoothing: 0.7,
+		theme: "amethyst-dark",
 		vectorscopeLineThickness: 1,
 		showPlaybackControls: true,
+		autoPlayOnStartup: false,
 		followQueue: false,
 		showInspector: true,
+		showOutputDiagram: false,
 		isSnappingToGrid: false,
 		lissajousVectorscope: true,
 		showLoudnessMeter: true,
-		useLogarithmicSpectrum: true,
 		useVsync: true,
 		autoStart: false,
 		autoUpdatesEnabled: true,
@@ -62,9 +68,11 @@ export class Store {
 		minimalistMode: false,
 		decibelMeterFftSize: 1024,
 		vectorscopeFftSize: 512,
-		fontWeight: "semibold",
+		fontWeight: "normal",
+		hideCategoryTitles: true,
 		zoomLevel: 1.00,
 		animationDuration: 100, // 100ms
+		fetchMetadataOnStartup: true,
 		meterSmoothingDuration: 100,
 		language: "en-US",
 		saveMediaSources: [{}] as {type: MediaSourceType, path: string}[],
@@ -75,11 +83,13 @@ export class Store {
 	public applyCurrentTheme = () => {
 		if (typeof document !== "undefined") {
 			const dom = document.querySelector("html");
-			dom!.className = `theme-${this.state.theme}`;
+			dom!.className = `theme-${this.settings.value.theme}`;
 		}
+		this.emit("theme:change", this.settings.value.theme);
 	};
 
 	constructor() {
+		super();
 		this.applyCurrentTheme();
 		Object.keys(this.defaultSettings).forEach(key => {
 			// @ts-ignore
@@ -104,6 +114,10 @@ export class Store {
 
 		watch(() => this.settings.value.fontWeight, newValue => {
 			document.documentElement.style.setProperty("--font-weight", `${(FONT_WEIGHTS.indexOf(newValue) + 1) * 100}`);
+		});
+
+		watch(() => this.settings.value.theme, () => {
+			this.applyCurrentTheme();
 		});
 	}
 }

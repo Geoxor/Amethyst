@@ -4,7 +4,7 @@ import { AmethystIcon } from "@/icons";
 import { Track } from "@/logic/track";
 import { bytesToHuman } from "@shared/formating";
 import { computed, onMounted, onUnmounted } from "vue";
-import { useInspector, getInspectableItemType } from ".";
+import { getInspectableItemType, useInspector } from ".";
 import BaseChip from "../BaseChip.vue";
 import { useContextMenu } from "../ContextMenu";
 import CoverArt from "../CoverArt.vue";
@@ -33,17 +33,17 @@ onUnmounted(() => {
   >
     <div class="h-10 pl-3 flex w-full  justify-between items-center">
       <div class="flex gap-2 items-center">
-        <AmethystIcon />
+        <amethyst-icon />
         <h1>Inspector</h1>
-        <BaseChip>
+        <base-chip>
           {{ getInspectableItemType(currentItem) }}
-        </BaseChip>
+        </base-chip>
       </div>
       <button
         class="p-3 cursor-pointer hover:text-white"
         @click="inspector.hide()"
       >
-        <AmethystIcon class="w-4 h-4" />
+        <amethyst-icon class="w-4 h-4" />
       </button>
     </div>
 
@@ -53,7 +53,7 @@ onUnmounted(() => {
     >
       <section>
         <h1>
-          <AmethystIcon />
+          <amethyst-icon />
           Metadata
           <loading-icon
             v-if="!currentItem.isLoaded"
@@ -89,23 +89,24 @@ onUnmounted(() => {
       </section>
       <section>
         <h1>
-          <AmethystIcon />
+          <amethyst-icon />
           Covers
           <loading-icon
             v-if="!currentItem.isLoaded"
             class="h-3 animate-spin w-3 min-h-3 min-w-3"
           />
         </h1>
+        <!-- FIXME: Cover art data will sometimes not show, even though metadata is loaded https://files.catbox.moe/jusams.png -->
         <div
           v-for="(picture, i) of currentItem.getMetadata()?.common.picture"
           :key="picture.data.byteLength"
-          class="flex gap-2 py-1  last:border-none"
+          class="flex gap-2 py-1 last:border-none"
         >
-          <CoverArt 
+          <cover-art 
             class="w-16 rounded-4px"
             :url="currentItem.getCoverByFace(i)"
             @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-              { title: 'Export cover...', icon: AmethystIcon, action: () => currentItem.exportCover(i) },
+              { title: 'Export cover...', icon: 'ic:twotone-add-photo-alternate', action: () => currentItem.exportCover(i) },
             ]);"
           />
           <div class="flex flex-col gap-1 w-full">
@@ -128,7 +129,7 @@ onUnmounted(() => {
       </section>
       <section>
         <h1 class="">
-          <AmethystIcon />
+          <amethyst-icon />
           File Info
         </h1>
 
@@ -145,12 +146,12 @@ onUnmounted(() => {
           @click="amethyst.showItem(currentItem.path)"
         >
           Show in explorer
-          <AmethystIcon />
+          <amethyst-icon />
         </button>
       </section>
       <section>
         <h1>
-          <AmethystIcon />
+          <amethyst-icon />
           Audio Properties
         </h1>
         <li>
@@ -184,7 +185,7 @@ onUnmounted(() => {
       </section>
       <section>
         <h1>
-          <AmethystIcon />
+          <amethyst-icon />
           State
         </h1>
         <li>
@@ -204,7 +205,7 @@ onUnmounted(() => {
           @click="amethyst.showItem(currentItem.getCachePath())"
         >
           Show .amf
-          <AmethystIcon />
+          <amethyst-icon />
         </button>
       </section>
     </div>

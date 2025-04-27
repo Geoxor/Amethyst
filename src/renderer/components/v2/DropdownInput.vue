@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ChevronIcon } from "@/icons";
+import { Icon } from "@iconify/vue";
 import { onClickOutside, useVModel } from "@vueuse/core";
 import { ref } from "vue";
 
@@ -20,17 +20,22 @@ const value = useVModel(props, "modelValue", emits);
 
 <template>
   <button
-    class="flex relative cursor-pointer gap-1 items-center bg-accent bg-opacity-15 text-accent py-2 px-4 text-13px font-weight-user-defined rounded-8px gap-2"
-    :class="showdropdown && 'active'"
+    class="flex min-w-32 justify-between relative cursor-pointer gap-1 items-center bg-surface-600 text-accent py-2 px-4 text-13px font-weight-user-defined rounded-8px gap-2"
+    :class="showdropdown && 'active rounded-0px rounded-t-8px'"
     @click="showdropdown = true;"
   >
-    {{ prefix }}{{ value }}{{ suffix }}
-    <ChevronIcon class="w-4 h-4" />
+    <p class="text-13px font-weight-user-defined lowercase">
+      <span class="opacity-75">{{ prefix }}</span> {{ value }} <span class="opacity-75">{{ suffix }}</span>
+    </p>
+    <icon
+      icon="ic:round-chevron-left"
+      class="w-5 h-5 -rotate-90 transform-gpu" 
+    />
     <transition name="slide">
       <menu
         v-if="showdropdown"
         ref="dropdown"
-        class="dropdown absolute flex flex-col justify-start top-6 -right-0  p-1 rounded-8px bg-surface-600 z-10"
+        class="dropdown absolute flex flex-col justify-start top-6 -right-0 min-w-32 p-1  bg-surface-600  rounded-b-8px bg-surface-600 z-20"
       >
         <button
           v-for="(option, i) in options"
@@ -40,7 +45,9 @@ const value = useVModel(props, "modelValue", emits);
           :class="option == value && 'active'"
           @click="emits('update:modelValue', option)"
         >
-          {{ prefix }}{{ option }}{{ suffix }}
+          <p class="text-13px font-weight-user-defined lowercase">
+            <span class="opacity-75">{{ prefix }}</span> {{ option }} <span class="opacity-75">{{ suffix }}</span>
+          </p>
         </button>
       </menu>
     </transition>
@@ -49,11 +56,7 @@ const value = useVModel(props, "modelValue", emits);
 
 <style scoped lang="postcss">
 .dropdown .active {
-  @apply bg-primary text-surface-900;
-}
-
-button.active {
-  @apply text-primary;
+  @apply bg-accent bg-opacity-15 text-accent;
 }
 
 .slide-enter-active,

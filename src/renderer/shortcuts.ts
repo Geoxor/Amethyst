@@ -1,5 +1,6 @@
-import { amethyst, useState } from "@/amethyst";
-import { onKeyStroke, useKeyModifier, UseKeyModifierReturn, useLocalStorage } from "@vueuse/core";
+import { amethyst } from "@/amethyst";
+import type { UseKeyModifierReturn} from "@vueuse/core";
+import { onKeyStroke, useKeyModifier, useLocalStorage } from "@vueuse/core";
 import { computed } from "vue";
 
 export type ShortcutBindings = Record<string, [string[], (e: KeyboardEvent) => void]>;
@@ -28,8 +29,8 @@ export class Shortcuts {
     "queue.clear": [["X"], () => this.isCommandOrControlPressed.value && amethyst.player.queue.clear()],
     "queue.clear.errored": [["Z"], () => this.isCommandOrControlPressed.value && amethyst.player.queue.clearErrored()],
     "queue.refresh.meta": [["r"], () => this.isCommandOrControlPressed.value && this.isAltPressed.value && amethyst.player.queue.fetchAsyncData(true)],
-    "appearance.toggle.playback_controls": [["F10"], () => useState().settings.value.showPlaybackControls = !useState().settings.value.showPlaybackControls],
-    "appearance.toggle.debug_statistics": [["F9"], () => useState().settings.value.showDebugStats = !useState().settings.value.showDebugStats],
+    "appearance.toggle.playback_controls": [["F10"], () => amethyst.state.settings.value.showPlaybackControls = !amethyst.state.settings.value.showPlaybackControls],
+    "appearance.toggle.debug_statistics": [["F9"], () => amethyst.state.settings.value.showDebugStats = !amethyst.state.settings.value.showDebugStats],
     "interface.zoom.in": [["+"], () => this.isCommandOrControlPressed.value && amethyst.zoom("in")],
     "interface.zoom.out": [["-"], () => this.isCommandOrControlPressed.value && amethyst.zoom("out")],
     "interface.zoom.reset": [["0"], () => this.isCommandOrControlPressed.value && amethyst.zoom("reset")],
