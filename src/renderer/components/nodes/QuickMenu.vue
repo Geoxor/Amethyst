@@ -41,7 +41,7 @@ const props = defineProps<{node: AmethystAudioNode}>();
     </button>
     <button
       v-if="props.node.isRemovable"
-      class="hover:bg-rose-600  hover:text-black"
+      class="hover:bg-rose-600  hover:"
       @click="amethyst.player.nodeManager.removeNode(props.node)"
     >
       <icon

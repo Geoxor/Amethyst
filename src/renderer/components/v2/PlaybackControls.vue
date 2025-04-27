@@ -61,11 +61,11 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
 
 <template>
   <div
-    class="absolute pointer-events-none bottom-4 flex justify-center px-4 gap-2 w-full left-1/2 transform-gpu -translate-x-1/2 z-10"
+    class="absolute pointer-events-none bottom-4 flex justify-center px-4 gap-2 w-full left-1/2 transform-gpu -translate-x-1/2 z-10 text-playback-controls-text"
   >
     <div
       v-if="amethyst.state.settings.value.showLoudnessMeter"
-      class="flex pointer-events-auto p-2 items-center h-16 gap-2 rounded-8px w-full min-w-120px max-w-240px text-black bg-playback-controls-background"
+      class="flex pointer-events-auto p-2 items-center h-16 gap-2 rounded-8px w-full min-w-120px max-w-240px  bg-playback-controls-background"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
         { title: 'Hide', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.showLoudnessMeter = false },
       ]);"
@@ -86,7 +86,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       side="centerVertical"
       :handles-visible="false"
       default-size="960px"
-      class="relative rounded-8px min-w-580px max-w-960px text-playback-controls-text pointer-events-auto bg-playback-controls-background"
+      class="relative rounded-8px min-w-580px max-w-960px  pointer-events-auto bg-playback-controls-background"
     >
       <div class="flex items-center h-16 gap-2 p-2 w-full">
         <div 
@@ -206,7 +206,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
     </resizable-div>
     <div
       v-if="amethyst.state.settings.value.showSpectrum"
-      class="flex pointer-events-auto overflow-hidden items-center h-16 gap-2 rounded-8px transition w-full min-w-80px max-w-240px text-black bg-playback-controls-background"
+      class="flex pointer-events-auto overflow-hidden items-center h-16 gap-2 rounded-8px transition w-full min-w-80px max-w-240px  bg-playback-controls-background"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
         { title: 'Hide', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.showSpectrum = false },
       ]);"

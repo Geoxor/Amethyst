@@ -9,7 +9,7 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
 </script>
 
 <template>
-  <div class="flex gap-2 justify-between select-none items-center h-full w-full text-playback-controls-text">
+  <div class="flex gap-2 justify-between select-none items-center h-full w-full ">
     <div class="flex flex-col justify-between h-full w-full">
       <div
         :class="[amethyst.getCurrentPlatform() === 'mobile' ? 'rounded-full ' : 'rounded-4px']"
