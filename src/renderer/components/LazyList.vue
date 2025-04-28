@@ -12,6 +12,8 @@ defineProps<{tracks: Track[]}>();
 
 const isHoldingControl = amethyst.shortcuts.isControlPressed;
 
+const ITEM_HEIGHT = amethyst.state.settings.value.compactList ? 24 : 40;
+
 // Context Menu options for this component 
 const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
   useContextMenu().open({x, y}, [
@@ -38,11 +40,9 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
 <template>
   <div class="text-13px text-text_title min-h-0 h-full flex flex-col text-left relative select-none">
     <div class="flex text-left font-bold sticky top-0 z-10 bg-surface-900 py-4 px-2">
-      <div class="flex-none w-[40px]" />
-      <div class="flex-none w-[50px]">
-        Cover
-      </div>
-      <div class="flex-grow w-[300px]">
+      <div class="flex-none w-8" />
+      <div class="flex-none w-[32px]" />
+      <div class="flex-grow w-[200px]">
         Title
       </div>
       <div class="flex-grow w-[200px]">
@@ -75,20 +75,21 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
     </div>
 
     <RecycleScroller
-      class="h-full pb-24"
+      class="h-full pb-24 pr-2"
       :items="tracks"
-      :item-size="40"
+      :item-size="ITEM_HEIGHT"
       key-field="path"
       :buffer="16"
     >
       <template #default="{ item }">
         <div
           :class="[
-            'flex items-center py-2 px-2 rounded-8px',
+            'flex items-center px-2 rounded-4px',
             isHoldingControl && 'control cursor-external-pointer',
             item.hasErrored && 'opacity-50 not-allowed',
             item.deleted && 'opacity-50 !text-rose-400 not-allowed',
             amethyst.player.getCurrentTrack()?.path == item.path && 'currentlyPlaying',
+            amethyst.state.settings.value.compactList ? 'py-1' : 'py-2',
             useInspector().state.isVisible && useInspector().state.currentItem == item && 'currentlyInspecting',
           ]"
           class="row"
@@ -96,7 +97,9 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
           @keypress.prevent
           @click="isHoldingControl ? amethyst.showItem(item.path) : amethyst.player.play(item)"
         >
-          <div class="flex-none w-[40px]">
+          <div
+            class="flex-none w-8"
+          >
             <icon
               v-if="amethyst.player.getCurrentTrack()?.path == item.path"
               icon="ic:round-play-arrow"
@@ -109,7 +112,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
             />
           </div>
 
-          <div class="flex-none w-[50px]">
+          <div class="flex-none w-[32px]">
             <icon
               v-if="item.isLoading"
               icon="line-md:loading-twotone-loop"
@@ -127,12 +130,12 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
             />
             <cover-art
               v-else
-              class="w-6 h-6 rounded-md"
+              class="w-5 h-5 rounded-2px"
               :url="item.isLoaded && item.getCover() ? item.getCover() : ''"
             />
           </div>
 
-          <div class="flex-grow w-[300px] truncate">
+          <div class="flex-grow w-[200px] truncate">
             <span v-if="item.getTitle()">{{ item.getTitle() }}</span>
             <span v-else-if="item.getFilename()">{{ item.getFilename() }}</span>
             <span v-else>N/A</span>
@@ -200,19 +203,19 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
 <style lang="postcss">
 
 th {
-  @apply sticky top-0 z-10 bg-surface-900 pt-4 pb-4;
+  @apply sticky top-0 z-10 bg-surface-900 py-4;
 }
 
 td {
-  @apply pt-2 pb-2;
+  @apply py-2;
 }
 
 tr {
-  @apply rounded-8px overflow-hidden;
+  @apply overflow-hidden;
 }
 
 .row {
-  @apply rounded-8px overflow-hidden;
+  @apply overflow-hidden;
 
   &:hover {
     @apply text-accent bg-surface-400 bg-opacity-20;

@@ -79,6 +79,17 @@ const AVAILABLE_THEMES = [
       </div>
     </template>
   </settings-setting>
+
+  <settings-setting
+    :title="$t('settings.queue.compact_mode.title')"
+    :description="$t('settings.queue.compact_mode.description')"
+    icon="ic:twotone-view-list"
+  >
+    <toggle-switch
+      v-model="amethyst.state.settings.value.compactList" 
+    />
+  </settings-setting>
+
   <settings-setting
     :title="$t('settings.ambient_background.title')"
     :description="$t('settings.ambient_background.description')"

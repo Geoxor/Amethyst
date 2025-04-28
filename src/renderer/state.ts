@@ -71,6 +71,7 @@ export class State extends EventEmitter<StateEvents> {
 		fontWeight: "normal",
 		hideCategoryTitles: true,
 		zoomLevel: 1.00,
+		compactList: true,
 		animationDuration: 100, // 100ms
 		fetchMetadataOnStartup: true,
 		meterSmoothingDuration: 100,
