@@ -1,10 +1,10 @@
-import type { Store } from "@/state";
 import type { IMetadata } from "@shared/types";
+import type { State } from "./state";
 export class ElectronEventManager {
   public ipc = window.electron.ipcRenderer;
   public APPDATA_PATH = "";
 
-  public constructor(public state: Store["state"]) {
+  public constructor(public state: State) {
     this.ipc.invoke<string>("get-appdata-path").then(path => this.APPDATA_PATH = path);
   }
 
