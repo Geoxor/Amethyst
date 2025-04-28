@@ -13,7 +13,7 @@ Amethyst is an [Electron-based](https://electronjs.org/) cross-platform audio pl
 
 ![Amethyst](https://github.com/user-attachments/assets/a56e8c0c-25b4-4bca-bf00-ebb00fbc248f)
 
-## [Download](https://amethyst.pages.dev/installation/package_managers.html)
+## [Download](https://amethyst.mintlify.app/introduction)
 
 ## 📝 Contributing
 
