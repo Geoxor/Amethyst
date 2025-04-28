@@ -16,6 +16,7 @@ defineProps<{title: string, subtitle?: string}>();
       />
       <subtitle-text
         v-if="subtitle"
+        class="whitespace-normal overflow-visible"
         :text="subtitle"
       />
     </div>
