@@ -275,6 +275,11 @@ export class Amethyst extends AmethystBackend {
   private handleDiscordRichPresence() {
     let richPresenceTimer: NodeJS.Timer | undefined;
 
+    const clearRichPresence = () => {
+      richPresenceTimer && clearInterval(richPresenceTimer);
+      window.electron.ipcRenderer.invoke("clear-rich-presence");
+    };
+
     const updateRichPresence = (track: Track) => {
       const sendData = () => {
       const args = [
@@ -302,7 +307,7 @@ export class Amethyst extends AmethystBackend {
     };
 
     watch(() => this.state.settings.value.useDiscordRichPresence, value => {
-      value ? updateWithCurrentTrack() : richPresenceTimer && clearInterval(richPresenceTimer);
+      value ? updateWithCurrentTrack() : clearRichPresence();
     });
   }
 
