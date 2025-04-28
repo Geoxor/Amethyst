@@ -152,7 +152,7 @@ jobs:
     runs-on: ubuntu-latest
     # If we can't build, we should not release to AUR
     needs: [build-linux]
-    if: needs.build-linux.result == 'success' && github.ref == 'refs/heads/master'
+    if: needs.build-linux.result == 'success' && github.ref == 'refs/heads/master' && github.repository_owner == 'Geoxor'
     env:
       AUR_SSH_KEY: ${{ secrets.AUR_SSH_KEY }}
       COMMIT_LONGHASH: ${{ github.sha }}
