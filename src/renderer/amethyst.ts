@@ -273,7 +273,7 @@ export class Amethyst extends AmethystBackend {
   }
 
   private handleDiscordRichPresence() {
-    let richPresenceTimer: NodeJS.Timer | undefined;
+    let richPresenceTimer: NodeJS.Timeout | undefined;
 
     const clearRichPresence = () => {
       richPresenceTimer && clearInterval(richPresenceTimer);
