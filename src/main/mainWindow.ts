@@ -28,6 +28,7 @@ export const checkForUpdatesAndInstall = async () => {
 	if (!autoUpdatesEnabled) return;
 	if (IS_DEV) return await sleep(2000);
 	const { autoUpdater } = await import("electron-updater");
+	autoUpdater.autoInstallOnAppQuit = false;
 	await autoUpdater.checkForUpdatesAndNotify();
 	return;
 };
