@@ -20,7 +20,13 @@ const tracks = computed(() => {
 
 const setCurrentSortedMethod = (sortBy: PossibleSortingMethods) => {
   if (currentShortMethod.value == sortBy) {
-    amethyst.player.queue.currentSortingDirection.value = amethyst.player.queue.currentSortingDirection.value === "ascending" ? "descending" : "ascending";
+    if (amethyst.player.queue.currentSortingDirection.value === "ascending") {
+      amethyst.player.queue.currentSortingDirection.value = "descending";
+    }
+    else if (amethyst.player.queue.currentSortingDirection.value === "descending") {
+      amethyst.player.queue.currentSortingDirection.value = "ascending";
+      currentShortMethod.value = "default"; // disable sorting
+    }
   }
   else {
     currentShortMethod.value = sortBy;
@@ -77,7 +83,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
 <template>
   <div class="text-13px text-text_title min-h-0 h-full flex flex-col text-left relative select-none ">
     <div
-      class="flex text-left font-bold sticky top-0 z-10 bg-surface-900 py-4 px-2 columnHeader"
+      class="flex text-left font-bold sticky top-0 z-10 bg-surface-900 py-2 px-2 columnHeader min-h-36px pr-5"
       :class="[amethyst.player.queue.currentSortingDirection.value]"
       @contextmenu="handleColumnContextMenu($event)"
     >
@@ -293,7 +299,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
 
           <div
             v-if="columns.title"
-            class="flex-grow w-[200px] w-min-100px truncate"
+            class="flex-grow w-[200px] w-min-100px "
           >
             <span v-if="item.getTitle()">{{ item.getTitle() }}</span>
             <span v-else-if="item.getFilename()">{{ item.getFilename() }}</span>
@@ -302,7 +308,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
 
           <div
             v-if="columns.artist"
-            class="flex-grow w-[200px] w-min-100px truncate"
+            class="flex-grow w-[200px] w-min-100px "
           >
             <span v-if="item.getArtistsFormatted()">{{ item.getArtistsFormatted() }}</span>
             <span v-else>N/A</span>
@@ -325,7 +331,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
 
           <div
             v-if="columns.album"
-            class="flex-grow w-[200px] w-min-100px truncate"
+            class="flex-grow w-[200px] w-min-100px "
           >
             <span v-if="item.getAlbumFormatted()">{{ item.getAlbumFormatted() }}</span>
             <span v-else>N/A</span>
