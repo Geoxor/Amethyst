@@ -3,6 +3,7 @@ import { amethyst } from "@/amethyst";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import DropdownInput from "@/components/v2/DropdownInput.vue";
 const VALID_SAMPLE_RATES = [
+  4000,
   8000,
   11025,
   16000,

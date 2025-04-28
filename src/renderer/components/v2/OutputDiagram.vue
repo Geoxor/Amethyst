@@ -26,12 +26,14 @@ const sampleRate = ref(amethyst.player.context.sampleRate);
 const updateMimeType = (track: Track) => {
   const metadata = track.getMetadata();
   if (!metadata) return;
-  mimeType.value = metadata.format.codec!;
+  mimeType.value = metadata.format.codec || "none";
   sampleRate.value = metadata.format.sampleRate!;
 };
 
 onMounted(() => {
-  mimeType.value = amethyst.player.getCurrentTrack()?.metadata.data?.format.codec || "none";
+  const currentTrack = amethyst.player.getCurrentTrack();
+  if (!currentTrack) return;
+  updateMimeType(currentTrack);
   amethyst.player.on("play", updateMimeType);
   amethyst.player.on("currentTrackMetadataLoaded", updateMimeType);
 });
