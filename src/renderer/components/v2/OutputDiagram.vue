@@ -75,7 +75,7 @@ onMounted(() => {
       <div class="w-full h-2px bg-surface-600 mt-6" />
 
       <output-diagram-blob
-        :title="$t('output_diagram.audio_device.title')"
+        :title="$t('output_diagram.audio_driver.title')"
         :subtitle="amethyst.player.outputDevice.value"
       >
         <sound-i-d-logo
