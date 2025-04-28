@@ -154,14 +154,16 @@ provide("menuGroupRef", menuGroupRef);
         <menu-option
           :title="$t('menu.about.documentation')"
           icon="ic:twotone-menu-book"
-          @click="amethyst.openLink('https://amethyst.pages.dev/')"
+          @click="amethyst.openLink('https://amethyst.mintlify.app')"
         />
         <menu-option
           :title="$t('menu.about.github_repository')"
+          icon="mdi:github"
           @click="amethyst.openLink('https://github.com/geoxor/amethyst')"
         />
         <menu-option
           :title="$t('menu.about.discord_server')"
+          icon="ic:baseline-discord"
           @click="amethyst.openLink('https://discord.gg/geoxor')"
         />
       </menu-container>

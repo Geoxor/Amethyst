@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
+import SliderInput from "@/components/v2/SliderInput.vue";
 import SubtitleText from "@/components/v2/SubtitleText.vue";
 import TitleText from "@/components/v2/TitleText.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
@@ -70,6 +71,20 @@ onMounted(() => {
       </div>
     </div>
   </div>
+  <settings-setting
+    icon="ic:twotone-circle"
+    :description="$t('settings.processing_concurrency.description')"
+    :title="$t('settings.processing_concurrency.title')"
+  >
+    <slider-input
+      v-model="amethyst.state.settings.value.processingConcurrency"
+      :min="1"
+      :max="10"
+      :step="1"
+      suffix="threads"
+    />
+  </settings-setting>
+
   <settings-setting
     v-if="amethyst.getCurrentPlatform() === 'desktop'"
     icon="ic:twotone-monitor-heart"
