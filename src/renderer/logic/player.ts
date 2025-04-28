@@ -2,6 +2,7 @@ import type { PossibleSortingMethods} from "@/logic/queue";
 import { Queue } from "@/logic/queue";
 import { Track } from "@/logic/track";
 import { useLocalStorage } from "@vueuse/core";
+import type { Ref} from "vue";
 import { ref } from "vue";
 import { AmethystAudioNodeManager } from "./audioManager";
 import { EventEmitter } from "./eventEmitter";
@@ -48,9 +49,18 @@ export class Player extends EventEmitter<{
 
     navigator.mediaDevices?.enumerateDevices()
       .then( mediaDevices => {
+        const extractDeviceName = (input: string): string => {
+          let result = input;
+          if (amethyst.getCurrentOperatingSystem() == "windows" ) {
+            // Default - Speakers (2- Realtek(R) Audio)
+            result = input.slice(20, input.length - 2);
+          }
+          return result;
+        };
+
         console.log(mediaDevices);
-        const activeOutputDeviceName = mediaDevices.find(device => device.deviceId == "default" && device.kind == "audiooutput")?.label.match(/\(([^)]+)\)/)?.[1];
-        activeOutputDeviceName && (this.outputDevice.value = activeOutputDeviceName);
+        const activeOutputDeviceName = mediaDevices.find(device => device.deviceId == "default" && device.kind == "audiooutput")?.label;
+        activeOutputDeviceName && (this.outputDevice.value = extractDeviceName(activeOutputDeviceName));
       });
 
     // Set multichannel support

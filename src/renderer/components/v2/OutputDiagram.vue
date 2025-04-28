@@ -11,6 +11,7 @@ import OggLogo from "@/icons/logos/OggLogo.vue";
 import OpusLogo from "@/icons/logos/OpusLogo.vue";
 import RealtekLogo from "@/icons/logos/RealtekLogo.vue";
 import SoundIDLogo from "@/icons/logos/SoundIDLogo.vue";
+import SteamLogo from "@/icons/logos/SteamLogo.vue";
 import WindowsLogo from "@/icons/logos/WindowsLogo.vue";
 import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
@@ -84,6 +85,10 @@ onMounted(() => {
         />
         <realtek-logo
           v-else-if="amethyst.player.outputDevice.value.toLowerCase().includes('realtek')"
+          class="text-text_title"
+        />
+        <steam-logo
+          v-else-if="amethyst.player.outputDevice.value.toLowerCase().includes('steam')"
           class="text-text_title"
         />
         <icon
