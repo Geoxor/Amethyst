@@ -12,7 +12,7 @@ defineProps<{tracks: Track[]}>();
 
 const isHoldingControl = amethyst.shortcuts.isControlPressed;
 
-const ITEM_HEIGHT = amethyst.state.settings.value.compactList ? 24 : 40;
+const ITEM_HEIGHT = amethyst.state.settings.value.compactList ? 32 : 40;
 
 // Context Menu options for this component 
 const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
@@ -89,7 +89,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
             item.hasErrored && 'opacity-50 not-allowed',
             item.deleted && 'opacity-50 !text-rose-400 not-allowed',
             amethyst.player.getCurrentTrack()?.path == item.path && 'currentlyPlaying',
-            amethyst.state.settings.value.compactList ? 'py-0.5' : 'py-2',
+            amethyst.state.settings.value.compactList ? 'py-1' : 'py-2',
             useInspector().state.isVisible && useInspector().state.currentItem == item && 'currentlyInspecting',
           ]"
           class="row"
@@ -116,21 +116,21 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
             <icon
               v-if="item.isLoading"
               icon="line-md:loading-twotone-loop"
-              class="w-6 h-6 min-w-6 min-h-6 animate-spin"
+              class="cover"
             />
             <icon
               v-else-if="item.hasErrored"
               icon="ic:twotone-error"
-              class="w-6 h-6 min-w-6 min-h-6"
+              class="cover"
             />
             <icon
               v-else-if="item.deleted"
               icon="ic:twotone-link-off"
-              class="w-6 h-6 min-w-6 min-h-6"
+              class="cover"
             />
             <cover-art
               v-else
-              class="w-5 h-5 rounded-2px"
+              class="cover rounded-2px"
               :url="item.isLoaded && item.getCover() ? item.getCover() : ''"
             />
           </div>
@@ -212,6 +212,10 @@ td {
 
 tr {
   @apply overflow-hidden;
+}
+
+.cover {
+  @apply w-6 h-6 min-w-6 min-h-6;
 }
 
 .row {
