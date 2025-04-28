@@ -5,6 +5,7 @@ import TitleText from "@/components/v2/TitleText.vue";
 import AmethystIcon from "@/icons/AmethystIcon.vue";
 import AacLogo from "@/icons/logos/AacLogo.vue";
 import FlacLogo from "@/icons/logos/FlacLogo.vue";
+import FocusriteLogo from "@/icons/logos/FocusriteLogo.vue";
 import JavascriptLogo from "@/icons/logos/JavascriptLogo.vue";
 import Mp3Logo from "@/icons/logos/Mp3Logo.vue";
 import OggLogo from "@/icons/logos/OggLogo.vue";
@@ -89,6 +90,10 @@ onMounted(() => {
         />
         <steam-logo
           v-else-if="amethyst.player.outputDevice.value.toLowerCase().includes('steam')"
+          class="text-text_title"
+        />
+        <focusrite-logo
+          v-else-if="amethyst.player.outputDevice.value.toLowerCase().includes('focusrite')"
           class="text-text_title"
         />
         <icon
