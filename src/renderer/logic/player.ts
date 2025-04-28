@@ -51,7 +51,7 @@ export class Player extends EventEmitter<{
       let result = input;
       if (amethyst.getCurrentOperatingSystem() == "windows" ) {
         // Default - Speakers (2- Realtek(R) Audio)
-        result = input.slice(20, input.length - 2);
+        result = input.slice(input.indexOf("(") + 1, input.lastIndexOf(")"));
       }
       return result;
     };
