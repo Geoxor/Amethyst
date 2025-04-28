@@ -153,7 +153,7 @@
   "settings.spectrum_analyser.smoothing_duration.description" : "Smoothly animate between data-frames (useful for smoothing small FFT sizes that create jitter)",
 
   "settings.processing_concurrency.title": "Processing concurrency",
-  "settings.processing_concurrency.description": "How many processing tasks will be used for parsing metadata in parallel, default is 3, for ",
+  "settings.processing_concurrency.description": "How many processing tasks will be used for parsing metadata in parallel",
 
   "settings.vsync.title": "VSync",
   "settings.vsync.description": "Constrains the user interface (UI) framerate of Amethyst to the refresh rate of the active display",
