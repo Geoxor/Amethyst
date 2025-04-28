@@ -5,11 +5,12 @@ import TitleText from "@/components/v2/TitleText.vue";
 import AmethystIcon from "@/icons/AmethystIcon.vue";
 import AacLogo from "@/icons/logos/AacLogo.vue";
 import FlacLogo from "@/icons/logos/FlacLogo.vue";
-import SoundIDLogo from "@/icons/logos/SoundIDLogo.vue";
 import JavascriptLogo from "@/icons/logos/JavascriptLogo.vue";
 import Mp3Logo from "@/icons/logos/Mp3Logo.vue";
 import OggLogo from "@/icons/logos/OggLogo.vue";
 import OpusLogo from "@/icons/logos/OpusLogo.vue";
+import RealtekLogo from "@/icons/logos/RealtekLogo.vue";
+import SoundIDLogo from "@/icons/logos/SoundIDLogo.vue";
 import WindowsLogo from "@/icons/logos/WindowsLogo.vue";
 import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
@@ -79,6 +80,10 @@ onMounted(() => {
       >
         <sound-i-d-logo
           v-if="amethyst.player.outputDevice.value.toLowerCase().includes('soundid')"
+          class="text-text_title"
+        />
+        <realtek-logo
+          v-else-if="amethyst.player.outputDevice.value.toLowerCase().includes('realtek')"
           class="text-text_title"
         />
         <icon
