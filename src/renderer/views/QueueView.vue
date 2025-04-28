@@ -39,7 +39,6 @@ onUnmounted(() => {
     
     <lazy-list
       :key="filterText.length"
-      :tracks="amethyst.player.queue.search(filterText)"
     />
   </droppable-container>
 </template>

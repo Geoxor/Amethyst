@@ -1,3 +1,4 @@
+import type { PossibleSortingMethods} from "@/logic/queue";
 import { Queue } from "@/logic/queue";
 import { Track } from "@/logic/track";
 import { useLocalStorage } from "@vueuse/core";
@@ -137,10 +138,12 @@ export class Player extends EventEmitter<{
   */
   public skip() {
     const filterText = useLocalStorage("filterText", "");
+    const currentShortMethod = useLocalStorage<PossibleSortingMethods>("currentShortMethod", "default");
+
     let startOfQueue = 0;
 
     if (filterText.value) {
-      const searchResults = this.queue.search(filterText.value);
+      const searchResults = this.queue.getListSorted(currentShortMethod.value, filterText.value);
       startOfQueue = this.queue.getList().indexOf(searchResults[0]);
       const nextInSearch = searchResults[searchResults.indexOf(this.getCurrentTrack()!) + 1];
       this.currentTrackIndex.value = this.queue.getList().indexOf(nextInSearch);

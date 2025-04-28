@@ -3,12 +3,30 @@ import { amethyst } from "@/amethyst";
 import { useContextMenu } from "@/components/ContextMenu";
 import { saveArrayBufferToFile } from "@/logic/dom";
 import { convertDfpwm } from "@/logic/encoding";
+import type { PossibleSortingMethods } from "@/logic/queue";
 import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
+import { useLocalStorage } from "@vueuse/core";
+import { computed } from "vue";
 import CoverArt from "./CoverArt.vue";
 import { useInspector } from "./Inspector";
 
-defineProps<{tracks: Track[]}>();
+const currentShortMethod = useLocalStorage<PossibleSortingMethods>("currentShortMethod", "default");
+const filterText = useLocalStorage("filterText", "");
+
+const tracks = computed(() => {
+  return amethyst.player.queue.getListSorted(currentShortMethod.value, filterText.value);
+});
+
+const setCurrentSortedMethod = (sortBy: PossibleSortingMethods) => {
+  if (currentShortMethod.value == sortBy) {
+    amethyst.player.queue.currentSortingDirection.value = amethyst.player.queue.currentSortingDirection.value === "ascending" ? "descending" : "ascending";
+  }
+  else {
+    currentShortMethod.value = sortBy;
+    amethyst.player.queue.currentSortingDirection.value = "ascending";
+  }
+};
 
 const isHoldingControl = amethyst.shortcuts.isControlPressed;
 
@@ -59,7 +77,8 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
 <template>
   <div class="text-13px text-text_title min-h-0 h-full flex flex-col text-left relative select-none ">
     <div
-      class="flex text-left font-bold sticky top-0 z-10 bg-surface-900 py-4 px-2"
+      class="flex text-left font-bold sticky top-0 z-10 bg-surface-900 py-4 px-2 columnHeader"
+      :class="[amethyst.player.queue.currentSortingDirection.value]"
       @contextmenu="handleColumnContextMenu($event)"
     >
       <div class="flex-none w-8" />
@@ -69,21 +88,39 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
       />
       <div
         v-if="columns.trackNumber"
-        class="flex-none w-24px"
+        class="flex-none w-32px"
+        :class="[currentShortMethod == 'trackNumber' && 'activeSort']"
+        @click="setCurrentSortedMethod('trackNumber')"
       >
         #
+        <icon
+          v-if="currentShortMethod == 'trackNumber'"
+          icon="ic:round-chevron-left"
+        />
       </div>
       <div
         v-if="columns.title"
         class="flex-grow w-[200px] w-min-100px"
+        :class="[currentShortMethod == 'title' && 'activeSort']"
+        @click="setCurrentSortedMethod('title')"
       >
         Title
+        <icon
+          v-if="currentShortMethod == 'title'"
+          icon="ic:round-chevron-left"
+        />
       </div>
       <div
         v-if="columns.artist"
         class="flex-grow w-[200px] w-min-100px"
+        :class="[currentShortMethod == 'artist' && 'activeSort']"
+        @click="setCurrentSortedMethod('artist')"
       >
         Artist
+        <icon
+          v-if="currentShortMethod == 'artist'"
+          icon="ic:round-chevron-left"
+        />
       </div>
       <div
         v-if="columns.location"
@@ -94,44 +131,86 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
       <div
         v-if="columns.album"
         class="flex-grow w-[200px] w-min-100px"
+        :class="[currentShortMethod == 'album' && 'activeSort']"
+        @click="setCurrentSortedMethod('album')"
       >
         Album
+        <icon
+          v-if="currentShortMethod == 'album'"
+          icon="ic:round-chevron-left"
+        />
       </div>
       <div
         v-if="columns.year"
         class="flex-none w-[50px]"
+        :class="[currentShortMethod == 'year' && 'activeSort']"
+        @click="setCurrentSortedMethod('year')"
       >
         Year
+        <icon
+          v-if="currentShortMethod == 'year'"
+          icon="ic:round-chevron-left"
+        />
       </div>
       <div
         v-if="columns.duration"
         class="flex-none w-[70px]"
+        :class="[currentShortMethod == 'duration' && 'activeSort']"
+        @click="setCurrentSortedMethod('duration')"
       >
         Duration
+        <icon
+          v-if="currentShortMethod == 'duration'"
+          icon="ic:round-chevron-left"
+        />
       </div>
       <div
         v-if="columns.format"
         class="flex-none w-[70px]"
+        :class="[currentShortMethod == 'format' && 'activeSort']"
+        @click="setCurrentSortedMethod('format')"
       >
         Format
+        <icon
+          v-if="currentShortMethod == 'format'"
+          icon="ic:round-chevron-left"
+        />
       </div>
       <div
         v-if="columns.favorite"
         class="flex-none w-[70px]"
+        :class="[currentShortMethod == 'favorite' && 'activeSort']"
+        @click="setCurrentSortedMethod('favorite')"
       >
         Favorite
+        <icon
+          v-if="currentShortMethod == 'favorite'"
+          icon="ic:round-chevron-left"
+        />
       </div>
       <div
         v-if="columns.bitrate"
         class="flex-none w-[70px]"
+        :class="[currentShortMethod == 'bitrate' && 'activeSort']"
+        @click="setCurrentSortedMethod('bitrate')"
       >
         Bitrate
+        <icon
+          v-if="currentShortMethod == 'bitrate'"
+          icon="ic:round-chevron-left"
+        />
       </div>
       <div
         v-if="columns.size"
         class="flex-none w-[70px]"
+        :class="[currentShortMethod == 'size' && 'activeSort']"
+        @click="setCurrentSortedMethod('size')"
       >
         Size
+        <icon
+          v-if="currentShortMethod == 'size'"
+          icon="ic:round-chevron-left"
+        />
       </div>
     </div>
 
@@ -163,8 +242,13 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
             class="flex-none w-8"
           >
             <icon
-              v-if="amethyst.player.getCurrentTrack()?.path == item.path"
-              icon="ic:round-play-arrow"
+              v-if="amethyst.player.getCurrentTrack()?.path == item.path && amethyst.player.isPlaying.value"
+              icon="line-md:play-filled"
+              class="w-5 h-5 min-w-5 min-h-5"
+            />
+            <icon
+              v-else-if="amethyst.player.getCurrentTrack()?.path == item.path && !amethyst.player.isPlaying.value"
+              icon="line-md:pause"
               class="w-5 h-5 min-w-5 min-h-5"
             />
             <icon
@@ -201,7 +285,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
           </div>
           <div
             v-if="columns.trackNumber"
-            class="flex-none w-24px"
+            class="flex-none w-32px"
           >
             <span v-if="(item as Track).getMetadata()?.common.track.no">{{ (item as Track).getMetadata()?.common.track.no }}</span>
             <span v-else>N/A</span>
@@ -318,6 +402,26 @@ tr {
 
 .cover {
   @apply w-6 h-6 min-w-6 min-h-6;
+}
+
+.columnHeader > div {
+  @apply flex items-center hover:text-accent;
+}
+
+.columnHeader svg {
+  @apply w-5 h-5 min-h-5 min-w-5;
+}
+
+.columnHeader.ascending svg {
+  @apply rotate-90 transform-gpu;
+}
+
+.columnHeader.descending svg {
+  @apply -rotate-90 transform-gpu;
+}
+
+.activeSort {
+  @apply text-primary;
 }
 
 .row {
