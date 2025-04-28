@@ -42,7 +42,6 @@ export class MediaSourceManager {
     mediaSource.unregister();
     const savedMediaSource = { type: mediaSource.type, path: mediaSource.path };
     const index = this.amethyst.state.settings.value.saveMediaSources.findIndex(s => s.path == savedMediaSource.path);
-    console.log(index); 
     if (index == -1) return;
     this.amethyst.state.settings.value.saveMediaSources.splice(index, 1);
     this.mediaSources.value.splice(index, 1);
@@ -61,17 +60,17 @@ export class MediaSource {
     this.fetchMedia();
   }
 
-  public fetchMedia(){
-    throw new Error("Not implemented");
-  };
-
   public register() {
-    window.electron.ipcRenderer.invoke("watch-folder", [this.path, this.uuid]);
+    throw new Error("Not implemented");
   }
 
   public unregister() {
-    window.electron.ipcRenderer.invoke("unwatch-folder", [this.path, this.uuid]);
+    throw new Error("Not implemented");
   }
+
+  public fetchMedia(){
+    throw new Error("Not implemented");
+  };
 }
 
 export class LocalMediaSource extends MediaSource {
@@ -96,6 +95,14 @@ export class LocalMediaSource extends MediaSource {
       this.amethyst.player.queue.remove(track);
       this.totalTracks.value--;
     });
+  }
+
+  public override register() {
+    window.electron.ipcRenderer.invoke("watch-folder", [this.path, this.uuid]);
+  }
+
+  public override unregister() {
+    window.electron.ipcRenderer.invoke("unwatch-folder", [this.path, this.uuid]);
   }
 
   public override async fetchMedia() {
