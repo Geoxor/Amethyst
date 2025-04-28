@@ -57,16 +57,16 @@ export class Player extends EventEmitter<{
     };
 
     const updateCurrentOutputDevice = async () => {
-      const mediaDevices = await navigator.mediaDevices?.enumerateDevices()
-      navigator.mediaDevices.addEventListener("devicechange", (event) => {
+      const mediaDevices = await navigator.mediaDevices?.enumerateDevices();
+      navigator.mediaDevices.addEventListener("devicechange", event => {
         if (event.type == "devicechange") {
           updateCurrentOutputDevice();
         }
       });
       const activeOutputDeviceName = mediaDevices.find(device => device.deviceId == "default" && device.kind == "audiooutput")?.label;
       activeOutputDeviceName && (this.outputDevice.value = extractDeviceName(activeOutputDeviceName));
-      console.log(`Current audio device: ${this.outputDevice.value}`)
-    }
+      console.log(`Current audio device: ${activeOutputDeviceName}`);
+    };
 
     updateCurrentOutputDevice();
 

@@ -4,10 +4,12 @@ import OutputDiagramBlob from "@/components/v2/OutputDiagramBlob.vue";
 import TitleText from "@/components/v2/TitleText.vue";
 import AmethystIcon from "@/icons/AmethystIcon.vue";
 import AacLogo from "@/icons/logos/AacLogo.vue";
+import ArturiaLogo from "@/icons/logos/ArturiaLogo.vue";
 import FlacLogo from "@/icons/logos/FlacLogo.vue";
 import FocusriteLogo from "@/icons/logos/FocusriteLogo.vue";
 import JavascriptLogo from "@/icons/logos/JavascriptLogo.vue";
 import Mp3Logo from "@/icons/logos/Mp3Logo.vue";
+import NvidiaLogo from "@/icons/logos/NvidiaLogo.vue";
 import OggLogo from "@/icons/logos/OggLogo.vue";
 import OpusLogo from "@/icons/logos/OpusLogo.vue";
 import RealtekLogo from "@/icons/logos/RealtekLogo.vue";
@@ -94,6 +96,14 @@ onMounted(() => {
         />
         <focusrite-logo
           v-else-if="amethyst.player.outputDevice.value.toLowerCase().includes('focusrite')"
+          class="text-text_title"
+        />
+        <nvidia-logo
+          v-else-if="amethyst.player.outputDevice.value.toLowerCase().includes('nvidia')"
+          class="text-text_title"
+        />
+        <arturia-logo
+          v-else-if="['arturia', 'minifuse'].includes(amethyst.player.outputDevice.value.toLowerCase())"
           class="text-text_title"
         />
         <icon
