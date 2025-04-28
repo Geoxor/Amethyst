@@ -47,21 +47,28 @@ export class Player extends EventEmitter<{
   public constructor(private amethyst: Amethyst) {
     super();
 
-    navigator.mediaDevices?.enumerateDevices()
-      .then( mediaDevices => {
-        const extractDeviceName = (input: string): string => {
-          let result = input;
-          if (amethyst.getCurrentOperatingSystem() == "windows" ) {
-            // Default - Speakers (2- Realtek(R) Audio)
-            result = input.slice(20, input.length - 2);
-          }
-          return result;
-        };
+    const extractDeviceName = (input: string): string => {
+      let result = input;
+      if (amethyst.getCurrentOperatingSystem() == "windows" ) {
+        // Default - Speakers (2- Realtek(R) Audio)
+        result = input.slice(20, input.length - 2);
+      }
+      return result;
+    };
 
-        console.log(mediaDevices);
-        const activeOutputDeviceName = mediaDevices.find(device => device.deviceId == "default" && device.kind == "audiooutput")?.label;
-        activeOutputDeviceName && (this.outputDevice.value = extractDeviceName(activeOutputDeviceName));
+    const updateCurrentOutputDevice = async () => {
+      const mediaDevices = await navigator.mediaDevices?.enumerateDevices()
+      navigator.mediaDevices.addEventListener("devicechange", (event) => {
+        if (event.type == "devicechange") {
+          updateCurrentOutputDevice();
+        }
       });
+      const activeOutputDeviceName = mediaDevices.find(device => device.deviceId == "default" && device.kind == "audiooutput")?.label;
+      activeOutputDeviceName && (this.outputDevice.value = extractDeviceName(activeOutputDeviceName));
+      console.log(`Current audio device: ${this.outputDevice.value}`)
+    }
+
+    updateCurrentOutputDevice();
 
     // Set multichannel support
     this.context.destination.channelCount = this.context.destination.maxChannelCount;
