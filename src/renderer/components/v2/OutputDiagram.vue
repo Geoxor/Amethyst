@@ -103,7 +103,7 @@ onMounted(() => {
           class="text-text_title"
         />
         <arturia-logo
-          v-else-if="amethyst.player.outputDevice.value.toLowerCase().includes('minifuse')"
+          v-else-if="['minifuse', 'arturia'].some(string => amethyst.player.outputDevice.value.toLowerCase().includes(string))"
           class="text-text_title"
         />
         <icon
