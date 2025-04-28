@@ -38,7 +38,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
 </script>
 
 <template>
-  <div class="text-13px text-text_title min-h-0 h-full flex flex-col text-left relative select-none">
+  <div class="text-13px text-text_title min-h-0 h-full flex flex-col text-left relative select-none ">
     <div class="flex text-left font-bold sticky top-0 z-10 bg-surface-900 py-4 px-2">
       <div class="flex-none w-8" />
       <div class="flex-none w-[32px]" />
@@ -75,7 +75,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
     </div>
 
     <RecycleScroller
-      class="h-full pb-24 pr-2"
+      class="h-full pb-24 pr-2 leading-tight"
       :items="tracks"
       :item-size="ITEM_HEIGHT"
       key-field="path"
