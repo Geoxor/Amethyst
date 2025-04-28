@@ -15,7 +15,7 @@ const isHoldingControl = amethyst.shortcuts.isControlPressed;
 const ITEM_HEIGHT = amethyst.state.settings.value.compactList ? 32 : 40;
 
 // Context Menu options for this component 
-const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
+const handleTrackContextMenu = ({x, y}: MouseEvent, track: Track) => {
   useContextMenu().open({x, y}, [
     { title: "Play", icon: "ic:round-play-arrow", action: () => amethyst.player.play(track) },
     { title: "Inspect", icon: "mdi:flask", action: () => useInspector().inspectAndShow(track) },
@@ -35,41 +35,102 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
   ]);
 };
 
+const columns = amethyst.state.settings.value.columns;
+
+const handleColumnContextMenu = ({x, y}: MouseEvent) => {
+  useContextMenu().open({x, y}, [
+    { title: "Cover", icon: columns.cover ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.cover = !columns.cover },
+    { title: "Track №", icon: columns.trackNumber ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.trackNumber = !columns.trackNumber },
+    { title: "Title", icon: columns.title ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.title = !columns.title },
+    { title: "Artist", icon: columns.artist ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.artist = !columns.artist },
+    { title: "Location", icon: columns.location ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.location = !columns.location },
+    { title: "Album", icon: columns.album ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.album = !columns.album },
+    { title: "Year", icon: columns.year ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.year = !columns.year },
+    { title: "Duration", icon: columns.duration ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.duration = !columns.duration },
+    { title: "Format", icon: columns.format ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.format = !columns.format },
+    { title: "Favorite", icon: columns.favorite ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.favorite = !columns.favorite },
+    { title: "Bitrate", icon: columns.bitrate ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.bitrate = !columns.bitrate },
+    { title: "Size", icon: columns.size ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.size = !columns.size },
+  ]);
+};
+
 </script>
 
 <template>
   <div class="text-13px text-text_title min-h-0 h-full flex flex-col text-left relative select-none ">
-    <div class="flex text-left font-bold sticky top-0 z-10 bg-surface-900 py-4 px-2">
+    <div
+      class="flex text-left font-bold sticky top-0 z-10 bg-surface-900 py-4 px-2"
+      @contextmenu="handleColumnContextMenu($event)"
+    >
       <div class="flex-none w-8" />
-      <div class="flex-none w-[32px]" />
-      <div class="flex-grow w-[200px]">
+      <div
+        v-if="columns.cover"
+        class="flex-none w-[32px]"
+      />
+      <div
+        v-if="columns.trackNumber"
+        class="flex-none w-24px"
+      >
+        #
+      </div>
+      <div
+        v-if="columns.title"
+        class="flex-grow w-[200px]"
+      >
         Title
       </div>
-      <div class="flex-grow w-[200px]">
+      <div
+        v-if="columns.artist"
+        class="flex-grow w-[200px]"
+      >
         Artist
       </div>
-      <div class="flex-none w-[70px]">
+      <div
+        v-if="columns.location"
+        class="flex-none w-[70px]"
+      >
         Location
       </div>
-      <div class="flex-grow w-[200px]">
+      <div
+        v-if="columns.album"
+        class="flex-grow w-[200px]"
+      >
         Album
       </div>
-      <div class="flex-none w-[50px]">
+      <div
+        v-if="columns.year"
+        class="flex-none w-[50px]"
+      >
         Year
       </div>
-      <div class="flex-none w-[70px]">
+      <div
+        v-if="columns.duration"
+        class="flex-none w-[70px]"
+      >
         Duration
       </div>
-      <div class="flex-none w-[70px]">
+      <div
+        v-if="columns.format"
+        class="flex-none w-[70px]"
+      >
         Format
       </div>
-      <div class="flex-none w-[70px]">
+      <div
+        v-if="columns.favorite"
+        class="flex-none w-[70px]"
+      >
         Favorite
       </div>
-      <div class="flex-none w-[70px]">
+      <div
+        v-if="columns.bitrate"
+        class="flex-none w-[70px]"
+      >
         Bitrate
       </div>
-      <div class="flex-none w-[70px]">
+      <div
+        v-if="columns.size"
+        class="flex-none w-[70px]"
+      >
         Size
       </div>
     </div>
@@ -85,6 +146,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
         <div
           :class="[
             'flex items-center px-2 rounded-4px',
+            `h-[${ITEM_HEIGHT}px]`,
             isHoldingControl && 'control cursor-external-pointer',
             item.hasErrored && 'opacity-50 not-allowed',
             item.deleted && 'opacity-50 !text-rose-400 not-allowed',
@@ -93,7 +155,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
             useInspector().state.isVisible && useInspector().state.currentItem == item && 'currentlyInspecting',
           ]"
           class="row"
-          @contextmenu="handleContextMenu($event, item)"
+          @contextmenu="handleTrackContextMenu($event, item)"
           @keypress.prevent
           @click="isHoldingControl ? amethyst.showItem(item.path) : amethyst.player.play(item)"
         >
@@ -112,7 +174,10 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
             />
           </div>
 
-          <div class="flex-none w-[32px]">
+          <div
+            v-if="columns.cover"
+            class="flex-none w-[32px]"
+          >
             <icon
               v-if="item.isLoading"
               icon="line-md:loading-twotone-loop"
@@ -134,19 +199,35 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
               :url="item.isLoaded && item.getCover() ? item.getCover() : ''"
             />
           </div>
+          <div
+            v-if="columns.trackNumber"
+            class="flex-none w-24px"
+          >
+            <span v-if="(item as Track).getMetadata()?.common.track.no">{{ (item as Track).getMetadata()?.common.track.no }}</span>
+            <span v-else>N/A</span>
+          </div>
 
-          <div class="flex-grow w-[200px] truncate">
+          <div
+            v-if="columns.title"
+            class="flex-grow w-[200px] truncate"
+          >
             <span v-if="item.getTitle()">{{ item.getTitle() }}</span>
             <span v-else-if="item.getFilename()">{{ item.getFilename() }}</span>
             <span v-else>N/A</span>
           </div>
 
-          <div class="flex-grow w-[200px] truncate">
+          <div
+            v-if="columns.artist"
+            class="flex-grow w-[200px] truncate"
+          >
             <span v-if="item.getArtistsFormatted()">{{ item.getArtistsFormatted() }}</span>
             <span v-else>N/A</span>
           </div>
 
-          <div class="flex-none w-[70px] pl-4">
+          <div
+            v-if="columns.location"
+            class="flex-none w-[70px] pl-4"
+          >
             <button
               class="cursor-pointer hover:text-white"
               @click.stop.prevent="amethyst.showItem(item.path)"
@@ -158,39 +239,60 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
             </button>
           </div>
 
-          <div class="flex-grow w-[200px] truncate">
+          <div
+            v-if="columns.album"
+            class="flex-grow w-[200px] truncate"
+          >
             <span v-if="item.getAlbumFormatted()">{{ item.getAlbumFormatted() }}</span>
             <span v-else>N/A</span>
           </div>
 
-          <div class="flex-none w-[50px]">
+          <div
+            v-if="columns.year"
+            class="flex-none w-[50px]"
+          >
             <span v-if="item.getMetadata()">{{ item.getMetadata()?.common.year }}</span>
             <span v-else>N/A</span>
           </div>
 
-          <div class="flex-none w-[70px]">
+          <div
+            v-if="columns.duration"
+            class="flex-none w-[70px]"
+          >
             <span v-if="item.getDurationFormatted(true)">{{ item.getDurationFormatted(true) }}</span>
             <span v-else>N/A</span>
           </div>
 
-          <div class="flex-none w-[70px]">
+          <div
+            v-if="columns.format"
+            class="flex-none w-[70px]"
+          >
             <span v-if="item.getMetadata()">{{ item.getMetadata()?.format.container }}</span>
             <span v-else>N/A</span>
           </div>
 
-          <div class="flex-none w-[70px] pl-4">
+          <div
+            v-if="columns.favorite"
+            class="flex-none w-[70px] pl-4"
+          >
             <icon
               icon="ic:baseline-favorite-border"
               class="h-4 w-4"
             />
           </div>
 
-          <div class="flex-none w-[70px]">
+          <div
+            v-if="columns.bitrate"
+            class="flex-none w-[70px]"
+          >
             <span v-if="item.getBitrateFormatted()">{{ item.getBitrateFormatted() }}</span>
             <span v-else>N/A</span>
           </div>
 
-          <div class="flex-none w-[70px]">
+          <div
+            v-if="columns.size"
+            class="flex-none w-[70px]"
+          >
             <span v-if="item.getFilesizeFormatted()">{{ item.getFilesizeFormatted() }}</span>
             <span v-else>N/A</span>
           </div>

@@ -86,6 +86,7 @@ export class LocalMediaSource extends MediaSource {
 
     this.watcher.on("add", path => {
       this.amethyst.player.queue.add(path);
+      this.amethyst.player.queue.fetchAsyncData();
       this.totalTracks.value++;
     });
 

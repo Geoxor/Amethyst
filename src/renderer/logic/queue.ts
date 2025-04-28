@@ -77,17 +77,15 @@ export class Queue {
    * Fetches all async data for each track concurrently
    */
   public async fetchAsyncData(force?: boolean){
-    this.amethyst.isLoading.value = true;
-    const result = await PromisePool
-			.for(force ? this.getList() : this.getList().filter(track => !track.isLoaded))
+    const tracks = force ? this.getList() : this.getList().filter(track => !track.isLoaded);
+    return await PromisePool
+			.for(tracks)
 			.withConcurrency(this.amethyst.state.settings.value.processingConcurrency)
 			.process(async track => {
         await track.fetchAsyncData(force);
         this.updateTotalSize();
         this.updateTotalDuration();
       });
-    this.amethyst.isLoading.value = false;
-    return result;
   }
 
   public getTrack(idx: number){
