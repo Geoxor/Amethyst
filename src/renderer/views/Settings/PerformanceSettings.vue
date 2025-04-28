@@ -51,7 +51,7 @@ onMounted(() => {
           text="Current Framerate"
           class="text-12px"
         />
-        <title-text :text="`${Number.isFinite(tweenedFps) && tweenedFps != -1 ? `${tweenedFps} fps` : 'loading'}`" />
+        <title-text :text="`${Number.isFinite(tweenedFps) && tweenedFps != -1 ? `${tweenedFps + 1} fps` : 'loading'}`" />
       </div>
       <div class="flex-col flex justify-center h-full gap-2">
         <subtitle-text
