@@ -7,6 +7,7 @@ import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 import AmethystDarkSkeleton from "@/themes/AmethystDarkSkeleton.vue";
 import EmeraldDarkSkeleton from "@/themes/EmeraldDarkSkeleton.vue";
 import OnyxDarkSkeleton from "@/themes/OnyxDarkSkeleton.vue";
+import SapphireDarkSkeleton from "@/themes/SapphireDarkSkeleton.vue";
 import { BLEND_MODES, FONT_WEIGHTS } from "@shared/constants";
 
 const AVAILABLE_THEMES = [
@@ -69,6 +70,11 @@ const AVAILABLE_THEMES = [
           class="theme-skeleton cursor-pointer"
           :class="[amethyst.state.settings.value.theme === 'onyx-dark' && 'active']"
           @click="amethyst.state.settings.value.theme = 'onyx-dark'"
+        />
+        <sapphire-dark-skeleton
+          class="theme-skeleton cursor-pointer"
+          :class="[amethyst.state.settings.value.theme === 'sapphire-dark' && 'active']"
+          @click="amethyst.state.settings.value.theme = 'sapphire-dark'"
         />
       </div>
     </template>
