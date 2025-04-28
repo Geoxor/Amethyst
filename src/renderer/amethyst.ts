@@ -10,14 +10,13 @@ import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
 import type { OpenDialogReturnValue, SaveDialogReturnValue } from "electron";
 import { ref, watch } from "vue";
 import { flattenArray } from "./logic/math";
-import type { Track } from "./logic/track";
 import { Directory } from "@capacitor/filesystem";
 import { router } from "./router";
 import "./logic/subsonic";
 import { createI18n } from "vue-i18n";
 import messages from "@intlify/unplugin-vue-i18n/messages";
 import { useLocalStorage } from "@vueuse/core";
-import { EventEmitter } from "@/logic/eventEmitter";
+import type { Track } from "./logic/track";
 
 export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale
@@ -264,11 +263,47 @@ export class Amethyst extends AmethystBackend {
     }
 
     this.handleFileDrops();
+    this.handleDiscordRichPresence();
 
     if (this.state.settings.value.autoPlayOnStartup) {
       const track = this.player.queue.getTrack(0);
       track && this.player.play(track);
     }
+    
+  }
+
+  private handleDiscordRichPresence() {
+    let richPresenceTimer: NodeJS.Timer | undefined;
+
+    const updateRichPresence = (track: Track) => {
+      const sendData = () => {
+      const args = [
+        track.getArtistsFormatted() && track.getTitleFormatted() ? `${track.getArtistsFormatted()} - ${track.getTitleFormatted()}` : track.getFilename(),
+          this.player.isPaused.value ? "Paused" : `${this.player.currentTimeFormatted(true)} - ${track.getDurationFormatted(true)}`,
+          track.metadata.data?.format.container?.toLowerCase() || "unknown format"
+        ];
+        window.electron.ipcRenderer.invoke("update-rich-presence", [args]);
+      };
+
+      richPresenceTimer && clearInterval(richPresenceTimer);
+      sendData();
+      richPresenceTimer = setInterval(() => sendData(), 1000);
+    };
+
+    const updateWithCurrentTrack = () => {
+      const currentTrack = this.player.getCurrentTrack();
+      currentTrack && updateRichPresence(currentTrack);
+    };
+
+    if (this.state.settings.value.useDiscordRichPresence) {
+      this.player.on("play", () => {
+        updateWithCurrentTrack();
+      });
+    };
+
+    watch(() => this.state.settings.value.useDiscordRichPresence, value => {
+      value ? updateWithCurrentTrack() : richPresenceTimer && clearInterval(richPresenceTimer);
+    });
   }
 
   private handleFileDrops() {
