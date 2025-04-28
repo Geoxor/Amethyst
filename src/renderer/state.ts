@@ -71,6 +71,7 @@ export class State extends EventEmitter<StateEvents> {
 		vectorscopeFftSize: 512,
 		fontWeight: "normal",
 		hideCategoryTitles: true,
+		resampleRate: 44100,
 		zoomLevel: 1.00,
 		compactList: true,
 		columns: {

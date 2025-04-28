@@ -221,8 +221,8 @@ export class Amethyst extends AmethystBackend {
   public IS_DEV = import.meta.env.DEV;
   public APPDATA_PATH: string | undefined;
   public isLoading = ref(false);
-  public player = new Player(this);
   public state: State = new State();
+  public player = new Player(this);
   public shortcuts: Shortcuts = new Shortcuts();
   public mediaSession: MediaSession | undefined = this.getCurrentPlatform() === "desktop" ? new MediaSession(this.player) : undefined;
   public mediaSourceManager: MediaSourceManager = new MediaSourceManager(this);

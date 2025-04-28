@@ -21,11 +21,13 @@ import { Icon } from "@iconify/vue";
 import { onMounted, ref } from "vue";
 
 const mimeType = ref("none");
+const sampleRate = ref(amethyst.player.context.sampleRate);
 
 const updateMimeType = (track: Track) => {
   const metadata = track.getMetadata();
   if (!metadata) return;
   mimeType.value = metadata.format.codec!;
+  sampleRate.value = metadata.format.sampleRate!;
 };
 
 onMounted(() => {
@@ -41,9 +43,9 @@ onMounted(() => {
     <div class="flex items-top justify-between">
       <output-diagram-blob
         :title="$t('output_diagram.source.title')"
-        :subtitle="mimeType"
+        :subtitle="`${mimeType}\n${sampleRate/1000}kHz`"
       >
-        <span class=" text-text_title">
+        <span class="text-text_title">
           <flac-logo v-if="mimeType == 'FLAC'" />
           <mp3-logo v-else-if="mimeType == 'MPEG 1 Layer 3'" />
           <opus-logo v-else-if="mimeType == 'Opus'" />
@@ -63,6 +65,19 @@ onMounted(() => {
       <output-diagram-blob
         :title="$t('output_diagram.decoder.title')"
         subtitle="Web Audio API"
+      >
+        <javascript-logo />
+      </output-diagram-blob>
+      
+      <div
+        v-if="amethyst.player.context.sampleRate != sampleRate"
+        class="w-full h-2px bg-surface-600 mt-6"
+      />
+
+      <output-diagram-blob
+        v-if="amethyst.player.context.sampleRate != sampleRate"
+        :title="$t('output_diagram.resampler.title')"
+        :subtitle="`Web Audio API\n${sampleRate/1000}kHz -> ${amethyst.player.context.sampleRate/1000}kHz`"
       >
         <javascript-logo />
       </output-diagram-blob>

@@ -3,7 +3,7 @@ import { Queue } from "@/logic/queue";
 import { Track } from "@/logic/track";
 import { useLocalStorage } from "@vueuse/core";
 import type { Ref} from "vue";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { AmethystAudioNodeManager } from "./audioManager";
 import { EventEmitter } from "./eventEmitter";
 import { secondsToColinHuman, secondsToHuman } from "@shared/formating";
@@ -24,8 +24,7 @@ export class Player extends EventEmitter<{
   stop: void;
   timeupdate: number;
 }> {
-  ;
-
+  
   private currentTrack = ref<Track>();
   private currentTrackIndex = ref(0);
   public isPlaying = ref(false);
@@ -38,7 +37,7 @@ export class Player extends EventEmitter<{
   public queue = new Queue(this.amethyst);
 
   public input = new Audio();
-  public context = new AudioContext({latencyHint: "interactive"});
+  public context = new AudioContext({latencyHint: "interactive", sampleRate: this.amethyst.state.settings.value.resampleRate });
   public source = this.context.createMediaElementSource(this.input);
   public nodeManager: AmethystAudioNodeManager;
 
