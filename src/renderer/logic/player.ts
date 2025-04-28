@@ -41,8 +41,17 @@ export class Player extends EventEmitter<{
   public source = this.context.createMediaElementSource(this.input);
   public nodeManager: AmethystAudioNodeManager;
 
+  public outputDevice: Ref<string> = ref("");
+
   public constructor(private amethyst: Amethyst) {
     super();
+
+    navigator.mediaDevices?.enumerateDevices()
+      .then( mediaDevices => {
+        console.log(mediaDevices);
+        const activeOutputDeviceName = mediaDevices.find(device => device.deviceId == "default" && device.kind == "audiooutput")?.label.match(/\(([^)]+)\)/)?.[1];
+        activeOutputDeviceName && (this.outputDevice.value = activeOutputDeviceName);
+      });
 
     // Set multichannel support
     this.context.destination.channelCount = this.context.destination.maxChannelCount;

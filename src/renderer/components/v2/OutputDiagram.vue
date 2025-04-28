@@ -5,6 +5,7 @@ import TitleText from "@/components/v2/TitleText.vue";
 import AmethystIcon from "@/icons/AmethystIcon.vue";
 import AacLogo from "@/icons/logos/AacLogo.vue";
 import FlacLogo from "@/icons/logos/FlacLogo.vue";
+import SoundIDLogo from "@/icons/logos/SoundIDLogo.vue";
 import JavascriptLogo from "@/icons/logos/JavascriptLogo.vue";
 import Mp3Logo from "@/icons/logos/Mp3Logo.vue";
 import OggLogo from "@/icons/logos/OggLogo.vue";
@@ -68,6 +69,23 @@ onMounted(() => {
         subtitle="Amethyst DSP"
       >
         <amethyst-icon class="text-accent" />
+      </output-diagram-blob>
+
+      <div class="w-full h-2px bg-surface-600 mt-6" />
+
+      <output-diagram-blob
+        :title="$t('output_diagram.audio_device.title')"
+        :subtitle="amethyst.player.outputDevice.value"
+      >
+        <sound-i-d-logo
+          v-if="amethyst.player.outputDevice.value.toLowerCase().includes('soundid')"
+          class="text-text_title"
+        />
+        <icon
+          v-else
+          icon="ic:twotone-volume-up" 
+          class="h-6 w-6 text-text_title"
+        />
       </output-diagram-blob>
 
       <div class="w-full h-2px bg-surface-600 mt-6" />

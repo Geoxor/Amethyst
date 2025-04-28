@@ -6,7 +6,7 @@ defineProps<{title: string, subtitle?: string}>();
 
 <template>
   <div class="flex flex-col gap-3 relative">
-    <div class="flex items-center justify-center h-48px w-48px bg-surface-600 rounded-8px">
+    <div class="flex items-center justify-center h-48px w-48px bg-surface-600 rounded-4px">
       <slot />
     </div>
     
