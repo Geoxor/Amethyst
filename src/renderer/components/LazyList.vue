@@ -116,7 +116,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
             <icon
               v-if="item.isLoading"
               icon="line-md:loading-twotone-loop"
-              class="cover"
+              class="cover animate-spin"
             />
             <icon
               v-else-if="item.hasErrored"
