@@ -75,13 +75,13 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
       </div>
       <div
         v-if="columns.title"
-        class="flex-grow w-[200px]"
+        class="flex-grow w-[200px] w-min-100px"
       >
         Title
       </div>
       <div
         v-if="columns.artist"
-        class="flex-grow w-[200px]"
+        class="flex-grow w-[200px] w-min-100px"
       >
         Artist
       </div>
@@ -93,7 +93,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
       </div>
       <div
         v-if="columns.album"
-        class="flex-grow w-[200px]"
+        class="flex-grow w-[200px] w-min-100px"
       >
         Album
       </div>
@@ -209,7 +209,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
 
           <div
             v-if="columns.title"
-            class="flex-grow w-[200px] truncate"
+            class="flex-grow w-[200px] w-min-100px truncate"
           >
             <span v-if="item.getTitle()">{{ item.getTitle() }}</span>
             <span v-else-if="item.getFilename()">{{ item.getFilename() }}</span>
@@ -218,7 +218,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
 
           <div
             v-if="columns.artist"
-            class="flex-grow w-[200px] truncate"
+            class="flex-grow w-[200px] w-min-100px truncate"
           >
             <span v-if="item.getArtistsFormatted()">{{ item.getArtistsFormatted() }}</span>
             <span v-else>N/A</span>
@@ -241,7 +241,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
 
           <div
             v-if="columns.album"
-            class="flex-grow w-[200px] truncate"
+            class="flex-grow w-[200px] w-min-100px truncate"
           >
             <span v-if="item.getAlbumFormatted()">{{ item.getAlbumFormatted() }}</span>
             <span v-else>N/A</span>
