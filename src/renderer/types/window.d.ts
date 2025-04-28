@@ -1,8 +1,4 @@
 /* eslint-disable @typescript-eslint/consistent-type-imports */
-declare type fs = typeof import("fs/promises");
-declare type os = typeof import("os");
-declare type path = typeof import("path");
-
 declare global {
 
 	interface Import {
@@ -15,9 +11,9 @@ declare global {
 	}
 
   interface Window {
-    fs: fs;
-    os: os;
-    path: path;
+    fs: typeof import("fs/promises");
+    os: typeof import("os");
+    path: typeof import("path");
     dialog: Electron.Dialog;
     electron: {
 			isMac: boolean, 
@@ -34,10 +30,6 @@ declare global {
 			}
 		}
   }
-
-	interface CSSStyleDeclaration {
-		zoom: number;
-	}
 }
 
 export { };

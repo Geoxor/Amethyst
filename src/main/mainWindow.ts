@@ -10,6 +10,9 @@ import {ALLOWED_AUDIO_EXTENSIONS} from "../shared/constants";
 import {sleep} from "../shared/logic";
 import { IS_DEV, store } from "./main";
 import windowStateKeeper from "electron-window-state";
+import type { FSWatcher } from "chokidar";
+import chokidar from "chokidar";
+import chalk from "chalk";
 
 export const APP_VERSION = app.isPackaged ? app.getVersion() : process.env.npm_package_version ?? "0.0.0";
 export const METADATA_CACHE_PATH = path.join(app.getPath("appData"), "/amethyst/Metadata Cache");
@@ -75,6 +78,8 @@ export class MainWindow {
 		defaultHeight: 720,
 	});
 	private readonly discord: Discord;
+
+	public watchers: Record<string, FSWatcher> = {};
 
 	constructor() {
 
@@ -346,7 +351,34 @@ export class MainWindow {
 
 			"check-for-updates": () => {
 				return checkForUpdatesAndInstall();
-			}
+			},
+
+			"watch-folder": async (_: Event, [path, uuid]: [string, string]) => {
+				const watcher = chokidar.watch(path, {
+					persistent: true,
+					ignoreInitial: true,
+					ignored: (path, stats) => 
+						stats?.isFile() && !ALLOWED_AUDIO_EXTENSIONS.some(allowedExt => path.endsWith(allowedExt)) || false
+				});
+
+				this.watchers[uuid] = watcher;
+				console.log("Watching media source folder:", chalk.blue(path), chalk.yellow(uuid));
+				
+				const frontend = this.window.webContents;
+
+				watcher
+					.on("add", path => frontend.send("watch:add", [path, uuid]))
+					.on("change", path => frontend.send("watch:change", [path, uuid]))
+					.on("unlink", path => frontend.send("watch:unlink", [path, uuid]));
+			},
+
+			"unwatch-folder": async (_: Event, [path, uuid]: [string, string]) => {
+				const watcher = this.watchers[uuid];
+				if (!watcher) return;
+				watcher.close();
+				console.log("Stopped watching media source folder:", chalk.yellow(path));
+			},
+
 		}).forEach(([channel, handler]) => ipcMain.handle(channel, handler));
 	}
 }
