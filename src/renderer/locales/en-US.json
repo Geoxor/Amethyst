@@ -72,6 +72,9 @@
   "settings.theme.title": "Theme",
   "settings.theme.description": "Changes the theme of the application, this will change the background and the color of the UI elements",
 
+  "settings.queue.compact_mode.title": "Compact mode",
+  "settings.queue.compact_mode.description": "Reduces the height of the queue items to fit more items on the screen",
+
   "settings.application.title": "Application",
   "settings.application.description": "Updates and language preferences",
 

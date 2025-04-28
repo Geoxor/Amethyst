@@ -89,7 +89,7 @@ const handleContextMenu = ({x, y}: MouseEvent, track: Track) => {
             item.hasErrored && 'opacity-50 not-allowed',
             item.deleted && 'opacity-50 !text-rose-400 not-allowed',
             amethyst.player.getCurrentTrack()?.path == item.path && 'currentlyPlaying',
-            amethyst.state.settings.value.compactList ? 'py-1' : 'py-2',
+            amethyst.state.settings.value.compactList ? 'py-0.5' : 'py-2',
             useInspector().state.isVisible && useInspector().state.currentItem == item && 'currentlyInspecting',
           ]"
           class="row"
