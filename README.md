@@ -2,6 +2,9 @@
 
 ![Discord](https://img.shields.io/discord/385387666415550474?label=Discord&logo=discord&style=flat)
 ![GitHub repo size](https://img.shields.io/github/repo-size/geoxor/amethyst?label=Size)
+<a href="https://repology.org/project/amethyst-player/versions">
+    <img src="https://repology.org/badge/vertical-allrepos/amethyst-player.svg" alt="Packaging status" align="right">
+</a>
 <br>
 <br>
 # Amethyst
