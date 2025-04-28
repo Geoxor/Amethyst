@@ -159,6 +159,9 @@
   "settings.fetch_metadata_on_startup.title": "Fetch metadata on startup",
   "settings.fetch_metadata_on_startup.description": "Fetch metadata of all songs in queue on startup, this function is delayed by 1 second (experimental)",
 
+  "settings.autoplay_on_startup.description": "Autoplay on startup",
+  "settings.autoplay_on_startup.title": "Start playing a song when Amethyst starts",
+
   "settings.pause_visuals.title": "Pause visuals when unfocused",
   "settings.pause_visuals.description": "Pause visualizers when tabbing out of Amethyst to reduce performance hit",
 
