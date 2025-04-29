@@ -264,6 +264,11 @@ export class Amethyst extends AmethystBackend {
       track && this.player.play(track);
     }
 
+    this.updateCurrentOutputDevice();
+    
+  }
+
+  public updateCurrentOutputDevice = async () => {
     const extractDeviceName = (input: string): string => {
       let result = input;
       if (amethyst.getCurrentOperatingSystem() == "windows" ) {
@@ -274,31 +279,26 @@ export class Amethyst extends AmethystBackend {
 
     };
 
-    const updateCurrentOutputDevice = async () => {
-      let outputDeviceName;
+    let outputDeviceName;
 
-      if (this.state.settings.value.audioDriver == "default") {
-        const mediaDevices = await navigator.mediaDevices?.enumerateDevices();
-        navigator.mediaDevices.addEventListener("devicechange", event => {
-          if (event.type == "devicechange") {
-            updateCurrentOutputDevice();
-          }
-        });
-        outputDeviceName = mediaDevices.find(device => device.deviceId == "default" && device.kind == "audiooutput")?.label;
-        outputDeviceName && (this.state.settings.value.outputAudioDeviceName = extractDeviceName(outputDeviceName));
-      } else if (this.state.settings.value.audioDriver == "asio") {
-        // const asioDevice = this.state.realtimeDevices.value[0]?.name;
-        // if (!asioDevice) return;
-        // outputDeviceName = asioDevice;
-        // this.state.settings.value.outputAudioDeviceName = outputDeviceName;
-      }
+    if (this.state.settings.value.audioDriver == "default") {
+      const mediaDevices = await navigator.mediaDevices?.enumerateDevices();
+      navigator.mediaDevices.addEventListener("devicechange", event => {
+        if (event.type == "devicechange") {
+          this.updateCurrentOutputDevice();
+        }
+      });
+      outputDeviceName = mediaDevices.find(device => device.deviceId == "default" && device.kind == "audiooutput")?.label;
+      outputDeviceName && (this.state.settings.value.outputAudioDeviceName = extractDeviceName(outputDeviceName));
+    } else if (this.state.settings.value.audioDriver == "asio") {
 
-      console.log(`Current audio device: ${this.state.settings.value.outputAudioDeviceName}`);
-    };
+      // updates on first load unlike the code in outputnode
+      this.state.settings.value.outputAudioDeviceName = this.state.settings.value.outputRealtimeAudioDeviceName;
 
-    updateCurrentOutputDevice();
-    
-  }
+    }
+
+    console.log(`Current audio device: ${this.state.settings.value.outputAudioDeviceName}`);
+  };
 
   private handleDiscordRichPresence() {
     let richPresenceTimer: NodeJS.Timeout | undefined;

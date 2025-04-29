@@ -2,6 +2,7 @@ import type { RtAudioDeviceInfo} from "audify";
 import { RtAudio, RtAudioFormat } from "audify";
 import chalk from "chalk";
 import { ipcMain } from "electron/main";
+import { getWindow } from "./main";
 
 const rtAudio = new RtAudio(/* Insert here specific API if needed */);
 const devices = rtAudio.getDevices();
@@ -17,42 +18,64 @@ let audioBuffer = Buffer.alloc(0);
 let oldBufferSize = 0;
 let oldDevice = 0;
 
-ipcMain.handle("close-realtime-audio-stream", () => {
+const startAudioStream = (device: RtAudioDeviceInfo, channels: number, bufferSize: number) => {
+  const bufferLengthExpected = bufferSize * channels * RtAudioFormat.RTAUDIO_SINT16;
+
+  rtAudio.openStream(
+    {
+      deviceId: device.id, // Output device id (Get all devices using `getDevices`)
+      nChannels: channels, // Number of channels
+      firstChannel: 0, // First channel index on device (default = 0).
+    },
+    null,
+    RtAudioFormat.RTAUDIO_SINT16, // PCM Format - Signed 16-bit integer
+    device.preferredSampleRate, // Sampling rate is 48kHz
+    bufferSize, // Frame size is 1920 (40ms)
+    "Amethyst", // The name of the stream (used for JACK Api)
+    (pcm => console.log(pcm.length)), // Input callback function, write every input pcm data to the output buffer
+    null, // Input callback function, write every input pcm data to the output buffer
+  );
+  rtAudio.start();
+  rtAudio.outputVolume = 1;
+
+  console.log(logPrefix, "Created realtime audio stream");
+  console.log(logPrefix, `Device: ${device.name}`);
+  console.log(logPrefix, `Buffer: ${bufferSize}`);
+  console.log(logPrefix, `Sample Rate: ${device.preferredSampleRate}`);
+  console.log(logPrefix, `Bit Depth: ${RtAudioFormat.RTAUDIO_SINT16}`);
+  console.log(logPrefix, `Expected buffer length: ${bufferLengthExpected}`);
+};
+
+const closeAudioStream = () => {
   console.log(logPrefix, "Closing current stream from close request");
   rtAudio.stop();
   rtAudio.closeStream();
+};
+
+const restartAudioStream = (device: RtAudioDeviceInfo, channels: number, bufferSize: number) => {
+  rtAudio.outputVolume = 0;
+  getWindow().window.webContents.send("pause-audio-worklet");
+  console.log(logPrefix, "Restarting audio stream...");
+  closeAudioStream();
+  startAudioStream(device, channels, bufferSize);
+  rtAudio.outputVolume = 1;
+  getWindow().window.webContents.send("resume-audio-worklet");
+};
+
+ipcMain.handle("close-realtime-audio-stream", () => {
+  closeAudioStream();
 });
 
-ipcMain.handle("audio-chunk", (_, [device, numChannels, bufferSize, arrayBuffer]: [RtAudioDeviceInfo, number, number, ArrayBuffer]) => {
-  // You should set up rtAudio once, not per chunk
-
-  const bufferLengthExpected = bufferSize * numChannels * RtAudioFormat.RTAUDIO_SINT16;
-
+ipcMain.handle("start-realtime-audio-stream", (_, [device, channels, bufferSize]: [RtAudioDeviceInfo, number, number]) => {
   if (!rtAudio.isStreamOpen()) {
-    rtAudio.openStream(
-      {
-        deviceId: device.id, // Output device id (Get all devices using `getDevices`)
-        nChannels: numChannels, // Number of channels
-        firstChannel: 0, // First channel index on device (default = 0).
-      },
-      null,
-      RtAudioFormat.RTAUDIO_SINT16, // PCM Format - Signed 16-bit integer
-      device.preferredSampleRate, // Sampling rate is 48kHz
-      bufferSize, // Frame size is 1920 (40ms)
-      "Amethyst", // The name of the stream (used for JACK Api)
-      (pcm => console.log(pcm.length)), // Input callback function, write every input pcm data to the output buffer
-      null, // Input callback function, write every input pcm data to the output buffer
-    );
-    rtAudio.start();
-    rtAudio.outputVolume = 1;
-
-    console.log(logPrefix, "Created realtime audio stream");
-    console.log(logPrefix, `Device: ${device.name}`);
-    console.log(logPrefix, `Buffer: ${bufferSize}`);
-    console.log(logPrefix, `Sample Rate: ${device.preferredSampleRate}`);
-    console.log(logPrefix, `Bit Depth: ${RtAudioFormat.RTAUDIO_SINT16}`);
-    console.log(logPrefix, `Expected buffer length: ${bufferLengthExpected}`);
+    startAudioStream(device, channels, bufferSize);
   }
+});
+
+ipcMain.handle("audio-chunk", (_, [device, channels, bufferSize, arrayBuffer]: [RtAudioDeviceInfo, number, number, ArrayBuffer]) => {
+  const bufferLengthExpected = bufferSize * channels * RtAudioFormat.RTAUDIO_SINT16;
+
+  if (!rtAudio.isStreamOpen()) return;
 
   // Initiate first value
   if (oldBufferSize == 0) oldBufferSize = bufferSize;
@@ -61,26 +84,19 @@ ipcMain.handle("audio-chunk", (_, [device, numChannels, bufferSize, arrayBuffer]
   // Check if buffer-size has changed and restart the stream with the new one if so
   if (oldBufferSize != bufferSize) {
     console.log(logPrefix, `Buffer size changed: ${oldBufferSize} vs ${bufferSize}`);
-    console.log(logPrefix, "Closing current stream");
     oldBufferSize = bufferSize;
-    rtAudio.stop();
-    rtAudio.closeStream();
-    return;
+    return restartAudioStream(device, channels, bufferSize);
   }
 
   // Check if chosen device has changed and restart the stream with the new one if so
   if (oldDevice != device.id) {
     console.log(logPrefix, `Device changed: ${oldDevice} vs ${device.id}`);
-    console.log(logPrefix, "Closing current stream");
     oldDevice = device.id;
-    rtAudio.stop();
-    rtAudio.closeStream();
-    return;
+    return restartAudioStream(device, channels, bufferSize);
   }
 
   // Update with latest buffer size to see if it has changed in the next loop
   oldBufferSize = bufferSize;
-
   audioBuffer = Buffer.concat([audioBuffer, Buffer.from(arrayBuffer)]);
 
   while (audioBuffer.length >= bufferLengthExpected) {

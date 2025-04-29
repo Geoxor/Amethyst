@@ -96,6 +96,7 @@ export class State extends EventEmitter<StateEvents> {
 		meterSmoothingDuration: 100,
 		bufferSize: 128,
 		outputAudioDeviceName: "default",
+		outputRealtimeAudioDeviceName: "",
 		audioDriver: "default",
 		language: "en-US",
 		saveMediaSources: [{}] as {type: MediaSourceType, path: string}[],

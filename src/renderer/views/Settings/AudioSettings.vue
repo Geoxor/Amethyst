@@ -18,6 +18,8 @@ const VALID_SAMPLE_RATES = [
   384000,
 ];
 
+const VALID_BUFFER_SIZES = [256, 512, 1024];
+
 </script>
 
 <template>
@@ -54,7 +56,7 @@ const VALID_SAMPLE_RATES = [
           subsetting
         >
           <dropdown-input
-            v-model="amethyst.state.settings.value.outputAudioDeviceName"
+            v-model="amethyst.state.settings.value.outputRealtimeAudioDeviceName"
             :options="amethyst.state.realtimeDevices.value.map(dev => dev.name)"
           />
         </settings-setting>
@@ -66,7 +68,7 @@ const VALID_SAMPLE_RATES = [
         >
           <dropdown-input
             v-model="amethyst.state.settings.value.bufferSize"
-            :options="[16, 32, 48, 64, 96, 128, 160, 192, 256, 512, 1024]"
+            :options="VALID_BUFFER_SIZES"
             suffix="smp"
           />
         </settings-setting>
