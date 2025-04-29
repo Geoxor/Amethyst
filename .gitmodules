@@ -1,3 +1,0 @@
-[submodule "src/plugins/amethyst.discord"]
-	path = src/plugins/amethyst.discord
-	url = https://github.com/Geoxor/amethyst.discord
