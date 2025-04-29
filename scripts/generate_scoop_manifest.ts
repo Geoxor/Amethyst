@@ -16,6 +16,7 @@ fs.writeFileSync("./manifests/scoop/amethyst.json", JSON.stringify({
   version,
   description,
   license,
+  homepage: "https://github.com/Geoxor/amethyst",
   architecture: {
     "64bit": {
         url: `https://github.com/Geoxor/Amethyst/releases/download/v${version}/${INSTALL_BINARY}`,
