@@ -308,7 +308,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
 
           <div
             v-if="columns.artist"
-            class="flex-grow w-[200px] w-min-100px "
+            class="flex-grow w-[200px] w-min-100px"
           >
             <span v-if="item.getArtistsFormatted()">{{ item.getArtistsFormatted() }}</span>
             <span v-else>N/A</span>
@@ -431,7 +431,11 @@ tr {
 }
 
 .row {
-  @apply overflow-hidden;
+  @apply overflow-hidden ;
+
+  & > div {
+  @apply overflow-hidden overflow-ellipsis;
+  }
 
   &:hover {
     @apply text-accent bg-surface-400 bg-opacity-20;

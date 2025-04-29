@@ -4,26 +4,35 @@ import OutputDiagramBlob from "@/components/v2/OutputDiagramBlob.vue";
 import TitleText from "@/components/v2/TitleText.vue";
 import AmethystIcon from "@/icons/AmethystIcon.vue";
 import AacLogo from "@/icons/logos/AacLogo.vue";
+import ArturiaLogo from "@/icons/logos/ArturiaLogo.vue";
 import FlacLogo from "@/icons/logos/FlacLogo.vue";
+import FocusriteLogo from "@/icons/logos/FocusriteLogo.vue";
 import JavascriptLogo from "@/icons/logos/JavascriptLogo.vue";
 import Mp3Logo from "@/icons/logos/Mp3Logo.vue";
+import NvidiaLogo from "@/icons/logos/NvidiaLogo.vue";
 import OggLogo from "@/icons/logos/OggLogo.vue";
 import OpusLogo from "@/icons/logos/OpusLogo.vue";
+import RealtekLogo from "@/icons/logos/RealtekLogo.vue";
+import SoundIDLogo from "@/icons/logos/SoundIDLogo.vue";
+import SteamLogo from "@/icons/logos/SteamLogo.vue";
 import WindowsLogo from "@/icons/logos/WindowsLogo.vue";
 import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
 import { onMounted, ref } from "vue";
 
 const mimeType = ref("none");
+const sampleRate = ref(amethyst.player.context.sampleRate);
 
 const updateMimeType = (track: Track) => {
   const metadata = track.getMetadata();
   if (!metadata) return;
-  mimeType.value = metadata.format.codec!;
+  mimeType.value = metadata.format.codec || "none";
+  sampleRate.value = metadata.format.sampleRate!;
 };
 
 onMounted(() => {
-  mimeType.value = amethyst.player.getCurrentTrack()?.metadata.data?.format.codec || "none";
+  const currentTrack = amethyst.player.getCurrentTrack();
+  if (currentTrack) updateMimeType(currentTrack);;
   amethyst.player.on("play", updateMimeType);
   amethyst.player.on("currentTrackMetadataLoaded", updateMimeType);
 });
@@ -35,9 +44,9 @@ onMounted(() => {
     <div class="flex items-top justify-between">
       <output-diagram-blob
         :title="$t('output_diagram.source.title')"
-        :subtitle="mimeType"
+        :subtitle="`${mimeType}\n${sampleRate/1000}kHz`"
       >
-        <span class=" text-text_title">
+        <span class="text-text_title">
           <flac-logo v-if="mimeType == 'FLAC'" />
           <mp3-logo v-else-if="mimeType == 'MPEG 1 Layer 3'" />
           <opus-logo v-else-if="mimeType == 'Opus'" />
@@ -60,6 +69,19 @@ onMounted(() => {
       >
         <javascript-logo />
       </output-diagram-blob>
+      
+      <div
+        v-if="amethyst.player.context.sampleRate != sampleRate"
+        class="w-full h-2px bg-surface-600 mt-6"
+      />
+
+      <output-diagram-blob
+        v-if="amethyst.player.context.sampleRate != sampleRate"
+        :title="$t('output_diagram.resampler.title')"
+        :subtitle="`Web Audio API\n${sampleRate/1000}kHz -> ${amethyst.player.context.sampleRate/1000}kHz`"
+      >
+        <javascript-logo />
+      </output-diagram-blob>
 
       <div class="w-full h-2px bg-surface-600 mt-6" />
 
@@ -68,6 +90,43 @@ onMounted(() => {
         subtitle="Amethyst DSP"
       >
         <amethyst-icon class="text-accent" />
+      </output-diagram-blob>
+
+      <div class="w-full h-2px bg-surface-600 mt-6" />
+
+      <output-diagram-blob
+        :title="$t('output_diagram.audio_driver.title')"
+        :subtitle="amethyst.player.outputDevice.value"
+      >
+        <sound-i-d-logo
+          v-if="amethyst.player.outputDevice.value.toLowerCase().includes('soundid')"
+          class="text-text_title"
+        />
+        <realtek-logo
+          v-else-if="amethyst.player.outputDevice.value.toLowerCase().includes('realtek')"
+          class="text-text_title"
+        />
+        <steam-logo
+          v-else-if="amethyst.player.outputDevice.value.toLowerCase().includes('steam')"
+          class="text-text_title"
+        />
+        <focusrite-logo
+          v-else-if="amethyst.player.outputDevice.value.toLowerCase().includes('focusrite')"
+          class="text-text_title"
+        />
+        <nvidia-logo
+          v-else-if="amethyst.player.outputDevice.value.toLowerCase().includes('nvidia')"
+          class="text-text_title"
+        />
+        <arturia-logo
+          v-else-if="['minifuse', 'arturia'].some(string => amethyst.player.outputDevice.value.toLowerCase().includes(string))"
+          class="text-text_title"
+        />
+        <icon
+          v-else
+          icon="ic:twotone-volume-up" 
+          class="h-6 w-6 text-text_title"
+        />
       </output-diagram-blob>
 
       <div class="w-full h-2px bg-surface-600 mt-6" />

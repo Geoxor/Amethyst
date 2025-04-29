@@ -2,7 +2,8 @@ import type { PossibleSortingMethods} from "@/logic/queue";
 import { Queue } from "@/logic/queue";
 import { Track } from "@/logic/track";
 import { useLocalStorage } from "@vueuse/core";
-import { ref } from "vue";
+import type { Ref} from "vue";
+import { ref, watch } from "vue";
 import { AmethystAudioNodeManager } from "./audioManager";
 import { EventEmitter } from "./eventEmitter";
 import { secondsToColinHuman, secondsToHuman } from "@shared/formating";
@@ -23,8 +24,7 @@ export class Player extends EventEmitter<{
   stop: void;
   timeupdate: number;
 }> {
-  ;
-
+  
   private currentTrack = ref<Track>();
   private currentTrackIndex = ref(0);
   public isPlaying = ref(false);
@@ -37,12 +37,37 @@ export class Player extends EventEmitter<{
   public queue = new Queue(this.amethyst);
 
   public input = new Audio();
-  public context = new AudioContext({latencyHint: "interactive"});
+  public context = new AudioContext({latencyHint: "interactive", sampleRate: this.amethyst.state.settings.value.resampleRate });
   public source = this.context.createMediaElementSource(this.input);
   public nodeManager: AmethystAudioNodeManager;
 
+  public outputDevice: Ref<string> = ref("");
+
   public constructor(private amethyst: Amethyst) {
     super();
+
+    const extractDeviceName = (input: string): string => {
+      let result = input;
+      if (amethyst.getCurrentOperatingSystem() == "windows" ) {
+        // Default - Speakers (2- Realtek(R) Audio)
+        result = input.slice(input.indexOf("(") + 1, input.lastIndexOf(")"));
+      }
+      return result;
+    };
+
+    const updateCurrentOutputDevice = async () => {
+      const mediaDevices = await navigator.mediaDevices?.enumerateDevices();
+      navigator.mediaDevices.addEventListener("devicechange", event => {
+        if (event.type == "devicechange") {
+          updateCurrentOutputDevice();
+        }
+      });
+      const activeOutputDeviceName = mediaDevices.find(device => device.deviceId == "default" && device.kind == "audiooutput")?.label;
+      activeOutputDeviceName && (this.outputDevice.value = extractDeviceName(activeOutputDeviceName));
+      console.log(`Current audio device: ${activeOutputDeviceName}`);
+    };
+
+    updateCurrentOutputDevice();
 
     // Set multichannel support
     this.context.destination.channelCount = this.context.destination.maxChannelCount;
