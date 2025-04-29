@@ -7,7 +7,27 @@ import { fisherYatesShuffle } from "./math";
 import { Track } from "./track";
 import type { Amethyst } from "@/amethyst";
 
-export type PossibleSortingMethods = "default" | "title" | "artist" | "album" | "trackNumber" |"year"|"duration"|"format"|"favorite"|"bitrate"|"size";
+const COMPARATORS_BY_METHOD = {
+  "default": () => 0,
+  "trackNumber": (a, b) => {
+    const aMetadata = a.getMetadata();
+    const bMetadata = b.getMetadata();
+    const diskNumberDiff = (aMetadata?.common.disk.no ?? 1) - (bMetadata?.common.disk.no ?? 1);
+    if (diskNumberDiff !== 0) return diskNumberDiff;
+    return (aMetadata?.common.track.no ?? 1) - (bMetadata?.common.track.no ?? 1);
+  },
+  "title": (a, b) => (a.getTitle?.() || a.getFilename()) > (b.getTitle?.() || b.getFilename()) ? 1 : -1,
+  "artist": (a, b) => (a.getArtistsFormatted?.() || "") > (b.getArtistsFormatted?.() || "") ? 1 : -1,
+  "album": (a, b) => (a.getAlbumFormatted?.() || "") > (b.getAlbumFormatted?.() || "") ? 1 : -1,
+  "year": (a, b) => (a.getMetadata()?.common.year || 0) > (b.getMetadata()?.common.year || 0) ? 1 : -1,
+  "duration": (a, b) => (a.getDurationSeconds()) > (b.getDurationSeconds()) ? 1 : -1,
+  "format": (a, b) => (a.getMetadata()?.format.container || "") > (b.getMetadata()?.format.container || "") ? 1 : -1,
+  "favorite": (a, b) => (a.isFavorited) > (b.isFavorited) ? 1 : -1,
+  "bitrate": (a, b) => (a.getMetadata()?.format.bitrate || 0) > (b.getMetadata()?.format.bitrate || 0) ? 1 : -1,
+  "size": (a, b) => (a.getMetadata()?.size || 0) > (b.getMetadata()?.size || 0) ? 1 : -1,
+} satisfies Record<string, (a: Track, b: Track) => number> ;
+
+export type PossibleSortingMethods = keyof typeof COMPARATORS_BY_METHOD;
 
 export class Queue {
   private savedQueue = useLocalStorage<string[]>("queuev2", []);
@@ -29,10 +49,6 @@ export class Queue {
     return Array.from(this.list.value.values());
   }
 
-  // public sort(by: keyof ICommonTagsResult) {
-  //   return this.getList().sort((a, b) => a.metadata.data?.common[by] > b.metadata.data?.common[by] ? 1 : -1);
-  // }
-
   public search(search: string) {
     const words = search.split(" ");
     let results = this.getList();
@@ -52,23 +68,12 @@ export class Queue {
   }
 
   public getListSorted(sortBy: PossibleSortingMethods, search?: string) {
-    const sortByMethods: Record<PossibleSortingMethods, (a: Track, b: Track) => number> = {
-      "default": () => 0,
-      "trackNumber": (a, b) => (a.getMetadata()?.common.track.no || "") > (b.getMetadata()?.common.track.no || "") ? 1 : -1,
-      "title": (a, b) => (a.getTitle?.() || a.getFilename()) > (b.getTitle?.() || b.getFilename()) ? 1 : -1,
-      "artist": (a, b) => (a.getArtistsFormatted?.() || "") > (b.getArtistsFormatted?.() || "") ? 1 : -1,
-      "album": (a, b) => (a.getAlbumFormatted?.() || "") > (b.getAlbumFormatted?.() || "") ? 1 : -1,
-      "year": (a, b) => (a.getMetadata()?.common.year || 0) > (b.getMetadata()?.common.year || 0) ? 1 : -1,
-      "duration": (a, b) => (a.getDurationSeconds()) > (b.getDurationSeconds()) ? 1 : -1,
-      "format": (a, b) => (a.getMetadata()?.format.container || "") > (b.getMetadata()?.format.container || "") ? 1 : -1,
-      "favorite": (a, b) => (a.isFavorited) > (b.isFavorited) ? 1 : -1,
-      "bitrate": (a, b) => (a.getMetadata()?.format.bitrate || 0) > (b.getMetadata()?.format.bitrate || 0) ? 1 : -1,
-      "size": (a, b) => (a.getMetadata()?.size || 0) > (b.getMetadata()?.size || 0) ? 1 : -1,
-    };
-
-    const sorted = [...(search ? this.search(search) : this.getList())].sort(sortByMethods[sortBy]);
-
-    return this.currentSortingDirection.value == "ascending" ? sorted : sorted.reverse();
+    const sorted = [...(search ? this.search(search) : this.getList())];
+    sorted.sort(COMPARATORS_BY_METHOD[sortBy]);
+    if (this.currentSortingDirection.value === "descending") {
+      sorted.reverse();
+    }
+    return sorted;
   }
 
   public updateTotalSize() {
