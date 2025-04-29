@@ -24,6 +24,7 @@ const createRealtimeNode = (context: AudioContext, pre: GainNode ) => {
     hasWorkletStarted = true;
     captureNode.port.onmessage = event => {
       if (paused) return console.log("Dropping buffers due to transition"); // Drop data during transition
+      if (amethyst.player.isPaused.value) return console.log("Dropping buffers due to player being paused"); 
 
       const float32 = event.data; // Float32Array
       const int16 = floatToInt16(float32);
@@ -61,7 +62,9 @@ function connectToFinalNode(amethyst: Amethyst, context: AudioContext, pre: Gain
     connectRealtimeDriver();
   }
 
-  watch(() => amethyst.state.settings.value.audioDriver, newValue => {
+  watch(() => amethyst.state.settings.value.audioDriver, (newValue, oldValue) => {
+    console.log(`Changed audio driver from ${oldValue} to ${newValue}`);
+
     switch (newValue) {
       case "default":
         pre.connect(context.destination);
