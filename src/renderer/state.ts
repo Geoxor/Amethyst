@@ -1,8 +1,9 @@
 import { useLocalStorage } from "@vueuse/core";
-import { reactive, watch } from "vue";
+import { reactive, ref, watch } from "vue";
 import type { MediaSourceType } from "./logic/mediaSources";
 import { FONT_WEIGHTS } from "@shared/constants";
 import { EventEmitter } from "./logic/eventEmitter";
+import type { RtAudioDeviceInfo } from "audify";
 
 export interface IContextMenuOption {
 	title: string;
@@ -93,12 +94,17 @@ export class State extends EventEmitter<StateEvents> {
 		animationDuration: 100, // 100ms
 		fetchMetadataOnStartup: true,
 		meterSmoothingDuration: 100,
+		bufferSize: 128,
+		outputAudioDeviceName: "default",
+		audioDriver: "default",
 		language: "en-US",
 		saveMediaSources: [{}] as {type: MediaSourceType, path: string}[],
 	};
 
 	public settings = useLocalStorage("settings", this.defaultSettings, { writeDefaults: true, mergeDefaults: true });
 
+	public realtimeDevices = ref<RtAudioDeviceInfo[]>([]);
+	
 	public applyCurrentTheme = () => {
 		if (typeof document !== "undefined") {
 			const dom = document.querySelector("html");
@@ -121,6 +127,10 @@ export class State extends EventEmitter<StateEvents> {
 		document.documentElement.style.setProperty("--transition-duration", `${this.settings.value.animationDuration}ms`);
 		document.documentElement.style.setProperty("--smoothing-duration", `${this.settings.value.meterSmoothingDuration}ms`);
 		document.documentElement.style.setProperty("--font-weight", `${(FONT_WEIGHTS.indexOf(this.settings.value.fontWeight) + 1) * 100}`);
+
+    window.electron.ipcRenderer.invoke<RtAudioDeviceInfo[]>("get-realtime-devices").then(devices => {
+      this.realtimeDevices.value = devices;
+    });
 
 		// Update css when state changes
 		watch(() => this.settings.value.animationDuration, newValue => {

@@ -263,6 +263,40 @@ export class Amethyst extends AmethystBackend {
       const track = this.player.queue.getTrack(0);
       track && this.player.play(track);
     }
+
+    const extractDeviceName = (input: string): string => {
+      let result = input;
+      if (amethyst.getCurrentOperatingSystem() == "windows" ) {
+        // Default - Speakers (2- Realtek(R) Audio)
+        result = input.slice(input.indexOf("(") + 1, input.lastIndexOf(")"));
+      }
+      return result;
+
+    };
+
+    const updateCurrentOutputDevice = async () => {
+      let outputDeviceName;
+
+      if (this.state.settings.value.audioDriver == "default") {
+        const mediaDevices = await navigator.mediaDevices?.enumerateDevices();
+        navigator.mediaDevices.addEventListener("devicechange", event => {
+          if (event.type == "devicechange") {
+            updateCurrentOutputDevice();
+          }
+        });
+        outputDeviceName = mediaDevices.find(device => device.deviceId == "default" && device.kind == "audiooutput")?.label;
+        outputDeviceName && (this.state.settings.value.outputAudioDeviceName = extractDeviceName(outputDeviceName));
+      } else if (this.state.settings.value.audioDriver == "asio") {
+        // const asioDevice = this.state.realtimeDevices.value[0]?.name;
+        // if (!asioDevice) return;
+        // outputDeviceName = asioDevice;
+        // this.state.settings.value.outputAudioDeviceName = outputDeviceName;
+      }
+
+      console.log(`Current audio device: ${this.state.settings.value.outputAudioDeviceName}`);
+    };
+
+    updateCurrentOutputDevice();
     
   }
 

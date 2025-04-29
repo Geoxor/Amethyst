@@ -9,7 +9,7 @@ defineProps<{title: string, subtitle?: string}>();
     class="flex flex-col gap-3 relative"
     :class="[subtitle && 'w-full']"
   >
-    <div class="flex items-center justify-center h-48px w-48px bg-surface-600 rounded-4px">
+    <div class="flex items-center justify-center h-48px w-48px bg-surface-600 rounded-4px text-text_title">
       <slot />
     </div>
     

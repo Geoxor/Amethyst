@@ -33,4 +33,44 @@ const VALID_SAMPLE_RATES = [
       suffix="Hz"
     />
   </settings-setting>
+  <settings-setting
+    :title="$t('settings.audio_driver.title')"
+    :description="$t('settings.audio_driver.description')"
+    icon="mdi:abacus"
+  >
+    <dropdown-input
+      v-model="amethyst.state.settings.value.audioDriver"
+      :options="['default', 'asio']"
+    />
+    <template
+      v-if="amethyst.state.settings.value.audioDriver == 'asio'"
+      #subsettings
+    >
+      <div class="p-2 flex flex-col gap-2">
+        <settings-setting
+          :title="$t('settings.audio_device.title')"
+          :description="$t('settings.audio_device.description')"
+          icon="mdi:abacus"
+          subsetting
+        >
+          <dropdown-input
+            v-model="amethyst.state.settings.value.outputAudioDeviceName"
+            :options="amethyst.state.realtimeDevices.value.map(dev => dev.name)"
+          />
+        </settings-setting>
+        <settings-setting
+          :title="$t('settings.audio_driver.buffer.title')"
+          :description="$t('settings.audio_driver.buffer.description')"
+          icon="mdi:abacus"
+          subsetting
+        >
+          <dropdown-input
+            v-model="amethyst.state.settings.value.bufferSize"
+            :options="[16, 32, 48, 64, 96, 128, 160, 192, 256, 512, 1024]"
+            suffix="smp"
+          />
+        </settings-setting>
+      </div>
+    </template>
+  </settings-setting>
 </template>

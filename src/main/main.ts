@@ -9,11 +9,7 @@
 import { Menu, app } from "electron";
 import { checkForUpdatesAndInstall, MainWindow } from "./mainWindow";
 import Store from "electron-store";
-import si from "systeminformation";
-
-si.audio(data => {
-  console.log(data);
-});	
+import "./realtimeAudio";
 
 export const store = new Store();
 

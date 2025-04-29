@@ -5,6 +5,7 @@ import TitleText from "@/components/v2/TitleText.vue";
 import AmethystIcon from "@/icons/AmethystIcon.vue";
 import AacLogo from "@/icons/logos/AacLogo.vue";
 import ArturiaLogo from "@/icons/logos/ArturiaLogo.vue";
+import AsioLogo from "@/icons/logos/AsioLogo.vue";
 import FlacLogo from "@/icons/logos/FlacLogo.vue";
 import FocusriteLogo from "@/icons/logos/FocusriteLogo.vue";
 import JavascriptLogo from "@/icons/logos/JavascriptLogo.vue";
@@ -36,6 +37,7 @@ onMounted(() => {
   amethyst.player.on("play", updateMimeType);
   amethyst.player.on("currentTrackMetadataLoaded", updateMimeType);
 });
+
 </script>
 
 <template>
@@ -95,37 +97,20 @@ onMounted(() => {
       <div class="w-full h-2px bg-surface-600 mt-6" />
 
       <output-diagram-blob
-        :title="$t('output_diagram.audio_driver.title')"
-        :subtitle="amethyst.player.outputDevice.value"
+        :title="$t('output_diagram.audio_device.title')"
+        :subtitle="amethyst.state.settings.value.outputAudioDeviceName"
       >
-        <sound-i-d-logo
-          v-if="amethyst.player.outputDevice.value.toLowerCase().includes('soundid')"
-          class="text-text_title"
-        />
-        <realtek-logo
-          v-else-if="amethyst.player.outputDevice.value.toLowerCase().includes('realtek')"
-          class="text-text_title"
-        />
-        <steam-logo
-          v-else-if="amethyst.player.outputDevice.value.toLowerCase().includes('steam')"
-          class="text-text_title"
-        />
-        <focusrite-logo
-          v-else-if="amethyst.player.outputDevice.value.toLowerCase().includes('focusrite')"
-          class="text-text_title"
-        />
-        <nvidia-logo
-          v-else-if="amethyst.player.outputDevice.value.toLowerCase().includes('nvidia')"
-          class="text-text_title"
-        />
-        <arturia-logo
-          v-else-if="['minifuse', 'arturia'].some(string => amethyst.player.outputDevice.value.toLowerCase().includes(string))"
-          class="text-text_title"
-        />
+        <sound-i-d-logo v-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('soundid')" />
+        <realtek-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('realtek')" />
+        <steam-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('steam')" />
+        <focusrite-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('focusrite')" />
+        <nvidia-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('nvidia')" />
+        <arturia-logo v-else-if="['minifuse', 'arturia'].some(string => amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes(string))" />
+        <asio-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('asio')" />
         <icon
           v-else
           icon="ic:twotone-volume-up" 
-          class="h-6 w-6 text-text_title"
+          class="h-6 w-6 "
         />
       </output-diagram-blob>
 
