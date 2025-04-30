@@ -63,27 +63,36 @@ const handleTrackContextMenu = ({x, y}: MouseEvent, track: Track) => {
 
 const columns = amethyst.state.settings.value.columns;
 
-const handleColumnContextMenu = ({x, y}: MouseEvent) => {
-  useContextMenu().open({x, y}, [
-    { title: "queue.column.cover", icon: columns.cover ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.cover = !columns.cover },
-    { title: "track.metadata.disk_number", icon: columns.diskNumber ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.diskNumber = !columns.diskNumber },
-    { title: "track.metadata.track_number", icon: columns.trackNumber ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.trackNumber = !columns.trackNumber },
-    { title: "track.file.name", icon: columns.filename ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.filename = !columns.filename },
-    { title: "track.metadata.title", icon: columns.title ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.title = !columns.title },
-    { title: "track.metadata.artist", icon: columns.artist ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.artist = !columns.artist },
-    { title: "queue.column.location", icon: columns.location ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.location = !columns.location },
-    { title: "track.metadata.album", icon: columns.album ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.album = !columns.album },
-    { title: "track.metadata.year", icon: columns.year ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.year = !columns.year },
-    { title: "track.metadata.duration", icon: columns.duration ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.duration = !columns.duration },
-    { title: "track.audio_properties.container", icon: columns.container ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.container = !columns.container },
-    { title: "queue.column.favorite", icon: columns.favorite ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.favorite = !columns.favorite },
-    { title: "track.audio_properties.sample_rate", icon: columns.sampleRate ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.sampleRate = !columns.sampleRate },
-    { title: "track.audio_properties.bitrate", icon: columns.bitrate ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.bitrate = !columns.bitrate },
-    { title: "track.audio_properties.bits_per_sample", icon: columns.bitsPerSample ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.bitsPerSample = !columns.bitsPerSample },
-    { title: "track.file.size", icon: columns.size ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.size = !columns.size },
-  ]);
-};
+const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
+  const contextMenu = useContextMenu();
 
+  const columnOptions: {key: keyof typeof amethyst.state.settings.value.columns, title: string}[] = [
+    { key: "cover", title: "queue.column.cover" },
+    { key: "diskNumber", title: "track.metadata.disk_number" },
+    { key: "trackNumber", title: "track.metadata.track_number" },
+    { key: "filename", title: "track.file.name" },
+    { key: "title", title: "track.metadata.title" },
+    { key: "artist", title: "track.metadata.artist" },
+    { key: "location", title: "queue.column.location" },
+    { key: "album", title: "track.metadata.album" },
+    { key: "year", title: "track.metadata.year" },
+    { key: "duration", title: "track.metadata.duration" },
+    { key: "container", title: "track.audio_properties.container" },
+    { key: "favorite", title: "queue.column.favorite" },
+    { key: "sampleRate", title: "track.audio_properties.sample_rate" },
+    { key: "bitrate", title: "track.audio_properties.bitrate" },
+    { key: "bitsPerSample", title: "track.audio_properties.bits_per_sample" },
+    { key: "size", title: "track.file.size" },
+  ];
+
+  const menuItems = columnOptions.map(({ key, title }) => ({
+    title,
+    icon: columns[key] ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked",
+    action: () => columns[key] = !columns[key],
+  }));
+
+  contextMenu.open({ x, y }, menuItems);
+};
 </script>
 
 <template>
