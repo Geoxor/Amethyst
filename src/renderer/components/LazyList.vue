@@ -76,13 +76,19 @@ const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
     { key: "artist", title: "track.metadata.artist" },
     { key: "location", title: "queue.column.location" },
     { key: "album", title: "track.metadata.album" },
+    { key: "genre", title: "track.metadata.genre"},
+    { key: "barcode", title: "track.metadata.barcode"},
     { key: "year", title: "track.metadata.year" },
+    { key: "label", title: "track.metadata.label"},
+    { key: "isrc", title: "track.metadata.isrc"},
+    { key: "copyright", title: "track.metadata.copyright"},
+    { key: "bpm", title: "track.metadata.bpm"},
     { key: "duration", title: "track.metadata.duration" },
     { key: "container", title: "track.audio_properties.container" },
     { key: "favorite", title: "queue.column.favorite" },
     { key: "sampleRate", title: "track.audio_properties.sample_rate" },
-    { key: "bitrate", title: "track.audio_properties.bitrate" },
     { key: "bitsPerSample", title: "track.audio_properties.bits_per_sample" },
+    { key: "bitrate", title: "track.audio_properties.bitrate" },
     { key: "size", title: "track.file.size" },
   ];
 
@@ -209,6 +215,91 @@ const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
           class="chevron"
         />
       </div>
+
+      <div
+        v-if="columns.genre"
+        class="flex-grow w-[120px]"
+        :class="[currentShortMethod == 'genre' && 'activeSort']"
+        @click="setCurrentSortedMethod('genre')"
+      >
+        {{ $t('track.metadata.genre') }}
+        <icon
+          v-if="currentShortMethod == 'genre'"
+          icon="ic:round-chevron-left"
+          class="chevron"
+        />
+      </div>
+
+      <div
+        v-if="columns.barcode"
+        class="flex-grow w-[120px]"
+        :class="[currentShortMethod == 'barcode' && 'activeSort']"
+        @click="setCurrentSortedMethod('barcode')"
+      >
+        {{ $t('track.metadata.barcode') }}
+        <icon
+          v-if="currentShortMethod == 'barcode'"
+          icon="ic:round-chevron-left"
+          class="chevron"
+        />
+      </div>
+
+      <div
+        v-if="columns.label"
+        class="flex-grow w-[100px]"
+        :class="[currentShortMethod == 'label' && 'activeSort']"
+        @click="setCurrentSortedMethod('label')"
+      >
+        {{ $t('track.metadata.label') }}
+        <icon
+          v-if="currentShortMethod == 'label'"
+          icon="ic:round-chevron-left"
+          class="chevron"
+        />
+      </div>
+
+      <div
+        v-if="columns.isrc"
+        class="flex-grow w-[110px]"
+        :class="[currentShortMethod == 'isrc' && 'activeSort']"
+        @click="setCurrentSortedMethod('isrc')"
+      >
+        {{ $t('track.metadata.isrc') }}
+        <icon
+          v-if="currentShortMethod == 'isrc'"
+          icon="ic:round-chevron-left"
+          class="chevron"
+        />
+      </div>
+
+      <div
+        v-if="columns.copyright"
+        class="flex-grow w-[100px]"
+        :class="[currentShortMethod == 'copyright' && 'activeSort']"
+        @click="setCurrentSortedMethod('copyright')"
+      >
+        {{ $t('track.metadata.copyright') }}
+        <icon
+          v-if="currentShortMethod == 'copyright'"
+          icon="ic:round-chevron-left"
+          class="chevron"
+        />
+      </div>
+
+      <div
+        v-if="columns.bpm"
+        class="flex-none w-[60px]"
+        :class="[currentShortMethod == 'bpm' && 'activeSort']"
+        @click="setCurrentSortedMethod('bpm')"
+      >
+        {{ $t('track.metadata.bpm') }}
+        <icon
+          v-if="currentShortMethod == 'bpm'"
+          icon="ic:round-chevron-left"
+          class="chevron"
+        />
+      </div>
+
       <div
         v-if="columns.duration"
         class="flex-none w-[80px]"
@@ -440,6 +531,54 @@ const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
             <not-applicable-text v-else />
           </div>
 
+          <div
+            v-if="columns.genre"
+            class="flex-grow w-[120px]"
+          >
+            <span v-if="item.getGenre()">{{ item.getGenreFormatted() }}</span>
+            <not-applicable-text v-else />
+          </div>
+
+          <div
+            v-if="columns.barcode"
+            class="flex-grow w-[120px]"
+          >
+            <span v-if="item.getBarcode()">{{ item.getBarcode() }}</span>
+            <not-applicable-text v-else />
+          </div>
+
+          <div
+            v-if="columns.label"
+            class="flex-grow w-[100px]"
+          >
+            <span v-if="item.getLabel()?.[0]">{{ item.getLabel()![0] }}</span>
+            <not-applicable-text v-else />
+          </div>
+
+          <div
+            v-if="columns.isrc"
+            class="flex-grow w-[110px]"
+          >
+            <span v-if="item.getISRC()?.[0]">{{ item.getISRC()![0] }}</span>
+            <not-applicable-text v-else />
+          </div>
+
+          <div
+            v-if="columns.copyright"
+            class="flex-grow w-[100px]"
+          >
+            <span v-if="item.getCopyright()">{{ item.getCopyright() }}</span>
+            <not-applicable-text v-else />
+          </div>
+
+          <div
+            v-if="columns.bpm"
+            class="flex-none w-[60px]"
+          >
+            <span v-if="item.getBPM()">{{ item.getBPM() }}</span>
+            <not-applicable-text v-else />
+          </div>
+          
           <div
             v-if="columns.duration"
             class="flex-none w-[80px]"
