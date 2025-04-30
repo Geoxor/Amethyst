@@ -94,7 +94,7 @@ export class State extends EventEmitter<StateEvents> {
 		animationDuration: 100, // 100ms
 		fetchMetadataOnStartup: true,
 		meterSmoothingDuration: 100,
-		bufferSize: 128,
+		bufferSize: 256,
 		outputAudioDeviceName: "default",
 		outputRealtimeAudioDeviceName: "",
 		audioDriver: "default",
