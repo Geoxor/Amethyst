@@ -50,7 +50,7 @@ const filteredMetadata = computed(() => {
 
 <template>
   <div
-    class="inspector absolute text-12px top-16 right-2 overflow-hidden w-min-96 rounded-4px z-30 text-primary-900 border-1 border-surface-600 bg-surface-1000"
+    class="inspector text-12px top-16 right-2 overflow-hidden w-min-96 rounded-4px z-30 text-primary-900 h-full bg-surface-1000"
   >
     <div class="h-10 pl-3 flex w-full  justify-between items-center ">
       <div class="flex gap-2 items-center text-light-blue-400">
@@ -58,7 +58,9 @@ const filteredMetadata = computed(() => {
           icon="mdi:flask"
           class="h-5-w-5 min-w-5 min-h-5"
         />
-        <h1>{{ $t('inspector.title') }}</h1>
+        <h1 class="font-zen-dots text-13px">
+          {{ $t('inspector.title') }}
+        </h1>
         <base-chip color="light-blue-400">
           {{ $t(getInspectableItemType(inspector.state.currentItem as any as Track)) }}
         </base-chip>
@@ -69,7 +71,7 @@ const filteredMetadata = computed(() => {
       >
         <icon
           icon="ic:twotone-close"
-          class="utilityButton absolute top-3 right-3 cursor-pointer"
+          class="utilityButton cursor-pointer"
         />
       </button>
     </div>
@@ -100,7 +102,7 @@ const filteredMetadata = computed(() => {
             class="w-auto h-full rounded-4px"
             :url="inspector.state.currentItem.getCoverByFace(i)"
             @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-              { title: 'Export cover...', icon: 'ic:twotone-add-photo-alternate', action: () => inspector.state.currentItem.exportCover(i) },
+              { title: 'Export cover...', icon: 'ic:twotone-add-photo-alternate', action: () => inspector.state.currentItem?.exportCover(i) },
             ]);"
           />
           <div class="flex flex-col gap-1 w-full">
@@ -266,8 +268,7 @@ const filteredMetadata = computed(() => {
 
 <style scoped lang="postcss">
 .inspector {
-  height: calc(100% - 80px);
-  @apply text-text_title text-12px;
+  @apply text-text_title text-12px pt-44px transform-gpu -translate-y-40px rounded-tl-16px ;
 }
 
 section {
@@ -277,17 +278,6 @@ section {
 
   & button {
     @apply bg-surface-800 mt-2 items-center flex justify-center gap-2 w-full hover:bg-purple-400 hover:bg-opacity-10 hover:text-purple-400 rounded-4px py-1.5;
-  }
-
-  &:hover {
-    @apply bg-surface-800;
-    & input,
-    & p {
-      @apply bg-surface-600;
-    }
-    & button:not(:hover) {
-      @apply bg-surface-600;
-    }
   }
 
   & li {

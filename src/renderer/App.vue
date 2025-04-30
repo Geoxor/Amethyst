@@ -136,8 +136,8 @@ watch(() => amethyst.state.settings.value.showBigSpectrum, () => {
         />
       </div>
     </div>
-    <div class="h-full whitespace-nowrap flex flex-col justify-between overflow-hidden">
-      <div class="flex-1 flex h-full max-h-full relative overflow-hidden">
+    <div class="h-full whitespace-nowrap flex flex-col justify-between">
+      <div class="flex-1 flex h-full max-h-full relative">
         <navigation-bar v-if="amethyst.getCurrentPlatform() !== 'mobile'" />
 
         <div class="flex flex-col w-full">
