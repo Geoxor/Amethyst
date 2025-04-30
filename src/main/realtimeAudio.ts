@@ -16,7 +16,7 @@ let audioBuffer = Buffer.alloc(0);
 let oldBufferSize = 0;
 let oldDevice = 0;
 
-const startAudioStream = (device: RtAudioDeviceInfo, channels: number, bufferSize: number) => {
+const startAudioStream = (device: RtAudioDeviceInfo, channels: number, bufferSize: number, sampleRate: number) => {
   const bufferLengthExpected = bufferSize * channels * RtAudioFormat.RTAUDIO_SINT16;
 
   rtAudio.openStream(
@@ -27,7 +27,7 @@ const startAudioStream = (device: RtAudioDeviceInfo, channels: number, bufferSiz
     },
     null,
     RtAudioFormat.RTAUDIO_SINT16, // PCM Format - Signed 16-bit integer
-    device.preferredSampleRate, // Sampling rate is 48kHz
+    sampleRate || device.preferredSampleRate, // Sampling rate is 48kHz
     bufferSize, // Frame size is 1920 (40ms)
     "Amethyst", // The name of the stream (used for JACK Api)
     (pcm => console.log(pcm.length)), // Input callback function, write every input pcm data to the output buffer
@@ -40,7 +40,7 @@ const startAudioStream = (device: RtAudioDeviceInfo, channels: number, bufferSiz
   console.log(logPrefix, `Device: ${chalk.blue(device.name)}`);
   console.log(logPrefix, `Buffer size: ${chalk.yellow(bufferSize, "smp")}`);
   console.log(logPrefix, `Expected buffer length: ${chalk.yellow(bufferLengthExpected, "smp")}`);
-  console.log(logPrefix, `Sample Rate: ${chalk.yellow(device.preferredSampleRate, "Hz")}`);
+  console.log(logPrefix, `Sample Rate: ${chalk.yellow(sampleRate || device.preferredSampleRate, "Hz")}`);
   console.log(logPrefix, `Bit Depth: ${chalk.yellow(RtAudioFormat.RTAUDIO_SINT16 << 3, "bit")}`);
 };
 
@@ -50,12 +50,12 @@ const closeAudioStream = () => {
   rtAudio.closeStream();
 };
 
-const restartAudioStream = (device: RtAudioDeviceInfo, channels: number, bufferSize: number) => {
+const restartAudioStream = (device: RtAudioDeviceInfo, channels: number, bufferSize: number, sampleRate: number) => {
   rtAudio.outputVolume = 0;
   getWindow().window.webContents.send("pause-audio-worklet");
   console.log(logPrefix, "Restarting audio stream...");
   closeAudioStream();
-  startAudioStream(device, channels, bufferSize);
+  startAudioStream(device, channels, bufferSize, sampleRate);
   rtAudio.outputVolume = 1;
   getWindow().window.webContents.send("resume-audio-worklet");
 };
@@ -64,13 +64,13 @@ ipcMain.handle("close-realtime-audio-stream", () => {
   closeAudioStream();
 });
 
-ipcMain.handle("start-realtime-audio-stream", (_, [device, channels, bufferSize]: [RtAudioDeviceInfo, number, number]) => {
+ipcMain.handle("start-realtime-audio-stream", (_, [device, channels, bufferSize, sampleRate]: [RtAudioDeviceInfo, number, number, number]) => {
   if (!rtAudio.isStreamOpen()) {
-    startAudioStream(device, channels, bufferSize);
+    startAudioStream(device, channels, bufferSize, sampleRate);
   }
 });
 
-ipcMain.handle("audio-chunk", (_, [device, channels, bufferSize, arrayBuffer]: [RtAudioDeviceInfo, number, number, ArrayBuffer]) => {
+ipcMain.handle("audio-chunk", (_, [device, channels, bufferSize, sampleRate, arrayBuffer]: [RtAudioDeviceInfo, number, number, number, ArrayBuffer]) => {
   const bufferLengthExpected = bufferSize * channels * RtAudioFormat.RTAUDIO_SINT16;
 
   if (!rtAudio.isStreamOpen()) return;
@@ -83,14 +83,14 @@ ipcMain.handle("audio-chunk", (_, [device, channels, bufferSize, arrayBuffer]: [
   if (oldBufferSize != bufferSize) {
     console.log(logPrefix, `Buffer size changed: ${chalk.yellow(oldBufferSize, "smp")} vs ${chalk.yellow(bufferSize, "smp")}`);
     oldBufferSize = bufferSize;
-    return restartAudioStream(device, channels, bufferSize);
+    return restartAudioStream(device, channels, bufferSize, sampleRate);
   }
 
   // Check if chosen device has changed and restart the stream with the new one if so
   if (oldDevice != device.id) {
     console.log(logPrefix, `Device changed: ${chalk.blue(oldDevice)} vs ${chalk.blue(device.id)}`);
     oldDevice = device.id;
-    return restartAudioStream(device, channels, bufferSize);
+    return restartAudioStream(device, channels, bufferSize, sampleRate);
   }
 
   // Update with latest buffer size to see if it has changed in the next loop

@@ -34,6 +34,7 @@ const createRealtimeNode = (context: AudioContext, pre: GainNode ) => {
         JSON.parse(JSON.stringify(amethyst.state.realtimeDevices.value.find(device => device.name == amethyst.state.settings.value.outputRealtimeAudioDeviceName))),
         2, // channels
         amethyst.state.settings.value.bufferSize,
+        amethyst.player.context.sampleRate,
         int16.buffer,
       ]);
     };
@@ -46,7 +47,7 @@ function connectToFinalNode(amethyst: Amethyst, context: AudioContext, pre: Gain
   const device = (): RtAudioDeviceInfo => JSON.parse(JSON.stringify(amethyst.state.realtimeDevices.value.find(device => device.name == amethyst.state.settings.value.outputRealtimeAudioDeviceName)));
   const connectRealtimeDriver = () => {
     console.log(`Creating node for realtime device: ${amethyst.state.settings.value.outputAudioDeviceName}`);
-    window.electron.ipcRenderer.invoke("start-realtime-audio-stream", [device(), 2, amethyst.state.settings.value.bufferSize]);
+    window.electron.ipcRenderer.invoke("start-realtime-audio-stream", [device(), 2, amethyst.state.settings.value.bufferSize, amethyst.player.context.sampleRate]);
 
     // Watch for when the user changes the ASIO device
     watch(() => amethyst.state.settings.value.outputRealtimeAudioDeviceName, async newValue => {
@@ -76,7 +77,7 @@ function connectToFinalNode(amethyst: Amethyst, context: AudioContext, pre: Gain
         pre.disconnect(context.destination);
         if (hasWorkletStarted) {
           pre.connect(captureNode);
-          window.electron.ipcRenderer.invoke("start-realtime-audio-stream", [device(), 2, amethyst.state.settings.value.bufferSize]);
+          window.electron.ipcRenderer.invoke("start-realtime-audio-stream", [device(), 2, amethyst.state.settings.value.bufferSize, amethyst.player.context.sampleRate]);
         } else {
           connectRealtimeDriver();
         }
