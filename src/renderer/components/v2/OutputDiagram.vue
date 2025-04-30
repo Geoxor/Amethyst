@@ -21,6 +21,8 @@ import WindowsLogo from "@/icons/logos/WindowsLogo.vue";
 import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 const mimeType = ref("none");
 const sampleRate = ref(amethyst.player.context.sampleRate);
@@ -48,6 +50,8 @@ onMounted(() => {
       <output-diagram-blob
         :title="$t('output_diagram.source.title')"
         :subtitle="`${mimeType}\n${sampleRate/1000}kHz`"
+        clickable
+        @click="router.push({ name: 'queue' })"
       >
         <span class="text-text_title">
           <flac-logo v-if="mimeType == 'FLAC'" />
@@ -90,7 +94,9 @@ onMounted(() => {
 
       <output-diagram-blob
         :title="$t('output_diagram.dsp.title')"
+        clickable
         subtitle="Amethyst DSP"
+        @click="router.push({ name: 'node-editor' })"
       >
         <amethyst-icon class="text-accent" />
       </output-diagram-blob>
@@ -113,6 +119,8 @@ onMounted(() => {
       <output-diagram-blob
         :title="$t('output_diagram.audio_device.title')"
         :subtitle="amethyst.state.settings.value.outputAudioDeviceName"
+        clickable
+        @click="router.push({ name: 'settings.audio' })"
       >
         <sound-i-d-logo v-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('soundid')" />
         <realtek-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('realtek')" />
