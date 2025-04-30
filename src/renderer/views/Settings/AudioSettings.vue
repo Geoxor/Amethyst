@@ -20,6 +20,22 @@ const VALID_SAMPLE_RATES = [
 
 const VALID_BUFFER_SIZES = [256, 512, 1024];
 
+const systemSpecificAudioDriverOptions: string[] = [];
+
+switch (amethyst.getCurrentOperatingSystem()) {
+  case "windows":
+    systemSpecificAudioDriverOptions.push("asio");
+    break;
+  case "linux":
+    systemSpecificAudioDriverOptions.push("alsa");
+    break;
+  case "mac":
+    systemSpecificAudioDriverOptions.push("coreaudio");
+    break;
+  default:
+    break;
+}
+
 </script>
 
 <template>
@@ -42,7 +58,7 @@ const VALID_BUFFER_SIZES = [256, 512, 1024];
   >
     <dropdown-input
       v-model="amethyst.state.settings.value.audioDriver"
-      :options="['default', 'asio']"
+      :options="['default', ...systemSpecificAudioDriverOptions]"
     />
     <template
       v-if="amethyst.state.settings.value.audioDriver == 'asio'"
