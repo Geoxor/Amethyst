@@ -10,6 +10,8 @@ import { useLocalStorage } from "@vueuse/core";
 import { computed } from "vue";
 import CoverArt from "./CoverArt.vue";
 import { useInspector } from "./Inspector";
+import NotApplicableText from "./NotApplicableText.vue";
+import LoadingIcon from "./v2/LoadingIcon.vue";
 
 const currentShortMethod = useLocalStorage<PossibleSortingMethods>("currentShortMethod", "default");
 const filterText = useLocalStorage("filterText", "");
@@ -64,6 +66,7 @@ const columns = amethyst.state.settings.value.columns;
 const handleColumnContextMenu = ({x, y}: MouseEvent) => {
   useContextMenu().open({x, y}, [
     { title: "queue.column.cover", icon: columns.cover ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.cover = !columns.cover },
+    { title: "track.metadata.disk_number", icon: columns.diskNumber ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.diskNumber = !columns.diskNumber },
     { title: "track.metadata.track_number", icon: columns.trackNumber ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.trackNumber = !columns.trackNumber },
     { title: "track.metadata.title", icon: columns.title ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.title = !columns.title },
     { title: "track.file.name", icon: columns.filename ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.filename = !columns.filename },
@@ -95,14 +98,32 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
       />
       <div
         v-if="columns.trackNumber"
-        class="flex-none w-32px"
+        class="flex-none w-32px "
         :class="[currentShortMethod == 'trackNumber' && 'activeSort']"
         @click="setCurrentSortedMethod('trackNumber')"
       >
-        #
+        <icon
+          icon="material-symbols:tag-rounded"
+        />
         <icon
           v-if="currentShortMethod == 'trackNumber'"
           icon="ic:round-chevron-left"
+          class="chevron"
+        />
+      </div>
+      <div
+        v-if="columns.diskNumber"
+        class="flex-none w-32px "
+        :class="[currentShortMethod == 'diskNumber' && 'activeSort']"
+        @click="setCurrentSortedMethod('diskNumber')"
+      >
+        <icon
+          icon="mdi:disc"
+        />
+        <icon
+          v-if="currentShortMethod == 'diskNumber'"
+          icon="ic:round-chevron-left"
+          class="chevron"
         />
       </div>
       <div
@@ -115,6 +136,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         <icon
           v-if="currentShortMethod == 'filename'"
           icon="ic:round-chevron-left"
+          class="chevron"
         />
       </div>
       <div
@@ -127,6 +149,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         <icon
           v-if="currentShortMethod == 'title'"
           icon="ic:round-chevron-left"
+          class="chevron"
         />
       </div>
       <div
@@ -139,6 +162,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         <icon
           v-if="currentShortMethod == 'artist'"
           icon="ic:round-chevron-left"
+          class="chevron"
         />
       </div>
       <div
@@ -157,6 +181,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         <icon
           v-if="currentShortMethod == 'album'"
           icon="ic:round-chevron-left"
+          class="chevron"
         />
       </div>
       <div
@@ -169,6 +194,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         <icon
           v-if="currentShortMethod == 'year'"
           icon="ic:round-chevron-left"
+          class="chevron"
         />
       </div>
       <div
@@ -181,6 +207,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         <icon
           v-if="currentShortMethod == 'duration'"
           icon="ic:round-chevron-left"
+          class="chevron"
         />
       </div>
       <div
@@ -193,6 +220,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         <icon
           v-if="currentShortMethod == 'container'"
           icon="ic:round-chevron-left"
+          class="chevron"
         />
       </div>
       <div
@@ -205,6 +233,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         <icon
           v-if="currentShortMethod == 'favorite'"
           icon="ic:round-chevron-left"
+          class="chevron"
         />
       </div>
       <div
@@ -217,6 +246,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         <icon
           v-if="currentShortMethod == 'bitrate'"
           icon="ic:round-chevron-left"
+          class="chevron"
         />
       </div>
       <div
@@ -229,6 +259,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         <icon
           v-if="currentShortMethod == 'size'"
           icon="ic:round-chevron-left"
+          class="chevron"
         />
       </div>
     </div>
@@ -250,7 +281,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
             item.deleted && 'opacity-50 !text-rose-400 not-allowed',
             amethyst.player.getCurrentTrack()?.path == item.path && 'currentlyPlaying',
             amethyst.state.settings.value.compactList ? 'py-1' : 'py-2',
-            useInspector().state.isVisible && useInspector().state.currentItem == item && 'currentlyInspecting',
+            useInspector().state.isVisible && (useInspector().state.currentItem == item as any) && 'currentlyInspecting',
           ]"
           class="row"
           @contextmenu="handleTrackContextMenu($event, item)"
@@ -281,10 +312,8 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
             v-if="columns.cover"
             class="flex-none w-[32px]"
           >
-            <icon
+            <loading-icon 
               v-if="item.isLoading"
-              icon="line-md:loading-twotone-loop"
-              class="cover animate-spin"
             />
             <icon
               v-else-if="item.hasErrored"
@@ -302,12 +331,21 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
               :url="item.isLoaded && item.getCover() ? item.getCover() : ''"
             />
           </div>
+
           <div
             v-if="columns.trackNumber"
             class="flex-none w-32px"
           >
             <span v-if="item.getTrackNumber()">{{ item.getTrackNumber() }}</span>
-            <span v-else>N/A</span>
+            <not-applicable-text v-else />
+          </div>
+
+          <div
+            v-if="columns.diskNumber"
+            class="flex-none w-32px"
+          >
+            <span v-if="item.getDiskNumber()">{{ item.getDiskNumber() }}</span>
+            <not-applicable-text v-else />
           </div>
 
           <div
@@ -322,7 +360,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
             class="flex-grow w-[200px] w-min-100px"
           >
             <span v-if="item.getTitle()">{{ item.getTitle() }}</span>
-            <span v-else>N/A</span>
+            <not-applicable-text v-else />
           </div>
 
           <div
@@ -330,7 +368,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
             class="flex-grow w-[200px] w-min-100px"
           >
             <span v-if="item.getArtistsFormatted()">{{ item.getArtistsFormatted() }}</span>
-            <span v-else>N/A</span>
+            <not-applicable-text v-else />
           </div>
 
           <div
@@ -353,7 +391,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
             class="flex-grow w-[200px] w-min-100px "
           >
             <span v-if="item.getAlbum()">{{ item.getAlbum() }}</span>
-            <span v-else>N/A</span>
+            <not-applicable-text v-else />
           </div>
 
           <div
@@ -361,7 +399,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
             class="flex-none w-[50px]"
           >
             <span v-if="item.getYear()">{{ item.getYear() }}</span>
-            <span v-else>N/A</span>
+            <not-applicable-text v-else />
           </div>
 
           <div
@@ -369,7 +407,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
             class="flex-none w-[70px]"
           >
             <span v-if="item.getDurationFormatted(true)">{{ item.getDurationFormatted(true) }}</span>
-            <span v-else>N/A</span>
+            <not-applicable-text v-else />
           </div>
 
           <div
@@ -377,7 +415,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
             class="flex-none w-[70px]"
           >
             <span v-if="item.getContainer()">{{ item.getContainer() }}</span>
-            <span v-else>N/A</span>
+            <not-applicable-text v-else />
           </div>
 
           <div
@@ -395,7 +433,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
             class="flex-none w-[70px]"
           >
             <span v-if="item.getBitrateFormatted()">{{ item.getBitrateFormatted() }}</span>
-            <span v-else>N/A</span>
+            <not-applicable-text v-else />
           </div>
 
           <div
@@ -403,7 +441,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
             class="flex-none w-[70px]"
           >
             <span v-if="item.getFilesizeFormatted()">{{ item.getFilesizeFormatted() }}</span>
-            <span v-else>N/A</span>
+            <not-applicable-text v-else />
           </div>
         </div>
       </template>
@@ -430,19 +468,25 @@ tr {
 }
 
 .columnHeader > div {
-  @apply flex items-center hover:text-accent;
+  @apply flex items-center relative;
+
+  &:hover:not(.activeSort) {@apply  hover:text-accent; }
 }
 
 .columnHeader svg {
-  @apply w-5 h-5 min-h-5 min-w-5;
+  @apply min-h-5 min-w-5 transform-gpu -translate-x-1.5;
 }
 
-.columnHeader.ascending svg {
-  @apply rotate-90 transform-gpu;
+.columnHeader svg.chevron {
+  @apply absolute -top-4 left-0;
 }
 
-.columnHeader.descending svg {
-  @apply -rotate-90 transform-gpu;
+.columnHeader.ascending svg.chevron {
+  @apply rotate-90;
+}
+
+.columnHeader.descending svg.chevron {
+  @apply -rotate-90;
 }
 
 .activeSort {

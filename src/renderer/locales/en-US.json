@@ -198,6 +198,7 @@
   "track.metadata.duration": "Duration",
   "track.metadata.year": "Year",
   "track.metadata.track_number": "Track №",
+  "track.metadata.disk_number": "Disk №",
   "track.metadata.refresh": "Refresh metadata",
   "track.metadata.cover": "Cover",
   "track.metadata.cover.face": "Face",

@@ -37,9 +37,7 @@ onUnmounted(() => {
       <search-input v-model="filterText" />
     </route-header>
     
-    <lazy-list
-      :key="filterText.length"
-    />
+    <lazy-list />
   </droppable-container>
 </template>
 

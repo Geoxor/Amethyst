@@ -14,6 +14,7 @@ const COMPARATORS_BY_METHOD = {
     if (diskNumberDiff !== 0) return diskNumberDiff;
     return (a.getTrackNumber() ?? 1) - (b.getTrackNumber() ?? 1);
   },
+  "diskNumber": (a, b) => (a.getDiskNumber() ?? 1) > (b.getDiskNumber() ?? 1) ? 1 : -1,
   "filename": (a, b) => (a.getFilename()) > (b.getFilename()) ? 1 : -1,
   "title": (a, b) => (a.getTitle() || "") > (b.getTitle() || "") ? 1 : -1,
   "artist": (a, b) => (a.getArtistsFormatted() || "") > (b.getArtistsFormatted() || "") ? 1 : -1,

@@ -77,6 +77,7 @@ export class State extends EventEmitter<StateEvents> {
 		columns: {
 			cover: true,
 			artist: true,
+			diskNumber: false,
 			title: true,
 			filename: false,
 			album: true,
