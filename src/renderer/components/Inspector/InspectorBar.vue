@@ -277,14 +277,14 @@ section {
   @apply border-b-1 border-b-surface-600 border-t-transparent border-r-transparent border-l-transparent;
 
   & button {
-    @apply bg-surface-800 mt-2 items-center flex justify-center gap-2 w-full hover:bg-purple-400 hover:bg-opacity-10 hover:text-purple-400 rounded-4px py-1.5;
+    @apply bg-surface-800 mt-2 items-center flex justify-center gap-2 w-full hover:bg-accent hover:bg-opacity-10 hover:text-accent rounded-4px py-1.5;
   }
 
   & li {
     @apply flex justify-between gap-2 items-center w-full;
   }
   & > h1 {
-    @apply text-purple-400 pb-2 flex gap-2 items-center whitespace-pre;
+    @apply text-accent pb-2 flex gap-2 items-center whitespace-pre;
   }
 
   & input,
@@ -295,10 +295,10 @@ section {
   input {
     @apply border-1 border-transparent w-1/2;
     &:hover {
-      @apply bg-purple-400 bg-opacity-25 text-text_title;
+      @apply bg-accent bg-opacity-25 text-text_title;
     }
     &:focus {
-      @apply bg-purple-400 bg-opacity-25 border-1 border-purple-400 text-text_title;
+      @apply bg-accent bg-opacity-25 border-1 border-accent text-text_title;
     }
   }
 }
