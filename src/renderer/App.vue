@@ -4,6 +4,7 @@ import { ContextMenu, useContextMenu } from "@/components/ContextMenu";
 import CoverArt from "@/components/CoverArt.vue";
 import { InspectorBar, useInspector } from "@/components/Inspector";
 import NavigationBar from "@/components/NavigationBar.vue";
+import BackgroundImage from "@/components/BackgroundImage.vue";
 import NavigationButton from "@/components/NavigationButton.vue";
 import TopBar from "@/components/TopBar.vue";
 import PlaybackControls from "@/components/v2/PlaybackControls.vue";
@@ -71,28 +72,11 @@ watch(() => amethyst.state.settings.value.showBigSpectrum, () => {
       />
     </div>
 
-    <div
-      v-if="amethyst.state.settings.value.showAmbientBackground && ambientBackgroundImage"
-      :style="`
-        transform: translate(-50%, -50%) scale(${amethyst.state.settings.value.ambientBackgroundZoom}%);
-        mix-blend-mode: ${amethyst.state.settings.value.ambientBackgroundBlendMode};
-      `"
-      class="absolute z-1000 select-none pointer-events-none top-1/2 transform-gpu -translate-y-1/2 left-1/2 -translate-x-1/2 w-full"
-    >
-      <cover-art 
-        class="w-full h-full" 
-        :class="[
-          amethyst.state.settings.value.ambientBackgroundSpin && 'animate-spin'
-        ]" 
-        :style="`
-        animation-play-amethyst.state: ${amethyst.state.settings.value.pauseVisualsWhenUnfocused && !amethyst.state.window.isFocused ? 'paused' : 'running'};
-        animation-duration: ${amethyst.state.settings.value.ambientBackgroundSpinSpeed}s;
-        opacity: ${amethyst.state.settings.value.ambientBackgroundOpacity}%;
-        filter: blur(${amethyst.state.settings.value.ambientBackgroundBlurStrength}px);
-      `"
-        :url="ambientBackgroundImage"
-      />
-    </div>
+    <background-image
+      v-if="amethyst.state.settings.value.showAmbientBackground"
+      :ambient-background-image="ambientBackgroundImage"
+    />
+
     <div
       v-if="amethyst.getCurrentPlatform() === 'web'"
       class="h-6 bg-yellow-500  items-center flex gap-1 justify-center select-none w-full text-12px"
