@@ -50,8 +50,8 @@ const VALID_BUFFER_SIZES = [256, 512, 1024];
     >
       <div class="p-2 flex flex-col gap-2">
         <settings-setting
-          :title="$t('settings.audio_device.title')"
-          :description="$t('settings.audio_device.description')"
+          :title="$t('settings.audio_driver.audio_device.title')"
+          :description="$t('settings.audio_driver.audio_device.description')"
           icon="mdi:abacus"
           subsetting
         >
@@ -61,8 +61,8 @@ const VALID_BUFFER_SIZES = [256, 512, 1024];
           />
         </settings-setting>
         <settings-setting
-          :title="$t('settings.audio_driver.buffer.title')"
-          :description="$t('settings.audio_driver.buffer.description')"
+          :title="$t('settings.audio_driver.audio_device.buffer.title')"
+          :description="$t('settings.audio_driver.audio_device.buffer.description')"
           icon="mdi:abacus"
           subsetting
         >

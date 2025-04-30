@@ -180,7 +180,14 @@
   "settings.reset.description": "Reverts all settings to the factory default (can help fixing bugs)",
   "settings.reset.reset": "Reset",
 
-  "settings.resampler_rate.title": "Resampler Rate",
-  "settings.resampler_rate.description": "Forcefully resample sources before passing them to the Amethyst DSP"
+  "settings.resampler_rate.title": "Resampler rate",
+  "settings.resampler_rate.description": "Forcefully resample sources before passing them to the Amethyst DSP",
+
+  "settings.audio_driver.title": "Audio driver",
+  "settings.audio_driver.description": "Select the backend used for audio output (e.g., WASAPI, ASIO, DirectSound)",
+  "settings.audio_driver.audio_device.title": "Audio device",
+  "settings.audio_driver.audio_device.description": "Choose the output device associated with the selected audio driver",
+  "settings.audio_driver.audio_device.buffer.title": "Buffer size",
+  "settings.audio_driver.audio_device.buffer.description": "Adjust the number of audio samples per buffer. Lower values reduce latency but may cause glitches"
 
 }
