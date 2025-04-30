@@ -204,6 +204,9 @@ export class Track {
   public getTrackNumber() {
     return this.getMetadata()?.common.track.no;
   }
+  public getDiskNumber() {
+    return this.getMetadata()?.common.disk.no;
+  }
   public getYear() {
     return this.getMetadata()?.common.year;
   }

@@ -10,11 +10,9 @@ import type { Amethyst } from "@/amethyst";
 const COMPARATORS_BY_METHOD = {
   "default": () => 0,
   "trackNumber": (a, b) => {
-    const aMetadata = a.getMetadata();
-    const bMetadata = b.getMetadata();
-    const diskNumberDiff = (aMetadata?.common.disk.no ?? 1) - (bMetadata?.common.disk.no ?? 1);
+    const diskNumberDiff = (a.getDiskNumber() ?? 1) - (b.getDiskNumber() ?? 1);
     if (diskNumberDiff !== 0) return diskNumberDiff;
-    return (aMetadata?.common.track.no ?? 1) - (bMetadata?.common.track.no ?? 1);
+    return (a.getTrackNumber() ?? 1) - (b.getTrackNumber() ?? 1);
   },
   "filename": (a, b) => (a.getFilename()) > (b.getFilename()) ? 1 : -1,
   "title": (a, b) => (a.getTitle() || "") > (b.getTitle() || "") ? 1 : -1,
