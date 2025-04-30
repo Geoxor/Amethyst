@@ -227,7 +227,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
       key-field="path"
       :buffer="16"
     >
-      <template #default="{ item }">
+      <template #default="{ item } : { item: Track}">
         <div
           :class="[
             'flex items-center px-2 rounded-4px',
@@ -299,7 +299,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
 
           <div
             v-if="columns.title"
-            class="flex-grow w-[200px] w-min-100px "
+            class="flex-grow w-[200px] w-min-100px text-text_title "
           >
             <span v-if="item.getTitle()">{{ item.getTitle() }}</span>
             <span v-else-if="item.getFilename()">{{ item.getFilename() }}</span>
@@ -431,7 +431,7 @@ tr {
 }
 
 .row {
-  @apply overflow-hidden ;
+  @apply overflow-hidden text-text_subtitle;
 
   & > div {
   @apply overflow-hidden overflow-ellipsis;
