@@ -11,7 +11,8 @@
 
 Amethyst is an [Electron-based](https://electronjs.org/) cross-platform audio player with a [node-based](https://en.wikipedia.org/wiki/Node_graph_architecture) [audio routing](https://en.wikipedia.org/wiki/Audio_signal_flow) system, the main goal of this project is to make a [music player](https://en.wikipedia.org/wiki/Media_player_software) in [TypeScript](https://www.typescriptlang.org/) to see how far the language can be stretched to prove it's possible to provide pro-level features as most [DAWs](https://en.wikipedia.org/wiki/Digital_audio_workstation) / [DAEs](https://en.wikipedia.org/wiki/Audio_editing_software), while also providing useful tools and customizability to the [end-user](https://en.wikipedia.org/wiki/End_user).
 
-![Amethyst](https://github.com/user-attachments/assets/a56e8c0c-25b4-4bca-bf00-ebb00fbc248f)
+![Amethyst](https://github.com/user-attachments/assets/72eb8bf2-55af-49da-9950-2995f375426a)
+
 
 ## [Download](https://amethyst.mintlify.app/introduction)
 
