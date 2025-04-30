@@ -64,7 +64,7 @@ onMounted(() => {
         </span>
       </output-diagram-blob>
 
-      <div class="w-full h-2px bg-surface-600 mt-6" />
+      <div class="line" />
 
       <output-diagram-blob
         :title="$t('output_diagram.decoder.title')"
@@ -75,7 +75,7 @@ onMounted(() => {
       
       <div
         v-if="amethyst.player.context.sampleRate != sampleRate"
-        class="w-full h-2px bg-surface-600 mt-6"
+        class="line"
       />
 
       <output-diagram-blob
@@ -86,7 +86,7 @@ onMounted(() => {
         <javascript-logo />
       </output-diagram-blob>
 
-      <div class="w-full h-2px bg-surface-600 mt-6" />
+      <div class="line" />
 
       <output-diagram-blob
         :title="$t('output_diagram.dsp.title')"
@@ -97,7 +97,7 @@ onMounted(() => {
 
       <div
         v-if="amethyst.state.settings.value.audioDriver == 'default' && amethyst.getCurrentOperatingSystem() === 'windows'" 
-        class="w-full h-2px bg-surface-600 mt-6" 
+        class="line" 
       />
       <output-diagram-blob
         v-if="amethyst.state.settings.value.audioDriver == 'default' && amethyst.getCurrentOperatingSystem() === 'windows'"
@@ -109,7 +109,7 @@ onMounted(() => {
         </span>
       </output-diagram-blob>
 
-      <div class="w-full h-2px bg-surface-600 mt-6" />
+      <div class="line" />
 
       <output-diagram-blob
         :title="$t('output_diagram.audio_device.title')"
@@ -131,7 +131,7 @@ onMounted(() => {
         />
       </output-diagram-blob>
 
-      <div class="w-full h-2px bg-surface-600 mt-6" />
+      <div class="line" />
 
       <output-diagram-blob
         :title="$t('output_diagram.output.title')"
@@ -147,4 +147,7 @@ onMounted(() => {
 
 <style scoped lang="postcss">
 
+.line {
+  @apply w-full h-2px bg-surface-600 mt-6;
+}
 </style>
