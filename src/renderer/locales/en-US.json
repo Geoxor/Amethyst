@@ -181,7 +181,7 @@
   "settings.reset.reset": "Reset",
 
   "settings.resampler_rate.title": "Resampler rate",
-  "settings.resampler_rate.description": "Forcefully resample sources before passing them to the Amethyst DSP, if using ASIO this setting will change your interface's sample rate",
+  "settings.resampler_rate.description": "Forcefully resample sources before passing them to the Amethyst DSP, if using ASIO this setting will change your interface's sample-rate so it should be set to whatever your system is to avoid changing the sample-rate constantly",
 
   "settings.audio_driver.title": "Audio driver",
   "settings.audio_driver.description": "Select the backend used for audio output (e.g., WASAPI, ASIO, DirectSound)",
