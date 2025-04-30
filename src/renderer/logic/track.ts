@@ -222,9 +222,18 @@ export class Track {
   public getBitsPerSample() {
     return this.getMetadata()?.format.bitsPerSample;
   }
+
+  public getBitsPerSampleFormatted() {
+    return this.getBitsPerSample() ? `${this.getBitsPerSample()} bit` : undefined;
+  }
   public getSampleRate() {
     return this.getMetadata()?.format.sampleRate;
   }
+
+  public getSampleRateFormatted() {
+    return this.getSampleRate() ? `${this.getSampleRate()} Hz` : undefined;
+  }
+
   public getFilesize() {
     return this.getMetadata()?.size;
   }

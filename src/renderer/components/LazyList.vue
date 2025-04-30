@@ -68,8 +68,8 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
     { title: "queue.column.cover", icon: columns.cover ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.cover = !columns.cover },
     { title: "track.metadata.disk_number", icon: columns.diskNumber ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.diskNumber = !columns.diskNumber },
     { title: "track.metadata.track_number", icon: columns.trackNumber ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.trackNumber = !columns.trackNumber },
-    { title: "track.metadata.title", icon: columns.title ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.title = !columns.title },
     { title: "track.file.name", icon: columns.filename ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.filename = !columns.filename },
+    { title: "track.metadata.title", icon: columns.title ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.title = !columns.title },
     { title: "track.metadata.artist", icon: columns.artist ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.artist = !columns.artist },
     { title: "queue.column.location", icon: columns.location ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.location = !columns.location },
     { title: "track.metadata.album", icon: columns.album ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.album = !columns.album },
@@ -77,7 +77,9 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
     { title: "track.metadata.duration", icon: columns.duration ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.duration = !columns.duration },
     { title: "track.audio_properties.container", icon: columns.container ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.container = !columns.container },
     { title: "queue.column.favorite", icon: columns.favorite ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.favorite = !columns.favorite },
+    { title: "track.audio_properties.sample_rate", icon: columns.sampleRate ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.sampleRate = !columns.sampleRate },
     { title: "track.audio_properties.bitrate", icon: columns.bitrate ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.bitrate = !columns.bitrate },
+    { title: "track.audio_properties.bits_per_sample", icon: columns.bitsPerSample ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.bitsPerSample = !columns.bitsPerSample },
     { title: "track.file.size", icon: columns.size ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.size = !columns.size },
   ]);
 };
@@ -199,7 +201,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
       </div>
       <div
         v-if="columns.duration"
-        class="flex-none w-[70px]"
+        class="flex-none w-[80px]"
         :class="[currentShortMethod == 'duration' && 'activeSort']"
         @click="setCurrentSortedMethod('duration')"
       >
@@ -212,7 +214,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
       </div>
       <div
         v-if="columns.container"
-        class="flex-none w-[70px]"
+        class="flex-none w-[80px]"
         :class="[currentShortMethod == 'container' && 'activeSort']"
         @click="setCurrentSortedMethod('container')"
       >
@@ -232,6 +234,32 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         {{ $t('queue.column.favorite') }}
         <icon
           v-if="currentShortMethod == 'favorite'"
+          icon="ic:round-chevron-left"
+          class="chevron"
+        />
+      </div>
+      <div
+        v-if="columns.sampleRate"
+        class="flex-none w-[100px]"
+        :class="[currentShortMethod == 'sampleRate' && 'activeSort']"
+        @click="setCurrentSortedMethod('sampleRate')"
+      >
+        {{ $t('track.audio_properties.sample_rate') }}
+        <icon
+          v-if="currentShortMethod == 'sampleRate'"
+          icon="ic:round-chevron-left"
+          class="chevron"
+        />
+      </div>
+      <div
+        v-if="columns.bitsPerSample"
+        class="flex-none w-[70px]"
+        :class="[currentShortMethod == 'bitsPerSample' && 'activeSort']"
+        @click="setCurrentSortedMethod('bitsPerSample')"
+      >
+        {{ $t('track.audio_properties.bits_per_sample') }}
+        <icon
+          v-if="currentShortMethod == 'bitsPerSample'"
           icon="ic:round-chevron-left"
           class="chevron"
         />
@@ -404,7 +432,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
 
           <div
             v-if="columns.duration"
-            class="flex-none w-[70px]"
+            class="flex-none w-[80px]"
           >
             <span v-if="item.getDurationFormatted(true)">{{ item.getDurationFormatted(true) }}</span>
             <not-applicable-text v-else />
@@ -412,7 +440,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
 
           <div
             v-if="columns.container"
-            class="flex-none w-[70px]"
+            class="flex-none w-[80px]"
           >
             <span v-if="item.getContainer()">{{ item.getContainer() }}</span>
             <not-applicable-text v-else />
@@ -426,6 +454,21 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
               icon="ic:baseline-favorite-border"
               class="h-4 w-4"
             />
+          </div>
+          <div
+            v-if="columns.sampleRate"
+            class="flex-none w-[100px]"
+          >
+            <span v-if="item.getSampleRateFormatted()">{{ item.getSampleRateFormatted() }}</span>
+            <not-applicable-text v-else />
+          </div>
+
+          <div
+            v-if="columns.bitsPerSample"
+            class="flex-none w-[70px]"
+          >
+            <span v-if="item.getBitsPerSampleFormatted()">{{ item.getBitsPerSampleFormatted() }}</span>
+            <not-applicable-text v-else />
           </div>
 
           <div

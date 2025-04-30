@@ -82,6 +82,7 @@ export class State extends EventEmitter<StateEvents> {
 			filename: false,
 			album: true,
 			year: true,
+			bitsPerSample: true,
 			genre: true,
 			bitrate: true,
 			sampleRate: true,

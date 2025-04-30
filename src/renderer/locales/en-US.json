@@ -213,7 +213,7 @@
   "track.audio_properties.container": "Container",
   "track.audio_properties.codec": "Codec",
   "track.audio_properties.bitrate": "Bitrate",
-  "track.audio_properties.bits_per_sample": "Bits",
+  "track.audio_properties.bits_per_sample": "Bitdepth",
   "track.audio_properties.sample_rate": "Sample-rate",
   "track.state": "State",
   "track.state.errored": "Errored",
