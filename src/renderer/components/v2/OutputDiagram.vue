@@ -118,7 +118,7 @@ onMounted(() => {
       <div class="line" />
       <output-diagram-blob
         :title="$t('output_diagram.audio_device.title')"
-        :subtitle="`${amethyst.state.settings.value.outputAudioDeviceName}\n${amethyst.state.settings.value.bufferSize}smp`"
+        :subtitle="amethyst.state.settings.value.audioDriver != 'default' ? `${amethyst.state.settings.value.outputAudioDeviceName}\n${amethyst.state.settings.value.bufferSize}smp` : amethyst.state.settings.value.outputAudioDeviceName"
         clickable
         @click="router.push({ name: 'settings.audio' })"
       >
