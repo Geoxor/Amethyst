@@ -85,6 +85,8 @@
 
   "settings.ambient_background.title": "Ambient art",
   "settings.ambient_background.description": "Presents the cover art of the currently playing song on the background",
+  "settings.ambient_background.shader.title": "Shader",
+  "settings.ambient_background.shader.description": "Use shader effects as cover alternative",
   "settings.ambient_background.spin.title": "Spin",
   "settings.ambient_background.spin.description": "Rotates the art in a circular motion constantly",
   "settings.ambient_background.spin_speed.title": "Spin speed",

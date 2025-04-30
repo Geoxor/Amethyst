@@ -38,6 +38,7 @@ export class State extends EventEmitter<StateEvents> {
 		showDbMeter: true,
 		processingConcurrency: 3,
 		showAmbientBackground: false,
+		useShaderBackground: false,
 		ambientBackgroundOpacity: 10,
 		ambientBackgroundSpin: true,
 		ambientBackgroundBlurStrength: 32,
