@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { CloseIcon, MinimizeIcon, MaximizeIcon, UnmaximizeIcon } from "@/icons";
+import { CloseIcon, MaximizeIcon, MinimizeIcon, UnmaximizeIcon } from "@/icons";
 const emit = defineEmits(["close", "minimize", "maximize", "unmaximize"]);
 defineProps<{ isMaximized: boolean }>();
 </script>
@@ -40,7 +40,7 @@ defineProps<{ isMaximized: boolean }>();
 
 <style scoped lang="postcss">
 button {
-  @apply h-full fill-current flex items-center justify-center py-1.5 px-4 rounded-4px  hover:text-white hover:bg-surface-600;
+  @apply h-full fill-current flex items-center justify-center py-1.5 px-4 rounded-4px  hover:text-text_title hover:bg-surface-600;
   &.close {
     @apply hover:bg-primary hover:text-surface-700 active:text-text_title active:bg-primary;
   }

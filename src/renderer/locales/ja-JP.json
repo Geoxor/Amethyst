@@ -2,76 +2,57 @@
   "route.queue": "キュー",
   "route.favorites": "お気に入り",
   "route.audio_monitor": "オーディオモニター",
-
   "output_diagram.title": "出力ダイアグラム",
   "output_diagram.source.title": "ソース",
   "output_diagram.decoder.title": "デコーダー",
   "output_diagram.dsp.title": "DSP",
   "output_diagram.output.title": "出力",
-
   "output_breakdown.title": "出力の内訳",
-
   "menu.file": "ファイル",
   "menu.file.open_audio": "音声ファイルを開く...",
   "menu.file.open_audio_folder": "音声フォルダを開く...",
-
   "menu.utility": "ユーティリティ",
   "menu.utility.clear_queue": "キューをクリア",
   "menu.utility.clear_errored_and_deleted": "エラー / 削除済みをクリア",
   "menu.utility.refresh_all_metadata": "すべてのメタデータを更新",
   "menu.utility.refresh_window": "ウィンドウを再読み込み",
   "menu.utility.check_for_updates": "アップデートを確認",
-
   "menu.view": "表示",
   "menu.view.zoom_in": "ズームイン",
   "menu.view.zoom_out": "ズームアウト",
   "menu.view.reset_zoom": "ズームをリセット",
   "menu.view.settings": "設定",
   "menu.view.show_developer_tools": "開発者ツールを表示",
-
   "menu.about": "情報",
   "menu.about.documentation": "ドキュメント...",
   "menu.about.github_repository": "GitHubリポジトリ...",
   "menu.about.discord_server": "Discordサーバー...",
-
   "search.placeholder": "検索",
-
   "settings.local_sources.title": "ローカルソース",
   "settings.local_sources.description": "Amethystライブラリにローカルフォルダを追加しよう。新しいファイルが見つかったら自動で反映されるよ",
   "settings.local_sources.add_folder": "フォルダを追加",
   "settings.local_sources.view": "表示",
   "settings.media_source_type.local_folder": "ローカルフォルダ",
-
   "settings.appearance.title": "見た目",
   "settings.appearance.description": "背景・テーマ・アクセシビリティ",
-
   "settings.performance.title": "パフォーマンス",
   "settings.performance.description": "VSync・アニメーション・描画",
-
   "settings.metering.title": "メーター",
   "settings.metering.description": "スペクトラム・ベクトルスコープ・レベルメーター",
-
   "settings.audio.title": "オーディオ",
   "settings.audio.description": "出力デバイスとプリセット",
-
   "settings.media_sources.title": "メディアソース",
   "settings.media_sources.description": "ローカル・サーバーなどなど",
-
   "settings.keybinds.title": "キーバインド",
   "settings.keybinds.description": "自分のスタイルにキーを割り当てよう",
-
   "settings.integrations.title": "連携",
   "settings.integrations.description": "Discordとかとの連携",
-
   "settings.font_weight.title": "フォントの太さ",
   "settings.font_weight.description": "UI全体のフォントの太さを変えられるよ",
-
   "settings.application.title": "アプリ本体",
   "settings.application.description": "アップデートや言語設定",
-
   "settings.animation_duration.title": "アニメ速度",
   "settings.animation_duration.description": "UI全体のアニメーションスピードを調整",
-
   "settings.ambient_background.title": "アート背景",
   "settings.ambient_background.description": "再生中の曲のアートを背景に表示するよ",
   "settings.ambient_background.spin.title": "回転",
@@ -84,41 +65,29 @@
   "settings.ambient_background.blur_strength.description": "どれくらいぼかすか(px単位)",
   "settings.ambient_background.zoom.title": "ズーム",
   "settings.ambient_background.zoom.description": "アートの拡大率を調整",
-
   "settings.ambient_background.blending_mode.title": "ブレンドモード",
   "settings.ambient_background.blending_mode.description": "背景とのなじませ方を変更",
-
   "settings.playback_controls.title": "再生コントロール",
   "settings.playback_controls.description": "アプリ下部に再生コントロールを表示",
-
   "settings.minimalist_mode.title": "ミニマリストモード",
   "settings.minimalist_mode.description": "UIの表示をできるだけシンプルにする",
   "settings.minimalist_mode.hide_category_titles.title": "カテゴリタイトルを非表示",
   "settings.minimalist_mode.hide_category_titles.description": "サイドバーと合わせるためにタイトルを非表示にするよ",
-
   "settings.neon_mode.title": "ネオンモード",
   "settings.neon_mode.description": "一部のUIをネオンっぽくキラキラさせる",
-
   "settings.cover_art.title": "カバーアート",
   "settings.cover_art.description": "再生コントロールの近くにアートを表示",
-
   "settings.debug_stats.title": "デバッグ情報",
   "settings.debug_stats.description": "サンプル数・FPS・CPU使用率などを上部に表示",
-
   "settings.discord_rpc.description": "Discord Rich Presenceで今聴いてる曲とかプレイリストとかをDiscordのステータスに表示できるよ。Amethystのバージョンやアーティスト名、アルバム情報も出る",
-
   "settings.auto_update.title": "自動アップデート",
   "settings.auto_update.description": "起動時にアップデートを自動で確認＆インストール",
-
   "settings.launch_on_startup.title": "自動起動",
   "settings.launch_on_startup.description": "システム起動時にAmethystを起動する",
-
   "settings.language.title": "言語",
   "settings.language.description": "アプリの言語を変更",
-
   "settings.fft_size.title": "FFTサイズ",
   "settings.fft_size.description": "FFTウィンドウのサイズ変更。大きいと高解像度だけど遅延が増えるよ",
-
   "settings.decibel_meter.title": "デシベルメーター",
   "settings.decibel_meter.description": "オーディオ信号の音量をdB単位で表示",
   "settings.decibel_meter.separate_pre_post.title": "PRE / POST を分けて表示",
@@ -127,38 +96,81 @@
   "settings.decibel_meter.minimum_db.description": "メーターが表示できる最小の音量値を設定",
   "settings.decibel_meter.smoothing_duration.title": "スムージング時間",
   "settings.decibel_meter.smoothing_duration.description": "データフレーム間の変化を滑らかにする（ジッター対策）",
-
   "settings.loudness_meter.title": "ラウドネスメーター",
   "settings.loudness_meter.description": "LUFS単位で聴感上の音量を可視化するメーター",
-
   "settings.vectorscope.title": "ベクトルスコープ",
   "settings.vectorscope.description": "ステレオ音声の位相や幅を円グラフで表示",
   "settings.vectorscope.lissajous.title": "リサジュ表示",
   "settings.vectorscope.lissajous.description": "リサジュ図形として斜めに表示",
   "settings.vectorscope.line_thickness.title": "線の太さ",
   "settings.vectorscope.line_thickness.description": "線をどれくらい太くするか",
-
   "settings.spectrum_analyser.title": "スペクトラムアナライザー",
   "settings.spectrum_analyser.description": "音声の周波数帯域をグラフで表示するやつ",
   "settings.spectrum_analyser.smoothing_duration.title": "スムージング時間",
   "settings.spectrum_analyser.smoothing_duration.description": "データフレームの変化を滑らかにアニメ化する",
-
   "settings.vsync.title": "VSync",
   "settings.vsync.description": "UIのフレームレートをディスプレイのリフレッシュレートに合わせる",
   "settings.vsync.warning": "再起動が必要だよ",
-
   "settings.fetch_metadata_on_startup.title": "起動時にメタデータ取得",
   "settings.fetch_metadata_on_startup.description": "キュー内の曲のメタデータを起動時に取得するよ（実験的機能）",
-
   "settings.pause_visuals.title": "フォーカス外でビジュアル停止",
   "settings.pause_visuals.description": "他のウィンドウに切り替えたときにビジュアライザーを一時停止してパフォーマンスを節約",
-
   "settings.import_export.title": "設定のインポート・エクスポート",
   "settings.import_export.description": "設定をバックアップしたり読み込んだりできるよ",
   "settings.import_export.import": "インポート",
   "settings.import_export.export": "エクスポート",
-
   "settings.reset.title": "設定をリセット",
   "settings.reset.description": "すべての設定を初期状態に戻す（バグ解消にも使えるよ）",
-  "settings.reset.reset": "リセット"
+  "settings.reset.reset": "リセット",
+  "output_diagram.audio_driver.title": "オーディオドライバ",
+  "output_diagram.resampler.title": "リサンプラー",
+  "settings.behaviour.title": "動作",
+  "settings.behaviour.description": "自動再生・解析とか",
+  "settings.theme.title": "テーマ",
+  "settings.theme.description": "アプリのテーマを変えます。背景とかUIの色が変わります",
+  "settings.queue.compact_mode.title": "コンパクト表示",
+  "settings.queue.compact_mode.description": "キューの高さを小さくして、画面にもっと表示できるようにします",
+  "settings.processing_concurrency.title": "並列処理数",
+  "settings.processing_concurrency.description": "メタデータ解析で同時に使う処理数を設定します",
+  "settings.autoplay_on_startup.title": "起動時に自動再生",
+  "settings.autoplay_on_startup.description": "Amethyst起動時に曲を自動で再生します",
+  "settings.resampler_rate.title": "リサンプルレート",
+  "settings.resampler_rate.description": "ソースをAmethystのDSPに渡す前に強制的にリサンプルします",
+  "inspector.title": "インスペクター",
+  "inspector.inspecting_item_type.track": "トラック",
+  "inspector.inspecting_item_type.node": "ノード",
+  "inspector.inspecting_item_type.unknown": "不明",
+  "queue.column.cover": "カバー",
+  "queue.column.favorite": "お気に入り",
+  "queue.column.location": "場所",
+  "track.metadata": "メタデータ",
+  "track.metadata.artist": "アーティスト",
+  "track.metadata.title": "タイトル",
+  "track.metadata.album": "アルバム",
+  "track.metadata.duration": "再生時間",
+  "track.metadata.year": "年",
+  "track.metadata.track_number": "トラック番号",
+  "track.metadata.disk_number": "ディスク番号",
+  "track.metadata.refresh": "メタデータを更新する",
+  "track.metadata.cover": "カバー画像",
+  "track.metadata.cover.face": "面",
+  "track.metadata.cover.format": "フォーマット",
+  "track.metadata.cover.size": "サイズ",
+  "track.file_information": "ファイル情報",
+  "track.file.name": "ファイル名",
+  "track.file.size": "ファイルサイズ",
+  "track.audio_properties": "オーディオ情報",
+  "track.audio_properties.channels": "チャンネル数",
+  "track.audio_properties.duration": "再生時間",
+  "track.audio_properties.container": "コンテナ",
+  "track.audio_properties.codec": "コーデック",
+  "track.audio_properties.bitrate": "ビットレート",
+  "track.audio_properties.bits_per_sample": "ビット深度",
+  "track.audio_properties.sample_rate": "サンプルレート",
+  "track.state": "状態",
+  "track.state.errored": "エラー発生",
+  "track.state.loaded": "読み込み済み",
+  "track.state.loading": "読み込み中",
+  "track.show_file_in_file_explorer": "エクスプローラーで表示する",
+  "track.show_amf_in_file_explorer": ".amf をエクスプローラーで表示する"
 }

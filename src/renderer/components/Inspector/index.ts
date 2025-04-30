@@ -1,17 +1,10 @@
-import { AmethystAudioNode } from "@/logic/audio";
-import { Track } from "@/logic/track";
+import type { Track } from "@/logic/track";
 import { reactive } from "vue";
 import InspectorBar from "./InspectorBar.vue";
 
-export const getInspectableItemType = (item: any) => {
-  if (item instanceof Track) return "track";
-  if (item instanceof AmethystAudioNode) return "node";
-  return;
-};
-
 const instance = {
-  state: reactive({
-    currentItem: undefined as any,
+  state: reactive<{currentItem: Track | undefined, isVisible: boolean}>({
+    currentItem: undefined,
     isVisible: false,
   }),
   inspectAndShow: (item: Track) => {
@@ -19,7 +12,7 @@ const instance = {
     instance.show();
   },
   inspect: (item: Track) => {
-    instance.state.currentItem = item;
+    instance.state.currentItem = item as any;
   },
   toggleVisability: () => {
     instance.state.isVisible = !instance.state.isVisible;

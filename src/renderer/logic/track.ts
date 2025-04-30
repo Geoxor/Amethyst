@@ -1,11 +1,11 @@
 import { ref } from "vue";
 import { bytesToHuman, secondsToColinHuman, secondsToHuman, bitrateToHuman } from "@shared/formating";
-import type { IMetadata, LoadState} from "@shared/types";
+import type { IMetadata, LoadState } from "@shared/types";
 import { LoadStatus } from "@shared/types";
 import * as mm from "music-metadata-browser";
 import FileSaver from "file-saver";
 import mime from "mime-types";
-import type { Amethyst} from "@/amethyst";
+import type { Amethyst } from "@/amethyst";
 import { favoriteTracks } from "@/amethyst";
 
 /**
@@ -26,7 +26,7 @@ export class Track {
     this.isFavorited = favoriteTracks.value.includes(this.path);
   }
 
-  public toggleFavorite () {
+  public toggleFavorite() {
     this.isFavorited = !this.isFavorited;
     if (this.isFavorited) {
       favoriteTracks.value.push(this.path);
@@ -36,10 +36,10 @@ export class Track {
   }
 
   public getCachePath(absolute?: boolean) {
-    const amfPath = window.path.join(this.amethyst.APPDATA_PATH || "" , "/amethyst/Metadata Cache", this.getFilename() + ".amf");
+    const amfPath = window.path.join(this.amethyst.APPDATA_PATH || "", "/amethyst/Metadata Cache", this.getFilename() + ".amf");
     return absolute ? amfPath : `file://${amfPath}`;
   }
- 
+
   private async isCached() {
     try {
       await window.fs.stat(this.getCachePath(true));
@@ -67,51 +67,31 @@ export class Track {
   }
 
   /**
-   * Fetches the metadata for a given track
-   */
-  public fetchMetadata = async (force = false) => {
-    try {
-      if (!force && await this.isCached()) {
-        this.metadata.data = (await this.fetchCache()).metadata;
-        this.metadata.state = LoadStatus.Loaded;
-        return this.metadata.data;
-      }
-      this.metadata.data = await this.readMetadata();
-      this.metadata.state = LoadStatus.Loaded;
-      return this.metadata.data;
-    } catch (error) {
-      this.hasErrored.value = true;
-      console.log(error);
-      return ;
-    }
-  };
-
-  /**
    * Reads track metadata from disk
    */
-  public async readMetadata() {
+  private async readMetadata() {
     switch (this.amethyst.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<IMetadata>("get-metadata", [this.absolutePath]);
       case "mobile":
         const response = await fetch(decodeURIComponent(this.absolutePath));
         const buffer = new Uint8Array(await response.arrayBuffer());
-        const {format, common} = await mm.parseBuffer(buffer, undefined);
+        const { format, common } = await mm.parseBuffer(buffer, undefined);
         const size = buffer.length;
-        return {format, common, size } as IMetadata;
+        return { format, common, size } as IMetadata;
       default:
         return Promise.reject();
     }
   }
 
-  public async loadCover() {
+  private async readCover() {
     switch (this.amethyst.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<string>("get-cover", [this.absolutePath]);
       case "mobile":
         const response = await fetch(decodeURIComponent(this.absolutePath));
         const buffer = new Uint8Array(await response.arrayBuffer());
-        const {common} = await mm.parseBuffer(buffer, undefined);
+        const { common } = await mm.parseBuffer(buffer, undefined);
         if (common.picture) {
           return common.picture[0].data.toString("base64") as string;
         }
@@ -122,24 +102,37 @@ export class Track {
   }
 
   /**
-   * Fetches the resized cover art in base64
+   * Fetches the metadata for a given track
    */
-  public fetchCover = async (force = false) => {
+  private fetchMetadata = async (force = false) => {
     try {
       if (!force && await this.isCached()) {
-        this.cover.data = (await this.fetchCache()).cover;
-        this.cover.state = LoadStatus.Loaded;
-        return this.cover.data;
+        this.metadata.data = (await this.fetchCache()).metadata;
+        this.metadata.state = LoadStatus.Loaded;
+        return this.metadata.data;
       }
-      const data = await this.loadCover();
-      this.cover.data = data ? `data:image/webp;base64,${data}` : undefined;
-      this.cover.state = LoadStatus.Loaded;
-      return this.cover.data;
+      this.metadata.data = await this.readMetadata();
+      this.metadata.state = LoadStatus.Loaded;
+      return this.metadata.data;
     } catch (error) {
-      this.hasErrored.value = true;
       console.log(error);
       return;
     }
+  };
+
+  /**
+   * Fetches the resized cover art in base64
+   */
+  private fetchCover = async (force = false) => {
+    if (!force && await this.isCached()) {
+      this.cover.data = (await this.fetchCache()).cover;
+      this.cover.state = LoadStatus.Loaded;
+      return this.cover.data;
+    }
+    const data = await this.readCover();
+    this.cover.data = data ? `data:image/webp;base64,${data}` : undefined;
+    this.cover.state = LoadStatus.Loaded;
+    return this.cover.data;
   };
 
   /**
@@ -148,12 +141,13 @@ export class Track {
   public fetchAsyncData = async (force = false) => {
     this.isLoaded.value = false;
     this.isLoading.value = true;
+
     const [cover, metadata] = await Promise.all([this.fetchCover(force), this.fetchMetadata(force)]);
 
     if (metadata) {
       metadata.common.picture = [];
     }
-    
+
     if (this.amethyst.getCurrentPlatform() === "desktop") {
       window.fs.writeFile(this.getCachePath(true), JSON.stringify({
         cover,
@@ -164,6 +158,15 @@ export class Track {
     this.isLoading.value = false;
     this.isLoaded.value = true;
   };
+
+  public async getArrayBuffer() {
+    const response = await fetch(this.path);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch file: ${response.statusText}`);
+    }
+    const buffer = await response.arrayBuffer();
+    return buffer;
+  }
 
   public async exportCover(coverIdx?: number) {
     const blob = await this.getCoverAsBlob(coverIdx);
@@ -190,22 +193,64 @@ export class Track {
 
   public getCoverAsBlob = async (coverIdx = 0) => {
     const cover = (await this.fetchMetadata(true))?.common.picture?.[coverIdx];
-    return cover 
-      ? Promise.resolve(new Blob([new Uint8Array(cover.data)], {type: cover.format}) )
+    return cover
+      ? Promise.resolve(new Blob([new Uint8Array(cover.data)], { type: cover.format }))
       : Promise.reject("Failed to fetch cover, possibly no cover?");
   };
 
-  public getTitle(){
-    return this.metadata.data?.common.title;
+  public getTitle() {
+    return this.getMetadata()?.common.title;
+  }
+  public getTrackNumber() {
+    return this.getMetadata()?.common.track.no;
+  }
+  public getDiskNumber() {
+    return this.getMetadata()?.common.disk.no;
+  }
+  public getYear() {
+    return this.getMetadata()?.common.year;
+  }
+  public getContainer() {
+    return this.getMetadata()?.format.container;
+  }
+  public getCodec() {
+    return this.getMetadata()?.format.codec;
+  }
+  public getBitrate() {
+    return this.getMetadata()?.format.bitrate;
+  }
+  public getBitsPerSample() {
+    return this.getMetadata()?.format.bitsPerSample;
+  }
+  public getSampleRate() {
+    return this.getMetadata()?.format.sampleRate;
+  }
+  public getFilesize() {
+    return this.getMetadata()?.size;
+  }
+  public getArtists() {
+    return this.getMetadata()?.common.artists;
+  }
+  public getAlbum() {
+    return this.getMetadata()?.common.album;
+  }
+  public getDuration(){
+    return this.getMetadata()?.format.duration;
   }
 
-  public async getArrayBuffer() {
-    const response = await fetch(this.path);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch file: ${response.statusText}`);
-    }
-    const buffer = await response.arrayBuffer();
-    return buffer;
+  /**
+     * @returns The seconds of the track in float
+     * @example 15.02400204024 || 0
+     */
+  public getDurationSeconds() {
+    return this.getDuration() || 0;
+  };
+  /**
+   * @returns The number of channels
+   * @example 2, 4, 6 || 2
+  */
+  public getChannels() {
+    return this.metadata.data?.format.numberOfChannels || 2;
   }
 
   /**
@@ -217,8 +262,8 @@ export class Track {
       case "desktop":
         const { base } = window.path.parse(this.absolutePath);
         return base;
-      case "mobile": 
-        return decodeURIComponent( this.absolutePath.substring(this.absolutePath.lastIndexOf("/Music/") + "/Music/".length ));
+      case "mobile":
+        return decodeURIComponent(this.absolutePath.substring(this.absolutePath.lastIndexOf("/Music/") + "/Music/".length));
       default:
         return this.absolutePath;
     }
@@ -237,12 +282,12 @@ export class Track {
    * @returns The filesize in a human readable string
    * @example "2.42 MB"
    */
-  public getFilesizeFormatted(){
-    return bytesToHuman(this.getMetadata()?.size || 0);
+  public getFilesizeFormatted() {
+    return bytesToHuman(this.getFilesize() || 0);
   }
 
-  public getBitrateFormatted(){
-    return bitrateToHuman(this.getMetadata()?.format.bitrate || 0);
+  public getBitrateFormatted() {
+    return bitrateToHuman(this.getBitrate() || 0);
   }
 
   /**
@@ -250,7 +295,7 @@ export class Track {
    * @example "Get Lucky" || "02. Daft Punk - Get Lucky.flac"
    */
   public getTitleFormatted() {
-    return this.getMetadata()?.common.title || this.getFilename();
+    return this.getTitle() || this.getFilename();
   };
 
   /**
@@ -258,19 +303,7 @@ export class Track {
    * @example "Daft Punk", "Virtual Riot & Panda Eyes",
    */
   public getArtistsFormatted() {
-    return this.getMetadata()?.common.artists?.join(" & ");
-  };
-
-  public getAlbumFormatted() {
-    return this.getMetadata()?.common.album;
-  }
-
-  /**
-   * @returns The seconds of the track in float
-   * @example 15.02400204024 || 0
-   */
-  public getDurationSeconds() {
-    return this.getMetadata()?.format.duration || 0;
+    return this.getArtists()?.join(" & ");
   };
 
   /**
@@ -281,11 +314,4 @@ export class Track {
     return colinNotation ? secondsToColinHuman(~~this.getDurationSeconds()) : secondsToHuman(~~this.getDurationSeconds());
   };
 
-  /**
-   * @returns The number of channels
-   * @example 2, 4, 6 || 2
-  */
-  public getChannels() {
-    return this.metadata.data?.format.numberOfChannels || 2;
-  }
 }

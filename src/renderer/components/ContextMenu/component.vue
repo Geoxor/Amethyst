@@ -55,9 +55,9 @@ const updatePosition = () => {
     <ul class="flex flex-col min-w-48">
       <menu-option
         v-for="option of contextMenu.state.options"
-        :key="option.title"
+        :key="$t(option.title)"
         :icon="option.icon"
-        :title="option.title"
+        :title="$t(option.title)"
         :red="option.red"
         :shortcuts="option.shortcuts"
         @click="runAction(option)"

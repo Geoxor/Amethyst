@@ -31,7 +31,7 @@ export class MediaSession {
       navigator.mediaSession.metadata = new MediaMetadata({
         title: track.getTitleFormatted(),
         artist: track.getArtistsFormatted(),
-        album: track.getAlbumFormatted(),
+        album: track.getAlbum(),
         artwork: [{ src: coverUrl, type: cover?.format }],
       });
     });

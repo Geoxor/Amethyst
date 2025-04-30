@@ -31,7 +31,7 @@ defineProps<{
   @apply z-2;
 }
 .tooltip.popover {
-  @apply text-white shadow-xl;
+  @apply text-text_title shadow-xl;
 }
 
 </style>

@@ -78,7 +78,9 @@ export class State extends EventEmitter<StateEvents> {
 		columns: {
 			cover: true,
 			artist: true,
+			diskNumber: false,
 			title: true,
+			filename: false,
 			album: true,
 			year: true,
 			genre: true,
@@ -87,7 +89,7 @@ export class State extends EventEmitter<StateEvents> {
 			duration: true,
 			trackNumber: true,
 			location: true,
-			format: true,
+			container: true,
 			favorite: true,
 			size: true,
 		},

@@ -1,0 +1,33 @@
+---
+title: 'Localization'
+---
+
+### Getting started
+
+Steps to get started with [localizing](https://en.wikipedia.org/wiki/Internationalization_and_localization) Amethyst
+
+1. Follow the cloning procedure stated in [Development](/development)
+2. Navigate to `src/renderer/locales`
+3. Find or create a [JSON](https://en.wikipedia.org/wiki/JSON#Syntax) file for the locale you want to localize for
+
+<Tip>All locales should be named in the [IETF Language Tag](https://en.wikipedia.org/wiki/IETF_language_tag) format such as `en-US.json`</Tip>
+
+### Advice
+
+It is expected that certain terminology only makes sense in English, for that reason when localizing try to maintain coherence of meaning in your language even if requires indrect translations or rephrasing
+
+### Testing
+
+All locales should be in the `src/renderer/locales` folder
+
+Amethyst will automatically load and show the locales on the dropdown menu under `Settings` > `Application`
+
+### Synchronizing keys
+
+When updating a locale you might find that there will be missing keys, that happens due to development changes in `en-US.json` since that is the main language Amethyst falls back on
+
+To add the missing keys from `en-US.json` run the following command:
+```bash
+yarn gen:locales
+```
+<Note>This command will update all the locales</Note>
