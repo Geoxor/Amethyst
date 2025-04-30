@@ -1,18 +1,18 @@
 <script lang="ts" setup>
 import { amethyst } from "@/amethyst";
+import BaseChip from "@/components/BaseChip.vue";
 import ControlButtons from "@/components/input/ControlButtons.vue";
 import UpdateButton from "@/components/input/UpdateButton.vue";
 import MenuContainer from "@/components/menu/MenuContainer.vue";
 import MenuOption from "@/components/menu/MenuOption.vue";
 import MenuSplitter from "@/components/menu/MenuSplitter.vue";
+import LoadingIcon from "@/components/v2/LoadingIcon.vue";
+import TitleText from "@/components/v2/TitleText.vue";
 import AmethystIcon from "@/icons/AmethystIcon.vue";
 import { countDomElements, refreshWindow, smoothTween } from "@/logic/dom";
-import { Icon } from "@iconify/vue";
 import { useFps } from "@vueuse/core";
 import { computed, onMounted, provide, ref } from "vue";
 import { useRouter } from "vue-router";
-import BaseChip from "./BaseChip.vue";
-import TitleText from "./v2/TitleText.vue";
 
 const min = ref(Number.POSITIVE_INFINITY);
 const max = ref(Number.NEGATIVE_INFINITY);
@@ -183,11 +183,7 @@ provide("menuGroupRef", menuGroupRef);
     </div>
 
     <p class="absolute flex items-center gap-1 top-10px left-1/2 transform-gpu -translate-x-1/2 select-none">
-      <icon
-        v-if="amethyst.isLoading.value"
-        icon="line-md:loading-twotone-loop"
-        class="w-5 h-5 min-w-5 min-h-5 animate-spin"
-      />
+      <loading-icon v-if="amethyst.isLoading.value" />
       <title-text text="Amethyst" />
       <title-text
         class="opacity-50 font-normal capitalize"

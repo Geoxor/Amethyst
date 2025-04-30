@@ -16,15 +16,16 @@ const COMPARATORS_BY_METHOD = {
     if (diskNumberDiff !== 0) return diskNumberDiff;
     return (aMetadata?.common.track.no ?? 1) - (bMetadata?.common.track.no ?? 1);
   },
-  "title": (a, b) => (a.getTitle?.() || a.getFilename()) > (b.getTitle?.() || b.getFilename()) ? 1 : -1,
-  "artist": (a, b) => (a.getArtistsFormatted?.() || "") > (b.getArtistsFormatted?.() || "") ? 1 : -1,
-  "album": (a, b) => (a.getAlbumFormatted?.() || "") > (b.getAlbumFormatted?.() || "") ? 1 : -1,
-  "year": (a, b) => (a.getMetadata()?.common.year || 0) > (b.getMetadata()?.common.year || 0) ? 1 : -1,
+  "filename": (a, b) => (a.getFilename()) > (b.getFilename()) ? 1 : -1,
+  "title": (a, b) => (a.getTitle() || "") > (b.getTitle() || "") ? 1 : -1,
+  "artist": (a, b) => (a.getArtistsFormatted() || "") > (b.getArtistsFormatted() || "") ? 1 : -1,
+  "album": (a, b) => (a.getAlbum() || "") > (b.getAlbum() || "") ? 1 : -1,
+  "year": (a, b) => (a.getYear() || 0) > (b.getYear() || 0) ? 1 : -1,
   "duration": (a, b) => (a.getDurationSeconds()) > (b.getDurationSeconds()) ? 1 : -1,
-  "format": (a, b) => (a.getMetadata()?.format.container || "") > (b.getMetadata()?.format.container || "") ? 1 : -1,
+  "container": (a, b) => (a.getContainer() || "") > (b.getContainer() || "") ? 1 : -1,
   "favorite": (a, b) => (a.isFavorited) > (b.isFavorited) ? 1 : -1,
-  "bitrate": (a, b) => (a.getMetadata()?.format.bitrate || 0) > (b.getMetadata()?.format.bitrate || 0) ? 1 : -1,
-  "size": (a, b) => (a.getMetadata()?.size || 0) > (b.getMetadata()?.size || 0) ? 1 : -1,
+  "bitrate": (a, b) => (a.getBitrate() || 0) > (b.getBitrate() || 0) ? 1 : -1,
+  "size": (a, b) => (a.getFilesize() || 0) > (b.getFilesize() || 0) ? 1 : -1,
 } satisfies Record<string, (a: Track, b: Track) => number> ;
 
 export type PossibleSortingMethods = keyof typeof COMPARATORS_BY_METHOD;
@@ -61,7 +62,7 @@ export class Queue {
           track.getFilename().toLowerCase().includes(word)
           || track.getArtistsFormatted()?.toLowerCase().includes(word)
           || track.getTitle()?.toLowerCase().includes(word)
-          || track.getAlbumFormatted()?.toLowerCase().includes(word));
+          || track.getAlbum()?.toLowerCase().includes(word));
     }
 
     return results;

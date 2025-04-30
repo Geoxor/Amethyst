@@ -63,18 +63,19 @@ const columns = amethyst.state.settings.value.columns;
 
 const handleColumnContextMenu = ({x, y}: MouseEvent) => {
   useContextMenu().open({x, y}, [
-    { title: "Cover", icon: columns.cover ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.cover = !columns.cover },
-    { title: "Track №", icon: columns.trackNumber ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.trackNumber = !columns.trackNumber },
-    { title: "Title", icon: columns.title ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.title = !columns.title },
-    { title: "Artist", icon: columns.artist ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.artist = !columns.artist },
-    { title: "Location", icon: columns.location ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.location = !columns.location },
-    { title: "Album", icon: columns.album ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.album = !columns.album },
-    { title: "Year", icon: columns.year ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.year = !columns.year },
-    { title: "Duration", icon: columns.duration ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.duration = !columns.duration },
-    { title: "Format", icon: columns.format ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.format = !columns.format },
-    { title: "Favorite", icon: columns.favorite ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.favorite = !columns.favorite },
-    { title: "Bitrate", icon: columns.bitrate ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.bitrate = !columns.bitrate },
-    { title: "Size", icon: columns.size ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.size = !columns.size },
+    { title: "queue.column.cover", icon: columns.cover ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.cover = !columns.cover },
+    { title: "track.metadata.track_number", icon: columns.trackNumber ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.trackNumber = !columns.trackNumber },
+    { title: "track.metadata.title", icon: columns.title ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.title = !columns.title },
+    { title: "track.file.name", icon: columns.filename ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.filename = !columns.filename },
+    { title: "track.metadata.artist", icon: columns.artist ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.artist = !columns.artist },
+    { title: "queue.column.location", icon: columns.location ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.location = !columns.location },
+    { title: "track.metadata.album", icon: columns.album ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.album = !columns.album },
+    { title: "track.metadata.year", icon: columns.year ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.year = !columns.year },
+    { title: "track.metadata.duration", icon: columns.duration ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.duration = !columns.duration },
+    { title: "track.audio_properties.container", icon: columns.container ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.container = !columns.container },
+    { title: "queue.column.favorite", icon: columns.favorite ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.favorite = !columns.favorite },
+    { title: "track.audio_properties.bitrate", icon: columns.bitrate ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.bitrate = !columns.bitrate },
+    { title: "track.file.size", icon: columns.size ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.size = !columns.size },
   ]);
 };
 
@@ -105,12 +106,24 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         />
       </div>
       <div
+        v-if="columns.filename"
+        class="flex-grow w-[200px] w-min-100px"
+        :class="[currentShortMethod == 'filename' && 'activeSort']"
+        @click="setCurrentSortedMethod('filename')"
+      >
+        {{ $t('track.file.name') }}
+        <icon
+          v-if="currentShortMethod == 'filename'"
+          icon="ic:round-chevron-left"
+        />
+      </div>
+      <div
         v-if="columns.title"
         class="flex-grow w-[200px] w-min-100px"
         :class="[currentShortMethod == 'title' && 'activeSort']"
         @click="setCurrentSortedMethod('title')"
       >
-        Title
+        {{ $t('track.metadata.title') }}
         <icon
           v-if="currentShortMethod == 'title'"
           icon="ic:round-chevron-left"
@@ -122,7 +135,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         :class="[currentShortMethod == 'artist' && 'activeSort']"
         @click="setCurrentSortedMethod('artist')"
       >
-        Artist
+        {{ $t('track.metadata.artist') }}
         <icon
           v-if="currentShortMethod == 'artist'"
           icon="ic:round-chevron-left"
@@ -132,7 +145,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         v-if="columns.location"
         class="flex-none w-[70px]"
       >
-        Location
+        {{ $t('queue.column.location') }}
       </div>
       <div
         v-if="columns.album"
@@ -140,7 +153,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         :class="[currentShortMethod == 'album' && 'activeSort']"
         @click="setCurrentSortedMethod('album')"
       >
-        Album
+        {{ $t('track.metadata.album') }}
         <icon
           v-if="currentShortMethod == 'album'"
           icon="ic:round-chevron-left"
@@ -152,7 +165,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         :class="[currentShortMethod == 'year' && 'activeSort']"
         @click="setCurrentSortedMethod('year')"
       >
-        Year
+        {{ $t('track.metadata.year') }}
         <icon
           v-if="currentShortMethod == 'year'"
           icon="ic:round-chevron-left"
@@ -164,21 +177,21 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         :class="[currentShortMethod == 'duration' && 'activeSort']"
         @click="setCurrentSortedMethod('duration')"
       >
-        Duration
+        {{ $t('track.metadata.duration') }}
         <icon
           v-if="currentShortMethod == 'duration'"
           icon="ic:round-chevron-left"
         />
       </div>
       <div
-        v-if="columns.format"
+        v-if="columns.container"
         class="flex-none w-[70px]"
-        :class="[currentShortMethod == 'format' && 'activeSort']"
-        @click="setCurrentSortedMethod('format')"
+        :class="[currentShortMethod == 'container' && 'activeSort']"
+        @click="setCurrentSortedMethod('container')"
       >
-        Format
+        {{ $t('track.audio_properties.container') }}
         <icon
-          v-if="currentShortMethod == 'format'"
+          v-if="currentShortMethod == 'container'"
           icon="ic:round-chevron-left"
         />
       </div>
@@ -188,7 +201,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         :class="[currentShortMethod == 'favorite' && 'activeSort']"
         @click="setCurrentSortedMethod('favorite')"
       >
-        Favorite
+        {{ $t('queue.column.favorite') }}
         <icon
           v-if="currentShortMethod == 'favorite'"
           icon="ic:round-chevron-left"
@@ -200,7 +213,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         :class="[currentShortMethod == 'bitrate' && 'activeSort']"
         @click="setCurrentSortedMethod('bitrate')"
       >
-        Bitrate
+        {{ $t('track.audio_properties.bitrate') }}
         <icon
           v-if="currentShortMethod == 'bitrate'"
           icon="ic:round-chevron-left"
@@ -212,7 +225,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         :class="[currentShortMethod == 'size' && 'activeSort']"
         @click="setCurrentSortedMethod('size')"
       >
-        Size
+        {{ $t('track.file.size') }}
         <icon
           v-if="currentShortMethod == 'size'"
           icon="ic:round-chevron-left"
@@ -293,16 +306,22 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
             v-if="columns.trackNumber"
             class="flex-none w-32px"
           >
-            <span v-if="(item as Track).getMetadata()?.common.track.no">{{ (item as Track).getMetadata()?.common.track.no }}</span>
+            <span v-if="item.getTrackNumber()">{{ item.getTrackNumber() }}</span>
             <span v-else>N/A</span>
           </div>
 
           <div
+            v-if="columns.filename"
+            class="flex-grow w-[200px] w-min-100px"
+          >
+            <span>{{ item.getFilename() }}</span>
+          </div>
+
+          <div
             v-if="columns.title"
-            class="flex-grow w-[200px] w-min-100px text-text_title "
+            class="flex-grow w-[200px] w-min-100px"
           >
             <span v-if="item.getTitle()">{{ item.getTitle() }}</span>
-            <span v-else-if="item.getFilename()">{{ item.getFilename() }}</span>
             <span v-else>N/A</span>
           </div>
 
@@ -319,7 +338,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
             class="flex-none w-[70px] pl-4"
           >
             <button
-              class="cursor-pointer hover:text-white"
+              class="cursor-pointer hover:text-text_title"
               @click.stop.prevent="amethyst.showItem(item.path)"
             >
               <icon
@@ -333,7 +352,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
             v-if="columns.album"
             class="flex-grow w-[200px] w-min-100px "
           >
-            <span v-if="item.getAlbumFormatted()">{{ item.getAlbumFormatted() }}</span>
+            <span v-if="item.getAlbum()">{{ item.getAlbum() }}</span>
             <span v-else>N/A</span>
           </div>
 
@@ -341,7 +360,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
             v-if="columns.year"
             class="flex-none w-[50px]"
           >
-            <span v-if="item.getMetadata()">{{ item.getMetadata()?.common.year }}</span>
+            <span v-if="item.getYear()">{{ item.getYear() }}</span>
             <span v-else>N/A</span>
           </div>
 
@@ -354,10 +373,10 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
           </div>
 
           <div
-            v-if="columns.format"
+            v-if="columns.container"
             class="flex-none w-[70px]"
           >
-            <span v-if="item.getMetadata()">{{ item.getMetadata()?.format.container }}</span>
+            <span v-if="item.getContainer()">{{ item.getContainer() }}</span>
             <span v-else>N/A</span>
           </div>
 
@@ -453,7 +472,7 @@ tr {
   }
 
   &.currentlyInspecting {
-    @apply text-primary bg-primary bg-opacity-10;
+    @apply text-light-blue-400 bg-light-blue-400 bg-opacity-10;
     &:hover {
       @apply bg-opacity-15;
     }

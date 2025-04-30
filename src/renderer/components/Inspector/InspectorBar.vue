@@ -1,15 +1,23 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
-import { AmethystIcon } from "@/icons";
+import LoadingIcon from "@/components/v2/LoadingIcon.vue";
+import { AmethystAudioNode } from "@/logic/audio";
 import { Track } from "@/logic/track";
+import { Icon } from "@iconify/vue";
 import { bytesToHuman } from "@shared/formating";
-import { computed, onMounted, onUnmounted } from "vue";
-import { getInspectableItemType, useInspector } from ".";
+import { onMounted, onUnmounted } from "vue";
+import { useInspector } from ".";
 import BaseChip from "../BaseChip.vue";
 import { useContextMenu } from "../ContextMenu";
 import CoverArt from "../CoverArt.vue";
+
+const getInspectableItemType = (item: Track | AmethystAudioNode) => {
+  if (item instanceof Track) return "inspector.inspecting_item_type.track";
+  if (item instanceof AmethystAudioNode) return "inspector.inspecting_item_type.node";
+  return "inspector.inspecting_item_type.unknown";
+};
+
 const inspector = useInspector();
-const currentItem = computed(() => inspector.state.currentItem);
 const handlePlay = (track: Track) => {
   inspector.inspect(track);
 };
@@ -18,7 +26,7 @@ onMounted(() => {
   amethyst.player.on("play", handlePlay);
   const currentTrack = amethyst.player.getCurrentTrack();
   if (!currentTrack) return;
-  if (!currentItem.value) inspector.inspect(currentTrack);
+  if (!inspector.state.currentItem) inspector.inspect(currentTrack);
 });
 
 onUnmounted(() => {
@@ -29,99 +37,110 @@ onUnmounted(() => {
 
 <template>
   <div
-    class="inspector absolute text-12px top-2 right-2 overflow-hidden w-min-64 rounded-4px z-30 text-primary-900 border-1 border-surface-600 bg-surface-1000"
+    class="inspector absolute text-12px top-2 right-2 overflow-hidden w-min-72 rounded-4px z-30 text-primary-900 border-1 border-surface-600 bg-surface-1000"
   >
-    <div class="h-10 pl-3 flex w-full  justify-between items-center">
-      <div class="flex gap-2 items-center">
-        <amethyst-icon />
-        <h1>Inspector</h1>
-        <base-chip>
-          {{ getInspectableItemType(currentItem) }}
+    <div class="h-10 pl-3 flex w-full  justify-between items-center ">
+      <div class="flex gap-2 items-center text-light-blue-400">
+        <icon
+          icon="mdi:flask"
+          class="h-5-w-5 min-w-5 min-h-5"
+        />
+        <h1>{{ $t('inspector.title') }}</h1>
+        <base-chip color="light-blue-400">
+          {{ $t(getInspectableItemType(inspector.state.currentItem as any as Track)) }}
         </base-chip>
       </div>
       <button
-        class="p-3 cursor-pointer hover:text-white"
+        class="p-3 cursor-pointer hover:text-text_title"
         @click="inspector.hide()"
       >
-        <amethyst-icon class="w-4 h-4" />
+        <icon
+          icon="ic:twotone-close"
+          class="utilityButton absolute top-3 right-3 cursor-pointer"
+        />
       </button>
     </div>
 
     <div
-      v-if="currentItem instanceof Track && currentItem"
+      v-if="inspector.state.currentItem instanceof Track && inspector.state.currentItem"
       class="pb-10 h-full overflow-y-auto"
     >
       <section>
         <h1>
-          <amethyst-icon />
-          Metadata
+          <icon
+            icon="ic:twotone-text-snippet"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('track.metadata') }}
           <loading-icon
-            v-if="!currentItem.isLoaded"
-            class="h-3 animate-spin w-3 min-h-3 min-w-3"
+            v-if="!inspector.state.currentItem.isLoaded"
           />
         </h1>
         <li>
-          <h1>Artist</h1>
-          <input :value="currentItem.getArtistsFormatted()">
+          <h1>{{ $t('track.metadata.artist') }}</h1>
+          <input :value="inspector.state.currentItem.getArtistsFormatted()">
         </li>
         <li>
-          <h1>Title</h1>
-          <input :value="currentItem.getTitleFormatted()">
+          <h1>{{ $t('track.metadata.title') }}</h1>
+          <input :value="inspector.state.currentItem.getTitleFormatted()">
         </li>
         <li>
-          <h1>Album</h1>
-          <input :value="currentItem.getAlbumFormatted()">
+          <h1>{{ $t('track.metadata.album') }}</h1>
+          <input :value="inspector.state.currentItem.getAlbum()">
         </li>
         <li>
-          <h1>Year</h1>
-          <input :value="currentItem.getMetadata()?.common.year">
+          <h1>{{ $t('track.metadata.year') }}</h1>
+          <input :value="inspector.state.currentItem.getYear()">
         </li>
         <li>
-          <h1>Track Number</h1>
-          <input :value="currentItem.getMetadata()?.common.track.no">
+          <h1>{{ $t('track.metadata.track_number') }}</h1>
+          <input :value="inspector.state.currentItem.getTrackNumber()">
         </li>
         <button
           class="cursor-pointer"
-          @click="currentItem.fetchAsyncData(true)"
+          @click="inspector.state.currentItem.fetchAsyncData(true)"
         >
-          Refresh metadata
+          {{ $t('track.metadata.refresh') }}
         </button>
       </section>
       <section>
         <h1>
-          <amethyst-icon />
-          Covers
+          <icon
+            icon="ic:twotone-image"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('track.covers') }}
           <loading-icon
-            v-if="!currentItem.isLoaded"
+            v-if="!inspector.state.currentItem.isLoaded"
             class="h-3 animate-spin w-3 min-h-3 min-w-3"
           />
         </h1>
         <!-- FIXME: Cover art data will sometimes not show, even though metadata is loaded https://files.catbox.moe/jusams.png -->
         <div
-          v-for="(picture, i) of currentItem.getMetadata()?.common.picture"
+          v-for="(picture, i) of inspector.state.currentItem.getMetadata()?.common.picture"
           :key="picture.data.byteLength"
-          class="flex gap-2 py-1 last:border-none"
+          class="flex flex-col gap-2 py-1 last:border-none"
         >
           <cover-art 
-            class="w-16 rounded-4px"
-            :url="currentItem.getCoverByFace(i)"
+            class="w-auto h-full rounded-4px"
+            :url="inspector.state.currentItem.getCoverByFace(i)"
             @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-              { title: 'Export cover...', icon: 'ic:twotone-add-photo-alternate', action: () => currentItem.exportCover(i) },
+              { title: 'Export cover...', icon: 'ic:twotone-add-photo-alternate', action: () => inspector.state.currentItem.exportCover(i) },
             ]);"
           />
           <div class="flex flex-col gap-1 w-full">
             <li class="flex justify-between gap-2">
-              <h1>Face</h1>
+              <h1>{{ $t('track.metadata.cover.face') }}</h1>
               <p>
                 {{ picture.type === "Media (e.g. label side of CD)" ? 'Disc' : picture.type }}
               </p>
             </li>
             <li class="flex justify-between gap-2">
-              <h1>Format</h1>
+              <h1>{{ $t('track.metadata.cover.format') }}</h1>
               <p> {{ picture.format }} </p>
             </li>
             <li class="flex justify-between gap-2">
-              <h1>Size</h1>
+              <h1>{{ $t('track.metadata.cover.size') }}</h1>
               <p> {{ bytesToHuman(picture.data.byteLength || 0) }} </p>
             </li>
           </div>
@@ -129,83 +148,98 @@ onUnmounted(() => {
       </section>
       <section>
         <h1 class="">
-          <amethyst-icon />
-          File Info
+          <icon
+            icon="ic:twotone-insert-drive-file"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('track.file_information') }}
         </h1>
 
         <li>
-          <h1>Name</h1>
-          <p> {{ currentItem.getFilename() }}</p>
+          <h1>{{ $t('track.file.name') }}</h1>
+          <p> {{ inspector.state.currentItem.getFilename() }}</p>
         </li>
         <li>
-          <h1>Size</h1>
-          <p> {{ currentItem.getFilesizeFormatted() }}</p>
+          <h1>{{ $t('track.file.size') }}</h1>
+          <p> {{ inspector.state.currentItem.getFilesizeFormatted() }}</p>
         </li>
         <button
           class="cursor-pointer"
-          @click="amethyst.showItem(currentItem.path)"
+          @click="amethyst.showItem(inspector.state.currentItem.path)"
         >
-          Show in explorer
-          <amethyst-icon />
+          {{ $t('track.show_file_in_file_explorer') }}
+          <icon
+            icon="ic:twotone-open-in-new"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
         </button>
       </section>
       <section>
         <h1>
-          <amethyst-icon />
-          Audio Properties
+          <icon
+            icon="ic:twotone-document-scanner"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('track.audio_properties') }}
         </h1>
         <li>
-          <h1>Channels</h1>
-          <p> {{ currentItem.getChannels() }}</p>
+          <h1>{{ $t('track.audio_properties.channels') }}</h1>
+          <p> {{ inspector.state.currentItem.getChannels() }}</p>
         </li>
         <li>
-          <h1>Duration</h1>
-          <p> {{ currentItem.getDurationFormatted() }}</p>
+          <h1>{{ $t('track.audio_properties.duration') }}</h1>
+          <p> {{ inspector.state.currentItem.getDurationFormatted() }}</p>
         </li>
         <li>
-          <h1>Container</h1>
-          <p> {{ currentItem.getMetadata()?.format.container }}</p>
+          <h1>{{ $t('track.audio_properties.container') }}</h1>
+          <p> {{ inspector.state.currentItem.getContainer() }}</p>
         </li>
         <li>
-          <h1>Codec</h1>
-          <p> {{ currentItem.getMetadata()?.format.codec }}</p>
+          <h1>{{ $t('track.audio_properties.codec') }}</h1>
+          <p> {{ inspector.state.currentItem.getCodec() }}</p>
         </li>
         <li>
-          <h1>Bitrate</h1>
-          <p> {{ (((currentItem.getMetadata()?.format.bitrate) || 0) / 1000).toFixed(2) }} Kbps</p>
+          <h1>{{ $t('track.audio_properties.bitrate') }}</h1>
+          <p> {{ (((inspector.state.currentItem.getBitrate()) || 0) / 1000).toFixed(2) }} Kbps</p>
         </li>
         <li>
-          <h1>Bits</h1>
-          <p> {{ currentItem.getMetadata()?.format.bitsPerSample }} bit</p>
+          <h1>{{ $t('track.audio_properties.bits_per_sample') }}</h1>
+          <p> {{ inspector.state.currentItem.getBitsPerSample() }} bit</p>
         </li>
         <li>
-          <h1>Samplerate</h1>
-          <p> {{ currentItem.getMetadata()?.format.sampleRate }} Hz</p>
+          <h1>{{ $t('track.audio_properties.sample_rate') }}</h1>
+          <p> {{ inspector.state.currentItem.getSampleRate() }} Hz</p>
         </li>
       </section>
       <section>
         <h1>
-          <amethyst-icon />
-          State
+          <icon
+            icon="ic:twotone-circle"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('track.state') }}
         </h1>
         <li>
-          <h1>Errored</h1>
-          <p> {{ currentItem.hasErrored ? "Yes" : "No" }}</p>
+          <h1>{{ $t('track.state.errored') }}</h1>
+          <p> {{ inspector.state.currentItem.hasErrored ? "Yes" : "No" }}</p>
         </li>
         <li>
-          <h1>Loaded</h1>
-          <p> {{ currentItem.isLoaded ? "Yes" : "No" }}</p>
+          <h1>{{ $t('track.state.loaded') }}</h1>
+          <p> {{ inspector.state.currentItem.isLoaded ? "Yes" : "No" }}</p>
         </li>
         <li>
-          <h1>Loading</h1>
-          <p> {{ currentItem.isLoading ? "Yes" : "No" }}</p>
+          <h1>{{ $t('track.state.loading') }}</h1>
+          <p> {{ inspector.state.currentItem.isLoading ? "Yes" : "No" }}</p>
         </li>
         <button
           class="cursor-pointer"
-          @click="amethyst.showItem(currentItem.getCachePath())"
+          @click="amethyst.showItem(inspector.state.currentItem.getCachePath())"
         >
-          Show .amf
-          <amethyst-icon />
+          {{ $t('track.show_amf_in_file_explorer') }}
+          <icon
+            icon="ic:twotone-open-in-new"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
         </button>
       </section>
     </div>
@@ -215,6 +249,7 @@ onUnmounted(() => {
 <style scoped lang="postcss">
 .inspector {
   height: calc(100% - 16px);
+  @apply text-text_title text-12px;
 }
 
 section {
@@ -239,9 +274,6 @@ section {
 
   & li {
     @apply flex justify-between gap-2 items-center;
-    & h1 {
-      @apply text-primary-1000;
-    }
   }
   & > h1 {
     @apply text-purple-400 pb-2 flex gap-2 items-center;
@@ -249,17 +281,16 @@ section {
 
   & input,
   & p {
-    @apply px-2 py-1.5 text-7px bg-surface-800 rounded-4px overflow-hidden overflow-ellipsis;
-    font-family: "aseprite";
+    @apply px-2 py-1.5 bg-surface-800 rounded-4px overflow-hidden overflow-ellipsis;
   }
 
   input {
     @apply border-1 border-transparent;
     &:hover {
-      @apply bg-purple-400 bg-opacity-25 text-white;
+      @apply bg-purple-400 bg-opacity-25 text-text_title;
     }
     &:focus {
-      @apply bg-purple-400 bg-opacity-25 border-1 border-purple-400 text-white;
+      @apply bg-purple-400 bg-opacity-25 border-1 border-purple-400 text-text_title;
     }
   }
 }

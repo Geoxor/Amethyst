@@ -14,7 +14,7 @@ import icon916 from "@/icons/speaker-configurations/9.1.6-icon.vue";
 import { computed, onMounted, ref } from "vue";
 
 const currentChannels = computed(() => amethyst.player.getCurrentTrack()?.getChannels() || 2);
-const currentBits = computed(() => amethyst.player.getCurrentTrack()?.getMetadata()?.format.bitsPerSample || 32);
+const currentBits = computed(() => amethyst.player.getCurrentTrack()?.getBitsPerSample() || 32);
 const currentAudioDevice = computed(() => amethyst.player.outputDevice.value);
 
 const audioLatency = ref(-1);
