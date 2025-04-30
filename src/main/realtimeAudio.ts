@@ -18,6 +18,7 @@ let oldDevice = 0;
 
 const startAudioStream = (device: RtAudioDeviceInfo, channels: number, bufferSize: number, sampleRate: number) => {
   const bufferLengthExpected = bufferSize * channels * RtAudioFormat.RTAUDIO_SINT16;
+  const finalSampleRate = sampleRate || device.preferredSampleRate;
 
   rtAudio.openStream(
     {
@@ -27,7 +28,7 @@ const startAudioStream = (device: RtAudioDeviceInfo, channels: number, bufferSiz
     },
     null,
     RtAudioFormat.RTAUDIO_SINT16, // PCM Format - Signed 16-bit integer
-    sampleRate || device.preferredSampleRate, // Sampling rate is 48kHz
+    finalSampleRate, // Sampling rate is 48kHz
     bufferSize, // Frame size is 1920 (40ms)
     "Amethyst", // The name of the stream (used for JACK Api)
     (pcm => console.log(pcm.length)), // Input callback function, write every input pcm data to the output buffer
@@ -41,7 +42,7 @@ const startAudioStream = (device: RtAudioDeviceInfo, channels: number, bufferSiz
   console.log(logPrefix, `﹂Buffer size: ${chalk.yellow(bufferSize, "smp")}`);
   console.log(logPrefix, `﹂Expected buffer length: ${chalk.yellow(bufferLengthExpected, "smp")}`);
   console.log(logPrefix, `﹂Channels: ${chalk.yellow(channels, "ch")}`);
-  console.log(logPrefix, `﹂Sample Rate: ${chalk.yellow(device.preferredSampleRate, "Hz")}`);
+  console.log(logPrefix, `﹂Sample Rate: ${chalk.yellow(finalSampleRate, "Hz")}`);
   console.log(logPrefix, `﹂Bit Depth: ${chalk.yellow(RtAudioFormat.RTAUDIO_SINT16 << 3, "bit")}`);
 };
 
