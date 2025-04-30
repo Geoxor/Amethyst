@@ -60,7 +60,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
 
 <template>
   <div
-    class="absolute pointer-events-none bottom-4 flex justify-center px-4 gap-2 w-full left-1/2 transform-gpu -translate-x-1/2 z-10 text-playback-controls-text"
+    class="absolute pointer-events-none bottom-4 flex justify-center px-4 gap-2 w-full left-1/2 transform-gpu -translate-x-1/2 z-30 text-playback-controls-text"
   >
     <div
       v-if="amethyst.state.settings.value.showLoudnessMeter"

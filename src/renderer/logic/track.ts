@@ -204,6 +204,27 @@ export class Track {
   public getTrackNumber() {
     return this.getMetadata()?.common.track.no;
   }
+  public getBarcode(){
+    return this.getMetadata()?.common.barcode;
+  }
+  public getLabel(){
+    return this.getMetadata()?.common.label;
+  }
+  public getISRC(){
+    return this.getMetadata()?.common.isrc;
+  }
+  public getCopyright(){
+    return this.getMetadata()?.common.copyright;
+  }
+  public getGenre() {
+    return this.getMetadata()?.common.genre?.sort();
+  }
+  public getGenreFormatted() {
+    return this.getGenre()?.join(", ");
+  }
+  public getBPM() {
+    return this.getMetadata()?.common.bpm;
+  }
   public getDiskNumber() {
     return this.getMetadata()?.common.disk.no;
   }
@@ -222,9 +243,18 @@ export class Track {
   public getBitsPerSample() {
     return this.getMetadata()?.format.bitsPerSample;
   }
+
+  public getBitsPerSampleFormatted() {
+    return this.getBitsPerSample() ? `${this.getBitsPerSample()} bit` : undefined;
+  }
   public getSampleRate() {
     return this.getMetadata()?.format.sampleRate;
   }
+
+  public getSampleRateFormatted() {
+    return this.getSampleRate() ? `${this.getSampleRate()} Hz` : undefined;
+  }
+
   public getFilesize() {
     return this.getMetadata()?.size;
   }
