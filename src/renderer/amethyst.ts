@@ -294,7 +294,6 @@ export class Amethyst extends AmethystBackend {
 
       // updates on first load unlike the code in outputnode
       this.state.settings.value.outputAudioDeviceName = this.state.settings.value.outputRealtimeAudioDeviceName;
-
     }
 
     console.log(`Current audio device: ${this.state.settings.value.outputAudioDeviceName}`);

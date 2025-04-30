@@ -64,13 +64,13 @@ function connectToFinalNode(amethyst: Amethyst, context: AudioContext, pre: Gain
 
   watch(() => amethyst.state.settings.value.audioDriver, (newValue, oldValue) => {
     console.log(`Changed audio driver from ${oldValue} to ${newValue}`);
+    amethyst.updateCurrentOutputDevice();
 
     switch (newValue) {
       case "default":
         pre.connect(context.destination);
         pre.disconnect(captureNode);
         window.electron.ipcRenderer.invoke("close-realtime-audio-stream");
-        amethyst.updateCurrentOutputDevice();
         return;
       case "asio":
         pre.disconnect(context.destination);

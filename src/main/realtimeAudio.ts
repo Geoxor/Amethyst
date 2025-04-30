@@ -6,9 +6,7 @@ import { getWindow } from "./main";
 
 const rtAudio = new RtAudio(/* Insert here specific API if needed */);
 const devices = rtAudio.getDevices();
-const logPrefix = chalk.blue("RT Audio");
-
-console.log(devices);
+const logPrefix = chalk.cyan("[RT Audio Engine]");
 
 ipcMain.handle("get-realtime-devices", () => {
   return devices;
@@ -39,11 +37,11 @@ const startAudioStream = (device: RtAudioDeviceInfo, channels: number, bufferSiz
   rtAudio.outputVolume = 1;
 
   console.log(logPrefix, "Created realtime audio stream");
-  console.log(logPrefix, `Device: ${device.name}`);
-  console.log(logPrefix, `Buffer: ${bufferSize}`);
-  console.log(logPrefix, `Sample Rate: ${device.preferredSampleRate}`);
-  console.log(logPrefix, `Bit Depth: ${RtAudioFormat.RTAUDIO_SINT16}`);
-  console.log(logPrefix, `Expected buffer length: ${bufferLengthExpected}`);
+  console.log(logPrefix, `Device: ${chalk.blue(device.name)}`);
+  console.log(logPrefix, `Buffer size: ${chalk.yellow(bufferSize, "smp")}`);
+  console.log(logPrefix, `Expected buffer length: ${chalk.yellow(bufferLengthExpected, "smp")}`);
+  console.log(logPrefix, `Sample Rate: ${chalk.yellow(device.preferredSampleRate, "Hz")}`);
+  console.log(logPrefix, `Bit Depth: ${chalk.yellow(RtAudioFormat.RTAUDIO_SINT16 << 3, "bit")}`);
 };
 
 const closeAudioStream = () => {
@@ -83,14 +81,14 @@ ipcMain.handle("audio-chunk", (_, [device, channels, bufferSize, arrayBuffer]: [
 
   // Check if buffer-size has changed and restart the stream with the new one if so
   if (oldBufferSize != bufferSize) {
-    console.log(logPrefix, `Buffer size changed: ${oldBufferSize} vs ${bufferSize}`);
+    console.log(logPrefix, `Buffer size changed: ${chalk.yellow(oldBufferSize, "smp")} vs ${chalk.yellow(bufferSize, "smp")}`);
     oldBufferSize = bufferSize;
     return restartAudioStream(device, channels, bufferSize);
   }
 
   // Check if chosen device has changed and restart the stream with the new one if so
   if (oldDevice != device.id) {
-    console.log(logPrefix, `Device changed: ${oldDevice} vs ${device.id}`);
+    console.log(logPrefix, `Device changed: ${chalk.blue(oldDevice)} vs ${chalk.blue(device.id)}`);
     oldDevice = device.id;
     return restartAudioStream(device, channels, bufferSize);
   }
