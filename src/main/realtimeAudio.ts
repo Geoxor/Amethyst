@@ -40,6 +40,7 @@ const startAudioStream = (device: RtAudioDeviceInfo, channels: number, bufferSiz
   console.log(logPrefix, `﹂Device: ${chalk.blue(device.name)}`);
   console.log(logPrefix, `﹂Buffer size: ${chalk.yellow(bufferSize, "smp")}`);
   console.log(logPrefix, `﹂Expected buffer length: ${chalk.yellow(bufferLengthExpected, "smp")}`);
+  console.log(logPrefix, `﹂Channels: ${chalk.yellow(channels, "ch")}`);
   console.log(logPrefix, `﹂Sample Rate: ${chalk.yellow(device.preferredSampleRate, "Hz")}`);
   console.log(logPrefix, `﹂Bit Depth: ${chalk.yellow(RtAudioFormat.RTAUDIO_SINT16 << 3, "bit")}`);
 };
