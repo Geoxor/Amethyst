@@ -126,7 +126,7 @@ jobs:
           cache: "yarn"
 
       - name: Install linux dependencies
-        run: sudo apt update && sudo apt install rpm snapd libarchive-tools && sudo snap install snapcraft --classic && sudo snap install multipass --beta --classic
+        run: sudo apt update && sudo apt install libvips libvips-dev libvips-tools rpm snapd libarchive-tools && sudo snap install snapcraft --classic && sudo snap install multipass --beta --classic
 
       - name: Install Dependencies
         run: yarn install
