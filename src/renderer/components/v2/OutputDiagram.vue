@@ -94,6 +94,20 @@ onMounted(() => {
         <amethyst-icon class="text-accent" />
       </output-diagram-blob>
 
+      <div
+        v-if="amethyst.state.settings.value.audioDriver == 'default' && amethyst.getCurrentOperatingSystem() === 'windows'" 
+        class="w-full h-2px bg-surface-600 mt-6" 
+      />
+      <output-diagram-blob
+        v-if="amethyst.state.settings.value.audioDriver == 'default' && amethyst.getCurrentOperatingSystem() === 'windows'"
+        :title="$t('output_diagram.os_api.title')"
+        subtitle="WASAPI" 
+      >
+        <span class="text-text_title">
+          <windows-logo />
+        </span>
+      </output-diagram-blob>
+
       <div class="w-full h-2px bg-surface-600 mt-6" />
 
       <output-diagram-blob

@@ -10,6 +10,7 @@
   "output_diagram.audio_device.title": "Audio Device",
   "output_diagram.output.title": "Output",
   "output_diagram.resampler.title": "Resampler",
+  "output_diagram.os_api.title": "API",
   
   "output_breakdown.title": "Output Breakdown",
 
