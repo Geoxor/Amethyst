@@ -37,11 +37,11 @@ const startAudioStream = (device: RtAudioDeviceInfo, channels: number, bufferSiz
   rtAudio.outputVolume = 1;
 
   console.log(logPrefix, "Created realtime audio stream");
-  console.log(logPrefix, `Device: ${chalk.blue(device.name)}`);
-  console.log(logPrefix, `Buffer size: ${chalk.yellow(bufferSize, "smp")}`);
-  console.log(logPrefix, `Expected buffer length: ${chalk.yellow(bufferLengthExpected, "smp")}`);
-  console.log(logPrefix, `Sample Rate: ${chalk.yellow(sampleRate || device.preferredSampleRate, "Hz")}`);
-  console.log(logPrefix, `Bit Depth: ${chalk.yellow(RtAudioFormat.RTAUDIO_SINT16 << 3, "bit")}`);
+  console.log(logPrefix, `﹂Device: ${chalk.blue(device.name)}`);
+  console.log(logPrefix, `﹂Buffer size: ${chalk.yellow(bufferSize, "smp")}`);
+  console.log(logPrefix, `﹂Expected buffer length: ${chalk.yellow(bufferLengthExpected, "smp")}`);
+  console.log(logPrefix, `﹂Sample Rate: ${chalk.yellow(device.preferredSampleRate, "Hz")}`);
+  console.log(logPrefix, `﹂Bit Depth: ${chalk.yellow(RtAudioFormat.RTAUDIO_SINT16 << 3, "bit")}`);
 };
 
 const closeAudioStream = () => {
