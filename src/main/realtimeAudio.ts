@@ -6,7 +6,7 @@ import { getWindow } from "./main";
 
 const rtAudio = new RtAudio(/* Insert here specific API if needed */);
 const devices = rtAudio.getDevices();
-const logPrefix = chalk.cyan("[RT Audio Engine]");
+const logPrefix = chalk.cyan("[RT Audio Bridge]");
 
 ipcMain.handle("get-realtime-devices", () => {
   return devices;

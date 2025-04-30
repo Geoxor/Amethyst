@@ -110,7 +110,6 @@ onMounted(() => {
       </output-diagram-blob>
 
       <div class="line" />
-
       <output-diagram-blob
         :title="$t('output_diagram.audio_device.title')"
         :subtitle="amethyst.state.settings.value.outputAudioDeviceName"
@@ -129,6 +128,20 @@ onMounted(() => {
           icon="ic:twotone-volume-up" 
           class="h-6 w-6 "
         />
+      </output-diagram-blob>
+
+      <div
+        v-if="amethyst.state.settings.value.audioDriver == 'asio' && amethyst.getCurrentOperatingSystem() === 'windows' && amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('fl studio')" 
+        class="line" 
+      />
+      <output-diagram-blob
+        v-if="amethyst.state.settings.value.audioDriver == 'asio' && amethyst.getCurrentOperatingSystem() === 'windows' && amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('fl studio')"
+        :title="$t('output_diagram.os_api.title')"
+        subtitle="WASAPI" 
+      >
+        <span class="text-text_title">
+          <windows-logo />
+        </span>
       </output-diagram-blob>
 
       <div class="line" />
