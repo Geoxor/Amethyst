@@ -6,7 +6,6 @@ import Slider from "@/components/input/BaseSlider.vue";
 import { useInspector } from "@/components/Inspector";
 import PlaybackButtons from "@/components/PlaybackButtons.vue";
 import ResizableDiv from "@/components/ResizableDiv";
-import OutputBreakdown from "@/components/v2/OutputBreakdown.vue";
 import OutputDiagram from "@/components/v2/OutputDiagram.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import LoudnessMeter from "@/components/visualizers/LoudnessMeter.vue";
@@ -98,7 +97,6 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
             class="utilityButton absolute top-3 right-3 cursor-pointer"
             @click="amethyst.state.settings.value.showOutputDiagram = false"
           />
-          <output-breakdown />
           <output-diagram />
         </div>
         <slider
