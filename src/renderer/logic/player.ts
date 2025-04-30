@@ -167,14 +167,10 @@ export class Player extends EventEmitter<{
 
     let startOfQueue = 0;
 
-    if (filterText.value) {
-      const searchResults = this.queue.getListSorted(currentShortMethod.value, filterText.value);
-      startOfQueue = this.queue.getList().indexOf(searchResults[0]);
-      const nextInSearch = searchResults[searchResults.indexOf(this.getCurrentTrack()!) + 1];
-      this.currentTrackIndex.value = this.queue.getList().indexOf(nextInSearch);
-    } else {
-      this.currentTrackIndex.value++;
-    }
+    const searchResults = this.queue.getListSorted(currentShortMethod.value, filterText.value);
+    startOfQueue = this.queue.getList().indexOf(searchResults[0]);
+    const nextInSearch = searchResults[searchResults.indexOf(this.getCurrentTrack()!) + 1];
+    this.currentTrackIndex.value = this.queue.getList().indexOf(nextInSearch);
 
     // Check if we reached the end of the queue
     if (!this.queue.getTrack(this.currentTrackIndex.value)) {
@@ -204,14 +200,10 @@ export class Player extends EventEmitter<{
 
     let endofQueue = 0;
 
-    if (filterText.value) {
-      const searchResults = this.queue.getListSorted(currentShortMethod.value, filterText.value);
-      endofQueue = this.queue.getList().indexOf(searchResults[searchResults.length - 1]);
-      const previousInSearch = searchResults[searchResults.indexOf(this.getCurrentTrack()!) - 1];
-      this.currentTrackIndex.value = this.queue.getList().indexOf(previousInSearch);
-    } else {
-      this.currentTrackIndex.value--;
-    }
+    const searchResults = this.queue.getListSorted(currentShortMethod.value, filterText.value);
+    endofQueue = this.queue.getList().indexOf(searchResults[searchResults.length - 1]);
+    const previousInSearch = searchResults[searchResults.indexOf(this.getCurrentTrack()!) - 1];
+    this.currentTrackIndex.value = this.queue.getList().indexOf(previousInSearch);
 
     if (this.currentTrackIndex.value < 0) {
       this.currentTrackIndex.value = endofQueue;
