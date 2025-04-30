@@ -200,17 +200,21 @@ export class Player extends EventEmitter<{
 
   public previous() {
     const filterText = useLocalStorage("filterText", "");
+    const currentShortMethod = useLocalStorage<PossibleSortingMethods>("currentShortMethod", "default");
+
+    let endofQueue = 0;
 
     if (filterText.value) {
-      const searchResults = this.queue.search(filterText.value);
-      const nextInSearch = searchResults[searchResults.indexOf(this.getCurrentTrack()!) - 1];
-      this.currentTrackIndex.value = this.queue.getList().indexOf(nextInSearch);
+      const searchResults = this.queue.getListSorted(currentShortMethod.value, filterText.value);
+      endofQueue = this.queue.getList().indexOf(searchResults[searchResults.length - 1]);
+      const previousInSearch = searchResults[searchResults.indexOf(this.getCurrentTrack()!) - 1];
+      this.currentTrackIndex.value = this.queue.getList().indexOf(previousInSearch);
     } else {
       this.currentTrackIndex.value--;
     }
 
     if (this.currentTrackIndex.value < 0) {
-      this.currentTrackIndex.value = this.queue.getList().length - 1;
+      this.currentTrackIndex.value = endofQueue;
     }
 
     this.play(this.currentTrackIndex.value);

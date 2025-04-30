@@ -98,7 +98,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
       />
       <div
         v-if="columns.trackNumber"
-        class="flex-none w-32px "
+        class="flex-none w-32px transform-gpu -translate-x-1.75"
         :class="[currentShortMethod == 'trackNumber' && 'activeSort']"
         @click="setCurrentSortedMethod('trackNumber')"
       >
@@ -113,7 +113,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
       </div>
       <div
         v-if="columns.diskNumber"
-        class="flex-none w-32px "
+        class="flex-none w-32px transform-gpu -translate-x-1.75"
         :class="[currentShortMethod == 'diskNumber' && 'activeSort']"
         @click="setCurrentSortedMethod('diskNumber')"
       >
@@ -474,19 +474,15 @@ tr {
 }
 
 .columnHeader svg {
-  @apply min-h-5 min-w-5 transform-gpu -translate-x-1.5;
-}
-
-.columnHeader svg.chevron {
-  @apply absolute -top-4 left-0;
+  @apply min-h-5 min-w-5;
 }
 
 .columnHeader.ascending svg.chevron {
-  @apply rotate-90;
+  @apply transform-gpu rotate-90;
 }
 
 .columnHeader.descending svg.chevron {
-  @apply -rotate-90;
+  @apply transform-gpu -rotate-90;
 }
 
 .activeSort {
