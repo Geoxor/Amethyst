@@ -54,7 +54,7 @@ switch (amethyst.getCurrentOperatingSystem()) {
   <settings-setting
     :title="$t('settings.audio_driver.title')"
     :description="$t('settings.audio_driver.description')"
-    icon="mdi:abacus"
+    icon="mdi:audio-input-xlr"
   >
     <dropdown-input
       v-model="amethyst.state.settings.value.audioDriver"
@@ -68,7 +68,7 @@ switch (amethyst.getCurrentOperatingSystem()) {
         <settings-setting
           :title="$t('settings.audio_driver.audio_device.title')"
           :description="$t('settings.audio_driver.audio_device.description')"
-          icon="mdi:abacus"
+          icon="mdi:audio-video"
           subsetting
         >
           <dropdown-input
@@ -79,7 +79,7 @@ switch (amethyst.getCurrentOperatingSystem()) {
         <settings-setting
           :title="$t('settings.audio_driver.audio_device.buffer.title')"
           :description="$t('settings.audio_driver.audio_device.buffer.description')"
-          icon="mdi:abacus"
+          icon="material-symbols:memory-alt-rounded"
           subsetting
         >
           <dropdown-input
