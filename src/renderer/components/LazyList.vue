@@ -5,6 +5,7 @@ import { saveArrayBufferToFile } from "@/logic/dom";
 import { convertDfpwm } from "@/logic/encoding";
 import type { PossibleSortingMethods } from "@/logic/queue";
 import type { Track } from "@/logic/track";
+import type { IContextMenuOption } from "@/state";
 import { Icon } from "@iconify/vue";
 import { useLocalStorage } from "@vueuse/core";
 import { computed } from "vue";
@@ -85,7 +86,7 @@ const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
     { key: "size", title: "track.file.size" },
   ];
 
-  const menuItems = columnOptions.map(({ key, title }) => ({
+  const menuItems: IContextMenuOption[] = columnOptions.map(({ key, title }) => ({
     title,
     icon: columns[key] ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked",
     action: () => columns[key] = !columns[key],
