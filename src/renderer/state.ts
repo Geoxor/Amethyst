@@ -131,6 +131,12 @@ export class State extends EventEmitter<StateEvents> {
 
     window.electron.ipcRenderer.invoke<RtAudioDeviceInfo[]>("get-realtime-devices").then(devices => {
       this.realtimeDevices.value = devices;
+
+			// Check if it's the first time and populate so when user selects asio for the first time
+			// it doesn't bug out
+			if (this.settings.value.outputRealtimeAudioDeviceName == "") {
+				this.settings.value.outputRealtimeAudioDeviceName = this.realtimeDevices.value[0].name;
+			}
     });
 
 		// Update css when state changes
