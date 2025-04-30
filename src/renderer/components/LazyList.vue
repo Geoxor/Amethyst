@@ -431,6 +431,11 @@ const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
               class="w-5 h-5 min-w-5 min-h-5"
             />
             <icon
+              v-else-if="useInspector().state.currentItem?.path == item.path"
+              icon="mdi:flask"
+              class="w-5 h-5 min-w-5 min-h-5"
+            />
+            <icon
               v-else
               icon="ic:baseline-drag-handle"
               class="w-5 h-5 min-w-5 min-h-5"
