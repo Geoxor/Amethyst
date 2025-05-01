@@ -152,7 +152,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
           v-model="amethyst.player.pitchSemitones.value"
           :min="-12"
           :max="12"
-          :step="1"
+          :step="0.01"
           suffix="st"
         />
         <icon
