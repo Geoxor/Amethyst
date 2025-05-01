@@ -61,7 +61,7 @@ switch (amethyst.getCurrentOperatingSystem()) {
       :options="['default', ...systemSpecificAudioDriverOptions]"
     />
     <template
-      v-if="amethyst.state.settings.value.audioDriver == 'asio'"
+      v-if="amethyst.state.settings.value.audioDriver != 'default'"
       #subsettings
     >
       <div class="p-2 flex flex-col gap-2">

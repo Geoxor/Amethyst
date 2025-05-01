@@ -70,7 +70,6 @@ function connectToFinalNode(amethyst: Amethyst, context: AudioContext, pre: Gain
     switch (newValue) {
       case "default":
         pre.connect(context.destination);
-        pre.disconnect(captureNode);
         window.electron.ipcRenderer.invoke("close-realtime-audio-stream");
         return;
       case "asio":
