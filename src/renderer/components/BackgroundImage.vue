@@ -36,6 +36,9 @@ const fragmentShader = `
     gl_FragColor = vec4(0.5 + 0.5 * sin(gl_FragCoord.x / 256.0 + u_time), 0, cos(uv.y + u_time), 1.0);
   }`;
 
+// TODO: This should be a global function somewhere for other components
+const shouldPause = () => amethyst.state.settings.value.pauseVisualsWhenUnfocused && !amethyst.state.window.isFocused;
+
 </script>
 
 <template>
@@ -48,7 +51,7 @@ const fragmentShader = `
     `"
     :frag-shader="fragmentShader"
     :analyser="analyser"
-    :pause-rendering="amethyst.state.settings.value.pauseVisualsWhenUnfocused && !amethyst.state.window.isFocused"
+    :pause-rendering="shouldPause()"
   />
 
   <div
@@ -65,7 +68,7 @@ const fragmentShader = `
         amethyst.state.settings.value.ambientBackgroundSpin && 'animate-spin'
       ]"
       :style="`
-      animation-play-amethyst.state: ${amethyst.state.settings.value.pauseVisualsWhenUnfocused && !amethyst.state.window.isFocused ? 'paused' : 'running'};
+      animation-play-amethyst.state: ${shouldPause() ? 'paused' : 'running'};
       animation-duration: ${amethyst.state.settings.value.ambientBackgroundSpinSpeed}s;
       opacity: ${amethyst.state.settings.value.ambientBackgroundOpacity}%;
       filter: blur(${amethyst.state.settings.value.ambientBackgroundBlurStrength}px);
