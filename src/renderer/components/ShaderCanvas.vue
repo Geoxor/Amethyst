@@ -41,7 +41,7 @@ onMounted(() => {
     uniforms: {
       u_time: {value: 0},
       u_resolution: {value: new THREE.Vector2()},
-      u_amplitudes: {value: new Float32Array(props.analyser.fftSize)},
+      u_amplitudes: {value: new Float32Array(props.analyser.frequencyBinCount)},
       ...props.uniforms,
     },
     vertexShader: `
