@@ -38,7 +38,7 @@ onMounted(() => {
   if (!width || !height) return;
 
   const scene = new THREE.Scene();
-  const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
+  const camera = new THREE.OrthographicCamera();
   const renderer = new THREE.WebGLRenderer({canvas: shaderCanvas.value});
 
   const material = new THREE.ShaderMaterial({
