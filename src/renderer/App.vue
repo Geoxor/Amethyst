@@ -75,6 +75,7 @@ watch(() => amethyst.state.settings.value.showBigSpectrum, () => {
     <background-image
       v-if="amethyst.state.settings.value.showAmbientBackground"
       :ambient-background-image="ambientBackgroundImage"
+      :node="amethyst.player.nodeManager.master.pre"
     />
 
     <div
