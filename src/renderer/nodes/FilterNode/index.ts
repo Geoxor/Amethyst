@@ -24,7 +24,8 @@ export class AmethystFilterNode extends AmethystAudioNode {
     const pre = context.createGain();
     const post = context.createGain();
     super(pre, post, "AmethystFilterNode", component, position);
-    
+    this.properties.icon = "ic:twotone-filter-list";
+
     this.filter = context.createBiquadFilter();
     pre.connect(this.filter);
     this.filter.connect(post);

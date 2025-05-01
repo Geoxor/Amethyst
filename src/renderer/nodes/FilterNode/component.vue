@@ -35,7 +35,6 @@ const FILTER_TYPES = [
   <custom-node
     :node="node"
     title="12 dB/oct Filter"
-    icon="ic:twotone-filter-list"
   >
     <div class="font-aseprite font-thin flex gap-2 items-center">
       <p class="text-primary-900 ">

@@ -10,7 +10,6 @@ defineProps<{ node: AmethystSpectrumNode }>();
   <custom-node
     :node="node"
     title="Spectrum analyzer"
-    icon="ic:twotone-graphic-eq"
   >
     <spectrum-analyzer
       class="h-76px w-152px"

@@ -9,6 +9,7 @@ export class AmethystInputNode extends AmethystAudioNode {
     node.connect(pre);
     pre.connect(post);
     super(pre, post, "AmethystInputNode", component, position, false, false, false);
+    this.properties.icon = "ic:twotone-input";
   }
 
   public override getParameters() {

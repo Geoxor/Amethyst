@@ -7,25 +7,26 @@ const props = defineProps<{node: AmethystAudioNode}>();
 </script>
 
 <template>
-  <div class="minimenu absolute text-text_title cursor-pointer items-center -top-8 text-primary-1000 left-1/2 transform-gpu text-9px -translate-x-1/2 flex rounded-4px overflow-hidden bg-surface-800">
+  <div class="minimenu text-text_title cursor-pointer w-min items-center text-primary-1000 text-11px flex rounded-4px overflow-hidden bg-surface-800">
     <button
       class="unhook"
       @click="node.disconnect()"
     >
       <icon
         icon="ic:twotone-link-off"
-        class="w-4 h-4"
+        class="w-5 h-5"
       />
       Unhook
     </button>
     <button
       v-if="props.node.isBypassable"
       class="reset"
+      :class="[props.node.isBypassed && 'bg-red-600']"
       @click="node.toggleBypass()"
     >
       <icon
         icon="ic:twotone-power-settings-new"
-        class="w-4 h-4"
+        class="w-5 h-5"
       />
       Bypass
     </button>
@@ -36,7 +37,7 @@ const props = defineProps<{node: AmethystAudioNode}>();
     >
       <icon
         icon="ic:twotone-restart-alt"
-        class="w-4 h-4"
+        class="w-5 h-5"
       />
     </button>
     <button
@@ -46,7 +47,7 @@ const props = defineProps<{node: AmethystAudioNode}>();
     >
       <icon
         icon="ic:twotone-delete"
-        class="w-4 h-4"
+        class="w-5 h-5"
       />
     </button>
   </div>

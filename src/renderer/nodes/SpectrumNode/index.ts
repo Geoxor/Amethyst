@@ -8,5 +8,6 @@ export class AmethystSpectrumNode extends AmethystAudioNode {
     const post = context.createGain();
     pre.connect(post);
     super(pre, post, "AmethystSpectrumNode", component, position);
+    this.properties.icon = "ic:twotone-graphic-eq";
   }
 }

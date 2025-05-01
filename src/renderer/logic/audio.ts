@@ -5,6 +5,14 @@ import type { Connection, NodeProperties } from "./audioManager";
 import { v4 as uuidv4 } from "uuid";
 import { amethyst } from "@/amethyst";
  
+export interface NodeParameter<T> {
+  current: T, // current
+  min: T,
+  max: T,
+  default: T,
+  unit: string,
+}
+
 export class AmethystAudioNode {
   public properties: NodeProperties;
   public connections: Connection[] = [];
@@ -21,6 +29,7 @@ export class AmethystAudioNode {
       type: `custom-${id}`,
       position,
       sourcePosition: Position.Right,
+      icon: "ic-twotone-volume-up",
     };
     this.component = markRaw(component);
   }

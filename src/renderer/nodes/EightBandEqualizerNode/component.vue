@@ -2,7 +2,7 @@
 import CustomNode from "@/components/nodes/CustomNode.vue";
 import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
 import { getThemeColorHex } from "@/logic/color";
-import type { Ref} from "vue";
+import type { Ref } from "vue";
 import { onMounted, ref, watch } from "vue";
 import type { AmethystEightBandEqualizerNode } from ".";
 import EqualizerBand from "./EqualizerBand.vue";
@@ -92,7 +92,6 @@ const FILTER_TYPES = [
   <custom-node
     :node="node"
     title="8-Band equalizer"
-    icon="ic:twotone-filter-list"
   >
     <div
       :key="componentKey"

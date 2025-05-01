@@ -9,7 +9,6 @@ defineProps<{ node: AmethystGainNode }>();
   <custom-node
     :node="node"
     title="Gain"
-    icon="ic:twotone-volume-up"
   >
     <p class="font-aseprite">
       {{ (20 * Math.log10( node.gain)).toFixed(2) }} dB

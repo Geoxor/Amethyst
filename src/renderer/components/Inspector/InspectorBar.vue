@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
 import LoadingIcon from "@/components/v2/LoadingIcon.vue";
+import DbMeter from "@/components/visualizers/DbMeter.vue";
 import { AmethystAudioNode } from "@/logic/audio";
 import { Track } from "@/logic/track";
+import { AmethystOutputNode } from "@/nodes";
 import { Icon } from "@iconify/vue";
 import { bytesToHuman } from "@shared/formating";
 import { removeEmptyObjects } from "@shared/logic";
@@ -11,7 +13,7 @@ import { useInspector } from ".";
 import BaseChip from "../BaseChip.vue";
 import { useContextMenu } from "../ContextMenu";
 import CoverArt from "../CoverArt.vue";
-
+import QuickMenu from "../nodes/QuickMenu.vue";
 const getInspectableItemType = (item: Track | AmethystAudioNode) => {
   if (item instanceof Track) return "inspector.inspecting_item_type.track";
   if (item instanceof AmethystAudioNode) return "inspector.inspecting_item_type.node";
@@ -20,7 +22,9 @@ const getInspectableItemType = (item: Track | AmethystAudioNode) => {
 
 const inspector = useInspector();
 const handlePlay = (track: Track) => {
-  inspector.inspect(track);
+  if (inspector.state.currentItem instanceof Track) {
+    inspector.inspect(track);
+  }
 };
 
 onMounted(() => {
@@ -45,7 +49,6 @@ const filteredMetadata = computed(() => {
   if (!metadata) return {};
   return removeEmptyObjects(cloneWithoutPicture(metadata));
 });
-
 </script>
 
 <template>
@@ -74,6 +77,81 @@ const filteredMetadata = computed(() => {
           class="utilityButton cursor-pointer"
         />
       </button>
+    </div>
+
+    <div
+      v-if="inspector.state.currentItem instanceof AmethystAudioNode && inspector.state.currentItem"
+      class="pb-10 h-full overflow-y-auto"
+    >
+      <section properties>
+        <h1>
+          <icon
+            icon="ic:twotone-crop-16-9"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('node.properties') }}
+        </h1>
+        {{ inspector.state.currentItem.properties.name }}
+      </section>
+
+      <section audio>
+        <h1>
+          <icon
+            icon="ic:twotone-input"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('node.in_out') }}
+        </h1>
+        <span class="flex gap-2 h-32 justify-between items-center">
+          <db-meter
+            :node="inspector.state.currentItem.pre"
+            :channels="amethyst.player.getCurrentTrack()?.getChannels() || 2"
+          />
+          <icon
+            :icon="inspector.state.currentItem.properties.icon"
+            class="h-12 w-12"
+          />
+          <db-meter
+            v-if="!(inspector.state.currentItem instanceof AmethystOutputNode)"
+            :node="inspector.state.currentItem.post"
+            :channels="amethyst.player.getCurrentTrack()?.getChannels() || 2"
+          />
+          <span v-else />
+        </span>
+      </section>
+      <section
+        controls
+      >
+        <h1>
+          <icon
+            icon="ic:twotone-settings"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('node.controls') }}
+        </h1>
+        <quick-menu
+          :node="inspector.state.currentItem"
+        />
+      </section>
+      <section
+        parameters
+      >
+        <h1>
+          <icon
+            icon="solar:volume-knob-broken"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('node.parameters') }}
+        </h1>
+        <div
+          v-for="(value, key) in inspector.state.currentItem.getParameters()"
+          :key="key"
+          class="flex gap-2"
+        >
+          <h1>{{ key }}</h1>
+          <h1>{{ value }}</h1>
+        </div>
+      </section>
     </div>
 
     <div

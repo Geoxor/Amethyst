@@ -59,9 +59,8 @@ const displayValue = computed(() => {
 });
 // Sets model to 0 if alt is held. Otherwise sets dragging to true.
 const onMouseDown = (e: MouseEvent) => {
-  if (e.altKey) {
-    model.value = props.default;
-  }
+  checkForDoubleClick();
+  if (e.altKey) resetValue();
   else {
     modifier.value?.requestPointerLock({
       unadjustedMovement: true,
@@ -75,8 +74,29 @@ const onMouseDown = (e: MouseEvent) => {
     accumulatedDelta = 0;
     initialValue = model.value;
   }
-
 };
+
+let clicks = 0; // for checking double clicks
+let timer: NodeJS.Timeout; // so it can be accessed on both clicks
+
+const resetValue = () => model.value = props.default;
+
+const checkForDoubleClick = () => {
+  // Window to detect double click
+  const DOUBLE_CLICK_DETECT_WINDOW = 300;
+
+  timer = setTimeout(() => clicks = 0, DOUBLE_CLICK_DETECT_WINDOW);
+
+  if (clicks == 1) {
+    resetValue();
+    clicks = 0;
+    clearTimeout(timer);
+    return;
+  }
+
+  clicks++;
+};
+
 const roundNearestStep = (value: number) => {
   return Math.ceil(value / props.step) * props.step;
 };

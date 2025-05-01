@@ -11,6 +11,5 @@ defineProps<{ node: AmethystOutputNode }>();
     :node="node"
     title="Output"
     description="To Speakers"
-    icon="ic:twotone-output"
   />
 </template>
