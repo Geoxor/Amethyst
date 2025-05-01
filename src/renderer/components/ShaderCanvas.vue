@@ -96,6 +96,6 @@ onMounted(() => {
 <template>
   <canvas
     ref="shaderCanvas"
-    class="fixed top-0 left-0 w-full h-full z-0"
+    class="absolute w-full h-full"
   />
 </template>
