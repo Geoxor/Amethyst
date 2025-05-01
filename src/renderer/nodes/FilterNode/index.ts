@@ -43,7 +43,7 @@ export class AmethystFilterNode extends AmethystAudioNode {
         current: this.frequency,
         default: 100,
         max: 22050,
-        min: 0,
+        min: 20,
         step: 0.1,
         unit: "Hz"
       },
