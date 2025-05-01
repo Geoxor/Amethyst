@@ -117,7 +117,7 @@ watch(model, () => {
 
 <template>
   <div
-    class="modifier font-semibold duration-user-defined flex flex-col justify-center h-6 items-center w-16 leading-tight rounded-full py-1 px-2 bg-accent text-accent bg-opacity-15"
+    class="modifier font-semibold duration-user-defined flex flex-col justify-center h-5 items-center w-16 leading-tight rounded-full py-1 px-2 bg-accent text-accent bg-opacity-15"
     @mousedown.stop.passive="onMouseDown"
     @mouseup.stop.passive="dragging = false"
   >
