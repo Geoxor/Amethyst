@@ -23,7 +23,8 @@ const BIN_COUNT = 960;
 
 const getDimensions = () => {
   const bounds = shaderCanvas.value?.parentElement?.getBoundingClientRect();
-  return { width: bounds?.width, height: bounds?.height };
+  if (!bounds) return { width: 1, height: 1 };
+  return { width: bounds.width, height: bounds.height };
 };
 
 onUnmounted(() => {
@@ -62,6 +63,7 @@ onMounted(() => {
   const render = () => {
     material.uniforms.u_time.value += 0.01;
     const { width, height } = getDimensions();
+    renderer.setSize(width, height);
     material.uniforms.u_resolution.value.set(width, height);
     const spectrum = new Uint8Array(props.analyser.frequencyBinCount);
     props.analyser.getByteFrequencyData(spectrum);
