@@ -1,11 +1,22 @@
 
 <script lang="ts" setup>
+import { Icon } from "@iconify/vue";
 import { useVModel } from "@vueuse/core";
 import { computed, ref, watch } from "vue";
 const props = defineProps({
   modelValue: {
     type: Number,
     required: true,
+  },
+  prefix: {
+    type: String,
+    default: "",
+    required: false,
+  },
+  suffix: {
+    type: String,
+    default: "",
+    required: false,
   },
   min: {
     type: Number,
@@ -106,21 +117,23 @@ watch(model, () => {
 
 <template>
   <div
-    class="modifier font-aseprite duration-user-defined"
+    class="modifier font-semibold duration-user-defined flex flex-col justify-center h-6 items-center w-16 leading-tight rounded-full py-1 px-2 bg-accent text-accent bg-opacity-15"
     @mousedown.stop.passive="onMouseDown"
     @mouseup.stop.passive="dragging = false"
   >
+    <icon
+      icon="ic:baseline-arrow-drop-up"
+      class="w-5 h-5 min-w-5 min-h-5"
+    />
     <div :class="{ pop }">
-      <h1 class="absolute z-10 top-2px">
-        {{ displayValue }}
+      <h1>
+        {{ prefix }} {{ displayValue }} {{ suffix }}
       </h1>
-      <p class="opacity-0">
-        {{ displayValue }}
-      </p>
-      <h2 class=" absolute top-3px">
-        {{ displayValue }}
-      </h2>
     </div>
+    <icon
+      icon="ic:baseline-arrow-drop-down"
+      class="w-5 h-5 min-w-5 min-h-5"
+    />
   </div>
 </template>
 
@@ -136,20 +149,20 @@ watch(model, () => {
 }
 
 .modifier {
-  @apply select-none px-1.5 py-0.5 transition transform border-2 border-transparent flex bg-surface-700 overflow-hidden;
+  @apply select-none text-12px transition duration-0 transform rounded-full border-2 border-transparent;
   cursor: ns-resize;
 
   &:active,
   &:focus {
-    @apply border-2 border-primary-800;
+    @apply border-2 border-accent;
   }
 
   &:active h1 {
-    @apply text-primary-800 font-bold;
+    @apply text-accent;
   }
 
   & .pop {
-    animation: popAnimation 99ms ease;
+    animation: popAnimation 25ms ease;
   }
 }
 </style>
