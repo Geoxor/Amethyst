@@ -28,6 +28,7 @@ export class Player extends EventEmitter<{
   
   private currentTrack = ref<Track>();
   private currentTrackIndex = ref(0);
+  public pitchSemitones = useLocalStorage<number>("pitchSemitones", 0);
   public isPlaying = ref(false);
   public isStopped = ref(true);
   public isPaused = ref(false);
@@ -55,10 +56,22 @@ export class Player extends EventEmitter<{
     
     // Set the volume on first load
     this.nodeManager.master.post.gain.value = this.volume.value;
+
+    watch(() => this.pitchSemitones.value, newPitch => {this.setPlaybackSpeed(newPitch);});
+  }
+
+  public setPlaybackSpeed(semitones: number) {
+    function semitonesToPlaybackRate(semitones: number) {
+      return Math.pow(2, semitones / 12);
+    }
+
+    this.input.playbackRate = semitonesToPlaybackRate(semitones);
   }
 
   private async setPlayingTrack(track: Track) {
     this.input.src = ["mac", "linux"].includes(this.amethyst.getCurrentOperatingSystem()) ? `file://${track.path}` : track.path;
+    this.input.preservesPitch = false;
+    this.setPlaybackSpeed(this.pitchSemitones.value);
     this.currentTrack.value = track;
     this.currentTrackIndex.value = this.queue.getList().indexOf(track);
     this.input.play();

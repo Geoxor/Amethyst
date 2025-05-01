@@ -14,6 +14,7 @@ import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 import { router } from "@/router";
 import { Icon } from "@iconify/vue";
 import { LoadStatus } from "@shared/types";
+import DraggableModifierInput from "../input/DraggableModifierInput.vue";
 
 let lastVolumeBeforeMute = amethyst.player.volume.value;
 
@@ -85,7 +86,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       side="centerVertical"
       :handles-visible="false"
       default-size="960px"
-      class="relative rounded-8px min-w-580px max-w-960px  pointer-events-auto bg-playback-controls-background"
+      class="relative rounded-8px min-w-660px max-w-960px  pointer-events-auto bg-playback-controls-background"
     >
       <div class="flex items-center h-16 gap-2 p-2 w-full">
         <div 
@@ -142,7 +143,16 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
           @contextmenu="handleContextCoverMenu"
           @click="amethyst.player.getCurrentTrack()?.cover.state === LoadStatus.Loaded && (amethyst.state.window.isShowingBigCover = !amethyst.state.window.isShowingBigCover)"
         />
+
         <playback-buttons :player="amethyst.player" />
+
+        <draggable-modifier-input
+          v-model="amethyst.player.pitchSemitones.value"
+          :min="-12"
+          :max="12"
+          :step="0.01"
+          suffix="st"
+        />
         <icon
           icon="mdi:information-slab-box-outline"
           class="utilityButton"
