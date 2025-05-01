@@ -1,13 +1,14 @@
+import type { NodeParameter } from "@/logic/audio";
 import { AmethystAudioNode } from "@/logic/audio";
 import type { NodeProperties } from "@/logic/audioManager";
 import { ref } from "vue";
 import component from "./component.vue";
 import { logValueToPercentage } from "@/logic/math";
 
-interface Parameters {
-  frequency: number,
-  gain: number;
-  Q: number;
+interface FilterNodeParameters {
+  frequency: NodeParameter<number>,
+  gain: NodeParameter<number>;
+  q: NodeParameter<number>;
   type: BiquadFilterType;
 }
 
@@ -30,10 +31,48 @@ export class AmethystFilterNode extends AmethystAudioNode {
     pre.connect(this.filter);
     this.filter.connect(post);
 
-      this.type = "lowpass";
-      this.frequency = 200;
-      this.frequencyPercent = logValueToPercentage(this.frequency, this.MIN_FREQUENCY, this.MAX_FREQUENCY);
-      this.Q = 1;
+    this.type = "lowpass";
+    this.frequency = 200;
+    this.frequencyPercent = logValueToPercentage(this.frequency, this.MIN_FREQUENCY, this.MAX_FREQUENCY);
+    this.q = 1;
+  }
+
+  public override getParameters(): FilterNodeParameters {
+    return {
+      frequency: {
+        current: this.frequency,
+        default: 100,
+        max: 22050,
+        min: 0,
+        step: 0.1,
+        unit: "Hz"
+      },
+      gain: {
+        current: this.gain,
+        default: 0,
+        max: 32,
+        min: -32,
+        step: 0.1,
+        unit: "dB"
+      },
+      q: {
+        current: this.q,
+        default: 1,
+        max: 3,
+        min: 0.1,
+        step: 0.1,
+        unit: "q"
+      },
+      type: this.type,
+    };
+  }
+
+  public override applyParameters(parameters: FilterNodeParameters): void {
+    this.frequency = parameters.frequency.current;
+    this.frequencyPercent = logValueToPercentage(this.frequency, this.MIN_FREQUENCY, this.MAX_FREQUENCY);
+    this.gain = parameters.gain.current;
+    this.q = parameters.q.current;
+    this.type = parameters.type;
   }
 
   public get type (): BiquadFilterType {
@@ -52,7 +91,7 @@ export class AmethystFilterNode extends AmethystAudioNode {
     this.filter.frequency.value = freq;
   }
   
-  public get Q() {
+  public get q() {
     return this.filter.Q.value;
   }
 
@@ -60,7 +99,7 @@ export class AmethystFilterNode extends AmethystAudioNode {
     return this.filter.gain.value;
   }
 
-  public set Q(q: number) {
+  public set q(q: number) {
     this.filter.Q.value = q;
   }
 
@@ -72,24 +111,8 @@ export class AmethystFilterNode extends AmethystAudioNode {
     this.frequency = 200;
     this.frequencyPercent = logValueToPercentage(this.frequency, this.MIN_FREQUENCY, this.MAX_FREQUENCY);
     this.gain = 0;
-    this.Q = 1;
+    this.q = 1;
     this.type = "lowpass";
   }
-
-  public override getParameters() {
-    return {
-      frequency: this.frequency,
-      gain: this.gain,
-      Q: this.Q,
-      type: this.type,
-    };
-  }
-
-  public override applyParameters(parameters: Parameters): void {
-    this.frequency = parameters.frequency;
-    this.frequencyPercent = logValueToPercentage(this.frequency, this.MIN_FREQUENCY, this.MAX_FREQUENCY);
-    this.gain = parameters.gain;
-    this.Q = parameters.Q;
-    this.type = parameters.type;
-  }
+  
 }
