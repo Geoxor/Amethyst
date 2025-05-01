@@ -24,7 +24,8 @@ watch(() => amethyst.state.settings.value.spectrumSmoothing, () => analyser.smoo
 analyser.maxDecibels = -0;
 analyser.minDecibels = -128;
 
-// TODO: Implement loading shaders from disk
+// TODO: Implement loading shaders from disk (so users can use their own shaders)
+// This is just an example shader for now
 const fragmentShader = `
   precision highp float;
   uniform float u_time;
@@ -32,8 +33,7 @@ const fragmentShader = `
   uniform float u_amplitudes[960];
   void main() {
     vec2 uv = gl_FragCoord.xy / u_resolution;
-    float amplitude = u_amplitudes[int(uv.x * 960.0)];
-    gl_FragColor = vec4(0.5 + 0.5 * sin(gl_FragCoord.x / 256.0 + u_time), 0, cos(uv.y + u_time), 1.0);
+    gl_FragColor = vec4(uv.x + 0.5 + 0.5 * sin(u_time + uv.y), 0.0, 1.0 - uv.x, 1.0);
   }`;
 
 // TODO: This should be a global function somewhere for other components
@@ -44,6 +44,7 @@ const shouldPause = () => amethyst.state.settings.value.pauseVisualsWhenUnfocuse
 <template>
   <shader-canvas
     v-if="amethyst.state.settings.value.useShaderBackground"
+    class="select-none pointer-events-none z-1000"
     :style="`
       opacity: ${amethyst.state.settings.value.ambientBackgroundOpacity}%;
       filter: blur(${amethyst.state.settings.value.ambientBackgroundBlurStrength}px);
