@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import CustomNode from "@/components/nodes/CustomNode.vue";
-import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
+import SpectrumAnalyzer from "@/components/visualizers/SpectrumAnalyzer.vue";
 import { getThemeColorHex } from "@/logic/color";
 import type { Ref} from "vue";
 import { onMounted, ref, watch } from "vue";

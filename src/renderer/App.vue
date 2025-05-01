@@ -8,7 +8,7 @@ import BackgroundImage from "@/components/BackgroundImage.vue";
 import NavigationButton from "@/components/NavigationButton.vue";
 import TopBar from "@/components/TopBar.vue";
 import PlaybackControls from "@/components/v2/PlaybackControls.vue";
-import SpectrumAnalyzer from "@/components/visualizers/SpectrumAnalyzer/SpectrumAnalyzer.vue";
+import SpectrumAnalyzer from "@/components/visualizers/SpectrumAnalyzer.vue";
 import { AmethystIcon } from "@/icons";
 import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";

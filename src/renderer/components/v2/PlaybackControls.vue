@@ -10,7 +10,7 @@ import OutputBreakdown from "@/components/v2/OutputBreakdown.vue";
 import OutputDiagram from "@/components/v2/OutputDiagram.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import LoudnessMeter from "@/components/visualizers/LoudnessMeter.vue";
-import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
+import SpectrumAnalyzer from "@/components/visualizers/SpectrumAnalyzer.vue";
 import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 import { router } from "@/router";
 import { Icon } from "@iconify/vue";
