@@ -2,6 +2,7 @@ import type { PossibleSortingMethods} from "@/logic/queue";
 import { Queue } from "@/logic/queue";
 import { Track } from "@/logic/track";
 import { useLocalStorage } from "@vueuse/core";
+import type { Ref} from "vue";
 import { ref, watch } from "vue";
 import { AmethystAudioNodeManager } from "./audioManager";
 import { EventEmitter } from "./eventEmitter";
@@ -26,7 +27,7 @@ export class Player extends EventEmitter<{
   
   private currentTrack = ref<Track>();
   private currentTrackIndex = ref(0);
-  public pitchSemitones = ref(-6);
+  public pitchSemitones = useLocalStorage<number>("pitchSemitones", 0);
   public isPlaying = ref(false);
   public isStopped = ref(true);
   public isPaused = ref(false);

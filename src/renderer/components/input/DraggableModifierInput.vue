@@ -47,7 +47,8 @@ const props = defineProps({
 const emit = defineEmits(["update:modelValue"]);
 const model = useVModel(props, "modelValue", emit);
 const dragging = ref(false);
-let startY = 0;
+const modifier = ref<HTMLDivElement>();
+let accumulatedDelta = 0;
 let initialValue = 0;
 let currentIdx = 0;
 
@@ -62,12 +63,19 @@ const onMouseDown = (e: MouseEvent) => {
     model.value = props.default;
   }
   else {
+    modifier.value?.requestPointerLock({
+      unadjustedMovement: true,
+    });
+
+    modifier.value!.addEventListener("mouseup", () => document.exitPointerLock());
+
     currentIdx = props.range.indexOf(model.value || props.default);
     
     dragging.value = true;
-    startY = e.clientY;
+    accumulatedDelta = 0;
     initialValue = model.value;
   }
+
 };
 const roundNearestStep = (value: number) => {
   return Math.ceil(value / props.step) * props.step;
@@ -76,10 +84,11 @@ const roundNearestStep = (value: number) => {
 const onMove = (e: MouseEvent) => {
   if (!dragging.value) return;
   const scale = props.max - props.min;
-  const distance = startY - e.clientY;
+  const deltaY = e.movementY;
+  accumulatedDelta -= deltaY;
 
   if (props.range.length != 0) {
-    const nextValue = (props.range as number[])[Math.max(0, Math.min(props.range.length - 1, currentIdx + ~~(distance / 10)))];
+    const nextValue = (props.range as number[])[Math.max(0, Math.min(props.range.length - 1, currentIdx + ~~(accumulatedDelta / 10)))];
     if (nextValue != model.value) {
       model.value = nextValue;
     }
@@ -88,7 +97,7 @@ const onMove = (e: MouseEvent) => {
 
   model.value = Math.min(
     Math.max(
-      initialValue + roundNearestStep(((distance * scale) * (props.step / 100))),
+      initialValue + roundNearestStep(((accumulatedDelta * scale) * (props.step / 100))),
       props.min,
     ),
     props.max,
@@ -96,8 +105,8 @@ const onMove = (e: MouseEvent) => {
 };
 const onMouseUp = () => {
   dragging.value = false;
-  startY = model.value;
 };
+
 watch(dragging, () => {
   if (dragging.value) {
     document.addEventListener("mousemove", onMove);
@@ -116,14 +125,15 @@ watch(model, () => {
 </script>
 
 <template>
-  <div
+  <button
+    ref="modifier"
     class="modifier font-semibold duration-user-defined flex flex-col justify-center h-5 items-center w-16 leading-tight rounded-full py-1 px-2 bg-accent text-accent bg-opacity-15"
     @mousedown.stop.passive="onMouseDown"
     @mouseup.stop.passive="dragging = false"
   >
     <icon
       icon="ic:baseline-arrow-drop-up"
-      class="w-5 h-5 min-w-5 min-h-5"
+      class="w-5 h-5 min-w-5 min-h-5 text-accent text-opacity-25"
     />
     <div :class="{ pop }">
       <h1>
@@ -132,9 +142,9 @@ watch(model, () => {
     </div>
     <icon
       icon="ic:baseline-arrow-drop-down"
-      class="w-5 h-5 min-w-5 min-h-5"
+      class="w-5 h-5 min-w-5 min-h-5 text-accent text-opacity-25"
     />
-  </div>
+  </button>
 </template>
 
 <style lang="postcss" scoped>
@@ -149,12 +159,22 @@ watch(model, () => {
 }
 
 .modifier {
-  @apply select-none text-12px transition duration-0 transform rounded-full border-2 border-transparent;
+  @apply select-none text-11px transition duration-0 transform rounded-full border-2 border-transparent;
   cursor: ns-resize;
+
+  &:hover {
+    @apply border-accent border-opacity-50;
+    & > svg {
+      @apply text-accent text-opacity-50;
+    }
+  }
 
   &:active,
   &:focus {
-    @apply border-2 border-accent;
+    @apply border-accent;
+    & > svg {
+      @apply text-accent;
+    }
   }
 
   &:active h1 {
@@ -162,7 +182,7 @@ watch(model, () => {
   }
 
   & .pop {
-    animation: popAnimation 25ms ease;
+    animation: popAnimation 1ms ease;
   }
 }
 </style>
