@@ -102,14 +102,6 @@ const AVAILABLE_THEMES = [
       <div class="p-2 flex flex-col gap-2">
         <settings-setting
           subsetting
-          :title="$t(`settings.ambient_background.shader.title`)"
-          :description="$t('settings.ambient_background.shader.description')"
-          icon="ic:twotone-auto-awesome"
-        >
-          <toggle-switch v-model="amethyst.state.settings.value.useShaderBackground" />
-        </settings-setting>
-        <settings-setting
-          subsetting
           :title="$t('settings.ambient_background.blending_mode.title')"
           :description="$t('settings.ambient_background.blending_mode.description')"
           icon="ic:twotone-water-drop"
@@ -184,6 +176,14 @@ const AVAILABLE_THEMES = [
             :step="10"
             suffix="%"
           />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t(`settings.ambient_background.shader.title`)"
+          :description="$t('settings.ambient_background.shader.description')"
+          icon="ic:twotone-auto-awesome"
+        >
+          <toggle-switch v-model="amethyst.state.settings.value.useShaderBackground" />
         </settings-setting>
       </div>
     </template> 
