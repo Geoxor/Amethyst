@@ -13,7 +13,9 @@ import { useInspector } from ".";
 import BaseChip from "../BaseChip.vue";
 import { useContextMenu } from "../ContextMenu";
 import CoverArt from "../CoverArt.vue";
+import DraggableModifierInput from "../input/DraggableModifierInput.vue";
 import QuickMenu from "../nodes/QuickMenu.vue";
+
 const getInspectableItemType = (item: Track | AmethystAudioNode) => {
   if (item instanceof Track) return "inspector.inspecting_item_type.track";
   if (item instanceof AmethystAudioNode) return "inspector.inspecting_item_type.node";
@@ -64,7 +66,10 @@ const filteredMetadata = computed(() => {
         <h1 class="font-zen-dots text-13px">
           {{ $t('inspector.title') }}
         </h1>
-        <base-chip color="light-blue-400">
+        <base-chip
+          color="light-blue-400"
+          :icon="inspector.state.currentItem instanceof Track ? 'ic:twotone-audio-file' : 'mdi:resistor-nodes' "
+        >
           {{ $t(getInspectableItemType(inspector.state.currentItem as any as Track)) }}
         </base-chip>
       </div>
@@ -93,7 +98,45 @@ const filteredMetadata = computed(() => {
         </h1>
         {{ inspector.state.currentItem.properties.name }}
       </section>
-
+      <section controls>
+        <h1>
+          <icon
+            icon="ic:twotone-settings"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('node.controls') }}
+        </h1>
+        <quick-menu
+          :node="inspector.state.currentItem"
+        />
+      </section>
+      <section
+        v-if="Object.values(inspector.state.currentItem.getParameters()).length != 0"
+        parameters
+      >
+        <h1>
+          <icon
+            icon="solar:volume-knob-broken"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('node.parameters') }}
+        </h1>
+        <div
+          v-for="(value, key) in inspector.state.currentItem.getParameters()"
+          :key="key"
+          class="flex gap-2 items-center my-2 justify-between"
+        >
+          <h1>{{ key }}</h1>
+          <draggable-modifier-input
+            v-model="inspector.state.currentItem[key]"
+            :step="value.step"
+            :max="value.max"
+            :min="value.min"
+            :suffix="value.unit"
+            :default="value.default"
+          />
+        </div>
+      </section>
       <section audio>
         <h1>
           <icon
@@ -118,39 +161,6 @@ const filteredMetadata = computed(() => {
           />
           <span v-else />
         </span>
-      </section>
-      <section
-        controls
-      >
-        <h1>
-          <icon
-            icon="ic:twotone-settings"
-            class="h-5-w-5 min-w-5 min-h-5"
-          />
-          {{ $t('node.controls') }}
-        </h1>
-        <quick-menu
-          :node="inspector.state.currentItem"
-        />
-      </section>
-      <section
-        parameters
-      >
-        <h1>
-          <icon
-            icon="solar:volume-knob-broken"
-            class="h-5-w-5 min-w-5 min-h-5"
-          />
-          {{ $t('node.parameters') }}
-        </h1>
-        <div
-          v-for="(value, key) in inspector.state.currentItem.getParameters()"
-          :key="key"
-          class="flex gap-2"
-        >
-          <h1>{{ key }}</h1>
-          <h1>{{ value }}</h1>
-        </div>
       </section>
     </div>
 
@@ -353,10 +363,6 @@ section {
   @apply flex flex-col gap-1 p-3;
   /* border */
   @apply border-b-1 border-b-surface-600 border-t-transparent border-r-transparent border-l-transparent;
-
-  & button {
-    @apply bg-surface-800 mt-2 items-center flex justify-center gap-2 w-full hover:bg-accent hover:bg-opacity-10 hover:text-accent rounded-4px py-1.5;
-  }
 
   & li {
     @apply flex justify-between gap-2 items-center w-full;

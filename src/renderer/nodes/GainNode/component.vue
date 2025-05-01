@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Slider from "@/components/input/BaseSlider.vue";
+import DraggableModifierInput from "@/components/input/DraggableModifierInput.vue";
 import CustomNode from "@/components/nodes/CustomNode.vue";
 import type { AmethystGainNode } from ".";
 defineProps<{ node: AmethystGainNode }>();
@@ -10,16 +10,13 @@ defineProps<{ node: AmethystGainNode }>();
     :node="node"
     title="Gain"
   >
-    <p class="font-aseprite">
-      {{ (20 * Math.log10( node.gain)).toFixed(2) }} dB
-    </p>
-    <slider
+    <draggable-modifier-input 
       v-model="node.gain"
-      step="0.01"
-      max="3"
-      class="h-1.5"
-      min="0"
-      @mousedown.stop
+      :step="node.getParameters().gain.step"
+      :max="node.getParameters().gain.max"
+      :min="node.getParameters().gain.min"
+      :suffix="node.getParameters().gain.unit"
+      :default="node.getParameters().gain.default"
     />
   </custom-node>
 </template>

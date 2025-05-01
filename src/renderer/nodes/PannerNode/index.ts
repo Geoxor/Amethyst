@@ -34,6 +34,7 @@ export class AmethystPannerNode extends AmethystAudioNode {
   public override getParameters(): PannerNodeParameters {
     return {
       pan: {
+        step: 0.25,
         default: 0,
         max: 180,
         min: -180,

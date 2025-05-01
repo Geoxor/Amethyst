@@ -9,6 +9,7 @@ export interface NodeParameter<T> {
   current: T, // current
   min: T,
   max: T,
+  step: T,
   default: T,
   unit: string,
 }

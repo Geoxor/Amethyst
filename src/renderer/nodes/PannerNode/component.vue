@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import DraggableModifierInput from "@/components/input/DraggableModifierInput.vue";
 import CustomNode from "@/components/nodes/CustomNode.vue";
 import type { AmethystPannerNode } from ".";
+import Graphics from "./PannerGraphics.vue";
 defineProps<{ node: AmethystPannerNode }>();
-
 </script>
 
 <template>
@@ -11,13 +10,6 @@ defineProps<{ node: AmethystPannerNode }>();
     :node="node"
     title="Stereo Panner"
   >
-    <draggable-modifier-input 
-      v-model="node.pan"
-      :step="0.25"
-      :max="node.getParameters().pan.max"
-      :min="node.getParameters().pan.min"
-      :suffix="node.getParameters().pan.unit"
-      :default="node.getParameters().pan.default"
-    />
+    <graphics :pan="node.pan" />
   </custom-node>
 </template>

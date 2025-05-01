@@ -24,9 +24,10 @@ export class AmethystGainNode extends AmethystAudioNode {
   public override getParameters(): GainNodeParameters {
     return {
       gain: {
-        default: 1.0,
-        max: 2.0,
-        min: 0.0,
+        default: 0,
+        max: 16,
+        min: -128,
+        step: 0.1,
         current: this.gain,
         unit: "dB"
       },
@@ -38,11 +39,15 @@ export class AmethystGainNode extends AmethystAudioNode {
   }
 
   public get gain () {
-    return this.gainNode.gain.value;
+    return 20 * Math.log10( this.gainNode.gain.value);
   }
 
-  public set gain(gain: number) {
-    this.gainNode.gain.value = gain;
+  public set gain(dB: number) {
+    this.gainNode.gain.value = Math.pow(10, dB / 20);
+  }
+
+  public getDisplayValue() {
+    return this.gain.toFixed(2);
   }
 
   public override reset() {
