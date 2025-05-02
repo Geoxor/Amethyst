@@ -9,7 +9,8 @@ const props = defineProps<{
   analyser: AnalyserNode,
   uniforms?: Record<string, any>,
   pauseRendering?: boolean,
-  // TODO: Maybe add optional vertex shader?
+  width?: number,
+  height?: number,
 }>();
 
 const emit = defineEmits<{
@@ -22,8 +23,10 @@ let shouldDispose = false;
 
 const getDimensions = () => {
   const bounds = shaderCanvas.value?.parentElement?.getBoundingClientRect();
-  if (!bounds) return { width: 1, height: 1 };
-  return { width: bounds.width, height: bounds.height };
+  return {
+    width: props.width || bounds?.width || 1,
+    height: props.height || bounds?.height || 1
+  };
 };
 
 onUnmounted(() => {
