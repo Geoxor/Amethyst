@@ -115,6 +115,34 @@ const filteredMetadata = computed(() => {
           :node="inspector.state.currentItem"
         />
       </section>
+      <section audio>
+        <h1>
+          <icon
+            icon="ic:twotone-input"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('node.in_out') }}
+        </h1>
+        <span class="flex gap-2 h-32 justify-between items-center">
+          <db-meter
+            :key="inspector.state.currentItem.properties.id"
+            :node="inspector.state.currentItem.pre"
+            :channels="amethyst.player.getCurrentTrack()?.getChannels() || 2"
+          />
+          <icon
+            :icon="inspector.state.currentItem.properties.icon"
+            class="h-12 w-12"
+          />
+          <db-meter
+            v-if="!(inspector.state.currentItem instanceof AmethystOutputNode)"
+            :key="inspector.state.currentItem.properties.id"
+            :node="inspector.state.currentItem.post"
+            :channels="amethyst.player.getCurrentTrack()?.getChannels() || 2"
+          />
+          <span v-else />
+        </span>
+      </section>
+
       <section
         v-if="Object.values(inspector.state.currentItem.getParameters()).length != 0"
         parameters
@@ -149,33 +177,6 @@ const filteredMetadata = computed(() => {
             :options="value.options"
           />
         </div>
-      </section>
-      <section audio>
-        <h1>
-          <icon
-            icon="ic:twotone-input"
-            class="h-5-w-5 min-w-5 min-h-5"
-          />
-          {{ $t('node.in_out') }}
-        </h1>
-        <span class="flex gap-2 h-32 justify-between items-center">
-          <db-meter
-            :key="inspector.state.currentItem.properties.id"
-            :node="inspector.state.currentItem.pre"
-            :channels="amethyst.player.getCurrentTrack()?.getChannels() || 2"
-          />
-          <icon
-            :icon="inspector.state.currentItem.properties.icon"
-            class="h-12 w-12"
-          />
-          <db-meter
-            v-if="!(inspector.state.currentItem instanceof AmethystOutputNode)"
-            :key="inspector.state.currentItem.properties.id"
-            :node="inspector.state.currentItem.post"
-            :channels="amethyst.player.getCurrentTrack()?.getChannels() || 2"
-          />
-          <span v-else />
-        </span>
       </section>
     </div>
 
