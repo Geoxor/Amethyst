@@ -90,19 +90,6 @@ const filteredMetadata = computed(() => {
       v-if="inspector.state.currentItem instanceof AmethystAudioNode && inspector.state.currentItem"
       class="pb-10 h-full overflow-y-auto"
     >
-      <section properties>
-        <h1>
-          <icon
-            icon="ic:twotone-crop-16-9"
-            class="h-5-w-5 min-w-5 min-h-5"
-          />
-          {{ $t('node.properties') }}
-        </h1>
-        {{ inspector.state.currentItem.properties.name }}
-        <h2 class="text-text_subtitle">
-          {{ inspector.state.currentItem.properties.id }}
-        </h2>
-      </section>
       <section controls>
         <h1>
           <icon
@@ -177,6 +164,20 @@ const filteredMetadata = computed(() => {
             :options="value.options"
           />
         </div>
+      </section>
+
+      <section properties>
+        <h1>
+          <icon
+            icon="ic:twotone-crop-16-9"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('node.properties') }}
+        </h1>
+        {{ inspector.state.currentItem.properties.name }}
+        <h2 class="text-text_subtitle">
+          {{ inspector.state.currentItem.properties.id }}
+        </h2>
       </section>
     </div>
 
