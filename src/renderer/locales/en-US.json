@@ -155,8 +155,6 @@
   "settings.spectrum_analyser.description": "Displays the frequency spectrum of the audio signal using a graph, where the x-axis represents the frequency range and the y-axis represents the amplitude",
   "settings.spectrum_analyser.smoothing_duration.title" : "Smoothing duration",
   "settings.spectrum_analyser.smoothing_duration.description" : "Smoothly animate between data-frames (useful for smoothing small FFT sizes that create jitter)",
-  "settings.spectrum_analyser.use_spectrogram.title": "Spectrogram",
-  "settings.spectrum_analyser.use_spectrogram.description": "Replace the frequency spectrum with a spectrogram to view frequency changes over time",
 
   "settings.processing_concurrency.title": "Processing concurrency",
   "settings.processing_concurrency.description": "How many processing tasks will be used for parsing metadata in parallel",

@@ -166,14 +166,6 @@ import { FFT_SIZES } from "@shared/constants";
             suffix="smp"
           />
         </settings-setting>
-        <settings-setting
-          subsetting
-          :title="$t('settings.spectrum_analyser.use_spectrogram.title')"
-          :description="$t('settings.spectrum_analyser.use_spectrogram.description')"
-          icon="ic:baseline-water"
-        >
-          <toggle-switch v-model="amethyst.state.settings.value.useSpectrogram" />
-        </settings-setting>
       </div>
     </template>
   </settings-setting>
