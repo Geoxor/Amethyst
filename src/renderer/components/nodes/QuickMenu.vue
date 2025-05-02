@@ -16,7 +16,7 @@ const props = defineProps<{node: AmethystAudioNode}>();
         icon="ic:twotone-link-off"
         class="w-5 h-5"
       />
-      Unhook
+      {{ $t('node.unhook') }}
     </button>
     <button
       v-if="props.node.isBypassable"
@@ -28,7 +28,7 @@ const props = defineProps<{node: AmethystAudioNode}>();
         icon="ic:twotone-power-settings-new"
         class="w-5 h-5"
       />
-      Bypass
+      {{ $t('node.bypass') }}
     </button>
     <button
       v-if="props.node.isResettable"

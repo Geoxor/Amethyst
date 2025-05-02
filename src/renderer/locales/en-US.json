@@ -191,6 +191,8 @@
   "node.controls": "Controls",
   "node.parameters": "Parameters",
   "node.in_out": "Input/Output",
+  "node.unhook": "Unhook",
+  "node.bypass": "Bypass",
 
   "queue.column.cover": "Cover",
   "queue.column.favorite": "Favorite",
