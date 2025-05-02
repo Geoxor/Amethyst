@@ -3,6 +3,8 @@
     --text-subtitle: 188, 195, 177;                         /* #BCC3B1; */  
     --primary: 172, 228, 59;                                /* #ACE43B; */
     --accent: 97, 179, 123;                                 /* #61B37B; */
+    --inspector-color: 86, 184, 182;                        /* #56B8B6; */
+    --alert-color: 255, 230, 41;                            /* #ffe629; */
   
     --settings-setting-background: var(--surface-800);      
     --settings-subsetting-background: var(--surface-900);   

@@ -47,7 +47,6 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
       <div class="flex gap-2 items-center">
         <icon
           :icon="node.properties.icon"
-          class="text-green-400"
         />
         <h1 class="text-primary-600 uppercase text-11px flex-1">
           {{ title }}
@@ -55,7 +54,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
         <base-chip
           v-if="node.isBypassed"
           class="animate-pulse"
-          color="bg-red-500 text-red-500"
+          color="alert-color"
         >
           Bypassed
         </base-chip>

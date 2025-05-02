@@ -363,7 +363,7 @@ onKeyStroke("Delete", () => {
   }
 
   &.selected div {
-    @apply border-light-blue-400;
+    @apply border-inspector-color;
   }
 
   &.selected .minimenu {
@@ -372,7 +372,7 @@ onKeyStroke("Delete", () => {
 }
 
 .currentInspecting {
-  @apply border-light-blue-400;
+  @apply border-inspector-color;
 }
   
 .vue-flow__edge {

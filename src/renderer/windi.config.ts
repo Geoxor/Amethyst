@@ -31,6 +31,8 @@ export default defineConfig({
 				...returnColorVariable("playback-controls-text"),
 				...returnColorVariable("slider-background"),
 				...returnColorVariable("slider-fill"),
+				...returnColorVariable("alert-color"),
+				...returnColorVariable("inspector-color"),
 
 				///
 				text_title: cssVarRgbHelper("text-title"),

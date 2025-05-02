@@ -7,6 +7,9 @@
     /* buttons and stuff */
     --accent: 116, 161, 217;            /* #74A1D9 */
     /* spectrum, settings sliders, settings drop-down text, current page highlight and other stuff */
+    --inspector-color: var(--text-title);                   
+
+    --alert-color: 251, 129, 59;        /* #FB813B */
 
     --settings-setting-background: var(--surface-700);    
     /* main containers in settings (Theme, Ambient art etc.) */

@@ -60,7 +60,7 @@ const filteredMetadata = computed(() => {
     class="inspector text-12px top-16 right-2 overflow-hidden w-min-96 rounded-4px z-30 text-primary-900 h-full bg-surface-1000"
   >
     <div class="h-10 pl-3 flex w-full  justify-between items-center ">
-      <div class="flex gap-2 items-center text-light-blue-400">
+      <div class="flex gap-2 items-center text-inspector-color">
         <icon
           icon="mdi:flask"
           class="h-5-w-5 min-w-5 min-h-5"
@@ -69,7 +69,7 @@ const filteredMetadata = computed(() => {
           {{ $t('inspector.title') }}
         </h1>
         <base-chip
-          color="light-blue-400"
+          color="inspector-color"
           :icon="inspector.state.currentItem instanceof Track ? 'ic:twotone-audio-file' : 'mdi:resistor-nodes' "
         >
           {{ $t(getInspectableItemType(inspector.state.currentItem as any as Track)) }}

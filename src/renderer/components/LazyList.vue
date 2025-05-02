@@ -709,7 +709,7 @@ tr {
   }
 
   &.currentlyInspecting {
-    @apply text-light-blue-400 bg-light-blue-400 bg-opacity-10;
+    @apply text-inspector-color bg-inspector-color bg-opacity-10;
     &:hover {
       @apply bg-opacity-15;
     }
