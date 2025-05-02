@@ -160,6 +160,9 @@ const handleEnter = (e: KeyboardEvent) => {
       };
 
       shouldShowInputElement.value = false;
+
+      // refocus on main element incase the user wants to press enter again and re-edit
+      modifier.value?.focus();
     } else {
 
       inputValue.value = model.value;
@@ -188,7 +191,8 @@ const handleEnter = (e: KeyboardEvent) => {
       v-if="shouldShowInputElement"
       ref="inputElement"
       v-model.number="inputValue"
-      class="bg-transparent font-semibold w-16"
+      size="1"
+      class="bg-transparent font-semibold w-min ml-2"
     >
     <template v-else>
       <icon
