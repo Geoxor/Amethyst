@@ -2,6 +2,7 @@
 import {onMounted, onUnmounted, ref, watch} from "vue";
 import * as THREE from "three";
 import {logParabolicSpectrum} from "@/logic/math";
+import {VISUALIZER_BIN_COUNT} from "@shared/constants";
 
 const props = defineProps<{
   fragShader: string,
@@ -18,8 +19,6 @@ const emit = defineEmits<{
 
 const shaderCanvas = ref<HTMLCanvasElement>();
 let shouldDispose = false;
-
-const BIN_COUNT = 960;
 
 const getDimensions = () => {
   const bounds = shaderCanvas.value?.parentElement?.getBoundingClientRect();
@@ -42,7 +41,7 @@ onMounted(() => {
     uniforms: {
       u_time: {value: 0},
       u_resolution: {value: new THREE.Vector2()},
-      u_amplitudes: {value: new Float32Array(BIN_COUNT)},
+      u_amplitudes: {value: new Float32Array(VISUALIZER_BIN_COUNT)},
       ...props.uniforms,
     },
     vertexShader: `
@@ -64,7 +63,7 @@ onMounted(() => {
     material.uniforms.u_resolution.value.set(width, height);
     const spectrum = new Uint8Array(props.analyser.frequencyBinCount);
     props.analyser.getByteFrequencyData(spectrum);
-    material.uniforms.u_amplitudes.value = logParabolicSpectrum(spectrum, BIN_COUNT);
+    material.uniforms.u_amplitudes.value = logParabolicSpectrum(spectrum, VISUALIZER_BIN_COUNT);
     // Emitted to update custom uniforms before rendering
     emit("on-render", material.uniforms);
     renderer.render(scene, camera);
