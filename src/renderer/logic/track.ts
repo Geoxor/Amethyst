@@ -7,12 +7,12 @@ import FileSaver from "file-saver";
 import mime from "mime-types";
 import type { Amethyst } from "@/amethyst";
 import { favoriteTracks } from "@/amethyst";
-import { MusicBrainzApi } from 'musicbrainz-api';
+import { MusicBrainzApi } from "musicbrainz-api";
 
 const mbApi = new MusicBrainzApi({
-    appName: 'Amethyst',
-    appVersion: '2.0.7',
-    appContactInfo: 'todo@example.com',
+    appName: "Amethyst",
+    appVersion: "2.0.7",
+    appContactInfo: "todo@example.com",
 });
 
 /**
@@ -161,13 +161,13 @@ export class Track {
     if (result.count > 0)
     {
       const response = await (await fetch(`https://coverartarchive.org/release/${result.releases[0].id}`)).json();
-      for (let cover of response["images"]) {
+      for (const cover of response["images"]) {
         if (cover["front"]) {
           this.albumUrl = cover["image"].replace("http://", "https://");
         }
       }
     }
-  }
+  };
 
   /**
    * Fetches all async data concurrently

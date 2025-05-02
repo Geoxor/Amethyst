@@ -35,7 +35,7 @@ export class Discord {
 	}
 
 	public clearRichPresence(): void {
-		this.connected.then((check) => {
+		this.connected.then(check => {
 			if (check && !this.destroyed) {
 				this.client.clearActivity();
 			}
@@ -43,7 +43,7 @@ export class Discord {
 	}
 
 	public updateCurrentSong(title: string, duration: string, albumUrl: String, format?: FormatIcons): void {
-		this.connected.then((check) => {
+		this.connected.then(check => {
 			if (check && !this.destroyed) {
 				console.log(albumUrl);
 				this.client.setActivity({
