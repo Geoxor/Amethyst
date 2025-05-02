@@ -7,6 +7,7 @@ import {VISUALIZER_BIN_COUNT} from "@shared/constants";
 const props = defineProps<{
   fragShader: string,
   analyser: AnalyserNode,
+  vertexShader?: string,
   uniforms?: Record<string, any>,
   pauseRendering?: boolean,
   width?: number,
@@ -55,7 +56,7 @@ onMounted(() => {
       u_amplitudes: {value: new Float32Array(VISUALIZER_BIN_COUNT)},
       ...props.uniforms,
     },
-    vertexShader: `
+    vertexShader: props.vertexShader || `
       void main() {
         gl_Position = vec4(position, 1.0);
       }`,
