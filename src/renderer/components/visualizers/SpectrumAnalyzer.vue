@@ -16,10 +16,23 @@ const analyser = context.createAnalyser();
 
 props.node.connect(analyser);
 
-analyser.fftSize = amethyst.state.settings.value.spectrumFftSize;
-analyser.smoothingTimeConstant = amethyst.state.settings.value.spectrumSmoothing;
-watch(() => amethyst.state.settings.value.spectrumFftSize, () => analyser.fftSize = amethyst.state.settings.value.spectrumFftSize);
-watch(() => amethyst.state.settings.value.spectrumSmoothing, () => analyser.smoothingTimeConstant = amethyst.state.settings.value.spectrumSmoothing);
+const updateAnalyser = () => {
+  analyser.fftSize = props.spectrogram
+      ? amethyst.state.settings.value.spectrogram.fftSize
+      : amethyst.state.settings.value.spectrumFftSize;
+  analyser.smoothingTimeConstant = props.spectrogram
+      ? amethyst.state.settings.value.spectrogram.smoothing
+      : amethyst.state.settings.value.spectrumSmoothing;
+};
+
+updateAnalyser();
+
+watch(() => [
+    amethyst.state.settings.value.spectrumFftSize,
+    amethyst.state.settings.value.spectrumSmoothing,
+    amethyst.state.settings.value.spectrogram.fftSize,
+    amethyst.state.settings.value.spectrogram.smoothing
+], updateAnalyser);
 
 // Don't change these
 analyser.maxDecibels = -0;
