@@ -152,16 +152,20 @@ const inputElement = ref<HTMLInputElement>();
 
 const handleEnter = (e: KeyboardEvent) => {
   const INPUT_BEGIN_KEYS = ["-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
-  
+  const closeInput = () => isShowingInputElement.value = false;
+  if (e.key == "Escape") closeInput();
+
   // Start inputif the user clicks enter, or if they already begun typing in a value
   if (e.key == "Enter" || INPUT_BEGIN_KEYS.includes(e.key) && !isShowingInputElement.value) {
     if(isShowingInputElement.value) {
+
       // Check if input is a number
       if (Number.isFinite(inputValue.value )) {
-        model.value = inputValue.value;
+        // Clamp to min and max
+        model.value = Math.min(props.max, Math.max(inputValue.value, props.min));
       };
 
-      isShowingInputElement.value = false;
+      closeInput();
 
       // refocus on main element incase the user wants to press enter again and re-edit
       modifier.value?.focus();
@@ -175,9 +179,6 @@ const handleEnter = (e: KeyboardEvent) => {
         inputElement.value?.select();
       });
     }
-  }
-  if (e.key == "Escape") {
-    isShowingInputElement.value = false;
   }
 };
 
