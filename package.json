@@ -355,7 +355,7 @@
     "iso-3166-1": "^2.1.1",
     "iso-639-1": "^3.1.0",
     "mime-types": "^2.1.35",
-    "minimal-discord-rpc": "^1.0.2",
+    "minimal-discord-rpc": "^1.0.3",
     "mitt": "^3.0.0",
     "music-metadata-browser": "^2.5.10",
     "open": "8.4.2",
