@@ -34,9 +34,6 @@ onUnmounted(() => {
 onMounted(() => {
   if (!shaderCanvas.value) return;
 
-  const { width, height } = getDimensions();
-  if (!width || !height) return;
-
   const scene = new THREE.Scene();
   const camera = new THREE.OrthographicCamera();
   const renderer = new THREE.WebGLRenderer({canvas: shaderCanvas.value});
