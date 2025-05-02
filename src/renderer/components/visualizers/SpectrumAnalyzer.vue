@@ -58,7 +58,7 @@ const spectrumShader = `
   precision highp float;
 
   uniform vec2 u_resolution;
-  uniform float[960] u_amplitudes;
+  uniform float[${VISUALIZER_BIN_COUNT}] u_amplitudes;
   uniform vec3 u_color;
 
   void main(){
@@ -76,7 +76,7 @@ const spectrogramShader = `
 
   uniform vec2 u_resolution;
   uniform sampler2D u_backbuffer;
-  uniform float[960] u_amplitudes;
+  uniform float[${VISUALIZER_BIN_COUNT}] u_amplitudes;
   uniform vec3 u_color;
 
   void main(){
