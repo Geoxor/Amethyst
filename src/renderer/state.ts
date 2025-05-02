@@ -31,6 +31,7 @@ export class State extends EventEmitter<StateEvents> {
 		showCoverArt: true,
 		coverGridSize: 128,
 		showSpectrum: true,
+		useSpectrogram: false,
 		showBigSpectrum: false,
 		spectrumFftSize: 8192,
 		spectrumSmoothing: 0.5,
