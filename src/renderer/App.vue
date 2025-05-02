@@ -30,7 +30,7 @@ onUnmounted(() => {
 });
 
 watch(() => amethyst.state.settings.value.showBigSpectrum, () => {
-  window.electron.ipcRenderer.invoke("fullscreen");
+  amethyst.performWindowAction("fullscreen");
 });
 
 </script>
