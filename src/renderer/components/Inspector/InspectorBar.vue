@@ -99,6 +99,9 @@ const filteredMetadata = computed(() => {
           {{ $t('node.properties') }}
         </h1>
         {{ inspector.state.currentItem.properties.name }}
+        <h2 class="text-text_subtitle">
+          {{ inspector.state.currentItem.properties.id }}
+        </h2>
       </section>
       <section controls>
         <h1>
@@ -379,8 +382,14 @@ section {
   & li {
     @apply flex justify-between gap-2 items-center w-full;
   }
+
   & > h1 {
-    @apply text-accent pb-2 flex gap-2 items-center whitespace-pre;
+    @apply text-accent;
+  }
+
+  & > h1, 
+  & > h2 {
+    @apply pb-2 flex gap-2 items-center whitespace-pre;
   }
 
   & input,
