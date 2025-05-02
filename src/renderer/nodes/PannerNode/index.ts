@@ -25,10 +25,10 @@ export class AmethystPannerNode extends AmethystAudioNode {
     this.properties.icon = "ic:twotone-fiber-smart-record";
 
     this.panner = context.createStereoPanner();
-    this.panner.pan.value = 0;
-
     pre.connect(this.panner);
     this.panner.connect(post);
+
+    this.reset();
   }
 
   public override getParameters(): PannerNodeParameters {

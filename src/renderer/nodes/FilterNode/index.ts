@@ -42,9 +42,7 @@ export class AmethystFilterNode extends AmethystAudioNode {
     pre.connect(this.filter);
     this.filter.connect(post);
 
-    this.type = "lowpass";
-    this.frequency = 200;
-    this.q = 1;
+    this.reset();
   }
 
   public override getParameters(): FilterNodeParameters {
@@ -79,7 +77,7 @@ export class AmethystFilterNode extends AmethystAudioNode {
       type: {
         current: this.type,
         type: "string",
-        default: "notch",
+        default: "peaking",
         options: FILTER_TYPES
       },
     };
