@@ -27,6 +27,11 @@ export class State extends EventEmitter<StateEvents> {
 	});
 
 	public defaultSettings = {
+		spectrogram: {
+			show: true,
+			smoothing: 0.5,
+			fftSize: 8192,
+		},
 		showQueue: true,
 		showCoverArt: true,
 		coverGridSize: 128,

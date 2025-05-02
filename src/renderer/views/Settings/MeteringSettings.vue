@@ -169,4 +169,42 @@ import { FFT_SIZES } from "@shared/constants";
       </div>
     </template>
   </settings-setting>
+
+  <settings-setting
+    :title="$t('settings.spectrogram_analyser.title')"
+    icon="ic:baseline-water"
+    :description="$t('settings.spectrogram_analyser.description')"
+  >
+    <toggle-switch v-model="amethyst.state.settings.value.spectrogram.show" />
+    <template #subsettings>
+      <div class="p-2 flex flex-col gap-2">
+        <settings-setting
+          subsetting
+          :title="$t('settings.spectrum_analyser.smoothing_duration.title')"
+          :description="$t('settings.spectrum_analyser.smoothing_duration.description')"
+          icon="ic:twotone-access-time"
+        >
+          <slider-input
+            v-model="amethyst.state.settings.value.spectrogram.smoothing"
+            :min="0"
+            :max="1"
+            :step="0.01"
+            suffix="ms"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.fft_size.title')"
+          :description="$t('settings.fft_size.description')"
+          icon="ic:twotone-line-style"
+        >
+          <dropdown-input
+            v-model="amethyst.state.settings.value.spectrogram.fftSize"
+            :options="FFT_SIZES"
+            suffix="smp"
+          />
+        </settings-setting>
+      </div>
+    </template>
+  </settings-setting>
 </template>
