@@ -7,7 +7,7 @@ import { useContextMenu } from "@/components/ContextMenu";
 import { useInspector } from "@/components/Inspector";
 import type { AmethystAudioNode } from "@/logic/audio";
 import { getThemeColorHex } from "@/logic/color";
-import { AmethystEightBandEqualizerNode, AmethystFilterNode, AmethystGainNode, AmethystPannerNode, AmethystSpectrumNode } from "@/nodes";
+import { AmethystFilterNode, AmethystGainNode, AmethystPannerNode, AmethystSpectrumNode } from "@/nodes";
 import type { Coords } from "@shared/types";
 import { Background, BackgroundVariant } from "@vue-flow/additional-components";
 import type { Connection, EdgeMouseEvent, NodeDragEvent } from "@vue-flow/core";
@@ -104,14 +104,6 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
     icon: "ic:twotone-plus",
     action: () => {
       amethyst.player.nodeManager.addNode(new AmethystFilterNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })),
-      source && target && [source, target]);
-    }
-  },
-  {
-    title: "Add EightBandEqualizerNode",
-    icon: "ic:twotone-plus",
-    action: () => {
-      amethyst.player.nodeManager.addNode(new AmethystEightBandEqualizerNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })), 
       source && target && [source, target]);
     }
   },

@@ -4,7 +4,7 @@ import InspectorBar from "./InspectorBar.vue";
 import type { AmethystAudioNode } from "@/logic/audio";
 
 const instance = {
-  state: reactive<{currentItem: Track | AmethystAudioNode | undefined, isVisible: boolean}>({
+  state: reactive<{currentItem: Record<string, Track | AmethystAudioNode> | undefined, isVisible: boolean}>({
     currentItem: undefined,
     isVisible: false,
   }),

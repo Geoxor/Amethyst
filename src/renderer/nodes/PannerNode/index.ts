@@ -1,10 +1,10 @@
-import type { NodeParameter } from "@/logic/audio";
+import type { NodeParameters, NumberNodeParameter } from "@/logic/audio";
 import { AmethystAudioNode } from "@/logic/audio";
 import type { NodeProperties } from "@/logic/audioManager";
 import component from "./component.vue";
 
-interface PannerNodeParameters {
-  pan: NodeParameter<number>;
+interface PannerNodeParameters extends NodeParameters {
+  pan: NumberNodeParameter;
 }
 
 function clamp(input: number, min: number, max: number): number {
@@ -37,6 +37,7 @@ export class AmethystPannerNode extends AmethystAudioNode {
         step: 0.25,
         default: 0,
         max: 180,
+        type: "number",
         min: -180,
         current: this.pan,
         unit: "°"

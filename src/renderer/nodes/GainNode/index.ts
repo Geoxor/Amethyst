@@ -1,10 +1,10 @@
-import type { NodeParameter } from "@/logic/audio";
+import type { NodeParameters, NumberNodeParameter } from "@/logic/audio";
 import { AmethystAudioNode } from "@/logic/audio";
 import type { NodeProperties } from "@/logic/audioManager";
 import component from "./component.vue";
 
-interface GainNodeParameters {
-  gain: NodeParameter<number>;
+interface GainNodeParameters extends NodeParameters{
+  gain: NumberNodeParameter;
 }
 
 export class AmethystGainNode extends AmethystAudioNode {
@@ -26,6 +26,7 @@ export class AmethystGainNode extends AmethystAudioNode {
       gain: {
         default: 0,
         max: 16,
+        type: "number",
         min: -128,
         step: 0.1,
         current: this.gain,

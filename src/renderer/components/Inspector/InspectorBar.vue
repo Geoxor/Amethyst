@@ -15,6 +15,7 @@ import { useContextMenu } from "../ContextMenu";
 import CoverArt from "../CoverArt.vue";
 import DraggableModifierInput from "../input/DraggableModifierInput.vue";
 import QuickMenu from "../nodes/QuickMenu.vue";
+import DropdownInput from "../v2/DropdownInput.vue";
 
 const getInspectableItemType = (item: Track | AmethystAudioNode) => {
   if (item instanceof Track) return "inspector.inspecting_item_type.track";
@@ -121,6 +122,7 @@ const filteredMetadata = computed(() => {
           />
           {{ $t('node.parameters') }}
         </h1>
+
         <div
           v-for="(value, key) in inspector.state.currentItem.getParameters()"
           :key="key"
@@ -128,12 +130,19 @@ const filteredMetadata = computed(() => {
         >
           <h1>{{ key }}</h1>
           <draggable-modifier-input
+            v-if="value.type == 'number'"
             v-model="inspector.state.currentItem[key]"
             :step="value.step"
             :max="value.max"
             :min="value.min"
             :suffix="value.unit"
             :default="value.default"
+          />
+
+          <dropdown-input
+            v-else-if="value.type == 'string'"
+            v-model="inspector.state.currentItem[key]"
+            :options="value.options"
           />
         </div>
       </section>
