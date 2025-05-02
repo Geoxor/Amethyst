@@ -10,6 +10,5 @@ defineProps<{ node: AmethystInputNode }>();
     :node="node"
     title="Input"
     description="From source"
-    icon="ic:twotone-input"
   />
 </template>

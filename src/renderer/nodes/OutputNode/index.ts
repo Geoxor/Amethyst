@@ -92,10 +92,9 @@ function connectToFinalNode(amethyst: Amethyst, context: AudioContext, pre: Gain
 export class AmethystOutputNode extends AmethystAudioNode {
   public constructor(context: AudioContext, position: NodeProperties["position"], amethyst: Amethyst) {
     const pre = context.createGain();
-
     setTimeout(() => connectToFinalNode(amethyst, context, pre), 1000);
-
     super(pre, (null as any), "AmethystOutputNode", component, position, false, false, false);
+    this.properties.icon = "ic:twotone-output";
   }
 
   public override getParameters() {

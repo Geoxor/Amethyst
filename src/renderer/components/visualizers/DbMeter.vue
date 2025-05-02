@@ -98,7 +98,7 @@ onUnmounted(() => shouldStopRendering = true);
         />
 
         <div
-          :class="channelData[i - 1][0].value > 0 ?'bg-rose-600' : 'bg-slider-fill bg-opacity-50'"
+          :class="channelData[i - 1][0].value > 0 ?'bg-rose-600' : 'bg-slider-fill bg-opacity-80'"
           class="rounded-full duration-meter-user-defined absolute bottom-0"
           :style="`width: ${width}px; height: ${computedWidth(channelData[i - 1][0].value)}%`"
         />

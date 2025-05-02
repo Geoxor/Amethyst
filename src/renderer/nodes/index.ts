@@ -7,7 +7,6 @@ import { AmethystInputNode } from "./InputNode";
 import { AmethystSpectrumNode } from "./SpectrumNode";
 import { AmethystOutputNode } from "./OutputNode";
 import { AmethystMasterNode } from "./MasterNode";
-import { AmethystEightBandEqualizerNode } from "./EightBandEqualizerNode";
 
 export {
   AmethystGainNode,
@@ -15,7 +14,6 @@ export {
   AmethystPannerNode,
   AmethystInputNode,
   AmethystMasterNode,
-  AmethystEightBandEqualizerNode,
   AmethystOutputNode,
   AmethystSpectrumNode,
 };

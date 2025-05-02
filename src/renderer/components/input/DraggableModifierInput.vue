@@ -2,7 +2,7 @@
 <script lang="ts" setup>
 import { Icon } from "@iconify/vue";
 import { useVModel } from "@vueuse/core";
-import { computed, ref, watch } from "vue";
+import { computed, nextTick, ref, watch } from "vue";
 const props = defineProps({
   modelValue: {
     type: Number,
@@ -59,9 +59,8 @@ const displayValue = computed(() => {
 });
 // Sets model to 0 if alt is held. Otherwise sets dragging to true.
 const onMouseDown = (e: MouseEvent) => {
-  if (e.altKey) {
-    model.value = props.default;
-  }
+  checkForDoubleClick();
+  if (e.altKey) resetValue();
   else {
     modifier.value?.requestPointerLock({
       unadjustedMovement: true,
@@ -75,8 +74,29 @@ const onMouseDown = (e: MouseEvent) => {
     accumulatedDelta = 0;
     initialValue = model.value;
   }
-
 };
+
+let clicks = 0; // for checking double clicks
+let timer: NodeJS.Timeout; // so it can be accessed on both clicks
+
+const resetValue = () => model.value = props.default;
+
+const checkForDoubleClick = () => {
+  // Window to detect double click
+  const DOUBLE_CLICK_DETECT_WINDOW = 300;
+
+  timer = setTimeout(() => clicks = 0, DOUBLE_CLICK_DETECT_WINDOW);
+
+  if (clicks == 1) {
+    resetValue();
+    clicks = 0;
+    clearTimeout(timer);
+    return;
+  }
+
+  clicks++;
+};
+
 const roundNearestStep = (value: number) => {
   return Math.ceil(value / props.step) * props.step;
 };
@@ -122,28 +142,78 @@ watch(model, () => {
   pop.value = true;
   setTimeout(() => pop.value = false, 100);
 });
+
+import { onClickOutside } from "@vueuse/core";
+onClickOutside(modifier, () => isShowingInputElement.value = false);
+
+const isShowingInputElement = ref(false);
+const inputValue = ref(model.value);
+const inputElement = ref<HTMLInputElement>();
+
+const handleEnter = (e: KeyboardEvent) => {
+  const INPUT_BEGIN_KEYS = ["-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+  const closeInput = () => isShowingInputElement.value = false;
+  if (e.key == "Escape") closeInput();
+
+  // Start inputif the user clicks enter, or if they already begun typing in a value
+  if (e.key == "Enter" || INPUT_BEGIN_KEYS.includes(e.key) && !isShowingInputElement.value) {
+    if(isShowingInputElement.value) {
+
+      // Check if input is a number
+      if (Number.isFinite(inputValue.value )) {
+        // Clamp to min and max
+        model.value = Math.min(props.max, Math.max(inputValue.value, props.min));
+      };
+
+      closeInput();
+
+      // refocus on main element incase the user wants to press enter again and re-edit
+      modifier.value?.focus();
+    } else {
+
+      isShowingInputElement.value = true;
+
+      // Delay focusing because it takes some time to show the element first
+      nextTick(() => {
+        inputElement.value?.focus();
+        inputElement.value?.select();
+      });
+    }
+  }
+};
+
 </script>
 
 <template>
   <button
     ref="modifier"
-    class="modifier font-semibold duration-user-defined flex flex-col justify-center h-5 items-center w-16 leading-tight rounded-full py-1 px-2 bg-accent text-accent bg-opacity-15"
+    class="modifier font-semibold duration-user-defined flex flex-col justify-center h-5 items-center min-w-16 leading-tight rounded-full py-1 px-2 bg-accent text-accent bg-opacity-15"
     @mousedown.stop.passive="onMouseDown"
     @mouseup.stop.passive="dragging = false"
+    @keydown="handleEnter"
   >
-    <icon
-      icon="ic:baseline-arrow-drop-up"
-      class="w-5 h-5 min-w-5 min-h-5 text-accent text-opacity-25"
-    />
-    <div :class="{ pop }">
-      <h1>
-        {{ prefix }} {{ displayValue }} {{ suffix }}
-      </h1>
-    </div>
-    <icon
-      icon="ic:baseline-arrow-drop-down"
-      class="w-5 h-5 min-w-5 min-h-5 text-accent text-opacity-25"
-    />
+    <input
+      v-if="isShowingInputElement"
+      ref="inputElement"
+      v-model.number="inputValue"
+      size="5"
+      class="bg-transparent font-semibold text-center"
+    >
+    <template v-else>
+      <icon
+        icon="ic:baseline-arrow-drop-up"
+        class="w-5 h-5 min-w-5 min-h-5 text-accent text-opacity-25"
+      />
+      <div :class="{ pop }">
+        <h1>
+          {{ prefix }} {{ displayValue }} {{ suffix }}
+        </h1>
+      </div>
+      <icon
+        icon="ic:baseline-arrow-drop-down"
+        class="w-5 h-5 min-w-5 min-h-5 text-accent text-opacity-25"
+      />
+    </template>
   </button>
 </template>
 

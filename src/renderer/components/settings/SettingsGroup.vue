@@ -27,7 +27,7 @@ defineProps<{ text: string, description?: string, warning?: string, icon?: any, 
           </div>
           <p
             v-if="description"
-            class="opacity-50 text-9px whitespace-pre-line"
+            class="opacity-50 text-11px whitespace-pre-line"
           >
             {{ description }}
           </p>

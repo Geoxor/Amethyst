@@ -144,7 +144,7 @@ const AVAILABLE_THEMES = [
           <slider-input
             v-model="amethyst.state.settings.value.ambientBackgroundOpacity"
             :min="0"
-            :max="100"
+            :max="50"
             :step="2.5"
             suffix="%"
           />
