@@ -46,7 +46,7 @@ export class Discord {
 		this.connected.then((check) => {
 			if (check && !this.destroyed) {
 				this.client.setActivity({
-					type: ActivityType.Playing,
+					type: ActivityType.Listening,
 					details: title,
 					state: `${seek} - ${duration}`,
 					timestamps: {
