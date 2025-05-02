@@ -38,7 +38,7 @@ amethyst.state.on("theme:change", () => {
   uniformData.u_color.value = spectrumColor;
 });
 
-const SpectrumShader = `
+const spectrumShader = `
   precision highp float;
 
   uniform vec2 u_resolution;
@@ -55,7 +55,7 @@ const SpectrumShader = `
     gl_FragColor = vec4(u_color * underCurve, underCurve);
   }`;
 
-const SpectrogramShader = `
+const spectrogramShader = `
   precision highp float;
 
   uniform vec2 u_resolution;
@@ -79,7 +79,7 @@ const SpectrogramShader = `
 
 const shouldPause = () => amethyst.state.settings.value.pauseVisualsWhenUnfocused && !amethyst.state.window.isFocused;
 
-const getShader = () => amethyst.state.settings.value.useSpectrogram ? SpectrogramShader : SpectrumShader;
+const getShader = () => amethyst.state.settings.value.useSpectrogram ? spectrogramShader : spectrumShader;
 
 </script>
 
