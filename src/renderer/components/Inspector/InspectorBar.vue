@@ -60,7 +60,7 @@ const filteredMetadata = computed(() => {
     class="inspector text-12px top-16 right-2 overflow-hidden w-min-96 rounded-4px z-30 text-primary-900 h-full bg-surface-1000"
   >
     <div class="h-10 pl-3 flex w-full  justify-between items-center ">
-      <div class="flex gap-2 items-center text-light-blue-400">
+      <div class="flex gap-2 items-center text-inspector-color">
         <icon
           icon="mdi:flask"
           class="h-5-w-5 min-w-5 min-h-5"
@@ -69,7 +69,7 @@ const filteredMetadata = computed(() => {
           {{ $t('inspector.title') }}
         </h1>
         <base-chip
-          color="light-blue-400"
+          color="inspector-color"
           :icon="inspector.state.currentItem instanceof Track ? 'ic:twotone-audio-file' : 'mdi:resistor-nodes' "
         >
           {{ $t(getInspectableItemType(inspector.state.currentItem as any as Track)) }}
@@ -90,19 +90,6 @@ const filteredMetadata = computed(() => {
       v-if="inspector.state.currentItem instanceof AmethystAudioNode && inspector.state.currentItem"
       class="pb-10 h-full overflow-y-auto"
     >
-      <section properties>
-        <h1>
-          <icon
-            icon="ic:twotone-crop-16-9"
-            class="h-5-w-5 min-w-5 min-h-5"
-          />
-          {{ $t('node.properties') }}
-        </h1>
-        {{ inspector.state.currentItem.properties.name }}
-        <h2 class="text-text_subtitle">
-          {{ inspector.state.currentItem.properties.id }}
-        </h2>
-      </section>
       <section controls>
         <h1>
           <icon
@@ -126,6 +113,7 @@ const filteredMetadata = computed(() => {
         <span class="flex gap-2 h-32 justify-between items-center">
           <db-meter
             :key="inspector.state.currentItem.properties.id"
+            pre
             :node="inspector.state.currentItem.pre"
             :channels="amethyst.player.getCurrentTrack()?.getChannels() || 2"
           />
@@ -136,6 +124,7 @@ const filteredMetadata = computed(() => {
           <db-meter
             v-if="!(inspector.state.currentItem instanceof AmethystOutputNode)"
             :key="inspector.state.currentItem.properties.id"
+            post
             :node="inspector.state.currentItem.post"
             :channels="amethyst.player.getCurrentTrack()?.getChannels() || 2"
           />
@@ -177,6 +166,20 @@ const filteredMetadata = computed(() => {
             :options="value.options"
           />
         </div>
+      </section>
+
+      <section properties>
+        <h1>
+          <icon
+            icon="ic:twotone-crop-16-9"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('node.properties') }}
+        </h1>
+        {{ inspector.state.currentItem.properties.name }}
+        <h2 class="text-text_subtitle">
+          {{ inspector.state.currentItem.properties.id }}
+        </h2>
       </section>
     </div>
 

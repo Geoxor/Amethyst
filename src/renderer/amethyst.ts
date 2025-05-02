@@ -470,7 +470,7 @@ export class Amethyst extends AmethystBackend {
     document.body.style.zoom = newZoom.toString();
   }
 
-  public performWindowAction(action: "close" | "maximize" | "unmaximize" | "minimize"): void {
+  public performWindowAction(action: "close" | "maximize" | "unmaximize" | "minimize" | "fullscreen"): void {
     if (this.getCurrentPlatform() === "desktop") {
       window.electron.ipcRenderer.invoke(action).then(() => this.syncWindowState());
     } else {
@@ -479,9 +479,10 @@ export class Amethyst extends AmethystBackend {
   }
 
   private syncWindowState = async () => {
-    const windowState = await window.electron.ipcRenderer.invoke<{ isMinimized: boolean; isMaximized: boolean }>("sync-window-state");
+    const windowState = await window.electron.ipcRenderer.invoke<{ isMinimized: boolean; isMaximized: boolean, isFullscreen: boolean }>("sync-window-state");
     this.state.window.isMinimized = windowState.isMinimized;
     this.state.window.isMaximized = windowState.isMaximized;
+    this.state.window.isFullscreen = windowState.isFullscreen;
   };
 
   private async initMobile() {

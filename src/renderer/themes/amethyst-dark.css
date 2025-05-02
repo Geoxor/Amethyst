@@ -4,6 +4,8 @@
   --text-subtitle: 137, 139, 184;                         /* #898dc7; */
   --primary: 218, 116, 254;                               /* #da74fe; */
   --accent: 134, 138, 255;                                /* #868aff; */
+  --inspector-color: 56, 189, 248;                        /* #38bdf8; */
+  --alert-color: 255, 73, 103;                            /* #FF4967; */
 
   --settings-setting-background: 20, 22, 33;              /* #141621 */
   --settings-subsetting-background: 16, 17, 25;           /* #101119 */

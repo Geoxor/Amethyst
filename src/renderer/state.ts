@@ -23,6 +23,7 @@ export class State extends EventEmitter<StateEvents> {
 		isFocused: true,
 		isCheckingForUpdates: false,
 		isMaximized: false,
+		isFullscreen: false,
 		isShowingBigCover: false,
 		updateReady: false,
 	});

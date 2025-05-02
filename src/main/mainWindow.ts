@@ -315,6 +315,7 @@ export class MainWindow {
 				return {
 					isMinimized: this.window.isMinimized(),
 					isMaximized: this.window.isMaximized(),
+					isFullscreen: this.window.isFullScreen(),
 				};
 			},
 

@@ -1,5 +1,4 @@
-import type { Presence } from "discord-rpc";
-import { Client } from "discord-rpc";
+import { Client, ActivityType } from "minimal-discord-rpc";
 import { APP_VERSION } from "./mainWindow";
 
 const DISCORD_CLIENT_ID = "976036303156162570"; 
@@ -13,48 +12,60 @@ export class Discord {
 
 	private destroyed: boolean;
 
+	private timestamp: number;
+
 	constructor() {
-		this.client = new Client({ transport: "ipc" });
+		this.client = new Client({ clientId: DISCORD_CLIENT_ID });
+
 		this.connected = this.connect();
 		this.destroyed = false;
+		this.timestamp = Date.now();
 
 		this.client.on("ready", () => {
 			// Do something when ready
 		});
-		this.client.once("disconnected", () => this.destroyed = true);
+		this.client.on("disconnected", () => this.destroyed = true);
 	}
 
 	public connect(): Promise<boolean> {
 		return new Promise(resolve => {
 			// The app will crash with status 3489660927 if the RPC won't connect unless rate limited
-			this.client.login({
-				clientId: DISCORD_CLIENT_ID,
-			}).then(() => resolve(true)).catch(() => resolve(false));
+			this.client.login().then(() => resolve(true)).catch(() => resolve(false));
 		});
 	}
 
 	public clearRichPresence(): void {
-		this.connected.then(check => check && !this.destroyed && this.client.clearActivity());
-	}
-
-	public updateRichPresence(args: Presence): void {
-		this.connected.then(check => check && !this.destroyed && this.client.setActivity(args));
+		this.connected.then((check) => {
+			if (check && !this.destroyed) {
+				this.client.clearActivity();
+			}
+		});
 	}
 
 	public updateCurrentSong(title: string, duration: string, seek: string, format?: FormatIcons): void {
-		this.connected.then(check => check && !this.destroyed && this.updateRichPresence({
-			state: `${seek} - ${duration}`,
-			details: title,
-			largeImageKey: "audio_file",
-			largeImageText: format?.toUpperCase() || "Unknown Format",
-			smallImageKey: "logo",
-			smallImageText: `Amethyst v${APP_VERSION}\n`,
-			buttons: [
-				{
-					label: "Find Song",
-					url: `https://www.youtube.com/results?search_query=${encodeURIComponent(title)}`,
-				},
-			],
-		}));
+		this.connected.then((check) => {
+			if (check && !this.destroyed) {
+				this.client.setActivity({
+					type: ActivityType.Listening,
+					details: title,
+					state: `${seek} - ${duration}`,
+					timestamps: {
+						start: this.timestamp,
+					},
+					assets: {
+						large_image: "audio_file",
+						large_text: format?.toUpperCase() || "Unknown Format",
+						small_image: "logo",
+						small_text: `Amethyst v${APP_VERSION}\n`,
+					},
+					buttons: [
+						{
+							label: "Find Song",
+							url: `https://www.youtube.com/results?search_query=${encodeURIComponent(title)}`,
+						},
+					]
+				});
+			}
+		});
 	}
 }
