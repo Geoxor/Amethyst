@@ -361,7 +361,7 @@
     "open": "8.4.2",
     "pidusage": "^3.0.2",
     "pretty-ms": "^8.0.0",
-    "sharp": "^0.34.1",
+    "sharp": "^0.31.3",
     "subsonic-api": "^2.0.2",
     "systeminformation": "^5.25.11",
     "three": "^0.152.1",
