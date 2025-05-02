@@ -4,16 +4,14 @@ import { amethyst } from "@/amethyst";
 import CoverArt from "@/components/CoverArt.vue";
 import ShaderCanvas from "@/components/ShaderCanvas.vue";
 
-const props = defineProps<{
+defineProps<{
   ambientBackgroundImage?: string,
-  node: AudioNode
 }>();
 
-// TODO: Maybe use a global analyser for all visuals (e.g. in player.ts)?
-const context = props.node.context;
+const context = amethyst.player.nodeManager.master.pre.context;
 const analyser = context.createAnalyser();
 
-props.node.connect(analyser);
+amethyst.player.nodeManager.master.pre.connect(analyser);
 
 analyser.fftSize = amethyst.state.settings.value.spectrumFftSize;
 analyser.smoothingTimeConstant = amethyst.state.settings.value.spectrumSmoothing;
