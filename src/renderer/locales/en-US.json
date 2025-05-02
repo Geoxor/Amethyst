@@ -7,12 +7,12 @@
   "output_diagram.source.title": "Source",
   "output_diagram.decoder.title": "Decoder",
   "output_diagram.dsp.title": "DSP",
-  "output_diagram.audio_device.title": "Audio Device",
+  "output_diagram.audio_device.title": "Audio device",
   "output_diagram.output.title": "Output",
   "output_diagram.resampler.title": "Resampler",
   "output_diagram.os_api.title": "API",
   
-  "output_breakdown.title": "Output Breakdown",
+  "output_breakdown.title": "Output breakdown",
 
   "menu.file": "File",
   "menu.file.open_audio": "Open audio...",
@@ -43,7 +43,7 @@
   "settings.local_sources.description": "Add local folders to your Amethyst library, these will update whenever Amethyst detects new or modified files",
   "settings.local_sources.add_folder": "Add folder",
   "settings.local_sources.view": "View",
-  "settings.media_source_type.local_folder": "Local Folder",
+  "settings.media_source_type.local_folder": "Local folder",
 
   "settings.appearance.title": "Appearance",
   "settings.appearance.description": "Background, themes and accessibility",
@@ -60,7 +60,7 @@
   "settings.audio.title": "Audio",
   "settings.audio.description": "Output devices and presets",
   
-  "settings.media_sources.title": "Media Sources",
+  "settings.media_sources.title": "Media sources",
   "settings.media_sources.description": "Local folders, servers and more",
   
   "settings.keybinds.title": "Keybinds",
@@ -160,7 +160,7 @@
 
   "settings.vsync.title": "VSync",
   "settings.vsync.description": "Constrains the user interface (UI) framerate of Amethyst to the refresh rate of the active display",
-  "settings.vsync.warning": "Restart Required",
+  "settings.vsync.warning": "Restart required",
 
   "settings.fetch_metadata_on_startup.title": "Fetch metadata on startup",
   "settings.fetch_metadata_on_startup.description": "Fetch metadata of all songs in queue on startup, this function is delayed by 1 second (experimental)",
