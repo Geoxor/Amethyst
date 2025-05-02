@@ -144,29 +144,30 @@ watch(model, () => {
 });
 
 import { onClickOutside } from "@vueuse/core";
-onClickOutside(modifier, () => shouldShowInputElement.value = false);
+onClickOutside(modifier, () => isShowingInputElement.value = false);
 
-const shouldShowInputElement = ref(false);
+const isShowingInputElement = ref(false);
 const inputValue = ref(model.value);
 const inputElement = ref<HTMLInputElement>();
 
 const handleEnter = (e: KeyboardEvent) => {
-  if (e.key == "Enter") {
-    if(shouldShowInputElement.value) {
+  const INPUT_BEGIN_KEYS = ["-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
+  
+  // Start inputif the user clicks enter, or if they already begun typing in a value
+  if (e.key == "Enter" || INPUT_BEGIN_KEYS.includes(e.key) && !isShowingInputElement.value) {
+    if(isShowingInputElement.value) {
       // Check if input is a number
-
       if (Number.isFinite(inputValue.value )) {
         model.value = inputValue.value;
       };
 
-      shouldShowInputElement.value = false;
+      isShowingInputElement.value = false;
 
       // refocus on main element incase the user wants to press enter again and re-edit
       modifier.value?.focus();
     } else {
 
-      inputValue.value = model.value;
-      shouldShowInputElement.value = true;
+      isShowingInputElement.value = true;
 
       // Delay focusing because it takes some time to show the element first
       nextTick(() => {
@@ -174,6 +175,9 @@ const handleEnter = (e: KeyboardEvent) => {
         inputElement.value?.select();
       });
     }
+  }
+  if (e.key == "Escape") {
+    isShowingInputElement.value = false;
   }
 };
 
@@ -188,11 +192,11 @@ const handleEnter = (e: KeyboardEvent) => {
     @keydown="handleEnter"
   >
     <input
-      v-if="shouldShowInputElement"
+      v-if="isShowingInputElement"
       ref="inputElement"
       v-model.number="inputValue"
-      size="1"
-      class="bg-transparent font-semibold w-min ml-2"
+      size="5"
+      class="bg-transparent font-semibold text-center"
     >
     <template v-else>
       <icon
