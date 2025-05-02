@@ -47,7 +47,7 @@ const SpectrumShader = `
 
   void main(){
     vec2 uv = gl_FragCoord.xy / u_resolution;
-    float amplitude = 2.0 * u_amplitudes[int(uv.x * float(u_amplitudes.length()))];
+    float amplitude = u_amplitudes[int(uv.x * float(u_amplitudes.length()))];
     float underCurve = 0.0;
     if(uv.y <= amplitude) {
       underCurve = 1.0;

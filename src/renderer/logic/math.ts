@@ -34,7 +34,7 @@ export const logParabolicSpectrum = (
 
     const y = a * t * t + b * t + c;
 
-    result[i] = y / 512.0;
+    result[i] = y / 256.0;
   }
 
   return result;
