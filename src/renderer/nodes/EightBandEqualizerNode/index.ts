@@ -16,6 +16,7 @@ export class AmethystEightBandEqualizerNode extends AmethystAudioNode {
     const pre = context.createGain();
     const post = context.createGain();
     super(pre, post,"AmethystEightBandEqualizerNode", component, position);
+    this.properties.icon = "ic:twotone-filter-list";
 
     for (let i = 0; i < 8; i++) {
       const eq = context.createBiquadFilter();

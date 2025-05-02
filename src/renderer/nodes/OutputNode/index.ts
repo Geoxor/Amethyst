@@ -8,6 +8,7 @@ export class AmethystOutputNode extends AmethystAudioNode {
     const post = context.destination;
     pre.connect(post);
     super(pre, (post as any), "AmethystOutputNode", component, position, false, false, false);
+    this.properties.icon = "ic:twotone-output";
   }
 
   public override getParameters() {

@@ -187,6 +187,11 @@
   "inspector.inspecting_item_type.node": "Node",
   "inspector.inspecting_item_type.unknown": "Unknown",
 
+  "node.properties": "Properties",
+  "node.controls": "Controls",
+  "node.parameters": "Parameters",
+  "node.in_out": "Input/Output",
+
   "queue.column.cover": "Cover",
   "queue.column.favorite": "Favorite",
   "queue.column.location": "Location",

@@ -26,7 +26,7 @@ import NavigationButton from "@/components/NavigationButton.vue";
     /> -->
 
     <navigation-button
-      icon="ic:twotone-format-list-bulleted"
+      icon="mdi:resistor-nodes"
       route-name="node-editor"
     />
 

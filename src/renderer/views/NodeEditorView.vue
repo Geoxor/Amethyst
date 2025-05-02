@@ -4,12 +4,13 @@ import BaseToolbar from "@/components/BaseToolbar.vue";
 import BaseToolbarButton from "@/components/BaseToolbarButton.vue";
 import BaseToolbarSplitter from "@/components/BaseToolbarSplitter.vue";
 import { useContextMenu } from "@/components/ContextMenu";
+import { useInspector } from "@/components/Inspector";
 import type { AmethystAudioNode } from "@/logic/audio";
 import { getThemeColorHex } from "@/logic/color";
-import { AmethystEightBandEqualizerNode, AmethystFilterNode, AmethystGainNode, AmethystPannerNode, AmethystSpectrumNode } from "@/nodes";
+import { AmethystFilterNode, AmethystGainNode, AmethystPannerNode, AmethystSpectrumNode } from "@/nodes";
 import type { Coords } from "@shared/types";
 import { Background, BackgroundVariant } from "@vue-flow/additional-components";
-import type { Connection, EdgeMouseEvent, NodeDragEvent} from "@vue-flow/core";
+import type { Connection, EdgeMouseEvent, NodeDragEvent } from "@vue-flow/core";
 import { VueFlow } from "@vue-flow/core";
 import { onKeyStroke } from "@vueuse/core";
 import { computed, onMounted, onUnmounted, ref } from "vue";
@@ -103,14 +104,6 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
     icon: "ic:twotone-plus",
     action: () => {
       amethyst.player.nodeManager.addNode(new AmethystFilterNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })),
-      source && target && [source, target]);
-    }
-  },
-  {
-    title: "Add EightBandEqualizerNode",
-    icon: "ic:twotone-plus",
-    action: () => {
-      amethyst.player.nodeManager.addNode(new AmethystEightBandEqualizerNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })), 
       source && target && [source, target]);
     }
   },
@@ -311,10 +304,17 @@ onKeyStroke("Delete", () => {
         :key="node.properties.id"
         #[node.getSlotName()]
       >
-        <component
-          :is="node.component"
-          :node="node"
-        />
+        <span
+          @click="useInspector().inspectAndShow(node)"
+        >
+          <component
+            :is="node.component"
+            :node="node"
+            :class="[
+              useInspector().state.isVisible && (useInspector().state.currentItem == node as any) && 'currentlyInspecting',
+            ]"
+          />
+        </span>
       </template>
     </vue-flow>
   </div>
@@ -358,18 +358,23 @@ onKeyStroke("Delete", () => {
       @apply visible opacity-100;
     }
   }
-  &:hover > div {
+  &:hover div {
     @apply border-accent border-opacity-50;
   }
 
-  &.selected > div {
-    @apply border-accent;
+  &.selected div {
+    @apply border-light-blue-400;
   }
+
   &.selected .minimenu {
     @apply visible opacity-100;
   }
 }
 
+.currentInspecting {
+  @apply border-light-blue-400;
+}
+  
 .vue-flow__edge {
   path {
     @apply stroke-surface-400 duration-100 transition-colors;

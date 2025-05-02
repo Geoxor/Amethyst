@@ -5,6 +5,27 @@ import type { Connection, NodeProperties } from "./audioManager";
 import { v4 as uuidv4 } from "uuid";
 import { amethyst } from "@/amethyst";
  
+export interface NodeParameter<T> {
+  type: "number" | "string",
+  current: T;
+  default: T;
+}
+
+export interface NumberNodeParameter extends NodeParameter<number> {
+  type: "number",
+  min: number;
+  max: number;
+  step: number;
+  unit: string;
+}
+
+export interface StringNodeParameter<T extends String> extends NodeParameter<T> {
+  type: "string",
+  options: T[];
+}
+
+export type NodeParameters = Record<string, NumberNodeParameter | StringNodeParameter<any>>;
+
 export class AmethystAudioNode {
   public properties: NodeProperties;
   public connections: Connection[] = [];
@@ -21,6 +42,7 @@ export class AmethystAudioNode {
       type: `custom-${id}`,
       position,
       sourcePosition: Position.Right,
+      icon: "ic-twotone-volume-up",
     };
     this.component = markRaw(component);
   }
@@ -118,11 +140,11 @@ export class AmethystAudioNode {
     this.properties.position = newPosition;
   }
 
-  public getParameters(): object {
+  public getParameters(): NodeParameters {
     throw new Error("Not implemented");
   };
 
-  public applyParameters(parameters: object) {
+  public applyParameters(parameters: NodeParameters) {
     throw new Error("Not implemented");
   }
 

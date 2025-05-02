@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
 import LoadingIcon from "@/components/v2/LoadingIcon.vue";
+import DbMeter from "@/components/visualizers/DbMeter.vue";
 import { AmethystAudioNode } from "@/logic/audio";
 import { Track } from "@/logic/track";
+import { AmethystOutputNode } from "@/nodes";
 import { Icon } from "@iconify/vue";
 import { bytesToHuman } from "@shared/formating";
 import { removeEmptyObjects } from "@shared/logic";
@@ -11,6 +13,9 @@ import { useInspector } from ".";
 import BaseChip from "../BaseChip.vue";
 import { useContextMenu } from "../ContextMenu";
 import CoverArt from "../CoverArt.vue";
+import DraggableModifierInput from "../input/DraggableModifierInput.vue";
+import QuickMenu from "../nodes/QuickMenu.vue";
+import DropdownInput from "../v2/DropdownInput.vue";
 
 const getInspectableItemType = (item: Track | AmethystAudioNode) => {
   if (item instanceof Track) return "inspector.inspecting_item_type.track";
@@ -20,7 +25,9 @@ const getInspectableItemType = (item: Track | AmethystAudioNode) => {
 
 const inspector = useInspector();
 const handlePlay = (track: Track) => {
-  inspector.inspect(track);
+  if (inspector.state.currentItem instanceof Track) {
+    inspector.inspect(track);
+  }
 };
 
 onMounted(() => {
@@ -61,7 +68,10 @@ const filteredMetadata = computed(() => {
         <h1 class="font-zen-dots text-13px">
           {{ $t('inspector.title') }}
         </h1>
-        <base-chip color="light-blue-400">
+        <base-chip
+          color="light-blue-400"
+          :icon="inspector.state.currentItem instanceof Track ? 'ic:twotone-audio-file' : 'mdi:resistor-nodes' "
+        >
           {{ $t(getInspectableItemType(inspector.state.currentItem as any as Track)) }}
         </base-chip>
       </div>
@@ -74,6 +84,100 @@ const filteredMetadata = computed(() => {
           class="utilityButton cursor-pointer"
         />
       </button>
+    </div>
+
+    <div
+      v-if="inspector.state.currentItem instanceof AmethystAudioNode && inspector.state.currentItem"
+      class="pb-10 h-full overflow-y-auto"
+    >
+      <section properties>
+        <h1>
+          <icon
+            icon="ic:twotone-crop-16-9"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('node.properties') }}
+        </h1>
+        {{ inspector.state.currentItem.properties.name }}
+        <h2 class="text-text_subtitle">
+          {{ inspector.state.currentItem.properties.id }}
+        </h2>
+      </section>
+      <section controls>
+        <h1>
+          <icon
+            icon="ic:twotone-settings"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('node.controls') }}
+        </h1>
+        <quick-menu
+          :node="inspector.state.currentItem"
+        />
+      </section>
+      <section audio>
+        <h1>
+          <icon
+            icon="ic:twotone-input"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('node.in_out') }}
+        </h1>
+        <span class="flex gap-2 h-32 justify-between items-center">
+          <db-meter
+            :key="inspector.state.currentItem.properties.id"
+            :node="inspector.state.currentItem.pre"
+            :channels="amethyst.player.getCurrentTrack()?.getChannels() || 2"
+          />
+          <icon
+            :icon="inspector.state.currentItem.properties.icon"
+            class="h-12 w-12"
+          />
+          <db-meter
+            v-if="!(inspector.state.currentItem instanceof AmethystOutputNode)"
+            :key="inspector.state.currentItem.properties.id"
+            :node="inspector.state.currentItem.post"
+            :channels="amethyst.player.getCurrentTrack()?.getChannels() || 2"
+          />
+          <span v-else />
+        </span>
+      </section>
+
+      <section
+        v-if="Object.values(inspector.state.currentItem.getParameters()).length != 0"
+        parameters
+      >
+        <h1>
+          <icon
+            icon="solar:volume-knob-broken"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('node.parameters') }}
+        </h1>
+
+        <div
+          v-for="(value, key) in inspector.state.currentItem.getParameters()"
+          :key="key"
+          class="flex gap-2 items-center my-2 justify-between"
+        >
+          <h1>{{ key }}</h1>
+          <draggable-modifier-input
+            v-if="value.type == 'number'"
+            v-model="inspector.state.currentItem[key]"
+            :step="value.step"
+            :max="value.max"
+            :min="value.min"
+            :suffix="value.unit"
+            :default="value.default"
+          />
+
+          <dropdown-input
+            v-else-if="value.type == 'string'"
+            v-model="inspector.state.currentItem[key]"
+            :options="value.options"
+          />
+        </div>
+      </section>
     </div>
 
     <div
@@ -276,15 +380,17 @@ section {
   /* border */
   @apply border-b-1 border-b-surface-600 border-t-transparent border-r-transparent border-l-transparent;
 
-  & button {
-    @apply bg-surface-800 mt-2 items-center flex justify-center gap-2 w-full hover:bg-accent hover:bg-opacity-10 hover:text-accent rounded-4px py-1.5;
-  }
-
   & li {
     @apply flex justify-between gap-2 items-center w-full;
   }
+
   & > h1 {
-    @apply text-accent pb-2 flex gap-2 items-center whitespace-pre;
+    @apply text-accent;
+  }
+
+  & > h1, 
+  & > h2 {
+    @apply pb-2 flex gap-2 items-center whitespace-pre;
   }
 
   & input,

@@ -11,6 +11,5 @@ defineProps<{ node: AmethystAudioNode }>();
     :node="node"
     title="Master"
     description="To Outputs"
-    icon="ic:twotone-mediation"
   />
 </template>

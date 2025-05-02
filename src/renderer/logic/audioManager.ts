@@ -28,6 +28,7 @@ export interface NodeProperties {
   type: `custom-${string}`,
   position: Coords,
   sourcePosition: SourcePosition,
+  icon: string,
 };
 
 export interface Position {
