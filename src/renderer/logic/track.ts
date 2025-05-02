@@ -7,15 +7,13 @@ import FileSaver from "file-saver";
 import mime from "mime-types";
 import type { Amethyst } from "@/amethyst";
 import { favoriteTracks } from "@/amethyst";
-import { MusicBrainzApi, CoverArtArchiveApi } from 'musicbrainz-api';
+import { MusicBrainzApi } from 'musicbrainz-api';
 
 const mbApi = new MusicBrainzApi({
     appName: 'Amethyst',
     appVersion: '2.0.7',
     appContactInfo: 'todo@example.com',
 });
-
-const mbCoverArtApi = new CoverArtArchiveApi();
 
 /**
  * Each playable audio file is an instance of this class
