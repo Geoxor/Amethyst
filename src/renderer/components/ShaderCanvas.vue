@@ -115,6 +115,13 @@ onMounted(() => {
   watch(() => props.fragShader, () => {
     material.fragmentShader = props.fragShader;
     material.needsUpdate = true;
+
+    // Clear when the shader changes
+    renderer.setRenderTarget(renderTarget1);
+    renderer.clear();
+    renderer.setRenderTarget(renderTarget2);
+    renderer.clear();
+    renderer.setRenderTarget(null);
   });
 
   renderer.setAnimationLoop(render);
