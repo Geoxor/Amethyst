@@ -38,13 +38,11 @@ amethyst.state.on("theme:change", () => {
   uniformData.u_color.value = spectrumColor;
 });
 
-const fragmentShader = `
+const SpectrumShader = `
   precision highp float;
 
-  uniform float u_time;
   uniform vec2 u_resolution;
   uniform float[960] u_amplitudes;
-
   uniform vec3 u_color;
 
   void main(){
@@ -64,8 +62,8 @@ const shouldPause = () => amethyst.state.settings.value.pauseVisualsWhenUnfocuse
 <template>
   <div class="relative overflow-hidden w-full h-full rounded-4px">
     <shader-canvas
-      class="origin-top-left absolute top-0 left-0"
-      :frag-shader="fragmentShader"
+      class="origin-top-left absolute"
+      :frag-shader="SpectrumShader"
       :analyser="analyser"
       :pause-rendering="shouldPause()"
       :uniforms="uniformData"
