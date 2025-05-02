@@ -122,8 +122,5 @@ onMounted(() => {
 </script>
 
 <template>
-  <canvas
-    ref="shaderCanvas"
-    class="absolute w-full h-full"
-  />
+  <canvas ref="shaderCanvas" />
 </template>

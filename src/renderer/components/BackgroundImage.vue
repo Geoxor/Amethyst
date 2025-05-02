@@ -44,7 +44,7 @@ const shouldPause = () => amethyst.state.settings.value.pauseVisualsWhenUnfocuse
 <template>
   <shader-canvas
     v-if="amethyst.state.settings.value.useShaderBackground"
-    class="select-none pointer-events-none z-1000"
+    class="absolute select-none pointer-events-none z-1000"
     :style="`
       opacity: ${amethyst.state.settings.value.ambientBackgroundOpacity}%;
       filter: blur(${amethyst.state.settings.value.ambientBackgroundBlurStrength}px);
