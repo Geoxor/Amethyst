@@ -359,6 +359,7 @@
     "minimal-discord-rpc": "^1.0.3",
     "mitt": "^3.0.0",
     "music-metadata-browser": "^2.5.10",
+    "musicbrainz-api": "^0.25.0",
     "open": "8.4.2",
     "pidusage": "^3.0.2",
     "pretty-ms": "^8.0.0",

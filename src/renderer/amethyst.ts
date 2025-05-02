@@ -279,7 +279,8 @@ export class Amethyst extends AmethystBackend {
       const args = [
         track.getArtistsFormatted() && track.getTitleFormatted() ? `${track.getArtistsFormatted()} - ${track.getTitleFormatted()}` : track.getFilename(),
           this.player.isPaused.value ? "Paused" : `${this.player.currentTimeFormatted(true)} - ${track.getDurationFormatted(true)}`,
-          track.metadata.data?.format.container?.toLowerCase() || "unknown format"
+          track.metadata.data?.format.container?.toLowerCase() || "unknown format",
+          track.albumUrl
         ];
         window.electron.ipcRenderer.invoke("update-rich-presence", [args]);
       };

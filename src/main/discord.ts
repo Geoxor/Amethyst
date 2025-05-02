@@ -42,18 +42,19 @@ export class Discord {
 		});
 	}
 
-	public updateCurrentSong(title: string, duration: string, seek: string, format?: FormatIcons): void {
+	public updateCurrentSong(title: string, duration: string, albumUrl: String, format?: FormatIcons): void {
 		this.connected.then((check) => {
 			if (check && !this.destroyed) {
+				console.log(albumUrl);
 				this.client.setActivity({
 					type: ActivityType.Listening,
 					details: title,
-					state: `${seek} - ${duration}`,
+					state: duration,
 					timestamps: {
 						start: this.timestamp,
 					},
 					assets: {
-						large_image: "audio_file",
+						large_image: `${albumUrl}`,
 						large_text: format?.toUpperCase() || "Unknown Format",
 						small_image: "logo",
 						small_text: `Amethyst v${APP_VERSION}\n`,

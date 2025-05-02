@@ -7,6 +7,15 @@ import FileSaver from "file-saver";
 import mime from "mime-types";
 import type { Amethyst } from "@/amethyst";
 import { favoriteTracks } from "@/amethyst";
+import { MusicBrainzApi, CoverArtArchiveApi } from 'musicbrainz-api';
+
+const mbApi = new MusicBrainzApi({
+    appName: 'Amethyst',
+    appVersion: '2.0.7',
+    appContactInfo: 'todo@example.com',
+});
+
+const mbCoverArtApi = new CoverArtArchiveApi();
 
 /**
  * Each playable audio file is an instance of this class
@@ -20,9 +29,11 @@ export class Track {
   public deleted: boolean = false;
   public isFavorited: boolean = false;
   public path: string;
+  public albumUrl: string;
 
   public constructor(private amethyst: Amethyst, public absolutePath: string) {
     this.path = absolutePath;
+    this.albumUrl = ""; // lateinit
     this.isFavorited = favoriteTracks.value.includes(this.path);
   }
 
@@ -109,6 +120,7 @@ export class Track {
       if (!force && await this.isCached()) {
         this.metadata.data = (await this.fetchCache()).metadata;
         this.metadata.state = LoadStatus.Loaded;
+        
         return this.metadata.data;
       }
       this.metadata.data = await this.readMetadata();
@@ -135,6 +147,28 @@ export class Track {
     return this.cover.data;
   };
 
+  private fetchAlbumCoverUrl = async (force: Boolean = false, artist: String, album: String) => {
+    if (!force && await this.isCached()) {
+      this.albumUrl = (await this.fetchCache()).albumUrl;
+      return;
+    }
+
+    const result = await mbApi.search("release", {
+      query: `${artist} - ${album}`,
+      artist: `${artist}`
+    });
+
+    if (result.count > 0)
+    {
+      const response = await (await fetch(`https://coverartarchive.org/release/${result.releases[0].id}`)).json();
+      for (let cover of response["images"]) {
+        if (cover["front"]) {
+          this.albumUrl = cover["image"].replace("http://", "https://");
+        }
+      }
+    }
+  }
+
   /**
    * Fetches all async data concurrently
    */
@@ -144,6 +178,8 @@ export class Track {
 
     const [cover, metadata] = await Promise.all([this.fetchCover(force), this.fetchMetadata(force)]);
 
+    const albumUrl = await this.fetchAlbumCoverUrl(force, this.metadata.data?.common.artist ?? "", this.metadata.data?.common.album ?? "");
+
     if (metadata) {
       metadata.common.picture = [];
     }
@@ -152,6 +188,7 @@ export class Track {
       window.fs.writeFile(this.getCachePath(true), JSON.stringify({
         cover,
         metadata,
+        albumUrl
       }, null, 2)).catch(console.log);
     }
 
