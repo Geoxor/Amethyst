@@ -2,7 +2,7 @@
 <script lang="ts" setup>
 import { Icon } from "@iconify/vue";
 import { useVModel } from "@vueuse/core";
-import { computed, ref, watch } from "vue";
+import { computed, nextTick, ref, watch } from "vue";
 const props = defineProps({
   modelValue: {
     type: Number,
@@ -142,6 +142,38 @@ watch(model, () => {
   pop.value = true;
   setTimeout(() => pop.value = false, 100);
 });
+
+import { onClickOutside } from "@vueuse/core";
+onClickOutside(modifier, () => shouldShowInputElement.value = false);
+
+const shouldShowInputElement = ref(false);
+const inputValue = ref(model.value);
+const inputElement = ref<HTMLInputElement>();
+
+const handleEnter = (e: KeyboardEvent) => {
+  if (e.key == "Enter") {
+    if(shouldShowInputElement.value) {
+      // Check if input is a number
+
+      if (Number.isFinite(inputValue.value )) {
+        model.value = inputValue.value;
+      };
+
+      shouldShowInputElement.value = false;
+    } else {
+
+      inputValue.value = model.value;
+      shouldShowInputElement.value = true;
+
+      // Delay focusing because it takes some time to show the element first
+      nextTick(() => {
+        inputElement.value?.focus();
+        inputElement.value?.select();
+      });
+    }
+  }
+};
+
 </script>
 
 <template>
@@ -150,20 +182,29 @@ watch(model, () => {
     class="modifier font-semibold duration-user-defined flex flex-col justify-center h-5 items-center min-w-16 leading-tight rounded-full py-1 px-2 bg-accent text-accent bg-opacity-15"
     @mousedown.stop.passive="onMouseDown"
     @mouseup.stop.passive="dragging = false"
+    @keydown="handleEnter"
   >
-    <icon
-      icon="ic:baseline-arrow-drop-up"
-      class="w-5 h-5 min-w-5 min-h-5 text-accent text-opacity-25"
-    />
-    <div :class="{ pop }">
-      <h1>
-        {{ prefix }} {{ displayValue }} {{ suffix }}
-      </h1>
-    </div>
-    <icon
-      icon="ic:baseline-arrow-drop-down"
-      class="w-5 h-5 min-w-5 min-h-5 text-accent text-opacity-25"
-    />
+    <input
+      v-if="shouldShowInputElement"
+      ref="inputElement"
+      v-model.number="inputValue"
+      class="bg-transparent font-semibold w-16"
+    >
+    <template v-else>
+      <icon
+        icon="ic:baseline-arrow-drop-up"
+        class="w-5 h-5 min-w-5 min-h-5 text-accent text-opacity-25"
+      />
+      <div :class="{ pop }">
+        <h1>
+          {{ prefix }} {{ displayValue }} {{ suffix }}
+        </h1>
+      </div>
+      <icon
+        icon="ic:baseline-arrow-drop-down"
+        class="w-5 h-5 min-w-5 min-h-5 text-accent text-opacity-25"
+      />
+    </template>
   </button>
 </template>
 
