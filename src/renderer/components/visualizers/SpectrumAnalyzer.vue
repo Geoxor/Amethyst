@@ -7,7 +7,8 @@ import { watch } from "vue";
 import ShaderCanvas from "@/components/ShaderCanvas.vue";
 
 const props = defineProps<{
-  node: AudioNode
+  node: AudioNode,
+  spectrogram?: boolean,
 }>();
 
 const context = props.node.context;
@@ -79,7 +80,7 @@ const spectrogramShader = `
 
 const shouldPause = () => amethyst.state.settings.value.pauseVisualsWhenUnfocused && !amethyst.state.window.isFocused;
 
-const getShader = () => amethyst.state.settings.value.useSpectrogram ? spectrogramShader : spectrumShader;
+const getShader = () => props.spectrogram ? spectrogramShader : spectrumShader;
 
 </script>
 
