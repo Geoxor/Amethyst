@@ -147,12 +147,14 @@ export class Track {
     return this.cover.data;
   };
 
-  private fetchAlbumCoverUrl = async (force: Boolean = false, artist: String, album: String) => {
-    if (!force && await this.isCached()) {
-      this.albumUrl = (await this.fetchCache()).albumUrl;
+  public fetchAlbumCoverUrl = async () => {
+    if (this.albumUrl !== "") {
       return;
     }
 
+    const artist = this.metadata.data?.common.artist ?? "";
+    const album = this.metadata.data?.common.album ?? "";
+    
     const result = await mbApi.search("release", {
       query: `${artist} - ${album}`,
       artist: `${artist}`
@@ -178,8 +180,6 @@ export class Track {
 
     const [cover, metadata] = await Promise.all([this.fetchCover(force), this.fetchMetadata(force)]);
 
-    const albumUrl = await this.fetchAlbumCoverUrl(force, this.metadata.data?.common.artist ?? "", this.metadata.data?.common.album ?? "");
-
     if (metadata) {
       metadata.common.picture = [];
     }
@@ -187,8 +187,7 @@ export class Track {
     if (this.amethyst.getCurrentPlatform() === "desktop") {
       window.fs.writeFile(this.getCachePath(true), JSON.stringify({
         cover,
-        metadata,
-        albumUrl
+        metadata
       }, null, 2)).catch(console.log);
     }
 

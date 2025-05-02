@@ -280,7 +280,7 @@ export class Amethyst extends AmethystBackend {
         track.getArtistsFormatted() && track.getTitleFormatted() ? `${track.getArtistsFormatted()} - ${track.getTitleFormatted()}` : track.getFilename(),
           this.player.isPaused.value ? "Paused" : `${this.player.currentTimeFormatted(true)} - ${track.getDurationFormatted(true)}`,
           track.metadata.data?.format.container?.toLowerCase() || "unknown format",
-          track.albumUrl
+          track.fetchAlbumCoverUrl()
         ];
         window.electron.ipcRenderer.invoke("update-rich-presence", [args]);
       };
