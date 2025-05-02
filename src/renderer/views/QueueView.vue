@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
 
-import DroppableContainer from "@/components/DroppableContainer.vue";
 import LazyList from "@/components/LazyList.vue";
 import RouteHeader from "@/components/v2/RouteHeader.vue";
 import SearchInput from "@/components/v2/SearchInput.vue";
@@ -32,13 +31,13 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <droppable-container class="flex-col flex w-full py-2 gap-4 px-4 relative">
+  <div class="flex-col flex w-full py-2 gap-4 px-4 relative">
     <route-header :title="$t('route.queue')">
       <search-input v-model="filterText" />
     </route-header>
     
     <lazy-list />
-  </droppable-container>
+  </div>
 </template>
 
 <style lang="postcss" scoped>
