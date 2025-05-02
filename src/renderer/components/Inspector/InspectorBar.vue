@@ -52,6 +52,7 @@ const filteredMetadata = computed(() => {
   if (!metadata) return {};
   return removeEmptyObjects(cloneWithoutPicture(metadata));
 });
+
 </script>
 
 <template>
@@ -156,6 +157,7 @@ const filteredMetadata = computed(() => {
         </h1>
         <span class="flex gap-2 h-32 justify-between items-center">
           <db-meter
+            :key="inspector.state.currentItem.properties.id"
             :node="inspector.state.currentItem.pre"
             :channels="amethyst.player.getCurrentTrack()?.getChannels() || 2"
           />
@@ -165,6 +167,7 @@ const filteredMetadata = computed(() => {
           />
           <db-meter
             v-if="!(inspector.state.currentItem instanceof AmethystOutputNode)"
+            :key="inspector.state.currentItem.properties.id"
             :node="inspector.state.currentItem.post"
             :channels="amethyst.player.getCurrentTrack()?.getChannels() || 2"
           />
