@@ -36,10 +36,18 @@ onMounted(() => {
   const scene = new THREE.Scene();
   const camera = new THREE.OrthographicCamera();
   const renderer = new THREE.WebGLRenderer({canvas: shaderCanvas.value});
+  // Two render targets for double-buffering and the ability to use a backbuffer in shaders
+  const renderTarget1 = new THREE.WebGLRenderTarget(1, 1);
+  const renderTarget2 = new THREE.WebGLRenderTarget(1, 1);
+  let currentTarget = renderTarget1;
+
+  renderer.setRenderTarget(currentTarget);
+  renderer.render(scene, camera);
 
   const material = new THREE.ShaderMaterial({
     uniforms: {
       u_time: {value: 0},
+      u_backbuffer: {value: null},
       u_resolution: {value: new THREE.Vector2()},
       u_amplitudes: {value: new Float32Array(VISUALIZER_BIN_COUNT)},
       ...props.uniforms,
@@ -57,16 +65,31 @@ onMounted(() => {
   scene.add(mesh);
 
   const render = () => {
-    material.uniforms.u_time.value += 0.01;
     const { width, height } = getDimensions();
     renderer.setSize(width, height);
+    renderTarget1.setSize(width, height);
+    renderTarget2.setSize(width, height);
+
+    material.uniforms.u_time.value += 0.01;
     material.uniforms.u_resolution.value.set(width, height);
+    material.uniforms.u_backbuffer.value = currentTarget.texture;
+
     const spectrum = new Uint8Array(props.analyser.frequencyBinCount);
     props.analyser.getByteFrequencyData(spectrum);
     material.uniforms.u_amplitudes.value = logParabolicSpectrum(spectrum, VISUALIZER_BIN_COUNT);
+
     // Emitted to update custom uniforms before rendering
     emit("on-render", material.uniforms);
+
+    const nextTarget = currentTarget === renderTarget1 ? renderTarget2 : renderTarget1;
+    renderer.setRenderTarget(nextTarget);
     renderer.render(scene, camera);
+
+    // Renders the output to canvas
+    renderer.setRenderTarget(null);
+    renderer.render(scene, camera);
+
+    currentTarget = nextTarget;
 
     if (shouldDispose) {
       renderer.dispose();
