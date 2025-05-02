@@ -1,12 +1,9 @@
 <script setup lang="ts">
 import {onMounted, onUnmounted, ref, watch} from "vue";
 import * as THREE from "three";
-import {logParabolicSpectrum} from "@/logic/math";
-import {VISUALIZER_BIN_COUNT} from "@shared/constants";
 
 const props = defineProps<{
   fragShader: string,
-  analyser: AnalyserNode,
   vertexShader?: string,
   uniforms?: Record<string, any>,
   pauseRendering?: boolean,
@@ -53,7 +50,6 @@ onMounted(() => {
       u_time: {value: 0},
       u_backbuffer: {value: null},
       u_resolution: {value: new THREE.Vector2()},
-      u_amplitudes: {value: new Float32Array(VISUALIZER_BIN_COUNT)},
       ...props.uniforms,
     },
     vertexShader: props.vertexShader || `
@@ -77,10 +73,6 @@ onMounted(() => {
     material.uniforms.u_time.value += 0.01;
     material.uniforms.u_resolution.value.set(width, height);
     material.uniforms.u_backbuffer.value = currentTarget.texture;
-
-    const spectrum = new Uint8Array(props.analyser.frequencyBinCount);
-    props.analyser.getByteFrequencyData(spectrum);
-    material.uniforms.u_amplitudes.value = logParabolicSpectrum(spectrum, VISUALIZER_BIN_COUNT);
 
     // Emitted to update custom uniforms before rendering
     emit("on-render", material.uniforms);

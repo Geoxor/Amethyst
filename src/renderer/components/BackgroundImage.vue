@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { watch } from "vue";
 import { amethyst } from "@/amethyst";
 import CoverArt from "@/components/CoverArt.vue";
 import ShaderCanvas from "@/components/ShaderCanvas.vue";
@@ -8,27 +7,12 @@ defineProps<{
   ambientBackgroundImage?: string,
 }>();
 
-const context = amethyst.player.nodeManager.master.pre.context;
-const analyser = context.createAnalyser();
-
-amethyst.player.nodeManager.master.pre.connect(analyser);
-
-analyser.fftSize = amethyst.state.settings.value.spectrumFftSize;
-analyser.smoothingTimeConstant = amethyst.state.settings.value.spectrumSmoothing;
-watch(() => amethyst.state.settings.value.spectrumFftSize, () => analyser.fftSize = amethyst.state.settings.value.spectrumFftSize);
-watch(() => amethyst.state.settings.value.spectrumSmoothing, () => analyser.smoothingTimeConstant = amethyst.state.settings.value.spectrumSmoothing);
-
-// Don't change these
-analyser.maxDecibels = -0;
-analyser.minDecibels = -128;
-
 // TODO: Implement loading shaders from disk (so users can use their own shaders)
 // This is just an example shader for now
 const fragmentShader = `
   precision highp float;
   uniform float u_time;
   uniform vec2 u_resolution;
-  uniform float u_amplitudes[960];
   void main() {
     vec2 uv = gl_FragCoord.xy / u_resolution;
     gl_FragColor = vec4(uv.x + 0.5 + 0.5 * sin(u_time + uv.y), 0.0, 1.0 - uv.x, 1.0);
@@ -49,7 +33,6 @@ const shouldPause = () => amethyst.state.settings.value.pauseVisualsWhenUnfocuse
       mix-blend-mode: ${amethyst.state.settings.value.ambientBackgroundBlendMode};
     `"
     :frag-shader="fragmentShader"
-    :analyser="analyser"
     :pause-rendering="shouldPause()"
   />
 

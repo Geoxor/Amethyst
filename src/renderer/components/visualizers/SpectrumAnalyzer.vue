@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
 import { getThemeColorRgb } from "@/logic/color";
-import { normalize8bit } from "@/logic/math";
+import {logParabolicSpectrum, normalize8bit} from "@/logic/math";
 import * as THREE from "three";
 import { watch } from "vue";
 import ShaderCanvas from "@/components/ShaderCanvas.vue";
+import {VISUALIZER_BIN_COUNT} from "@shared/constants";
 
 const props = defineProps<{
   node: AudioNode,
@@ -43,7 +44,8 @@ const [r, g, b] = getThemeColorRgb("--accent");
 const spectrumColor = new THREE.Vector3(normalize8bit(r), normalize8bit(g), normalize8bit(b));
 
 const uniformData = {
-  u_color: {value: spectrumColor}
+  u_color: {value: spectrumColor},
+  u_amplitudes: {value: new Float32Array(VISUALIZER_BIN_COUNT)},
 };
 
 amethyst.state.on("theme:change", () => {
@@ -91,6 +93,12 @@ const spectrogramShader = `
     }
   }`;
 
+const render = (uniforms: Record<string, any>) => {
+  const spectrum = new Uint8Array(analyser.frequencyBinCount);
+  analyser.getByteFrequencyData(spectrum);
+  uniforms.u_amplitudes.value = logParabolicSpectrum(spectrum, VISUALIZER_BIN_COUNT);
+};
+
 const shouldPause = () => amethyst.state.settings.value.pauseVisualsWhenUnfocused && !amethyst.state.window.isFocused;
 
 const getShader = () => props.spectrogram ? spectrogramShader : spectrumShader;
@@ -105,6 +113,7 @@ const getShader = () => props.spectrogram ? spectrogramShader : spectrumShader;
       :analyser="analyser"
       :pause-rendering="shouldPause()"
       :uniforms="uniformData"
+      @on-render="render"
     />
   </div>
 </template>
