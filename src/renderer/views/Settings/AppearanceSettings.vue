@@ -184,6 +184,11 @@ const AVAILABLE_THEMES = [
           icon="ic:twotone-auto-awesome"
         >
           <toggle-switch v-model="amethyst.state.settings.value.useShaderBackground" />
+          <!-- TODO: Shader options built-in and in amethyst user-config shader directory -->
+          <dropdown-input
+            v-model="amethyst.state.settings.value.selectedShader"
+            :options="[]"
+          />
         </settings-setting>
       </div>
     </template> 

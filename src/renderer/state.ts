@@ -39,6 +39,7 @@ export class State extends EventEmitter<StateEvents> {
 		processingConcurrency: 3,
 		showAmbientBackground: false,
 		useShaderBackground: false,
+		selectedShader: "builtin/simple-gradient",
 		ambientBackgroundOpacity: 10,
 		ambientBackgroundSpin: true,
 		ambientBackgroundBlurStrength: 32,
