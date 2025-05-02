@@ -54,7 +54,7 @@ export class Discord {
 						start: this.timestamp,
 					},
 					assets: {
-						large_image: `${albumUrl}`,
+						large_image: albumUrl !== "" ? `${albumUrl}` : "audio_file",
 						large_text: format?.toUpperCase() || "Unknown Format",
 						small_image: "logo",
 						small_text: `Amethyst v${APP_VERSION}\n`,
