@@ -82,6 +82,60 @@
   dependencies:
     regenerator-runtime "^0.14.0"
 
+"@biomejs/biome@^1.8.3":
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/@biomejs/biome/-/biome-1.9.4.tgz#89766281cbc3a0aae865a7ff13d6aaffea2842bf"
+  integrity sha512-1rkd7G70+o9KkTn5KLmDYXihGoTaIGO9PIIN2ZB7UJxFrWw04CZHPYiMRjYsaDvVV7hP1dYNRLxSANLaBFGpog==
+  optionalDependencies:
+    "@biomejs/cli-darwin-arm64" "1.9.4"
+    "@biomejs/cli-darwin-x64" "1.9.4"
+    "@biomejs/cli-linux-arm64" "1.9.4"
+    "@biomejs/cli-linux-arm64-musl" "1.9.4"
+    "@biomejs/cli-linux-x64" "1.9.4"
+    "@biomejs/cli-linux-x64-musl" "1.9.4"
+    "@biomejs/cli-win32-arm64" "1.9.4"
+    "@biomejs/cli-win32-x64" "1.9.4"
+
+"@biomejs/cli-darwin-arm64@1.9.4":
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-darwin-arm64/-/cli-darwin-arm64-1.9.4.tgz#dfa376d23a54a2d8f17133c92f23c1bf2e62509f"
+  integrity sha512-bFBsPWrNvkdKrNCYeAp+xo2HecOGPAy9WyNyB/jKnnedgzl4W4Hb9ZMzYNbf8dMCGmUdSavlYHiR01QaYR58cw==
+
+"@biomejs/cli-darwin-x64@1.9.4":
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-darwin-x64/-/cli-darwin-x64-1.9.4.tgz#eafc2ce3849d385fc02238aad1ca4a73395a64d9"
+  integrity sha512-ngYBh/+bEedqkSevPVhLP4QfVPCpb+4BBe2p7Xs32dBgs7rh9nY2AIYUL6BgLw1JVXV8GlpKmb/hNiuIxfPfZg==
+
+"@biomejs/cli-linux-arm64-musl@1.9.4":
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-linux-arm64-musl/-/cli-linux-arm64-musl-1.9.4.tgz#d780c3e01758fc90f3268357e3f19163d1f84fca"
+  integrity sha512-v665Ct9WCRjGa8+kTr0CzApU0+XXtRgwmzIf1SeKSGAv+2scAlW6JR5PMFo6FzqqZ64Po79cKODKf3/AAmECqA==
+
+"@biomejs/cli-linux-arm64@1.9.4":
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-linux-arm64/-/cli-linux-arm64-1.9.4.tgz#8ed1dd0e89419a4b66a47f95aefb8c46ae6041c9"
+  integrity sha512-fJIW0+LYujdjUgJJuwesP4EjIBl/N/TcOX3IvIHJQNsAqvV2CHIogsmA94BPG6jZATS4Hi+xv4SkBBQSt1N4/g==
+
+"@biomejs/cli-linux-x64-musl@1.9.4":
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-linux-x64-musl/-/cli-linux-x64-musl-1.9.4.tgz#f36982b966bd671a36671e1de4417963d7db15fb"
+  integrity sha512-gEhi/jSBhZ2m6wjV530Yy8+fNqG8PAinM3oV7CyO+6c3CEh16Eizm21uHVsyVBEB6RIM8JHIl6AGYCv6Q6Q9Tg==
+
+"@biomejs/cli-linux-x64@1.9.4":
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-linux-x64/-/cli-linux-x64-1.9.4.tgz#a0a7f56680c76b8034ddc149dbf398bdd3a462e8"
+  integrity sha512-lRCJv/Vi3Vlwmbd6K+oQ0KhLHMAysN8lXoCI7XeHlxaajk06u7G+UsFSO01NAs5iYuWKmVZjmiOzJ0OJmGsMwg==
+
+"@biomejs/cli-win32-arm64@1.9.4":
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-win32-arm64/-/cli-win32-arm64-1.9.4.tgz#e2ef4e0084e76b7e26f0fc887c5ef1265ea56200"
+  integrity sha512-tlbhLk+WXZmgwoIKwHIHEBZUwxml7bRJgk0X2sPyNR3S93cdRq6XulAZRQJ17FYGGzWne0fgrXBKpl7l4M87Hg==
+
+"@biomejs/cli-win32-x64@1.9.4":
+  version "1.9.4"
+  resolved "https://registry.yarnpkg.com/@biomejs/cli-win32-x64/-/cli-win32-x64-1.9.4.tgz#4c7afa90e3970213599b4095e62f87e5972b2340"
+  integrity sha512-8Y5wMhVIPaWe6jw2H+KlEm4wP/f7EW3810ZLmDlrEEy5KvBsb9ECEfu/kMWD484ijfQ8+nIi0giMgu9g1UAuuA==
+
 "@capacitor/action-sheet@^4.1.0":
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/@capacitor/action-sheet/-/action-sheet-4.1.0.tgz#6ce5b849fff52bf45a6e6832d5de00ff6fc2b97a"
@@ -4633,6 +4687,11 @@ http-proxy-agent@^7.0.0:
     agent-base "^7.1.0"
     debug "^4.3.4"
 
+http-status-codes@^2.1.4:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/http-status-codes/-/http-status-codes-2.3.0.tgz#987fefb28c69f92a43aecc77feec2866349a8bfc"
+  integrity sha512-RJ8XvFvpPM/Dmc5SV+dC4y5PCeOhT3x1Hq0NU3rjGeg5a/CqlhZ7uudknPwZFz4aeAXDcbAyaeP7GAo9lvngtA==
+
 http2-wrapper@^1.0.0-beta.5.2:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/http2-wrapper/-/http2-wrapper-1.0.3.tgz#b8f55e0c1f25d4ebd08b3b0c2c079f9590800b3d"
@@ -5270,6 +5329,11 @@ jsonfile@^6.0.1:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
+jsontoxml@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/jsontoxml/-/jsontoxml-1.0.1.tgz#07fff7f6bfbfa1097d779aec7f041b5046075e70"
+  integrity sha512-dtKGq0K8EWQBRqcAaePSgKR4Hyjfsz/LkurHSV3Cxk4H+h2fWDeaN2jzABz+ZmOJylgXS7FGeWmbZ6jgYUMdJQ==
+
 jszip@^3.1.0:
   version "3.10.1"
   resolved "https://registry.yarnpkg.com/jszip/-/jszip-3.10.1.tgz#34aee70eb18ea1faec2f589208a157d1feb091c2"
@@ -5844,6 +5908,20 @@ music-metadata@^7.13.3:
     media-typer "^1.1.0"
     strtok3 "^6.3.0"
     token-types "^4.2.1"
+
+musicbrainz-api@^0.25.0:
+  version "0.25.0"
+  resolved "https://registry.yarnpkg.com/musicbrainz-api/-/musicbrainz-api-0.25.0.tgz#4484a32920ef631ab8ee51059183a300611058f6"
+  integrity sha512-XzfbtFUzx1Kt/gG1OYYcYRYgamFB9Dfw/M/irIzp726Nq3yF2gap4twXy8pvjRG6OI/ssKB3MWxONyCDrPVTGw==
+  dependencies:
+    debug "^4.3.4"
+    http-status-codes "^2.1.4"
+    json-stringify-safe "^5.0.1"
+    jsontoxml "^1.0.1"
+    rate-limit-threshold "^0.2.0"
+    spark-md5 "^3.0.2"
+    tough-cookie "^5.0.0"
+    uuid "^11.0.3"
 
 mz@^2.7.0:
   version "2.7.0"
@@ -6692,6 +6770,13 @@ randomfill@^1.0.3:
     randombytes "^2.0.5"
     safe-buffer "^5.1.0"
 
+rate-limit-threshold@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/rate-limit-threshold/-/rate-limit-threshold-0.2.0.tgz#764d6daa1fb4c526cf486179d1e56c0fbf925768"
+  integrity sha512-4vRdh7MTX3wJaZG2Xj4IF6Z5Epr9KzZsq/FpLYVuIcgdmXht4jJADDyuyUOiSwB/ZXdZKdtEeCaY+keXVsBWQQ==
+  dependencies:
+    "@biomejs/biome" "^1.8.3"
+
 rc@^1.2.7:
   version "1.2.8"
   resolved "https://registry.yarnpkg.com/rc/-/rc-1.2.8.tgz#cd924bf5200a075b83c188cd6b9e211b7fc0d3ed"
@@ -7358,6 +7443,11 @@ source-map@^0.6.0, source-map@~0.6.1:
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
 
+spark-md5@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/spark-md5/-/spark-md5-3.0.2.tgz#7952c4a30784347abcee73268e473b9c0167e3fc"
+  integrity sha512-wcFzz9cDfbuqe0FZzfi2or1sgyIrsDwmPwfZC4hiNidPdPINjeUwNfv5kldczoEAcjl9Y1L3SM7Uz2PUEQzxQw==
+
 spawn-command@0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/spawn-command/-/spawn-command-0.0.2.tgz#9544e1a43ca045f8531aac1a48cb29bdae62338e"
@@ -7788,6 +7878,18 @@ tinyspy@^3.0.2:
   resolved "https://registry.yarnpkg.com/tinyspy/-/tinyspy-3.0.2.tgz#86dd3cf3d737b15adcf17d7887c84a75201df20a"
   integrity sha512-n1cw8k1k0x4pgA2+9XrOkFydTerNcJ1zWCO5Nn9scWHTD+5tp8dghT2x1uduQePZTZgd3Tupf+x9BxJjeJi77Q==
 
+tldts-core@^6.1.86:
+  version "6.1.86"
+  resolved "https://registry.yarnpkg.com/tldts-core/-/tldts-core-6.1.86.tgz#a93e6ed9d505cb54c542ce43feb14c73913265d8"
+  integrity sha512-Je6p7pkk+KMzMv2XXKmAE3McmolOQFdxkKw0R8EYNr7sELW46JqnNeTX8ybPiQgvg1ymCoF8LXs5fzFaZvJPTA==
+
+tldts@^6.1.32:
+  version "6.1.86"
+  resolved "https://registry.yarnpkg.com/tldts/-/tldts-6.1.86.tgz#087e0555b31b9725ee48ca7e77edc56115cd82f7"
+  integrity sha512-WMi/OQ2axVTf/ykqCQgXiIct+mSQDFdH2fkwhPwgEwvJ1kSzZRiinb0zF2Xb8u4+OqPChmyI6MEu4EezNJz+FQ==
+  dependencies:
+    tldts-core "^6.1.86"
+
 tmp-promise@^3.0.2:
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/tmp-promise/-/tmp-promise-3.0.3.tgz#60a1a1cc98c988674fcbfd23b6e3367bdeac4ce7"
@@ -7821,6 +7923,13 @@ totalist@^3.0.0:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/totalist/-/totalist-3.0.1.tgz#ba3a3d600c915b1a97872348f79c127475f6acf8"
   integrity sha512-sf4i37nQ2LBx4m3wB74y+ubopq6W/dIzXg0FDGjsYnZHVa1Da8FH853wlL2gtUhg+xJXjfk3kUZS3BRoQeoQBQ==
+
+tough-cookie@^5.0.0:
+  version "5.1.2"
+  resolved "https://registry.yarnpkg.com/tough-cookie/-/tough-cookie-5.1.2.tgz#66d774b4a1d9e12dc75089725af3ac75ec31bed7"
+  integrity sha512-FVDYdxtnj0G6Qm/DhNPSb8Ju59ULcup3tuJxkFb5K8Bv2pUXILbf0xZWU8PX8Ov19OXljbUyveOFwRMwkXzO+A==
+  dependencies:
+    tldts "^6.1.32"
 
 tree-kill@^1.2.2:
   version "1.2.2"
@@ -8110,6 +8219,11 @@ util@^0.12.4, util@^0.12.5:
     is-generator-function "^1.0.7"
     is-typed-array "^1.1.3"
     which-typed-array "^1.1.2"
+
+uuid@^11.0.3:
+  version "11.1.0"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-11.1.0.tgz#9549028be1753bb934fc96e2bca09bb4105ae912"
+  integrity sha512-0/A9rDy9P7cJ+8w1c9WD9V//9Wj15Ce2MPz8Ri6032usz+NfePxx5AcN3bN+r6ZL6jEo066/yNYB3tn4pQEx+A==
 
 uuid@^9.0.0:
   version "9.0.0"

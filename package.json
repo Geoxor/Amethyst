@@ -362,6 +362,7 @@
     "mitt": "^3.0.0",
     "music-metadata-browser": "^2.5.10",
     "node-wav": "^0.0.2",
+    "musicbrainz-api": "^0.25.0",
     "open": "8.4.2",
     "pidusage": "^3.0.2",
     "pretty-ms": "^8.0.0",
