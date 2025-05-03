@@ -185,5 +185,13 @@
   "track.metadata.copyright": "著作権",
   "track.metadata.genre": "ジャンル",
   "track.metadata.bpm": "BPM",
-  "track.covers": "カバー画像"
+  "track.covers": "カバー画像",
+  "output_diagram.audio_device.title": "オーディオデバイス",
+  "output_diagram.os_api.title": "API",
+  "settings.audio_driver.title": "オーディオドライバ",
+  "settings.audio_driver.description": "オーディオ出力に使うバックエンドを選びます（例：WASAPI、ASIO、DirectSound）",
+  "settings.audio_driver.audio_device.title": "オーディオデバイス",
+  "settings.audio_driver.audio_device.description": "選択したオーディオドライバに対応する出力デバイスを選びます",
+  "settings.audio_driver.audio_device.buffer.title": "バッファサイズ",
+  "settings.audio_driver.audio_device.buffer.description": "バッファごとのサンプル数を調整します。値を小さくすると遅延は減りますが、音切れが起きることがあります"
 }

@@ -8,6 +8,7 @@ import { AmethystAudioNodeManager } from "./audioManager";
 import { EventEmitter } from "./eventEmitter";
 import { secondsToColinHuman, secondsToHuman } from "@shared/formating";
 import type { Amethyst } from "@/amethyst";
+import type { RtAudioDeviceInfo } from "audify";
 
 export enum LoopMode {
 	None,
@@ -42,33 +43,8 @@ export class Player extends EventEmitter<{
   public source = this.context.createMediaElementSource(this.input);
   public nodeManager: AmethystAudioNodeManager;
 
-  public outputDevice: Ref<string> = ref("");
-
   public constructor(private amethyst: Amethyst) {
     super();
-
-    const extractDeviceName = (input: string): string => {
-      let result = input;
-      if (amethyst.getCurrentOperatingSystem() == "windows" ) {
-        // Default - Speakers (2- Realtek(R) Audio)
-        result = input.slice(input.indexOf("(") + 1, input.lastIndexOf(")"));
-      }
-      return result;
-    };
-
-    const updateCurrentOutputDevice = async () => {
-      const mediaDevices = await navigator.mediaDevices?.enumerateDevices();
-      navigator.mediaDevices.addEventListener("devicechange", event => {
-        if (event.type == "devicechange") {
-          updateCurrentOutputDevice();
-        }
-      });
-      const activeOutputDeviceName = mediaDevices.find(device => device.deviceId == "default" && device.kind == "audiooutput")?.label;
-      activeOutputDeviceName && (this.outputDevice.value = extractDeviceName(activeOutputDeviceName));
-      console.log(`Current audio device: ${activeOutputDeviceName}`);
-    };
-
-    updateCurrentOutputDevice();
 
     // Set multichannel support
     this.context.destination.channelCount = this.context.destination.maxChannelCount;
@@ -76,7 +52,7 @@ export class Player extends EventEmitter<{
     this.input.addEventListener("timeupdate", () => this.currentTime.value = this.input.currentTime);
     this.input.onended = () => this.next();
 
-    this.nodeManager = new AmethystAudioNodeManager(this.source, this.context);
+    this.nodeManager = new AmethystAudioNodeManager(this.source, this.context, this.amethyst);
     
     // Set the volume on first load
     this.nodeManager.master.post.gain.value = this.volume.value;

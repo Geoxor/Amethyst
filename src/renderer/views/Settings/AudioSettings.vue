@@ -18,6 +18,24 @@ const VALID_SAMPLE_RATES = [
   384000,
 ];
 
+const VALID_BUFFER_SIZES = [256, 512, 1024];
+
+const systemSpecificAudioDriverOptions: string[] = [];
+
+switch (amethyst.getCurrentOperatingSystem()) {
+  case "windows":
+    systemSpecificAudioDriverOptions.push("asio");
+    break;
+  case "linux":
+    systemSpecificAudioDriverOptions.push("alsa");
+    break;
+  case "mac":
+    systemSpecificAudioDriverOptions.push("coreaudio");
+    break;
+  default:
+    break;
+}
+
 </script>
 
 <template>
@@ -32,5 +50,45 @@ const VALID_SAMPLE_RATES = [
       :options="VALID_SAMPLE_RATES"
       suffix="Hz"
     />
+  </settings-setting>
+  <settings-setting
+    :title="$t('settings.audio_driver.title')"
+    :description="$t('settings.audio_driver.description')"
+    icon="mdi:audio-input-xlr"
+  >
+    <dropdown-input
+      v-model="amethyst.state.settings.value.audioDriver"
+      :options="['default', ...systemSpecificAudioDriverOptions]"
+    />
+    <template
+      v-if="amethyst.state.settings.value.audioDriver != 'default'"
+      #subsettings
+    >
+      <div class="p-2 flex flex-col gap-2">
+        <settings-setting
+          :title="$t('settings.audio_driver.audio_device.title')"
+          :description="$t('settings.audio_driver.audio_device.description')"
+          icon="mdi:audio-video"
+          subsetting
+        >
+          <dropdown-input
+            v-model="amethyst.state.settings.value.outputRealtimeAudioDeviceName"
+            :options="amethyst.state.realtimeDevices.value.map(dev => dev.name)"
+          />
+        </settings-setting>
+        <settings-setting
+          :title="$t('settings.audio_driver.audio_device.buffer.title')"
+          :description="$t('settings.audio_driver.audio_device.buffer.description')"
+          icon="material-symbols:memory-alt-rounded"
+          subsetting
+        >
+          <dropdown-input
+            v-model="amethyst.state.settings.value.bufferSize"
+            :options="VALID_BUFFER_SIZES"
+            suffix="smp"
+          />
+        </settings-setting>
+      </div>
+    </template>
   </settings-setting>
 </template>

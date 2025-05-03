@@ -5,7 +5,9 @@ import TitleText from "@/components/v2/TitleText.vue";
 import AmethystIcon from "@/icons/AmethystIcon.vue";
 import AacLogo from "@/icons/logos/AacLogo.vue";
 import ArturiaLogo from "@/icons/logos/ArturiaLogo.vue";
+import AsioLogo from "@/icons/logos/AsioLogo.vue";
 import FlacLogo from "@/icons/logos/FlacLogo.vue";
+import FLStudioLogo from "@/icons/logos/FLStudioLogo.vue";
 import FocusriteLogo from "@/icons/logos/FocusriteLogo.vue";
 import JavascriptLogo from "@/icons/logos/JavascriptLogo.vue";
 import Mp3Logo from "@/icons/logos/Mp3Logo.vue";
@@ -19,6 +21,8 @@ import WindowsLogo from "@/icons/logos/WindowsLogo.vue";
 import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
 import { onMounted, ref } from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 const mimeType = ref("none");
 const sampleRate = ref(amethyst.player.context.sampleRate);
@@ -36,6 +40,7 @@ onMounted(() => {
   amethyst.player.on("play", updateMimeType);
   amethyst.player.on("currentTrackMetadataLoaded", updateMimeType);
 });
+
 </script>
 
 <template>
@@ -45,6 +50,8 @@ onMounted(() => {
       <output-diagram-blob
         :title="$t('output_diagram.source.title')"
         :subtitle="`${mimeType}\n${sampleRate/1000}kHz`"
+        clickable
+        @click="router.push({ name: 'queue' })"
       >
         <span class="text-text_title">
           <flac-logo v-if="mimeType == 'FLAC'" />
@@ -61,7 +68,7 @@ onMounted(() => {
         </span>
       </output-diagram-blob>
 
-      <div class="w-full h-2px bg-surface-600 mt-6" />
+      <div class="line" />
 
       <output-diagram-blob
         :title="$t('output_diagram.decoder.title')"
@@ -72,7 +79,7 @@ onMounted(() => {
       
       <div
         v-if="amethyst.player.context.sampleRate != sampleRate"
-        class="w-full h-2px bg-surface-600 mt-6"
+        class="line"
       />
 
       <output-diagram-blob
@@ -83,53 +90,69 @@ onMounted(() => {
         <javascript-logo />
       </output-diagram-blob>
 
-      <div class="w-full h-2px bg-surface-600 mt-6" />
+      <div class="line" />
 
       <output-diagram-blob
         :title="$t('output_diagram.dsp.title')"
+        clickable
         subtitle="Amethyst DSP"
+        @click="router.push({ name: 'node-editor' })"
       >
         <amethyst-icon class="text-accent" />
       </output-diagram-blob>
 
-      <div class="w-full h-2px bg-surface-600 mt-6" />
-
+      <div
+        v-if="amethyst.state.settings.value.audioDriver == 'default' && amethyst.getCurrentOperatingSystem() === 'windows'" 
+        class="line" 
+      />
       <output-diagram-blob
-        :title="$t('output_diagram.audio_driver.title')"
-        :subtitle="amethyst.player.outputDevice.value"
+        v-if="amethyst.state.settings.value.audioDriver == 'default' && amethyst.getCurrentOperatingSystem() === 'windows'"
+        :title="$t('output_diagram.os_api.title')"
+        subtitle="WASAPI" 
       >
-        <sound-i-d-logo
-          v-if="amethyst.player.outputDevice.value.toLowerCase().includes('soundid')"
-          class="text-text_title"
-        />
-        <realtek-logo
-          v-else-if="amethyst.player.outputDevice.value.toLowerCase().includes('realtek')"
-          class="text-text_title"
-        />
-        <steam-logo
-          v-else-if="amethyst.player.outputDevice.value.toLowerCase().includes('steam')"
-          class="text-text_title"
-        />
-        <focusrite-logo
-          v-else-if="amethyst.player.outputDevice.value.toLowerCase().includes('focusrite')"
-          class="text-text_title"
-        />
-        <nvidia-logo
-          v-else-if="amethyst.player.outputDevice.value.toLowerCase().includes('nvidia')"
-          class="text-text_title"
-        />
-        <arturia-logo
-          v-else-if="['minifuse', 'arturia'].some(string => amethyst.player.outputDevice.value.toLowerCase().includes(string))"
-          class="text-text_title"
-        />
+        <span class="text-text_title">
+          <windows-logo />
+        </span>
+      </output-diagram-blob>
+
+      <div class="line" />
+      <output-diagram-blob
+        :title="$t('output_diagram.audio_device.title')"
+        :subtitle="amethyst.state.settings.value.audioDriver != 'default' ? `${amethyst.state.settings.value.outputAudioDeviceName}\n${amethyst.state.settings.value.bufferSize}smp` : amethyst.state.settings.value.outputAudioDeviceName"
+        clickable
+        @click="router.push({ name: 'settings.audio' })"
+      >
+        <sound-i-d-logo v-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('soundid')" />
+        <realtek-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('realtek')" />
+        <steam-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('steam')" />
+        <focusrite-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('focusrite')" />
+        <arturia-logo v-else-if="['minifuse', 'arturia'].some(string => amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes(string))" />
+        <nvidia-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('nvidia')" />
+        <f-l-studio-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('fl studio')" />
+        <!-- asio last incase we don't recognise the company of the specific asio device -->
+        <asio-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('asio')" />
         <icon
           v-else
           icon="ic:twotone-volume-up" 
-          class="h-6 w-6 text-text_title"
+          class="h-6 w-6 "
         />
       </output-diagram-blob>
 
-      <div class="w-full h-2px bg-surface-600 mt-6" />
+      <div
+        v-if="amethyst.state.settings.value.audioDriver == 'asio' && amethyst.getCurrentOperatingSystem() === 'windows' && amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('fl studio')" 
+        class="line" 
+      />
+      <output-diagram-blob
+        v-if="amethyst.state.settings.value.audioDriver == 'asio' && amethyst.getCurrentOperatingSystem() === 'windows' && amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('fl studio')"
+        :title="$t('output_diagram.os_api.title')"
+        subtitle="WASAPI" 
+      >
+        <span class="text-text_title">
+          <windows-logo />
+        </span>
+      </output-diagram-blob>
+
+      <div class="line" />
 
       <output-diagram-blob
         :title="$t('output_diagram.output.title')"
@@ -145,4 +168,7 @@ onMounted(() => {
 
 <style scoped lang="postcss">
 
+.line {
+  @apply w-full h-2px bg-surface-600 mt-6;
+}
 </style>

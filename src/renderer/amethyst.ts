@@ -263,8 +263,41 @@ export class Amethyst extends AmethystBackend {
       const track = this.player.queue.getTrack(0);
       track && this.player.play(track);
     }
+
+    this.updateCurrentOutputDevice();
     
   }
+
+  public updateCurrentOutputDevice = async () => {
+    const extractDeviceName = (input: string): string => {
+      let result = input;
+      if (amethyst.getCurrentOperatingSystem() == "windows" ) {
+        // Default - Speakers (2- Realtek(R) Audio)
+        result = input.slice(input.indexOf("(") + 1, input.lastIndexOf(")"));
+      }
+      return result;
+
+    };
+
+    let outputDeviceName;
+
+    if (this.state.settings.value.audioDriver == "default") {
+      const mediaDevices = await navigator.mediaDevices?.enumerateDevices();
+      navigator.mediaDevices.addEventListener("devicechange", event => {
+        if (event.type == "devicechange") {
+          this.updateCurrentOutputDevice();
+        }
+      });
+      outputDeviceName = mediaDevices.find(device => device.deviceId == "default" && device.kind == "audiooutput")?.label;
+      outputDeviceName && (this.state.settings.value.outputAudioDeviceName = extractDeviceName(outputDeviceName));
+    } else if (this.state.settings.value.audioDriver == "asio") {
+
+      // updates on first load unlike the code in outputnode
+      this.state.settings.value.outputAudioDeviceName = this.state.settings.value.outputRealtimeAudioDeviceName;
+    }
+
+    console.log(`Current audio device: ${this.state.settings.value.outputAudioDeviceName}`);
+  };
 
   private handleDiscordRichPresence() {
     let richPresenceTimer: NodeJS.Timeout | undefined;

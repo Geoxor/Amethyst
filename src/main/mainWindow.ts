@@ -20,7 +20,7 @@ export const TOTAL_CORES = os.cpus().length;
 export const RESOURCES_PATH = path.join(__dirname, "../".repeat(+app.isPackaged * 2 + 2), "assets");
 
 try {
-	console.log(fs.statSync(METADATA_CACHE_PATH));
+	fs.statSync(METADATA_CACHE_PATH);
 } catch (e) {
 	fs.promises.mkdir(METADATA_CACHE_PATH, {recursive: true});
 	console.log(`Created metadata cache folder at ${METADATA_CACHE_PATH}`);

@@ -9,13 +9,13 @@
 import { Menu, app } from "electron";
 import { checkForUpdatesAndInstall, MainWindow } from "./mainWindow";
 import Store from "electron-store";
-import si from "systeminformation";
-
-si.audio(data => {
-  console.log(data);
-});	
+import "./realtimeAudio";
 
 export const store = new Store();
+
+let mainWindow: MainWindow;
+
+export const getWindow = () => mainWindow;
 
 export const IS_DEV = process.env.NODE_ENV === "development" || process.env.DEBUG_PROD === "true";
 if (process.env.NODE_ENV === "production")
@@ -93,7 +93,7 @@ else {
         console.log("Vsync disabled");
       }
 
-      const mainWindow = new MainWindow();
+       mainWindow = new MainWindow();
 
       app.on("window-all-closed", () => {
         // Respect the OSX convention of having the application in memory even
