@@ -215,6 +215,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       <spectrum-analyzer
         :key="amethyst.player.nodeManager.getNodeConnectionsString()"
         :node="amethyst.player.nodeManager.master.pre"
+        :spectrogram="amethyst.state.settings.value.spectrogram.show"
       />
     </div>
     <!-- Spacer to keep the middle dock centered  -->
