@@ -290,7 +290,7 @@ export class Amethyst extends AmethystBackend {
       });
       outputDeviceName = mediaDevices.find(device => device.deviceId == "default" && device.kind == "audiooutput")?.label;
       outputDeviceName && (this.state.settings.value.outputAudioDeviceName = extractDeviceName(outputDeviceName));
-    } else if (this.state.settings.value.audioDriver == "asio") {
+    } else if (amethyst.state.settings.value.audioDriver == "asio" || amethyst.state.settings.value.audioDriver == "alsa" || amethyst.state.settings.value.audioDriver == "coreaudio") {
 
       // updates on first load unlike the code in outputnode
       this.state.settings.value.outputAudioDeviceName = this.state.settings.value.outputRealtimeAudioDeviceName;
