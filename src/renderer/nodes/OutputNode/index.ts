@@ -59,7 +59,7 @@ function connectToFinalNode(amethyst: Amethyst, context: AudioContext, pre: Gain
 
   if (amethyst.state.settings.value.audioDriver == "default") {
     pre.connect(context.destination);
-  } else if (amethyst.state.settings.value.audioDriver == "asio") {
+  } else if (amethyst.state.settings.value.audioDriver == "asio" || amethyst.state.settings.value.audioDriver == "alsa"  || amethyst.state.settings.value.audioDriver == "coreaudio") {
     connectRealtimeDriver();
   }
 
@@ -72,6 +72,8 @@ function connectToFinalNode(amethyst: Amethyst, context: AudioContext, pre: Gain
         pre.connect(context.destination);
         window.electron.ipcRenderer.invoke("close-realtime-audio-stream");
         return;
+      case "coreaudio":
+      case "alsa":
       case "asio":
         pre.disconnect(context.destination);
         if (hasWorkletStarted) {
