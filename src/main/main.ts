@@ -21,9 +21,6 @@ export const IS_DEV = process.env.NODE_ENV === "development" || process.env.DEBU
 if (process.env.NODE_ENV === "production")
   import("source-map-support").then(smc => smc.install());
 
-// if (isDebug) 
-// import("electron-debug").then(electronDebug => electronDebug ());
-
 app.setAppUserModelId("Amethyst");
 app.commandLine.appendSwitch("js-flags", "--max-old-space-size=1536");
 
@@ -110,17 +107,6 @@ else {
         mainWindow.playAudio(argv[3]);
         mainWindow.window.focus();
       });
-
-      // if (IS_DEV) {
-      // 	import("electron-devtools-installer").then(({
-      // 		default: installExtension,
-      // 		VUEJS3_DEVTOOLS,
-      // 	}) => installExtension(VUEJS3_DEVTOOLS, {
-      // 		loadExtensionOptions: {
-      // 			allowFileAccess: true,
-      // 		},
-      // 	})).catch(error => console.error("Failed install extension:", error));
-      // }
 
       mainWindow.show();
 
