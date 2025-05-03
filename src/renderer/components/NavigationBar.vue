@@ -36,6 +36,11 @@ import NavigationButton from "@/components/NavigationButton.vue";
     />
 
     <navigation-button
+      icon="ic:twotone-mic-external-on"
+      route-name="audio-monitor"
+    />
+
+    <navigation-button
       v-if="amethyst.IS_DEV"
       icon="ic:twotone-bug-report"
       route-name="playground"
