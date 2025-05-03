@@ -4,6 +4,7 @@ import OutputDiagramBlob from "@/components/v2/OutputDiagramBlob.vue";
 import TitleText from "@/components/v2/TitleText.vue";
 import AmethystIcon from "@/icons/AmethystIcon.vue";
 import AacLogo from "@/icons/logos/AacLogo.vue";
+import AlsaLogo from "@/icons/logos/AlsaLogo.vue";
 import ArturiaLogo from "@/icons/logos/ArturiaLogo.vue";
 import AsioLogo from "@/icons/logos/AsioLogo.vue";
 import FlacLogo from "@/icons/logos/FlacLogo.vue";
@@ -126,6 +127,7 @@ onMounted(() => {
         <realtek-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('realtek')" />
         <steam-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('steam')" />
         <focusrite-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('focusrite')" />
+        <alsa-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('alsa')" />
         <arturia-logo v-else-if="['minifuse', 'arturia'].some(string => amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes(string))" />
         <nvidia-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('nvidia')" />
         <f-l-studio-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('fl studio')" />
