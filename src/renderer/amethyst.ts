@@ -274,29 +274,31 @@ export class Amethyst extends AmethystBackend {
       window.electron.ipcRenderer.invoke("clear-rich-presence");
     };
 
-    const updateRichPresence = (track: Track) => {
+    const updateRichPresence = async (track: Track) => {
       const sendData = () => {
       const args = [
         track.getArtistsFormatted() && track.getTitleFormatted() ? `${track.getArtistsFormatted()} - ${track.getTitleFormatted()}` : track.getFilename(),
           this.player.isPaused.value ? "Paused" : `${this.player.currentTimeFormatted(true)} - ${track.getDurationFormatted(true)}`,
-          track.metadata.data?.format.container?.toLowerCase() || "unknown format"
+          track.metadata.data?.format.container?.toLowerCase() || "unknown format",
+          track.albumUrl
         ];
         window.electron.ipcRenderer.invoke("update-rich-presence", [args]);
       };
 
       richPresenceTimer && clearInterval(richPresenceTimer);
       sendData();
-      richPresenceTimer = setInterval(() => sendData(), 1000);
+      richPresenceTimer = setInterval(() => sendData(), 5000);
     };
 
-    const updateWithCurrentTrack = () => {
+    const updateWithCurrentTrack = async () => {
       const currentTrack = this.player.getCurrentTrack();
-      currentTrack && updateRichPresence(currentTrack);
+      await currentTrack?.fetchAlbumCoverUrl();
+      currentTrack && await updateRichPresence(currentTrack);
     };
 
     if (this.state.settings.value.useDiscordRichPresence) {
-      this.player.on("play", () => {
-        updateWithCurrentTrack();
+      this.player.on("play", async () => {
+        await updateWithCurrentTrack();
       });
     };
 

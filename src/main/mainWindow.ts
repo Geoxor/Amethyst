@@ -320,9 +320,9 @@ export class MainWindow {
 			},
 
 			"update-rich-presence": (_: Event, [args]: string[]) => {
-				const [title, time, format] = args;
+				const [title, time, format, albumUrl] = args;
 
-				this.discord.updateCurrentSong(title, time, format as FormatIcons);
+				this.discord.updateCurrentSong(title, time, albumUrl,format as FormatIcons);
 			},
 
 			"set-vsync": (_: Event, [useVsync]: string[]) => {
