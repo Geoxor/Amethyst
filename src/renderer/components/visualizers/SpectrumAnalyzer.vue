@@ -99,8 +99,6 @@ const render = (uniforms: Record<string, any>) => {
   uniforms.u_amplitudes.value = logParabolicSpectrum(spectrum, VISUALIZER_BIN_COUNT);
 };
 
-const shouldPause = () => amethyst.state.settings.value.pauseVisualsWhenUnfocused && !amethyst.state.window.isFocused;
-
 const getShader = () => props.spectrogram ? spectrogramShader : spectrumShader;
 
 </script>
@@ -111,7 +109,7 @@ const getShader = () => props.spectrogram ? spectrogramShader : spectrumShader;
       class="origin-top-left absolute"
       :frag-shader="getShader()"
       :analyser="analyser"
-      :pause-rendering="shouldPause()"
+      :pause-rendering="amethyst.shouldPauseVisualizers()"
       :uniforms="uniformData"
       @on-render="render"
     />
