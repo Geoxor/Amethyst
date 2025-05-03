@@ -4,7 +4,7 @@ import os from "os";
 import path from "path";
 import type { Event} from "electron";
 import electron, { app, BrowserWindow, dialog, ipcMain, Notification, shell } from "electron";
-import type { FormatIcons } from "./discord";
+import type { IRichPresenceInfo, FormatIcons } from "./discord";
 import { Discord } from "./discord";
 import {ALLOWED_AUDIO_EXTENSIONS} from "../shared/constants";
 import {sleep} from "../shared/logic";
@@ -320,9 +320,20 @@ export class MainWindow {
 			},
 
 			"update-rich-presence": (_: Event, [args]: string[]) => {
-				const [title, time, format, albumUrl] = args;
+				const [title, album, start, end, cover, format] = args;
 
-				this.discord.updateCurrentSong(title, time, albumUrl,format as FormatIcons);
+				const info: IRichPresenceInfo = {
+					title: title,
+					album: album,
+					timestamps: {
+						start: parseInt(start),
+						end: (parseInt(start) + parseInt(end) * 1000)
+					},
+					coverUrl: cover,
+					containerFormat: format as FormatIcons
+				};
+
+				this.discord.updateCurrentSong(info);
 			},
 
 			"set-vsync": (_: Event, [useVsync]: string[]) => {

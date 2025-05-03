@@ -5,6 +5,17 @@ const DISCORD_CLIENT_ID = "976036303156162570";
 
 export type FormatIcons = "aiff" | "flac" | "mpeg" | "ogg" | "wave";
 
+export interface IRichPresenceInfo {
+  title: String;
+  album: String;
+  timestamps: {
+    start: number;
+    end: number;
+  }
+  coverUrl: String;
+  containerFormat: FormatIcons;
+}
+
 export class Discord {
 	private readonly client: Client;
 
@@ -24,6 +35,7 @@ export class Discord {
 		this.client.on("ready", () => {
 			// Do something when ready
 		});
+
 		this.client.on("disconnected", () => this.destroyed = true);
 	}
 
@@ -42,27 +54,28 @@ export class Discord {
 		});
 	}
 
-	public updateCurrentSong(title: string, duration: string, albumUrl: String, format?: FormatIcons): void {
-		this.connected.then(check => {
+	public updateCurrentSong(info: IRichPresenceInfo): void {
+		this.connected.then( check => {
 			if (check && !this.destroyed) {
 				this.client.setActivity({
 					type: ActivityType.Listening,
-					details: title,
-					state: duration,
+					details: info.title.toString(),
+					state: info.album.toString(),
 					timestamps: {
-						start: this.timestamp,
+						start: info.timestamps.start,
+						end: info.timestamps.end
 					},
 					assets: {
-						large_image: albumUrl !== "" ? `${albumUrl}` : "audio_file",
-						large_text: format?.toUpperCase() || "Unknown Format",
+						large_image: info.coverUrl !== "" ? `${info.coverUrl}` : "audio_file",
+						large_text: info.containerFormat?.toUpperCase() || "Unknown Format",
 						small_image: "logo",
-						small_text: `Amethyst v${APP_VERSION}\n`,
+						small_text: `Amethyst ${APP_VERSION}\n`,
 					},
 					buttons: [
 						{
 							label: "Find Song",
-							url: `https://www.youtube.com/results?search_query=${encodeURIComponent(title)}`,
-						},
+							url: `https://www.youtube.com/results?search_query=${encodeURIComponent(info.title.toString())}`,
+						}
 					]
 				});
 			}

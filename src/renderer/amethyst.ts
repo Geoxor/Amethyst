@@ -300,27 +300,26 @@ export class Amethyst extends AmethystBackend {
   };
 
   private handleDiscordRichPresence() {
-    let richPresenceTimer: NodeJS.Timeout | undefined;
+    let start: number;
 
     const clearRichPresence = () => {
-      richPresenceTimer && clearInterval(richPresenceTimer);
       window.electron.ipcRenderer.invoke("clear-rich-presence");
     };
 
     const updateRichPresence = async (track: Track) => {
       const sendData = () => {
       const args = [
-        track.getArtistsFormatted() && track.getTitleFormatted() ? `${track.getArtistsFormatted()} - ${track.getTitleFormatted()}` : track.getFilename(),
-          this.player.isPaused.value ? "Paused" : `${this.player.currentTimeFormatted(true)} - ${track.getDurationFormatted(true)}`,
-          track.metadata.data?.format.container?.toLowerCase() || "unknown format",
-          track.albumUrl
+          track.getArtistsFormatted() && track.getTitleFormatted() ? `${track.getTitleFormatted()}` : track.getFilename(),
+          `${track.getArtistsFormatted()} -  ${track.getAlbum()}`,
+          start.toString(),
+          (track.getDurationSeconds() as number).toString(),
+          track.albumUrl,
+          track.metadata.data?.format.container?.toLowerCase() || "unknown format"
         ];
         window.electron.ipcRenderer.invoke("update-rich-presence", [args]);
       };
 
-      richPresenceTimer && clearInterval(richPresenceTimer);
       sendData();
-      richPresenceTimer = setInterval(() => sendData(), 5000);
     };
 
     const updateWithCurrentTrack = async () => {
@@ -331,6 +330,7 @@ export class Amethyst extends AmethystBackend {
 
     if (this.state.settings.value.useDiscordRichPresence) {
       this.player.on("play", async () => {
+        start = Date.now();
         await updateWithCurrentTrack();
       });
     };
