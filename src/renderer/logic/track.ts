@@ -155,15 +155,24 @@ export class Track {
     
     const result = await mbApi.search("release", {
       query: `${artist} - ${album}`,
-      artist: `${artist}`
     });
 
     if (result.count > 0)
     {
-      const response = await (await fetch(`https://coverartarchive.org/release/${result.releases[0].id}`)).json();
-      for (const cover of response["images"]) {
-        if (cover["front"]) {
-          this.albumUrl = cover["image"].replace("http://", "https://");
+      for (const release of result.releases) {
+        for (const media of release.media) {
+          // make sure it's an digital album
+          if (media.format?.includes("Digital Media")) {
+            try {
+              const response = await (await fetch(`https://coverartarchive.org/release/${release.id}`)).json();
+              for (const cover of response["images"]) {
+                if (cover["front"]) {
+                  this.albumUrl = cover["image"].replace("http://", "https://");
+                  return;
+                }
+              }
+            } catch(_) {}
+          }
         }
       }
     }
