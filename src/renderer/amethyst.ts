@@ -300,9 +300,15 @@ export class Amethyst extends AmethystBackend {
   };
 
   private handleDiscordRichPresence() {
-    let start: number;
+    let richPresenceTimer: NodeJS.Timeout | undefined;
+    let start: number = 0;
+    let startBegin: number = 0;
+    let isPaused: boolean = false;
+    let seekDuringPause: boolean = false;
+    let trackNameBeforePause: String;
 
     const clearRichPresence = () => {
+      richPresenceTimer && clearInterval(richPresenceTimer);
       window.electron.ipcRenderer.invoke("clear-rich-presence");
     };
 
@@ -314,12 +320,15 @@ export class Amethyst extends AmethystBackend {
           start.toString(),
           (track.getDurationSeconds() as number).toString(),
           track.albumUrl,
-          track.metadata.data?.format.container?.toLowerCase() || "unknown format"
+          track.metadata.data?.format.container?.toLowerCase() || "unknown format",
+          isPaused ? "yes" : "no"
         ];
         window.electron.ipcRenderer.invoke("update-rich-presence", [args]);
       };
 
+      richPresenceTimer && clearInterval(richPresenceTimer);
       sendData();
+      richPresenceTimer = setInterval(() => sendData(), 5000);
     };
 
     const updateWithCurrentTrack = async () => {
@@ -330,10 +339,39 @@ export class Amethyst extends AmethystBackend {
 
     if (this.state.settings.value.useDiscordRichPresence) {
       this.player.on("play", async () => {
-        start = Date.now();
-        await updateWithCurrentTrack();
+        if (isPaused && trackNameBeforePause == this.player.getCurrentTrack()?.getTitleFormatted()) {
+          start = seekDuringPause ? start : start + Math.abs(Date.now() - startBegin);
+        } else {
+          start = Date.now();
+        }
+
+        seekDuringPause = false;
+        isPaused = false;
+        trackNameBeforePause = "";
+        updateWithCurrentTrack();
+      });
+
+      this.player.on("timeupdate", async (newTime) => {
+        start = Date.now() - newTime * 1000; 
+        if (!isPaused) {
+          updateWithCurrentTrack();
+        } else {
+          seekDuringPause = true;
+        }
+      });
+
+      this.player.on("pause", () => {
+        startBegin = Date.now();
+        trackNameBeforePause = this.player.getCurrentTrack()?.getTitleFormatted() ?? "";
+        isPaused = true;
+        updateWithCurrentTrack();
+      });
+
+      this.player.on("stop", () => {
+        clearRichPresence();
       });
     };
+
 
     watch(() => this.state.settings.value.useDiscordRichPresence, value => {
       value ? updateWithCurrentTrack() : clearRichPresence();

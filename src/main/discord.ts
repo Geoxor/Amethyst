@@ -14,6 +14,7 @@ export interface IRichPresenceInfo {
   }
   coverUrl: String;
   containerFormat: FormatIcons;
+  pauseStatus: String;
 }
 
 export class Discord {
@@ -23,14 +24,11 @@ export class Discord {
 
 	private destroyed: boolean;
 
-	private timestamp: number;
-
 	constructor() {
 		this.client = new Client({ clientId: DISCORD_CLIENT_ID });
 
 		this.connected = this.connect();
 		this.destroyed = false;
-		this.timestamp = Date.now();
 
 		this.client.on("ready", () => {
 			// Do something when ready
@@ -61,13 +59,16 @@ export class Discord {
 					type: ActivityType.Listening,
 					details: info.title.toString(),
 					state: info.album.toString(),
-					timestamps: {
+					timestamps: info.pauseStatus == "yes" ? {
+						start: new Date(),
+						end: new Date()
+					} : {
 						start: info.timestamps.start,
 						end: info.timestamps.end
 					},
 					assets: {
 						large_image: info.coverUrl !== "" ? `${info.coverUrl}` : "audio_file",
-						large_text: info.containerFormat?.toUpperCase() || "Unknown Format",
+						large_text: info.pauseStatus == "yes" ? `Paused - ${info.containerFormat?.toUpperCase() || "Unknown Format"}` : info.containerFormat?.toUpperCase() || "Unknown Format",
 						small_image: "logo",
 						small_text: `Amethyst ${APP_VERSION}\n`,
 					},

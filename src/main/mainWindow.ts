@@ -320,7 +320,7 @@ export class MainWindow {
 			},
 
 			"update-rich-presence": (_: Event, [args]: string[]) => {
-				const [title, album, start, end, cover, format] = args;
+				const [title, album, start, end, cover, format, paused] = args;
 
 				const info: IRichPresenceInfo = {
 					title: title,
@@ -330,7 +330,8 @@ export class MainWindow {
 						end: (parseInt(start) + parseInt(end) * 1000)
 					},
 					coverUrl: cover,
-					containerFormat: format as FormatIcons
+					containerFormat: format as FormatIcons,
+					pauseStatus: paused
 				};
 
 				this.discord.updateCurrentSong(info);
