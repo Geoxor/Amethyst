@@ -6,7 +6,6 @@ import Slider from "@/components/input/BaseSlider.vue";
 import { useInspector } from "@/components/Inspector";
 import PlaybackButtons from "@/components/PlaybackButtons.vue";
 import ResizableDiv from "@/components/ResizableDiv";
-import OutputBreakdown from "@/components/v2/OutputBreakdown.vue";
 import OutputDiagram from "@/components/v2/OutputDiagram.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import LoudnessMeter from "@/components/visualizers/LoudnessMeter.vue";
@@ -14,6 +13,7 @@ import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
 import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 import { router } from "@/router";
 import { Icon } from "@iconify/vue";
+import { secondsToColinHuman } from "@shared/formating";
 import { LoadStatus } from "@shared/types";
 import DraggableModifierInput from "../input/DraggableModifierInput.vue";
 
@@ -99,7 +99,6 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
             class="utilityButton absolute top-3 right-3 cursor-pointer"
             @click="amethyst.state.settings.value.showOutputDiagram = false"
           />
-          <output-breakdown />
           <output-diagram />
         </div>
         <slider
@@ -145,6 +144,22 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
           @contextmenu="handleContextCoverMenu"
           @click="amethyst.player.getCurrentTrack()?.cover.state === LoadStatus.Loaded && (amethyst.state.window.isShowingBigCover = !amethyst.state.window.isShowingBigCover)"
         />
+
+        <div class="flex justify-between select-none max-w-40 flex-col h-full w-full py-0.5 font-bold">
+          <h1
+            class="text-13px hover:underline cursor-pointer overflow-hidden overflow-ellipsis"
+            @click=" amethyst.showItem(amethyst.player.getCurrentTrack()?.path!)"
+          >
+            {{ amethyst.player.getCurrentTrack()?.getTitleFormatted() || 'No track' }}
+          </h1>
+          <p class="text-11px overflow-hidden overflow-ellipsis">
+            {{ amethyst.player.getCurrentTrack()?.getArtistsFormatted() || 'No artist' }}
+          </p>
+          <p class="text-11px text-text_subtitle">
+            {{ amethyst.player.currentTimeFormatted(true) }} /
+            {{ secondsToColinHuman(amethyst.player.input.duration) || '0:00' }}
+          </p>
+        </div>
 
         <playback-buttons :player="amethyst.player" />
 
