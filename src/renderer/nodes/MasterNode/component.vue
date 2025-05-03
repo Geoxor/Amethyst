@@ -9,7 +9,7 @@ defineProps<{ node: AmethystAudioNode }>();
   <custom-node
     meterless
     :node="node"
-    title="Master"
-    description="Playback controls"
+    :title="$t('node.master.title')"
+    :description="$t('node.master.description')"
   />
 </template>

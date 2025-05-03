@@ -55,7 +55,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
           v-if="node.isBypassed"
           class="animate-pulse text-alert-color bg-alert-color bg-opacity-15"
         >
-          Bypassed
+          {{ $t('node.bypassed') }}
         </base-chip>
       </div>
 

@@ -8,7 +8,7 @@ defineProps<{ node: AmethystGainNode }>();
 <template>
   <custom-node
     :node="node"
-    title="Gain"
+    :title="$t('node.gain.title')"
   >
     <draggable-modifier-input 
       v-model="node.gain"

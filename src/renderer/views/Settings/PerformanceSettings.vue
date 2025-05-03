@@ -41,21 +41,21 @@ onMounted(() => {
     <div class="p-4 w-min rounded-8px bg-settings-setting-background text-text_title flex gap-4 items-center justify-between">
       <div class="flex-col flex justify-center h-full gap-2">
         <subtitle-text
-          text="Minimum Framerate"
+          :text="$t('settings.performance.minimum_framerate')"
           class="text-12px"
         />
         <title-text :text="`${Number.isFinite(minFps) && minFps != -1 ? `${minFps} fps` : 'loading'}`" />
       </div>
       <div class="flex-col flex justify-center h-full gap-2">
         <subtitle-text
-          text="Current Framerate"
+          :text="$t('settings.performance.current_framerate')"
           class="text-12px"
         />
         <title-text :text="`${Number.isFinite(tweenedFps) && tweenedFps != -1 ? `${tweenedFps + 1} fps` : 'loading'}`" />
       </div>
       <div class="flex-col flex justify-center h-full gap-2">
         <subtitle-text
-          text="Maximum Framerate"
+          :text="$t('settings.performance.maximum_framerate')"
           class="text-12px"
         />
         <title-text :text="`${Number.isFinite(maxFps) && maxFps != -1 ? `${maxFps} fps` : 'loading'}`" />
@@ -64,7 +64,7 @@ onMounted(() => {
     <div class="p-4 w-min rounded-8px bg-settings-setting-background text-text_title flex flex-col gap-4">
       <div class="flex-col flex justify-center h-full gap-2">
         <subtitle-text
-          text="Audio Latency"
+          :text="$t('settings.performance.audio_latency')"
           class="text-12px"
         />
         <title-text :text="`${Number.isFinite(audioLatency) && audioLatency != -1 ? `${audioLatency} ms` : 'loading'}`" />

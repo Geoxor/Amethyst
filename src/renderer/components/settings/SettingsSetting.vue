@@ -34,6 +34,7 @@ const hasSubsetting = () => {
       <div class="flex-1" />
       <base-chip
         v-if="warning"
+        color="alert-color"
       >
         {{ warning }}
       </base-chip>

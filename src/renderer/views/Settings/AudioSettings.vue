@@ -43,7 +43,7 @@ switch (amethyst.getCurrentOperatingSystem()) {
     :title="$t('settings.resampler_rate.title')"
     :description="$t('settings.resampler_rate.description')"
     icon="mdi:abacus"
-    warning="Reload Required"
+    :warning="$t('settings.resampler_rate.warning')"
   >
     <dropdown-input
       v-model="amethyst.state.settings.value.resampleRate"

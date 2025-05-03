@@ -22,7 +22,7 @@ watch(() => props.node.frequencyPercent, percent => {
 <template>
   <custom-node
     :node="node"
-    title="12 dB/oct Filter"
+    :title="$t('node.filter.title')"
   >
     <div class="font-aseprite font-thin flex gap-2 items-center">
       <p class="text-primary-900 ">

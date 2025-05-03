@@ -8,7 +8,7 @@ defineProps<{ node: AmethystPannerNode }>();
 <template>
   <custom-node
     :node="node"
-    title="Stereo Panner"
+    :title="$t('node.panner.title')"
   >
     <graphics :pan="node.pan" />
   </custom-node>

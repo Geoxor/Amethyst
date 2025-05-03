@@ -9,7 +9,7 @@ defineProps<{ node: AmethystOutputNode }>();
   <custom-node
     meterless
     :node="node"
-    title="Output"
-    description="To audio device"
+    :title="$t('node.output.title')"
+    :description="$t('node.output.description')"
   />
 </template>
