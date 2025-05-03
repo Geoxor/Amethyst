@@ -1,3 +1,4 @@
+import type { Ref} from "vue";
 import { ref } from "vue";
 import { bytesToHuman, secondsToColinHuman, secondsToHuman, bitrateToHuman } from "@shared/formating";
 import type { IMetadata, LoadState } from "@shared/types";
@@ -21,9 +22,9 @@ const mbApi = new MusicBrainzApi({
 export class Track {
   public metadata: LoadState<IMetadata> = { state: LoadStatus.Loading, data: undefined };
   public cover: { state: LoadStatus, data: string | undefined } = { state: LoadStatus.Loading, data: undefined };
-  public isLoading = ref(false);
-  public isLoaded = ref(false);
-  public hasErrored = ref(false);
+  public isLoading: Ref<boolean> = ref(false);
+  public isLoaded: Ref<boolean> = ref(false);
+  public hasErrored : Ref<boolean> = ref(false);
   public deleted: boolean = false;
   public isFavorited: boolean = false;
   public path: string;
