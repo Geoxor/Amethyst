@@ -87,7 +87,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       side="centerVertical"
       :handles-visible="false"
       default-size="960px"
-      class="relative rounded-8px min-w-660px max-w-960px  pointer-events-auto bg-playback-controls-background"
+      class="relative rounded-8px min-w-680px max-w-960px  pointer-events-auto bg-playback-controls-background"
     >
       <div class="flex items-center h-16 gap-2 p-2 w-full">
         <div 
@@ -210,7 +210,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
           id="volume"
           key="volume"
           v-model="amethyst.player.volume.value"
-          class="w-32 h-1.5"
+          class="min-w-16 h-1.5"
           min="0"
           max="1"
           step="0.001"
