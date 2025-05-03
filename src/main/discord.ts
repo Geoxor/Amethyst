@@ -45,7 +45,6 @@ export class Discord {
 	public updateCurrentSong(title: string, duration: string, albumUrl: String, format?: FormatIcons): void {
 		this.connected.then(check => {
 			if (check && !this.destroyed) {
-				console.log(albumUrl);
 				this.client.setActivity({
 					type: ActivityType.Listening,
 					details: title,
