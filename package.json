@@ -219,15 +219,15 @@
           ]
         }
       ],
-      "deb": {
-        "depends": [
-          "libvips"
-        ]
-      },
       "asarUnpack": [
         "**/node_modules/sharp/**"
       ],
       "category": "Music"
+    },
+    "deb": {
+      "depends": [
+        "libvips"
+      ]
     },
     "mac": {
       "target": {
