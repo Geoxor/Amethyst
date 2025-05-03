@@ -287,7 +287,7 @@ export class Amethyst extends AmethystBackend {
 
       richPresenceTimer && clearInterval(richPresenceTimer);
       sendData();
-      richPresenceTimer = setInterval(() => sendData(), 1000);
+      richPresenceTimer = setInterval(() => sendData(), 5000);
     };
 
     const updateWithCurrentTrack = async () => {
