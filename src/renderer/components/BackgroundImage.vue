@@ -2,21 +2,12 @@
 import { amethyst } from "@/amethyst";
 import CoverArt from "@/components/CoverArt.vue";
 import ShaderCanvas from "@/components/ShaderCanvas.vue";
+import {SimpleGradient} from "@/shaders/builtin/SimpleGradient";
 
 defineProps<{
   ambientBackgroundImage?: string,
 }>();
 
-// TODO: Implement loading shaders from disk (so users can use their own shaders)
-// This is just an example shader for now
-const fragmentShader = `
-  precision highp float;
-  uniform float u_time;
-  uniform vec2 u_resolution;
-  void main() {
-    vec2 uv = gl_FragCoord.xy / u_resolution;
-    gl_FragColor = vec4(uv.x + 0.5 + 0.5 * sin(u_time + uv.y), 0.0, 1.0 - uv.x, 1.0);
-  }`;
 </script>
 
 <template>
@@ -28,7 +19,7 @@ const fragmentShader = `
       filter: blur(${amethyst.state.settings.value.ambientBackgroundBlurStrength}px);
       mix-blend-mode: ${amethyst.state.settings.value.ambientBackgroundBlendMode};
     `"
-    :frag-shader="fragmentShader"
+    :frag-shader="SimpleGradient"
     :pause-rendering="amethyst.shouldPauseAnimations()"
   />
 
