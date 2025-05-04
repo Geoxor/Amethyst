@@ -154,7 +154,7 @@ export class Track {
     const album = this.metadata.data?.common.album ?? "";
     
     const result = await mbApi.search("release", {
-      query: `${artist} - ${album}`,
+      query: `artist:${artist} ${album}`
     });
 
     if (result.count > 0)
