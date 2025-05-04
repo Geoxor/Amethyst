@@ -5,6 +5,7 @@ import TitleText from "@/components/v2/TitleText.vue";
 import AmethystIcon from "@/icons/AmethystIcon.vue";
 import AacLogo from "@/icons/logos/AacLogo.vue";
 import AlsaLogo from "@/icons/logos/AlsaLogo.vue";
+import AppleLogo from "@/icons/logos/AppleLogo.vue";
 import ArturiaLogo from "@/icons/logos/ArturiaLogo.vue";
 import AsioLogo from "@/icons/logos/AsioLogo.vue";
 import FlacLogo from "@/icons/logos/FlacLogo.vue";
@@ -131,6 +132,8 @@ onMounted(() => {
         <arturia-logo v-else-if="['minifuse', 'arturia'].some(string => amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes(string))" />
         <nvidia-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('nvidia')" />
         <f-l-studio-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('fl studio')" />
+        <apple-logo v-else-if="['apple inc.'].some(string => amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes(string))" />
+        
         <!-- asio last incase we don't recognise the company of the specific asio device -->
         <asio-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('asio')" />
         <icon
