@@ -1,10 +1,5 @@
 import {amethyst} from "@/amethyst";
 
-export interface Shader {
-  name: string;
-  glsl: string;
-}
-
 export class ShaderManager {
 
   private shaders: Map<string, string>;
@@ -12,7 +7,7 @@ export class ShaderManager {
   public constructor() {
     this.shaders = new Map();
     //@ts-ignore
-    const shaderModules = import.meta.glob<{ default: Shader }>("@/shaders/builtin/*.ts", {eager: true});
+    const shaderModules = import.meta.glob<{ default: {name: string, glsl: string} }>("@/shaders/builtin/*.ts", {eager: true});
     Object.entries(shaderModules).forEach(([path, module]) => {
       try {
         //@ts-ignore
