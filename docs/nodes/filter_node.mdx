@@ -4,7 +4,9 @@ icon: "waveform"
 
 The filter node holds a very basic two pole [filter](https://en.wikipedia.org/wiki/Filter_(signal_processing))`(12dB/oct)` it has multiple [filter types](https://developer.mozilla.org/en-US/docs/Web/API/BiquadFilterNode/type) supported by the [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API) with adjustable [`Gain`](https://en.wikipedia.org/wiki/Gain_(electronics)) [`Frequency`](https://en.wikipedia.org/wiki/Frequency) and [`Q`](https://en.wikipedia.org/wiki/Q_factor).
 
-Each of the filters can be duplicated and chained in [series](https://en.wikipedia.org/wiki/Daisy_chain_(electrical_engineering)) to create a steeper [rolloff](https://en.wikipedia.org/wiki/Roll-off) filter. For example, to create a classic `48dB/oct` [rolloff](https://en.wikipedia.org/wiki/Roll-off) filter, you need to chain 4 of them together.
+<Tip>
+Filters can be chained in [series](https://en.wikipedia.org/wiki/Daisy_chain_(electrical_engineering)) to create a steeper [rolloff](https://en.wikipedia.org/wiki/Roll-off) filter so chaining 4 of them will create a classic `48dB/oct` rolloff filter
+</Tip>
 
 ## Filter Types
 
