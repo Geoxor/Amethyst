@@ -1,8 +1,10 @@
 .theme-onyx-dark {
-    --text-title: 246, 246, 246;                            /* #FCFFF6; */  
-    --text-subtitle: 133, 133, 133;                         /* #BCC3B1; */  
-    --primary: 200, 200, 200;                               /* #ACE43B; */
-    --accent: 160, 160, 160;                                /* #5E5E5E; */
+    --text-title: 246, 246, 246;                            /* #f6f6f6; */  
+    --text-subtitle: 133, 133, 133;                         /* #858585; */  
+    --primary: 200, 200, 200;                               /* #c8c8c8; */
+    --accent: 160, 160, 160;                                /* #a0a0a0; */
+    --inspector-color: var(--text-title);                   
+    --alert-color: 255, 225, 73;                            /* #FFE149; */
   
     --settings-setting-background: var(--surface-800);      
     --settings-subsetting-background: var(--surface-900);   

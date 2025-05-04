@@ -98,7 +98,7 @@ onUnmounted(() => shouldStopRendering = true);
         />
 
         <div
-          :class="channelData[i - 1][0].value > 0 ?'bg-rose-600' : 'bg-slider-fill bg-opacity-50'"
+          :class="channelData[i - 1][0].value > 0 ?'bg-rose-600' : 'bg-slider-fill bg-opacity-80'"
           class="rounded-full duration-meter-user-defined absolute bottom-0"
           :style="`width: ${width}px; height: ${computedWidth(channelData[i - 1][0].value)}%`"
         />
@@ -124,13 +124,13 @@ onUnmounted(() => shouldStopRendering = true);
     </div>
     <div
       v-if="pre"
-      class="div text-surface-600 w-full font-bold text-5px  bg-cyan-500 py-0.2 px-0.3 rounded-1px flex items-center justify-center"
+      class="div text-surface-600 w-min font-aseprite text-7px pl-0.7 bg-accent py-0.5 px-0.25 rounded-2px flex items-center justify-center"
     >
       PRE
     </div>
     <div
       v-else-if="amethyst.state.settings.value.decibelMeterSeperatePrePost"
-      class="div text-surface-600 w-full font-bold text-5px  bg-green-500 py-0.2 px-0.3 rounded-1px flex items-center justify-center"
+      class="div text-surface-600 w-min font-aseprite text-7px pl-0.7 bg-inspector-color py-0.5 px-0.25 rounded-2px flex items-center justify-center"
     >
       POST
     </div>

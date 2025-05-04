@@ -1,4 +1,4 @@
-import { CapacitorConfig } from "@capacitor/cli";
+import type { CapacitorConfig } from "@capacitor/cli";
 import ip from "ip";
 
 const commonConfig: CapacitorConfig = {
@@ -6,7 +6,6 @@ const commonConfig: CapacitorConfig = {
   backgroundColor: "#0f1119",
   appName: "Amethyst",
   webDir: "release/dist/renderer",
-  bundledWebRuntime: false,
   android: {
     path: "src/android",
   },

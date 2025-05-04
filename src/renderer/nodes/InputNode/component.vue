@@ -8,8 +8,7 @@ defineProps<{ node: AmethystInputNode }>();
 <template>
   <custom-node
     :node="node"
-    title="Input"
-    description="From Amethyst"
-    icon="ic:twotone-input"
+    :title="$t('node.input.title')"
+    :description="$t('node.input.description')"
   />
 </template>

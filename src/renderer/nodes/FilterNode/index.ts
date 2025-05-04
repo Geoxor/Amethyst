@@ -1,15 +1,27 @@
+import type { NodeParameters, NumberNodeParameter, StringNodeParameter } from "@/logic/audio";
 import { AmethystAudioNode } from "@/logic/audio";
 import type { NodeProperties } from "@/logic/audioManager";
 import { ref } from "vue";
 import component from "./component.vue";
 import { logValueToPercentage } from "@/logic/math";
 
-interface Parameters {
-  frequency: number,
-  gain: number;
-  Q: number;
-  type: BiquadFilterType;
-}
+interface FilterNodeParameters extends NodeParameters {
+  frequency: NumberNodeParameter,
+  gain: NumberNodeParameter;
+  q: NumberNodeParameter;
+  type: StringNodeParameter<BiquadFilterType>;
+} 
+
+const FILTER_TYPES: BiquadFilterType[] = [
+  // "allpass",
+  "lowshelf",
+  "lowpass",
+  "bandpass",
+  // "notch",
+  "peaking",
+  "highpass",
+  "highshelf",
+] ;
 
 export class AmethystFilterNode extends AmethystAudioNode {
   // Used to remember the state for onMounted state 
@@ -24,15 +36,59 @@ export class AmethystFilterNode extends AmethystAudioNode {
     const pre = context.createGain();
     const post = context.createGain();
     super(pre, post, "AmethystFilterNode", component, position);
-    
+    this.properties.icon = "ic:twotone-filter-list";
+
     this.filter = context.createBiquadFilter();
     pre.connect(this.filter);
     this.filter.connect(post);
 
-      this.type = "lowpass";
-      this.frequency = 200;
-      this.frequencyPercent = logValueToPercentage(this.frequency, this.MIN_FREQUENCY, this.MAX_FREQUENCY);
-      this.Q = 1;
+    this.reset();
+  }
+
+  public override getParameters(): FilterNodeParameters {
+    return {
+      frequency: {
+        current: this.frequency,
+        type: "number",
+        default: 100,
+        max: 22050,
+        min: 20,
+        step: 0.1,
+        unit: "Hz"
+      },
+      gain: {
+        current: this.gain,
+        type: "number",
+        default: 0,
+        max: 32,
+        min: -32,
+        step: 0.1,
+        unit: "dB"
+      },
+      q: {
+        current: this.q,
+        type: "number",
+        default: 1,
+        max: 3,
+        min: 0.1,
+        step: 0.1,
+        unit: "q"
+      },
+      type: {
+        current: this.type,
+        type: "string",
+        default: "peaking",
+        options: FILTER_TYPES
+      },
+    };
+  }
+
+  public override applyParameters(parameters: FilterNodeParameters): void {
+    this.frequency = parameters.frequency.current;
+    this.frequencyPercent = logValueToPercentage(this.frequency, this.MIN_FREQUENCY, this.MAX_FREQUENCY);
+    this.gain = parameters.gain.current;
+    this.q = parameters.q.current;
+    this.type = parameters.type.current ;
   }
 
   public get type (): BiquadFilterType {
@@ -51,7 +107,7 @@ export class AmethystFilterNode extends AmethystAudioNode {
     this.filter.frequency.value = freq;
   }
   
-  public get Q() {
+  public get q() {
     return this.filter.Q.value;
   }
 
@@ -59,7 +115,7 @@ export class AmethystFilterNode extends AmethystAudioNode {
     return this.filter.gain.value;
   }
 
-  public set Q(q: number) {
+  public set q(q: number) {
     this.filter.Q.value = q;
   }
 
@@ -68,27 +124,9 @@ export class AmethystFilterNode extends AmethystAudioNode {
   }
 
   public override reset(){
-    this.frequency = 200;
-    this.frequencyPercent = logValueToPercentage(this.frequency, this.MIN_FREQUENCY, this.MAX_FREQUENCY);
-    this.gain = 0;
-    this.Q = 1;
-    this.type = "lowpass";
-  }
-
-  public override getParameters() {
-    return {
-      frequency: this.frequency,
-      gain: this.gain,
-      Q: this.Q,
-      type: this.type,
-    };
-  }
-
-  public override applyParameters(parameters: Parameters): void {
-    this.frequency = parameters.frequency;
-    this.frequencyPercent = logValueToPercentage(this.frequency, this.MIN_FREQUENCY, this.MAX_FREQUENCY);
-    this.gain = parameters.gain;
-    this.Q = parameters.Q;
-    this.type = parameters.type;
+    this.frequency = this.getParameters().frequency.default;
+    this.gain = this.getParameters().gain.default;
+    this.q = this.getParameters().q.default;
+    this.type = this.getParameters().type.default;
   }
 }

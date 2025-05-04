@@ -7,6 +7,13 @@ import FileSaver from "file-saver";
 import mime from "mime-types";
 import type { Amethyst } from "@/amethyst";
 import { favoriteTracks } from "@/amethyst";
+import { MusicBrainzApi } from "musicbrainz-api";
+
+const mbApi = new MusicBrainzApi({
+    appName: "Amethyst",
+    appVersion: "2.0.7",
+    appContactInfo: "todo@example.com",
+});
 
 /**
  * Each playable audio file is an instance of this class
@@ -20,9 +27,11 @@ export class Track {
   public deleted: boolean = false;
   public isFavorited: boolean = false;
   public path: string;
+  public albumUrl: string;
 
   public constructor(private amethyst: Amethyst, public absolutePath: string) {
     this.path = absolutePath;
+    this.albumUrl = ""; // lateinit
     this.isFavorited = favoriteTracks.value.includes(this.path);
   }
 
@@ -109,6 +118,7 @@ export class Track {
       if (!force && await this.isCached()) {
         this.metadata.data = (await this.fetchCache()).metadata;
         this.metadata.state = LoadStatus.Loaded;
+        
         return this.metadata.data;
       }
       this.metadata.data = await this.readMetadata();
@@ -135,6 +145,39 @@ export class Track {
     return this.cover.data;
   };
 
+  public fetchAlbumCoverUrl = async () => {
+    if (this.albumUrl !== "") {
+      return;
+    }
+
+    const artist = this.metadata.data?.common.artist ?? "";
+    const album = this.metadata.data?.common.album ?? "";
+    
+    const result = await mbApi.search("release", {
+      query: `${artist} - ${album}`,
+    });
+
+    if (result.count > 0)
+    {
+      for (const release of result.releases) {
+        for (const media of release.media) {
+          // make sure it's an digital album
+          if (media.format?.includes("Digital Media")) {
+            try {
+              const response = await (await fetch(`https://coverartarchive.org/release/${release.id}`)).json();
+              for (const cover of response["images"]) {
+                if (cover["front"]) {
+                  this.albumUrl = cover["image"].replace("http://", "https://");
+                  return;
+                }
+              }
+            } catch(_) {}
+          }
+        }
+      }
+    }
+  };
+
   /**
    * Fetches all async data concurrently
    */
@@ -151,7 +194,7 @@ export class Track {
     if (this.amethyst.getCurrentPlatform() === "desktop") {
       window.fs.writeFile(this.getCachePath(true), JSON.stringify({
         cover,
-        metadata,
+        metadata
       }, null, 2)).catch(console.log);
     }
 
@@ -204,6 +247,27 @@ export class Track {
   public getTrackNumber() {
     return this.getMetadata()?.common.track.no;
   }
+  public getBarcode(){
+    return this.getMetadata()?.common.barcode;
+  }
+  public getLabel(){
+    return this.getMetadata()?.common.label;
+  }
+  public getISRC(){
+    return this.getMetadata()?.common.isrc;
+  }
+  public getCopyright(){
+    return this.getMetadata()?.common.copyright;
+  }
+  public getGenre() {
+    return this.getMetadata()?.common.genre?.sort();
+  }
+  public getGenreFormatted() {
+    return this.getGenre()?.join(", ");
+  }
+  public getBPM() {
+    return this.getMetadata()?.common.bpm;
+  }
   public getDiskNumber() {
     return this.getMetadata()?.common.disk.no;
   }
@@ -222,9 +286,18 @@ export class Track {
   public getBitsPerSample() {
     return this.getMetadata()?.format.bitsPerSample;
   }
+
+  public getBitsPerSampleFormatted() {
+    return this.getBitsPerSample() ? `${this.getBitsPerSample()} bit` : undefined;
+  }
   public getSampleRate() {
     return this.getMetadata()?.format.sampleRate;
   }
+
+  public getSampleRateFormatted() {
+    return this.getSampleRate() ? `${this.getSampleRate()} Hz` : undefined;
+  }
+
   public getFilesize() {
     return this.getMetadata()?.size;
   }

@@ -8,6 +8,7 @@ import { AmethystAudioNodeManager } from "./audioManager";
 import { EventEmitter } from "./eventEmitter";
 import { secondsToColinHuman, secondsToHuman } from "@shared/formating";
 import type { Amethyst } from "@/amethyst";
+import type { RtAudioDeviceInfo } from "audify";
 
 export enum LoopMode {
 	None,
@@ -27,6 +28,7 @@ export class Player extends EventEmitter<{
   
   private currentTrack = ref<Track>();
   private currentTrackIndex = ref(0);
+  public pitchSemitones = useLocalStorage<number>("pitchSemitones", 0);
   public isPlaying = ref(false);
   public isStopped = ref(true);
   public isPaused = ref(false);
@@ -41,33 +43,8 @@ export class Player extends EventEmitter<{
   public source = this.context.createMediaElementSource(this.input);
   public nodeManager: AmethystAudioNodeManager;
 
-  public outputDevice: Ref<string> = ref("");
-
   public constructor(private amethyst: Amethyst) {
     super();
-
-    const extractDeviceName = (input: string): string => {
-      let result = input;
-      if (amethyst.getCurrentOperatingSystem() == "windows" ) {
-        // Default - Speakers (2- Realtek(R) Audio)
-        result = input.slice(input.indexOf("(") + 1, input.lastIndexOf(")"));
-      }
-      return result;
-    };
-
-    const updateCurrentOutputDevice = async () => {
-      const mediaDevices = await navigator.mediaDevices?.enumerateDevices();
-      navigator.mediaDevices.addEventListener("devicechange", event => {
-        if (event.type == "devicechange") {
-          updateCurrentOutputDevice();
-        }
-      });
-      const activeOutputDeviceName = mediaDevices.find(device => device.deviceId == "default" && device.kind == "audiooutput")?.label;
-      activeOutputDeviceName && (this.outputDevice.value = extractDeviceName(activeOutputDeviceName));
-      console.log(`Current audio device: ${activeOutputDeviceName}`);
-    };
-
-    updateCurrentOutputDevice();
 
     // Set multichannel support
     this.context.destination.channelCount = this.context.destination.maxChannelCount;
@@ -75,14 +52,26 @@ export class Player extends EventEmitter<{
     this.input.addEventListener("timeupdate", () => this.currentTime.value = this.input.currentTime);
     this.input.onended = () => this.next();
 
-    this.nodeManager = new AmethystAudioNodeManager(this.source, this.context);
+    this.nodeManager = new AmethystAudioNodeManager(this.source, this.context, this.amethyst);
     
     // Set the volume on first load
     this.nodeManager.master.post.gain.value = this.volume.value;
+
+    watch(() => this.pitchSemitones.value, newPitch => {this.setPlaybackSpeed(newPitch);});
+  }
+
+  public setPlaybackSpeed(semitones: number) {
+    function semitonesToPlaybackRate(semitones: number) {
+      return Math.pow(2, semitones / 12);
+    }
+
+    this.input.playbackRate = semitonesToPlaybackRate(semitones);
   }
 
   private async setPlayingTrack(track: Track) {
     this.input.src = ["mac", "linux"].includes(this.amethyst.getCurrentOperatingSystem()) ? `file://${track.path}` : track.path;
+    this.input.preservesPitch = false;
+    this.setPlaybackSpeed(this.pitchSemitones.value);
     this.currentTrack.value = track;
     this.currentTrackIndex.value = this.queue.getList().indexOf(track);
     this.input.play();
@@ -167,14 +156,10 @@ export class Player extends EventEmitter<{
 
     let startOfQueue = 0;
 
-    if (filterText.value) {
-      const searchResults = this.queue.getListSorted(currentShortMethod.value, filterText.value);
-      startOfQueue = this.queue.getList().indexOf(searchResults[0]);
-      const nextInSearch = searchResults[searchResults.indexOf(this.getCurrentTrack()!) + 1];
-      this.currentTrackIndex.value = this.queue.getList().indexOf(nextInSearch);
-    } else {
-      this.currentTrackIndex.value++;
-    }
+    const searchResults = this.queue.getListSorted(currentShortMethod.value, filterText.value);
+    startOfQueue = this.queue.getList().indexOf(searchResults[0]);
+    const nextInSearch = searchResults[searchResults.indexOf(this.getCurrentTrack()!) + 1];
+    this.currentTrackIndex.value = this.queue.getList().indexOf(nextInSearch);
 
     // Check if we reached the end of the queue
     if (!this.queue.getTrack(this.currentTrackIndex.value)) {
@@ -200,17 +185,17 @@ export class Player extends EventEmitter<{
 
   public previous() {
     const filterText = useLocalStorage("filterText", "");
+    const currentShortMethod = useLocalStorage<PossibleSortingMethods>("currentShortMethod", "default");
 
-    if (filterText.value) {
-      const searchResults = this.queue.search(filterText.value);
-      const nextInSearch = searchResults[searchResults.indexOf(this.getCurrentTrack()!) - 1];
-      this.currentTrackIndex.value = this.queue.getList().indexOf(nextInSearch);
-    } else {
-      this.currentTrackIndex.value--;
-    }
+    let endofQueue = 0;
+
+    const searchResults = this.queue.getListSorted(currentShortMethod.value, filterText.value);
+    endofQueue = this.queue.getList().indexOf(searchResults[searchResults.length - 1]);
+    const previousInSearch = searchResults[searchResults.indexOf(this.getCurrentTrack()!) - 1];
+    this.currentTrackIndex.value = this.queue.getList().indexOf(previousInSearch);
 
     if (this.currentTrackIndex.value < 0) {
-      this.currentTrackIndex.value = this.queue.getList().length - 1;
+      this.currentTrackIndex.value = endofQueue;
     }
 
     this.play(this.currentTrackIndex.value);

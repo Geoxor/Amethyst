@@ -263,42 +263,115 @@ export class Amethyst extends AmethystBackend {
       const track = this.player.queue.getTrack(0);
       track && this.player.play(track);
     }
+
+    this.updateCurrentOutputDevice();
     
   }
 
+  public updateCurrentOutputDevice = async () => {
+    const extractDeviceName = (input: string): string => {
+      let result = input;
+      if (amethyst.getCurrentOperatingSystem() == "windows" ) {
+        // Default - Speakers (2- Realtek(R) Audio)
+        result = input.slice(input.indexOf("(") + 1, input.lastIndexOf(")"));
+      }
+      return result;
+
+    };
+
+    let outputDeviceName;
+
+    if (this.state.settings.value.audioDriver == "default") {
+      const mediaDevices = await navigator.mediaDevices?.enumerateDevices();
+      navigator.mediaDevices.addEventListener("devicechange", event => {
+        if (event.type == "devicechange") {
+          this.updateCurrentOutputDevice();
+        }
+      });
+      outputDeviceName = mediaDevices.find(device => device.deviceId == "default" && device.kind == "audiooutput")?.label;
+      outputDeviceName && (this.state.settings.value.outputAudioDeviceName = extractDeviceName(outputDeviceName));
+    } else if (amethyst.state.settings.value.audioDriver == "asio" || amethyst.state.settings.value.audioDriver == "alsa" || amethyst.state.settings.value.audioDriver == "coreaudio") {
+
+      // updates on first load unlike the code in outputnode
+      this.state.settings.value.outputAudioDeviceName = this.state.settings.value.outputRealtimeAudioDeviceName;
+    }
+
+    console.log(`Current audio device: ${this.state.settings.value.outputAudioDeviceName}`);
+  };
+
   private handleDiscordRichPresence() {
     let richPresenceTimer: NodeJS.Timeout | undefined;
+    let start: number = 0;
+    let startBegin: number = 0;
+    let isPaused: boolean = false;
+    let seekDuringPause: boolean = false;
+    let trackNameBeforePause: String;
 
     const clearRichPresence = () => {
       richPresenceTimer && clearInterval(richPresenceTimer);
       window.electron.ipcRenderer.invoke("clear-rich-presence");
     };
 
-    const updateRichPresence = (track: Track) => {
+    const updateRichPresence = async (track: Track) => {
       const sendData = () => {
       const args = [
-        track.getArtistsFormatted() && track.getTitleFormatted() ? `${track.getArtistsFormatted()} - ${track.getTitleFormatted()}` : track.getFilename(),
-          this.player.isPaused.value ? "Paused" : `${this.player.currentTimeFormatted(true)} - ${track.getDurationFormatted(true)}`,
-          track.metadata.data?.format.container?.toLowerCase() || "unknown format"
+          track.getArtistsFormatted() && track.getTitleFormatted() ? `${track.getTitleFormatted()}` : track.getFilename(),
+          `${track.getArtistsFormatted()} -  ${track.getAlbum()}`,
+          start.toString(),
+          (track.getDurationSeconds() as number).toString(),
+          track.albumUrl,
+          track.metadata.data?.format.container?.toLowerCase() || "unknown format",
+          isPaused ? "yes" : "no"
         ];
         window.electron.ipcRenderer.invoke("update-rich-presence", [args]);
       };
 
       richPresenceTimer && clearInterval(richPresenceTimer);
       sendData();
-      richPresenceTimer = setInterval(() => sendData(), 1000);
+      richPresenceTimer = setInterval(() => sendData(), 5000);
     };
 
-    const updateWithCurrentTrack = () => {
+    const updateWithCurrentTrack = async () => {
       const currentTrack = this.player.getCurrentTrack();
-      currentTrack && updateRichPresence(currentTrack);
+      await currentTrack?.fetchAlbumCoverUrl();
+      currentTrack && await updateRichPresence(currentTrack);
     };
 
     if (this.state.settings.value.useDiscordRichPresence) {
-      this.player.on("play", () => {
+      this.player.on("play", async () => {
+        if (isPaused && trackNameBeforePause == this.player.getCurrentTrack()?.getTitleFormatted()) {
+          start = seekDuringPause ? start : start + Math.abs(Date.now() - startBegin);
+        } else {
+          start = Date.now();
+        }
+
+        seekDuringPause = false;
+        isPaused = false;
+        trackNameBeforePause = "";
         updateWithCurrentTrack();
       });
+
+      this.player.on("timeupdate", async (newTime) => {
+        start = Date.now() - newTime * 1000; 
+        if (!isPaused) {
+          updateWithCurrentTrack();
+        } else {
+          seekDuringPause = true;
+        }
+      });
+
+      this.player.on("pause", () => {
+        startBegin = Date.now();
+        trackNameBeforePause = this.player.getCurrentTrack()?.getTitleFormatted() ?? "";
+        isPaused = true;
+        updateWithCurrentTrack();
+      });
+
+      this.player.on("stop", () => {
+        clearRichPresence();
+      });
     };
+
 
     watch(() => this.state.settings.value.useDiscordRichPresence, value => {
       value ? updateWithCurrentTrack() : clearRichPresence();
@@ -437,7 +510,7 @@ export class Amethyst extends AmethystBackend {
     document.body.style.zoom = newZoom.toString();
   }
 
-  public performWindowAction(action: "close" | "maximize" | "unmaximize" | "minimize"): void {
+  public performWindowAction(action: "close" | "maximize" | "unmaximize" | "minimize" | "fullscreen"): void {
     if (this.getCurrentPlatform() === "desktop") {
       window.electron.ipcRenderer.invoke(action).then(() => this.syncWindowState());
     } else {
@@ -446,9 +519,10 @@ export class Amethyst extends AmethystBackend {
   }
 
   private syncWindowState = async () => {
-    const windowState = await window.electron.ipcRenderer.invoke<{ isMinimized: boolean; isMaximized: boolean }>("sync-window-state");
+    const windowState = await window.electron.ipcRenderer.invoke<{ isMinimized: boolean; isMaximized: boolean, isFullscreen: boolean }>("sync-window-state");
     this.state.window.isMinimized = windowState.isMinimized;
     this.state.window.isMaximized = windowState.isMaximized;
+    this.state.window.isFullscreen = windowState.isFullscreen;
   };
 
   private async initMobile() {

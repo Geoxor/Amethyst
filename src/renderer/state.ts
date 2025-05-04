@@ -4,6 +4,7 @@ import type { MediaSourceType } from "./logic/mediaSources";
 import { FONT_WEIGHTS } from "@shared/constants";
 import { EventEmitter } from "./logic/eventEmitter";
 import {ShaderManager} from "@/shaders/ShaderManager";
+import type { RtAudioDeviceInfo } from "audify";
 
 export interface IContextMenuOption {
 	title: string;
@@ -23,6 +24,7 @@ export class State extends EventEmitter<StateEvents> {
 		isFocused: true,
 		isCheckingForUpdates: false,
 		isMaximized: false,
+		isFullscreen: false,
 		isShowingBigCover: false,
 		updateReady: false,
 	});
@@ -87,13 +89,20 @@ export class State extends EventEmitter<StateEvents> {
 		columns: {
 			cover: true,
 			artist: true,
+			diskNumber: false,
 			title: true,
 			filename: false,
 			album: true,
 			year: true,
-			genre: true,
+			bitsPerSample: true,
+			genre: false,
 			bitrate: true,
 			sampleRate: true,
+			barcode: false,
+			label: false,
+			isrc: false,
+			copyright: false,
+			bpm: false,
 			duration: true,
 			trackNumber: true,
 			location: true,
@@ -104,6 +113,10 @@ export class State extends EventEmitter<StateEvents> {
 		animationDuration: 100, // 100ms
 		fetchMetadataOnStartup: true,
 		meterSmoothingDuration: 100,
+		bufferSize: 256,
+		outputAudioDeviceName: "default",
+		outputRealtimeAudioDeviceName: "",
+		audioDriver: "default",
 		language: "en-US",
 		saveMediaSources: [{}] as {type: MediaSourceType, path: string}[],
 	};
@@ -111,6 +124,8 @@ export class State extends EventEmitter<StateEvents> {
 	public settings = useLocalStorage("settings", this.defaultSettings, { writeDefaults: true, mergeDefaults: true });
 	public shaders = ref<ShaderManager>(new ShaderManager());
 
+	public realtimeDevices = ref<RtAudioDeviceInfo[]>([]);
+	
 	public applyCurrentTheme = () => {
 		if (typeof document !== "undefined") {
 			const dom = document.querySelector("html");
@@ -133,6 +148,16 @@ export class State extends EventEmitter<StateEvents> {
 		document.documentElement.style.setProperty("--transition-duration", `${this.settings.value.animationDuration}ms`);
 		document.documentElement.style.setProperty("--smoothing-duration", `${this.settings.value.meterSmoothingDuration}ms`);
 		document.documentElement.style.setProperty("--font-weight", `${(FONT_WEIGHTS.indexOf(this.settings.value.fontWeight) + 1) * 100}`);
+
+    window.electron.ipcRenderer.invoke<RtAudioDeviceInfo[]>("get-realtime-devices").then(devices => {
+      this.realtimeDevices.value = devices;
+
+			// Check if it's the first time and populate so when user selects asio for the first time
+			// it doesn't bug out
+			if (this.settings.value.outputRealtimeAudioDeviceName == "") {
+				this.settings.value.outputRealtimeAudioDeviceName = this.realtimeDevices.value[0].name;
+			}
+    });
 
 		// Update css when state changes
 		watch(() => this.settings.value.animationDuration, newValue => {

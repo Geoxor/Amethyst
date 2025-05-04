@@ -6,7 +6,6 @@ import Slider from "@/components/input/BaseSlider.vue";
 import { useInspector } from "@/components/Inspector";
 import PlaybackButtons from "@/components/PlaybackButtons.vue";
 import ResizableDiv from "@/components/ResizableDiv";
-import OutputBreakdown from "@/components/v2/OutputBreakdown.vue";
 import OutputDiagram from "@/components/v2/OutputDiagram.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import LoudnessMeter from "@/components/visualizers/LoudnessMeter.vue";
@@ -14,8 +13,10 @@ import SpectrumAnalyzer from "@/components/visualizers/SpectrumAnalyzer.vue";
 import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 import { router } from "@/router";
 import { Icon } from "@iconify/vue";
+import { secondsToColinHuman } from "@shared/formating";
 import { LoadStatus } from "@shared/types";
 import {getThemeColor} from "@/logic/color";
+import DraggableModifierInput from "../input/DraggableModifierInput.vue";
 
 let lastVolumeBeforeMute = amethyst.player.volume.value;
 
@@ -62,7 +63,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
 
 <template>
   <div
-    class="absolute pointer-events-none bottom-4 flex justify-center px-4 gap-2 w-full left-1/2 transform-gpu -translate-x-1/2 z-10 text-playback-controls-text"
+    class="absolute pointer-events-none bottom-4 flex justify-center px-4 gap-2 w-full left-1/2 transform-gpu -translate-x-1/2 z-30 text-playback-controls-text"
   >
     <div
       v-if="amethyst.state.settings.value.showLoudnessMeter"
@@ -87,7 +88,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       side="centerVertical"
       :handles-visible="false"
       default-size="960px"
-      class="relative rounded-8px min-w-580px max-w-960px  pointer-events-auto bg-playback-controls-background"
+      class="relative rounded-8px min-w-680px max-w-960px  pointer-events-auto bg-playback-controls-background"
     >
       <div class="flex items-center h-16 gap-2 p-2 w-full">
         <div 
@@ -99,7 +100,6 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
             class="utilityButton absolute top-3 right-3 cursor-pointer"
             @click="amethyst.state.settings.value.showOutputDiagram = false"
           />
-          <output-breakdown />
           <output-diagram />
         </div>
         <slider
@@ -145,7 +145,32 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
           @contextmenu="handleContextCoverMenu"
           @click="amethyst.player.getCurrentTrack()?.cover.state === LoadStatus.Loaded && (amethyst.state.window.isShowingBigCover = !amethyst.state.window.isShowingBigCover)"
         />
+
+        <div class="flex justify-between select-none max-w-40 flex-col h-full w-full py-0.5 font-bold">
+          <h1
+            class="text-13px hover:underline cursor-pointer overflow-hidden overflow-ellipsis"
+            @click=" amethyst.showItem(amethyst.player.getCurrentTrack()?.path!)"
+          >
+            {{ amethyst.player.getCurrentTrack()?.getTitleFormatted() || 'No track' }}
+          </h1>
+          <p class="text-11px overflow-hidden overflow-ellipsis">
+            {{ amethyst.player.getCurrentTrack()?.getArtistsFormatted() || 'No artist' }}
+          </p>
+          <p class="text-11px text-text_subtitle">
+            {{ amethyst.player.currentTimeFormatted(true) }} /
+            {{ secondsToColinHuman(amethyst.player.input.duration) || '0:00' }}
+          </p>
+        </div>
+
         <playback-buttons :player="amethyst.player" />
+
+        <draggable-modifier-input
+          v-model="amethyst.player.pitchSemitones.value"
+          :min="-12"
+          :max="12"
+          :step="0.01"
+          suffix="st"
+        />
         <icon
           icon="mdi:information-slab-box-outline"
           class="utilityButton"
@@ -186,7 +211,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
           id="volume"
           key="volume"
           v-model="amethyst.player.volume.value"
-          class="w-32 h-1.5"
+          class="min-w-16 h-1.5"
           min="0"
           max="1"
           step="0.001"

@@ -7,46 +7,44 @@ const props = defineProps<{node: AmethystAudioNode}>();
 </script>
 
 <template>
-  <div class="minimenu absolute text-text_title cursor-pointer items-center -top-8 text-primary-1000 left-1/2 transform-gpu text-9px -translate-x-1/2 flex rounded-4px overflow-hidden bg-surface-800">
+  <div class="minimenu text-text_title cursor-pointer w-min items-center text-primary-1000 text-11px flex rounded-4px overflow-hidden bg-surface-800">
     <button
-      class="unhook"
       @click="node.disconnect()"
     >
       <icon
         icon="ic:twotone-link-off"
-        class="w-4 h-4"
+        class="w-5 h-5"
       />
-      Unhook
+      {{ $t('node.unhook') }}
     </button>
     <button
       v-if="props.node.isBypassable"
-      class="reset"
+      :class="[props.node.isBypassed && 'bypassed']"
       @click="node.toggleBypass()"
     >
       <icon
         icon="ic:twotone-power-settings-new"
-        class="w-4 h-4"
+        class="w-5 h-5"
       />
-      Bypass
+      {{ $t('node.bypass') }}
     </button>
     <button
       v-if="props.node.isResettable"
-      class="reset"
       @click="node.reset()"
     >
       <icon
         icon="ic:twotone-restart-alt"
-        class="w-4 h-4"
+        class="w-5 h-5"
       />
     </button>
     <button
       v-if="props.node.isRemovable"
-      class="hover:bg-rose-600  hover:"
+      class="dangerous"
       @click="amethyst.player.nodeManager.removeNode(props.node)"
     >
       <icon
         icon="ic:twotone-delete"
-        class="w-4 h-4"
+        class="w-5 h-5"
       />
     </button>
   </div>
@@ -56,26 +54,21 @@ const props = defineProps<{node: AmethystAudioNode}>();
 .minimenu {
   button {
     @apply px-2 py-1 gap-1 flex items-center justify-center border-surface-500;
-    &.unhook {
-      @apply text-purple-400;
 
-      &:hover{
-        @apply bg-surface-600;
-      }
-
-      &:active {
-        @apply active:bg-purple-400 active:text-surface-600;
-      }
+    &.dangerous {
+      @apply hover:bg-alert-color hover:text-playback-controls-text;
     }
 
-    &.reset {
-      &:hover:not(:active){
-        @apply bg-surface-600 text-primary-800;
-      }
+    &.bypassed {
+      @apply bg-alert-color text-playback-controls-text;
+    }
 
-      &:active {
-        @apply bg-primary-800 text-surface-600;
-      }
+    &:hover:not(:active):not(.bypassed):not(.dangerous){
+      @apply bg-surface-600;
+    }
+
+    &:active {
+      @apply bg-surface-500 ;
     }
   }
   button:not(:last-child) {

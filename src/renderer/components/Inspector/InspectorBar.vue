@@ -1,15 +1,21 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
 import LoadingIcon from "@/components/v2/LoadingIcon.vue";
+import DbMeter from "@/components/visualizers/DbMeter.vue";
 import { AmethystAudioNode } from "@/logic/audio";
 import { Track } from "@/logic/track";
+import { AmethystOutputNode } from "@/nodes";
 import { Icon } from "@iconify/vue";
 import { bytesToHuman } from "@shared/formating";
-import { onMounted, onUnmounted } from "vue";
+import { removeEmptyObjects } from "@shared/logic";
+import { computed, onMounted, onUnmounted } from "vue";
 import { useInspector } from ".";
 import BaseChip from "../BaseChip.vue";
 import { useContextMenu } from "../ContextMenu";
 import CoverArt from "../CoverArt.vue";
+import DraggableModifierInput from "../input/DraggableModifierInput.vue";
+import QuickMenu from "../nodes/QuickMenu.vue";
+import DropdownInput from "../v2/DropdownInput.vue";
 
 const getInspectableItemType = (item: Track | AmethystAudioNode) => {
   if (item instanceof Track) return "inspector.inspecting_item_type.track";
@@ -19,7 +25,9 @@ const getInspectableItemType = (item: Track | AmethystAudioNode) => {
 
 const inspector = useInspector();
 const handlePlay = (track: Track) => {
-  inspector.inspect(track);
+  if (inspector.state.currentItem instanceof Track) {
+    inspector.inspect(track);
+  }
 };
 
 onMounted(() => {
@@ -33,20 +41,37 @@ onUnmounted(() => {
   amethyst.player.off("play", handlePlay);
 });
 
+function cloneWithoutPicture(obj: Record<string, any>): Record<string, any> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { picture, ...rest } = obj;
+  return { ...rest };
+}
+
+const filteredMetadata = computed(() => {
+  const metadata = inspector.state.currentItem?.getMetadata()?.common;
+  if (!metadata) return {};
+  return removeEmptyObjects(cloneWithoutPicture(metadata));
+});
+
 </script>
 
 <template>
   <div
-    class="inspector absolute text-12px top-2 right-2 overflow-hidden w-min-72 rounded-4px z-30 text-primary-900 border-1 border-surface-600 bg-surface-1000"
+    class="inspector text-12px top-16 right-2 overflow-hidden w-min-96 rounded-4px z-30 text-primary-900 h-full bg-surface-1000"
   >
     <div class="h-10 pl-3 flex w-full  justify-between items-center ">
-      <div class="flex gap-2 items-center text-light-blue-400">
+      <div class="flex gap-2 items-center text-inspector-color">
         <icon
           icon="mdi:flask"
           class="h-5-w-5 min-w-5 min-h-5"
         />
-        <h1>{{ $t('inspector.title') }}</h1>
-        <base-chip color="light-blue-400">
+        <h1 class="font-zen-dots text-13px">
+          {{ $t('inspector.title') }}
+        </h1>
+        <base-chip
+          color="inspector-color"
+          :icon="inspector.state.currentItem instanceof Track ? 'ic:twotone-audio-file' : 'mdi:resistor-nodes' "
+        >
           {{ $t(getInspectableItemType(inspector.state.currentItem as any as Track)) }}
         </base-chip>
       </div>
@@ -56,54 +81,113 @@ onUnmounted(() => {
       >
         <icon
           icon="ic:twotone-close"
-          class="utilityButton absolute top-3 right-3 cursor-pointer"
+          class="utilityButton cursor-pointer"
         />
       </button>
+    </div>
+
+    <div
+      v-if="inspector.state.currentItem instanceof AmethystAudioNode && inspector.state.currentItem"
+      class="pb-10 h-full overflow-y-auto"
+    >
+      <section controls>
+        <h1>
+          <icon
+            icon="ic:twotone-settings"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('node.controls') }}
+        </h1>
+        <quick-menu
+          :node="inspector.state.currentItem"
+        />
+      </section>
+      <section audio>
+        <h1>
+          <icon
+            icon="ic:twotone-input"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('node.in_out') }}
+        </h1>
+        <span class="flex gap-2 h-32 justify-between items-center">
+          <db-meter
+            :key="inspector.state.currentItem.properties.id"
+            pre
+            :node="inspector.state.currentItem.pre"
+            :channels="amethyst.player.getCurrentTrack()?.getChannels() || 2"
+          />
+          <icon
+            :icon="inspector.state.currentItem.properties.icon"
+            class="h-12 w-12"
+          />
+          <db-meter
+            v-if="!(inspector.state.currentItem instanceof AmethystOutputNode)"
+            :key="inspector.state.currentItem.properties.id"
+            post
+            :node="inspector.state.currentItem.post"
+            :channels="amethyst.player.getCurrentTrack()?.getChannels() || 2"
+          />
+          <span v-else />
+        </span>
+      </section>
+
+      <section
+        v-if="Object.values(inspector.state.currentItem.getParameters()).length != 0"
+        parameters
+      >
+        <h1>
+          <icon
+            icon="solar:volume-knob-broken"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('node.parameters') }}
+        </h1>
+
+        <div
+          v-for="(value, key) in inspector.state.currentItem.getParameters()"
+          :key="key"
+          class="flex gap-2 items-center my-2 justify-between"
+        >
+          <h1>{{ key }}</h1>
+          <draggable-modifier-input
+            v-if="value.type == 'number'"
+            v-model="inspector.state.currentItem[key]"
+            :step="value.step"
+            :max="value.max"
+            :min="value.min"
+            :suffix="value.unit"
+            :default="value.default"
+          />
+
+          <dropdown-input
+            v-else-if="value.type == 'string'"
+            v-model="inspector.state.currentItem[key]"
+            :options="value.options"
+          />
+        </div>
+      </section>
+
+      <section properties>
+        <h1>
+          <icon
+            icon="ic:twotone-crop-16-9"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('node.properties') }}
+        </h1>
+        {{ inspector.state.currentItem.properties.name }}
+        <h2 class="text-text_subtitle">
+          {{ inspector.state.currentItem.properties.id }}
+        </h2>
+      </section>
     </div>
 
     <div
       v-if="inspector.state.currentItem instanceof Track && inspector.state.currentItem"
       class="pb-10 h-full overflow-y-auto"
     >
-      <section>
-        <h1>
-          <icon
-            icon="ic:twotone-text-snippet"
-            class="h-5-w-5 min-w-5 min-h-5"
-          />
-          {{ $t('track.metadata') }}
-          <loading-icon
-            v-if="!inspector.state.currentItem.isLoaded"
-          />
-        </h1>
-        <li>
-          <h1>{{ $t('track.metadata.artist') }}</h1>
-          <input :value="inspector.state.currentItem.getArtistsFormatted()">
-        </li>
-        <li>
-          <h1>{{ $t('track.metadata.title') }}</h1>
-          <input :value="inspector.state.currentItem.getTitleFormatted()">
-        </li>
-        <li>
-          <h1>{{ $t('track.metadata.album') }}</h1>
-          <input :value="inspector.state.currentItem.getAlbum()">
-        </li>
-        <li>
-          <h1>{{ $t('track.metadata.year') }}</h1>
-          <input :value="inspector.state.currentItem.getYear()">
-        </li>
-        <li>
-          <h1>{{ $t('track.metadata.track_number') }}</h1>
-          <input :value="inspector.state.currentItem.getTrackNumber()">
-        </li>
-        <button
-          class="cursor-pointer"
-          @click="inspector.state.currentItem.fetchAsyncData(true)"
-        >
-          {{ $t('track.metadata.refresh') }}
-        </button>
-      </section>
-      <section>
+      <section covers>
         <h1>
           <icon
             icon="ic:twotone-image"
@@ -125,7 +209,7 @@ onUnmounted(() => {
             class="w-auto h-full rounded-4px"
             :url="inspector.state.currentItem.getCoverByFace(i)"
             @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-              { title: 'Export cover...', icon: 'ic:twotone-add-photo-alternate', action: () => inspector.state.currentItem.exportCover(i) },
+              { title: 'Export cover...', icon: 'ic:twotone-add-photo-alternate', action: () => inspector.state.currentItem?.exportCover(i) },
             ]);"
           />
           <div class="flex flex-col gap-1 w-full">
@@ -146,35 +230,48 @@ onUnmounted(() => {
           </div>
         </div>
       </section>
-      <section>
-        <h1 class="">
+
+      <section metadata>
+        <h1>
           <icon
-            icon="ic:twotone-insert-drive-file"
+            icon="ic:twotone-text-snippet"
             class="h-5-w-5 min-w-5 min-h-5"
           />
-          {{ $t('track.file_information') }}
+          {{ $t('track.metadata') }}
+          <loading-icon
+            v-if="!inspector.state.currentItem.isLoaded"
+          />
         </h1>
 
-        <li>
-          <h1>{{ $t('track.file.name') }}</h1>
-          <p> {{ inspector.state.currentItem.getFilename() }}</p>
-        </li>
-        <li>
-          <h1>{{ $t('track.file.size') }}</h1>
-          <p> {{ inspector.state.currentItem.getFilesizeFormatted() }}</p>
+        <li
+          v-for="(value, key) in filteredMetadata"
+          :key="key"
+        >
+          <template v-if="value.constructor === Object">
+            <div class="flex flex-col gap-1 justify-between w-full">
+              <li
+                v-for="(b, j) in value"
+                :key="j"
+              >
+                <h1>{{ key }} {{ j }}</h1>
+                <input :value="b">
+              </li>
+            </div>
+          </template>
+          <template v-else>
+            <h1>{{ key }}</h1>
+            <input :value="value">
+          </template>
         </li>
         <button
           class="cursor-pointer"
-          @click="amethyst.showItem(inspector.state.currentItem.path)"
+          @click="inspector.state.currentItem.fetchAsyncData(true)"
         >
-          {{ $t('track.show_file_in_file_explorer') }}
-          <icon
-            icon="ic:twotone-open-in-new"
-            class="h-5-w-5 min-w-5 min-h-5"
-          />
+          {{ $t('track.metadata.refresh') }}
         </button>
       </section>
-      <section>
+      
+      <section audio-properties>
         <h1>
           <icon
             icon="ic:twotone-document-scanner"
@@ -211,7 +308,37 @@ onUnmounted(() => {
           <p> {{ inspector.state.currentItem.getSampleRate() }} Hz</p>
         </li>
       </section>
-      <section>
+      
+      <section file-information>
+        <h1 class="">
+          <icon
+            icon="ic:twotone-insert-drive-file"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('track.file_information') }}
+        </h1>
+
+        <li>
+          <h1>{{ $t('track.file.name') }}</h1>
+          <p> {{ inspector.state.currentItem.getFilename() }}</p>
+        </li>
+        <li>
+          <h1>{{ $t('track.file.size') }}</h1>
+          <p> {{ inspector.state.currentItem.getFilesizeFormatted() }}</p>
+        </li>
+        <button
+          class="cursor-pointer"
+          @click="amethyst.showItem(inspector.state.currentItem.path)"
+        >
+          {{ $t('track.show_file_in_file_explorer') }}
+          <icon
+            icon="ic:twotone-open-in-new"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+        </button>
+      </section>
+      
+      <section state>
         <h1>
           <icon
             icon="ic:twotone-circle"
@@ -248,8 +375,7 @@ onUnmounted(() => {
 
 <style scoped lang="postcss">
 .inspector {
-  height: calc(100% - 16px);
-  @apply text-text_title text-12px;
+  @apply text-text_title text-12px pt-44px transform-gpu -translate-y-40px rounded-tl-16px ;
 }
 
 section {
@@ -257,40 +383,31 @@ section {
   /* border */
   @apply border-b-1 border-b-surface-600 border-t-transparent border-r-transparent border-l-transparent;
 
-  & button {
-    @apply bg-surface-800 mt-2 items-center flex justify-center gap-2 w-full hover:bg-purple-400 hover:bg-opacity-10 hover:text-purple-400 rounded-4px py-1.5;
-  }
-
-  &:hover {
-    @apply bg-surface-800;
-    & input,
-    & p {
-      @apply bg-surface-600;
-    }
-    & button:not(:hover) {
-      @apply bg-surface-600;
-    }
-  }
-
   & li {
-    @apply flex justify-between gap-2 items-center;
+    @apply flex justify-between gap-2 items-center w-full;
   }
+
   & > h1 {
-    @apply text-purple-400 pb-2 flex gap-2 items-center;
+    @apply text-accent;
+  }
+
+  & > h1, 
+  & > h2 {
+    @apply pb-2 flex gap-2 items-center whitespace-pre;
   }
 
   & input,
   & p {
-    @apply px-2 py-1.5 bg-surface-800 rounded-4px overflow-hidden overflow-ellipsis;
+    @apply px-2 py-1 bg-surface-800 rounded-4px overflow-hidden overflow-ellipsis;
   }
 
   input {
-    @apply border-1 border-transparent;
+    @apply border-1 border-transparent w-1/2;
     &:hover {
-      @apply bg-purple-400 bg-opacity-25 text-text_title;
+      @apply bg-accent bg-opacity-25 text-text_title;
     }
     &:focus {
-      @apply bg-purple-400 bg-opacity-25 border-1 border-purple-400 text-text_title;
+      @apply bg-accent bg-opacity-25 border-1 border-accent text-text_title;
     }
   }
 }

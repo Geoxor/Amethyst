@@ -9,8 +9,7 @@ defineProps<{ node: AmethystAudioNode }>();
   <custom-node
     meterless
     :node="node"
-    title="Master"
-    description="To Outputs"
-    icon="ic:twotone-mediation"
+    :title="$t('node.master.title')"
+    :description="$t('node.master.description')"
   />
 </template>

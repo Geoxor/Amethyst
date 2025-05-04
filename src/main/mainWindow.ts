@@ -4,7 +4,7 @@ import os from "os";
 import path from "path";
 import type { Event} from "electron";
 import electron, { app, BrowserWindow, dialog, ipcMain, Notification, shell } from "electron";
-import type { FormatIcons } from "./discord";
+import type { IRichPresenceInfo, FormatIcons } from "./discord";
 import { Discord } from "./discord";
 import {ALLOWED_AUDIO_EXTENSIONS} from "../shared/constants";
 import {sleep} from "../shared/logic";
@@ -20,7 +20,7 @@ export const TOTAL_CORES = os.cpus().length;
 export const RESOURCES_PATH = path.join(__dirname, "../".repeat(+app.isPackaged * 2 + 2), "assets");
 
 try {
-	console.log(fs.statSync(METADATA_CACHE_PATH));
+	fs.statSync(METADATA_CACHE_PATH);
 } catch (e) {
 	fs.promises.mkdir(METADATA_CACHE_PATH, {recursive: true});
 	console.log(`Created metadata cache folder at ${METADATA_CACHE_PATH}`);
@@ -315,13 +315,26 @@ export class MainWindow {
 				return {
 					isMinimized: this.window.isMinimized(),
 					isMaximized: this.window.isMaximized(),
+					isFullscreen: this.window.isFullScreen(),
 				};
 			},
 
 			"update-rich-presence": (_: Event, [args]: string[]) => {
-				const [title, time, format] = args;
+				const [title, album, start, end, cover, format, paused] = args;
 
-				this.discord.updateCurrentSong(title, time, format as FormatIcons);
+				const info: IRichPresenceInfo = {
+					title: title,
+					album: album,
+					timestamps: {
+						start: parseInt(start),
+						end: (parseInt(start) + parseInt(end) * 1000)
+					},
+					coverUrl: cover,
+					containerFormat: format as FormatIcons,
+					pauseStatus: paused
+				};
+
+				this.discord.updateCurrentSong(info);
 			},
 
 			"set-vsync": (_: Event, [useVsync]: string[]) => {

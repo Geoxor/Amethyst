@@ -26,13 +26,18 @@ import NavigationButton from "@/components/NavigationButton.vue";
     /> -->
 
     <navigation-button
-      icon="ic:twotone-format-list-bulleted"
+      icon="mdi:resistor-nodes"
       route-name="node-editor"
     />
 
     <navigation-button
       icon="ic:twotone-settings"
       route-name="settings"
+    />
+
+    <navigation-button
+      icon="ic:twotone-mic-external-on"
+      route-name="audio-monitor"
     />
 
     <navigation-button

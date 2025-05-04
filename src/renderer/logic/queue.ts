@@ -14,6 +14,7 @@ const COMPARATORS_BY_METHOD = {
     if (diskNumberDiff !== 0) return diskNumberDiff;
     return (a.getTrackNumber() ?? 1) - (b.getTrackNumber() ?? 1);
   },
+  "diskNumber": (a, b) => (a.getDiskNumber() ?? 1) > (b.getDiskNumber() ?? 1) ? 1 : -1,
   "filename": (a, b) => (a.getFilename()) > (b.getFilename()) ? 1 : -1,
   "title": (a, b) => (a.getTitle() || "") > (b.getTitle() || "") ? 1 : -1,
   "artist": (a, b) => (a.getArtistsFormatted() || "") > (b.getArtistsFormatted() || "") ? 1 : -1,
@@ -21,9 +22,17 @@ const COMPARATORS_BY_METHOD = {
   "year": (a, b) => (a.getYear() || 0) > (b.getYear() || 0) ? 1 : -1,
   "duration": (a, b) => (a.getDurationSeconds()) > (b.getDurationSeconds()) ? 1 : -1,
   "container": (a, b) => (a.getContainer() || "") > (b.getContainer() || "") ? 1 : -1,
+  "sampleRate": (a, b) => (a.getSampleRate() || 0) > (b.getSampleRate() || 0) ? 1 : -1,
   "favorite": (a, b) => (a.isFavorited) > (b.isFavorited) ? 1 : -1,
+  "bitsPerSample": (a, b) => (a.getBitsPerSample() || 0) > (b.getBitsPerSample() || 0) ? 1 : -1,
   "bitrate": (a, b) => (a.getBitrate() || 0) > (b.getBitrate() || 0) ? 1 : -1,
   "size": (a, b) => (a.getFilesize() || 0) > (b.getFilesize() || 0) ? 1 : -1,
+  "barcode": (a, b) => (a.getBarcode() || "") > (b.getBarcode() || "") ? 1 : -1,
+  "label": (a, b) => (a.getLabel() || "") > (b.getLabel() || "") ? 1 : -1,
+  "isrc": (a, b) => (a.getISRC()?.[0] || "") > (b.getISRC()?.[0] || "") ? 1 : -1,
+  "copyright": (a, b) => (a.getCopyright() || "") > (b.getCopyright() || "") ? 1 : -1,
+  "genre": (a, b) => (a.getGenreFormatted() || "") > (b.getGenreFormatted() || "") ? 1 : -1,
+  "bpm": (a, b) => (a.getBPM() || 0) > (b.getBPM() || 0) ? 1 : -1,
 } satisfies Record<string, (a: Track, b: Track) => number> ;
 
 export type PossibleSortingMethods = keyof typeof COMPARATORS_BY_METHOD;

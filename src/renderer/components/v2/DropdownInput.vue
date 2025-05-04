@@ -24,7 +24,7 @@ const value = useVModel(props, "modelValue", emits);
     :class="showdropdown && 'active rounded-0px rounded-t-8px'"
     @click="showdropdown = true;"
   >
-    <p class="text-13px font-weight-user-defined lowercase">
+    <p class="text-13px font-weight-user-defined">
       <span class="opacity-75">{{ prefix }}</span> {{ value }} <span class="opacity-75">{{ suffix }}</span>
     </p>
     <icon
@@ -45,7 +45,7 @@ const value = useVModel(props, "modelValue", emits);
           :class="option == value && 'active'"
           @click="emits('update:modelValue', option)"
         >
-          <p class="text-13px font-weight-user-defined lowercase">
+          <p class="text-13px font-weight-user-defined">
             <span class="opacity-75">{{ prefix }}</span> {{ option }} <span class="opacity-75">{{ suffix }}</span>
           </p>
         </button>

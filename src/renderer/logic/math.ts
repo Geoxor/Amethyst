@@ -105,3 +105,12 @@ export const computeWidthPercentage = (min: number, max: number, value: number):
   if (value > max) return 100; // if above 0 LUFs default to 100
   return ((value - min) / (max - min)) * 100;
 };
+
+export const floatToInt16 = (float32Array: Float32Array) => {
+  const int16Array = new Int16Array(float32Array.length);
+  for (let i = 0; i < float32Array.length; i++) {
+    const s = Math.max(-1, Math.min(1, float32Array[i])); // clip to -1..1
+    int16Array[i] = s < 0 ? s * 32768 : s * 32767;
+  }
+  return int16Array;
+};

@@ -9,7 +9,7 @@ import { Icon } from "@iconify/vue";
 import { Handle, Position } from "@vue-flow/core";
 import BaseChip from "../BaseChip.vue";
 
-const props = defineProps<{ title: string, icon: string, description?: string, node: AmethystAudioNode, meterless?: boolean }>();
+const props = defineProps<{ title: string, description?: string, node: AmethystAudioNode, meterless?: boolean }>();
 // Context Menu options for this component 
 const handleContextMenu = ({x, y}: MouseEvent) => {
   useContextMenu().open({x, y}, [
@@ -27,7 +27,10 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
     class="duration-user-defined flex select-none h-full text-text_title gap-2 relative rounded-4px hover:border-primary-800 border-surface-500 flex gap-2 bg-surface-800 border-1 p-2"
     @contextmenu.stop="handleContextMenu"
   >
-    <quick-menu :node="node" />
+    <quick-menu
+      :node="node"
+      class="absolute left-1/2 -top-8 transform-gpu -translate-x-1/2"
+    />
 
     <div
       v-if="!meterless && amethyst.state.settings.value.decibelMeterSeperatePrePost"
@@ -43,25 +46,16 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
     <div class="flex flex-col gap-2">
       <div class="flex gap-2 items-center">
         <icon
-          :icon="icon"
-          class="text-green-400"
+          :icon="node.properties.icon"
         />
-        <h1 class="text-primary-600 uppercase text-9px flex-1">
-          {{ title }} 
-
-          <p
-            v-if="amethyst.shortcuts.isAltPressed.value"
-            class="mt-0.5 text-surface-400 text-4px font-aseprite"
-          >
-            {{ node.properties.id }}
-          </p>
+        <h1 class="text-primary-600 uppercase text-11px flex-1">
+          {{ title }}
         </h1>
         <base-chip
           v-if="node.isBypassed"
-          class="animate-pulse"
-          color="bg-red-500 text-red-500"
+          class="animate-pulse text-alert-color bg-alert-color bg-opacity-15"
         >
-          Bypassed
+          {{ $t('node.bypassed') }}
         </base-chip>
       </div>
 

@@ -11,6 +11,7 @@ import type { Ref} from "vue";
 import { ref } from "vue";
 import type { AmethystAudioNode } from "./audio";
 import { useLocalStorage } from "@vueuse/core";
+import type { Amethyst } from "@/amethyst";
 
 const audioNodes: Record<string, any> = {
   AmethystGainNode,
@@ -28,6 +29,7 @@ export interface NodeProperties {
   type: `custom-${string}`,
   position: Coords,
   sourcePosition: SourcePosition,
+  icon: string,
 };
 
 export interface Position {
@@ -64,7 +66,7 @@ export class AmethystAudioNodeManager {
 
   public nodes: Ref<AmethystAudioNode[]> = ref([]);
 
-  public constructor(public inputAudio: AudioNode, public context: AudioContext) {
+  public constructor(public inputAudio: AudioNode, public context: AudioContext, private amethyst: Amethyst) {
     this.init();
 
     // Load previous node graph if there was one
@@ -77,7 +79,7 @@ export class AmethystAudioNodeManager {
 
     this.input = new AmethystInputNode(this.inputAudio, { x: 0, y: 0 });
     this.master = new AmethystMasterNode(this.context, { x: 300, y: 0 });
-    this.output = new AmethystOutputNode(this.context, { x: 450, y: 0 });
+    this.output = new AmethystOutputNode(this.context, { x: 450, y: 0 }, this.amethyst);
 
     // navigator.mediaDevices.enumerateDevices().then(devices => {
     //   console.log("🚀 ~ file: audio.ts ~ line 43 ~ AmethystAudioNodeManager ~ constructor ~ devices", devices);
@@ -142,7 +144,7 @@ export class AmethystAudioNodeManager {
           nodeInstance = this.master;
           break;
         case "AmethystOutputNode":
-          this.output = new AmethystOutputNode(this.context, node.position);
+          this.output = new AmethystOutputNode(this.context, node.position, this.amethyst);
           nodeInstance = this.output;
           break;
         default:

@@ -31,7 +31,7 @@ import ButtonInput from "@/components/v2/ButtonInput.vue";
           icon="ic:twotone-snippet-folder"
         >
           <base-chip>
-            {{ source.totalTracks }} Tracks
+            {{ source.totalTracks }} {{ $t('settings.media_sources.tracks') }}
           </base-chip>
           <button-input
             :text="$t('settings.local_sources.view')"

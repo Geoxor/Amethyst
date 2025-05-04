@@ -5,11 +5,14 @@ import { saveArrayBufferToFile } from "@/logic/dom";
 import { convertDfpwm } from "@/logic/encoding";
 import type { PossibleSortingMethods } from "@/logic/queue";
 import type { Track } from "@/logic/track";
+import type { IContextMenuOption } from "@/state";
 import { Icon } from "@iconify/vue";
 import { useLocalStorage } from "@vueuse/core";
 import { computed } from "vue";
 import CoverArt from "./CoverArt.vue";
 import { useInspector } from "./Inspector";
+import NotApplicableText from "./NotApplicableText.vue";
+import LoadingIcon from "./v2/LoadingIcon.vue";
 
 const currentShortMethod = useLocalStorage<PossibleSortingMethods>("currentShortMethod", "default");
 const filterText = useLocalStorage("filterText", "");
@@ -61,24 +64,42 @@ const handleTrackContextMenu = ({x, y}: MouseEvent, track: Track) => {
 
 const columns = amethyst.state.settings.value.columns;
 
-const handleColumnContextMenu = ({x, y}: MouseEvent) => {
-  useContextMenu().open({x, y}, [
-    { title: "queue.column.cover", icon: columns.cover ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.cover = !columns.cover },
-    { title: "track.metadata.track_number", icon: columns.trackNumber ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.trackNumber = !columns.trackNumber },
-    { title: "track.metadata.title", icon: columns.title ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.title = !columns.title },
-    { title: "track.file.name", icon: columns.filename ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.filename = !columns.filename },
-    { title: "track.metadata.artist", icon: columns.artist ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.artist = !columns.artist },
-    { title: "queue.column.location", icon: columns.location ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.location = !columns.location },
-    { title: "track.metadata.album", icon: columns.album ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.album = !columns.album },
-    { title: "track.metadata.year", icon: columns.year ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.year = !columns.year },
-    { title: "track.metadata.duration", icon: columns.duration ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.duration = !columns.duration },
-    { title: "track.audio_properties.container", icon: columns.container ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.container = !columns.container },
-    { title: "queue.column.favorite", icon: columns.favorite ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.favorite = !columns.favorite },
-    { title: "track.audio_properties.bitrate", icon: columns.bitrate ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.bitrate = !columns.bitrate },
-    { title: "track.file.size", icon: columns.size ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked", action: () => columns.size = !columns.size },
-  ]);
-};
+const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
+  const contextMenu = useContextMenu();
 
+  const columnOptions: {key: keyof typeof amethyst.state.settings.value.columns, title: string}[] = [
+    { key: "cover", title: "queue.column.cover" },
+    { key: "diskNumber", title: "track.metadata.disk_number" },
+    { key: "trackNumber", title: "track.metadata.track_number" },
+    { key: "filename", title: "track.file.name" },
+    { key: "title", title: "track.metadata.title" },
+    { key: "artist", title: "track.metadata.artist" },
+    { key: "location", title: "queue.column.location" },
+    { key: "album", title: "track.metadata.album" },
+    { key: "genre", title: "track.metadata.genre"},
+    { key: "barcode", title: "track.metadata.barcode"},
+    { key: "year", title: "track.metadata.year" },
+    { key: "label", title: "track.metadata.label"},
+    { key: "isrc", title: "track.metadata.isrc"},
+    { key: "copyright", title: "track.metadata.copyright"},
+    { key: "bpm", title: "track.metadata.bpm"},
+    { key: "duration", title: "track.metadata.duration" },
+    { key: "container", title: "track.audio_properties.container" },
+    { key: "favorite", title: "queue.column.favorite" },
+    { key: "sampleRate", title: "track.audio_properties.sample_rate" },
+    { key: "bitsPerSample", title: "track.audio_properties.bits_per_sample" },
+    { key: "bitrate", title: "track.audio_properties.bitrate" },
+    { key: "size", title: "track.file.size" },
+  ];
+
+  const menuItems: IContextMenuOption[] = columnOptions.map(({ key, title }) => ({
+    title,
+    icon: columns[key] ? "ic:twotone-radio-button-checked" : "ic:twotone-radio-button-unchecked",
+    action: () => columns[key] = !columns[key],
+  }));
+
+  contextMenu.open({ x, y }, menuItems);
+};
 </script>
 
 <template>
@@ -95,14 +116,32 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
       />
       <div
         v-if="columns.trackNumber"
-        class="flex-none w-32px"
+        class="flex-none w-32px transform-gpu -translate-x-1.75"
         :class="[currentShortMethod == 'trackNumber' && 'activeSort']"
         @click="setCurrentSortedMethod('trackNumber')"
       >
-        #
+        <icon
+          icon="material-symbols:tag-rounded"
+        />
         <icon
           v-if="currentShortMethod == 'trackNumber'"
           icon="ic:round-chevron-left"
+          class="chevron"
+        />
+      </div>
+      <div
+        v-if="columns.diskNumber"
+        class="flex-none w-32px transform-gpu -translate-x-1.75"
+        :class="[currentShortMethod == 'diskNumber' && 'activeSort']"
+        @click="setCurrentSortedMethod('diskNumber')"
+      >
+        <icon
+          icon="mdi:disc"
+        />
+        <icon
+          v-if="currentShortMethod == 'diskNumber'"
+          icon="ic:round-chevron-left"
+          class="chevron"
         />
       </div>
       <div
@@ -115,6 +154,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         <icon
           v-if="currentShortMethod == 'filename'"
           icon="ic:round-chevron-left"
+          class="chevron"
         />
       </div>
       <div
@@ -127,6 +167,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         <icon
           v-if="currentShortMethod == 'title'"
           icon="ic:round-chevron-left"
+          class="chevron"
         />
       </div>
       <div
@@ -139,6 +180,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         <icon
           v-if="currentShortMethod == 'artist'"
           icon="ic:round-chevron-left"
+          class="chevron"
         />
       </div>
       <div
@@ -157,6 +199,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         <icon
           v-if="currentShortMethod == 'album'"
           icon="ic:round-chevron-left"
+          class="chevron"
         />
       </div>
       <div
@@ -169,11 +212,97 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         <icon
           v-if="currentShortMethod == 'year'"
           icon="ic:round-chevron-left"
+          class="chevron"
         />
       </div>
+
+      <div
+        v-if="columns.genre"
+        class="flex-grow w-[120px]"
+        :class="[currentShortMethod == 'genre' && 'activeSort']"
+        @click="setCurrentSortedMethod('genre')"
+      >
+        {{ $t('track.metadata.genre') }}
+        <icon
+          v-if="currentShortMethod == 'genre'"
+          icon="ic:round-chevron-left"
+          class="chevron"
+        />
+      </div>
+
+      <div
+        v-if="columns.barcode"
+        class="flex-grow w-[120px]"
+        :class="[currentShortMethod == 'barcode' && 'activeSort']"
+        @click="setCurrentSortedMethod('barcode')"
+      >
+        {{ $t('track.metadata.barcode') }}
+        <icon
+          v-if="currentShortMethod == 'barcode'"
+          icon="ic:round-chevron-left"
+          class="chevron"
+        />
+      </div>
+
+      <div
+        v-if="columns.label"
+        class="flex-grow w-[100px]"
+        :class="[currentShortMethod == 'label' && 'activeSort']"
+        @click="setCurrentSortedMethod('label')"
+      >
+        {{ $t('track.metadata.label') }}
+        <icon
+          v-if="currentShortMethod == 'label'"
+          icon="ic:round-chevron-left"
+          class="chevron"
+        />
+      </div>
+
+      <div
+        v-if="columns.isrc"
+        class="flex-grow w-[110px]"
+        :class="[currentShortMethod == 'isrc' && 'activeSort']"
+        @click="setCurrentSortedMethod('isrc')"
+      >
+        {{ $t('track.metadata.isrc') }}
+        <icon
+          v-if="currentShortMethod == 'isrc'"
+          icon="ic:round-chevron-left"
+          class="chevron"
+        />
+      </div>
+
+      <div
+        v-if="columns.copyright"
+        class="flex-grow w-[100px]"
+        :class="[currentShortMethod == 'copyright' && 'activeSort']"
+        @click="setCurrentSortedMethod('copyright')"
+      >
+        {{ $t('track.metadata.copyright') }}
+        <icon
+          v-if="currentShortMethod == 'copyright'"
+          icon="ic:round-chevron-left"
+          class="chevron"
+        />
+      </div>
+
+      <div
+        v-if="columns.bpm"
+        class="flex-none w-[60px]"
+        :class="[currentShortMethod == 'bpm' && 'activeSort']"
+        @click="setCurrentSortedMethod('bpm')"
+      >
+        {{ $t('track.metadata.bpm') }}
+        <icon
+          v-if="currentShortMethod == 'bpm'"
+          icon="ic:round-chevron-left"
+          class="chevron"
+        />
+      </div>
+
       <div
         v-if="columns.duration"
-        class="flex-none w-[70px]"
+        class="flex-none w-[80px]"
         :class="[currentShortMethod == 'duration' && 'activeSort']"
         @click="setCurrentSortedMethod('duration')"
       >
@@ -181,11 +310,12 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         <icon
           v-if="currentShortMethod == 'duration'"
           icon="ic:round-chevron-left"
+          class="chevron"
         />
       </div>
       <div
         v-if="columns.container"
-        class="flex-none w-[70px]"
+        class="flex-none w-[80px]"
         :class="[currentShortMethod == 'container' && 'activeSort']"
         @click="setCurrentSortedMethod('container')"
       >
@@ -193,6 +323,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         <icon
           v-if="currentShortMethod == 'container'"
           icon="ic:round-chevron-left"
+          class="chevron"
         />
       </div>
       <div
@@ -205,6 +336,33 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         <icon
           v-if="currentShortMethod == 'favorite'"
           icon="ic:round-chevron-left"
+          class="chevron"
+        />
+      </div>
+      <div
+        v-if="columns.sampleRate"
+        class="flex-none w-[100px]"
+        :class="[currentShortMethod == 'sampleRate' && 'activeSort']"
+        @click="setCurrentSortedMethod('sampleRate')"
+      >
+        {{ $t('track.audio_properties.sample_rate') }}
+        <icon
+          v-if="currentShortMethod == 'sampleRate'"
+          icon="ic:round-chevron-left"
+          class="chevron"
+        />
+      </div>
+      <div
+        v-if="columns.bitsPerSample"
+        class="flex-none w-[70px]"
+        :class="[currentShortMethod == 'bitsPerSample' && 'activeSort']"
+        @click="setCurrentSortedMethod('bitsPerSample')"
+      >
+        {{ $t('track.audio_properties.bits_per_sample') }}
+        <icon
+          v-if="currentShortMethod == 'bitsPerSample'"
+          icon="ic:round-chevron-left"
+          class="chevron"
         />
       </div>
       <div
@@ -217,6 +375,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         <icon
           v-if="currentShortMethod == 'bitrate'"
           icon="ic:round-chevron-left"
+          class="chevron"
         />
       </div>
       <div
@@ -229,6 +388,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
         <icon
           v-if="currentShortMethod == 'size'"
           icon="ic:round-chevron-left"
+          class="chevron"
         />
       </div>
     </div>
@@ -250,7 +410,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
             item.deleted && 'opacity-50 !text-rose-400 not-allowed',
             amethyst.player.getCurrentTrack()?.path == item.path && 'currentlyPlaying',
             amethyst.state.settings.value.compactList ? 'py-1' : 'py-2',
-            useInspector().state.isVisible && useInspector().state.currentItem == item && 'currentlyInspecting',
+            useInspector().state.isVisible && (useInspector().state.currentItem == item as any) && 'currentlyInspecting',
           ]"
           class="row"
           @contextmenu="handleTrackContextMenu($event, item)"
@@ -271,6 +431,11 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
               class="w-5 h-5 min-w-5 min-h-5"
             />
             <icon
+              v-else-if="useInspector().state.currentItem?.path == item.path"
+              icon="mdi:flask"
+              class="w-5 h-5 min-w-5 min-h-5"
+            />
+            <icon
               v-else
               icon="ic:baseline-drag-handle"
               class="w-5 h-5 min-w-5 min-h-5"
@@ -281,10 +446,8 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
             v-if="columns.cover"
             class="flex-none w-[32px]"
           >
-            <icon
+            <loading-icon 
               v-if="item.isLoading"
-              icon="line-md:loading-twotone-loop"
-              class="cover animate-spin"
             />
             <icon
               v-else-if="item.hasErrored"
@@ -302,12 +465,21 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
               :url="item.isLoaded && item.getCover() ? item.getCover() : ''"
             />
           </div>
+
           <div
             v-if="columns.trackNumber"
             class="flex-none w-32px"
           >
             <span v-if="item.getTrackNumber()">{{ item.getTrackNumber() }}</span>
-            <span v-else>N/A</span>
+            <not-applicable-text v-else />
+          </div>
+
+          <div
+            v-if="columns.diskNumber"
+            class="flex-none w-32px"
+          >
+            <span v-if="item.getDiskNumber()">{{ item.getDiskNumber() }}</span>
+            <not-applicable-text v-else />
           </div>
 
           <div
@@ -322,7 +494,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
             class="flex-grow w-[200px] w-min-100px"
           >
             <span v-if="item.getTitle()">{{ item.getTitle() }}</span>
-            <span v-else>N/A</span>
+            <not-applicable-text v-else />
           </div>
 
           <div
@@ -330,7 +502,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
             class="flex-grow w-[200px] w-min-100px"
           >
             <span v-if="item.getArtistsFormatted()">{{ item.getArtistsFormatted() }}</span>
-            <span v-else>N/A</span>
+            <not-applicable-text v-else />
           </div>
 
           <div
@@ -353,7 +525,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
             class="flex-grow w-[200px] w-min-100px "
           >
             <span v-if="item.getAlbum()">{{ item.getAlbum() }}</span>
-            <span v-else>N/A</span>
+            <not-applicable-text v-else />
           </div>
 
           <div
@@ -361,23 +533,71 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
             class="flex-none w-[50px]"
           >
             <span v-if="item.getYear()">{{ item.getYear() }}</span>
-            <span v-else>N/A</span>
+            <not-applicable-text v-else />
           </div>
 
           <div
+            v-if="columns.genre"
+            class="flex-grow w-[120px]"
+          >
+            <span v-if="item.getGenre()">{{ item.getGenreFormatted() }}</span>
+            <not-applicable-text v-else />
+          </div>
+
+          <div
+            v-if="columns.barcode"
+            class="flex-grow w-[120px]"
+          >
+            <span v-if="item.getBarcode()">{{ item.getBarcode() }}</span>
+            <not-applicable-text v-else />
+          </div>
+
+          <div
+            v-if="columns.label"
+            class="flex-grow w-[100px]"
+          >
+            <span v-if="item.getLabel()?.[0]">{{ item.getLabel()![0] }}</span>
+            <not-applicable-text v-else />
+          </div>
+
+          <div
+            v-if="columns.isrc"
+            class="flex-grow w-[110px]"
+          >
+            <span v-if="item.getISRC()?.[0]">{{ item.getISRC()![0] }}</span>
+            <not-applicable-text v-else />
+          </div>
+
+          <div
+            v-if="columns.copyright"
+            class="flex-grow w-[100px]"
+          >
+            <span v-if="item.getCopyright()">{{ item.getCopyright() }}</span>
+            <not-applicable-text v-else />
+          </div>
+
+          <div
+            v-if="columns.bpm"
+            class="flex-none w-[60px]"
+          >
+            <span v-if="item.getBPM()">{{ item.getBPM() }}</span>
+            <not-applicable-text v-else />
+          </div>
+          
+          <div
             v-if="columns.duration"
-            class="flex-none w-[70px]"
+            class="flex-none w-[80px]"
           >
             <span v-if="item.getDurationFormatted(true)">{{ item.getDurationFormatted(true) }}</span>
-            <span v-else>N/A</span>
+            <not-applicable-text v-else />
           </div>
 
           <div
             v-if="columns.container"
-            class="flex-none w-[70px]"
+            class="flex-none w-[80px]"
           >
             <span v-if="item.getContainer()">{{ item.getContainer() }}</span>
-            <span v-else>N/A</span>
+            <not-applicable-text v-else />
           </div>
 
           <div
@@ -389,13 +609,28 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
               class="h-4 w-4"
             />
           </div>
+          <div
+            v-if="columns.sampleRate"
+            class="flex-none w-[100px]"
+          >
+            <span v-if="item.getSampleRateFormatted()">{{ item.getSampleRateFormatted() }}</span>
+            <not-applicable-text v-else />
+          </div>
+
+          <div
+            v-if="columns.bitsPerSample"
+            class="flex-none w-[70px]"
+          >
+            <span v-if="item.getBitsPerSampleFormatted()">{{ item.getBitsPerSampleFormatted() }}</span>
+            <not-applicable-text v-else />
+          </div>
 
           <div
             v-if="columns.bitrate"
             class="flex-none w-[70px]"
           >
             <span v-if="item.getBitrateFormatted()">{{ item.getBitrateFormatted() }}</span>
-            <span v-else>N/A</span>
+            <not-applicable-text v-else />
           </div>
 
           <div
@@ -403,7 +638,7 @@ const handleColumnContextMenu = ({x, y}: MouseEvent) => {
             class="flex-none w-[70px]"
           >
             <span v-if="item.getFilesizeFormatted()">{{ item.getFilesizeFormatted() }}</span>
-            <span v-else>N/A</span>
+            <not-applicable-text v-else />
           </div>
         </div>
       </template>
@@ -430,19 +665,21 @@ tr {
 }
 
 .columnHeader > div {
-  @apply flex items-center hover:text-accent;
+  @apply flex items-center relative;
+
+  &:hover:not(.activeSort) {@apply  hover:text-accent; }
 }
 
 .columnHeader svg {
-  @apply w-5 h-5 min-h-5 min-w-5;
+  @apply min-h-5 min-w-5;
 }
 
-.columnHeader.ascending svg {
-  @apply rotate-90 transform-gpu;
+.columnHeader.ascending svg.chevron {
+  @apply transform-gpu rotate-90;
 }
 
-.columnHeader.descending svg {
-  @apply -rotate-90 transform-gpu;
+.columnHeader.descending svg.chevron {
+  @apply transform-gpu -rotate-90;
 }
 
 .activeSort {
@@ -472,7 +709,7 @@ tr {
   }
 
   &.currentlyInspecting {
-    @apply text-light-blue-400 bg-light-blue-400 bg-opacity-10;
+    @apply text-inspector-color bg-inspector-color bg-opacity-10;
     &:hover {
       @apply bg-opacity-15;
     }

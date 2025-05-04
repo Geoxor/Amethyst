@@ -2,40 +2,133 @@
 title: 'Development'
 ---
 
-### Cloning & setting up
+## Prerequisites
+
+### Shared
+
+- Git
+- Node.js v20.17.0 (LTS)
+    - [nvm](https://github.com/nvm-sh/nvm) is encouraged for node version management
+- Yarn
+
+<Warning>
+  Make sure you're using node.js v20.17.0 as any other version is unsupported and may cause unforeseen issues or unintended behaviour
+</Warning>
+
+#### Git
+
+- For Windows: https://git-scm.com/downloads/win
+- Fedora: `dnf install git`
+- Arch: `pacman -S git`
+- Debian: `apt install git`
+
+#### Node installation (nvm)
+
+If you use nvm you can install Node.js v20.17.0 with the following commands:
+
+```bash
+nvm install 20
+```
+
+```bash
+nvm use 20
+```
+
+#### Yarn Installation
+
+After installing Node.js v20.17.0 please install yarn through npm:
+
+```bash
+npm -g i yarn
+```
 
 <Info>
-  **Prerequisite**: Please install Node.js (version 20 or higher) and yarn before proceeding.
+  The following command installs `yarn` as an global package in npm
 </Info>
 
-Follow these steps to clone and run Amethyst on your development platform:
+### Linux
 
-**Step 1**: Clone the repository:
+- C/C++ development tools
+    - Fedora/RHEL: `dnf group install c-development`
+    - Arch: `pacman -S gcc g++`
+    - Debian: `apt install gcc g++`
+- libvips
+    - Fedora/RHEL: `dnf install vips-devel`
+    - Arch: `pacman -S libvips`
+    - Debian: `apt install libvips-dev`
+
+## Setup
+
+Follow these steps to clone and run Amethyst on your development platform.
+
+### Cloning the repository
+
+<Info>
+  If you have set up ssh for Github you can optionally clone the repository with ssh, if you do not know what that means, follow the HTTPS section.
+</Info>
+
+#### HTTPS
 
 ```bash
 git clone https://github.com/Geoxor/Amethyst
 ```
 
-**Step 2**: Navigate to the Amethyst directory and execute the following command:
+#### SSH
+
+```bash
+git clone git@github.com:Geoxor/Amethyst.git
+```
+
+### Installing dependencies
+
+The following command will install the required node dependencies:
 
 ```bash
 yarn
 ```
 
-**Step 3**: Execute this command to start the development server:
+## Development
+
+### Amethyst
+
+The following command will launch the development version of Amethyst:
 
 ```bash
 yarn dev
 ```
 
-Amethyst should launch when ready with live-refresh capability
+### Documentation
 
-### Compiling
+The documentation is stored in `docs/` folder.
 
-The following command will build Amethyst for your platform:
+The following command will start local development server:
+
+```bash
+yarn docs
+```
+
+### Linting
+
+The following command will run the linter:
+
+```bash
+yarn lint
+```
+
+The following command will attempt to fix linter issues automatically:
+
+```bash
+yarn lint:fix
+```
+
+## Packaging
+
+### Executable
+
+The following command will package Amethyst for your platform:
 
 ```bash
 yarn package
 ```
 
-Build files will be populated in the `release/build`
+Build files can be found from the `release/build` folder
