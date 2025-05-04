@@ -9,6 +9,16 @@
   ],
   "prettier.enable": false,
   "editor.formatOnSave": false,
+  "editor.tokenColorCustomizations": {
+      "textMateRules": [
+        {
+          "scope": "entity.name.type.class",
+          "settings": {
+            "foreground": "#22B8A1"
+          }
+        }
+      ]
+  },
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "always",
     "source.organizeImports": "never"

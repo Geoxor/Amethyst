@@ -22,8 +22,30 @@
             ]
           }
         ]
+      },
+      {
+        "tab": "User Manual",
+        "groups": [
+          {
+            "group": "File Types",
+            "pages": [
+              "/file_types/amethyst_metadata_file",
+              "/file_types/amethyst_node_graph"
+            ]
+          },
+          {
+            "group": "Nodes",
+            "pages": [
+              "/nodes/filter_node",
+              "/nodes/master_node",
+              "/nodes/input_node",
+              "/nodes/output_node"
+            ]
+          }
+        ]
       }
     ],
+    
     "global": {
       "anchors": [
         {
