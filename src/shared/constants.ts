@@ -1,3 +1,5 @@
+export const VISUALIZER_BIN_COUNT = 960;
+
 export const ALLOWED_AUDIO_EXTENSIONS = [
   "ogg", 
   "ogv", 

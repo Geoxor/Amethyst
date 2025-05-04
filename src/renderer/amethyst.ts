@@ -589,6 +589,14 @@ export class Amethyst extends AmethystBackend {
     this.state.window.isCheckingForUpdates = false;
   }
 
+  public shouldPauseAnimations(): boolean {
+    return !this.state.window.isFocused && this.state.settings.value.pauseVisualsWhenUnfocused;
+  }
+
+  public shouldPauseVisualizers(): boolean {
+    return this.shouldPauseAnimations() || this.player.isPaused.value;
+  }
+
 }
 
 export const amethyst = new Amethyst();

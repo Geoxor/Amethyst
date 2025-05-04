@@ -9,12 +9,13 @@ import ResizableDiv from "@/components/ResizableDiv";
 import OutputDiagram from "@/components/v2/OutputDiagram.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import LoudnessMeter from "@/components/visualizers/LoudnessMeter.vue";
-import { SpectrumAnalyzer } from "@/components/visualizers/SpectrumAnalyzer";
+import SpectrumAnalyzer from "@/components/visualizers/SpectrumAnalyzer.vue";
 import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 import { router } from "@/router";
 import { Icon } from "@iconify/vue";
 import { secondsToColinHuman } from "@shared/formating";
 import { LoadStatus } from "@shared/types";
+import {getThemeColor} from "@/logic/color";
 import DraggableModifierInput from "../input/DraggableModifierInput.vue";
 
 let lastVolumeBeforeMute = amethyst.player.volume.value;
@@ -240,6 +241,11 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       <spectrum-analyzer
         :key="amethyst.player.nodeManager.getNodeConnectionsString()"
         :node="amethyst.player.nodeManager.master.pre"
+        :fft-size="amethyst.state.settings.value.spectrumFftSize"
+        :smoothing="amethyst.state.settings.value.spectrumSmoothing"
+        :spectrogram="amethyst.state.settings.value.spectrogram.show"
+        :accent-color="getThemeColor('--accent')"
+        :paused="amethyst.shouldPauseVisualizers()"
       />
     </div>
     <!-- Spacer to keep the middle dock centered  -->

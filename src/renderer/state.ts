@@ -1,8 +1,9 @@
 import { useLocalStorage } from "@vueuse/core";
-import { reactive, ref, watch } from "vue";
+import {reactive, ref, watch} from "vue";
 import type { MediaSourceType } from "./logic/mediaSources";
 import { FONT_WEIGHTS } from "@shared/constants";
 import { EventEmitter } from "./logic/eventEmitter";
+import {ShaderManager} from "@/shaders/ShaderManager";
 import type { RtAudioDeviceInfo } from "audify";
 
 export interface IContextMenuOption {
@@ -29,6 +30,15 @@ export class State extends EventEmitter<StateEvents> {
 	});
 
 	public defaultSettings = {
+		spectrogram: {
+			show: true,
+			smoothing: 0.5,
+			fftSize: 8192,
+		},
+		shader: {
+			use: false,
+			selected: "none",
+		},
 		showQueue: true,
 		showCoverArt: true,
 		coverGridSize: 128,
@@ -112,6 +122,7 @@ export class State extends EventEmitter<StateEvents> {
 	};
 
 	public settings = useLocalStorage("settings", this.defaultSettings, { writeDefaults: true, mergeDefaults: true });
+	public shaders = ref<ShaderManager>(new ShaderManager());
 
 	public realtimeDevices = ref<RtAudioDeviceInfo[]>([]);
 	

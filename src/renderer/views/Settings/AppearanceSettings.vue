@@ -177,6 +177,19 @@ const AVAILABLE_THEMES = [
             suffix="%"
           />
         </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t(`settings.ambient_background.shader.title`)"
+          :description="$t('settings.ambient_background.shader.description')"
+          icon="ic:twotone-auto-awesome"
+        >
+          <toggle-switch v-model="amethyst.state.settings.value.shader.use" />
+          <!-- TODO: Shader options built-in and in amethyst user-config shader directory -->
+          <dropdown-input
+            v-model="amethyst.state.settings.value.shader.selected"
+            :options="amethyst.state.shaders.value.getShaderNames()"
+          />
+        </settings-setting>
       </div>
     </template> 
   </settings-setting>
