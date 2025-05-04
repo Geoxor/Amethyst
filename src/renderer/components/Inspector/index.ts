@@ -1,7 +1,8 @@
 import type { Track } from "@/logic/track";
-import { reactive } from "vue";
+import { reactive, watch } from "vue";
 import InspectorBar from "./InspectorBar.vue";
 import type { AmethystAudioNode } from "@/logic/audio";
+import { useRoute } from "vue-router";
 
 const instance = {
   state: reactive<{currentItem: Record<string, Track | AmethystAudioNode> | undefined, isVisible: boolean}>({

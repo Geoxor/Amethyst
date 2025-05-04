@@ -8,7 +8,8 @@ import { AmethystOutputNode } from "@/nodes";
 import { Icon } from "@iconify/vue";
 import { bytesToHuman } from "@shared/formating";
 import { removeEmptyObjects } from "@shared/logic";
-import { computed, onMounted, onUnmounted } from "vue";
+import { computed, onMounted, onUnmounted, watch } from "vue";
+import { useRoute } from "vue-router";
 import { useInspector } from ".";
 import BaseChip from "../BaseChip.vue";
 import { useContextMenu } from "../ContextMenu";
@@ -16,6 +17,12 @@ import CoverArt from "../CoverArt.vue";
 import DraggableModifierInput from "../input/DraggableModifierInput.vue";
 import QuickMenu from "../nodes/QuickMenu.vue";
 import DropdownInput from "../v2/DropdownInput.vue";
+
+const route = useRoute();
+
+watch(route, () => {
+  useInspector().hide();
+});
 
 const getInspectableItemType = (item: Track | AmethystAudioNode) => {
   if (item instanceof Track) return "inspector.inspecting_item_type.track";
@@ -88,7 +95,7 @@ const filteredMetadata = computed(() => {
 
     <div
       v-if="inspector.state.currentItem instanceof AmethystAudioNode && inspector.state.currentItem"
-      class="pb-10 h-full overflow-y-auto"
+      class="pb-32 h-full overflow-y-auto"
     >
       <section controls>
         <h1>
@@ -185,7 +192,7 @@ const filteredMetadata = computed(() => {
 
     <div
       v-if="inspector.state.currentItem instanceof Track && inspector.state.currentItem"
-      class="pb-10 h-full overflow-y-auto"
+      class="pb-32 h-full overflow-y-auto"
     >
       <section covers>
         <h1>
@@ -375,7 +382,7 @@ const filteredMetadata = computed(() => {
 
 <style scoped lang="postcss">
 .inspector {
-  @apply text-text_title text-12px pt-44px transform-gpu -translate-y-40px rounded-tl-16px ;
+  @apply text-text_title text-12px pt-44px transform-gpu -translate-y-40px rounded-tl-16px;
 }
 
 section {
