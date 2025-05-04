@@ -59,7 +59,7 @@ function connectToFinalNode(amethyst: Amethyst, context: AudioContext, pre: Gain
 
   if (amethyst.state.settings.value.audioDriver == "default") {
     pre.connect(context.destination);
-  } else if (amethyst.state.settings.value.audioDriver == "asio" || amethyst.state.settings.value.audioDriver == "alsa"  || amethyst.state.settings.value.audioDriver == "coreaudio") {
+  } else if (amethyst.state.settings.value.audioDriver == "asio" || amethyst.state.settings.value.audioDriver == "alsa" || amethyst.state.settings.value.audioDriver == "coreaudio") {
     connectRealtimeDriver();
   }
 

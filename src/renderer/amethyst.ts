@@ -351,7 +351,7 @@ export class Amethyst extends AmethystBackend {
         updateWithCurrentTrack();
       });
 
-      this.player.on("timeupdate", async (newTime) => {
+      this.player.on("timeupdate", async newTime => {
         start = Date.now() - newTime * 1000; 
         if (!isPaused) {
           updateWithCurrentTrack();
@@ -371,7 +371,6 @@ export class Amethyst extends AmethystBackend {
         clearRichPresence();
       });
     };
-
 
     watch(() => this.state.settings.value.useDiscordRichPresence, value => {
       value ? updateWithCurrentTrack() : clearRichPresence();
