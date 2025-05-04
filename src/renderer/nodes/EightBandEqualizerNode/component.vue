@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import CustomNode from "@/components/nodes/CustomNode.vue";
 import SpectrumAnalyzer from "@/components/visualizers/SpectrumAnalyzer.vue";
-import { getThemeColorHex } from "@/logic/color";
+import {getThemeColor, getThemeColorHex} from "@/logic/color";
 import type { Ref} from "vue";
 import { onMounted, ref, watch } from "vue";
 import type { AmethystEightBandEqualizerNode } from ".";
@@ -13,6 +13,7 @@ import HighShelfIcon from "@/icons/equalizer/HighShelfIcon.vue";
 import LowpassIcon from "@/icons/equalizer/LowpassIcon.vue";
 import LowShelfIcon from "@/icons/equalizer/LowShelfIcon.vue";
 import PeakIcon from "@/icons/equalizer/PeakIcon.vue";
+import {amethyst} from "@/amethyst";
 
 const props = defineProps<{ node: AmethystEightBandEqualizerNode }>();
 
@@ -175,11 +176,19 @@ const FILTER_TYPES = [
       <spectrum-analyzer
         class="h-168px w-full opacity-25 "
         :node="node.pre"
+        :fft-size="amethyst.state.settings.value.spectrumFftSize"
+        :smoothing="amethyst.state.settings.value.spectrumSmoothing"
+        :accent-color="getThemeColor('--accent')"
+        :paused="amethyst.shouldPauseVisualizers()"
       />
       <div class="absolute top-0 left-0 right-0">
         <spectrum-analyzer
           class="h-168px w-full"
           :node="node.post"
+          :fft-size="amethyst.state.settings.value.spectrumFftSize"
+          :smoothing="amethyst.state.settings.value.spectrumSmoothing"
+          :accent-color="getThemeColor('--accent')"
+          :paused="amethyst.shouldPauseVisualizers()"
         />
       </div>
       <canvas

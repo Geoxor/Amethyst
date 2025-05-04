@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst";
-import { getThemeColorRgb } from "@/logic/color";
 import {logParabolicSpectrum, normalize8bit} from "@/logic/math";
-import * as THREE from "three";
-import { watch } from "vue";
 import ShaderCanvas from "@/components/ShaderCanvas.vue";
 import {VISUALIZER_BIN_COUNT} from "@shared/constants";
+import * as THREE from "three";
+import { watch } from "vue";
 
 const props = defineProps<{
   node: AudioNode,
+  accentColor: { r: number, g: number, b: number},
+  fftSize: number,
+  smoothing: number,
   spectrogram?: boolean,
+  paused?: boolean,
 }>();
 
 const context = props.node.context;
@@ -18,41 +20,33 @@ const analyser = context.createAnalyser();
 props.node.connect(analyser);
 
 const updateAnalyser = () => {
-  analyser.fftSize = props.spectrogram
-      ? amethyst.state.settings.value.spectrogram.fftSize
-      : amethyst.state.settings.value.spectrumFftSize;
-  analyser.smoothingTimeConstant = props.spectrogram
-      ? amethyst.state.settings.value.spectrogram.smoothing
-      : amethyst.state.settings.value.spectrumSmoothing;
+  analyser.fftSize = props.fftSize;
+  analyser.smoothingTimeConstant = props.smoothing;
 };
 
 updateAnalyser();
 
-watch(() => [
-    amethyst.state.settings.value.spectrumFftSize,
-    amethyst.state.settings.value.spectrumSmoothing,
-    amethyst.state.settings.value.spectrogram.fftSize,
-    amethyst.state.settings.value.spectrogram.smoothing
-], updateAnalyser);
+watch(() => [props.fftSize, props.smoothing], updateAnalyser);
+watch(() => props.accentColor, () => {
+  uniformData.u_color.value.set(
+    normalize8bit(props.accentColor.r),
+    normalize8bit(props.accentColor.g),
+    normalize8bit(props.accentColor.b)
+  );
+});
 
 // Don't change these
 analyser.maxDecibels = -0;
 analyser.minDecibels = -128;
 
-// get color for the spectrum from the current theme
-const [r, g, b] = getThemeColorRgb("--accent");
-const spectrumColor = new THREE.Vector3(normalize8bit(r), normalize8bit(g), normalize8bit(b));
-
 const uniformData = {
-  u_color: {value: spectrumColor},
+  u_color: {value: new THREE.Vector3(
+    normalize8bit(props.accentColor.r),
+    normalize8bit(props.accentColor.g),
+    normalize8bit(props.accentColor.b)
+  )},
   u_amplitudes: {value: new Float32Array(VISUALIZER_BIN_COUNT)},
 };
-
-amethyst.state.on("theme:change", () => {
-  const [r, g, b] = getThemeColorRgb("--accent");
-  spectrumColor.set(normalize8bit(r), normalize8bit(g), normalize8bit(b));
-  uniformData.u_color.value = spectrumColor;
-});
 
 const spectrumShader = `
   precision highp float;
@@ -100,7 +94,6 @@ const render = (uniforms: Record<string, any>) => {
 };
 
 const getShader = () => props.spectrogram ? spectrogramShader : spectrumShader;
-
 </script>
 
 <template>
@@ -109,7 +102,7 @@ const getShader = () => props.spectrogram ? spectrogramShader : spectrumShader;
       class="origin-top-left absolute"
       :frag-shader="getShader()"
       :analyser="analyser"
-      :pause-rendering="amethyst.shouldPauseVisualizers()"
+      :pause-rendering="paused"
       :uniforms="uniformData"
       @on-render="render"
     />

@@ -13,6 +13,7 @@ import { AmethystIcon } from "@/icons";
 import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
 import { onMounted, onUnmounted, ref, watch } from "vue";
+import {getThemeColor} from "@/logic/color";
 
 const ambientBackgroundImage = ref("");
 
@@ -45,6 +46,11 @@ watch(() => amethyst.state.settings.value.showBigSpectrum, () => {
     <spectrum-analyzer
       key="big-spectrum-analyzer"
       :node="amethyst.player.nodeManager.master.pre"
+      :fft-size="amethyst.state.settings.value.spectrumFftSize"
+      :smoothing="amethyst.state.settings.value.spectrumSmoothing"
+      :spectrogram="amethyst.state.settings.value.spectrogram.show"
+      :accent-color="getThemeColor('--accent')"
+      :paused="amethyst.shouldPauseVisualizers()"
     />
   </div>
   <div

@@ -15,6 +15,7 @@ import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 import { router } from "@/router";
 import { Icon } from "@iconify/vue";
 import { LoadStatus } from "@shared/types";
+import {getThemeColor} from "@/logic/color";
 
 let lastVolumeBeforeMute = amethyst.player.volume.value;
 
@@ -215,7 +216,11 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       <spectrum-analyzer
         :key="amethyst.player.nodeManager.getNodeConnectionsString()"
         :node="amethyst.player.nodeManager.master.pre"
+        :fft-size="amethyst.state.settings.value.spectrumFftSize"
+        :smoothing="amethyst.state.settings.value.spectrumSmoothing"
         :spectrogram="amethyst.state.settings.value.spectrogram.show"
+        :accent-color="getThemeColor('--accent')"
+        :paused="amethyst.shouldPauseVisualizers()"
       />
     </div>
     <!-- Spacer to keep the middle dock centered  -->
