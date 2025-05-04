@@ -31,13 +31,13 @@ import NavigationButton from "@/components/NavigationButton.vue";
     />
 
     <navigation-button
-      icon="ic:twotone-settings"
-      route-name="settings"
+      icon="ic:twotone-mic-external-on"
+      route-name="audio-monitor"
     />
 
     <navigation-button
-      icon="ic:twotone-mic-external-on"
-      route-name="audio-monitor"
+      icon="ic:twotone-settings"
+      route-name="settings"
     />
 
     <navigation-button
