@@ -24,9 +24,11 @@ export const getThemeColorHex = (variableName: string): string => {
  * @returns An array containing the RGB values [r, g, b].
  */
 export const getThemeColorRgb = (variableName: string): [number, number, number] => {
-  const [rString,gString,bString] = getComputedStyle(document.documentElement).getPropertyValue(variableName).split(", ");
-  const r = typeof rString == "string" ? parseFloat(rString) : rString;
-  const g = typeof gString == "string" ? parseFloat(gString) : gString;
-  const b = typeof bString == "string" ? parseFloat(bString) : bString;
-  return [r, g, b];
+  const [r, g, b] = getComputedStyle(document.documentElement).getPropertyValue(variableName).split(", ");
+  return [parseFloat(r), parseFloat(g), parseFloat(b)];
+};
+
+export const getThemeColor = (variableName: string): {r: number, g: number, b: number} => {
+  const [r, g, b] = getThemeColorRgb(variableName);
+  return {r, g, b};
 };
