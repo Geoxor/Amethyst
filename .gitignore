@@ -8,7 +8,7 @@ music
 *.pid
 *.seed
 preload.js
-
+__screenshots__
 
 # Coverage directory used by tools like istanbul
 coverage

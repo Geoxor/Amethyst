@@ -4,7 +4,7 @@ import { onMounted, ref, watch } from "vue";
 // @ts-ignore no types
 import { amethyst } from "@/amethyst";
 import { smoothTween } from "@/logic/dom";
-import { computeWidthPercentage, infinityClamp } from "@/logic/math";
+import { infinityClamp, mapValueToPercentage } from "@/logic/math";
 import { LoudnessMeter } from "@domchristie/needles";
 
 const props = defineProps<{ node: AudioNode }>();
@@ -85,7 +85,7 @@ onMounted(() => {
       <div class="barBg">
         <div
           class="bar bg-slider-fill duration-100"
-          :style="`width: ${computeWidthPercentage(MINIMUM_LUFS, 0, momentary)}%`"
+          :style="`width: ${mapValueToPercentage(MINIMUM_LUFS, 0, momentary)}%`"
         />
       </div>
       
@@ -104,7 +104,7 @@ onMounted(() => {
       <div class="barBg">
         <div
           class="bar bg-slider-fill duration-100"
-          :style="`width: ${computeWidthPercentage(MINIMUM_LUFS, 0, shortTerm)}%`"
+          :style="`width: ${mapValueToPercentage(MINIMUM_LUFS, 0, shortTerm)}%`"
         />
       </div>
       <div class="flex justify-between w-full">
@@ -122,7 +122,7 @@ onMounted(() => {
       <div class="barBg">
         <div
           class="bar bg-slider-fill duration-1000"
-          :style="`width: ${computeWidthPercentage(MINIMUM_LUFS, 0, integrated)}%`"
+          :style="`width: ${mapValueToPercentage(MINIMUM_LUFS, 0, integrated)}%`"
         />
       </div>
       <div class="flex justify-between w-full">
