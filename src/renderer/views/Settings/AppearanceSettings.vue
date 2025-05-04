@@ -187,7 +187,7 @@ const AVAILABLE_THEMES = [
           <!-- TODO: Shader options built-in and in amethyst user-config shader directory -->
           <dropdown-input
             v-model="amethyst.state.settings.value.shader.selected"
-            :options="[]"
+            :options="amethyst.state.shaders.value.getShaderNames()"
           />
         </settings-setting>
       </div>

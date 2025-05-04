@@ -1,8 +1,9 @@
 import { useLocalStorage } from "@vueuse/core";
-import { reactive, watch } from "vue";
+import {reactive, ref, watch} from "vue";
 import type { MediaSourceType } from "./logic/mediaSources";
 import { FONT_WEIGHTS } from "@shared/constants";
 import { EventEmitter } from "./logic/eventEmitter";
+import {ShaderManager} from "@/shaders/ShaderManager";
 
 export interface IContextMenuOption {
 	title: string;
@@ -34,7 +35,7 @@ export class State extends EventEmitter<StateEvents> {
 		},
 		shader: {
 			use: false,
-			selected: "built-in/simple-gradient",
+			selected: "none",
 		},
 		showQueue: true,
 		showCoverArt: true,
@@ -108,6 +109,7 @@ export class State extends EventEmitter<StateEvents> {
 	};
 
 	public settings = useLocalStorage("settings", this.defaultSettings, { writeDefaults: true, mergeDefaults: true });
+	public shaders = ref<ShaderManager>(new ShaderManager());
 
 	public applyCurrentTheme = () => {
 		if (typeof document !== "undefined") {

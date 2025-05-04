@@ -2,7 +2,6 @@
 import { amethyst } from "@/amethyst";
 import CoverArt from "@/components/CoverArt.vue";
 import ShaderCanvas from "@/components/ShaderCanvas.vue";
-import {SimpleGradient} from "@/shaders/builtin/SimpleGradient";
 
 defineProps<{
   ambientBackgroundImage?: string,
@@ -19,7 +18,7 @@ defineProps<{
       filter: blur(${amethyst.state.settings.value.ambientBackgroundBlurStrength}px);
       mix-blend-mode: ${amethyst.state.settings.value.ambientBackgroundBlendMode};
     `"
-    :frag-shader="SimpleGradient"
+    :frag-shader="amethyst.state.shaders.value.getSelectedShader()"
     :pause-rendering="amethyst.shouldPauseAnimations()"
   />
 
