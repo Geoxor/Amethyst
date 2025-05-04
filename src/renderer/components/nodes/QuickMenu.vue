@@ -2,7 +2,13 @@
 import { amethyst } from "@/amethyst";
 import type { AmethystAudioNode } from "@/logic/audio";
 import { Icon } from "@iconify/vue";
+import { useInspector } from "../Inspector";
 const props = defineProps<{node: AmethystAudioNode}>();
+
+const handleNodeRemove = () => {
+  amethyst.player.nodeManager.removeNode(props.node);
+  useInspector().hide();
+};
 
 </script>
 
@@ -40,7 +46,7 @@ const props = defineProps<{node: AmethystAudioNode}>();
     <button
       v-if="props.node.isRemovable"
       class="dangerous"
-      @click="amethyst.player.nodeManager.removeNode(props.node)"
+      @click="handleNodeRemove"
     >
       <icon
         icon="ic:twotone-delete"
