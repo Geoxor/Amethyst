@@ -11,11 +11,11 @@ import DbMeter from "@/components/visualizers/DbMeter.vue";
 import LoudnessMeter from "@/components/visualizers/LoudnessMeter.vue";
 import SpectrumAnalyzer from "@/components/visualizers/SpectrumAnalyzer.vue";
 import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
+import { getThemeColor } from "@/logic/color";
 import { router } from "@/router";
 import { Icon } from "@iconify/vue";
 import { secondsToColinHuman } from "@shared/formating";
 import { LoadStatus } from "@shared/types";
-import {getThemeColor} from "@/logic/color";
 import DraggableModifierInput from "../input/DraggableModifierInput.vue";
 
 let lastVolumeBeforeMute = amethyst.player.volume.value;
