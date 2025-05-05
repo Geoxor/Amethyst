@@ -1,19 +1,26 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
+import BackgroundImage from "@/components/BackgroundImage.vue";
 import { ContextMenu, useContextMenu } from "@/components/ContextMenu";
 import CoverArt from "@/components/CoverArt.vue";
 import { InspectorBar, useInspector } from "@/components/Inspector";
 import NavigationBar from "@/components/NavigationBar.vue";
-import BackgroundImage from "@/components/BackgroundImage.vue";
 import NavigationButton from "@/components/NavigationButton.vue";
 import TopBar from "@/components/TopBar.vue";
 import PlaybackControls from "@/components/v2/PlaybackControls.vue";
 import SpectrumAnalyzer from "@/components/visualizers/SpectrumAnalyzer.vue";
 import { AmethystIcon } from "@/icons";
+import { getThemeColor } from "@/logic/color";
 import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
 import { onMounted, onUnmounted, ref, watch } from "vue";
-import {getThemeColor} from "@/logic/color";
+
+// Stops scrolling when tapping space
+window.addEventListener("keydown", function(e) {
+  if(e.code == "Space" && e.target == document.body) {
+    e.preventDefault();
+  }
+});
 
 const ambientBackgroundImage = ref("");
 
