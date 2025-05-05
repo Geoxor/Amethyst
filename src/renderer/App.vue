@@ -17,8 +17,14 @@ import { onMounted, onUnmounted, ref, watch } from "vue";
 
 // Stops scrolling when tapping space
 window.addEventListener("keydown", function(e) {
-  if(e.code == "Space" && e.target == document.body) {
-    e.preventDefault();
+  if (e.target == document.body) {
+    switch (e.code) {
+      case "Space":
+      case "ArrowDown":
+      case "ArrowUp":
+        e.preventDefault();
+        break;
+    }
   }
 });
 
