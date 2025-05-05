@@ -42,6 +42,13 @@
               "/nodes/input_node",
               "/nodes/output_node"
             ]
+          },
+          {
+            "group": "Visuals",
+            "pages": [
+              "/visuals/vectorscope",
+              "/visuals/spectrum_analyzer"
+            ]
           }
         ]
       }

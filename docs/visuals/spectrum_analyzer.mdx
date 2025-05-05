@@ -1,0 +1,31 @@
+---
+title: Spectrum Analyzer
+---
+
+A [spectrum analyzer](https://en.wikipedia.org/wiki/Spectrum_analyzer) is a tool that visualizes the **frequency content** of an audio signal over time. It displays the signal’s amplitude (loudness) across the audible frequency spectrum, typically from 20 Hz to 20 kHz, allowing the user to identify specific frequencies and their relative energy levels.
+
+<Note>Changing the resample rate will change the frequency range of the analyzer to the [nyquist](https://en.wikipedia.org/wiki/Nyquist_frequency) range as well</Note>
+
+## Real-Time Analysis
+
+The spectrum analyzer operates in real time, using the [Fast Fourier Transform (FFT)](https://en.wikipedia.org/wiki/Fast_Fourier_transform) to break down the signal into its constituent frequencies and plot their levels instantly.
+
+<Info>The FFT size can be changed in `Settings` > `Metering` > `Spectrum Analyzer` > `FFT Size`</Info>
+
+## Simplification
+
+Simply put, a spectrum analyzer shows which frequencies are present in the sound and how loud each of them is. This helps in understanding the *tone*, *balance*, and *clarity* of the audio.
+
+## Frequency Axis
+
+The horizontal axis of a spectrum analyzer represents frequency, usually displayed on a **logarithmic scale**, making it easier to distinguish low frequencies (bass) from high ones (treble). For example:
+- Left side: Sub-bass, bass (20–250 Hz)
+- Middle: Midrange (250 Hz – 4 kHz)
+- Right side: Presence and brilliance (4 kHz – 20 kHz)
+
+<Info>You can read more about musical frequencies [here](https://www.idrumtune.com/ultimate-guide-to-musical-frequencies)</Info>
+
+## Amplitude Axis
+
+The vertical axis shows **amplitude**, usually in decibels (dB), with higher values indicating louder frequencies. Peaks represent dominant tones, while dips indicate weak or absent frequencies.
+
