@@ -90,6 +90,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       v-if="amethyst.state.settings.value.oscilloscope.show"
       class="flex pointer-events-auto overflow-hidden items-center justify-center h-16 gap-2 rounded-8px transition w-full min-w-64px max-w-64px bg-playback-controls-background"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
+          { title: 'Hide Oscilloscope', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.oscilloscope.show = false },
       ]);"
     >
       <oscilloscope
@@ -98,9 +99,6 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
         :node="amethyst.player.nodeManager.master.pre"
         :width="64"
         :height="64"
-        @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
-          { title: 'Hide Oscilloscope', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.showVectorscope = false },
-        ]);"
       />
     </div>
 
@@ -247,8 +245,8 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       v-if="amethyst.state.settings.value.showVectorscope"
       class="flex pointer-events-auto overflow-hidden items-center justify-center h-16 gap-2 rounded-8px transition w-full min-w-64px max-w-64px bg-playback-controls-background"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
-        { title: 'Hide', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.showSpectrum = false },
-      ]);"
+          { title: 'Hide Vectorscope', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.showVectorscope = false },
+        ]);"
     >
       <vectorscope
         v-if="amethyst.state.settings.value.showVectorscope && amethyst.player.source"
@@ -256,9 +254,6 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
         :node="amethyst.player.nodeManager.master.pre"
         :width="48"
         :height="48"
-        @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
-          { title: 'Hide Vectorscope', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.showVectorscope = false },
-        ]);"
       />
     </div>
 
@@ -269,7 +264,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
         { title: 'Hide', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.showSpectrum = false },
       ]);"
-      @click="console.log(context.window.innerWidth)"
+      @click="amethyst.state.settings.value.showBigSpectrum = true"
     >
       <spectrum-analyzer
         :key="amethyst.player.nodeManager.getNodeConnectionsString()"
