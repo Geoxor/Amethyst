@@ -2,13 +2,15 @@
 title: Spectrum Analyzer
 ---
 
-import fftinfo from '/snippets/fast-fourier-transform-information.mdx';
-
 A [spectrum analyzer](https://en.wikipedia.org/wiki/Spectrum_analyzer) is a tool that visualizes the **frequency content** of an audio signal over time. It displays the signal’s amplitude (loudness) across the audible frequency spectrum, typically from 20 Hz to 20 kHz, allowing the user to identify specific frequencies and their relative energy levels.
 
 <Note>Changing the resample rate will change the frequency range of the analyzer to the [nyquist](https://en.wikipedia.org/wiki/Nyquist_frequency) range as well</Note>
 
-<fftinfo word="spectrum analyzer" />
+## Real-Time Analysis
+
+The spectrum analyzer operates in real time, using the [Fast Fourier Transform (FFT)](https://en.wikipedia.org/wiki/Fast_Fourier_transform) to break down the signal into its constituent frequencies and plot their levels instantly.
+
+<Info>The FFT size can be changed in `Settings` > `Metering` > `Spectrum Analyzer` > `FFT Size`</Info>
 
 ## Simplification
 
