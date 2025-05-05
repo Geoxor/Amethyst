@@ -152,9 +152,14 @@ provide("menuGroupRef", menuGroupRef);
       </menu-container>
       <menu-container :title="$t('menu.about')">
         <menu-option
-          :title="$t('menu.about.documentation')"
+          :title="$t('menu.about.guides')"
+          icon="ic:twotone-book"
+          @click="amethyst.openLink('https://amethyst.geoxor.moe/guides')"
+        />
+        <menu-option
+          :title="$t('menu.about.user_manual')"
           icon="ic:twotone-menu-book"
-          @click="amethyst.openLink('https://amethyst.geoxor.moe')"
+          @click="amethyst.openLink('https://amethyst.geoxor.moe/user-manual')"
         />
         <menu-option
           :title="$t('menu.about.github_repository')"

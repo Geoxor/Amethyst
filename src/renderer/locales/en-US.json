@@ -33,7 +33,8 @@
   "menu.view.show_developer_tools": "Show developer tools",
   
   "menu.about": "About",
-  "menu.about.documentation": "Documentation...",
+  "menu.about.guides": "Guides...",
+  "menu.about.user_manual": "User Manual...",
   "menu.about.github_repository": "GitHub repository...",
   "menu.about.discord_server": "Discord server...",
 
