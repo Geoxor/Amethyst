@@ -80,7 +80,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="text-11px font-bold text-playback-controls-text w-full flex flex-col justify-between items-center h-full py-0.5 disable-select no-drag">
+  <div class="text-11px font-bold text-playback-controls-text w-full flex flex-col justify-between items-start h-full disable-select no-drag">
     <div class="meter">
       <div class="barBg">
         <div
@@ -88,7 +88,6 @@ onMounted(() => {
           :style="`width: ${mapValueToPercentage(MINIMUM_LUFS, 0, momentary)}%`"
         />
       </div>
-      
       <div class="flex justify-between w-full">
         <p class="type overflow-hidden overflow-ellipsis">
           Momentary
@@ -141,20 +140,19 @@ onMounted(() => {
 
 <style scoped lang="postcss">
 .meter {
-  @apply flex gap-1.5 w-full;
+  @apply flex gap-2 w-full;
 }
 .barBg {
-  @apply bg-slider-background w-full overflow-hidden rounded-2px;
+  @apply bg-slider-background w-3/4 overflow-hidden rounded-2px;
 }
 .bar {
-  @apply h-full rounded-2px ;
+  @apply h-full rounded-2px;
 }
 
 .value {
-  @apply flex;
+  @apply flex pr-1;
   p {
     @apply w-14;
-    text-align: end;
   }
 }
 
