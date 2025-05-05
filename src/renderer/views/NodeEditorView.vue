@@ -282,6 +282,7 @@ onKeyStroke("Delete", () => {
       ref="dash"
       v-model="elements"
       class="p-2"
+      :delete-key-code="null"
       :snap-to-grid="amethyst.state.settings.value.isSnappingToGrid"
       :max-zoom="2.00"
       :min-zoom="1.00"
