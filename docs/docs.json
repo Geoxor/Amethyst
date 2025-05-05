@@ -9,9 +9,10 @@
   },
   "favicon": "/favicon.svg",
   "navigation": {
-    "tabs": [
+    "dropdowns": [
       {
-        "tab": "Guides",
+        "dropdown": "Guides",
+        "icon": "book",
         "groups": [
           {
             "group": "Get Started",
@@ -24,7 +25,8 @@
         ]
       },
       {
-        "tab": "User Manual",
+        "dropdown": "User Manual",
+        "icon": "book-open",
         "groups": [
           {
             "group": "File Types",
