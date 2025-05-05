@@ -208,5 +208,17 @@
   "settings.audio_driver.audio_device.title": "オーディオデバイス",
   "settings.audio_driver.audio_device.description": "選択したオーディオドライバに対応する出力デバイスを選びます",
   "settings.audio_driver.audio_device.buffer.title": "バッファサイズ",
-  "settings.audio_driver.audio_device.buffer.description": "バッファごとのサンプル数を調整します。値を小さくすると遅延は減りますが、音切れが起きることがあります"
+  "settings.audio_driver.audio_device.buffer.description": "バッファごとのサンプル数を調整します。値を小さくすると遅延は減りますが、音切れが起きることがあります",
+  "menu.about.guides": "Guides...",
+  "menu.about.user_manual": "User Manual...",
+  "settings.ambient_background.shader.title": "Shader",
+  "settings.ambient_background.shader.description": "Use shader effects as cover alternative",
+  "settings.line_thickness.title": "線の太さ",
+  "settings.line_thickness.description": "線をどれくらい太くするか",
+  "settings.smoothing_duration.title": "スムージング時間",
+  "settings.smoothing_duration.description": "データフレームの変化を滑らかにアニメ化する",
+  "settings.spectrogram_analyzer.title": "Spectrogram mode",
+  "settings.spectrogram_analyzer.description": "Displays the frequency spectrum of the audio signal over time. Low frequencies are displayed on the bottom while high frequencies are on the top",
+  "settings.oscilloscope_analyzer.title": "Oscilloscope analyzer",
+  "settings.oscilloscope_analyzer.description": "Displays the audio signal waveform, where the x-axis represents time and the y-axis represents amplitude"
 }

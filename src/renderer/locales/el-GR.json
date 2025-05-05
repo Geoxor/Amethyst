@@ -207,5 +207,17 @@
   "track.state.loaded": "Φορτωμένο",
   "track.state.loading": "Φορτώνει",
   "track.show_file_in_file_explorer": "Δείξε το στο explorer",
-  "track.show_amf_in_file_explorer": "Δείξε το .amf στο explorer"
+  "track.show_amf_in_file_explorer": "Δείξε το .amf στο explorer",
+  "menu.about.guides": "Guides...",
+  "menu.about.user_manual": "User Manual...",
+  "settings.ambient_background.shader.title": "Shader",
+  "settings.ambient_background.shader.description": "Use shader effects as cover alternative",
+  "settings.line_thickness.title": "Πάχος γραμμών",
+  "settings.line_thickness.description": "Ορίζει πόσο χοντρές είναι οι γραμμές",
+  "settings.smoothing_duration.title": "Χρόνος εξομάλυνσης",
+  "settings.smoothing_duration.description": "Κάνει πιο ομαλές τις αλλαγές στα γραφήματα (χρήσιμο για μικρά FFT)",
+  "settings.spectrogram_analyzer.title": "Spectrogram mode",
+  "settings.spectrogram_analyzer.description": "Displays the frequency spectrum of the audio signal over time. Low frequencies are displayed on the bottom while high frequencies are on the top",
+  "settings.oscilloscope_analyzer.title": "Oscilloscope analyzer",
+  "settings.oscilloscope_analyzer.description": "Displays the audio signal waveform, where the x-axis represents time and the y-axis represents amplitude"
 }
