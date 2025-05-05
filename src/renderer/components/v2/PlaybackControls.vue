@@ -112,17 +112,19 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       class="relative rounded-8px min-w-660px max-w-940px  pointer-events-auto bg-playback-controls-background"
     >
       <div class="flex items-center h-16 gap-2 p-2 w-full">
-        <div 
-          v-if="amethyst.state.settings.value.showOutputDiagram"
-          class="flex gap-4 flex-col w-full bg-playback-controls-background absolute bottom-50px p-4 pb-8 rounded-8px -z-5 left-0 "
-        >
-          <icon
-            icon="ic:twotone-close"
-            class="utilityButton absolute top-3 right-3 cursor-pointer"
-            @click="amethyst.state.settings.value.showOutputDiagram = false"
-          />
-          <output-diagram />
-        </div>
+        <Transition name="slide">
+          <div 
+            v-if="amethyst.state.settings.value.showOutputDiagram"
+            class="flex gap-4 overflow-hidden items-center flex-col h-48 w-full bg-playback-controls-background absolute bottom-40px rounded-8px -z-5 left-0"
+          >
+            <icon
+              icon="ic:twotone-keyboard-double-arrow-down"
+              class="utilityButton cursor-pointer absolute mt-3"
+              @click="amethyst.state.settings.value.showOutputDiagram = !amethyst.state.settings.value.showOutputDiagram"
+            />
+            <output-diagram class="p-4" />
+          </div>
+        </Transition>
         <slider
           id="seek"
           key="seek"
@@ -194,7 +196,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
         />
         <icon
           icon="mdi:information-slab-box-outline"
-          class="utilityButton"
+          class="utilityButton transition-all"
           :class="[
             amethyst.state.settings.value.showOutputDiagram && 'text-accent'
           ]"
@@ -297,6 +299,19 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
   .hide {
     @apply min-w-0px max-w-0px p-0;
   }
+}
+
+.slide-enter-active {
+  transition: all 0.2s ease-out;
+}
+
+.slide-leave-active {
+  transition: all 0.2s ease-in;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  height: 0px;
 }
 
 </style>
