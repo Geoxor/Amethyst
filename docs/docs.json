@@ -30,7 +30,8 @@
             "group": "File Types",
             "pages": [
               "/file_types/amethyst_metadata_file",
-              "/file_types/amethyst_node_graph"
+              "/file_types/amethyst_node_graph",
+              "/file_types/amethyst_configuration_file"
             ]
           },
           {
