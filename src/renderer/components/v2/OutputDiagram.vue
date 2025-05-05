@@ -8,6 +8,7 @@ import AlsaLogo from "@/icons/logos/AlsaLogo.vue";
 import AppleLogo from "@/icons/logos/AppleLogo.vue";
 import ArturiaLogo from "@/icons/logos/ArturiaLogo.vue";
 import AsioLogo from "@/icons/logos/AsioLogo.vue";
+import BluetoothLogo from "@/icons/logos/BluetoothLogo.vue";
 import FlacLogo from "@/icons/logos/FlacLogo.vue";
 import FLStudioLogo from "@/icons/logos/FLStudioLogo.vue";
 import FocusriteLogo from "@/icons/logos/FocusriteLogo.vue";
@@ -135,6 +136,7 @@ onMounted(() => {
         <apple-logo v-else-if="['apple inc.'].some(string => amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes(string))" />
         
         <!-- asio last incase we don't recognise the company of the specific asio device -->
+        <bluetooth-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('bluetooth')" />
         <asio-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('asio')" />
         <icon
           v-else
