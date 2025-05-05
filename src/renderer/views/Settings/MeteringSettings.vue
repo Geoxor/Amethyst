@@ -28,7 +28,7 @@ import { FFT_SIZES } from "@shared/constants";
           icon="ic:twotone-speed"
         >
           <toggle-switch
-            v-model="amethyst.state.settings.value.decibelMeterSeperatePrePost"
+            v-model="amethyst.state.settings.value.decibelMeterSeparatePrePost"
           />
         </settings-setting>
 

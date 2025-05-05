@@ -129,7 +129,7 @@ onUnmounted(() => shouldStopRendering = true);
       PRE
     </div>
     <div
-      v-else-if="amethyst.state.settings.value.decibelMeterSeperatePrePost"
+      v-else-if="amethyst.state.settings.value.decibelMeterSeparatePrePost"
       class="div text-surface-600 w-min font-aseprite text-7px pl-0.7 bg-inspector-color py-0.5 px-0.25 rounded-2px flex items-center justify-center"
     >
       POST

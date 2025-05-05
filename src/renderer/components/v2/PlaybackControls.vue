@@ -112,7 +112,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
           @wheel.passive="handleSeekMouseScroll"
         />
         <db-meter
-          v-if="amethyst.state.settings.value.showDbMeter && amethyst.state.settings.value.decibelMeterSeperatePrePost && amethyst.player.source"
+          v-if="amethyst.state.settings.value.showDbMeter && amethyst.state.settings.value.decibelMeterSeparatePrePost && amethyst.player.source"
           :key="amethyst.player.nodeManager.getNodeConnectionsString()"
           class="duration-user-defined cursor-pointer"
           :node="amethyst.player.nodeManager.master.pre"
