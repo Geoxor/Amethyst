@@ -56,8 +56,8 @@
   "settings.performance.maximum_framerate": "Maximum framerate",
   "settings.performance.audio_latency": "Audio latency",
   
-  "settings.behaviour.title": "Behaviour",
-  "settings.behaviour.description": "Autoplay, parsing",
+  "settings.behavior.title": "Behavior",
+  "settings.behavior.description": "Autoplay, parsing",
 
   "settings.metering.title": "Metering",
   "settings.metering.description": "Spectrums, vectorscope and meters",
@@ -157,12 +157,12 @@
   "settings.vectorscope.line_thickness.title": "Line thickness",
   "settings.vectorscope.line_thickness.description": "Changes how thick / obvious the lines are",
 
-  "settings.spectrum_analyser.title": "Spectrum analyzer",
-  "settings.spectrum_analyser.description": "Displays the frequency spectrum of the audio signal using a graph, where the x-axis represents the frequency range and the y-axis represents the amplitude",
-  "settings.spectrogram_analyser.title": "Spectrogram mode",
-  "settings.spectrogram_analyser.description": "Displays the frequency spectrum of the audio signal over time. Low frequencies are displayed on the bottom while high frequencies are on the top",
-  "settings.spectrum_analyser.smoothing_duration.title" : "Smoothing duration",
-  "settings.spectrum_analyser.smoothing_duration.description" : "Smoothly animate between data-frames (useful for smoothing small FFT sizes that create jitter)",
+  "settings.spectrum_analyzer.title": "Spectrum analyzer",
+  "settings.spectrum_analyzer.description": "Displays the frequency spectrum of the audio signal using a graph, where the x-axis represents the frequency range and the y-axis represents the amplitude",
+  "settings.spectrogram_analyzer.title": "Spectrogram mode",
+  "settings.spectrogram_analyzer.description": "Displays the frequency spectrum of the audio signal over time. Low frequencies are displayed on the bottom while high frequencies are on the top",
+  "settings.spectrum_analyzer.smoothing_duration.title" : "Smoothing duration",
+  "settings.spectrum_analyzer.smoothing_duration.description" : "Smoothly animate between data-frames (useful for smoothing small FFT sizes that create jitter)",
 
   "settings.processing_concurrency.title": "Processing concurrency",
   "settings.processing_concurrency.description": "How many processing tasks will be used for parsing metadata in parallel",
@@ -199,8 +199,6 @@
   "settings.audio_driver.audio_device.description": "Choose the output device associated with the selected audio driver",
   "settings.audio_driver.audio_device.buffer.title": "Buffer size",
   "settings.audio_driver.audio_device.buffer.description": "Adjust the number of audio samples per buffer. Lower values reduce latency but may cause glitches",
-
-
 
   "inspector.title": "Inspector",
   "inspector.inspecting_item_type.track": "Track",

@@ -26,10 +26,10 @@ defineProps<{
   />
   <settings-category
     route-name="settings.behaviour"
-    :title="$t('settings.behaviour.title')"
+    :title="$t('settings.behavior.title')"
     :active="false"
     :fullwidth-min="fullwidthMin"
-    :description="$t('settings.behaviour.description')"
+    :description="$t('settings.behavior.description')"
     icon="ic:twotone-psychology"
   />
   <settings-category

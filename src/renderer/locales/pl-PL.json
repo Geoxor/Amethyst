@@ -36,8 +36,8 @@
   "settings.vectorscope.description": "Wyświetla wizualną reprezentację stereofonicznego sygnału audio. Wyświetla względną fazę i szerokość stereo sygnału audio za pomocą wykresu kołowego. Wektoroskopu można użyć do sprawdzenia obrazowania stereo i spójności fazowej sygnału audio.",
   "settings.vectorscope.lissajous.title": "Krzywa Lissajous",
   "settings.vectorscope.lissajous.description": "Obraca wektoroskop",
-  "settings.spectrum_analyser.title": "Analizator spektrum",
-  "settings.spectrum_analyser.description": "Wyświetla wizualną reprezentację częstotliwości sygnału audio. Wyświetla widmo częstotliwości sygnału audio za pomocą wykresu, gdzie oś x reprezentuje zakres częstotliwości, a oś y reprezentuje amplitudę. Analizator widma może być używany do analizowania balansu częstotliwości sygnału audio i identyfikowania szczytów częstotliwości lub wcięć.",
+  "settings.spectrum_analyzer.title": "Analizator spektrum",
+  "settings.spectrum_analyzer.description": "Wyświetla wizualną reprezentację częstotliwości sygnału audio. Wyświetla widmo częstotliwości sygnału audio za pomocą wykresu, gdzie oś x reprezentuje zakres częstotliwości, a oś y reprezentuje amplitudę. Analizator widma może być używany do analizowania balansu częstotliwości sygnału audio i identyfikowania szczytów częstotliwości lub wcięć.",
   "settings.vsync.title": "VSync",
   "settings.vsync.description": "Ogranicza liczbę klatek na sekundę interfejsu użytkownika (UI) Amethyst do częstotliwości odświeżania aktywnego wyświetlacza.",
   "settings.vsync.warning": "Wymagany restart"

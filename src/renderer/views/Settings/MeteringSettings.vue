@@ -133,17 +133,17 @@ import { FFT_SIZES } from "@shared/constants";
   </settings-setting>
 
   <settings-setting
-    :title="$t('settings.spectrum_analyser.title')"
+    :title="$t('settings.spectrum_analyzer.title')"
     icon="ic:twotone-graphic-eq"
-    :description="$t('settings.spectrum_analyser.description')"
+    :description="$t('settings.spectrum_analyzer.description')"
   >
     <toggle-switch v-model="amethyst.state.settings.value.showSpectrum" />
     <template #subsettings>
       <div class="p-2 flex flex-col gap-2">
         <settings-setting
           subsetting
-          :title="$t('settings.spectrum_analyser.smoothing_duration.title')"
-          :description="$t('settings.spectrum_analyser.smoothing_duration.description')"
+          :title="$t('settings.spectrum_analyzer.smoothing_duration.title')"
+          :description="$t('settings.spectrum_analyzer.smoothing_duration.description')"
           icon="ic:twotone-access-time"
         >
           <slider-input
@@ -167,18 +167,18 @@ import { FFT_SIZES } from "@shared/constants";
           />
         </settings-setting>
         <settings-setting
-          :title="$t('settings.spectrogram_analyser.title')"
+          :title="$t('settings.spectrogram_analyzer.title')"
           icon="ic:baseline-water"
           subsetting
-          :description="$t('settings.spectrogram_analyser.description')"
+          :description="$t('settings.spectrogram_analyzer.description')"
         >
           <toggle-switch v-model="amethyst.state.settings.value.spectrogram.show" />
           <template #subsettings>
             <div class="p-2 flex flex-col gap-2">
               <settings-setting
                 subsetting
-                :title="$t('settings.spectrum_analyser.smoothing_duration.title')"
-                :description="$t('settings.spectrum_analyser.smoothing_duration.description')"
+                :title="$t('settings.spectrum_analyzer.smoothing_duration.title')"
+                :description="$t('settings.spectrum_analyzer.smoothing_duration.description')"
                 icon="ic:twotone-access-time"
               >
                 <slider-input

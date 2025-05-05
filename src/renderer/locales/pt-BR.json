@@ -131,10 +131,10 @@
   "settings.vectorscope.line_thickness.title": "Espessura da linha",
   "settings.vectorscope.line_thickness.description": "Alterar a espessura das linhas",
 
-  "settings.spectrum_analyser.title": "Analisador em espectro",
-  "settings.spectrum_analyser.description": "Mostrar uma representação visual das frequências do sinal de áudio em um gráfico, em que o eixo (X) representa a frequência e o eixo (Y) representa a amplitude.",
-  "settings.spectrum_analyser.smoothing_duration.title" : "Duração da suavização",
-  "settings.spectrum_analyser.smoothing_duration.description" : "Suavizar o espectro entre seus quadros de dados (útil quando utilizar tamanhos pequenos de FFT que causam tremores)",
+  "settings.spectrum_analyzer.title": "Analisador em espectro",
+  "settings.spectrum_analyzer.description": "Mostrar uma representação visual das frequências do sinal de áudio em um gráfico, em que o eixo (X) representa a frequência e o eixo (Y) representa a amplitude.",
+  "settings.spectrum_analyzer.smoothing_duration.title" : "Duração da suavização",
+  "settings.spectrum_analyzer.smoothing_duration.description" : "Suavizar o espectro entre seus quadros de dados (útil quando utilizar tamanhos pequenos de FFT que causam tremores)",
 
   "settings.vsync.title": "VSync",
   "settings.vsync.description": "Restringir a taxa de quadros da interface de usuário para a taxa de atualização do monitor",
