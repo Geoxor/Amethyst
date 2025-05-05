@@ -2,14 +2,12 @@
 title: Vectorscope
 ---
 
+import fftinfo from '/snippets/fast-fourier-transform-information.mdx';
+
 A [vectorscope](https://en.wikipedia.org/wiki/Vectorscope) is a useful visualization tool that plots the amplitude of a [stereo](https://en.wikipedia.org/wiki/Stereophonic_sound) signal in a [two-dimensional](https://en.wikipedia.org/wiki/2D_computer_graphics) [X-Y graph](https://en.wikipedia.org/wiki/Oscilloscope#X-Y_mode), with
 X being channel one horizontally and Y being channel two vertically, thus revealing the relationship between the two signals ([correlation](#correlation)).
 
-## Real-Time Analysis
-
-The vectorscope operates in real time, using the [Fast Fourier Transform (FFT)](https://en.wikipedia.org/wiki/Fast_Fourier_transform) to break down the signal into its constituent frequencies and plot their levels instantly.
-
-<Info>The FFT size can be changed in `Settings` > `Metering` > `Vectorscope` > `FFT Size`</Info>
+<fftinfo word="vectorscope" />
 
 ## Simplification
 Simply put, the vectorscope shows how "wide" or "stereo" the signal is.
