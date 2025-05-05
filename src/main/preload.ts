@@ -12,6 +12,7 @@ contextBridge.exposeInMainWorld("electron", {
 	isMac: os.platform() === "darwin", 
 	isWindows: os.platform() === "win32", 
 	isLinux: os.platform() === "linux",
+	startDrag: (fileName: string) => ipcRenderer.send("ondragstart", fileName),
 	ipcRenderer: {
 		invoke(channel: string, args?: string[]) {
 			return ipcRenderer.invoke(channel, args);

@@ -16,6 +16,7 @@ declare global {
     path: typeof import("path");
     dialog: Electron.Dialog;
     electron: {
+			startDrag: (fileName: string) => void,
 			isMac: boolean, 
 			isWindows: boolean, 
 			isLinux: boolean,
