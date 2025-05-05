@@ -13,7 +13,16 @@ let shouldStopRendering = false;
 onMounted(() => {
   const oscilloscope = document.querySelector(`#oscilloscope-${randomId}`) as HTMLCanvasElement;
   canvas = oscilloscope.getContext("2d")!;
-  canvas.strokeStyle = `${getThemeColorHex("--accent")}99`;
+
+  let strokeStyle = `${getThemeColorHex("--accent")}99`;
+  canvas.strokeStyle = strokeStyle;
+
+  watch(() => amethyst.state.settings.value.theme, () => {
+    // watch detects the change before the theme has actually been applied
+    setTimeout(() => {
+      strokeStyle = `${getThemeColorHex("--accent")}99`;
+    }, 100);
+  });
 
   canvas.lineWidth = amethyst.state.settings.value.oscilloscope.lineThickness;
   
@@ -57,6 +66,8 @@ onMounted(() => {
     oscilloscopeAnalyzer.getByteTimeDomainData(oscilloscopeBuffer);
     segmentWidth = props.width / oscilloscopeAnalyzer.frequencyBinCount;
 
+    canvas.strokeStyle = strokeStyle;
+
     canvas.clearRect(0, 0, screen.width, screen.height);
     canvas.beginPath();
 
@@ -67,6 +78,7 @@ onMounted(() => {
       canvas.lineTo(x, y);
     }
 
+    // canvas.closePath();
     canvas.stroke();
 
     !shouldStopRendering && requestAnimationFrame(draw);

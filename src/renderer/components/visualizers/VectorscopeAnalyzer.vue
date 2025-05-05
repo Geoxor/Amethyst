@@ -11,7 +11,17 @@ let shouldStopRendering = false;
 onMounted(() => {
   const vectorscope = document.querySelector(`#vectorscope-${randomId}`) as HTMLCanvasElement;
   canvasCtx = vectorscope.getContext("2d")!;
-  canvasCtx.strokeStyle = `${getThemeColorHex("--accent")}99`;
+
+  let strokeStyle = `${getThemeColorHex("--accent")}99`;
+  canvasCtx.strokeStyle = strokeStyle;
+
+  watch(() => amethyst.state.settings.value.theme, () => {
+    // watch detects the change before the theme has actually been applied
+    setTimeout(() => {
+      strokeStyle = `${getThemeColorHex("--accent")}99`;
+    }, 100);
+  });
+
   canvasCtx.lineWidth = amethyst.state.settings.value.vectorscopeLineThickness;
   watch(() => amethyst.state.settings.value.vectorscopeLineThickness, () => canvasCtx.lineWidth = amethyst.state.settings.value.vectorscopeLineThickness);
 
@@ -50,6 +60,8 @@ onMounted(() => {
   function draw() {
     analyzerX.getFloatTimeDomainData(bufferX);
     analyzerY.getFloatTimeDomainData(bufferY);
+
+    canvasCtx.strokeStyle = strokeStyle;
 
     canvasCtx.clearRect(0, 0, screen.width, screen.height);
     for (let i = 0; i < bufferX.length; i++) {
