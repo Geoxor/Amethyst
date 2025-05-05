@@ -60,8 +60,8 @@ export class Discord {
 					details: info.title.toString(),
 					state: info.album.toString(),
 					timestamps: info.pauseStatus == "yes" ? {
-						start: new Date(),
-						end: new Date()
+						start: info.timestamps.end,
+						end: info.timestamps.end
 					} : {
 						start: info.timestamps.start,
 						end: info.timestamps.end
