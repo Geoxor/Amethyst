@@ -100,6 +100,12 @@ const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
 
   contextMenu.open({ x, y }, menuItems);
 };
+
+const handleTrackDragStart = (e: DragEvent, path: Track) => {
+  window.electron.startDrag(path.absolutePath);
+  (e.target as HTMLDivElement).classList.add("dragging");
+};
+
 </script>
 
 <template>
@@ -402,8 +408,8 @@ const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
     >
       <template #default="{ item } : { item: Track}">
         <div
+          class="row flex items-center px-2 rounded-4px "
           :class="[
-            'flex items-center px-2 rounded-4px',
             `h-[${ITEM_HEIGHT}px]`,
             isHoldingControl && 'control cursor-external-pointer',
             item.hasErrored && 'opacity-50 not-allowed',
@@ -412,8 +418,9 @@ const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
             amethyst.state.settings.value.compactList ? 'py-1' : 'py-2',
             useInspector().state.isVisible && (useInspector().state.currentItem == item as any) && 'currentlyInspecting',
           ]"
-          class="row"
+          draggable="true"
           @contextmenu="handleTrackContextMenu($event, item)"
+          @dragstart.prevent="handleTrackDragStart($event, item)"
           @keypress.prevent
           @click="isHoldingControl ? amethyst.showItem(item.path) : amethyst.player.play(item)"
         >
@@ -687,10 +694,10 @@ tr {
 }
 
 .row {
-  @apply overflow-hidden text-text_subtitle;
+  @apply overflow-hidden text-text_subtitle ;
 
   & > div {
-  @apply overflow-hidden overflow-ellipsis;
+    @apply overflow-hidden overflow-ellipsis;
   }
 
   &:hover {

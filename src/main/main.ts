@@ -10,6 +10,7 @@ import { Menu, app } from "electron";
 import { checkForUpdatesAndInstall, MainWindow } from "./mainWindow";
 import Store from "electron-store";
 import "./realtimeAudio";
+import "./drag-drop";
 
 export const store = new Store();
 
