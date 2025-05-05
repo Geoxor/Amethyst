@@ -7223,10 +7223,12 @@ strtok3@^6.2.4, strtok3@^6.3.0:
     "@tokenizer/token" "^0.3.0"
     peek-readable "^4.1.0"
 
-subsonic-api@^2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/subsonic-api/-/subsonic-api-2.0.2.tgz#878873abd8e636a57b35d11d0aae9ac4357e9182"
-  integrity sha512-oWM82fsAwVeb2e+lhy/5sCQTjxOfYVba52Ag6APQSmvKHPzRgakA3JfcxHxoUMaOVTs/Knh258S/Wag+Wv/Ifw==
+subsonic-api@^3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/subsonic-api/-/subsonic-api-3.1.2.tgz#b2e3aeade76917ea6faa5bb660fef2750450ea40"
+  integrity sha512-EPuqd+z/6v/AbZhd25/5AN+QWsdFQ9K1SHd3N9PIN7Jheo9+L2bsmrbpjJ7D/AgnrmiSmlwhdfnkiaC83hVsfQ==
+  dependencies:
+    typescript "^5.7.3"
 
 sucrase@^3.32.0:
   version "3.34.0"
@@ -7652,7 +7654,7 @@ typescript@^5.0.4:
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.2.2.tgz#5ebb5e5a5b75f085f22bc3f8460fba308310fa78"
   integrity sha512-mI4WrpHsbCIcwT9cF4FZvr80QUeKvsUsUvKDoR+X/7XHQH98xYD8YHZg7ANtz2GtZt/CBq2QJ0thkGJMHfqc1w==
 
-typescript@^5.4.3:
+typescript@^5.4.3, typescript@^5.7.3:
   version "5.8.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.8.3.tgz#92f8a3e5e3cf497356f4178c34cd65a7f5e8440e"
   integrity sha512-p1diW6TqL9L07nNxvRMM7hMMw4c5XOo/1ibL4aAIGmSAt9slTE1Xgw5KWuof2uTOvCg9BY7ZRi+GaF+7sfgPeQ==
