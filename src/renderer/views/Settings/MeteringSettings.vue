@@ -142,8 +142,8 @@ import { FFT_SIZES } from "@shared/constants";
       <div class="p-2 flex flex-col gap-2">
         <settings-setting
           subsetting
-          :title="$t('settings.spectrum_analyzer.smoothing_duration.title')"
-          :description="$t('settings.spectrum_analyzer.smoothing_duration.description')"
+          :title="$t('settings.smoothing_duration.title')"
+          :description="$t('settings.smoothing_duration.description')"
           icon="ic:twotone-access-time"
         >
           <slider-input
@@ -177,8 +177,8 @@ import { FFT_SIZES } from "@shared/constants";
             <div class="p-2 flex flex-col gap-2">
               <settings-setting
                 subsetting
-                :title="$t('settings.spectrum_analyzer.smoothing_duration.title')"
-                :description="$t('settings.spectrum_analyzer.smoothing_duration.description')"
+                :title="$t('settings.smoothing_duration.title')"
+                :description="$t('settings.smoothing_duration.description')"
                 icon="ic:twotone-access-time"
               >
                 <slider-input
