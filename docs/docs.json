@@ -27,29 +27,36 @@
       {
         "dropdown": "User Manual",
         "icon": "book-open",
+        
         "groups": [
+          {
+            "group": "General",
+            "pages": [
+              "keyboard_shortcuts"
+            ]
+          },
           {
             "group": "File Types",
             "pages": [
-              "/file_types/amethyst_metadata_file",
-              "/file_types/amethyst_node_graph",
-              "/file_types/amethyst_configuration_file"
+              "file_types/amethyst_metadata_file",
+              "file_types/amethyst_node_graph",
+              "file_types/amethyst_configuration_file"
             ]
           },
           {
             "group": "Nodes",
             "pages": [
-              "/nodes/filter_node",
-              "/nodes/master_node",
-              "/nodes/input_node",
-              "/nodes/output_node"
+              "nodes/filter_node",
+              "nodes/master_node",
+              "nodes/input_node",
+              "nodes/output_node"
             ]
           },
           {
             "group": "Visuals",
             "pages": [
-              "/visuals/vectorscope",
-              "/visuals/spectrum_analyzer"
+              "visuals/vectorscope",
+              "visuals/spectrum_analyzer"
             ]
           }
         ]
