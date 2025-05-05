@@ -68,7 +68,8 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
   >
     <div
       v-if="amethyst.state.settings.value.showLoudnessMeter"
-      class="flex pointer-events-auto p-2 items-center h-16 gap-2 rounded-8px w-full min-w-61px max-w-180px  bg-playback-controls-background"
+      :class="[!amethyst.state.settings.value.oscilloscope.show && 'max-w-304px']"
+      class="flex pointer-events-auto items-center h-16 gap-2 rounded-8px w-full min-w-180px max-w-240px bg-playback-controls-background hide p-2"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
         { title: 'Hide', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.showLoudnessMeter = false },
       ]);"
@@ -81,6 +82,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
     <!-- Spacer to keep the middle dock centered  -->
     <div
       v-else
+      :class="[!amethyst.state.settings.value.oscilloscope.show && 'max-w-304px']"
       class="flex pointer-events-auto p-2 items-center h-16 gap-2 w-full xl:w-full max-w-180px select-none"
     />
 
@@ -91,7 +93,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       ]);"
     >
       <oscilloscope
-        v-if="amethyst.state.settings.value.showVectorscope && amethyst.player.source"
+        v-if="amethyst.state.settings.value.oscilloscope.show && amethyst.player.source"
         :key="amethyst.player.nodeManager.getNodeConnectionsString()"
         :node="amethyst.player.nodeManager.master.pre"
         :width="64"
@@ -107,7 +109,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       side="centerVertical"
       :handles-visible="false"
       default-size="940px"
-      class="relative rounded-8px min-w-670px max-w-940px  pointer-events-auto bg-playback-controls-background"
+      class="relative rounded-8px min-w-660px max-w-940px  pointer-events-auto bg-playback-controls-background"
     >
       <div class="flex items-center h-16 gap-2 p-2 w-full">
         <div 
@@ -260,11 +262,12 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
 
     <div
       v-if="amethyst.state.settings.value.showSpectrum"
-      class="flex pointer-events-auto overflow-hidden items-center h-16 gap-2 rounded-8px transition w-full min-w-61px max-w-180px  bg-playback-controls-background"
+      :class="[!amethyst.state.settings.value.showVectorscope && 'max-w-304px']"
+      class="flex pointer-events-auto overflow-hidden items-center h-16 gap-2 rounded-8px transition w-full min-w-180px max-w-240px bg-playback-controls-background hide"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
         { title: 'Hide', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.showSpectrum = false },
       ]);"
-      @click="amethyst.state.settings.value.showBigSpectrum = !amethyst.state.settings.value.showBigSpectrum"
+      @click="console.log(context.window.innerWidth)"
     >
       <spectrum-analyzer
         :key="amethyst.player.nodeManager.getNodeConnectionsString()"
@@ -279,6 +282,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
     <!-- Spacer to keep the middle dock centered  -->
     <div
       v-else
+      :class="[!amethyst.state.settings.value.showVectorscope && 'max-w-304px']"
       class="flex pointer-events-auto p-2 items-center h-16 gap-2 w-full xl:w-full max-w-180px select-none"
     />
   </div>
@@ -288,4 +292,11 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
 .utilityButton {
   @apply w-5 min-w-5 h-5 min-h-5 opacity-75 hover:opacity-100;
 }
+
+@media only screen and (max-width: 1200px) {
+  .hide {
+    @apply min-w-0px max-w-0px p-0;
+  }
+}
+
 </style>
