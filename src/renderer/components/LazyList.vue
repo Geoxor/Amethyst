@@ -421,7 +421,6 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
           draggable="true"
           @contextmenu="handleTrackContextMenu($event, item)"
           @dragstart.prevent="handleTrackDragStart($event, item)"
-          @drop.prevent="handleTrackDragEnd"
           @keypress.prevent
           @click="isHoldingControl ? amethyst.showItem(item.path) : amethyst.player.play(item)"
         >
