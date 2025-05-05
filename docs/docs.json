@@ -12,6 +12,7 @@
     "dropdowns": [
       {
         "dropdown": "Guides",
+        "description": "Procedures and Development",
         "icon": "book",
         "groups": [
           {
@@ -26,6 +27,7 @@
       },
       {
         "dropdown": "User Manual",
+        "description": "Learn how to use Amethyst",
         "icon": "book-open",
         "groups": [
           {
