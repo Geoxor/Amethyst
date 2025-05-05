@@ -17,9 +17,9 @@
           {
             "group": "Get Started",
             "pages": [
-              "introduction",
-              "development",
-              "localization"
+              "guides/installation",
+              "guides/development",
+              "guides/localization"
             ]
           }
         ]
@@ -27,36 +27,35 @@
       {
         "dropdown": "User Manual",
         "icon": "book-open",
-        
         "groups": [
           {
             "group": "General",
             "pages": [
-              "keyboard_shortcuts"
+              "user-manual/keyboard-shortcuts"
             ]
           },
           {
             "group": "File Types",
             "pages": [
-              "file_types/amethyst_metadata_file",
-              "file_types/amethyst_node_graph",
-              "file_types/amethyst_configuration_file"
+              "user-manual/file-types/amethyst-metadata-file",
+              "user-manual/file-types/amethyst-node-graph",
+              "user-manual/file-types/amethyst-configuration-file"
             ]
           },
           {
             "group": "Nodes",
             "pages": [
-              "nodes/filter_node",
-              "nodes/master_node",
-              "nodes/input_node",
-              "nodes/output_node"
+              "user-manual/nodes/filter-node",
+              "user-manual/nodes/master-node",
+              "user-manual/nodes/input-node",
+              "user-manual/nodes/output-node"
             ]
           },
           {
             "group": "Visuals",
             "pages": [
-              "visuals/vectorscope",
-              "visuals/spectrum_analyzer"
+              "user-manual/visuals/vectorscope",
+              "user-manual/visuals/spectrum-analyzer"
             ]
           }
         ]
