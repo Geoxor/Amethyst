@@ -49,6 +49,7 @@ export class Analytics {
   // then take the genres of most played
   // then give random songs of most played genres
   public getDiscoveryTracks() {
+    const allLoadedTracks = this.amethyst.player.queue.getList();
 
     this.tracksBasedOnGenres.value = [];
     this.tracksBasedOnFavorites.value = [];
@@ -56,7 +57,7 @@ export class Analytics {
 
     let tracks = Object.entries(this.trackAnalytics.value).map(
       ([uuid]) =>
-        this.amethyst.player.queue.getList().find(track => track.uuid === uuid)!
+        allLoadedTracks.find(track => track.uuid === uuid)!
     );
 
     // 🍌🍌🍌🍌
@@ -84,7 +85,7 @@ export class Analytics {
     const averageWeight = Object.values(genreWeights).reduce((a, b) => a + b, 0) / Object.keys(genreWeights).length;
     const genreScoreThreshold = averageWeight * 1.0;
 
-    this.amethyst.player.queue.getList().forEach(it => {
+    allLoadedTracks.forEach(it => {
       if (!it) return;
       if (it.isFavorited && !this.tracksBasedOnFavorites.value.includes(it)) this.tracksBasedOnFavorites.value.push(it);  
 
@@ -104,7 +105,7 @@ export class Analytics {
 
     this.tracksBasedOnFavorites.value = this.tracksBasedOnFavorites.value.sort((a, b) => this.trackAnalytics.value[a.uuid!]?.playCount < this.trackAnalytics.value[b.uuid!]?.playCount ? 1 : -1).slice(0, DISCOVERY_ITEMS_COUNT);
     this.tracksBasedOnGenres.value = fisherYatesShuffle(this.tracksBasedOnGenres.value).slice(0, DISCOVERY_ITEMS_COUNT);
-    this.tracksBasedOnRandom.value = fisherYatesShuffle(this.amethyst.player.queue.getList()).slice(0, DISCOVERY_ITEMS_COUNT);
+    this.tracksBasedOnRandom.value = fisherYatesShuffle(allLoadedTracks).slice(0, DISCOVERY_ITEMS_COUNT);
   }
 
   public getPlayCount(track: Track): number {
