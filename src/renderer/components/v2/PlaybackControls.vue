@@ -177,7 +177,7 @@ const editMeterContextMenuOption = (name :string) => [{
 
         <div class="flex justify-between select-none max-w-40 flex-col h-full w-full py-0.5 font-bold">
           <h1
-            class="text-13px hover:underline cursor-pointer overflow-hidden overflow-ellipsis"
+            class="text-13px hover:underline cursor-external-pointer overflow-hidden overflow-ellipsis"
             @click=" amethyst.showItem(amethyst.player.getCurrentTrack()?.path!)"
           >
             {{ amethyst.player.getCurrentTrack()?.getTitleFormatted() || 'No track' }}
