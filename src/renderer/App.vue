@@ -10,7 +10,7 @@ import TopBar from "@/components/TopBar.vue";
 import PlaybackControls from "@/components/v2/PlaybackControls.vue";
 import SpectrumAnalyzer from "@/components/visualizers/SpectrumAnalyzer.vue";
 import { AmethystIcon } from "@/icons";
-import { getThemeColor, getThemeColorRgb } from "@/logic/color";
+import { getThemeColor } from "@/logic/color";
 import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
 import { Vibrant } from "node-vibrant/browser";
@@ -34,14 +34,11 @@ const setDynamicColors = async (track: Track) => {
   const newAccentColor = `${palette.Vibrant?.r}, ${palette.Vibrant?.g}, ${palette.Vibrant?.b}`;
   const newPrimaryColor = `${palette.LightMuted?.r}, ${palette.LightMuted?.g}, ${palette.LightMuted?.b}`;
 
-  document.documentElement.style.setProperty("--accent", newAccentColor);
-  document.documentElement.style.setProperty("--primary", newPrimaryColor);
-
+  document.body.style.setProperty("--accent", newAccentColor);
+  document.body.style.setProperty("--primary", newPrimaryColor);
+ 
   amethyst.state.emit("theme:change", "");
 };
-
-let originalAccentColor = getThemeColorRgb("--accent");
-let originalPrimaryColor = getThemeColorRgb("--primary");
 
 watch(() => amethyst.state.settings.value.appearance.coverBasedColors, enabled => {
   if (enabled) {
@@ -49,8 +46,8 @@ watch(() => amethyst.state.settings.value.appearance.coverBasedColors, enabled =
     if (!currentTrack) return;
     setDynamicColors(currentTrack);
   } else {
-    document.documentElement.style.setProperty("--accent", originalAccentColor.join(", "));
-    document.documentElement.style.setProperty("--primary", originalPrimaryColor.join(", "));
+    document.body.style.removeProperty("--accent");
+    document.body.style.removeProperty("--primary");
     amethyst.state.emit("theme:change", "");
   }
 });
