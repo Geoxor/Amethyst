@@ -15,19 +15,6 @@ import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
 import { onMounted, onUnmounted, ref, watch } from "vue";
 
-// Stops scrolling when tapping space
-window.addEventListener("keydown", function(e) {
-  if (e.target == document.body) {
-    switch (e.code) {
-      case "Space":
-      case "ArrowDown":
-      case "ArrowUp":
-        e.preventDefault();
-        break;
-    }
-  }
-});
-
 const ambientBackgroundImage = ref("");
 
 const setAmbientCover = async (track: Track) => {

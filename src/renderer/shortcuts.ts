@@ -6,6 +6,19 @@ import { computed } from "vue";
 export type ShortcutBindings = Record<string, [string[], (e: KeyboardEvent) => void]>;
 export type CustomShortcutBindings = Record<string, string[]>;
 
+// Stops default HTML actions like scrolling when tapping space or seeking with pageup/down after clicking the seekbar
+window.addEventListener("keydown", function(e) {
+  switch (e.code) {
+    case "Space":
+    case "PageDown":
+    case "PageUp":
+    case "ArrowDown":
+    case "ArrowUp":
+      e.preventDefault();
+      break;
+  }
+});
+
 export class Shortcuts {
   public isControlPressed = useKeyModifier("Control") as UseKeyModifierReturn<boolean>;
   public isCommandPressed = useKeyModifier("Meta") as UseKeyModifierReturn<boolean>;
