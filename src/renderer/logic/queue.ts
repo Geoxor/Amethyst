@@ -85,18 +85,6 @@ export class Queue {
     return sorted;
   }
 
-  public updateTotalSize() {
-    this.totalSize.value = this.getList().reduce((a, b) => a + (b.metadata.data?.size || 0), 0);
-  }
-
-  public updateTotalDuration(){
-    this.totalDuration.value = this.getList().reduce((a, b) => a + (b.getDurationSeconds()), 0);
-  }
-
-  public getTotalSizeFormatted(){
-    return bytesToHuman(this.totalSize.value);
-  }
-
   public getTotalTracks(){
     return this.getList().length;
   }
@@ -116,15 +104,17 @@ export class Queue {
    * Fetches all async data for each track concurrently
    */
   public async fetchAsyncData(force?: boolean){
+    console.time("[fetchAsyncData]");
     const tracks = force ? this.getList() : this.getList().filter(track => !track.isLoaded);
-    return await PromisePool
+    const pool = await PromisePool
 			.for(tracks)
 			.withConcurrency(this.amethyst.state.settings.value.performance.processingConcurrency)
 			.process(async track => {
         await track.fetchAsyncData(force);
-        this.updateTotalSize();
-        this.updateTotalDuration();
       });
+
+      console.timeEnd("[fetchAsyncData]");
+    return pool;
   }
 
   public getTrack(idx: number){

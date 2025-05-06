@@ -50,15 +50,12 @@ export class Analytics {
   // then give random songs of most played genres
   public getDiscoveryTracks() {
     const allLoadedTracks = this.amethyst.player.queue.getList();
+    const trackMap = new Map(allLoadedTracks.map(track => [track.uuid, track]));
+    let tracks = Object.keys(this.trackAnalytics.value).map(uuid => trackMap.get(uuid)!);
 
     this.tracksBasedOnGenres.value.clear();
     this.tracksBasedOnFavorites.value.clear();
     this.tracksBasedOnRandom.value.clear();
-
-    let tracks = Object.entries(this.trackAnalytics.value).map(
-      ([uuid]) =>
-        allLoadedTracks.find(track => track.uuid === uuid)!
-    );
 
     // 🍌🍌🍌🍌
     tracks = tracks.sort((a, b) => this.trackAnalytics.value[a.uuid!].playCount > this.trackAnalytics.value[b.uuid!].playCount ? 1 : -1);
@@ -84,23 +81,40 @@ export class Analytics {
 
     const averageWeight = Object.values(genreWeights).reduce((a, b) => a + b, 0) / Object.keys(genreWeights).length;
     const genreScoreThreshold = averageWeight * 1.0;
+    
+    const genreSet = new Set(genres);
+    const existingAlbums = new Set(
+      Array.from(this.tracksBasedOnGenres.value.values()).map(t => t.getAlbum())
+    );
+    const analyticsMap = this.trackAnalytics.value;
 
-    allLoadedTracks.forEach(it => {
-      if (!it) return;
-      if (it.isFavorited) this.tracksBasedOnFavorites.value.add(it);  
+    for (const it of allLoadedTracks) {
+      if (!it) continue;
+
+      if (it.isFavorited) {
+        this.tracksBasedOnFavorites.value.add(it);
+      }
 
       const trackGenres = it.getGenre();
-      if (!trackGenres) return;
+      if (!trackGenres) continue;
 
-      const score = trackGenres.reduce((sum, genre) => sum + (genreWeights[genre] || 0), 0);
-      if (score < genreScoreThreshold) return;
+      const score = trackGenres.reduce(
+        (sum, genre) => sum + (genreWeights[genre] || 0),
+        0
+      );
+      if (score < genreScoreThreshold) continue;
 
-      if (trackGenres.some(genre => genres.includes(genre)) &&
-        ![...this.tracksBasedOnGenres.value.values()].find(t => t.getAlbum() === it.getAlbum()) &&
-        this.trackAnalytics.value[it.uuid!] == null) {
+      // Genre match + album not already added + no analytics
+      const hasMatchingGenre = trackGenres.some(g => genreSet.has(g));
+      const album = it.getAlbum();
+      const isAlreadyAdded = existingAlbums.has(album);
+      const isInAnalytics = analyticsMap[it.uuid!] != null;
+
+      if (hasMatchingGenre && !isAlreadyAdded && !isInAnalytics) {
         this.tracksBasedOnGenres.value.add(it);
+        existingAlbums.add(album); // keep album cache updated
       }
-    });
+    }
 
     this.tracksBasedOnFavorites.value = new Set([...this.tracksBasedOnFavorites.value.values()].sort((a, b) => this.trackAnalytics.value[a.uuid!]?.playCount < this.trackAnalytics.value[b.uuid!]?.playCount ? 1 : -1).slice(0, DISCOVERY_ITEMS_COUNT));
     this.tracksBasedOnGenres.value = new Set (fisherYatesShuffle([...this.tracksBasedOnGenres.value.values()]).slice(0, DISCOVERY_ITEMS_COUNT));

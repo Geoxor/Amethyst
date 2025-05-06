@@ -149,10 +149,10 @@ export class Track {
   /**
    * Fetches the metadata for a given track
    */
-  private fetchMetadata = async (force = false) => {
+  private fetchMetadata = async (force = false, metadata: IMetadata | undefined) => {
     try {
-      if (!force && await this.isCached()) {
-        this.metadata.data = (await this.fetchCache()).metadata;
+      if (!force) {
+        this.metadata.data = metadata;
         this.metadata.state = LoadStatus.Loaded;
         this.generateHash();
         return this.metadata.data;
@@ -170,9 +170,9 @@ export class Track {
   /**
    * Fetches the resized cover art in base64
    */
-  private fetchCover = async (force = false) => {
-    if (!force && await this.isCached()) {
-      this.cover.data = (await this.fetchCache()).cover;
+  private fetchCover = async (force = false, cover: string) => {
+    if (!force) {
+      this.cover.data = cover;
       this.cover.state = LoadStatus.Loaded;
       return this.cover.data;
     }
@@ -222,13 +222,18 @@ export class Track {
     this.isLoaded.value = false;
     this.isLoading.value = true;
 
-    const [cover, metadata] = await Promise.all([this.fetchCover(force), this.fetchMetadata(force)]);
+    let cachedData: any = {};
+    if (!force && await this.isCached()) {
+      cachedData = await this.fetchCache();
+    }
+
+    const [cover, metadata] = await Promise.all([this.fetchCover(force, cachedData.cover), this.fetchMetadata(force, cachedData.metadata)]);
 
     if (metadata) {
       metadata.common.picture = [];
     }
 
-    if (this.amethyst.getCurrentPlatform() === "desktop") {
+    if (force && this.amethyst.getCurrentPlatform() === "desktop") {
       window.fs.writeFile(this.getCachePath(true), JSON.stringify({
         cover,
         metadata
@@ -272,7 +277,7 @@ export class Track {
   };
 
   public getCoverAsBlob = async (coverIdx = 0) => {
-    const cover = (await this.fetchMetadata(true))?.common.picture?.[coverIdx];
+    const cover = (await this.fetchMetadata(true, undefined))?.common.picture?.[coverIdx];
     return cover
       ? Promise.resolve(new Blob([new Uint8Array(cover.data)], { type: cover.format }))
       : Promise.reject("Failed to fetch cover, possibly no cover?");
