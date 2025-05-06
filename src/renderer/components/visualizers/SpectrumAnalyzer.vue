@@ -53,6 +53,9 @@ const uniformData = {
     normalize8bit(props.accentColor.b)
   )},
   u_amplitudes: {value: new Float32Array(VISUALIZER_BIN_COUNT)},
+  u_fill_opacity: {value: 1.0},
+  u_line_thickness: {value: 1.0},
+  u_opacity_falloff: {value: 0.0},
 };
 
 const render = (uniforms: Record<string, any>) => {
