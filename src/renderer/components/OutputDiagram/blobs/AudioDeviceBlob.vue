@@ -20,23 +20,23 @@ const router = useRouter();
 <template>
   <generic-blob
     :title="$t('output_diagram.audio_device.title')"
-    :subtitle="amethyst.state.settings.value.audioDriver != 'default' ? `${amethyst.state.settings.value.outputAudioDeviceName}\n${amethyst.state.settings.value.bufferSize}smp` : amethyst.state.settings.value.outputAudioDeviceName"
+    :subtitle="amethyst.state.settings.value.audio.driver != 'default' ? `${amethyst.state.settings.value.audio.outputDeviceName}\n${amethyst.state.settings.value.audio.bufferSize}smp` : amethyst.state.settings.value.audio.outputDeviceName"
     clickable
     @click="router.push({ name: 'settings.audio' })"
   >
-    <sound-i-d-logo v-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('soundid')" />
-    <realtek-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('realtek')" />
-    <steam-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('steam')" />
-    <focusrite-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('focusrite')" />
-    <alsa-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('alsa')" />
-    <arturia-logo v-else-if="['minifuse', 'arturia'].some(string => amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes(string))" />
-    <nvidia-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('nvidia')" />
-    <f-l-studio-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('fl studio')" />
-    <apple-logo v-else-if="['apple inc.'].some(string => amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes(string))" />
+    <sound-i-d-logo v-if="amethyst.state.settings.value.audio.outputDeviceName.toLowerCase().includes('soundid')" />
+    <realtek-logo v-else-if="amethyst.state.settings.value.audio.outputDeviceName.toLowerCase().includes('realtek')" />
+    <steam-logo v-else-if="amethyst.state.settings.value.audio.outputDeviceName.toLowerCase().includes('steam')" />
+    <focusrite-logo v-else-if="amethyst.state.settings.value.audio.outputDeviceName.toLowerCase().includes('focusrite')" />
+    <alsa-logo v-else-if="amethyst.state.settings.value.audio.outputDeviceName.toLowerCase().includes('alsa')" />
+    <arturia-logo v-else-if="['minifuse', 'arturia'].some(string => amethyst.state.settings.value.audio.outputDeviceName.toLowerCase().includes(string))" />
+    <nvidia-logo v-else-if="amethyst.state.settings.value.audio.outputDeviceName.toLowerCase().includes('nvidia')" />
+    <f-l-studio-logo v-else-if="amethyst.state.settings.value.audio.outputDeviceName.toLowerCase().includes('fl studio')" />
+    <apple-logo v-else-if="['apple inc.'].some(string => amethyst.state.settings.value.audio.outputDeviceName.toLowerCase().includes(string))" />
         
     <!-- asio last incase we don't recognise the company of the specific asio device -->
-    <bluetooth-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('bluetooth')" />
-    <asio-logo v-else-if="amethyst.state.settings.value.outputAudioDeviceName.toLowerCase().includes('asio')" />
+    <bluetooth-logo v-else-if="amethyst.state.settings.value.audio.outputDeviceName.toLowerCase().includes('bluetooth')" />
+    <asio-logo v-else-if="amethyst.state.settings.value.audio.outputDeviceName.toLowerCase().includes('asio')" />
     <icon
       v-else
       icon="ic:twotone-volume-up" 

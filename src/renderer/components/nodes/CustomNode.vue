@@ -33,7 +33,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
     />
 
     <div
-      v-if="!meterless && amethyst.state.settings.value.decibelMeterSeparatePrePost"
+      v-if="!meterless && amethyst.state.settings.value.metering.decibelMeter.separatePrePost"
       class="flex "
     >
       <db-meter

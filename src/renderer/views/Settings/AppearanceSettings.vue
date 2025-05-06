@@ -4,21 +4,14 @@ import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import DropdownInput from "@/components/v2/DropdownInput.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
+import { AVAILABLE_THEMES } from "@/logic/settings";
 import AmethystDarkSkeleton from "@/themes/AmethystDarkSkeleton.vue";
 import EmeraldDarkSkeleton from "@/themes/EmeraldDarkSkeleton.vue";
 import OnyxDarkSkeleton from "@/themes/OnyxDarkSkeleton.vue";
 import SapphireDarkSkeleton from "@/themes/SapphireDarkSkeleton.vue";
 import { BLEND_MODES, FONT_WEIGHTS } from "@shared/constants";
 
-const AVAILABLE_THEMES = [
-  "amethyst-dark",
-  "emerald-dark",
-  "onyx-dark", // is missing css variables
-  "rose-dark", // is missing css variables
-  "ruby-dark", // is missing css variables
-  "sapphire-dark" // is missing css variables
-];
-
+const {appearance} = amethyst.state.settings.value;
 </script>
 
 <template>
@@ -28,7 +21,7 @@ const AVAILABLE_THEMES = [
     icon="ic:twotone-access-time"
   >
     <slider-input
-      v-model="amethyst.state.settings.value.animationDuration"
+      v-model="appearance.animationDuration"
       :min="0"
       :max="300"
       :step="10"
@@ -41,7 +34,7 @@ const AVAILABLE_THEMES = [
     icon="ic:twotone-format-bold"
   >
     <dropdown-input
-      v-model="amethyst.state.settings.value.fontWeight"
+      v-model="appearance.fontWeight"
       :options="FONT_WEIGHTS"
     />
   </settings-setting>
@@ -51,30 +44,30 @@ const AVAILABLE_THEMES = [
     icon="ic:twotone-palette"
   >
     <dropdown-input
-      v-model="amethyst.state.settings.value.theme"
+      v-model="appearance.theme"
       :options="AVAILABLE_THEMES"
     />
     <template #subsettings>
       <div class="flex gap-2 p-4">
         <amethyst-dark-skeleton
           class="theme-skeleton cursor-pointer"
-          :class="[amethyst.state.settings.value.theme === 'amethyst-dark' && 'active']"
-          @click="amethyst.state.settings.value.theme = 'amethyst-dark' "
+          :class="[appearance.theme === 'amethyst-dark' && 'active']"
+          @click="appearance.theme = 'amethyst-dark' "
         />
         <emerald-dark-skeleton
           class="theme-skeleton cursor-pointer"
-          :class="[amethyst.state.settings.value.theme === 'emerald-dark' && 'active']"
-          @click="amethyst.state.settings.value.theme = 'emerald-dark'"
+          :class="[appearance.theme === 'emerald-dark' && 'active']"
+          @click="appearance.theme = 'emerald-dark'"
         />
         <onyx-dark-skeleton
           class="theme-skeleton cursor-pointer"
-          :class="[amethyst.state.settings.value.theme === 'onyx-dark' && 'active']"
-          @click="amethyst.state.settings.value.theme = 'onyx-dark'"
+          :class="[appearance.theme === 'onyx-dark' && 'active']"
+          @click="appearance.theme = 'onyx-dark'"
         />
         <sapphire-dark-skeleton
           class="theme-skeleton cursor-pointer"
-          :class="[amethyst.state.settings.value.theme === 'sapphire-dark' && 'active']"
-          @click="amethyst.state.settings.value.theme = 'sapphire-dark'"
+          :class="[appearance.theme === 'sapphire-dark' && 'active']"
+          @click="appearance.theme = 'sapphire-dark'"
         />
       </div>
     </template>
@@ -86,7 +79,7 @@ const AVAILABLE_THEMES = [
     icon="ic:twotone-view-list"
   >
     <toggle-switch
-      v-model="amethyst.state.settings.value.compactList" 
+      v-model="appearance.compactList" 
     />
   </settings-setting>
 
@@ -96,10 +89,10 @@ const AVAILABLE_THEMES = [
     icon="ic:twotone-photo-size-select-actual"
   >
     <toggle-switch
-      v-model="amethyst.state.settings.value.showAmbientBackground" 
+      v-model="appearance.ambientBackground.show" 
     />
     <template
-      v-if="amethyst.state.settings.value.showAmbientBackground"
+      v-if="appearance.ambientBackground.show"
       #subsettings
     >
       <div class="p-2 flex flex-col gap-2">
@@ -110,7 +103,7 @@ const AVAILABLE_THEMES = [
           icon="ic:twotone-water-drop"
         >
           <dropdown-input
-            v-model="amethyst.state.settings.value.ambientBackgroundBlendMode"
+            v-model="appearance.ambientBackground.blendMode"
             :options="BLEND_MODES"
           />
         </settings-setting>
@@ -121,7 +114,7 @@ const AVAILABLE_THEMES = [
           icon="ic:twotone-rotate-90-degrees-ccw"
         >
           <toggle-switch
-            v-model="amethyst.state.settings.value.ambientBackgroundSpin" 
+            v-model="appearance.ambientBackground.spin" 
           />
         </settings-setting>
         <settings-setting
@@ -131,7 +124,7 @@ const AVAILABLE_THEMES = [
           icon="ic:twotone-rotate-90-degrees-ccw"
         >
           <slider-input
-            v-model="amethyst.state.settings.value.ambientBackgroundSpinSpeed"
+            v-model="appearance.ambientBackground.spinSpeed"
             :min="0"
             :max="60"
             :step="1"
@@ -145,7 +138,7 @@ const AVAILABLE_THEMES = [
           icon="ic:twotone-opacity"
         >
           <slider-input
-            v-model="amethyst.state.settings.value.ambientBackgroundOpacity"
+            v-model="appearance.ambientBackground.opacity"
             :min="0"
             :max="50"
             :step="2.5"
@@ -159,7 +152,7 @@ const AVAILABLE_THEMES = [
           icon="ic:twotone-blur-linear"
         >
           <slider-input
-            v-model="amethyst.state.settings.value.ambientBackgroundBlurStrength"
+            v-model="appearance.ambientBackground.blurStrength"
             :min="0"
             :max="128"
             :step="4"
@@ -173,7 +166,7 @@ const AVAILABLE_THEMES = [
           icon="ic:twotone-zoom-in"
         >
           <slider-input
-            v-model="amethyst.state.settings.value.ambientBackgroundZoom"
+            v-model="appearance.ambientBackground.zoom"
             :min="50"
             :max="250"
             :step="10"
@@ -186,10 +179,10 @@ const AVAILABLE_THEMES = [
           :description="$t('settings.ambient_background.shader.description')"
           icon="ic:twotone-auto-awesome"
         >
-          <toggle-switch v-model="amethyst.state.settings.value.shader.use" />
+          <toggle-switch v-model="appearance.shader.use" />
           <!-- TODO: Shader options built-in and in amethyst user-config shader directory -->
           <dropdown-input
-            v-model="amethyst.state.settings.value.shader.selected"
+            v-model="appearance.shader.selected"
             :options="amethyst.state.shaders.value.getShaderNames()"
           />
         </settings-setting>
@@ -202,7 +195,7 @@ const AVAILABLE_THEMES = [
     icon="ic:twotone-remove-red-eye"
   >
     <toggle-switch
-      v-model="amethyst.state.settings.value.neonMode" 
+      v-model="appearance.neonMode" 
     />
   </settings-setting>
   <settings-setting
@@ -211,7 +204,7 @@ const AVAILABLE_THEMES = [
     icon="ic:twotone-skip-next"
   >
     <toggle-switch
-      v-model="amethyst.state.settings.value.showPlaybackControls" 
+      v-model="appearance.showPlaybackControls" 
     />
   </settings-setting>
   <settings-setting
@@ -220,10 +213,10 @@ const AVAILABLE_THEMES = [
     icon="ic:twotone-remove-red-eye"
   >
     <toggle-switch
-      v-model="amethyst.state.settings.value.minimalistMode" 
+      v-model="appearance.minimalistMode" 
     />
     <template
-      v-if="amethyst.state.settings.value.minimalistMode"
+      v-if="appearance.minimalistMode"
       #subsettings 
     >
       <div class="p-2 flex flex-col gap-2">
@@ -234,7 +227,7 @@ const AVAILABLE_THEMES = [
           icon="ic:twotone-format-strikethrough"
         >
           <toggle-switch
-            v-model="amethyst.state.settings.value.hideCategoryTitles" 
+            v-model="appearance.hideCategoryTitles" 
           />
         </settings-setting>
       </div>
@@ -247,7 +240,7 @@ const AVAILABLE_THEMES = [
     icon="ic:twotone-image"
   >
     <toggle-switch
-      v-model="amethyst.state.settings.value.showCoverArt" 
+      v-model="appearance.showCoverArt" 
     />
   </settings-setting>
   <settings-setting
@@ -256,7 +249,7 @@ const AVAILABLE_THEMES = [
     icon="ic:twotone-bug-report"
   >
     <toggle-switch
-      v-model="amethyst.state.settings.value.showDebugStats" 
+      v-model="appearance.showDebugStats" 
     />
   </settings-setting>
 </template>

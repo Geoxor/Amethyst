@@ -2,6 +2,8 @@
 import { amethyst } from "@/amethyst";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
+const {behavior} = amethyst.state.settings.value;
+
 </script>
 
 <template>
@@ -11,7 +13,7 @@ import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
     :title="$t('settings.fetch_metadata_on_startup.title')"
   >
     <toggle-switch
-      v-model="amethyst.state.settings.value.fetchMetadataOnStartup" 
+      v-model="behavior.fetchMetadataOnStartup" 
     />
   </settings-setting>
   <settings-setting
@@ -20,7 +22,7 @@ import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
     :title="$t('settings.autoplay_on_startup.title')"
   >
     <toggle-switch
-      v-model="amethyst.state.settings.value.autoPlayOnStartup" 
+      v-model="behavior.autoPlayOnStartup" 
     />
   </settings-setting>
 </template>

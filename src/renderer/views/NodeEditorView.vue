@@ -85,7 +85,7 @@ const getDashCoords = () => {
 
 const computeNodePosition = ({x, y}: Coords) => {
   const {x: dashX, y: dashY} = getDashCoords();
-  return { x: -dashX + x / amethyst.state.settings.value.zoomLevel, y: -dashY + y / amethyst.state.settings.value.zoomLevel};
+  return { x: -dashX + x , y: -dashY + y };
 };
 
 const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
@@ -250,9 +250,9 @@ onKeyStroke("Delete", () => {
       />
       <base-toolbar-button
         icon="ic:twotone-grid-on"
-        :active="amethyst.state.settings.value.isSnappingToGrid"
+        :active="amethyst.state.isSnappingToGrid.value"
         tooltip-text="Snap to Grid"
-        @click="amethyst.state.settings.value.isSnappingToGrid = !amethyst.state.settings.value.isSnappingToGrid"
+        @click="amethyst.state.isSnappingToGrid.value = !amethyst.state.isSnappingToGrid.value"
       />
 
       <base-toolbar-splitter />
@@ -283,7 +283,7 @@ onKeyStroke("Delete", () => {
       v-model="elements"
       class="p-2"
       :delete-key-code="null"
-      :snap-to-grid="amethyst.state.settings.value.isSnappingToGrid"
+      :snap-to-grid="amethyst.state.isSnappingToGrid.value"
       :max-zoom="2.00"
       :min-zoom="1.00"
       :connection-line-style="{ stroke: getThemeColorHex('--primary-700') }"

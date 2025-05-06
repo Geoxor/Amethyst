@@ -15,7 +15,7 @@ import { computed, onMounted, ref } from "vue";
 
 const currentChannels = computed(() => amethyst.player.getCurrentTrack()?.getChannels() || 2);
 const currentBits = computed(() => amethyst.player.getCurrentTrack()?.getBitsPerSample() || 32);
-const currentAudioDevice = computed(() => amethyst.state.settings.value.outputAudioDeviceName);
+const currentAudioDevice = computed(() => amethyst.state.settings.value.audio.outputDeviceName);
 
 const audioLatency = ref(-1);
 onMounted(() => {

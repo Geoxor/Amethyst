@@ -2,6 +2,7 @@
 import { amethyst } from "@/amethyst";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
+const {integrations} = amethyst.state.settings.value;
 
 </script>
 
@@ -13,6 +14,6 @@ import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
     :platforms="['desktop']"
     icon="ic:twotone-discord"
   >
-    <toggle-switch v-model="amethyst.state.settings.value.useDiscordRichPresence" />
+    <toggle-switch v-model="integrations.useDiscordRichPresence" />
   </settings-setting>
 </template>

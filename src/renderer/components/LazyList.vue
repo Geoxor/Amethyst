@@ -39,7 +39,7 @@ const setCurrentSortedMethod = (sortBy: PossibleSortingMethods) => {
 
 const isHoldingControl = amethyst.shortcuts.isControlPressed;
 
-const ITEM_HEIGHT = amethyst.state.settings.value.compactList ? 32 : 40;
+const ITEM_HEIGHT = amethyst.state.settings.value.appearance.compactList ? 32 : 40;
 
 // Context Menu options for this component 
 const handleTrackContextMenu = ({x, y}: MouseEvent, track: Track) => {
@@ -415,7 +415,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
             item.hasErrored && 'opacity-50 not-allowed',
             item.deleted && 'opacity-50 !text-rose-400 not-allowed',
             amethyst.player.getCurrentTrack()?.path == item.path && 'currentlyPlaying',
-            amethyst.state.settings.value.compactList ? 'py-1' : 'py-2',
+            amethyst.state.settings.value.appearance.compactList ? 'py-1' : 'py-2',
             useInspector().state.isVisible && (useInspector().state.currentItem == item as any) && 'currentlyInspecting',
           ]"
           draggable="true"

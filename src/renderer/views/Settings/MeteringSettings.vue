@@ -9,7 +9,7 @@ import DropdownInput from "@/components/v2/DropdownInput.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 import { FFT_SIZES } from "@shared/constants";
-
+const {metering} = amethyst.state.settings.value;
 </script>
 
 <template>
@@ -18,9 +18,9 @@ import { FFT_SIZES } from "@shared/constants";
     icon="ic:twotone-speed"
     :description="$t('settings.decibel_meter.description')"
   >
-    <toggle-switch v-model="amethyst.state.settings.value.showDbMeter" />
+    <toggle-switch v-model="metering.decibelMeter.show" />
     <template
-      v-if="amethyst.state.settings.value.showDbMeter" 
+      v-if="metering.decibelMeter.show" 
       #subsettings
     >
       <div class="p-2 flex flex-col gap-2">
@@ -31,7 +31,7 @@ import { FFT_SIZES } from "@shared/constants";
           icon="ic:twotone-speed"
         >
           <toggle-switch
-            v-model="amethyst.state.settings.value.decibelMeterSeparatePrePost"
+            v-model="metering.decibelMeter.separatePrePost"
           />
         </settings-setting>
 
@@ -42,7 +42,7 @@ import { FFT_SIZES } from "@shared/constants";
           icon="ic:twotone-speed"
         >
           <slider-input
-            v-model="amethyst.state.settings.value.decibelMeterMinimumDb"
+            v-model="metering.decibelMeter.minimumDb"
             :min="-90"
             :max="-6"
             :step="1"
@@ -56,7 +56,7 @@ import { FFT_SIZES } from "@shared/constants";
           icon="ic:twotone-line-style"
         >
           <dropdown-input
-            v-model="amethyst.state.settings.value.decibelMeterFftSize"
+            v-model="metering.decibelMeter.fftSize"
             :options="FFT_SIZES"
             suffix="smp"
           />
@@ -68,7 +68,7 @@ import { FFT_SIZES } from "@shared/constants";
           icon="ic:twotone-access-time"
         >
           <slider-input
-            v-model="amethyst.state.settings.value.meterSmoothingDuration"
+            v-model="metering.decibelMeter.smoothingDuration"
             :min="0"
             :max="300"
             :step="10"
@@ -84,7 +84,7 @@ import { FFT_SIZES } from "@shared/constants";
     icon="ic:twotone-waves"
     :description="$t('settings.loudness_meter.description')"
   >
-    <toggle-switch v-model="amethyst.state.settings.value.showLoudnessMeter" />
+    <toggle-switch v-model="metering.loudnessMeter.show" />
   </settings-setting>
 
   <settings-setting
@@ -92,9 +92,9 @@ import { FFT_SIZES } from "@shared/constants";
     icon="ic:twotone-fiber-smart-record"
     :description="$t('settings.vectorscope.description')"
   >
-    <toggle-switch v-model="amethyst.state.settings.value.showVectorscope" />
+    <toggle-switch v-model="metering.vectorscope.show" />
     <template
-      v-if="amethyst.state.settings.value.showVectorscope"
+      v-if="metering.vectorscope.show"
       #subsettings 
     >
       <div class="p-2 flex flex-col gap-2">
@@ -105,7 +105,7 @@ import { FFT_SIZES } from "@shared/constants";
           icon="ic:twotone-fitbit"
         >
           <toggle-switch
-            v-model="amethyst.state.settings.value.lissajousVectorscope"
+            v-model="metering.vectorscope.lissajous"
           />
         </settings-setting>
         <settings-setting
@@ -115,7 +115,7 @@ import { FFT_SIZES } from "@shared/constants";
           icon="ic:twotone-drive-file-rename-outline"
         >
           <slider-input
-            v-model="amethyst.state.settings.value.vectorscopeLineThickness"
+            v-model="metering.vectorscope.lineThickness"
             :min="0.1"
             :max="10"
             :step="1"
@@ -129,7 +129,7 @@ import { FFT_SIZES } from "@shared/constants";
           icon="ic:twotone-line-style"
         >
           <dropdown-input
-            v-model="amethyst.state.settings.value.vectorscopeFftSize"
+            v-model="metering.vectorscope.fftSize"
             :options="FFT_SIZES"
             suffix="smp"
           />
@@ -143,9 +143,9 @@ import { FFT_SIZES } from "@shared/constants";
     icon="ic:twotone-graphic-eq"
     :description="$t('settings.spectrum_analyzer.description')"
   >
-    <toggle-switch v-model="amethyst.state.settings.value.showSpectrum" />
+    <toggle-switch v-model="metering.spectrum.show" />
     <template
-      v-if="amethyst.state.settings.value.showSpectrum" 
+      v-if="metering.spectrum.show" 
       #subsettings
     >
       <div class="p-2 flex flex-col gap-2">
@@ -156,7 +156,7 @@ import { FFT_SIZES } from "@shared/constants";
           icon="ic:twotone-access-time"
         >
           <slider-input
-            v-model="amethyst.state.settings.value.spectrumSmoothing"
+            v-model="metering.spectrum.smoothing"
             :min="0"
             :max="1"
             :step="0.01"
@@ -170,7 +170,7 @@ import { FFT_SIZES } from "@shared/constants";
           icon="ic:twotone-line-style"
         >
           <dropdown-input
-            v-model="amethyst.state.settings.value.spectrumFftSize"
+            v-model="metering.spectrum.fftSize"
             :options="FFT_SIZES"
             suffix="smp"
           />
@@ -181,9 +181,9 @@ import { FFT_SIZES } from "@shared/constants";
           subsetting
           :description="$t('settings.spectrogram_analyzer.description')"
         >
-          <toggle-switch v-model="amethyst.state.settings.value.spectrogram.show" />
+          <toggle-switch v-model="metering.spectrogram.show" />
           <template
-            v-if="amethyst.state.settings.value.spectrogram.show" 
+            v-if="metering.spectrogram.show" 
             #subsettings
           >
             <div class="p-2 flex flex-col gap-2">
@@ -194,7 +194,7 @@ import { FFT_SIZES } from "@shared/constants";
                 icon="ic:twotone-access-time"
               >
                 <slider-input
-                  v-model="amethyst.state.settings.value.spectrogram.smoothing"
+                  v-model="metering.spectrogram.smoothing"
                   :min="0"
                   :max="1"
                   :step="0.01"
@@ -208,7 +208,7 @@ import { FFT_SIZES } from "@shared/constants";
                 icon="ic:twotone-line-style"
               >
                 <dropdown-input
-                  v-model="amethyst.state.settings.value.spectrogram.fftSize"
+                  v-model="metering.spectrogram.fftSize"
                   :options="FFT_SIZES"
                   suffix="smp"
                 />
@@ -225,9 +225,9 @@ import { FFT_SIZES } from "@shared/constants";
     icon="mdi:sawtooth-wave"
     :description="$t('settings.oscilloscope_analyzer.description')"
   >
-    <toggle-switch v-model="amethyst.state.settings.value.oscilloscope.show" />
+    <toggle-switch v-model="metering.oscilloscope.show" />
     <template
-      v-if="amethyst.state.settings.value.oscilloscope.show"
+      v-if="metering.oscilloscope.show"
       #subsettings
     >
       <div class="p-2 flex flex-col gap-2">
@@ -238,7 +238,7 @@ import { FFT_SIZES } from "@shared/constants";
           icon="ic:twotone-access-time"
         >
           <slider-input
-            v-model="amethyst.state.settings.value.oscilloscope.smoothing"
+            v-model="metering.oscilloscope.smoothing"
             :min="0"
             :max="1"
             :step="0.01"
@@ -252,7 +252,7 @@ import { FFT_SIZES } from "@shared/constants";
           icon="ic:twotone-drive-file-rename-outline"
         >
           <slider-input
-            v-model="amethyst.state.settings.value.oscilloscope.lineThickness"
+            v-model="metering.oscilloscope.lineThickness"
             :min="0.1"
             :max="10"
             :step="1"
@@ -266,7 +266,7 @@ import { FFT_SIZES } from "@shared/constants";
           icon="ic:twotone-line-style"
         >
           <dropdown-input
-            v-model="amethyst.state.settings.value.oscilloscope.fftSize"
+            v-model="metering.oscilloscope.fftSize"
             :options="FFT_SIZES"
             suffix="smp"
           />

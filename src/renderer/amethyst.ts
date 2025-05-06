@@ -1,6 +1,6 @@
 import { Player } from "@/logic/player";
-import { MediaSession } from "@/mediaSession";
-import { Shortcuts } from "@/shortcuts";
+import { MediaSession } from "@/logic/mediaSession";
+import { Shortcuts } from "@/logic/shortcuts";
 import { State } from "@/state";
 import { MediaSourceManager } from "@/logic/mediaSources";
 import { Capacitor } from "@capacitor/core";
@@ -230,8 +230,8 @@ export class Amethyst extends AmethystBackend {
     super();
 
     // Init zoom from store
-    document.body.style.zoom = this.state.settings.value.zoomLevel.toString();
-
+    document.body.style.zoom = this.state.zoomLevel.value.toString();
+        
     if (this.getCurrentPlatform() === "desktop") {
       window.electron.ipcRenderer.invoke<string>("get-appdata-path").then(path => this.APPDATA_PATH = path);
 
@@ -248,7 +248,7 @@ export class Amethyst extends AmethystBackend {
       }));
       window.electron.ipcRenderer.on<(string)[]>("play-folder", paths => amethyst.player.queue.add(flattenArray(paths)));
   
-      this.state.settings.value.fetchMetadataOnStartup && setTimeout(() => this.player.queue.fetchAsyncData(), 1000);
+      this.state.settings.value.behavior.fetchMetadataOnStartup && setTimeout(() => this.player.queue.fetchAsyncData(), 1000);
     }
 
     if (this.getCurrentPlatform() === "mobile") {
@@ -258,7 +258,7 @@ export class Amethyst extends AmethystBackend {
     this.handleFileDrops();
     this.handleDiscordRichPresence();
 
-    if (this.state.settings.value.autoPlayOnStartup) {
+    if (this.state.settings.value.behavior.autoPlayOnStartup) {
       const track = this.player.queue.getTrack(0);
       track && this.player.play(track);
     }
@@ -280,7 +280,7 @@ export class Amethyst extends AmethystBackend {
 
     let outputDeviceName;
 
-    if (this.state.settings.value.audioDriver == "default") {
+    if (this.state.settings.value.audio.driver == "default") {
       const mediaDevices = await navigator.mediaDevices?.enumerateDevices();
       navigator.mediaDevices.addEventListener("devicechange", event => {
         if (event.type == "devicechange") {
@@ -288,14 +288,14 @@ export class Amethyst extends AmethystBackend {
         }
       });
       outputDeviceName = mediaDevices.find(device => device.deviceId == "default" && device.kind == "audiooutput")?.label;
-      outputDeviceName && (this.state.settings.value.outputAudioDeviceName = extractDeviceName(outputDeviceName));
-    } else if (this.state.settings.value.audioDriver == "asio" || this.state.settings.value.audioDriver == "alsa" || this.state.settings.value.audioDriver == "coreaudio") {
+      outputDeviceName && (this.state.settings.value.audio.outputDeviceName = extractDeviceName(outputDeviceName));
+    } else if (this.state.settings.value.audio.driver == "asio" || this.state.settings.value.audio.driver == "alsa" || this.state.settings.value.audio.driver == "coreaudio") {
 
       // updates on first load unlike the code in outputnode
-      this.state.settings.value.outputAudioDeviceName = this.state.settings.value.outputRealtimeAudioDeviceName;
+      this.state.settings.value.audio.outputDeviceName = this.state.settings.value.audio.outputRealtimeDeviceName;
     }
 
-    console.log(`Current audio device: ${this.state.settings.value.outputAudioDeviceName}`);
+    console.log(`Current audio device: ${this.state.settings.value.audio.outputDeviceName}`);
   };
 
   private handleDiscordRichPresence() {
@@ -336,7 +336,7 @@ export class Amethyst extends AmethystBackend {
       currentTrack && await updateRichPresence(currentTrack);
     };
 
-    if (this.state.settings.value.useDiscordRichPresence) {
+    if (this.state.settings.value.integrations.useDiscordRichPresence) {
       this.player.on("play", async () => {
         if (isPaused && trackNameBeforePause == this.player.getCurrentTrack()?.getTitleFormatted()) {
           start = seekDuringPause ? start : start + Math.abs(Date.now() - startBegin);
@@ -371,7 +371,7 @@ export class Amethyst extends AmethystBackend {
       });
     };
 
-    watch(() => this.state.settings.value.useDiscordRichPresence, value => {
+    watch(() => this.state.settings.value.integrations.useDiscordRichPresence, value => {
       value ? updateWithCurrentTrack() : clearRichPresence();
     });
   }
@@ -486,7 +486,7 @@ export class Amethyst extends AmethystBackend {
   };
 
   public zoom(action: "in" | "out" | "reset") {
-    const currentZoom = amethyst.state.settings.value.zoomLevel;
+    const currentZoom = amethyst.state.zoomLevel.value;
     let newZoom = currentZoom;
 
     switch (action) {
@@ -497,12 +497,12 @@ export class Amethyst extends AmethystBackend {
         newZoom = currentZoom - .125;
         break;
       case "reset":
-        newZoom = amethyst.state.defaultSettings.zoomLevel;
+        newZoom = 1.0;
         break;
     }
 
     // Update store with new zoom level
-    amethyst.state.settings.value.zoomLevel = newZoom;
+    amethyst.state.zoomLevel.value = newZoom;
 
     // Set new zoom level
     document.body.style.zoom = newZoom.toString();
@@ -588,7 +588,7 @@ export class Amethyst extends AmethystBackend {
   }
 
   public shouldPauseAnimations(): boolean {
-    return !this.state.window.isFocused && this.state.settings.value.pauseVisualsWhenUnfocused;
+    return !this.state.window.isFocused && this.state.settings.value.performance.pauseVisualsWhenUnfocused;
   }
 
   public shouldPauseVisualizers(): boolean {

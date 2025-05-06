@@ -19,8 +19,8 @@ const scrollToCurrentElement = (track?: Track) => {
   active.scrollTo({ top: estimatedPosition, behavior: "smooth" });
 };
 
-const autoscroll = () => amethyst.state.settings.value.followQueue && scrollToCurrentElement();
-watch(() => amethyst.state.settings.value.followQueue, () => autoscroll());
+const autoscroll = () => amethyst.state.followQueue.value && scrollToCurrentElement();
+watch(() => amethyst.state.followQueue.value, () => autoscroll());
 onMounted(() => {
   amethyst.player.on("play", autoscroll);
 });

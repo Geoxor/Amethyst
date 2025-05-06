@@ -55,7 +55,7 @@ onBeforeUnmount(() => {
       />
     </div>
     <div
-      v-if="!amethyst.state.settings.value.minimalistMode"
+      v-if="!amethyst.state.settings.value.appearance.minimalistMode"
       class="contents"
     >
       <div

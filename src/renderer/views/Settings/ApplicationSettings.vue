@@ -6,12 +6,14 @@ import LanguageDropdown from "@/components/v2/LanguageDropdown.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 
 const handleToggleAutoUpdates = () => {
-  window.electron.ipcRenderer.invoke("set-autoupdates", [amethyst.state.settings.value.autoUpdatesEnabled]);
+  window.electron.ipcRenderer.invoke("set-autoupdates", [application.autoUpdatesEnabled]);
 };
 
 const handleToggleAutostart = () => {
-  window.electron.ipcRenderer.invoke("set-autostart", [amethyst.state.settings.value.autoStart]);
+  window.electron.ipcRenderer.invoke("set-autostart", [application.autoStart]);
 };
+
+const {application} = amethyst.state.settings.value;
 
 </script>
 
@@ -23,7 +25,7 @@ const handleToggleAutostart = () => {
     :description="$t('settings.auto_update.description')"
   >
     <toggle-switch
-      v-model="amethyst.state.settings.value.autoUpdatesEnabled" 
+      v-model="application.autoUpdatesEnabled" 
       @change="handleToggleAutoUpdates"
     />
   </settings-setting>
@@ -34,7 +36,7 @@ const handleToggleAutostart = () => {
     icon="ic:twotone-rocket-launch"
   >
     <toggle-switch
-      v-model="amethyst.state.settings.value.autoStart" 
+      v-model="application.autoStart" 
       @change="handleToggleAutostart"
     />
   </settings-setting>

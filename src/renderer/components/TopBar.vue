@@ -208,7 +208,7 @@ provide("menuGroupRef", menuGroupRef);
 
     <div class="flex gap-1.25 h-6 items-center overflow-hidden font-aseprite whitespace-nowrap">
       <div
-        v-if="amethyst.state.settings.value.showDebugStats"
+        v-if="amethyst.state.settings.value.appearance.showDebugStats"
         class="w-56 flex gap-1 justify-end no-drag" 
         @click="min = Number.POSITIVE_INFINITY; max = Number.NEGATIVE_INFINITY;"
       >

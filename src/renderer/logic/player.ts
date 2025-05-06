@@ -39,7 +39,7 @@ export class Player extends EventEmitter<{
   public queue = new Queue(this.amethyst);
 
   public input = new Audio();
-  public context = new AudioContext({latencyHint: "interactive", sampleRate: this.amethyst.state.settings.value.resampleRate });
+  public context = new AudioContext({latencyHint: "interactive", sampleRate: this.amethyst.state.settings.value.audio.resampleRate });
   public source = this.context.createMediaElementSource(this.input);
   public nodeManager: AmethystAudioNodeManager;
 

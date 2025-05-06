@@ -14,7 +14,7 @@ export class MediaSourceManager {
   public mediaSources = ref<MediaSource[]>([]);
  
   public constructor(protected amethyst: Amethyst) {
-    this.amethyst.state.settings.value.saveMediaSources.forEach(savedSource => {
+    this.amethyst.state.settings.value.mediaSources.saveMediaSources.forEach(savedSource => {
       if (savedSource.path) {
         this.mediaSources.value.push(new LocalMediaSource(this.amethyst, savedSource.path));
       }
@@ -28,12 +28,12 @@ export class MediaSourceManager {
     if (dialog.canceled || !path) return;
   
     // Avoid adding folders if they already exist
-    if (this.amethyst.state.settings.value.saveMediaSources.some(savedSource => savedSource.path == path)) return;
+    if (this.amethyst.state.settings.value.mediaSources.saveMediaSources.some(savedSource => savedSource.path == path)) return;
 
     const mediaSource = new LocalMediaSource(this.amethyst, path);
     
     if (mediaSource.type && mediaSource.path) {
-      this.amethyst.state.settings.value.saveMediaSources.push({type: mediaSource.type, path: mediaSource.path});
+      this.amethyst.state.settings.value.mediaSources.saveMediaSources.push({type: mediaSource.type, path: mediaSource.path});
       this.mediaSources.value.push(mediaSource);
     }
   };
@@ -41,9 +41,9 @@ export class MediaSourceManager {
   public removeMediaSource = async (mediaSource: MediaSource) => {
     mediaSource.unregister();
     const savedMediaSource = { type: mediaSource.type, path: mediaSource.path };
-    const index = this.amethyst.state.settings.value.saveMediaSources.findIndex(s => s.path == savedMediaSource.path);
+    const index = this.amethyst.state.settings.value.mediaSources.saveMediaSources.findIndex(s => s.path == savedMediaSource.path);
     if (index == -1) return;
-    this.amethyst.state.settings.value.saveMediaSources.splice(index, 1);
+    this.amethyst.state.settings.value.mediaSources.saveMediaSources.splice(index, 1);
     this.mediaSources.value.splice(index, 1);
 
   };

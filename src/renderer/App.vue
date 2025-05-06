@@ -31,7 +31,7 @@ onUnmounted(() => {
   amethyst.player.off("play", setAmbientCover);
 });
 
-watch(() => amethyst.state.settings.value.showBigSpectrum, () => {
+watch(() => amethyst.state.showBigSpectrum.value, () => {
   amethyst.performWindowAction("fullscreen");
 });
 
@@ -39,16 +39,16 @@ watch(() => amethyst.state.settings.value.showBigSpectrum, () => {
 
 <template>
   <div
-    v-if="amethyst.state.settings.value.showBigSpectrum"
+    v-if="amethyst.state.showBigSpectrum.value"
     class="absolute top-0 left-0 w-320px h-280px z-30 bg-surface-800 "
-    @click="amethyst.state.settings.value.showBigSpectrum = false"
+    @click="amethyst.state.showBigSpectrum.value = false"
   >
     <spectrum-analyzer
       key="big-spectrum-analyzer"
       :node="amethyst.player.nodeManager.master.pre"
-      :fft-size="amethyst.state.settings.value.spectrumFftSize"
-      :smoothing="amethyst.state.settings.value.spectrumSmoothing"
-      :spectrogram="amethyst.state.settings.value.spectrogram.show"
+      :fft-size="amethyst.state.settings.value.metering.spectrum.fftSize"
+      :smoothing="amethyst.state.settings.value.metering.spectrum.smoothing"
+      :spectrogram="amethyst.state.settings.value.metering.spectrogram.show"
       :accent-color="getThemeColor('--accent')"
       :paused="amethyst.shouldPauseVisualizers()"
     />
@@ -79,7 +79,7 @@ watch(() => amethyst.state.settings.value.showBigSpectrum, () => {
     </div>
 
     <background-image
-      v-if="amethyst.state.settings.value.showAmbientBackground"
+      v-if="amethyst.state.settings.value.appearance.ambientBackground.show"
       :ambient-background-image="ambientBackgroundImage"
     />
 
@@ -136,7 +136,7 @@ watch(() => amethyst.state.settings.value.showBigSpectrum, () => {
         <inspector-bar v-if="useInspector().state.isVisible" />
       </div>
 
-      <playback-controls v-if="amethyst.state.settings.value.showPlaybackControls" />
+      <playback-controls v-if="amethyst.state.settings.value.appearance.showPlaybackControls" />
     </div>
   </div>
 </template> 

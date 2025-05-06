@@ -10,7 +10,7 @@ import { useFps } from "@vueuse/core";
 import { onMounted, ref } from "vue";
 
 const handleToggleVsync = () => {
-  window.electron.ipcRenderer.invoke("set-vsync", [amethyst.state.settings.value.useVsync]);
+  window.electron.ipcRenderer.invoke("set-vsync", [performance.useVsync]);
 };
 
 const minFps = ref(Number.POSITIVE_INFINITY);
@@ -34,6 +34,7 @@ onMounted(() => {
   }, 1000);
 });
 
+const {performance} = amethyst.state.settings.value;
 </script>
 
 <template>
@@ -77,7 +78,7 @@ onMounted(() => {
     :title="$t('settings.processing_concurrency.title')"
   >
     <slider-input
-      v-model="amethyst.state.settings.value.processingConcurrency"
+      v-model="performance.processingConcurrency"
       :min="1"
       :max="10"
       :step="1"
@@ -94,7 +95,7 @@ onMounted(() => {
     :platforms="['desktop']"
   >
     <toggle-switch
-      v-model="amethyst.state.settings.value.useVsync" 
+      v-model="performance.useVsync" 
       @change="handleToggleVsync"
     />
   </settings-setting>
@@ -105,7 +106,7 @@ onMounted(() => {
     :title="$t('settings.pause_visuals.title')"
   >
     <toggle-switch
-      v-model="amethyst.state.settings.value.pauseVisualsWhenUnfocused" 
+      v-model="performance.pauseVisualsWhenUnfocused" 
     />
   </settings-setting>
 </template>

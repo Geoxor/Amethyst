@@ -1,4 +1,4 @@
-import type { Player } from "./logic/player";
+import type { Player } from "./player";
 
 export class MediaSession {
   public constructor(private player: Player) {
@@ -23,16 +23,15 @@ export class MediaSession {
 
     this.player.on("play", () => navigator.mediaSession.playbackState = "playing");
     this.player.on("pause", () => navigator.mediaSession.playbackState = "paused");
-
     this.player.on("play", async track => {
-      const cover = (await track.fetchMetadata(true))?.common.picture?.[0];
-      const coverUrl: string = await track.getCover() ?? "";
+      const coverUrl = track.getCover();
+      if (!coverUrl) return;
 
       navigator.mediaSession.metadata = new MediaMetadata({
         title: track.getTitleFormatted(),
         artist: track.getArtistsFormatted(),
         album: track.getAlbum(),
-        artwork: [{ src: coverUrl, type: cover?.format }],
+        artwork: [{ src: coverUrl, type: "" }],
       });
     });
   }
