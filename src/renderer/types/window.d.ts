@@ -13,6 +13,7 @@ declare global {
   interface Window {
     fs: typeof import("fs/promises");
     os: typeof import("os");
+    md5: typeof import("../../main/utility").md5;
     path: typeof import("path");
     dialog: Electron.Dialog;
     electron: {

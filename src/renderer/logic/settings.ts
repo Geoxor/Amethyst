@@ -103,8 +103,8 @@ const DEFAULT_METERING_SETTINGS = {
       minimumDb: -60,
       separatePrePost: false,
       show: true,
-      fftSize: 1024,
-      smoothingDuration: 100,
+      fftSize: 2048,
+      smoothingDuration: 60,
     },
     shader: {
       use: false,

@@ -6,14 +6,36 @@ import * as mm from "music-metadata-browser";
 import FileSaver from "file-saver";
 import mime from "mime-types";
 import type { Amethyst } from "@/amethyst";
-import { favoriteTracks } from "@/amethyst";
+import { amethyst, favoriteTracks } from "@/amethyst";
 import { MusicBrainzApi } from "musicbrainz-api";
+import { saveArrayBufferToFile } from "./dom";
+import { convertDfpwm } from "./encoding";
+import { useInspector } from "@/components/Inspector";
 
 const mbApi = new MusicBrainzApi({
     appName: "Amethyst",
     appVersion: "2.0.7",
     appContactInfo: "todo@example.com",
 });
+
+export const trackContextMenuOptions = (track: Track) => ([
+  { title: "Play", icon: "ic:round-play-arrow", action: () => amethyst.player.play(track) },
+  { title: "Inspect", icon: "mdi:flask", action: () => useInspector().inspectAndShow(track) },
+  { title: "Favorite", icon: "ic:twotone-favorite", action: () => track.toggleFavorite() },
+  { title: "Encode to .dfpwm...", icon: "ic:twotone-qr-code", action: async () => {
+    saveArrayBufferToFile(
+      await convertDfpwm(await track.getArrayBuffer()), 
+      {
+        filename: track.getFilenameWithoutExtension(), 
+        extension: "dfpwm"
+    });
+  }},
+  { title: "Show in Explorer...", icon: "ic:twotone-pageview", action: () => amethyst.showItem(track.path) },
+  { title: "Export cover...", icon: "ic:twotone-add-photo-alternate", action: () => track.exportCover() },
+  { title: "Reload metadata", icon: "mdi:flask", action: () => track.fetchAsyncData(true) },
+  { title: "Remove from queue", icon: "ic:twotone-delete", red: true, action: () => amethyst.player.queue.remove(track) },
+  { title: "Delete from disk", icon: "ic:twotone-delete-forever", red: true, action: () => track.delete() },
+]);
 
 /**
  * Each playable audio file is an instance of this class
@@ -27,20 +49,25 @@ export class Track {
   public deleted: boolean = false;
   public isFavorited: boolean = false;
   public path: string;
-  public albumUrl: string;
+  public coverUrl: string | undefined;
+  public uuid: string | undefined;
 
   public constructor(private amethyst: Amethyst, public absolutePath: string) {
     this.path = absolutePath;
-    this.albumUrl = ""; // lateinit
-    this.isFavorited = favoriteTracks.value.includes(this.path);
+  }
+
+  private generateHash() {
+    this.uuid = window.md5(`${this.getArtistsFormatted()}, ${this.getAlbum()}, ${this.getTitle()}`);
+    this.isFavorited = favoriteTracks.value.includes(this.uuid);
   }
 
   public toggleFavorite() {
+    if (!this.isLoaded) return;
     this.isFavorited = !this.isFavorited;
     if (this.isFavorited) {
-      favoriteTracks.value.push(this.path);
+      favoriteTracks.value.push(this.uuid!);
     } else {
-      favoriteTracks.value.splice(favoriteTracks.value.indexOf(this.path), 1);
+      favoriteTracks.value.splice(favoriteTracks.value.indexOf(this.uuid!), 1);
     }
   }
 
@@ -127,11 +154,12 @@ export class Track {
       if (!force && await this.isCached()) {
         this.metadata.data = (await this.fetchCache()).metadata;
         this.metadata.state = LoadStatus.Loaded;
-        
+        this.generateHash();
         return this.metadata.data;
       }
       this.metadata.data = await this.readMetadata();
       this.metadata.state = LoadStatus.Loaded;
+      this.generateHash();
       return this.metadata.data;
     } catch (error) {
       console.log(error);
@@ -155,7 +183,7 @@ export class Track {
   };
 
   public fetchAlbumCoverUrl = async () => {
-    if (this.albumUrl !== "") {
+    if (this.coverUrl !== "") {
       return;
     }
 
@@ -176,7 +204,7 @@ export class Track {
               const response = await (await fetch(`https://coverartarchive.org/release/${release.id}`)).json();
               for (const cover of response["images"]) {
                 if (cover["front"]) {
-                  this.albumUrl = cover["thumbnails"]["large"].replace("http://", "https://");
+                  this.coverUrl = cover["thumbnails"]["large"].replace("http://", "https://");
                   return;
                 }
               }

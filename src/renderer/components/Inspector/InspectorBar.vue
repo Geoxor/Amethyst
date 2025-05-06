@@ -286,6 +286,11 @@ const filteredMetadata = computed(() => {
           />
           {{ $t('track.audio_properties') }}
         </h1>
+        
+        <li>
+          <h1>{{ $t('track.audio_properties.hash') }}</h1>
+          <p> {{ inspector.state.currentItem.uuid }}</p>
+        </li>
         <li>
           <h1>{{ $t('track.audio_properties.channels') }}</h1>
           <p> {{ inspector.state.currentItem.getChannels() }}</p>
