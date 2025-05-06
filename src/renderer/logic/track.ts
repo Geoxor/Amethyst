@@ -223,6 +223,8 @@ export class Track {
     this.isLoading.value = true;
 
     const isCached = await this.isCached();
+    force = !isCached ? true : force;
+
     let cachedData: any = {};
     if (!force && isCached) {
       cachedData = await this.fetchCache();
@@ -234,7 +236,7 @@ export class Track {
       metadata.common.picture = [];
     }
 
-    if ((force || !isCached) && this.amethyst.getCurrentPlatform() === "desktop") {
+    if (force && this.amethyst.getCurrentPlatform() === "desktop") {
       window.fs.writeFile(this.getCachePath(true), JSON.stringify({
         cover,
         metadata
