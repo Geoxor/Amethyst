@@ -14,7 +14,7 @@ const instance = {
     options: [] as IContextMenuOption[],
   }),
   open: ({x, y}: Coords, options: IContextMenuOption[]) => {
-    instance.state.position = { x: x / amethyst.state.settings.value.zoomLevel + 6, y: y / amethyst.state.settings.value.zoomLevel + 6 };
+    instance.state.position = { x: x / amethyst.state.zoomLevel.value + 6, y: y / amethyst.state.zoomLevel.value + 6 };
     instance.state.options = markRaw(options);
     instance.state.isVisible = true;
   }
