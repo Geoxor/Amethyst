@@ -69,6 +69,7 @@ export class Queue {
           track.getFilename().toLowerCase().includes(word)
           || track.getArtistsFormatted()?.toLowerCase().includes(word)
           || track.getTitle()?.toLowerCase().includes(word)
+          || track.getGenreFormatted()?.toLowerCase().includes(word)
           || track.getAlbum()?.toLowerCase().includes(word));
     }
 

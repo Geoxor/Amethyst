@@ -68,7 +68,7 @@ export class Analytics {
     for (const track of tracks) {
       if (!track) continue;
       if (track.getGenre() != null) {
-        track.getGenre().forEach(genre => {
+        track.getGenre()!.forEach(genre => {
           if (!genres.includes(genre)) genres.push(genre);
           genreCounts[genre] = (genreCounts[genre] || 0) + 1;
         });
@@ -86,6 +86,7 @@ export class Analytics {
 
     this.amethyst.player.queue.getList().forEach(it => {
       if (!it) return;
+      if (it.isFavorited && !this.tracksBasedOnFavorites.value.includes(it)) this.tracksBasedOnFavorites.value.push(it);  
 
       const trackGenres = it.getGenre();
       if (!trackGenres) return;
@@ -99,11 +100,6 @@ export class Analytics {
         this.trackAnalytics.value[it.uuid!] == null) {
         this.tracksBasedOnGenres.value.push(it);
       }
-    });
-
-
-    this.amethyst.player.queue.getList().forEach(it => {
-      if (it.isFavorited && !this.tracksBasedOnFavorites.value.includes(it)) this.tracksBasedOnFavorites.value.push(it);  
     });
 
     this.tracksBasedOnFavorites.value = this.tracksBasedOnFavorites.value.sort((a, b) => this.trackAnalytics.value[a.uuid!]?.playCount < this.trackAnalytics.value[b.uuid!]?.playCount ? 1 : -1).slice(0, DISCOVERY_ITEMS_COUNT);
