@@ -212,8 +212,8 @@ const {metering} = amethyst.state.settings.value;
           <slider-input
               v-model="metering.spectrum.opacityFalloff"
               :min="0"
-              :max="5"
-              :step="0.1"
+              :max="1"
+              :step="0.05"
               suffix="edf"
           />
           <!-- EDF = Exponential Distance Falloff (had to put something into suffix I guess xD) -->
