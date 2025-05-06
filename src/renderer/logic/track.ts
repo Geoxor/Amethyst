@@ -6,14 +6,36 @@ import * as mm from "music-metadata-browser";
 import FileSaver from "file-saver";
 import mime from "mime-types";
 import type { Amethyst } from "@/amethyst";
-import { favoriteTracks } from "@/amethyst";
+import { amethyst, favoriteTracks } from "@/amethyst";
 import { MusicBrainzApi } from "musicbrainz-api";
+import { saveArrayBufferToFile } from "./dom";
+import { convertDfpwm } from "./encoding";
+import { useInspector } from "@/components/Inspector";
 
 const mbApi = new MusicBrainzApi({
     appName: "Amethyst",
     appVersion: "2.0.7",
     appContactInfo: "todo@example.com",
 });
+
+export const trackContextMenuOptions = (track: Track) => ([
+  { title: "Play", icon: "ic:round-play-arrow", action: () => amethyst.player.play(track) },
+  { title: "Inspect", icon: "mdi:flask", action: () => useInspector().inspectAndShow(track) },
+  { title: "Favorite", icon: "ic:twotone-favorite", action: () => track.toggleFavorite() },
+  { title: "Encode to .dfpwm...", icon: "ic:twotone-qr-code", action: async () => {
+    saveArrayBufferToFile(
+      await convertDfpwm(await track.getArrayBuffer()), 
+      {
+        filename: track.getFilenameWithoutExtension(), 
+        extension: "dfpwm"
+    });
+  }},
+  { title: "Show in Explorer...", icon: "ic:twotone-pageview", action: () => amethyst.showItem(track.path) },
+  { title: "Export cover...", icon: "ic:twotone-add-photo-alternate", action: () => track.exportCover() },
+  { title: "Reload metadata", icon: "mdi:flask", action: () => track.fetchAsyncData(true) },
+  { title: "Remove from queue", icon: "ic:twotone-delete", red: true, action: () => amethyst.player.queue.remove(track) },
+  { title: "Delete from disk", icon: "ic:twotone-delete-forever", red: true, action: () => track.delete() },
+]);
 
 /**
  * Each playable audio file is an instance of this class

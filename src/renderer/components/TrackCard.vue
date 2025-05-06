@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
-import type { Track } from "@/logic/track";
+import { trackContextMenuOptions, type Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
+import { useContextMenu } from "./ContextMenu";
 import CoverArt from "./CoverArt.vue";
 import TitleSubtitle from "./v2/TitleSubtitle.vue";
 
 defineProps<{track: Track}>();
+
+const handleTrackContextMenu = ({x, y}: MouseEvent, track: Track) => {
+  useContextMenu().open({x, y}, trackContextMenuOptions(track));
+};
 
 </script>
 
@@ -13,6 +18,7 @@ defineProps<{track: Track}>();
   <div
     class="flex flex-col gap-2 items-center w-min cursor-pointer overflow-visible hover:underline"
     @click="amethyst.player.play(track)"
+    @contextmenu="handleTrackContextMenu($event, track)"
   >
     <span class="relative overflow-hidden rounded-8px transition-all duration-100 transform-gpu hover:scale-110">
       <h1
