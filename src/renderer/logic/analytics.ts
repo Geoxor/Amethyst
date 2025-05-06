@@ -13,9 +13,9 @@ const DISCOVERY_ITEMS_COUNT = 20;
 
 export class Analytics {
   public trackAnalytics = useLocalStorage<Record<string, TrackAnalytics>>("trackAnalytics", {});
-  public tracksBasedOnGenres: Ref<Track[]> = ref([]);
-  public tracksBasedOnFavorites: Ref<Track[]> = ref([]);
-  public tracksBasedOnRandom: Ref<Track[]> = ref([]);
+  public tracksBasedOnGenres: Ref<Set<Track>> = ref(new Set([]));
+  public tracksBasedOnFavorites: Ref<Set<Track>> = ref(new Set([]));
+  public tracksBasedOnRandom: Ref<Set<Track>> = ref(new Set([]));
 
   private emptyAnalytics = (): TrackAnalytics => ({
     playCount: 0,
@@ -51,9 +51,9 @@ export class Analytics {
   public getDiscoveryTracks() {
     const allLoadedTracks = this.amethyst.player.queue.getList();
 
-    this.tracksBasedOnGenres.value = [];
-    this.tracksBasedOnFavorites.value = [];
-    this.tracksBasedOnRandom.value = [];
+    this.tracksBasedOnGenres.value.clear();
+    this.tracksBasedOnFavorites.value.clear();
+    this.tracksBasedOnRandom.value.clear();
 
     let tracks = Object.entries(this.trackAnalytics.value).map(
       ([uuid]) =>
@@ -87,7 +87,7 @@ export class Analytics {
 
     allLoadedTracks.forEach(it => {
       if (!it) return;
-      if (it.isFavorited && !this.tracksBasedOnFavorites.value.includes(it)) this.tracksBasedOnFavorites.value.push(it);  
+      if (it.isFavorited) this.tracksBasedOnFavorites.value.add(it);  
 
       const trackGenres = it.getGenre();
       if (!trackGenres) return;
@@ -96,16 +96,15 @@ export class Analytics {
       if (score < genreScoreThreshold) return;
 
       if (trackGenres.some(genre => genres.includes(genre)) &&
-        !this.tracksBasedOnGenres.value.find(t => t.getAlbum() === it.getAlbum()) &&
-        !this.tracksBasedOnGenres.value.includes(it) &&
+        ![...this.tracksBasedOnGenres.value.values()].find(t => t.getAlbum() === it.getAlbum()) &&
         this.trackAnalytics.value[it.uuid!] == null) {
-        this.tracksBasedOnGenres.value.push(it);
+        this.tracksBasedOnGenres.value.add(it);
       }
     });
 
-    this.tracksBasedOnFavorites.value = this.tracksBasedOnFavorites.value.sort((a, b) => this.trackAnalytics.value[a.uuid!]?.playCount < this.trackAnalytics.value[b.uuid!]?.playCount ? 1 : -1).slice(0, DISCOVERY_ITEMS_COUNT);
-    this.tracksBasedOnGenres.value = fisherYatesShuffle(this.tracksBasedOnGenres.value).slice(0, DISCOVERY_ITEMS_COUNT);
-    this.tracksBasedOnRandom.value = fisherYatesShuffle(allLoadedTracks).slice(0, DISCOVERY_ITEMS_COUNT);
+    this.tracksBasedOnFavorites.value = new Set([...this.tracksBasedOnFavorites.value.values()].sort((a, b) => this.trackAnalytics.value[a.uuid!]?.playCount < this.trackAnalytics.value[b.uuid!]?.playCount ? 1 : -1).slice(0, DISCOVERY_ITEMS_COUNT));
+    this.tracksBasedOnGenres.value = new Set (fisherYatesShuffle([...this.tracksBasedOnGenres.value.values()]).slice(0, DISCOVERY_ITEMS_COUNT));
+    this.tracksBasedOnRandom.value = new Set (fisherYatesShuffle(allLoadedTracks).slice(0, DISCOVERY_ITEMS_COUNT));
   }
 
   public getPlayCount(track: Track): number {
