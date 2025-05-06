@@ -138,7 +138,7 @@ onMounted(() => {
 }
 
 .type {
-  @apply w-4;
+  @apply w-4 text-center;
 }
 
 .value {
