@@ -27,12 +27,16 @@ export class Track {
   public deleted: boolean = false;
   public isFavorited: boolean = false;
   public path: string;
-  public albumUrl: string;
+  public coverUrl: string | undefined;
+  public uuid: string | undefined;
 
   public constructor(private amethyst: Amethyst, public absolutePath: string) {
     this.path = absolutePath;
-    this.albumUrl = ""; // lateinit
     this.isFavorited = favoriteTracks.value.includes(this.path);
+  }
+
+  private generateHash() {
+    this.uuid = window.md5(`${this.getArtistsFormatted()}, ${this.getAlbum()}, ${this.getTitle()}`);
   }
 
   public toggleFavorite() {
@@ -118,11 +122,12 @@ export class Track {
       if (!force && await this.isCached()) {
         this.metadata.data = (await this.fetchCache()).metadata;
         this.metadata.state = LoadStatus.Loaded;
-        
+        this.generateHash();
         return this.metadata.data;
       }
       this.metadata.data = await this.readMetadata();
       this.metadata.state = LoadStatus.Loaded;
+      this.generateHash();
       return this.metadata.data;
     } catch (error) {
       console.log(error);
@@ -146,7 +151,7 @@ export class Track {
   };
 
   public fetchAlbumCoverUrl = async () => {
-    if (this.albumUrl !== "") {
+    if (this.coverUrl !== "") {
       return;
     }
 
@@ -167,7 +172,7 @@ export class Track {
               const response = await (await fetch(`https://coverartarchive.org/release/${release.id}`)).json();
               for (const cover of response["images"]) {
                 if (cover["front"]) {
-                  this.albumUrl = cover["thumbnails"]["large"].replace("http://", "https://");
+                  this.coverUrl = cover["thumbnails"]["large"].replace("http://", "https://");
                   return;
                 }
               }

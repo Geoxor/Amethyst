@@ -3,10 +3,12 @@ import { contextBridge, ipcRenderer } from "electron";
 import * as fs from "fs/promises";
 import * as os from "os";
 import * as path from "path";
+import {md5} from "./utility";
 
 contextBridge.exposeInMainWorld("fs", fs);
 contextBridge.exposeInMainWorld("os", os);
 contextBridge.exposeInMainWorld("path", path);
+contextBridge.exposeInMainWorld("md5", md5);
 
 contextBridge.exposeInMainWorld("electron", {
 	isMac: os.platform() === "darwin", 
