@@ -23,10 +23,17 @@ const setAmbientCover = async (track: Track) => {
     .then(blob => ambientBackgroundImage.value = URL.createObjectURL(blob))
     .catch(() => ambientBackgroundImage.value = "");
 };
+
+const fallbackToDefault = () => {
+  document.documentElement.style.removeProperty("--accent");
+  document.documentElement.style.removeProperty("--primary");
+  amethyst.state.emit("theme:change", "");
+};
+
 const setDynamicColors = async (track: Track) => {
   if (!amethyst.state.settings.value.appearance.coverBasedColors) return;
   const coverBase64 = track.getCover();
-  if (!coverBase64) return;
+  if (!coverBase64) return fallbackToDefault();
   
   const palette = await Vibrant.from(coverBase64).getPalette();
   if (!palette.Vibrant && !palette.LightMuted) return;
@@ -45,9 +52,7 @@ watch(() => amethyst.state.settings.value.appearance.coverBasedColors, enabled =
     if (!currentTrack) return;
     setDynamicColors(currentTrack);
   } else {
-    document.documentElement.style.removeProperty("--accent");
-    document.documentElement.style.removeProperty("--primary");
-    amethyst.state.emit("theme:change", "");
+    fallbackToDefault();
   }
 });
 
