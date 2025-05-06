@@ -14,9 +14,7 @@ const props = defineProps<{title: string, tracks: Track[]}>();
         v-for="track of tracks"
         :key="track.path"
         :track="track"
-      >
-        {{ track.getFilename() }}
-      </track-card>
+      />
     </section>
   </div>
 </template>

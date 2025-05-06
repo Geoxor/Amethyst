@@ -63,9 +63,14 @@ export class Analytics {
           if (track.getGenre() != null) {
             track.getGenre()?.forEach(genre => {
               if (it.getGenre()?.includes(genre) && 
-                  !this.discoveryTracks.value.find(t => t.getAlbum() === it.getAlbum()) && 
-                  !this.discoveryTracks.value.includes(it) && this.trackAnalytics.value[it.uuid!] == null) 
-                  this.discoveryTracks.value.push(it);
+                // make sure there is only one track per album
+                !this.discoveryTracks.value.find(t => t.getAlbum() === it.getAlbum()) && 
+                // make sure we don't duplicate tracks
+                !this.discoveryTracks.value.includes(it) && 
+                // check if the track is unplayed (unplayed tracks don't have an entry on the analytics)
+                this.trackAnalytics.value[it.uuid!] == null) // <-- btw there is ")" here
+                // Add the track
+                this.discoveryTracks.value.push(it);
             });
           }
         })!;
