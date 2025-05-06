@@ -11,7 +11,7 @@ defineProps<{
 
 <template>
   <shader-canvas
-    v-if="amethyst.state.settings.value.shader.use"
+    v-if="amethyst.state.settings.value.appearance.shader.use"
     class="absolute select-none pointer-events-none z-1000"
     :style="`
       opacity: ${amethyst.state.settings.value.appearance.ambientBackground.opacity}%;

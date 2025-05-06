@@ -361,6 +361,7 @@
     "music-metadata": "^7.13.3",
     "music-metadata-browser": "^2.5.10",
     "musicbrainz-api": "^0.25.0",
+    "node-vibrant": "^4.0.3",
     "node-wav": "^0.0.2",
     "open": "8.4.2",
     "pidusage": "^3.0.2",

@@ -16,8 +16,7 @@ onMounted(() => {
   let strokeStyle = `${getThemeColorHex("--accent")}`;
   canvas.strokeStyle = strokeStyle;
 
-  watch(() => amethyst.state.settings.value.theme, () => {
-    // watch detects the change before the theme has actually been applied
+  amethyst.state.on("theme:change", () => {
     setTimeout(() => {
       strokeStyle = `${getThemeColorHex("--accent")}`;
     }, 100);

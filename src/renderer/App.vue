@@ -13,6 +13,7 @@ import { AmethystIcon } from "@/icons";
 import { getThemeColor } from "@/logic/color";
 import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
+import { Vibrant } from "node-vibrant/browser";
 import { onMounted, onUnmounted, ref, watch } from "vue";
 
 const ambientBackgroundImage = ref("");
@@ -22,9 +23,26 @@ const setAmbientCover = async (track: Track) => {
     .then(blob => ambientBackgroundImage.value = URL.createObjectURL(blob))
     .catch(() => ambientBackgroundImage.value = "");
 };
+const setDynamicColors = async (track: Track) => {
+  const coverBase64 = track.getCover();
+  if (!coverBase64) return;
+  
+  const palette = await Vibrant.from(coverBase64).getPalette();
+  if (!palette.Vibrant && !palette.LightMuted) return;
+  
+  const newAccentColor = `${palette.Vibrant?.r}, ${palette.Vibrant?.g}, ${palette.Vibrant?.b}`;
+  const newPrimaryColor = `${palette.LightMuted?.r}, ${palette.LightMuted?.g}, ${palette.LightMuted?.b}`;
 
+  document.documentElement.style.setProperty("--accent", newAccentColor);
+  document.documentElement.style.setProperty("--primary", newPrimaryColor);
+
+  amethyst.state.emit("theme:change", "");
+};
 onMounted(() => {
-  amethyst.player.on("play", setAmbientCover);
+  amethyst.player.on("play", track => {
+    setAmbientCover(track);
+    setDynamicColors(track);
+  });
 });
 
 onUnmounted(() => {
@@ -33,6 +51,12 @@ onUnmounted(() => {
 
 watch(() => amethyst.state.showBigSpectrum.value, () => {
   amethyst.performWindowAction("fullscreen");
+});
+
+watch(() => amethyst.state.settings.value.appearance.coverBasedColors, () => {
+  const currentTrack = amethyst.player.getCurrentTrack();
+  if (!currentTrack) return;
+  setDynamicColors(currentTrack);
 });
 
 </script>

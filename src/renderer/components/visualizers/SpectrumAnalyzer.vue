@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import {logParabolicSpectrum, normalize8bit} from "@/logic/math";
+import { amethyst } from "@/amethyst";
 import ShaderCanvas from "@/components/ShaderCanvas.vue";
-import {VISUALIZER_BIN_COUNT} from "@shared/constants";
+import { getThemeColorRgb } from "@/logic/color";
+import { logParabolicSpectrum, normalize8bit } from "@/logic/math";
+import { SpectrogramShader } from "@/shaders/components/SpectrogramShader";
+import { SpectrumShader } from "@/shaders/components/SpectrumShader";
+import { VISUALIZER_BIN_COUNT } from "@shared/constants";
 import * as THREE from "three";
 import { watch } from "vue";
-import {SpectrogramShader} from "@/shaders/components/SpectrogramShader";
-import {SpectrumShader} from "@/shaders/components/SpectrumShader";
-import { amethyst } from "@/amethyst";
-import { getThemeColorRgb } from "@/logic/color";
 
 const props = defineProps<{
   node: AudioNode,
@@ -31,7 +31,7 @@ const updateAnalyser = () => {
 updateAnalyser();
 
 watch(() => [props.fftSize, props.smoothing], updateAnalyser);
-watch(() => amethyst.state.settings.value.theme, () => {
+amethyst.state.on("theme:change", () => {
   setTimeout(() => {
     const accentColor = getThemeColorRgb("--accent");
     uniformData.u_color.value.set(
