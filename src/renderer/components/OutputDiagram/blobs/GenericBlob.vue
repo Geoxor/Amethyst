@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import SubtitleText from "./SubtitleText.vue";
-import TitleText from "./TitleText.vue";
+import SubtitleText from "@/components/v2/SubtitleText.vue";
+import TitleText from "@/components/v2/TitleText.vue";
 defineProps<{title: string, subtitle?: string, clickable?: boolean}>();
 </script>
 

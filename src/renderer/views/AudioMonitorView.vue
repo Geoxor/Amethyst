@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
+import OutputDiagram from "@/components/OutputDiagram/OutputDiagram.vue";
 import DecibelMeter from "@/components/v2/DecibelMeter.vue";
 import OutputBreakdown from "@/components/v2/OutputBreakdown.vue";
-import OutputDiagram from "@/components/v2/OutputDiagram.vue";
 import RouteHeader from "@/components/v2/RouteHeader.vue";
 </script>
 
