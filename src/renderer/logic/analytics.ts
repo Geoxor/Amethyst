@@ -84,9 +84,13 @@ export class Analytics {
       if (it.isFavorited && !this.tracksBasedOnFavorites.value.includes(it)) this.tracksBasedOnFavorites.value.push(it);  
     });
 
-    this.tracksBasedOnFavorites.value = this.tracksBasedOnFavorites.value.slice(0, 10).sort((a, b) => this.trackAnalytics.value[a.uuid!]?.playCount > this.trackAnalytics.value[b.uuid!]?.playCount ? 1 : -1);;
+    this.tracksBasedOnFavorites.value = this.tracksBasedOnFavorites.value.sort((a, b) => this.trackAnalytics.value[a.uuid!]?.playCount < this.trackAnalytics.value[b.uuid!]?.playCount ? 1 : -1).slice(0, 10);
     this.tracksBasedOnGenres.value = fisherYatesShuffle(this.tracksBasedOnGenres.value).slice(0, 10);
     this.tracksBasedOnRandom.value = fisherYatesShuffle(this.amethyst.player.queue.getList()).slice(0, 10);
+  }
+
+  public getPlayCount(track: Track): number {
+    return this.trackAnalytics.value[track.uuid!]?.playCount ?? 0;
   }
 
   private incrementPlayCount(uuid: string) {

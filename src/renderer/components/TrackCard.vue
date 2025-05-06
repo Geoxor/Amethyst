@@ -14,7 +14,12 @@ defineProps<{track: Track}>();
     class="flex flex-col gap-2 items-center w-min cursor-pointer overflow-visible hover:underline"
     @click="amethyst.player.play(track)"
   >
-    <span class="relative  transition-all duration-100 transform-gpu hover:scale-110">
+    <span class="relative overflow-hidden rounded-8px transition-all duration-100 transform-gpu hover:scale-110">
+      <h1
+        v-if="amethyst.analytics.getPlayCount(track)"
+        class="absolute top-0 right-0 min-w-4 text-12px text-center p-1 rounded-bl-8px bg-accent text-black"
+      >{{ amethyst.analytics.getPlayCount(track) }}</h1>
+
       <template v-if="amethyst.player.getCurrentTrack() == track">
         <icon
           v-if="amethyst.player.isPlaying.value"
@@ -32,7 +37,7 @@ defineProps<{track: Track}>();
         <cover-art
           :url="track.getCover()"
           :class="[amethyst.player.getCurrentTrack() == track && 'opacity-35']"
-          class="min-w-32 min-h-32 rounded-8px"
+          class="min-w-32 min-h-32 "
         />
       </div>
     </span>
