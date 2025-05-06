@@ -12,7 +12,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col h-full w-[calc(100%-48px)] py-2 px-4 gap-4 text-text_title">
+  <div class="flex flex-col h-full w-[calc(100%-44px)] py-2 px-4 gap-4 text-text_title">
     <route-header :title="$t('route.discovery')" />
     <div class="flex gap-2 mt-1">
       <settings-category
