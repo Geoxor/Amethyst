@@ -226,7 +226,7 @@ export class Track {
     force = !isCached ? true : force;
 
     let cachedData: any = {};
-    if (!force && isCached) {
+    if (!force) {
       cachedData = await this.fetchCache();
     }
 
