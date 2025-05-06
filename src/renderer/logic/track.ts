@@ -49,7 +49,7 @@ export class Track {
   public deleted: boolean = false;
   public isFavorited: boolean = false;
   public path: string;
-  public coverUrl: string | undefined;
+  public coverUrl: string = "";
   public uuid: string | undefined;
 
   public constructor(private amethyst: Amethyst, public absolutePath: string) {
