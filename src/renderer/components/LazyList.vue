@@ -400,7 +400,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
     </div>
 
     <RecycleScroller
-      class="h-full pb-24 pr-2 leading-tight"
+      class="h-full pb-32 pr-2 leading-tight"
       :items="tracks"
       :item-size="ITEM_HEIGHT"
       key-field="path"
