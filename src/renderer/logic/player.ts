@@ -59,6 +59,10 @@ export class Player extends EventEmitter<{
     watch(() => this.pitchSemitones.value, newPitch => {this.setPlaybackSpeed(newPitch);});
   }
 
+  public playRandomTrack = () => {
+    this.amethyst.player.play(this.amethyst.player.queue.getList()[~~(Math.random() * this.amethyst.player.queue.getList().length)]);
+  };
+
   public setPlaybackSpeed(semitones: number) {
     function semitonesToPlaybackRate(semitones: number) {
       return Math.pow(2, semitones / 12);

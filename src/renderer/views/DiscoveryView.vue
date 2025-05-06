@@ -12,7 +12,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col h-full w-full py-2 px-4 gap-4 pb-24 text-text_title">
+  <div class="flex flex-col h-full w-full py-2 px-4 gap-4 text-text_title">
     <route-header :title="$t('route.discovery')" />
     <div class="flex gap-2 mt-1">
       <settings-category
@@ -20,6 +20,7 @@ onUnmounted(() => {
         :icon="'ic:twotone-control-point-duplicate'" 
         title="just send it"
         description="i cant decide"
+        @click="amethyst.player.playRandomTrack()"
       />
       <settings-category
         class="flex gap-2 w-full"
@@ -40,10 +41,22 @@ onUnmounted(() => {
         description="i cant decide"
       />
     </div>
-    <discovery-feed
-      :title="$t('discovery.for_you.title')"
-      :subtitle="$t('discovery.for_you.description')"
-      :tracks="amethyst.analytics.discoveryTracks.value"
-    />
+    <div class="flex flex-col overflow-y-auto pb-32 h-full">
+      <discovery-feed
+        :title="$t('discovery.for_you.title')"
+        :subtitle="$t('discovery.for_you.description')"
+        :tracks="amethyst.analytics.tracksBasedOnGenres.value"
+      />
+      <discovery-feed
+        :title="$t('discovery.favorites.title')"
+        :subtitle="$t('discovery.favorites.description')"
+        :tracks="amethyst.analytics.tracksBasedOnFavorites.value"
+      />
+      <discovery-feed
+        :title="$t('discovery.random.title')"
+        :subtitle="$t('discovery.random.description')"
+        :tracks="amethyst.analytics.tracksBasedOnRandom.value"
+      />
+    </div>
   </div>
 </template>

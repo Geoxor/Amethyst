@@ -2,7 +2,7 @@ import type { Amethyst } from "@/amethyst";
 import { useLocalStorage } from "@vueuse/core";
 import type { Track } from "./track";
 import { fisherYatesShuffle } from "./math";
-import type { Ref} from "vue";
+import type { Ref } from "vue";
 import { ref } from "vue";
 
 interface TrackAnalytics {
@@ -11,7 +11,9 @@ interface TrackAnalytics {
 
 export class Analytics {
   public trackAnalytics = useLocalStorage<Record<string, TrackAnalytics>>("trackAnalytics", {});
-  public discoveryTracks: Ref<Track[]> = ref([]);
+  public tracksBasedOnGenres: Ref<Track[]> = ref([]);
+  public tracksBasedOnFavorites: Ref<Track[]> = ref([]);
+  public tracksBasedOnRandom: Ref<Track[]> = ref([]);
 
   private emptyAnalytics = (): TrackAnalytics => ({
     playCount: 0,
@@ -22,7 +24,7 @@ export class Analytics {
   public constructor(public amethyst: Amethyst) {
     amethyst.player.on("play", track => {
       if (!track.uuid) return;
-      
+
       // Check if trackAnalytics object is defined for this song hash
       if (!this.trackAnalytics.value[track.uuid]) {
         this.trackAnalytics.value[track.uuid] = this.emptyAnalytics();
@@ -46,39 +48,45 @@ export class Analytics {
   // then give random songs of most played genres
   public getDiscoveryTracks() {
 
-    this.discoveryTracks.value = [];
+    this.tracksBasedOnGenres.value = [];
+    this.tracksBasedOnFavorites.value = [];
+    this.tracksBasedOnRandom.value = [];
 
     let tracks = Object.entries(this.trackAnalytics.value).map(
-      ([uuid]) => 
+      ([uuid]) =>
         this.amethyst.player.queue.getList().find(track => track.uuid === uuid)!
     );
 
     // 🍌🍌🍌🍌
     tracks = tracks.sort((a, b) => this.trackAnalytics.value[a.uuid!].playCount > this.trackAnalytics.value[b.uuid!].playCount ? 1 : -1);
-    tracks = tracks.slice(0, tracks.length / 2);
 
     for (const track of tracks) {
-         this.amethyst.player.queue.getList().forEach(it => {
-          if (!it) return;
-          if (track.getGenre() != null) {
-            track.getGenre()?.forEach(genre => {
-              if (it.getGenre()?.includes(genre) && 
-                // make sure there is only one track per album
-                !this.discoveryTracks.value.find(t => t.getAlbum() === it.getAlbum()) && 
-                // make sure we don't duplicate tracks
-                !this.discoveryTracks.value.includes(it) && 
-                // check if the track is unplayed (unplayed tracks don't have an entry on the analytics)
-                this.trackAnalytics.value[it.uuid!] == null) // <-- btw there is ")" here
-                // Add the track
-                this.discoveryTracks.value.push(it);
-            });
-          }
-        })!;
+      this.amethyst.player.queue.getList().forEach(it => {
+        if (!it || !track) return;
+
+        if (track.getGenre() != null) {
+          track.getGenre()?.forEach(genre => {
+            if (it.getGenre()?.includes(genre) &&
+              // make sure there is only one track per album
+              !this.tracksBasedOnGenres.value.find(t => t.getAlbum() === it.getAlbum()) &&
+              // make sure we don't duplicate tracks
+              !this.tracksBasedOnGenres.value.includes(it) &&
+              // check if the track is unplayed (unplayed tracks don't have an entry on the analytics)
+              this.trackAnalytics.value[it.uuid!] == null) // <-- btw there is ")" here
+              // Add the track
+              this.tracksBasedOnGenres.value.push(it);
+          });
+        }
+      });
     }
 
-    this.discoveryTracks.value = fisherYatesShuffle(this.discoveryTracks.value);
-    this.discoveryTracks.value = this.discoveryTracks.value.slice(0, 10);
-    this.discoveryTracks.value.reverse();
+    this.amethyst.player.queue.getList().forEach(it => {
+      if (it.isFavorited && !this.tracksBasedOnFavorites.value.includes(it)) this.tracksBasedOnFavorites.value.push(it);  
+    });
+
+    this.tracksBasedOnFavorites.value = fisherYatesShuffle(this.tracksBasedOnFavorites.value).slice(0, 10);
+    this.tracksBasedOnGenres.value = fisherYatesShuffle(this.tracksBasedOnGenres.value).slice(0, 10);
+    this.tracksBasedOnRandom.value = fisherYatesShuffle(this.amethyst.player.queue.getList()).slice(0, 10);
   }
 
   private incrementPlayCount(uuid: string) {

@@ -32,19 +32,20 @@ export class Track {
 
   public constructor(private amethyst: Amethyst, public absolutePath: string) {
     this.path = absolutePath;
-    this.isFavorited = favoriteTracks.value.includes(this.path);
   }
 
   private generateHash() {
     this.uuid = window.md5(`${this.getArtistsFormatted()}, ${this.getAlbum()}, ${this.getTitle()}`);
+    this.isFavorited = favoriteTracks.value.includes(this.uuid);
   }
 
   public toggleFavorite() {
+    if (!this.isLoaded) return;
     this.isFavorited = !this.isFavorited;
     if (this.isFavorited) {
-      favoriteTracks.value.push(this.path);
+      favoriteTracks.value.push(this.uuid!);
     } else {
-      favoriteTracks.value.splice(favoriteTracks.value.indexOf(this.path), 1);
+      favoriteTracks.value.splice(favoriteTracks.value.indexOf(this.uuid!), 1);
     }
   }
 
