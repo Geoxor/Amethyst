@@ -59,7 +59,8 @@ export class Track {
   }
 
   private async fetchCache() {
-    return (JSON.parse(await window.fs.readFile(this.getCachePath(true), "utf-8")));
+    const data = await window.fs.readFile(this.getCachePath(true), "utf8");
+    return JSON.parse(data.trim());
   }
 
   public async delete() {
