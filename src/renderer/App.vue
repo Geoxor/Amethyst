@@ -36,10 +36,10 @@ const setDynamicColors = async (track: Track) => {
   if (!coverBase64) return fallbackToDefault();
   
   const palette = await Vibrant.from(coverBase64).getPalette();
-  if (!palette.Vibrant && !palette.LightMuted) return;
+  if (!palette.Vibrant && !palette.LightVibrant) return;
   
   const newAccentColor = `${palette.Vibrant?.r}, ${palette.Vibrant?.g}, ${palette.Vibrant?.b}`;
-  const newPrimaryColor = `${palette.LightMuted?.r}, ${palette.LightMuted?.g}, ${palette.LightMuted?.b}`;
+  const newPrimaryColor = `${palette.LightVibrant?.r}, ${palette.LightVibrant?.g}, ${palette.LightVibrant?.b}`;
 
   document.documentElement.style.setProperty("--accent", newAccentColor);
   document.documentElement.style.setProperty("--primary", newPrimaryColor);
