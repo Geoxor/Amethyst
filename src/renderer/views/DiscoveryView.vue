@@ -1,10 +1,9 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
+import BigButton from "@/components/BigButton.vue";
 import DiscoveryFeed from "@/components/DiscoveryFeed.vue";
-import SettingsCategory from "@/components/settings/SettingsCategory.vue";
 import RouteHeader from "@/components/v2/RouteHeader.vue";
 import { onMounted } from "vue";
-
 onMounted(() => {
   amethyst.analytics.getDiscoveryTracks();
 });
@@ -15,31 +14,31 @@ onMounted(() => {
   <div class="flex flex-col h-full w-[calc(100%-44px)] py-2 px-4 gap-4 text-text_title">
     <route-header :title="$t('route.discovery')" />
     <div class="flex gap-2 mt-1">
-      <settings-category
+      <big-button
         class="flex gap-2"
         :icon="'mdi:dice-5'" 
         @click="amethyst.analytics.getDiscoveryTracks()"
       />
-      <settings-category
+      <big-button
         class="flex gap-2 w-full"
         :icon="'ic:twotone-control-point-duplicate'" 
         title="just send it"
         description="i cant decide"
         @click="amethyst.player.playRandomTrack()"
       />
-      <settings-category
+      <big-button
         class="flex gap-2 w-full"
         :icon="'ic:twotone-favorite'" 
         title="favorites"
         description="view your favorite saved songs"
       />
-      <settings-category
+      <big-button
         class="flex gap-2 w-1/2"
         :icon="'ic:twotone-list'" 
         title="just send it"
         description="i cant decide"
       />
-      <settings-category
+      <big-button
         class="flex gap-2"
         :icon="'ic:twotone-plus'" 
         title="just send it"
