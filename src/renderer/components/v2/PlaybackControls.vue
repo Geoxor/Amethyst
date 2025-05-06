@@ -18,6 +18,7 @@ import { Icon } from "@iconify/vue";
 import { secondsToColinHuman } from "@shared/formating";
 import { LoadStatus } from "@shared/types";
 import DraggableModifierInput from "../input/DraggableModifierInput.vue";
+import SpectrogramAnalyzer from "@/components/visualizers/SpectrogramAnalyzer.vue";
 
 let lastVolumeBeforeMute = amethyst.player.volume.value;
 
@@ -268,6 +269,7 @@ const editMeterContextMenuOption = (name :string) => [{
 
     <div
       v-if="amethyst.state.settings.value.metering.spectrum.show"
+      :key="amethyst.player.nodeManager.getNodeConnectionsString()"
       :class="[!amethyst.state.settings.value.metering.vectorscope.show && 'max-w-304px']"
       class="flex pointer-events-auto overflow-hidden items-center h-16 gap-2 rounded-8px transition w-full min-w-180px max-w-240px bg-playback-controls-background hide"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
@@ -277,16 +279,23 @@ const editMeterContextMenuOption = (name :string) => [{
       @click="amethyst.state.showBigSpectrum.value = true"
     >
       <spectrum-analyzer
-        :key="amethyst.player.nodeManager.getNodeConnectionsString()"
+        v-if="amethyst.state.settings.value.metering.spectrogram.show"
         :node="amethyst.player.nodeManager.master.pre"
         :fft-size="amethyst.state.settings.value.metering.spectrum.fftSize"
         :smoothing="amethyst.state.settings.value.metering.spectrum.smoothing"
-        :spectrogram="amethyst.state.settings.value.metering.spectrogram.show"
         :accent-color="getThemeColor('--accent')"
         :paused="amethyst.shouldPauseVisualizers()"
         :line-thickness="amethyst.state.settings.value.metering.spectrum.lineThickness"
         :fill-opacity="amethyst.state.settings.value.metering.spectrum.fillOpacity"
         :opacity-falloff="amethyst.state.settings.value.metering.spectrum.opacityFalloff"
+      />
+      <spectrogram-analyzer
+        v-else
+        :node="amethyst.player.nodeManager.master.pre"
+        :accent-color="getThemeColor('--accent')"
+        :fft-size="amethyst.state.settings.value.metering.spectrogram.fftSize"
+        :smoothing="amethyst.state.settings.value.metering.spectrogram.smoothing"
+        :paused="amethyst.shouldPauseVisualizers()"
       />
     </div>
     <!-- Spacer to keep the middle dock centered  -->

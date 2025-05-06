@@ -4,7 +4,6 @@ import ShaderCanvas from "@/components/ShaderCanvas.vue";
 import {VISUALIZER_BIN_COUNT} from "@shared/constants";
 import * as THREE from "three";
 import { watch } from "vue";
-import {SpectrogramShader} from "@/shaders/components/SpectrogramShader";
 import {SpectrumShader} from "@/shaders/components/SpectrumShader";
 import { amethyst } from "@/amethyst";
 import { getThemeColorRgb } from "@/logic/color";
@@ -17,7 +16,6 @@ const props = defineProps<{
   lineThickness: number,
   fillOpacity: number,
   opacityFalloff: number,
-  spectrogram?: boolean,
   paused?: boolean,
 }>();
 
@@ -71,15 +69,13 @@ const render = (uniforms: Record<string, any>) => {
   analyser.getByteFrequencyData(spectrum);
   uniforms.u_amplitudes.value = logParabolicSpectrum(spectrum, VISUALIZER_BIN_COUNT);
 };
-
-const getShader = () => props.spectrogram ? SpectrogramShader : SpectrumShader;
 </script>
 
 <template>
   <div class="relative overflow-hidden w-full h-full rounded-4px">
     <shader-canvas
       class="origin-top-left absolute"
-      :frag-shader="getShader()"
+      :frag-shader="SpectrumShader"
       :analyser="analyser"
       :pause-rendering="paused"
       :uniforms="uniformData"

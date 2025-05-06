@@ -14,6 +14,7 @@ import { getThemeColor } from "@/logic/color";
 import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
 import { onMounted, onUnmounted, ref, watch } from "vue";
+import SpectrogramAnalyzer from "@/components/visualizers/SpectrogramAnalyzer.vue";
 
 const ambientBackgroundImage = ref("");
 
@@ -44,16 +45,24 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
     @click="amethyst.state.showBigSpectrum.value = false"
   >
     <spectrum-analyzer
+      v-if="amethyst.state.settings.value.metering.spectrogram.show"
       key="big-spectrum-analyzer"
       :node="amethyst.player.nodeManager.master.pre"
       :fft-size="amethyst.state.settings.value.metering.spectrum.fftSize"
       :smoothing="amethyst.state.settings.value.metering.spectrum.smoothing"
-      :spectrogram="amethyst.state.settings.value.metering.spectrogram.show"
       :accent-color="getThemeColor('--accent')"
       :paused="amethyst.shouldPauseVisualizers()"
       :line-thickness="amethyst.state.settings.value.metering.spectrum.lineThickness"
       :fill-opacity="amethyst.state.settings.value.metering.spectrum.fillOpacity"
       :opacity-falloff="amethyst.state.settings.value.metering.spectrum.opacityFalloff"
+    />
+    <spectrogram-analyzer
+      v-else
+      :node="amethyst.player.nodeManager.master.pre"
+      :accent-color="getThemeColor('--accent')"
+      :fft-size="amethyst.state.settings.value.metering.spectrogram.fftSize"
+      :smoothing="amethyst.state.settings.value.metering.spectrogram.smoothing"
+      :paused="amethyst.shouldPauseVisualizers()"
     />
   </div>
   <div
