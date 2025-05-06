@@ -60,6 +60,12 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
     delta > 0 ? amethyst.player.volumeDown(normalTuneStep) : amethyst.player.volumeUp(normalTuneStep);
 };
 
+const editMeterContextMenuOption = (name :string) => [{ 
+  title: `Edit ${name}`, 
+  icon: "ic:twotone-edit", 
+  action: () => router.push({ name: "settings.metering" }) 
+}];
+
 </script>
 
 <template>
@@ -71,7 +77,8 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       :class="[!amethyst.state.settings.value.oscilloscope.show && 'max-w-304px']"
       class="flex pointer-events-auto items-center h-16 gap-2 rounded-8px w-full min-w-180px max-w-240px bg-playback-controls-background hide p-2"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
-        { title: 'Hide', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.showLoudnessMeter = false },
+        { title: 'Hide loudness meter', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.showLoudnessMeter = false },
+        ...editMeterContextMenuOption('loudness meter')
       ]);"
     >
       <loudness-meter
@@ -90,7 +97,8 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       v-if="amethyst.state.settings.value.oscilloscope.show"
       class="flex pointer-events-auto overflow-hidden items-center justify-center h-16 gap-2 rounded-8px transition w-full min-w-64px max-w-64px bg-playback-controls-background"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
-        { title: 'Hide Oscilloscope', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.oscilloscope.show = false },
+        { title: 'Hide oscilloscope', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.oscilloscope.show = false },
+        ...editMeterContextMenuOption('oscilloscope')
       ]);"
     >
       <oscilloscope
@@ -245,7 +253,8 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       v-if="amethyst.state.settings.value.showVectorscope"
       class="flex pointer-events-auto overflow-hidden items-center justify-center h-16 gap-2 rounded-8px transition w-full min-w-64px max-w-64px bg-playback-controls-background"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
-        { title: 'Hide Vectorscope', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.showVectorscope = false },
+        { title: 'Hide vectorscope', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.showVectorscope = false },
+        ...editMeterContextMenuOption('vectorscope')
       ]);"
     >
       <vectorscope
@@ -262,7 +271,8 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       :class="[!amethyst.state.settings.value.showVectorscope && 'max-w-304px']"
       class="flex pointer-events-auto overflow-hidden items-center h-16 gap-2 rounded-8px transition w-full min-w-180px max-w-240px bg-playback-controls-background hide"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
-        { title: 'Hide', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.showSpectrum = false },
+        { title: 'Hide spectrum analyzer', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.showSpectrum = false },
+        ...editMeterContextMenuOption('spectrum analyzer')
       ]);"
       @click="amethyst.state.settings.value.showBigSpectrum = true"
     >
