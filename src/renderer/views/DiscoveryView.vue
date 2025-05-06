@@ -3,9 +3,9 @@ import { amethyst } from "@/amethyst";
 import DiscoveryFeed from "@/components/DiscoveryFeed.vue";
 import SettingsCategory from "@/components/settings/SettingsCategory.vue";
 import RouteHeader from "@/components/v2/RouteHeader.vue";
-import { onUnmounted } from "vue";
+import { onMounted } from "vue";
 
-onUnmounted(() => {
+onMounted(() => {
   amethyst.analytics.getDiscoveryTracks();
 });
 
@@ -15,6 +15,11 @@ onUnmounted(() => {
   <div class="flex flex-col h-full w-full py-2 px-4 gap-4 text-text_title">
     <route-header :title="$t('route.discovery')" />
     <div class="flex gap-2 mt-1">
+      <settings-category
+        class="flex gap-2"
+        :icon="'mdi:dice-5'" 
+        @click="amethyst.analytics.getDiscoveryTracks()"
+      />
       <settings-category
         class="flex gap-2 w-full"
         :icon="'ic:twotone-control-point-duplicate'" 
@@ -41,7 +46,7 @@ onUnmounted(() => {
         description="i cant decide"
       />
     </div>
-    <div class="flex flex-col overflow-y-auto pb-32 h-full">
+    <div class="flex flex-col overflow-y-auto pb-32 gap-2 h-full">
       <discovery-feed
         :title="$t('discovery.for_you.title')"
         :subtitle="$t('discovery.for_you.description')"

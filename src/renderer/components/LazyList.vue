@@ -46,6 +46,7 @@ const handleTrackContextMenu = ({x, y}: MouseEvent, track: Track) => {
   useContextMenu().open({x, y}, [
     { title: "Play", icon: "ic:round-play-arrow", action: () => amethyst.player.play(track) },
     { title: "Inspect", icon: "mdi:flask", action: () => useInspector().inspectAndShow(track) },
+    { title: "Favorite", icon: "ic:twotone-favorite", action: () => track.toggleFavorite() },
     { title: "Encode to .dfpwm...", icon: "ic:twotone-qr-code", action: async () => {
       saveArrayBufferToFile(
         await convertDfpwm(await track.getArrayBuffer()), 

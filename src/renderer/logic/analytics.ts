@@ -84,7 +84,7 @@ export class Analytics {
       if (it.isFavorited && !this.tracksBasedOnFavorites.value.includes(it)) this.tracksBasedOnFavorites.value.push(it);  
     });
 
-    this.tracksBasedOnFavorites.value = fisherYatesShuffle(this.tracksBasedOnFavorites.value).slice(0, 10);
+    this.tracksBasedOnFavorites.value = this.tracksBasedOnFavorites.value.slice(0, 10).sort((a, b) => this.trackAnalytics.value[a.uuid!]?.playCount > this.trackAnalytics.value[b.uuid!]?.playCount ? 1 : -1);;
     this.tracksBasedOnGenres.value = fisherYatesShuffle(this.tracksBasedOnGenres.value).slice(0, 10);
     this.tracksBasedOnRandom.value = fisherYatesShuffle(this.amethyst.player.queue.getList()).slice(0, 10);
   }

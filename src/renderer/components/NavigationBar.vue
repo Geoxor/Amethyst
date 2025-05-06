@@ -11,7 +11,7 @@ import NavigationButton from "@/components/NavigationButton.vue";
     />
 
     <navigation-button
-      icon="ic:twotone-navigation"
+      icon="mdi:compass"
       route-name="discovery"
     />
           
