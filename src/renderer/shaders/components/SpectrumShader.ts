@@ -23,10 +23,8 @@ export const SpectrumShader = `
     
     if(abs(dist) <= u_line_thickness) {
       a = 1.0;
-    } else {
-      // Rescaled uv.y under curve (0.0 for bottom to 1.0 to amplitude)
-      float dy = (1.0 - (1.0 - amplitude + uv.y)) / amplitude;
-      a = interpolate(1.0, u_fill_opacity, interpolate(1.0, dy, u_opacity_falloff));
+    } else if(dist > 0.0) {
+      a = interpolate(1.0, u_fill_opacity, pow(1.0 - uv.y, 1.0 - u_opacity_falloff));
     }
     gl_FragColor = vec4(u_color * a, a);
   }
