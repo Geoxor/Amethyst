@@ -62,25 +62,45 @@ export class Analytics {
     // 🍌🍌🍌🍌
     tracks = tracks.sort((a, b) => this.trackAnalytics.value[a.uuid!].playCount > this.trackAnalytics.value[b.uuid!].playCount ? 1 : -1);
 
-    for (const track of tracks) {
-      this.amethyst.player.queue.getList().forEach(it => {
-        if (!it || !track) return;
+    const genres: string[] = [];
+    const genreCounts: Record<string, number> = {};
 
-        if (track.getGenre() != null) {
-          track.getGenre()?.forEach(genre => {
-            if (it.getGenre()?.includes(genre) &&
-              // make sure there is only one track per album
-              !this.tracksBasedOnGenres.value.find(t => t.getAlbum() === it.getAlbum()) &&
-              // make sure we don't duplicate tracks
-              !this.tracksBasedOnGenres.value.includes(it) &&
-              // check if the track is unplayed (unplayed tracks don't have an entry on the analytics)
-              this.trackAnalytics.value[it.uuid!] == null) // <-- btw there is ")" here
-              // Add the track
-              this.tracksBasedOnGenres.value.push(it);
-          });
-        }
-      });
+    for (const track of tracks) {
+      if (!track) continue;
+      if (track.getGenre() != null) {
+        track.getGenre().forEach(genre => {
+          if (!genres.includes(genre)) genres.push(genre);
+          genreCounts[genre] = (genreCounts[genre] || 0) + 1;
+        });
+      }
     }
+
+    const total = Object.values(genreCounts).reduce((a, b) => a + b, 0);
+    const genreWeights: Record<string, number> = {};
+    for (const genre in genreCounts) {
+      genreWeights[genre] = genreCounts[genre] / total;
+    }
+
+    const averageWeight = Object.values(genreWeights).reduce((a, b) => a + b, 0) / Object.keys(genreWeights).length;
+    const genreScoreThreshold = averageWeight * 1.0;
+
+    this.amethyst.player.queue.getList().forEach(it => {
+      if (!it) return;
+
+      const trackGenres = it.getGenre();
+      if (!trackGenres) return;
+
+      const score = trackGenres.reduce((sum, genre) => sum + (genreWeights[genre] || 0), 0);
+      if (score < genreScoreThreshold) return;
+
+      if (trackGenres.some(genre => genres.includes(genre)) &&
+        !this.tracksBasedOnGenres.value.find(t => t.getAlbum() === it.getAlbum()) &&
+        !this.tracksBasedOnGenres.value.includes(it) &&
+        this.trackAnalytics.value[it.uuid!] == null) {
+        this.tracksBasedOnGenres.value.push(it);
+      }
+    });
+
 
     this.amethyst.player.queue.getList().forEach(it => {
       if (it.isFavorited && !this.tracksBasedOnFavorites.value.includes(it)) this.tracksBasedOnFavorites.value.push(it);  
