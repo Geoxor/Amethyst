@@ -49,7 +49,9 @@
 
   "settings.appearance.title": "Appearance",
   "settings.appearance.description": "Background, themes and accessibility",
-  
+  "settings.cover_based_colors.title": "Dynamic colors",
+  "settings.cover_based_colors.description": "This will make the main accent colors based on the cover art of the currently playing song",
+
   "settings.performance.title": "Performance",
   "settings.performance.description": "VSync, animations and rendering",
   "settings.performance.minimum_framerate": "Minimum framerate",

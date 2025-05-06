@@ -84,8 +84,10 @@ export class State extends EventEmitter<StateEvents> {
 			document.documentElement.style.setProperty("--font-weight", `${(FONT_WEIGHTS.indexOf(newValue) + 1) * 100}`);
 		});
 
-		watch(() => this.settings.value.appearance.theme, () => {
+		watch(() => this.settings.value.appearance.theme, newThemeName => {
 			this.applyCurrentTheme();
+			this.emit("theme:change", newThemeName);
 		});
+
 	}
 }

@@ -48,27 +48,39 @@ const {appearance} = amethyst.state.settings.value;
       :options="AVAILABLE_THEMES"
     />
     <template #subsettings>
-      <div class="flex gap-2 p-4">
-        <amethyst-dark-skeleton
-          class="theme-skeleton cursor-pointer"
-          :class="[appearance.theme === 'amethyst-dark' && 'active']"
-          @click="appearance.theme = 'amethyst-dark' "
-        />
-        <emerald-dark-skeleton
-          class="theme-skeleton cursor-pointer"
-          :class="[appearance.theme === 'emerald-dark' && 'active']"
-          @click="appearance.theme = 'emerald-dark'"
-        />
-        <onyx-dark-skeleton
-          class="theme-skeleton cursor-pointer"
-          :class="[appearance.theme === 'onyx-dark' && 'active']"
-          @click="appearance.theme = 'onyx-dark'"
-        />
-        <sapphire-dark-skeleton
-          class="theme-skeleton cursor-pointer"
-          :class="[appearance.theme === 'sapphire-dark' && 'active']"
-          @click="appearance.theme = 'sapphire-dark'"
-        />
+      <div class="p-2 flex flex-col gap-2">
+        <div class="flex gap-2 px-2">
+          <amethyst-dark-skeleton
+            class="theme-skeleton cursor-pointer"
+            :class="[appearance.theme === 'amethyst-dark' && 'active']"
+            @click="appearance.theme = 'amethyst-dark' "
+          />
+          <emerald-dark-skeleton
+            class="theme-skeleton cursor-pointer"
+            :class="[appearance.theme === 'emerald-dark' && 'active']"
+            @click="appearance.theme = 'emerald-dark'"
+          />
+          <onyx-dark-skeleton
+            class="theme-skeleton cursor-pointer"
+            :class="[appearance.theme === 'onyx-dark' && 'active']"
+            @click="appearance.theme = 'onyx-dark'"
+          />
+          <sapphire-dark-skeleton
+            class="theme-skeleton cursor-pointer"
+            :class="[appearance.theme === 'sapphire-dark' && 'active']"
+            @click="appearance.theme = 'sapphire-dark'"
+          />
+        </div>
+        <settings-setting
+          subsetting
+          :title="$t('settings.cover_based_colors.title')"
+          :description="$t('settings.cover_based_colors.description')"
+          icon="ic:twotone-palette"
+        >
+          <toggle-switch
+            v-model="appearance.coverBasedColors" 
+          />
+        </settings-setting>
       </div>
     </template>
   </settings-setting>
