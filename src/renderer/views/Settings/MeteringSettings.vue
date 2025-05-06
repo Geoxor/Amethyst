@@ -176,6 +176,49 @@ const {metering} = amethyst.state.settings.value;
           />
         </settings-setting>
         <settings-setting
+          subsetting
+          :title="$t('settings.spectrum_analyzer.line_thickness.title')"
+          :description="$t('settings.spectrum_analyzer.line_thickness.description')"
+          icon="ic:twotone-line-weight"
+        >
+          <slider-input
+              v-model="metering.spectrum.lineThickness"
+              :min="0.5"
+              :max="5"
+              :step="0.5"
+              suffix="px"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.spectrum_analyzer.fill_opacity.title')"
+          :description="$t('settings.spectrum_analyzer.fill_opacity.description')"
+          icon="ic:twotone-opacity"
+        >
+          <slider-input
+            v-model="metering.spectrum.fillOpacity"
+            :min="0"
+            :max="1"
+            :step="0.05"
+            suffix="%"
+          />
+        </settings-setting>
+        <settings-setting
+            subsetting
+            :title="$t('settings.spectrum_analyzer.opacity_falloff.title')"
+            :description="$t('settings.spectrum_analyzer.opacity_falloff.description')"
+            icon="ic:twotone-gradient"
+        >
+          <slider-input
+              v-model="metering.spectrum.opacityFalloff"
+              :min="0"
+              :max="5"
+              :step="0.1"
+              suffix="edf"
+          />
+          <!-- EDF = Exponential Distance Falloff (had to put something into suffix I guess xD) -->
+        </settings-setting>
+        <settings-setting
           :title="$t('settings.spectrogram_analyzer.title')"
           icon="ic:baseline-water"
           subsetting

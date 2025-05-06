@@ -96,7 +96,10 @@ const DEFAULT_METERING_SETTINGS = {
     spectrum: {
       show: true,
       smoothing: 0.5,
-      fftSize: 8192
+      fftSize: 8192,
+      lineThickness: 2,
+      fillOpacity: 1,
+      opacityFalloff: 0,
     },
     decibelMeter: {
       minimumDb: -60,
