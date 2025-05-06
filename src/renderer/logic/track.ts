@@ -167,7 +167,7 @@ export class Track {
               const response = await (await fetch(`https://coverartarchive.org/release/${release.id}`)).json();
               for (const cover of response["images"]) {
                 if (cover["front"]) {
-                  this.albumUrl = cover["image"].replace("http://", "https://");
+                  this.albumUrl = cover["thumbnails"]["large"].replace("http://", "https://");
                   return;
                 }
               }
