@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {logParabolicSpectrum, normalize8bit} from "@/logic/math";
+import {normalize8bit} from "@/logic/math";
 import ShaderCanvas from "@/components/ShaderCanvas.vue";
 import * as THREE from "three";
 import { watch } from "vue";
@@ -18,19 +18,15 @@ const props = defineProps<{
 
 const context = props.node.context;
 const analyser = context.createAnalyser();
+analyser.fftSize = props.fftSize;
+analyser.smoothingTimeConstant = props.smoothing;
 
 props.node.connect(analyser);
 
 let shader = SpectrumBarShader(props.bars);
 
-const updateAnalyser = () => {
-  analyser.fftSize = props.fftSize;
-  analyser.smoothingTimeConstant = props.smoothing;
-};
-
-updateAnalyser();
-
-watch(() => [props.fftSize, props.smoothing], updateAnalyser);
+watch(() => props.smoothing, () => analyser.smoothingTimeConstant = props.smoothing);
+watch(() => props.fftSize, () => analyser.fftSize = props.fftSize);
 watch(() => amethyst.state.settings.value.appearance.theme, () => {
   setTimeout(() => {
     const accentColor = getThemeColorRgb("--accent");
@@ -44,7 +40,7 @@ watch(() => amethyst.state.settings.value.appearance.theme, () => {
 watch(() => props.bars, () => {
   shader = SpectrumBarShader(props.bars);
   uniformData.u_amplitudes.value = new Float32Array(props.bars);
-})
+});
 
 // Don't change these
 analyser.maxDecibels = -0;
@@ -60,9 +56,13 @@ const uniformData = {
 };
 
 const render = (uniforms: Record<string, any>) => {
-  const spectrum = new Uint8Array(analyser.frequencyBinCount);
-  analyser.getByteFrequencyData(spectrum);
-  uniforms.u_amplitudes.value = logParabolicSpectrum(spectrum, props.bars);
+  const spectrum = new Float32Array(analyser.frequencyBinCount);
+  analyser.getFloatFrequencyData(spectrum);
+  const floatSpectrum = new Float32Array(props.bars);
+  for (let i = 0; i < props.bars; i++) {
+    floatSpectrum[i] = spectrum[Math.round(i * (spectrum.length / floatSpectrum.length))];
+  }
+  uniforms.u_amplitudes.value = floatSpectrum;
 };
 </script>
 
