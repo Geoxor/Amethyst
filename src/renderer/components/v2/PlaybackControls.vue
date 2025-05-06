@@ -252,8 +252,8 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
         v-if="amethyst.state.settings.value.showVectorscope && amethyst.player.source"
         :key="amethyst.player.nodeManager.getNodeConnectionsString()"
         :node="amethyst.player.nodeManager.master.pre"
-        :width="48"
-        :height="48"
+        :width="64"
+        :height="64"
       />
     </div>
 

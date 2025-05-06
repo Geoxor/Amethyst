@@ -2,7 +2,6 @@
 import { amethyst } from "@/amethyst";
 import { getThemeColorHex } from "@/logic/color";
 import { onMounted, onUnmounted, watch } from "vue";
-import {VISUALIZER_BIN_COUNT} from "@shared/constants";
 
 const props = defineProps<{ node: AudioNode, width: number, height: number }>();
 const randomId = Date.now();
@@ -14,13 +13,13 @@ onMounted(() => {
   const oscilloscope = document.querySelector(`#oscilloscope-${randomId}`) as HTMLCanvasElement;
   canvas = oscilloscope.getContext("2d")!;
 
-  let strokeStyle = `${getThemeColorHex("--accent")}99`;
+  let strokeStyle = `${getThemeColorHex("--accent")}`;
   canvas.strokeStyle = strokeStyle;
 
   watch(() => amethyst.state.settings.value.theme, () => {
     // watch detects the change before the theme has actually been applied
     setTimeout(() => {
-      strokeStyle = `${getThemeColorHex("--accent")}99`;
+      strokeStyle = `${getThemeColorHex("--accent")}`;
     }, 100);
   });
 

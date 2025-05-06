@@ -97,6 +97,6 @@ onUnmounted(() => shouldStopRendering = true);
 
 <style scoped lang="postcss">
 .lissajous {
-	@apply rotate-45 scale-75 rounded-4px;
+	@apply rotate-45 scale-70;
 }
 </style>
