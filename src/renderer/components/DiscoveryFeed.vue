@@ -7,12 +7,12 @@ const props = defineProps<{title: string, subtitle: string, tracks: Track[]}>();
 </script>
 
 <template>
-  <div class="flex gap-2 flex-col ">
+  <div class="flex gap-2 flex-col pr-2">
     <title-subtitle
       :title="title"
       :subtitle="subtitle"
     />
-    <section class="flex gap-2 w-full overflow-x-auto p-2 ">
+    <section class="flex gap-2 overflow-x-auto p-2">
       <track-card
         v-for="track of tracks"
         :key="track.path"

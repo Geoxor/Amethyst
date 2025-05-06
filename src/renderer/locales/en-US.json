@@ -7,7 +7,7 @@
   "discovery.for_you.title": "For you",
   "discovery.for_you.description": "Songs you have not heard yet",
   "discovery.favorites.title": "Favorites",
-  "discovery.favorites.description": "A random selection of songs you've favorited",
+  "discovery.favorites.description": "The top most played favorite songs",
   "discovery.random.title": "Random",
   "discovery.random.description": "A selection of random songs",
 
