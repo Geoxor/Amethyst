@@ -1,14 +1,17 @@
 <script setup lang="ts">
 import type { Track } from "@/logic/track";
 import TrackCard from "./TrackCard.vue";
-import TitleText from "./v2/TitleText.vue";
+import TitleSubtitle from "./v2/TitleSubtitle.vue";
 
-const props = defineProps<{title: string, tracks: Track[]}>();
+const props = defineProps<{title: string, subtitle: string, tracks: Track[]}>();
 </script>
 
 <template>
   <div class="flex gap-2 flex-col ">
-    <title-text :text="title" />
+    <title-subtitle
+      :title="title"
+      :subtitle="subtitle"
+    />
     <section class="flex gap-2 w-full overflow-x-auto p-2 ">
       <track-card
         v-for="track of tracks"

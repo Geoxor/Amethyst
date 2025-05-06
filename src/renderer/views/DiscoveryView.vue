@@ -41,7 +41,8 @@ onUnmounted(() => {
       />
     </div>
     <discovery-feed
-      title="Unplayed"
+      :title="$t('discovery.for_you.title')"
+      :subtitle="$t('discovery.for_you.description')"
       :tracks="amethyst.analytics.discoveryTracks.value"
     />
   </div>

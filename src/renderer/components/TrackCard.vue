@@ -37,7 +37,7 @@ defineProps<{track: Track}>();
       </div>
     </span>
     <title-subtitle
-      class="text-center "
+      class="text-center max-w-32 overflow-hidden overflow-ellipsis"
       :title="track.getTitleFormatted()"
       :subtitle="track.getArtistsFormatted()"
     />
