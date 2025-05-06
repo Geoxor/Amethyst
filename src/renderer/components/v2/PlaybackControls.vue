@@ -9,9 +9,9 @@ import ResizableDiv from "@/components/ResizableDiv";
 import OutputDiagram from "@/components/v2/OutputDiagram.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import LoudnessMeter from "@/components/visualizers/LoudnessMeter.vue";
+import Oscilloscope from "@/components/visualizers/OscilloscopeAnalyzer.vue";
 import SpectrumAnalyzer from "@/components/visualizers/SpectrumAnalyzer.vue";
 import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
-import Oscilloscope from "@/components/visualizers/OscilloscopeAnalyzer.vue";
 import { getThemeColor } from "@/logic/color";
 import { router } from "@/router";
 import { Icon } from "@iconify/vue";
@@ -64,7 +64,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
 
 <template>
   <div
-    class="absolute pointer-events-none bottom-4 flex justify-center px-4 gap-2 w-full left-1/2 transform-gpu -translate-x-1/2 z-30 text-playback-controls-text"
+    class="absolute filter drop-shadow-xl pointer-events-none bottom-4 flex justify-center px-4 gap-2 w-full left-1/2 transform-gpu -translate-x-1/2 z-30 text-playback-controls-text"
   >
     <div
       v-if="amethyst.state.settings.value.showLoudnessMeter"
@@ -90,7 +90,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       v-if="amethyst.state.settings.value.oscilloscope.show"
       class="flex pointer-events-auto overflow-hidden items-center justify-center h-16 gap-2 rounded-8px transition w-full min-w-64px max-w-64px bg-playback-controls-background"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
-          { title: 'Hide Oscilloscope', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.oscilloscope.show = false },
+        { title: 'Hide Oscilloscope', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.oscilloscope.show = false },
       ]);"
     >
       <oscilloscope
@@ -245,8 +245,8 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
       v-if="amethyst.state.settings.value.showVectorscope"
       class="flex pointer-events-auto overflow-hidden items-center justify-center h-16 gap-2 rounded-8px transition w-full min-w-64px max-w-64px bg-playback-controls-background"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
-          { title: 'Hide Vectorscope', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.showVectorscope = false },
-        ]);"
+        { title: 'Hide Vectorscope', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.showVectorscope = false },
+      ]);"
     >
       <vectorscope
         v-if="amethyst.state.settings.value.showVectorscope && amethyst.player.source"
