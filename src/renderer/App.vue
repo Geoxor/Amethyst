@@ -10,7 +10,7 @@ import TopBar from "@/components/TopBar.vue";
 import PlaybackControls from "@/components/v2/PlaybackControls.vue";
 import SpectrumAnalyzer from "@/components/visualizers/SpectrumAnalyzer.vue";
 import { AmethystIcon } from "@/icons";
-import { getThemeColor } from "@/logic/color";
+import { getThemeColor, getThemeColorRgb } from "@/logic/color";
 import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
 import { Vibrant } from "node-vibrant/browser";
@@ -24,6 +24,7 @@ const setAmbientCover = async (track: Track) => {
     .catch(() => ambientBackgroundImage.value = "");
 };
 const setDynamicColors = async (track: Track) => {
+  if (!amethyst.state.settings.value.appearance.coverBasedColors) return;
   const coverBase64 = track.getCover();
   if (!coverBase64) return;
   
@@ -38,6 +39,22 @@ const setDynamicColors = async (track: Track) => {
 
   amethyst.state.emit("theme:change", "");
 };
+
+let originalAccentColor = getThemeColorRgb("--accent");
+let originalPrimaryColor = getThemeColorRgb("--primary");
+
+watch(() => amethyst.state.settings.value.appearance.coverBasedColors, enabled => {
+  if (enabled) {
+    const currentTrack = amethyst.player.getCurrentTrack();
+    if (!currentTrack) return;
+    setDynamicColors(currentTrack);
+  } else {
+    document.documentElement.style.setProperty("--accent", originalAccentColor.join(", "));
+    document.documentElement.style.setProperty("--primary", originalPrimaryColor.join(", "));
+    amethyst.state.emit("theme:change", "");
+  }
+});
+
 onMounted(() => {
   amethyst.player.on("play", track => {
     setAmbientCover(track);
@@ -51,12 +68,6 @@ onUnmounted(() => {
 
 watch(() => amethyst.state.showBigSpectrum.value, () => {
   amethyst.performWindowAction("fullscreen");
-});
-
-watch(() => amethyst.state.settings.value.appearance.coverBasedColors, () => {
-  const currentTrack = amethyst.player.getCurrentTrack();
-  if (!currentTrack) return;
-  setDynamicColors(currentTrack);
 });
 
 </script>
