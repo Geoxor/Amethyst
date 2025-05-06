@@ -17,7 +17,7 @@ defineProps<{track: Track}>();
     <span class="relative overflow-hidden rounded-8px transition-all duration-100 transform-gpu hover:scale-110">
       <h1
         v-if="amethyst.analytics.getPlayCount(track)"
-        class="absolute top-0 right-0 min-w-4 text-12px text-center p-1 rounded-bl-8px bg-accent text-black"
+        class="absolute top-0 right-0 min-w-4 text-12px text-center p-1 z-5 rounded-bl-8px bg-accent text-black"
       >{{ amethyst.analytics.getPlayCount(track) }}</h1>
 
       <template v-if="amethyst.player.getCurrentTrack() == track">

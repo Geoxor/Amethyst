@@ -9,6 +9,8 @@ interface TrackAnalytics {
   playCount: number;
 }
 
+const DISCOVERY_ITEMS_COUNT = 20;
+
 export class Analytics {
   public trackAnalytics = useLocalStorage<Record<string, TrackAnalytics>>("trackAnalytics", {});
   public tracksBasedOnGenres: Ref<Track[]> = ref([]);
@@ -84,9 +86,9 @@ export class Analytics {
       if (it.isFavorited && !this.tracksBasedOnFavorites.value.includes(it)) this.tracksBasedOnFavorites.value.push(it);  
     });
 
-    this.tracksBasedOnFavorites.value = this.tracksBasedOnFavorites.value.sort((a, b) => this.trackAnalytics.value[a.uuid!]?.playCount < this.trackAnalytics.value[b.uuid!]?.playCount ? 1 : -1).slice(0, 10);
-    this.tracksBasedOnGenres.value = fisherYatesShuffle(this.tracksBasedOnGenres.value).slice(0, 10);
-    this.tracksBasedOnRandom.value = fisherYatesShuffle(this.amethyst.player.queue.getList()).slice(0, 10);
+    this.tracksBasedOnFavorites.value = this.tracksBasedOnFavorites.value.sort((a, b) => this.trackAnalytics.value[a.uuid!]?.playCount < this.trackAnalytics.value[b.uuid!]?.playCount ? 1 : -1).slice(0, DISCOVERY_ITEMS_COUNT);
+    this.tracksBasedOnGenres.value = fisherYatesShuffle(this.tracksBasedOnGenres.value).slice(0, DISCOVERY_ITEMS_COUNT);
+    this.tracksBasedOnRandom.value = fisherYatesShuffle(this.amethyst.player.queue.getList()).slice(0, DISCOVERY_ITEMS_COUNT);
   }
 
   public getPlayCount(track: Track): number {
