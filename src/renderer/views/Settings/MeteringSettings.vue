@@ -19,7 +19,10 @@ import { FFT_SIZES } from "@shared/constants";
     :description="$t('settings.decibel_meter.description')"
   >
     <toggle-switch v-model="amethyst.state.settings.value.showDbMeter" />
-    <template #subsettings>
+    <template
+      v-if="amethyst.state.settings.value.showDbMeter" 
+      #subsettings
+    >
       <div class="p-2 flex flex-col gap-2">
         <settings-setting
           subsetting
@@ -90,7 +93,10 @@ import { FFT_SIZES } from "@shared/constants";
     :description="$t('settings.vectorscope.description')"
   >
     <toggle-switch v-model="amethyst.state.settings.value.showVectorscope" />
-    <template #subsettings>
+    <template
+      v-if="amethyst.state.settings.value.showVectorscope"
+      #subsettings 
+    >
       <div class="p-2 flex flex-col gap-2">
         <settings-setting
           subsetting
@@ -138,7 +144,10 @@ import { FFT_SIZES } from "@shared/constants";
     :description="$t('settings.spectrum_analyzer.description')"
   >
     <toggle-switch v-model="amethyst.state.settings.value.showSpectrum" />
-    <template #subsettings>
+    <template
+      v-if="amethyst.state.settings.value.showSpectrum" 
+      #subsettings
+    >
       <div class="p-2 flex flex-col gap-2">
         <settings-setting
           subsetting
@@ -204,57 +213,60 @@ import { FFT_SIZES } from "@shared/constants";
             </div>
           </template>
         </settings-setting>
+      </div>
+    </template>
+  </settings-setting>
+
+  <settings-setting
+    :title="$t('settings.oscilloscope_analyzer.title')"
+    icon="mdi:sawtooth-wave"
+    :description="$t('settings.oscilloscope_analyzer.description')"
+  >
+    <toggle-switch v-model="amethyst.state.settings.value.oscilloscope.show" />
+    <template
+      v-if="amethyst.state.settings.value.oscilloscope.show"
+      #subsettings
+    >
+      <div class="p-2 flex flex-col gap-2">
         <settings-setting
-          :title="$t('settings.oscilloscope_analyzer.title')"
-          icon="mdi:sawtooth-wave"
           subsetting
-          :description="$t('settings.oscilloscope_analyzer.description')"
+          :title="$t('settings.smoothing_duration.title')"
+          :description="$t('settings.smoothing_duration.description')"
+          icon="ic:twotone-access-time"
         >
-          <toggle-switch v-model="amethyst.state.settings.value.oscilloscope.show" />
-          <template #subsettings>
-            <div class="p-2 flex flex-col gap-2">
-              <settings-setting
-                subsetting
-                :title="$t('settings.smoothing_duration.title')"
-                :description="$t('settings.smoothing_duration.description')"
-                icon="ic:twotone-access-time"
-              >
-                <slider-input
-                  v-model="amethyst.state.settings.value.oscilloscope.smoothing"
-                  :min="0"
-                  :max="1"
-                  :step="0.01"
-                  suffix="ms"
-                />
-              </settings-setting>
-              <settings-setting
-                subsetting
-                :title="$t('settings.line_thickness.title')"
-                :description="$t('settings.line_thickness.description')"
-                icon="ic:twotone-drive-file-rename-outline"
-              >
-                <slider-input
-                  v-model="amethyst.state.settings.value.oscilloscope.lineThickness"
-                  :min="0.1"
-                  :max="10"
-                  :step="1"
-                  suffix="px"
-                />
-              </settings-setting>
-              <settings-setting
-                subsetting
-                :title="$t('settings.fft_size.title')"
-                :description="$t('settings.fft_size.description')"
-                icon="ic:twotone-line-style"
-              >
-                <dropdown-input
-                  v-model="amethyst.state.settings.value.oscilloscope.fftSize"
-                  :options="FFT_SIZES"
-                  suffix="smp"
-                />
-              </settings-setting>
-            </div>
-          </template>
+          <slider-input
+            v-model="amethyst.state.settings.value.oscilloscope.smoothing"
+            :min="0"
+            :max="1"
+            :step="0.01"
+            suffix="ms"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.line_thickness.title')"
+          :description="$t('settings.line_thickness.description')"
+          icon="ic:twotone-drive-file-rename-outline"
+        >
+          <slider-input
+            v-model="amethyst.state.settings.value.oscilloscope.lineThickness"
+            :min="0.1"
+            :max="10"
+            :step="1"
+            suffix="px"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.fft_size.title')"
+          :description="$t('settings.fft_size.description')"
+          icon="ic:twotone-line-style"
+        >
+          <dropdown-input
+            v-model="amethyst.state.settings.value.oscilloscope.fftSize"
+            :options="FFT_SIZES"
+            suffix="smp"
+          />
         </settings-setting>
       </div>
     </template>
