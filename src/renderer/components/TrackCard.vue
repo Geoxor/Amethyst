@@ -1,17 +1,39 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
+import { getThemeColorHex } from "@/logic/color";
 import { trackContextMenuOptions, type Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
+import { Vibrant } from "node-vibrant/browser";
+import { onMounted, ref } from "vue";
 import { useContextMenu } from "./ContextMenu";
 import CoverArt from "./CoverArt.vue";
 import TitleSubtitle from "./v2/TitleSubtitle.vue";
 
-defineProps<{track: Track}>();
+const props = defineProps<{track: Track}>();
+
+const color = ref("");
 
 const handleTrackContextMenu = ({x, y}: MouseEvent, track: Track) => {
   useContextMenu().open({x, y}, trackContextMenuOptions(track));
+
 };
 
+const setDynamicColors = async (track: Track) => {
+  const coverBase64 = track.getCover();
+  if (!coverBase64) return getThemeColorHex("--accent");
+  
+  const palette = await Vibrant.from(coverBase64).getPalette();
+  if (!palette.LightVibrant) return getThemeColorHex("--accent");
+
+  return palette.LightVibrant.hex;
+};
+
+onMounted(() => {
+  color.value = getThemeColorHex("--accent");
+  setDynamicColors(props. track).then(newColor => {
+    color.value = newColor;
+  });
+});
 </script>
 
 <template>
@@ -23,8 +45,15 @@ const handleTrackContextMenu = ({x, y}: MouseEvent, track: Track) => {
     <span class="relative overflow-hidden rounded-8px transition-all duration-100 transform-gpu hover:scale-110">
       <h1
         v-if="amethyst.analytics.getPlayCount(track)"
-        class="absolute top-0 right-0 min-w-4 text-12px text-center p-1 z-5 rounded-bl-8px bg-accent text-black"
-      >{{ amethyst.analytics.getPlayCount(track) }}</h1>
+        class="absolute flex items-center gap-0.5 top-0 font-weight-user-defined right-0 min-w-4 text-12px text-center p-1 z-5 rounded-bl-8px  text-black"
+        :class="[`bg-[${color}]`]"
+      >
+      
+        <icon
+          icon="ic:twotone-refresh"
+          class="w-4 h-4"
+        />
+        {{ amethyst.analytics.getPlayCount(track) }}</h1>
 
       <template v-if="amethyst.player.getCurrentTrack() == track">
         <icon
