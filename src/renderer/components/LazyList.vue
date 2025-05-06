@@ -614,9 +614,9 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
           >
             <icon
               icon="ic:baseline-favorite-border"
-              class="h-4 w-4"
+              class="h-4 w-4 cursor-pointer hover:text-text_title"
               :class="[item.isFavorited && 'text-alert-color']"
-              @click="item.toggleFavorite()"
+              @click.stop="item.toggleFavorite()"
             />
           </div>
           <div
