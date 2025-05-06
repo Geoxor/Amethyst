@@ -63,6 +63,7 @@ export class State extends EventEmitter<StateEvents> {
 
 		// Load from persistance
 		document.documentElement.style.setProperty("--transition-duration", `${this.settings.value.appearance.animationDuration}ms`);
+		document.documentElement.style.setProperty("--smoothing-duration", `${this.settings.value.metering.decibelMeter.smoothingDuration}ms`);
 		document.documentElement.style.setProperty("--font-weight", `${(FONT_WEIGHTS.indexOf(this.settings.value.appearance.fontWeight) + 1) * 100}`);
 
     window.electron.ipcRenderer.invoke<RtAudioDeviceInfo[]>("get-realtime-devices").then(devices => {
@@ -78,6 +79,10 @@ export class State extends EventEmitter<StateEvents> {
 		// Update css when state changes
 		watch(() => this.settings.value.appearance.animationDuration, newValue => {
 			document.documentElement.style.setProperty("--transition-duration", `${newValue}ms`);
+		});
+
+		watch(() => this.settings.value.metering.decibelMeter.smoothingDuration, newValue => {
+			document.documentElement.style.setProperty("--smoothing-duration", `${newValue}ms`);
 		});
 
 		watch(() => this.settings.value.appearance.fontWeight, newValue => {
