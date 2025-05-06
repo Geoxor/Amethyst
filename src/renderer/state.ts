@@ -30,10 +30,16 @@ export class State extends EventEmitter<StateEvents> {
 	});
 
 	public defaultSettings = {
-		spectrogram: {
+		oscilloscope: {
 			show: true,
 			smoothing: 0.5,
 			fftSize: 8192,
+			lineThickness: 1
+		},
+		spectrogram: {
+			show: true,
+			smoothing: 0.5,
+			fftSize: 8192
 		},
 		shader: {
 			use: false,

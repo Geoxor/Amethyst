@@ -6,6 +6,8 @@ import * as THREE from "three";
 import { watch } from "vue";
 import {SpectrogramShader} from "@/shaders/components/SpectrogramShader";
 import {SpectrumShader} from "@/shaders/components/SpectrumShader";
+import { amethyst } from "@/amethyst";
+import { getThemeColorRgb } from "@/logic/color";
 
 const props = defineProps<{
   node: AudioNode,
@@ -29,12 +31,15 @@ const updateAnalyser = () => {
 updateAnalyser();
 
 watch(() => [props.fftSize, props.smoothing], updateAnalyser);
-watch(() => props.accentColor, () => {
-  uniformData.u_color.value.set(
-    normalize8bit(props.accentColor.r),
-    normalize8bit(props.accentColor.g),
-    normalize8bit(props.accentColor.b)
-  );
+watch(() => amethyst.state.settings.value.theme, () => {
+  setTimeout(() => {
+    const accentColor = getThemeColorRgb("--accent");
+    uniformData.u_color.value.set(
+      normalize8bit(accentColor[0]),
+      normalize8bit(accentColor[1]),
+      normalize8bit(accentColor[2])
+    );
+  }, 100);
 });
 
 // Don't change these

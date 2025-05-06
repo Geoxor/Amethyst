@@ -11,6 +11,7 @@ import DbMeter from "@/components/visualizers/DbMeter.vue";
 import LoudnessMeter from "@/components/visualizers/LoudnessMeter.vue";
 import SpectrumAnalyzer from "@/components/visualizers/SpectrumAnalyzer.vue";
 import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
+import Oscilloscope from "@/components/visualizers/OscilloscopeAnalyzer.vue";
 import { getThemeColor } from "@/logic/color";
 import { router } from "@/router";
 import { Icon } from "@iconify/vue";
@@ -67,7 +68,8 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
   >
     <div
       v-if="amethyst.state.settings.value.showLoudnessMeter"
-      class="flex pointer-events-auto p-2 items-center h-16 gap-2 rounded-8px w-full min-w-120px max-w-240px  bg-playback-controls-background"
+      :class="[!amethyst.state.settings.value.oscilloscope.show && 'max-w-304px']"
+      class="flex pointer-events-auto items-center h-16 gap-2 rounded-8px w-full min-w-180px max-w-240px bg-playback-controls-background hide p-2"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
         { title: 'Hide', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.showLoudnessMeter = false },
       ]);"
@@ -80,28 +82,47 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
     <!-- Spacer to keep the middle dock centered  -->
     <div
       v-else
-      class="w-0 xl:w-full max-w-240px select-none"
+      :class="[!amethyst.state.settings.value.oscilloscope.show && 'max-w-304px']"
+      class="flex pointer-events-auto p-2 items-center h-16 gap-2 w-full xl:w-full max-w-180px select-none"
     />
+
+    <div
+      v-if="amethyst.state.settings.value.oscilloscope.show"
+      class="flex pointer-events-auto overflow-hidden items-center justify-center h-16 gap-2 rounded-8px transition w-full min-w-64px max-w-64px bg-playback-controls-background"
+      @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
+          { title: 'Hide Oscilloscope', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.oscilloscope.show = false },
+      ]);"
+    >
+      <oscilloscope
+        v-if="amethyst.state.settings.value.oscilloscope.show && amethyst.player.source"
+        :key="amethyst.player.nodeManager.getNodeConnectionsString()"
+        :node="amethyst.player.nodeManager.master.pre"
+        :width="64"
+        :height="64"
+      />
+    </div>
 
     <resizable-div
       name="playback-controls"
       side="centerVertical"
       :handles-visible="false"
-      default-size="960px"
-      class="relative rounded-8px min-w-680px max-w-960px  pointer-events-auto bg-playback-controls-background"
+      default-size="940px"
+      class="relative rounded-8px min-w-660px max-w-940px  pointer-events-auto bg-playback-controls-background"
     >
       <div class="flex items-center h-16 gap-2 p-2 w-full">
-        <div 
-          v-if="amethyst.state.settings.value.showOutputDiagram"
-          class="flex gap-4 flex-col w-full bg-playback-controls-background absolute bottom-50px p-4 pb-8 rounded-8px -z-5 left-0 "
-        >
-          <icon
-            icon="ic:twotone-close"
-            class="utilityButton absolute top-3 right-3 cursor-pointer"
-            @click="amethyst.state.settings.value.showOutputDiagram = false"
-          />
-          <output-diagram />
-        </div>
+        <Transition name="slide">
+          <div 
+            v-if="amethyst.state.settings.value.showOutputDiagram"
+            class="flex gap-4 overflow-hidden items-center flex-col h-48 w-full bg-playback-controls-background absolute bottom-40px rounded-8px -z-5 left-0"
+          >
+            <icon
+              icon="ic:twotone-keyboard-double-arrow-down"
+              class="utilityButton cursor-pointer absolute mt-3"
+              @click="amethyst.state.settings.value.showOutputDiagram = !amethyst.state.settings.value.showOutputDiagram"
+            />
+            <output-diagram class="p-4" />
+          </div>
+        </Transition>
         <slider
           id="seek"
           key="seek"
@@ -173,7 +194,7 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
         />
         <icon
           icon="mdi:information-slab-box-outline"
-          class="utilityButton"
+          class="utilityButton transition-all"
           :class="[
             amethyst.state.settings.value.showOutputDiagram && 'text-accent'
           ]"
@@ -218,25 +239,32 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
           @input="amethyst.player.setVolume(amethyst.player.volume.value)"
           @wheel.passive="handleVolumeMouseScroll"
         />
-        <vectorscope
-          v-if="amethyst.state.settings.value.showVectorscope && amethyst.player.source"
-          :key="amethyst.player.nodeManager.getNodeConnectionsString()"
-          :node="amethyst.player.nodeManager.master.pre"
-          :width="48"
-          :height="48"
-          @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
-            { title: 'Hide Vectorscope', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.showVectorscope = false },
-          ]);"
-        />
       </div>
     </resizable-div>
     <div
+      v-if="amethyst.state.settings.value.showVectorscope"
+      class="flex pointer-events-auto overflow-hidden items-center justify-center h-16 gap-2 rounded-8px transition w-full min-w-64px max-w-64px bg-playback-controls-background"
+      @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
+          { title: 'Hide Vectorscope', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.showVectorscope = false },
+        ]);"
+    >
+      <vectorscope
+        v-if="amethyst.state.settings.value.showVectorscope && amethyst.player.source"
+        :key="amethyst.player.nodeManager.getNodeConnectionsString()"
+        :node="amethyst.player.nodeManager.master.pre"
+        :width="48"
+        :height="48"
+      />
+    </div>
+
+    <div
       v-if="amethyst.state.settings.value.showSpectrum"
-      class="flex pointer-events-auto overflow-hidden items-center h-16 gap-2 rounded-8px transition w-full min-w-80px max-w-240px  bg-playback-controls-background"
+      :class="[!amethyst.state.settings.value.showVectorscope && 'max-w-304px']"
+      class="flex pointer-events-auto overflow-hidden items-center h-16 gap-2 rounded-8px transition w-full min-w-180px max-w-240px bg-playback-controls-background hide"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
         { title: 'Hide', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.showSpectrum = false },
       ]);"
-      @click="amethyst.state.settings.value.showBigSpectrum = !amethyst.state.settings.value.showBigSpectrum"
+      @click="amethyst.state.settings.value.showBigSpectrum = true"
     >
       <spectrum-analyzer
         :key="amethyst.player.nodeManager.getNodeConnectionsString()"
@@ -251,7 +279,8 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
     <!-- Spacer to keep the middle dock centered  -->
     <div
       v-else
-      class="w-0 xl:w-full max-w-240px select-none"
+      :class="[!amethyst.state.settings.value.showVectorscope && 'max-w-304px']"
+      class="flex pointer-events-auto p-2 items-center h-16 gap-2 w-full xl:w-full max-w-180px select-none"
     />
   </div>
 </template>
@@ -260,4 +289,24 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
 .utilityButton {
   @apply w-5 min-w-5 h-5 min-h-5 opacity-75 hover:opacity-100;
 }
+
+@media only screen and (max-width: 1200px) {
+  .hide {
+    @apply min-w-0px max-w-0px p-0;
+  }
+}
+
+.slide-enter-active {
+  transition: all 0.2s ease-out;
+}
+
+.slide-leave-active {
+  transition: all 0.2s ease-in;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  height: 0px;
+}
+
 </style>

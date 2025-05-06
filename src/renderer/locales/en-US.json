@@ -139,6 +139,12 @@
   "settings.fft_size.title": "FFT size",
   "settings.fft_size.description": "Changes the FFT window size, bigger values result in higher resolution data but with more latency",
 
+  "settings.line_thickness.title": "Line thickness",
+  "settings.line_thickness.description": "Changes how thick / obvious the lines are",
+
+  "settings.smoothing_duration.title" : "Smoothing duration",
+  "settings.smoothing_duration.description" : "Smoothly animate between data-frames (useful for smoothing small FFT sizes that create jitter)",
+
   "settings.decibel_meter.title": "Decibel meter",
   "settings.decibel_meter.description": "Displays the current sound level of the audio signal in a graph, where the y-axis represents the sound level in decibels (dB)",
   "settings.decibel_meter.separate_pre_post.title": "Separate PRE and POST",
@@ -155,15 +161,15 @@
   "settings.vectorscope.description": "Displays a visual representation of the stereo audio signal. It shows the relative phase and stereo width of the audio signal using a circular graph",
   "settings.vectorscope.lissajous.title": "Lissajous",
   "settings.vectorscope.lissajous.description": "Display diagonally in a Lissajous pattern",
-  "settings.vectorscope.line_thickness.title": "Line thickness",
-  "settings.vectorscope.line_thickness.description": "Changes how thick / obvious the lines are",
 
   "settings.spectrum_analyzer.title": "Spectrum analyzer",
   "settings.spectrum_analyzer.description": "Displays the frequency spectrum of the audio signal using a graph, where the x-axis represents the frequency range and the y-axis represents the amplitude",
+  
   "settings.spectrogram_analyzer.title": "Spectrogram mode",
   "settings.spectrogram_analyzer.description": "Displays the frequency spectrum of the audio signal over time. Low frequencies are displayed on the bottom while high frequencies are on the top",
-  "settings.spectrum_analyzer.smoothing_duration.title" : "Smoothing duration",
-  "settings.spectrum_analyzer.smoothing_duration.description" : "Smoothly animate between data-frames (useful for smoothing small FFT sizes that create jitter)",
+
+  "settings.oscilloscope_analyzer.title": "Oscilloscope analyzer",
+  "settings.oscilloscope_analyzer.description": "Displays the audio signal waveform, where the x-axis represents time and the y-axis represents amplitude",
 
   "settings.processing_concurrency.title": "Processing concurrency",
   "settings.processing_concurrency.description": "How many processing tasks will be used for parsing metadata in parallel",
