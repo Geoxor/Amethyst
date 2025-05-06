@@ -60,7 +60,15 @@ export class Track {
 
   private async fetchCache() {
     const data = await window.fs.readFile(this.getCachePath(true), "utf8");
-    return JSON.parse(data.trim());
+    try {
+      return await JSON.parse(data.trim());
+    } catch (error) {
+      if (error instanceof SyntaxError) {
+        console.log("Fixing malformed metadata cache file due to interruption during I/O operation");
+        await this.fetchAsyncData(true);
+        return null;
+      }
+    }
   }
 
   public async delete() {
