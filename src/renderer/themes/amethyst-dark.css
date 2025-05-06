@@ -9,9 +9,9 @@
 
   --settings-setting-background: 20, 22, 33;              /* #141621 */
   --settings-subsetting-background: 16, 17, 25;           /* #101119 */
-  --playback-controls-background: var(--surface-700);    /* #e9e5ff */
-  --playback-controls-text: var(--text-title);            /* #e9e5ff */
-  --slider-background: var(--surface-500);                /* #BCB8E5 */
+  --playback-controls-background: var(--surface-700);     
+  --playback-controls-text: var(--text-title);            
+  --slider-background: var(--surface-500);                
   --slider-fill: var(--accent);
 
   --surface-1000: 11, 13, 19;                             /* #0B0D13 */

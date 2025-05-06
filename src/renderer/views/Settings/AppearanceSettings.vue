@@ -98,7 +98,10 @@ const AVAILABLE_THEMES = [
     <toggle-switch
       v-model="amethyst.state.settings.value.showAmbientBackground" 
     />
-    <template #subsettings>
+    <template
+      v-if="amethyst.state.settings.value.showAmbientBackground"
+      #subsettings
+    >
       <div class="p-2 flex flex-col gap-2">
         <settings-setting
           subsetting
@@ -219,7 +222,10 @@ const AVAILABLE_THEMES = [
     <toggle-switch
       v-model="amethyst.state.settings.value.minimalistMode" 
     />
-    <template #subsettings>
+    <template
+      v-if="amethyst.state.settings.value.minimalistMode"
+      #subsettings 
+    >
       <div class="p-2 flex flex-col gap-2">
         <settings-setting
           subsetting
