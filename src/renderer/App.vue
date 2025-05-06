@@ -51,6 +51,9 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
       :spectrogram="amethyst.state.settings.value.metering.spectrogram.show"
       :accent-color="getThemeColor('--accent')"
       :paused="amethyst.shouldPauseVisualizers()"
+      :line-thickness="amethyst.state.settings.value.metering.spectrum.lineThickness"
+      :fill-opacity="amethyst.state.settings.value.metering.spectrum.fillOpacity"
+      :opacity-falloff="amethyst.state.settings.value.metering.spectrum.opacityFalloff"
     />
   </div>
   <div

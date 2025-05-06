@@ -14,6 +14,9 @@ const props = defineProps<{
   accentColor: { r: number, g: number, b: number},
   fftSize: number,
   smoothing: number,
+  lineThickness: number,
+  fillOpacity: number,
+  opacityFalloff: number,
   spectrogram?: boolean,
   paused?: boolean,
 }>();
@@ -40,6 +43,11 @@ watch(() => amethyst.state.settings.value.theme, () => {
       normalize8bit(accentColor[2])
     );
   }, 100);
+});
+watch(() => [props.lineThickness, props.fillOpacity, props.opacityFalloff], () => {
+  uniformData.u_line_thickness.value = props.lineThickness;
+  uniformData.u_fill_opacity.value = props.fillOpacity;
+  uniformData.u_opacity_falloff.value = props.opacityFalloff;
 });
 
 // Don't change these

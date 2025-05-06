@@ -179,6 +179,9 @@ const FILTER_TYPES = [
         :smoothing="amethyst.state.settings.value.metering.spectrum.smoothing"
         :accent-color="getThemeColor('--accent')"
         :paused="amethyst.shouldPauseVisualizers()"
+        :line-thickness="amethyst.state.settings.value.metering.spectrum.lineThickness"
+        :fill-opacity="amethyst.state.settings.value.metering.spectrum.fillOpacity"
+        :opacity-falloff="amethyst.state.settings.value.metering.spectrum.opacityFalloff"
       />
       <div class="absolute top-0 left-0 right-0">
         <spectrum-analyzer
@@ -188,6 +191,9 @@ const FILTER_TYPES = [
           :smoothing="amethyst.state.settings.value.metering.spectrum.smoothing"
           :accent-color="getThemeColor('--accent')"
           :paused="amethyst.shouldPauseVisualizers()"
+          :line-thickness="amethyst.state.settings.value.metering.spectrum.lineThickness"
+          :fill-opacity="amethyst.state.settings.value.metering.spectrum.fillOpacity"
+          :opacity-falloff="amethyst.state.settings.value.metering.spectrum.opacityFalloff"
         />
       </div>
       <canvas

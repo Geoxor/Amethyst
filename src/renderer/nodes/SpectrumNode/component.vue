@@ -20,6 +20,9 @@ defineProps<{ node: AmethystSpectrumNode }>();
       :smoothing="amethyst.state.settings.value.metering.spectrum.smoothing"
       :accent-color="getThemeColor('--accent')"
       :paused="amethyst.shouldPauseVisualizers()"
+      :line-thickness="amethyst.state.settings.value.metering.spectrum.lineThickness"
+      :fill-opacity="amethyst.state.settings.value.metering.spectrum.fillOpacity"
+      :opacity-falloff="amethyst.state.settings.value.metering.spectrum.opacityFalloff"
     />
   </custom-node>
 </template>
