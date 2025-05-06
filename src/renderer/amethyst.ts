@@ -475,6 +475,7 @@ export class Amethyst extends AmethystBackend {
   };
 
   public resetSettings = () => {
+    localStorage.removeItem("settings");
 		Object.keys(this.state.defaultSettings).forEach(key => {
       // @ts-ignore
       this.state.settings.value[key] = this.state.defaultSettings[key];
