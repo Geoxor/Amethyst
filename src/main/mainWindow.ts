@@ -264,7 +264,7 @@ export class MainWindow {
 
 			"open-folder-dialog": async () => {
 				return dialog.showOpenDialog({
-					properties: ["openDirectory"],
+					properties: ["openDirectory", "multiSelections"],
 				});
 				// return {canceled: false, filePaths: await this.loadFolder(result.filePaths[0], filter) };
 			},

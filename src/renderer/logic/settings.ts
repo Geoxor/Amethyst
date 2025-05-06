@@ -131,7 +131,7 @@ const DEFAULT_INTEGRATION_SETTINGS = {
 
 const DEFAULT_MEDIA_SOURCE_SETTINGS = {
   mediaSources: {
-    saveMediaSources: [{}] as {type: MediaSourceType, path: string}[],
+    saveMediaSources: [{}] as {type: MediaSourceType, path: string, uuid: string}[],
   }
 };
 
