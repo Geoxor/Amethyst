@@ -34,9 +34,8 @@ const setDynamicColors = async (track: Track) => {
   const newAccentColor = `${palette.Vibrant?.r}, ${palette.Vibrant?.g}, ${palette.Vibrant?.b}`;
   const newPrimaryColor = `${palette.LightMuted?.r}, ${palette.LightMuted?.g}, ${palette.LightMuted?.b}`;
 
-  document.body.style.setProperty("--accent", newAccentColor);
-  document.body.style.setProperty("--primary", newPrimaryColor);
- 
+  document.documentElement.style.setProperty("--accent", newAccentColor);
+  document.documentElement.style.setProperty("--primary", newPrimaryColor);
   amethyst.state.emit("theme:change", "");
 };
 
@@ -46,8 +45,8 @@ watch(() => amethyst.state.settings.value.appearance.coverBasedColors, enabled =
     if (!currentTrack) return;
     setDynamicColors(currentTrack);
   } else {
-    document.body.style.removeProperty("--accent");
-    document.body.style.removeProperty("--primary");
+    document.documentElement.style.removeProperty("--accent");
+    document.documentElement.style.removeProperty("--primary");
     amethyst.state.emit("theme:change", "");
   }
 });
