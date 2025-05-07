@@ -80,6 +80,7 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
   >
     <spectrum-analyzer-composite
       key="big-spectrum-analyzer"
+      :node="amethyst.player.nodeManager.master.pre"
       :type="amethyst.state.settings.value.metering.spectrum.type"
     />
   </div>

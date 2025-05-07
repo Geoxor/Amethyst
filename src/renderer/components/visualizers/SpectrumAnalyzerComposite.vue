@@ -7,6 +7,7 @@ import SpectrogramAnalyzer from "@/components/visualizers/SpectrogramAnalyzer.vu
 import {SPECTRUM_TYPES_STRING} from "@/logic/settings";
 
 defineProps<{
+  node: AudioNode,
   type: SPECTRUM_TYPES_STRING
 }>();
 
@@ -15,7 +16,7 @@ defineProps<{
 <template>
   <spectrum-analyzer
     v-if="type === 'line'"
-    :node="amethyst.player.nodeManager.master.pre"
+    :node="node"
     :accent-color="getThemeColor('--accent')"
     :fft-size="amethyst.state.settings.value.metering.spectrum.fftSize"
     :smoothing="amethyst.state.settings.value.metering.spectrum.smoothing"
@@ -26,7 +27,7 @@ defineProps<{
   />
   <spectrum-bar-analyzer
     v-else-if="type === 'bars'"
-    :node="amethyst.player.nodeManager.master.pre"
+    :node="node"
     :accent-color="getThemeColor('--accent')"
     :fft-size="amethyst.state.settings.value.metering.spectrumBars.fftSize"
     :smoothing="amethyst.state.settings.value.metering.spectrumBars.smoothing"
@@ -35,7 +36,7 @@ defineProps<{
   />
   <spectrogram-analyzer
     v-else-if="type === 'spectrogram'"
-    :node="amethyst.player.nodeManager.master.pre"
+    :node="node"
     :accent-color="getThemeColor('--accent')"
     :fft-size="amethyst.state.settings.value.metering.spectrogram.fftSize"
     :smoothing="amethyst.state.settings.value.metering.spectrogram.smoothing"

@@ -277,6 +277,7 @@ const editMeterContextMenuOption = (name :string) => [{
       @click="amethyst.state.showBigSpectrum.value = true"
     >
       <spectrum-analyzer-composite
+        :node="amethyst.player.nodeManager.master.pre"
         :type="amethyst.state.settings.value.metering.spectrum.type"
       />
     </div>
