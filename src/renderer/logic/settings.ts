@@ -97,14 +97,11 @@ const DEFAULT_METERING_SETTINGS = {
       fftSize: 512,
       lineThickness: 1
     },
-    spectrogram: {
-      show: true,
-      smoothing: 0.5,
-      fftSize: 8192
-    },
     spectrum: {
       show: true,
       type: "line" as SPECTRUM_TYPES_STRING,
+    },
+    spectrumLine: {
       smoothing: 0.5,
       fftSize: 8192,
       lineThickness: 2,
@@ -116,6 +113,11 @@ const DEFAULT_METERING_SETTINGS = {
       smoothing: 0.5,
       fftSize: 1024,
       bars: 64,
+    },
+    spectrogram: {
+      show: true,
+      smoothing: 0.5,
+      fftSize: 8192
     },
     decibelMeter: {
       minimumDb: -60,

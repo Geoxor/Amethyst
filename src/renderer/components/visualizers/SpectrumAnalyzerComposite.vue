@@ -18,11 +18,11 @@ defineProps<{
     v-if="type === 'line'"
     :node="node"
     :accent-color="getThemeColor('--accent')"
-    :fft-size="amethyst.state.settings.value.metering.spectrum.fftSize"
-    :smoothing="amethyst.state.settings.value.metering.spectrum.smoothing"
-    :line-thickness="amethyst.state.settings.value.metering.spectrum.lineThickness"
-    :fill-opacity="amethyst.state.settings.value.metering.spectrum.fillOpacity"
-    :opacity-falloff="amethyst.state.settings.value.metering.spectrum.opacityFalloff"
+    :fft-size="amethyst.state.settings.value.metering.spectrumLine.fftSize"
+    :smoothing="amethyst.state.settings.value.metering.spectrumLine.smoothing"
+    :line-thickness="amethyst.state.settings.value.metering.spectrumLine.lineThickness"
+    :fill-opacity="amethyst.state.settings.value.metering.spectrumLine.fillOpacity"
+    :opacity-falloff="amethyst.state.settings.value.metering.spectrumLine.opacityFalloff"
     :paused="amethyst.shouldPauseVisualizers()"
   />
   <spectrum-bar-analyzer

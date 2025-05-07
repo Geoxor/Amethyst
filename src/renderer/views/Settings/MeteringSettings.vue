@@ -156,7 +156,7 @@ const {metering} = amethyst.state.settings.value;
           icon="ic:twotone-access-time"
         >
           <slider-input
-            v-model="metering.spectrum.smoothing"
+            v-model="metering.spectrumLine.smoothing"
             :min="0"
             :max="1"
             :step="0.01"
@@ -170,7 +170,7 @@ const {metering} = amethyst.state.settings.value;
           icon="ic:twotone-line-style"
         >
           <dropdown-input
-            v-model="metering.spectrum.fftSize"
+            v-model="metering.spectrumLine.fftSize"
             :options="FFT_SIZES"
             suffix="smp"
           />
@@ -182,7 +182,7 @@ const {metering} = amethyst.state.settings.value;
           icon="ic:twotone-line-weight"
         >
           <slider-input
-              v-model="metering.spectrum.lineThickness"
+              v-model="metering.spectrumLine.lineThickness"
               :min="0.5"
               :max="5"
               :step="0.5"
@@ -196,7 +196,7 @@ const {metering} = amethyst.state.settings.value;
           icon="ic:twotone-opacity"
         >
           <slider-input
-            v-model="metering.spectrum.fillOpacity"
+            v-model="metering.spectrumLine.fillOpacity"
             :min="0"
             :max="1"
             :step="0.05"
@@ -210,7 +210,7 @@ const {metering} = amethyst.state.settings.value;
             icon="ic:twotone-gradient"
         >
           <slider-input
-              v-model="metering.spectrum.opacityFalloff"
+              v-model="metering.spectrumLine.opacityFalloff"
               :min="0"
               :max="1"
               :step="0.05"
