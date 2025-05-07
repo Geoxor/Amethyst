@@ -93,7 +93,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 <template>
   <div class="text-13px text-text_title min-h-0 h-full flex flex-col text-left relative select-none ">
     <div
-      class="flex text-left font-bold sticky top-0 z-10 bg-surface-900 py-2 px-2 columnHeader min-h-36px pr-5 overflow-x-hidden"
+      class="flex text-left font-bold sticky top-0 z-10 bg-surface-900 py-2 px-2 columnHeader min-h-36px pr-5"
       :class="[amethyst.player.queue.currentSortingDirection.value]"
       @contextmenu="handleColumnContextMenu($event)"
     >

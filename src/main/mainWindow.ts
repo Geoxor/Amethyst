@@ -358,12 +358,6 @@ export class MainWindow {
 				console.log(`Set store 'autoUpdatesEnabled' to ${autoUpdatesEnabled}`);
 			},
 
-			"set-language": (_: Event, [language]: string) => {
-				store.set("language", language);
-				
-				console.log(`Set language locale to ${language}`);
-			},
-
 			"clear-rich-presence": () => {
 				this.discord.clearRichPresence();
 			},
