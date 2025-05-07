@@ -8,14 +8,12 @@ import NavigationBar from "@/components/NavigationBar.vue";
 import NavigationButton from "@/components/NavigationButton.vue";
 import TopBar from "@/components/TopBar.vue";
 import PlaybackControls from "@/components/v2/PlaybackControls.vue";
-import SpectrumAnalyzer from "@/components/visualizers/SpectrumAnalyzer.vue";
 import { AmethystIcon } from "@/icons";
-import { getThemeColor } from "@/logic/color";
 import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
 import { Vibrant } from "node-vibrant/browser";
 import { onMounted, onUnmounted, ref, watch } from "vue";
-import SpectrogramAnalyzer from "@/components/visualizers/SpectrogramAnalyzer.vue";
+import SpectrumAnalyzerComposite from "@/components/visualizers/SpectrumAnalyzerComposite.vue";
 
 const ambientBackgroundImage = ref("");
 
@@ -80,25 +78,9 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
     class="absolute top-0 left-0 w-320px h-280px z-30 bg-surface-800 "
     @click="amethyst.state.showBigSpectrum.value = false"
   >
-    <spectrum-analyzer
-      v-if="amethyst.state.settings.value.metering.spectrogram.show"
+    <spectrum-analyzer-composite
       key="big-spectrum-analyzer"
-      :node="amethyst.player.nodeManager.master.pre"
-      :fft-size="amethyst.state.settings.value.metering.spectrum.fftSize"
-      :smoothing="amethyst.state.settings.value.metering.spectrum.smoothing"
-      :accent-color="getThemeColor('--accent')"
-      :paused="amethyst.shouldPauseVisualizers()"
-      :line-thickness="amethyst.state.settings.value.metering.spectrum.lineThickness"
-      :fill-opacity="amethyst.state.settings.value.metering.spectrum.fillOpacity"
-      :opacity-falloff="amethyst.state.settings.value.metering.spectrum.opacityFalloff"
-    />
-    <spectrogram-analyzer
-      v-else
-      :node="amethyst.player.nodeManager.master.pre"
-      :accent-color="getThemeColor('--accent')"
-      :fft-size="amethyst.state.settings.value.metering.spectrogram.fftSize"
-      :smoothing="amethyst.state.settings.value.metering.spectrogram.smoothing"
-      :paused="amethyst.shouldPauseVisualizers()"
+      :type="amethyst.state.settings.value.metering.spectrum.type"
     />
   </div>
   <div

@@ -27,6 +27,12 @@ export const AVAILABLE_THEMES = [
   "ruby-dark", // is missing css variables
 ];
 
+export const SPECTRUM_TYPES = [
+  "line",
+  "bars",
+  "spectrogram"
+];
+
 const DEFAULT_APPEARANCE_SETTINGS = {
   appearance: {
     animationDuration: 100,
@@ -96,6 +102,7 @@ const DEFAULT_METERING_SETTINGS = {
     },
     spectrum: {
       show: true,
+      type: "line" as "line" | "bars" | "spectrogram",
       smoothing: 0.5,
       fftSize: 8192,
       lineThickness: 2,
