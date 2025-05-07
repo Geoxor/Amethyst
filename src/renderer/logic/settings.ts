@@ -102,6 +102,12 @@ const DEFAULT_METERING_SETTINGS = {
       fillOpacity: 1,
       opacityFalloff: 0,
     },
+    spectrumBars: {
+      show: false,
+      smoothing: 0.5,
+      fftSize: 1024,
+      bars: 64,
+    },
     decibelMeter: {
       minimumDb: -60,
       separatePrePost: false,

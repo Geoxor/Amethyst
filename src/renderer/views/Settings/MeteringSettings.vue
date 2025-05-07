@@ -259,6 +259,61 @@ const {metering} = amethyst.state.settings.value;
             </div>
           </template>
         </settings-setting>
+        <settings-setting
+            subsetting
+            :title="$t('settings.spectrum_bars_analyzer.title')"
+            :description="$t('settings.spectrum_bars_analyzer.description')"
+            icon="ic:twotone-align-vertical-center"
+        >
+          <toggle-switch v-model="metering.spectrumBars.show" />
+          <template
+              v-if="metering.spectrumBars.show"
+              #subsettings
+          >
+            <div class="p-2 flex flex-col gap-2">
+              <settings-setting
+                  subsetting
+                  :title="$t('settings.smoothing_duration.title')"
+                  :description="$t('settings.smoothing_duration.description')"
+                  icon="ic:twotone-access-time"
+              >
+                <slider-input
+                    v-model="metering.spectrumBars.smoothing"
+                    :min="0"
+                    :max="1"
+                    :step="0.01"
+                    suffix="ms"
+                />
+              </settings-setting>
+              <settings-setting
+                  subsetting
+                  :title="$t('settings.fft_size.title')"
+                  :description="$t('settings.fft_size.description')"
+                  icon="ic:twotone-line-style"
+              >
+                <dropdown-input
+                    v-model="metering.spectrumBars.fftSize"
+                    :options="FFT_SIZES"
+                    suffix="smp"
+                />
+              </settings-setting>
+              <settings-setting
+                  subsetting
+                  :title="$t('settings.spectrum_bars_analyzer.bars.title')"
+                  :description="$t('settings.spectrum_bars_analyzer.bars.description')"
+                  icon="ic:twotone-line-style"
+              >
+                <slider-input
+                v-model="metering.spectrumBars.bars"
+                :min="16"
+                :max="512"
+                :step="1"
+                suffix=""
+                />
+              </settings-setting>
+            </div>
+          </template>
+        </settings-setting>
       </div>
     </template>
   </settings-setting>

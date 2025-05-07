@@ -183,6 +183,11 @@
   
   "settings.spectrogram_analyzer.title": "Spectrogram mode",
   "settings.spectrogram_analyzer.description": "Displays the frequency spectrum of the audio signal over time. Low frequencies are displayed on the bottom while high frequencies are on the top",
+  
+  "settings.spectrum_bars_analyzer.title": "",
+  "settings.spectrum_bars_analyzer.description": "",
+  "settings.spectrum_bars_analyzer.bars.title": "",
+  "settings.spectrum_bars_analyzer.bars.description": "",
 
   "settings.oscilloscope_analyzer.title": "Oscilloscope analyzer",
   "settings.oscilloscope_analyzer.description": "Displays the audio signal waveform, where the x-axis represents time and the y-axis represents amplitude",
