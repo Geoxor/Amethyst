@@ -9,6 +9,7 @@ import DropdownInput from "@/components/v2/DropdownInput.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 import { FFT_SIZES } from "@shared/constants";
+import {SPECTRUM_TYPES} from "@/logic/settings";
 const {metering} = amethyst.state.settings.value;
 </script>
 
@@ -144,91 +145,104 @@ const {metering} = amethyst.state.settings.value;
     :description="$t('settings.spectrum_analyzer.description')"
   >
     <toggle-switch v-model="metering.spectrum.show" />
+    <dropdown-input
+      v-model="metering.spectrum.type"
+      :options="SPECTRUM_TYPES"
+    />
     <template
       v-if="metering.spectrum.show" 
       #subsettings
     >
       <div class="p-2 flex flex-col gap-2">
         <settings-setting
+          v-if="metering.spectrum.type == 'line'"
           subsetting
-          :title="$t('settings.smoothing_duration.title')"
-          :description="$t('settings.smoothing_duration.description')"
-          icon="ic:twotone-access-time"
+          :title="$t('settings.spectrum_line_analyzer.title')"
+          :description="$t('settings.spectrum_line_analyzer.description')"
+          icon="ic:twotone-align-vertical-center"
         >
-          <slider-input
-            v-model="metering.spectrumLine.smoothing"
-            :min="0"
-            :max="1"
-            :step="0.01"
-            suffix="ms"
-          />
+          <template #subsettings>
+            <div class="p-2 flex flex-col gap-2">
+              <settings-setting
+                subsetting
+                :title="$t('settings.smoothing_duration.title')"
+                :description="$t('settings.smoothing_duration.description')"
+                icon="ic:twotone-access-time"
+              >
+                <slider-input
+                  v-model="metering.spectrumLine.smoothing"
+                  :min="0"
+                  :max="1"
+                  :step="0.01"
+                  suffix="ms"
+                />
+              </settings-setting>
+              <settings-setting
+                subsetting
+                :title="$t('settings.fft_size.title')"
+                :description="$t('settings.fft_size.description')"
+                icon="ic:twotone-line-style"
+              >
+                <dropdown-input
+                  v-model="metering.spectrumLine.fftSize"
+                  :options="FFT_SIZES"
+                  suffix="smp"
+                />
+              </settings-setting>
+              <settings-setting
+                subsetting
+                :title="$t('settings.spectrum_line_analyzer.line_thickness.title')"
+                :description="$t('settings.spectrum_line_analyzer.line_thickness.description')"
+                icon="ic:twotone-line-weight"
+              >
+                <slider-input
+                  v-model="metering.spectrumLine.lineThickness"
+                  :min="0.5"
+                  :max="5"
+                  :step="0.5"
+                  suffix="px"
+                />
+              </settings-setting>
+              <settings-setting
+                subsetting
+                :title="$t('settings.spectrum_line_analyzer.fill_opacity.title')"
+                :description="$t('settings.spectrum_line_analyzer.fill_opacity.description')"
+                icon="ic:twotone-opacity"
+              >
+                <slider-input
+                  v-model="metering.spectrumLine.fillOpacity"
+                  :min="0"
+                  :max="1"
+                  :step="0.05"
+                  suffix="%"
+                />
+              </settings-setting>
+              <settings-setting
+                subsetting
+                :title="$t('settings.spectrum_line_analyzer.opacity_falloff.title')"
+                :description="$t('settings.spectrum_line_analyzer.opacity_falloff.description')"
+                icon="ic:twotone-gradient"
+              >
+                <slider-input
+                  v-model="metering.spectrumLine.opacityFalloff"
+                  :min="0"
+                  :max="1"
+                  :step="0.05"
+                  suffix="edf"
+                />
+                <!-- EDF = Exponential Distance Falloff (had to put something into suffix I guess xD) -->
+              </settings-setting>
+            </div>
+          </template>
         </settings-setting>
         <settings-setting
+          v-else-if="metering.spectrum.type == 'spectrogram'"
           subsetting
-          :title="$t('settings.fft_size.title')"
-          :description="$t('settings.fft_size.description')"
-          icon="ic:twotone-line-style"
-        >
-          <dropdown-input
-            v-model="metering.spectrumLine.fftSize"
-            :options="FFT_SIZES"
-            suffix="smp"
-          />
-        </settings-setting>
-        <settings-setting
-          subsetting
-          :title="$t('settings.spectrum_analyzer.line_thickness.title')"
-          :description="$t('settings.spectrum_analyzer.line_thickness.description')"
-          icon="ic:twotone-line-weight"
-        >
-          <slider-input
-              v-model="metering.spectrumLine.lineThickness"
-              :min="0.5"
-              :max="5"
-              :step="0.5"
-              suffix="px"
-          />
-        </settings-setting>
-        <settings-setting
-          subsetting
-          :title="$t('settings.spectrum_analyzer.fill_opacity.title')"
-          :description="$t('settings.spectrum_analyzer.fill_opacity.description')"
-          icon="ic:twotone-opacity"
-        >
-          <slider-input
-            v-model="metering.spectrumLine.fillOpacity"
-            :min="0"
-            :max="1"
-            :step="0.05"
-            suffix="%"
-          />
-        </settings-setting>
-        <settings-setting
-            subsetting
-            :title="$t('settings.spectrum_analyzer.opacity_falloff.title')"
-            :description="$t('settings.spectrum_analyzer.opacity_falloff.description')"
-            icon="ic:twotone-gradient"
-        >
-          <slider-input
-              v-model="metering.spectrumLine.opacityFalloff"
-              :min="0"
-              :max="1"
-              :step="0.05"
-              suffix="edf"
-          />
-          <!-- EDF = Exponential Distance Falloff (had to put something into suffix I guess xD) -->
-        </settings-setting>
-        <settings-setting
           :title="$t('settings.spectrogram_analyzer.title')"
           icon="ic:baseline-water"
-          subsetting
           :description="$t('settings.spectrogram_analyzer.description')"
         >
-          <toggle-switch v-model="metering.spectrogram.show" />
-          <template
-            v-if="metering.spectrogram.show" 
-            #subsettings
-          >
+          <template #subsettings>
             <div class="p-2 flex flex-col gap-2">
               <settings-setting
                 subsetting
@@ -260,14 +274,13 @@ const {metering} = amethyst.state.settings.value;
           </template>
         </settings-setting>
         <settings-setting
+          v-else-if="metering.spectrum.type == 'bars'"
             subsetting
             :title="$t('settings.spectrum_bars_analyzer.title')"
             :description="$t('settings.spectrum_bars_analyzer.description')"
             icon="ic:twotone-align-vertical-center"
         >
-          <toggle-switch v-model="metering.spectrumBars.show" />
           <template
-              v-if="metering.spectrumBars.show"
               #subsettings
           >
             <div class="p-2 flex flex-col gap-2">

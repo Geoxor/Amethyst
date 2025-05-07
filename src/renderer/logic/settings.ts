@@ -109,13 +109,11 @@ const DEFAULT_METERING_SETTINGS = {
       opacityFalloff: 0,
     },
     spectrumBars: {
-      show: false,
       smoothing: 0.5,
       fftSize: 1024,
       bars: 64,
     },
     spectrogram: {
-      show: true,
       smoothing: 0.5,
       fftSize: 8192
     },

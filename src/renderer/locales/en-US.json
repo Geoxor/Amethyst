@@ -174,12 +174,15 @@
 
   "settings.spectrum_analyzer.title": "Spectrum analyzer",
   "settings.spectrum_analyzer.description": "Displays the frequency spectrum of the audio signal using a graph, where the x-axis represents the frequency range and the y-axis represents the amplitude",
-  "settings.spectrum_analyzer.line_thickness.title": "Line thickness",
-  "settings.spectrum_analyzer.line_thickness.description": "Changes how thick the line in the spectrum analyzer appears",
-  "settings.spectrum_analyzer.fill_opacity.title": "Fill opacity",
-  "settings.spectrum_analyzer.fill_opacity.description": "Changes how opaque the area under the line appears",
-  "settings.spectrum_analyzer.opacity_falloff.title": "Fill opacity falloff",
-  "settings.spectrum_analyzer.opacity_falloff.description": "Changes how much the opacity falls off under the line towards the bottom",
+
+  "settings.spectrum_line_analyzer.title": "Spectrum Line Analyzer",
+  "settings.spectrum_line_analyzer.description": "Displays the frequency amplitudes in a long along the x-axis",
+  "settings.spectrum_line_analyzer.line_thickness.title": "Line thickness",
+  "settings.spectrum_line_analyzer.line_thickness.description": "Changes how thick the line in the spectrum analyzer appears",
+  "settings.spectrum_line_analyzer.fill_opacity.title": "Fill opacity",
+  "settings.spectrum_line_analyzer.fill_opacity.description": "Changes how opaque the area under the line appears",
+  "settings.spectrum_line_analyzer.opacity_falloff.title": "Fill opacity falloff",
+  "settings.spectrum_line_analyzer.opacity_falloff.description": "Changes how much the opacity falls off under the line towards the bottom",
   
   "settings.spectrogram_analyzer.title": "Spectrogram mode",
   "settings.spectrogram_analyzer.description": "Displays the frequency spectrum of the audio signal over time. Low frequencies are displayed on the bottom while high frequencies are on the top",
