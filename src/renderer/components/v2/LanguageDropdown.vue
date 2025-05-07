@@ -5,6 +5,9 @@ import { onClickOutside } from "@vueuse/core";
 import iso6391 from "iso-639-1";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
+const emit = defineEmits(["change"]);
+
+const localStorage = window.localStorage;
 
 const showLanguageDropdown = ref(false);
 const languageDropdown = ref(null);
@@ -32,6 +35,8 @@ const flagURL = (name: string) => {
     // @ts-ignore
   return new URL(`/icons/flags/${name}.svg`, import.meta.url).toString();
 };
+
+// here
 
 </script>
 
@@ -62,7 +67,7 @@ const flagURL = (name: string) => {
           class="flex items-center gap-2 py-2 px-4 flex w-full justify-start hover:bg-surface-400 font-weight-user-defined text-text_title rounded-6px"
           :value="lang"
           :class="$i18n.locale == lang && 'active'"
-          @click="$i18n.locale = lang; amethyst.state.settings.value.application.language = lang;"
+          @click="$i18n.locale = lang; amethyst.state.settings.value.application.language = lang; emit('change', lang); localStorage.setItem('settings', JSON.stringify(amethyst.state.settings.value))"
         >
           <img
             :src="flagURL(lang.split('-')[1].toLocaleLowerCase())"

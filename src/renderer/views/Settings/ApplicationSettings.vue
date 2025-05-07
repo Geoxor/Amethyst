@@ -13,6 +13,10 @@ const handleToggleAutostart = () => {
   window.electron.ipcRenderer.invoke("set-autostart", [application.autoStart]);
 };
 
+const handleLanguageChange = () => {
+  window.electron.ipcRenderer.invoke("set-language", [application.language]);
+};
+
 const {application} = amethyst.state.settings.value;
 
 </script>
@@ -46,7 +50,9 @@ const {application} = amethyst.state.settings.value;
     :title="$t('settings.language.title')"
     :description="$t('settings.language.description')"
   >
-    <language-dropdown />
+    <language-dropdown 
+      @change="handleLanguageChange"
+    />
   </settings-setting>
   <settings-setting
     icon="ic:twotone-file-upload"
