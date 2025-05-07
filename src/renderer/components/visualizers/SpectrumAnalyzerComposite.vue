@@ -4,9 +4,10 @@ import {amethyst} from "@/amethyst";
 import {getThemeColor} from "@/logic/color";
 import SpectrumBarAnalyzer from "@/components/visualizers/SpectrumBarAnalyzer.vue";
 import SpectrogramAnalyzer from "@/components/visualizers/SpectrogramAnalyzer.vue";
+import {SPECTRUM_TYPES_STRING} from "@/logic/settings";
 
 defineProps<{
-  type: "line" | "bars" | "spectrogram"
+  type: SPECTRUM_TYPES_STRING
 }>();
 
 </script>

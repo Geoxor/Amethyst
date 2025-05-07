@@ -33,6 +33,8 @@ export const SPECTRUM_TYPES = [
   "spectrogram"
 ];
 
+export type SPECTRUM_TYPES_STRING = "line" | "bars" | "spectrogram";
+
 const DEFAULT_APPEARANCE_SETTINGS = {
   appearance: {
     animationDuration: 100,
@@ -102,7 +104,7 @@ const DEFAULT_METERING_SETTINGS = {
     },
     spectrum: {
       show: true,
-      type: "line" as "line" | "bars" | "spectrogram",
+      type: "line" as SPECTRUM_TYPES_STRING,
       smoothing: 0.5,
       fftSize: 8192,
       lineThickness: 2,
