@@ -14,6 +14,7 @@ import HighShelfIcon from "@/icons/equalizer/HighShelfIcon.vue";
 import LowpassIcon from "@/icons/equalizer/LowpassIcon.vue";
 import LowShelfIcon from "@/icons/equalizer/LowShelfIcon.vue";
 import PeakIcon from "@/icons/equalizer/PeakIcon.vue";
+import SpectrumAnalyzerComposite from "@/components/visualizers/SpectrumAnalyzerComposite.vue";
 
 const props = defineProps<{ node: AmethystEightBandEqualizerNode }>();
 
@@ -172,28 +173,16 @@ const FILTER_TYPES = [
       </div>
     </div>
     <div class="relative w-full bg-surface-1000 rounded-4px">
-      <spectrum-analyzer
-        class="h-168px w-full opacity-25 "
+      <spectrum-analyzer-composite
+        class="h-168px w-full opacity-25"
+        type="line"
         :node="node.pre"
-        :fft-size="amethyst.state.settings.value.metering.spectrum.fftSize"
-        :smoothing="amethyst.state.settings.value.metering.spectrum.smoothing"
-        :accent-color="getThemeColor('--accent')"
-        :paused="amethyst.shouldPauseVisualizers()"
-        :line-thickness="amethyst.state.settings.value.metering.spectrum.lineThickness"
-        :fill-opacity="amethyst.state.settings.value.metering.spectrum.fillOpacity"
-        :opacity-falloff="amethyst.state.settings.value.metering.spectrum.opacityFalloff"
       />
       <div class="absolute top-0 left-0 right-0">
-        <spectrum-analyzer
+        <spectrum-analyzer-composite
           class="h-168px w-full"
           :node="node.post"
-          :fft-size="amethyst.state.settings.value.metering.spectrum.fftSize"
-          :smoothing="amethyst.state.settings.value.metering.spectrum.smoothing"
-          :accent-color="getThemeColor('--accent')"
-          :paused="amethyst.shouldPauseVisualizers()"
-          :line-thickness="amethyst.state.settings.value.metering.spectrum.lineThickness"
-          :fill-opacity="amethyst.state.settings.value.metering.spectrum.fillOpacity"
-          :opacity-falloff="amethyst.state.settings.value.metering.spectrum.opacityFalloff"
+          type="line"
         />
       </div>
       <canvas
