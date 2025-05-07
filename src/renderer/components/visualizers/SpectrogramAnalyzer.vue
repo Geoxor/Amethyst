@@ -29,7 +29,7 @@ const updateAnalyser = () => {
 updateAnalyser();
 
 watch(() => [props.fftSize, props.smoothing], updateAnalyser);
-watch(() => amethyst.state.settings.value.theme, () => {
+amethyst.state.on("theme:change", () => {
   setTimeout(() => {
     const accentColor = getThemeColorRgb("--accent");
     uniformData.u_color.value.set(
