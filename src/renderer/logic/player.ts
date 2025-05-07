@@ -2,13 +2,12 @@ import type { PossibleSortingMethods} from "@/logic/queue";
 import { Queue } from "@/logic/queue";
 import { Track } from "@/logic/track";
 import { useLocalStorage } from "@vueuse/core";
-import type { Ref} from "vue";
 import { ref, watch } from "vue";
 import { AmethystAudioNodeManager } from "./audioManager";
 import { EventEmitter } from "./eventEmitter";
 import { secondsToColinHuman, secondsToHuman } from "@shared/formating";
 import type { Amethyst } from "@/amethyst";
-import type { RtAudioDeviceInfo } from "audify";
+import "./analytics";
 
 export enum LoopMode {
 	None,
@@ -59,6 +58,10 @@ export class Player extends EventEmitter<{
 
     watch(() => this.pitchSemitones.value, newPitch => {this.setPlaybackSpeed(newPitch);});
   }
+
+  public playRandomTrack = () => {
+    this.amethyst.player.play(this.amethyst.player.queue.getList()[~~(Math.random() * this.amethyst.player.queue.getList().length)]);
+  };
 
   public setPlaybackSpeed(semitones: number) {
     function semitonesToPlaybackRate(semitones: number) {

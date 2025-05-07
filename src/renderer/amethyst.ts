@@ -16,6 +16,7 @@ import { createI18n } from "vue-i18n";
 import messages from "@intlify/unplugin-vue-i18n/messages";
 import { useLocalStorage } from "@vueuse/core";
 import type { Track } from "./logic/track";
+import { Analytics } from "./logic/analytics";
 
 export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale
@@ -225,6 +226,7 @@ export class Amethyst extends AmethystBackend {
   public shortcuts: Shortcuts = new Shortcuts();
   public mediaSession: MediaSession | undefined = this.getCurrentPlatform() === "desktop" ? new MediaSession(this.player) : undefined;
   public mediaSourceManager: MediaSourceManager = new MediaSourceManager(this);
+  public analytics = new Analytics(this);
 
   public constructor() {
     super();
@@ -248,7 +250,11 @@ export class Amethyst extends AmethystBackend {
       }));
       window.electron.ipcRenderer.on<(string)[]>("play-folder", paths => amethyst.player.queue.add(flattenArray(paths)));
   
-      this.state.settings.value.behavior.fetchMetadataOnStartup && setTimeout(() => this.player.queue.fetchAsyncData(), 1000);
+      this.state.settings.value.behavior.fetchMetadataOnStartup && setTimeout(async() => {
+        await this.player.queue.fetchAsyncData();
+        console.log("fetching data finished, refreshing discovery");
+        this.analytics.getDiscoveryTracks();
+      }, 1000);
     }
 
     if (this.getCurrentPlatform() === "mobile") {
@@ -318,7 +324,7 @@ export class Amethyst extends AmethystBackend {
           `${track.getArtistsFormatted()} -  ${track.getAlbum()}`,
           start.toString(),
           (track.getDurationSeconds() as number).toString(),
-          track.albumUrl,
+          track.coverUrl,
           track.metadata.data?.format.container?.toLowerCase() || "unknown format",
           isPaused ? "yes" : "no"
         ];
@@ -475,6 +481,7 @@ export class Amethyst extends AmethystBackend {
   };
 
   public resetSettings = () => {
+    localStorage.removeItem("settings");
 		Object.keys(this.state.defaultSettings).forEach(key => {
       // @ts-ignore
       this.state.settings.value[key] = this.state.defaultSettings[key];

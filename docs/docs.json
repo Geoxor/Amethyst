@@ -18,6 +18,7 @@
           {
             "group": "Get Started",
             "pages": [
+              "guides/showcase",
               "guides/installation",
               "guides/development",
               "guides/localization"

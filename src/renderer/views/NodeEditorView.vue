@@ -171,7 +171,7 @@ const handleOpenFile = async () => {
   const result = await amethyst.showOpenFileDialog({filters: [{name: "Amethyst Node Graph", extensions: ["ang"]}]});
   if (result.canceled) return;
   
-  fetch(result.filePaths[0])
+  fetch("file://" + result.filePaths[0])
     .then(response => response.blob())
     .then(blob => {
       return new Promise<ArrayBuffer>((resolve, reject) => {
@@ -185,7 +185,7 @@ const handleOpenFile = async () => {
       const jsonString = decoder.decode(buffer);
 
       // Use the loaded buffer
-      amethyst.player.nodeManager.loadGraph(JSON.parse(jsonString), result.filePaths[0]);
+      amethyst.player.nodeManager.loadGraph(JSON.parse(jsonString), "file://" + result.filePaths[0]);
 
       // Fixes volume resetting to 100% when loading a new graph
       amethyst.player.setVolume(amethyst.player.volume.value);

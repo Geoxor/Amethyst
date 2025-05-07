@@ -6,14 +6,36 @@ import * as mm from "music-metadata-browser";
 import FileSaver from "file-saver";
 import mime from "mime-types";
 import type { Amethyst } from "@/amethyst";
-import { favoriteTracks } from "@/amethyst";
+import { amethyst, favoriteTracks } from "@/amethyst";
 import { MusicBrainzApi } from "musicbrainz-api";
+import { saveArrayBufferToFile } from "./dom";
+import { convertDfpwm } from "./encoding";
+import { useInspector } from "@/components/Inspector";
 
 const mbApi = new MusicBrainzApi({
     appName: "Amethyst",
     appVersion: "2.0.7",
     appContactInfo: "todo@example.com",
 });
+
+export const trackContextMenuOptions = (track: Track) => ([
+  { title: "Play", icon: "ic:round-play-arrow", action: () => amethyst.player.play(track) },
+  { title: "Inspect", icon: "mdi:flask", action: () => useInspector().inspectAndShow(track) },
+  { title: "Favorite", icon: "ic:twotone-favorite", action: () => track.toggleFavorite() },
+  { title: "Encode to .dfpwm...", icon: "ic:twotone-qr-code", action: async () => {
+    saveArrayBufferToFile(
+      await convertDfpwm(await track.getArrayBuffer()), 
+      {
+        filename: track.getFilenameWithoutExtension(), 
+        extension: "dfpwm"
+    });
+  }},
+  { title: "Show in Explorer...", icon: "ic:twotone-pageview", action: () => amethyst.showItem(track.path) },
+  { title: "Export cover...", icon: "ic:twotone-add-photo-alternate", action: () => track.exportCover() },
+  { title: "Reload metadata", icon: "mdi:flask", action: () => track.fetchAsyncData(true) },
+  { title: "Remove from queue", icon: "ic:twotone-delete", red: true, action: () => amethyst.player.queue.remove(track) },
+  { title: "Delete from disk", icon: "ic:twotone-delete-forever", red: true, action: () => track.delete() },
+]);
 
 /**
  * Each playable audio file is an instance of this class
@@ -27,20 +49,25 @@ export class Track {
   public deleted: boolean = false;
   public isFavorited: boolean = false;
   public path: string;
-  public albumUrl: string;
+  public coverUrl: string = "";
+  public uuid: string | undefined;
 
   public constructor(private amethyst: Amethyst, public absolutePath: string) {
     this.path = absolutePath;
-    this.albumUrl = ""; // lateinit
-    this.isFavorited = favoriteTracks.value.includes(this.path);
+  }
+
+  private generateHash() {
+    this.uuid = window.md5(`${this.getArtistsFormatted()}, ${this.getAlbum()}, ${this.getTitle()}`);
+    this.isFavorited = favoriteTracks.value.includes(this.uuid);
   }
 
   public toggleFavorite() {
+    if (!this.isLoaded) return;
     this.isFavorited = !this.isFavorited;
     if (this.isFavorited) {
-      favoriteTracks.value.push(this.path);
+      favoriteTracks.value.push(this.uuid!);
     } else {
-      favoriteTracks.value.splice(favoriteTracks.value.indexOf(this.path), 1);
+      favoriteTracks.value.splice(favoriteTracks.value.indexOf(this.uuid!), 1);
     }
   }
 
@@ -59,7 +86,16 @@ export class Track {
   }
 
   private async fetchCache() {
-    return (JSON.parse(await window.fs.readFile(this.getCachePath(true), "utf-8")));
+    const data = await window.fs.readFile(this.getCachePath(true), "utf8");
+    try {
+      return await JSON.parse(data.trim());
+    } catch (error) {
+      if (error instanceof SyntaxError) {
+        console.log("Fixing malformed metadata cache file due to interruption during I/O operation");
+        await this.fetchAsyncData(true);
+        return null;
+      }
+    }
   }
 
   public async delete() {
@@ -113,16 +149,17 @@ export class Track {
   /**
    * Fetches the metadata for a given track
    */
-  private fetchMetadata = async (force = false) => {
+  private fetchMetadata = async (force = false, metadata: IMetadata | undefined) => {
     try {
-      if (!force && await this.isCached()) {
-        this.metadata.data = (await this.fetchCache()).metadata;
+      if (!force) {
+        this.metadata.data = metadata;
         this.metadata.state = LoadStatus.Loaded;
-        
+        this.generateHash();
         return this.metadata.data;
       }
       this.metadata.data = await this.readMetadata();
       this.metadata.state = LoadStatus.Loaded;
+      this.generateHash();
       return this.metadata.data;
     } catch (error) {
       console.log(error);
@@ -133,9 +170,9 @@ export class Track {
   /**
    * Fetches the resized cover art in base64
    */
-  private fetchCover = async (force = false) => {
-    if (!force && await this.isCached()) {
-      this.cover.data = (await this.fetchCache()).cover;
+  private fetchCover = async (force = false, cover: string) => {
+    if (!force) {
+      this.cover.data = cover;
       this.cover.state = LoadStatus.Loaded;
       return this.cover.data;
     }
@@ -146,7 +183,7 @@ export class Track {
   };
 
   public fetchAlbumCoverUrl = async () => {
-    if (this.albumUrl !== "") {
+    if (this.coverUrl !== "") {
       return;
     }
 
@@ -167,7 +204,7 @@ export class Track {
               const response = await (await fetch(`https://coverartarchive.org/release/${release.id}`)).json();
               for (const cover of response["images"]) {
                 if (cover["front"]) {
-                  this.albumUrl = cover["image"].replace("http://", "https://");
+                  this.coverUrl = cover["thumbnails"]["large"].replace("http://", "https://");
                   return;
                 }
               }
@@ -185,13 +222,21 @@ export class Track {
     this.isLoaded.value = false;
     this.isLoading.value = true;
 
-    const [cover, metadata] = await Promise.all([this.fetchCover(force), this.fetchMetadata(force)]);
+    const isCached = await this.isCached();
+    force = !isCached ? true : force;
+
+    let cachedData: any = {};
+    if (!force) {
+      cachedData = await this.fetchCache();
+    }
+
+    const [cover, metadata] = await Promise.all([this.fetchCover(force, cachedData.cover), this.fetchMetadata(force, cachedData.metadata)]);
 
     if (metadata) {
       metadata.common.picture = [];
     }
 
-    if (this.amethyst.getCurrentPlatform() === "desktop") {
+    if (force && this.amethyst.getCurrentPlatform() === "desktop") {
       window.fs.writeFile(this.getCachePath(true), JSON.stringify({
         cover,
         metadata
@@ -235,7 +280,7 @@ export class Track {
   };
 
   public getCoverAsBlob = async (coverIdx = 0) => {
-    const cover = (await this.fetchMetadata(true))?.common.picture?.[coverIdx];
+    const cover = (await this.fetchMetadata(true, undefined))?.common.picture?.[coverIdx];
     return cover
       ? Promise.resolve(new Blob([new Uint8Array(cover.data)], { type: cover.format }))
       : Promise.reject("Failed to fetch cover, possibly no cover?");

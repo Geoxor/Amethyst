@@ -10,10 +10,10 @@ import NavigationButton from "@/components/NavigationButton.vue";
       route-name="queue"
     />
 
-    <!-- <navigation-button
-      :icon="CompassIcon"
-      route-name="discover"
-    /> -->
+    <navigation-button
+      icon="mdi:compass"
+      route-name="discovery"
+    />
           
     <!-- <navigation-button
       :icon="PlaylistIcon"

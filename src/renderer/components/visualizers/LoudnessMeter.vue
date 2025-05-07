@@ -82,58 +82,46 @@ onMounted(() => {
 <template>
   <div class="text-11px font-bold text-playback-controls-text w-full flex flex-col justify-between items-start h-full disable-select no-drag">
     <div class="meter">
+      <p class="type overflow-hidden overflow-ellipsis">
+        M
+      </p>
       <div class="barBg">
         <div
           class="bar bg-slider-fill duration-100"
           :style="`width: ${mapValueToPercentage(MINIMUM_LUFS, 0, momentary)}%`"
         />
       </div>
-      <div class="flex justify-between w-full">
-        <p class="type overflow-hidden overflow-ellipsis">
-          Momentary
-        </p>
-        <div class="value">
-          <p>
-            {{ momentary.toFixed(2) }} LUFs
-          </p>
-        </div>
-      </div>
+      <p class="value">
+        {{ momentary.toFixed(2) }} LUFs
+      </p>
     </div>
     <div class="meter">
+      <p class="type overflow-hidden overflow-ellipsis">
+        S
+      </p>
       <div class="barBg">
         <div
           class="bar bg-slider-fill duration-100"
           :style="`width: ${mapValueToPercentage(MINIMUM_LUFS, 0, shortTerm)}%`"
         />
       </div>
-      <div class="flex justify-between w-full">
-        <p class="type overflow-hidden overflow-ellipsis">
-          Short-term
-        </p>
-        <div class="value">
-          <p>
-            {{ shortTerm.toFixed(2) }} LUFs
-          </p>
-        </div>
-      </div>
+      <p class="value">
+        {{ shortTerm.toFixed(2) }} LUFs
+      </p>
     </div>
     <div class="meter">
+      <p class="type overflow-hidden overflow-ellipsis">
+        I
+      </p>
       <div class="barBg">
         <div
           class="bar bg-slider-fill duration-1000"
           :style="`width: ${mapValueToPercentage(MINIMUM_LUFS, 0, integrated)}%`"
         />
       </div>
-      <div class="flex justify-between w-full">
-        <p class="type overflow-hidden overflow-ellipsis">
-          Integrated
-        </p>
-        <div class="value">
-          <p>
-            {{ integrated.toFixed(2) }} LUFs
-          </p>
-        </div>
-      </div>
+      <p class="value">
+        {{ integrated.toFixed(2) }} LUFs
+      </p>
     </div>
   </div>
 </template>
@@ -149,11 +137,12 @@ onMounted(() => {
   @apply h-full rounded-2px;
 }
 
+.type {
+  @apply w-4 text-center;
+}
+
 .value {
-  @apply flex pr-1;
-  p {
-    @apply w-14;
-  }
+  @apply min-w-16 text-right;
 }
 
 </style>

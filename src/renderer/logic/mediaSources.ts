@@ -23,34 +23,33 @@ export class MediaSourceManager {
 
   public addLocalSource = async () => {
     const dialog = await this.amethyst.showOpenFolderDialog();
-    const path = dialog.filePaths[0];
-  
-    if (dialog.canceled || !path) return;
-  
-    // Avoid adding folders if they already exist
-    if (this.amethyst.state.settings.value.mediaSources.saveMediaSources.some(savedSource => savedSource.path == path)) return;
-
-    const mediaSource = new LocalMediaSource(this.amethyst, path);
+    dialog.filePaths.forEach(path => {
+      if (dialog.canceled || !path) return;
     
-    if (mediaSource.type && mediaSource.path) {
-      this.amethyst.state.settings.value.mediaSources.saveMediaSources.push({type: mediaSource.type, path: mediaSource.path});
-      this.mediaSources.value.push(mediaSource);
-    }
+      // Avoid adding folders if they already exist
+      if (this.amethyst.state.settings.value.mediaSources.saveMediaSources.some(savedSource => savedSource.path == path)) return;
+
+      const mediaSource = new LocalMediaSource(this.amethyst, path);
+      
+      if (mediaSource.type && mediaSource.path) {
+        this.amethyst.state.settings.value.mediaSources.saveMediaSources.push({type: mediaSource.type, path: mediaSource.path, uuid: mediaSource.uuid});
+        this.mediaSources.value.push(mediaSource);
+      }
+    });
   };
   
   public removeMediaSource = async (mediaSource: MediaSource) => {
-    mediaSource.unregister();
-    const savedMediaSource = { type: mediaSource.type, path: mediaSource.path };
-    const index = this.amethyst.state.settings.value.mediaSources.saveMediaSources.findIndex(s => s.path == savedMediaSource.path);
+    const savedMediaSource = { type: mediaSource.type, path: mediaSource.path, uuid: mediaSource.uuid };
+    const index = this.mediaSources.value.findIndex(s => s.uuid == savedMediaSource.uuid);
     if (index == -1) return;
+    mediaSource.unregister();
     this.amethyst.state.settings.value.mediaSources.saveMediaSources.splice(index, 1);
     this.mediaSources.value.splice(index, 1);
-
   };
 }
 
 export class MediaSource {
-  protected uuid: string = uuidv4();
+  public uuid: string = uuidv4();
   public type: MediaSourceType = MediaSourceType.Generic;
   public totalTracks: Ref<number> = ref(0);  
   public totalBytes: Ref<number> = ref(0);  

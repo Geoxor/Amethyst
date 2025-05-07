@@ -32,6 +32,7 @@ const DEFAULT_APPEARANCE_SETTINGS = {
     animationDuration: 100,
     fontWeight: "normal",
 		theme: "amethyst-dark",
+    coverBasedColors: false,
 		ambientBackground: {
 			show: false,
 			opacity: 10,
@@ -105,8 +106,8 @@ const DEFAULT_METERING_SETTINGS = {
       minimumDb: -60,
       separatePrePost: false,
       show: true,
-      fftSize: 1024,
-      smoothingDuration: 100,
+      fftSize: 2048,
+      smoothingDuration: 60,
     },
     shader: {
       use: false,
@@ -133,7 +134,7 @@ const DEFAULT_INTEGRATION_SETTINGS = {
 
 const DEFAULT_MEDIA_SOURCE_SETTINGS = {
   mediaSources: {
-    saveMediaSources: [{}] as {type: MediaSourceType, path: string}[],
+    saveMediaSources: [{}] as {type: MediaSourceType, path: string, uuid: string}[],
   }
 };
 

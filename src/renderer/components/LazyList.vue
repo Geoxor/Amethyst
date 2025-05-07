@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst";
 import { useContextMenu } from "@/components/ContextMenu";
-import { saveArrayBufferToFile } from "@/logic/dom";
-import { convertDfpwm } from "@/logic/encoding";
 import type { PossibleSortingMethods } from "@/logic/queue";
-import type { Track } from "@/logic/track";
+import { trackContextMenuOptions, type Track } from "@/logic/track";
 import type { IContextMenuOption } from "@/state";
 import { Icon } from "@iconify/vue";
 import { useLocalStorage } from "@vueuse/core";
@@ -43,23 +41,7 @@ const ITEM_HEIGHT = amethyst.state.settings.value.appearance.compactList ? 32 : 
 
 // Context Menu options for this component 
 const handleTrackContextMenu = ({x, y}: MouseEvent, track: Track) => {
-  useContextMenu().open({x, y}, [
-    { title: "Play", icon: "ic:round-play-arrow", action: () => amethyst.player.play(track) },
-    { title: "Inspect", icon: "mdi:flask", action: () => useInspector().inspectAndShow(track) },
-    { title: "Encode to .dfpwm...", icon: "ic:twotone-qr-code", action: async () => {
-      saveArrayBufferToFile(
-        await convertDfpwm(await track.getArrayBuffer()), 
-        {
-          filename: track.getFilenameWithoutExtension(), 
-          extension: "dfpwm"
-      });
-    }},
-    { title: "Show in Explorer...", icon: "ic:twotone-pageview", action: () => amethyst.showItem(track.path) },
-    { title: "Export cover...", icon: "ic:twotone-add-photo-alternate", action: () => track.exportCover() },
-    { title: "Reload metadata", icon: "mdi:flask", action: () => track.fetchAsyncData(true) },
-    { title: "Remove from queue", icon: "ic:twotone-delete", red: true, action: () => amethyst.player.queue.remove(track) },
-    { title: "Delete from disk", icon: "ic:twotone-delete-forever", red: true, action: () => track.delete() },
-  ]);
+  useContextMenu().open({x, y}, trackContextMenuOptions(track));
 };
 
 const columns = amethyst.state.settings.value.columns;
@@ -400,7 +382,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
     </div>
 
     <RecycleScroller
-      class="h-full pb-24 pr-2 leading-tight"
+      class="h-full pb-32 pr-2 leading-tight"
       :items="tracks"
       :item-size="ITEM_HEIGHT"
       key-field="path"
@@ -613,7 +595,9 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
           >
             <icon
               icon="ic:baseline-favorite-border"
-              class="h-4 w-4"
+              class="h-4 w-4 cursor-pointer "
+              :class="[item.isFavorited ? 'text-alert-color' :'hover:text-text_title']"
+              @click.stop.prevent="item.toggleFavorite()"
             />
           </div>
           <div

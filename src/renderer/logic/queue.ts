@@ -69,6 +69,7 @@ export class Queue {
           track.getFilename().toLowerCase().includes(word)
           || track.getArtistsFormatted()?.toLowerCase().includes(word)
           || track.getTitle()?.toLowerCase().includes(word)
+          || track.getGenreFormatted()?.toLowerCase().includes(word)
           || track.getAlbum()?.toLowerCase().includes(word));
     }
 
@@ -82,18 +83,6 @@ export class Queue {
       sorted.reverse();
     }
     return sorted;
-  }
-
-  public updateTotalSize() {
-    this.totalSize.value = this.getList().reduce((a, b) => a + (b.metadata.data?.size || 0), 0);
-  }
-
-  public updateTotalDuration(){
-    this.totalDuration.value = this.getList().reduce((a, b) => a + (b.getDurationSeconds()), 0);
-  }
-
-  public getTotalSizeFormatted(){
-    return bytesToHuman(this.totalSize.value);
   }
 
   public getTotalTracks(){
@@ -115,15 +104,17 @@ export class Queue {
    * Fetches all async data for each track concurrently
    */
   public async fetchAsyncData(force?: boolean){
+    console.time("[fetchAsyncData]");
     const tracks = force ? this.getList() : this.getList().filter(track => !track.isLoaded);
-    return await PromisePool
+    const pool = await PromisePool
 			.for(tracks)
 			.withConcurrency(this.amethyst.state.settings.value.performance.processingConcurrency)
 			.process(async track => {
         await track.fetchAsyncData(force);
-        this.updateTotalSize();
-        this.updateTotalDuration();
       });
+
+      console.timeEnd("[fetchAsyncData]");
+    return pool;
   }
 
   public getTrack(idx: number){
