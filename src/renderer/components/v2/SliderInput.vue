@@ -32,6 +32,7 @@ const handleMouseScroll = (e: WheelEvent) => {
       :min="min"
       :max="max"
       :step="step"
+      :format="(v: number) => v.toFixed(2)"
       show-tooltip="drag"
       tooltip-position="bottom"
     />
