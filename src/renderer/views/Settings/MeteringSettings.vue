@@ -311,8 +311,8 @@ const {metering} = amethyst.state.settings.value;
           <slider-input
             v-model="metering.spectrumBars.bars"
             :min="16"
-            :max="512"
-            :step="1"
+            :max="128"
+            :step="8"
             suffix=""
           />
         </settings-setting>
