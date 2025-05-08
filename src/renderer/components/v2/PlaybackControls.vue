@@ -215,7 +215,7 @@ const editMeterContextMenuOption = (name :string) => [{
             icon="mdi:information-slab-box-outline"
             class="utilityButton transition-all"
             :class="[
-              amethyst.state.showOutputDiagram && 'text-accent'
+              amethyst.state.showOutputDiagram.value && 'text-accent'
             ]"
             @click="amethyst.state.showOutputDiagram.value = !amethyst.state.showOutputDiagram.value"
           />
