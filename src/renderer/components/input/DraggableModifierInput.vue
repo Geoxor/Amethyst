@@ -35,6 +35,11 @@ const props = defineProps({
     type: Number,
     default: 1,
   },
+  scrollStep: {
+    type: Number,
+    required: false,
+    default: 0,
+  },
   percent: {
     type: Boolean,
     default: false,
@@ -143,12 +148,28 @@ watch(model, () => {
   setTimeout(() => pop.value = false, 100);
 });
 
+import { clamp } from "@/logic/math";
 import { onClickOutside } from "@vueuse/core";
 onClickOutside(modifier, () => isShowingInputElement.value = false);
 
 const isShowingInputElement = ref(false);
 const inputValue = ref(model.value);
 const inputElement = ref<HTMLInputElement>();
+
+const handleMouseScroll = (e: WheelEvent) => {
+  const delta = Math.sign(e.deltaY);
+  const step = props.scrollStep || (props.step * 10);
+
+  let newValue = 0;
+  if (e.altKey)
+    delta < 0 ? newValue = model.value + step / 10 : newValue = model.value -= step / 10;
+  else if (e.shiftKey)
+    delta < 0 ? newValue = model.value + step * 2 : newValue = model.value -= step * 2;
+  else
+    delta < 0 ? newValue = model.value + step : newValue = model.value -= step;
+
+  model.value = clamp(newValue, props.min, props.max);
+};
 
 const handleEnter = (e: KeyboardEvent) => {
   const INPUT_BEGIN_KEYS = ["-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
@@ -191,6 +212,7 @@ const handleEnter = (e: KeyboardEvent) => {
     @mousedown.stop.passive="onMouseDown"
     @mouseup.stop.passive="dragging = false"
     @keydown="handleEnter"
+    @wheel.stop="handleMouseScroll"
   >
     <input
       v-if="isShowingInputElement"

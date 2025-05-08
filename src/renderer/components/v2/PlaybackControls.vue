@@ -198,6 +198,7 @@ const editMeterContextMenuOption = (name :string) => [{
           :min="-12"
           :max="12"
           :step="0.01"
+          :scroll-step="1"
           suffix="st"
         />
         <icon
