@@ -27,7 +27,7 @@ let shader = SpectrumBarShader(props.bars);
 
 watch(() => props.smoothing, () => analyser.smoothingTimeConstant = props.smoothing);
 watch(() => props.fftSize, () => analyser.fftSize = props.fftSize);
-watch(() => amethyst.state.settings.value.appearance.theme, () => {
+amethyst.state.on("theme:change", () => {
   setTimeout(() => {
     const accentColor = getThemeColorRgb("--accent");
     uniformData.u_color.value.set(
