@@ -15,6 +15,7 @@ import { router } from "@/router";
 import { Icon } from "@iconify/vue";
 import { secondsToColinHuman } from "@shared/formating";
 import { LoadStatus } from "@shared/types";
+import BaseTooltip from "../BaseTooltip.vue";
 import DraggableModifierInput from "../input/DraggableModifierInput.vue";
 import SpectrumAnalyzerComposite from "@/components/visualizers/SpectrumAnalyzerComposite.vue";
 
@@ -113,8 +114,8 @@ const editMeterContextMenuOption = (name :string) => [{
       name="playback-controls"
       side="centerVertical"
       :handles-visible="false"
-      default-size="940px"
-      class="relative rounded-8px min-w-660px max-w-940px  pointer-events-auto bg-playback-controls-background"
+      default-size="960px"
+      class="relative rounded-8px min-w-700px max-w-full pointer-events-auto bg-playback-controls-background"
     >
       <div class="flex items-center h-16 gap-2 p-2 w-full">
         <Transition name="slide">
@@ -173,7 +174,7 @@ const editMeterContextMenuOption = (name :string) => [{
           @contextmenu="handleContextCoverMenu"
           @click="amethyst.player.getCurrentTrack()?.cover.state === LoadStatus.Loaded && (amethyst.state.window.isShowingBigCover = !amethyst.state.window.isShowingBigCover)"
         />
-
+            
         <div class="flex justify-between select-none max-w-40 flex-col h-full w-full py-0.5 font-bold">
           <h1
             class="text-13px hover:underline cursor-external-pointer overflow-hidden overflow-ellipsis"
@@ -192,49 +193,76 @@ const editMeterContextMenuOption = (name :string) => [{
 
         <playback-buttons :player="amethyst.player" />
 
-        <draggable-modifier-input
-          v-model="amethyst.player.pitchSemitones.value"
-          :min="-12"
-          :max="12"
-          :step="0.01"
-          suffix="st"
-        />
-        <icon
-          icon="mdi:information-slab-box-outline"
-          class="utilityButton transition-all"
-          :class="[
-            amethyst.state.showOutputDiagram && 'text-accent'
-          ]"
-          @click="amethyst.state.showOutputDiagram.value = !amethyst.state.showOutputDiagram.value"
-        />
-        <icon
-          icon="ic:twotone-waves"
-          class="utilityButton"
-          :class="[
-            amethyst.state.settings.value.metering.loudnessMeter.show && 'text-accent'
-          ]"
-          @click="amethyst.state.settings.value.metering.loudnessMeter.show = !amethyst.state.settings.value.metering.loudnessMeter.show"
-        />
-        <icon
-          icon="ic:twotone-graphic-eq"
-          class="utilityButton"
-          :class="[
-            amethyst.state.settings.value.metering.spectrum.show && 'text-accent'
-          ]"
-          @click="amethyst.state.settings.value.metering.spectrum.show = !amethyst.state.settings.value.metering.spectrum.show"
-        />
-        <icon
-          v-if="amethyst.player.volume.value > 0"
-          icon="ic:round-volume-up"
-          class="utilityButton"
-          @click="lastVolumeBeforeMute = amethyst.player.volume.value; amethyst.player.setVolume(0);"
-        />
-        <icon
-          v-else
-          icon="ic:round-volume-off"
-          class="utilityButton text-accent"
-          @click="amethyst.player.setVolume(lastVolumeBeforeMute);"
-        />
+        <base-tooltip
+          :text="$t('playback_controls.pitch_shift')"
+          placement="top"
+        >
+          <draggable-modifier-input
+            v-model="amethyst.player.pitchSemitones.value"
+            :min="-12"
+            :max="12"
+            :step="0.01"
+            :scroll-step="1"
+            suffix="st"
+          />
+        </base-tooltip>
+        <base-tooltip
+          :text="$t('playback_controls.output_information')"
+          placement="top"
+        >
+          <icon
+            icon="mdi:information-slab-box-outline"
+            class="utilityButton transition-all"
+            :class="[
+              amethyst.state.showOutputDiagram.value && 'text-accent'
+            ]"
+            @click="amethyst.state.showOutputDiagram.value = !amethyst.state.showOutputDiagram.value"
+          />
+        </base-tooltip>
+        <base-tooltip
+          :text="$t('settings.loudness_meter.title')"
+          placement="top"
+        >
+          <icon
+            icon="ic:twotone-waves"
+            class="utilityButton"
+            :class="[
+              amethyst.state.settings.value.metering.loudnessMeter.show && 'text-accent'
+            ]"
+            @click="amethyst.state.settings.value.metering.loudnessMeter.show = !amethyst.state.settings.value.metering.loudnessMeter.show"
+          />
+        </base-tooltip>
+        <base-tooltip
+          :text="$t('settings.spectrum_analyzer.title')"
+          placement="top"
+        >
+          <icon
+            icon="ic:twotone-graphic-eq"
+            class="utilityButton"
+            :class="[
+              amethyst.state.settings.value.metering.spectrum.show && 'text-accent'
+            ]"
+            @click="amethyst.state.settings.value.metering.spectrum.show = !amethyst.state.settings.value.metering.spectrum.show"
+          />
+        </base-tooltip>
+        <base-tooltip
+          :text="$t('playback_controls.mute')"
+          placement="top"
+        >
+          <icon
+            v-if="amethyst.player.volume.value > 0"
+            icon="ic:round-volume-up"
+            class="utilityButton"
+            @click="lastVolumeBeforeMute = amethyst.player.volume.value; amethyst.player.setVolume(0);"
+          />
+          <icon
+            v-else
+            icon="ic:round-volume-off"
+            class="utilityButton text-accent"
+            @click="amethyst.player.setVolume(lastVolumeBeforeMute);"
+          />
+        </base-tooltip>
+
         <slider
           id="volume"
           key="volume"

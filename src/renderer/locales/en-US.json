@@ -257,6 +257,13 @@
   "queue.column.favorite": "Favorite",
   "queue.column.location": "Location",
 
+  "playback_controls.favorite": "Favorite",
+  "playback_controls.loop": "Loop",
+  "playback_controls.shuffle": "Shuffle",
+  "playback_controls.mute": "Mute",
+  "playback_controls.pitch_shift": "Pitch shift",
+  "playback_controls.output_information": "Output information",
+
   "track.metadata": "Metadata",
   "track.metadata.artist": "Artist",
   "track.metadata.title": "Title",

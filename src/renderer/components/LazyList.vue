@@ -100,7 +100,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
       <div class="flex-none w-8" />
       <div
         v-if="columns.cover"
-        class="flex-none w-[32px]"
+        class="flex-none w-[32px] "
       />
       <div
         v-if="columns.trackNumber"
@@ -147,7 +147,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
       </div>
       <div
         v-if="columns.title"
-        class="flex-grow w-[200px] w-min-100px"
+        class="flex-grow w-[200px] w-min-100px "
         :class="[currentShortMethod == 'title' && 'activeSort']"
         @click="setCurrentSortedMethod('title')"
       >
@@ -173,13 +173,13 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
       </div>
       <div
         v-if="columns.location"
-        class="flex-none w-[70px]"
+        class="flex-none w-[70px] w-min-100px "
       >
         {{ $t('queue.column.location') }}
       </div>
       <div
         v-if="columns.album"
-        class="flex-grow w-[200px] w-min-100px"
+        class="px-2 flex-grow w-[150px] min-w-[100px]"
         :class="[currentShortMethod == 'album' && 'activeSort']"
         @click="setCurrentSortedMethod('album')"
       >

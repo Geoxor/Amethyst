@@ -63,7 +63,7 @@ onMounted(async() => {
   </div>
   <div
     ref="popover"
-    class="duration-user-defined fixed popover z-1"
+    class="duration-user-defined fixed popover z-1 select-none"
     :class="{ openOnHover, open, [placement || 'bottom']: !open || openOnHover }"
     v-bind="$attrs"
   >
