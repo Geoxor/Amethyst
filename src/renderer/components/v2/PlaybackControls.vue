@@ -115,8 +115,8 @@ const editMeterContextMenuOption = (name :string) => [{
       name="playback-controls"
       side="centerVertical"
       :handles-visible="false"
-      default-size="940px"
-      class="relative rounded-8px min-w-660px max-w-940px  pointer-events-auto bg-playback-controls-background"
+      default-size="960px"
+      class="relative rounded-8px min-w-700px max-w-full pointer-events-auto bg-playback-controls-background"
     >
       <div class="flex items-center h-16 gap-2 p-2 w-full">
         <Transition name="slide">
