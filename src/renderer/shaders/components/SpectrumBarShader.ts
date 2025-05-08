@@ -18,12 +18,9 @@ const shader = `
     // Distance from the center of the bar (0.0 for farthest and 1.0 for being at the center)
     // float d = -abs(2.0 * fract(bx) - 1.0) + 1.0;
 
-    float a = 0.0;
+    // If every other bar width and distance from vertical center is less or equal to amplitude
+    float a = mod(floor(bx), 2.0) * ceil(clamp(amp - abs(2.0 * uv.y - 1.0), 0.0, 1.0));
 
-    // If every other bar (since each has one bar width around it)
-    if(mod(floor(bx), 2.0) == 1.0 && abs(2.0 * uv.y - 1.0) <= amp) {
-      a = 1.0;
-    }
     gl_FragColor = vec4(u_color * a, a);
   }
 `;
