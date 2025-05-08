@@ -222,7 +222,8 @@
       "asarUnpack": [
         "**/node_modules/sharp/**"
       ],
-      "category": "Music"
+      "category": "Music",
+      "icon": "amethyst.png"
     },
     "deb": {
       "depends": [
