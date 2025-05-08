@@ -17,6 +17,7 @@ import { router } from "@/router";
 import { Icon } from "@iconify/vue";
 import { secondsToColinHuman } from "@shared/formating";
 import { LoadStatus } from "@shared/types";
+import BaseTooltip from "../BaseTooltip.vue";
 import DraggableModifierInput from "../input/DraggableModifierInput.vue";
 
 let lastVolumeBeforeMute = amethyst.player.volume.value;
@@ -193,50 +194,76 @@ const editMeterContextMenuOption = (name :string) => [{
 
         <playback-buttons :player="amethyst.player" />
 
-        <draggable-modifier-input
-          v-model="amethyst.player.pitchSemitones.value"
-          :min="-12"
-          :max="12"
-          :step="0.01"
-          :scroll-step="1"
-          suffix="st"
-        />
-        <icon
-          icon="mdi:information-slab-box-outline"
-          class="utilityButton transition-all"
-          :class="[
-            amethyst.state.showOutputDiagram && 'text-accent'
-          ]"
-          @click="amethyst.state.showOutputDiagram.value = !amethyst.state.showOutputDiagram.value"
-        />
-        <icon
-          icon="ic:twotone-waves"
-          class="utilityButton"
-          :class="[
-            amethyst.state.settings.value.metering.loudnessMeter.show && 'text-accent'
-          ]"
-          @click="amethyst.state.settings.value.metering.loudnessMeter.show = !amethyst.state.settings.value.metering.loudnessMeter.show"
-        />
-        <icon
-          icon="ic:twotone-graphic-eq"
-          class="utilityButton"
-          :class="[
-            amethyst.state.settings.value.metering.spectrum.show && 'text-accent'
-          ]"
-          @click="amethyst.state.settings.value.metering.spectrum.show = !amethyst.state.settings.value.metering.spectrum.show"
-        />
-        <icon
-          v-if="amethyst.player.volume.value > 0"
-          icon="ic:round-volume-up"
-          class="utilityButton"
-          @click="lastVolumeBeforeMute = amethyst.player.volume.value; amethyst.player.setVolume(0);"
-        />
-        <icon
-          v-else
-          icon="ic:round-volume-off"
-          class="utilityButton text-accent"
-          @click="amethyst.player.setVolume(lastVolumeBeforeMute);"
-        />
+        <base-tooltip
+          :text="$t('playback_controls.pitch_shift')"
+          placement="top"
+        >
+          <draggable-modifier-input
+            v-model="amethyst.player.pitchSemitones.value"
+            :min="-12"
+            :max="12"
+            :step="0.01"
+            :scroll-step="1"
+            suffix="st"
+          />
+        </base-tooltip>
+        <base-tooltip
+          :text="$t('playback_controls.output_information')"
+          placement="top"
+        >
+          <icon
+            icon="mdi:information-slab-box-outline"
+            class="utilityButton transition-all"
+            :class="[
+              amethyst.state.showOutputDiagram && 'text-accent'
+            ]"
+            @click="amethyst.state.showOutputDiagram.value = !amethyst.state.showOutputDiagram.value"
+          />
+        </base-tooltip>
+        <base-tooltip
+          :text="$t('settings.loudness_meter.title')"
+          placement="top"
+        >
+          <icon
+            icon="ic:twotone-waves"
+            class="utilityButton"
+            :class="[
+              amethyst.state.settings.value.metering.loudnessMeter.show && 'text-accent'
+            ]"
+            @click="amethyst.state.settings.value.metering.loudnessMeter.show = !amethyst.state.settings.value.metering.loudnessMeter.show"
+          />
+        </base-tooltip>
+        <base-tooltip
+          :text="$t('settings.spectrum_analyzer.title')"
+          placement="top"
+        >
+          <icon
+            icon="ic:twotone-graphic-eq"
+            class="utilityButton"
+            :class="[
+              amethyst.state.settings.value.metering.spectrum.show && 'text-accent'
+            ]"
+            @click="amethyst.state.settings.value.metering.spectrum.show = !amethyst.state.settings.value.metering.spectrum.show"
+          />
+        </base-tooltip>
+        <base-tooltip
+          :text="$t('playback_controls.mute')"
+          placement="top"
+        >
+          <icon
+            v-if="amethyst.player.volume.value > 0"
+            icon="ic:round-volume-up"
+            class="utilityButton"
+            @click="lastVolumeBeforeMute = amethyst.player.volume.value; amethyst.player.setVolume(0);"
+          />
+          <icon
+            v-else
+            icon="ic:round-volume-off"
+            class="utilityButton text-accent"
+            @click="amethyst.player.setVolume(lastVolumeBeforeMute);"
+          />
+        </base-tooltip>
+
         <slider
           id="volume"
           key="volume"

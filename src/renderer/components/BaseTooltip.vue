@@ -18,7 +18,7 @@ defineProps<{
   >
     <slot />
     <template #content>
-      <p class=" text-text_title text-11px">
+      <p class=" text-text_title text-13px">
         {{ text }}
       </p>
       <slot name="content" />
