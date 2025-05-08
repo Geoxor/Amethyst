@@ -174,7 +174,7 @@ const editMeterContextMenuOption = (name :string) => [{
           @contextmenu="handleContextCoverMenu"
           @click="amethyst.player.getCurrentTrack()?.cover.state === LoadStatus.Loaded && (amethyst.state.window.isShowingBigCover = !amethyst.state.window.isShowingBigCover)"
         />
-
+            
         <div class="flex justify-between select-none max-w-40 flex-col h-full w-full py-0.5 font-bold">
           <h1
             class="text-13px hover:underline cursor-external-pointer overflow-hidden overflow-ellipsis"
