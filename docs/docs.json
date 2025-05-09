@@ -7,6 +7,9 @@
     "light": "#a0a2eb",
     "dark": "#646ac3"
   },
+  "icons": {
+    "library": "fontawesome"
+  },
   "favicon": "/favicon.svg",
   "navigation": {
     "dropdowns": [
