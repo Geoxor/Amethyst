@@ -16,8 +16,8 @@ defineProps<{ node: AmethystSpectrumNode }>();
     <spectrum-analyzer
       class="h-76px w-152px"
       :node="node.post"
-      :fft-size="amethyst.state.settings.value.metering.spectrum.fftSize"
-      :smoothing="amethyst.state.settings.value.metering.spectrum.smoothing"
+      :fft-size="amethyst.state.settings.metering.spectrum.fftSize"
+      :smoothing="amethyst.state.settings.metering.spectrum.smoothing"
       :accent-color="getThemeColor('--accent')"
       :paused="amethyst.shouldPauseVisualizers()"
     />

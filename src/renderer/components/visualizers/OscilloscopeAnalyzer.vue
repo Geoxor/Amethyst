@@ -22,27 +22,27 @@ onMounted(() => {
     }, 100);
   });
 
-  canvas.lineWidth = amethyst.state.settings.value.metering.oscilloscope.lineThickness;
+  canvas.lineWidth = amethyst.state.settings.metering.oscilloscope.lineThickness;
   
-  watch(() => amethyst.state.settings.value.metering.oscilloscope.lineThickness, () => {
-    canvas.lineWidth = amethyst.state.settings.value.metering.oscilloscope.lineThickness;
+  watch(() => amethyst.state.settings.metering.oscilloscope.lineThickness, () => {
+    canvas.lineWidth = amethyst.state.settings.metering.oscilloscope.lineThickness;
   });
 
   const { context } = props.node;
   const oscilloscopeAnalyzer = context.createAnalyser();
 
-  oscilloscopeAnalyzer.smoothingTimeConstant = amethyst.state.settings.value.metering.oscilloscope.smoothing;
-  oscilloscopeAnalyzer.fftSize = amethyst.state.settings.value.metering.oscilloscope.fftSize;
+  oscilloscopeAnalyzer.smoothingTimeConstant = amethyst.state.settings.metering.oscilloscope.smoothing;
+  oscilloscopeAnalyzer.fftSize = amethyst.state.settings.metering.oscilloscope.fftSize;
 
   let oscilloscopeBuffer = new Uint8Array(oscilloscopeAnalyzer.frequencyBinCount);
   let segmentWidth = props.width / oscilloscopeAnalyzer.frequencyBinCount;
 
-  watch(() => amethyst.state.settings.value.metering.oscilloscope.smoothing, () => {
-    oscilloscopeAnalyzer.smoothingTimeConstant = amethyst.state.settings.value.metering.oscilloscope.smoothing;
+  watch(() => amethyst.state.settings.metering.oscilloscope.smoothing, () => {
+    oscilloscopeAnalyzer.smoothingTimeConstant = amethyst.state.settings.metering.oscilloscope.smoothing;
   });
 
-  watch(() => amethyst.state.settings.value.metering.oscilloscope.fftSize, () => {
-    oscilloscopeAnalyzer.fftSize = amethyst.state.settings.value.metering.oscilloscope.fftSize;
+  watch(() => amethyst.state.settings.metering.oscilloscope.fftSize, () => {
+    oscilloscopeAnalyzer.fftSize = amethyst.state.settings.metering.oscilloscope.fftSize;
     oscilloscopeBuffer = new Uint8Array(oscilloscopeAnalyzer.frequencyBinCount);
     segmentWidth = props.width / oscilloscopeAnalyzer.frequencyBinCount;
   });
@@ -50,7 +50,7 @@ onMounted(() => {
   props.node.connect(oscilloscopeAnalyzer);
 
   watch(() => amethyst.state.window.isFocused, isFocused => {
-    if (amethyst.state.settings.value.performance.pauseVisualsWhenUnfocused) {
+    if (amethyst.state.settings.performance.pauseVisualsWhenUnfocused) {
       if (!isFocused) shouldStopRendering = true;
       else {
         shouldStopRendering = false;

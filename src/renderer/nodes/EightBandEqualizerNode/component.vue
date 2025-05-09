@@ -175,8 +175,8 @@ const FILTER_TYPES = [
       <spectrum-analyzer
         class="h-168px w-full opacity-25 "
         :node="node.pre"
-        :fft-size="amethyst.state.settings.value.metering.spectrum.fftSize"
-        :smoothing="amethyst.state.settings.value.metering.spectrum.smoothing"
+        :fft-size="amethyst.state.settings.metering.spectrum.fftSize"
+        :smoothing="amethyst.state.settings.metering.spectrum.smoothing"
         :accent-color="getThemeColor('--accent')"
         :paused="amethyst.shouldPauseVisualizers()"
       />
@@ -184,8 +184,8 @@ const FILTER_TYPES = [
         <spectrum-analyzer
           class="h-168px w-full"
           :node="node.post"
-          :fft-size="amethyst.state.settings.value.metering.spectrum.fftSize"
-          :smoothing="amethyst.state.settings.value.metering.spectrum.smoothing"
+          :fft-size="amethyst.state.settings.metering.spectrum.fftSize"
+          :smoothing="amethyst.state.settings.metering.spectrum.smoothing"
           :accent-color="getThemeColor('--accent')"
           :paused="amethyst.shouldPauseVisualizers()"
         />

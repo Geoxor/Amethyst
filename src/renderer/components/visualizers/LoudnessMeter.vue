@@ -70,7 +70,7 @@ onMounted(() => {
   amethyst.player.on("pause", () => loudnessMeter.pause());
 
   watch(() => amethyst.state.window.isFocused, isFocused => {
-    if (amethyst.state.settings.value.performance.pauseVisualsWhenUnfocused) {
+    if (amethyst.state.settings.performance.pauseVisualsWhenUnfocused) {
       if (!isFocused) loudnessMeter.pause();
       else loudnessMeter.resume();
     }

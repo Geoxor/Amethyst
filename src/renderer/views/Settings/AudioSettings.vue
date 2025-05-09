@@ -20,7 +20,7 @@ switch (amethyst.getCurrentOperatingSystem()) {
     break;
 }
 
-const {audio} = amethyst.state.settings.value;
+const {audio} = amethyst.state.settings;
 </script>
 
 <template>

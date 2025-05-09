@@ -11,7 +11,7 @@ import OnyxDarkSkeleton from "@/themes/OnyxDarkSkeleton.vue";
 import SapphireDarkSkeleton from "@/themes/SapphireDarkSkeleton.vue";
 import { BLEND_MODES, FONT_WEIGHTS } from "@shared/constants";
 
-const {appearance} = amethyst.state.settings.value;
+const {appearance} = amethyst.state.settings;
 </script>
 
 <template>

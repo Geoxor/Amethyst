@@ -17,12 +17,12 @@ const props = defineProps<{title?: string, description?: string, icon: any}>();
     />
 
     <title-subtitle
-      v-if="!(amethyst.state.settings.value.appearance.minimalistMode && amethyst.state.settings.value.appearance.hideCategoryTitles) && title"
+      v-if="!(amethyst.state.settings.appearance.minimalistMode && amethyst.state.settings.appearance.hideCategoryTitles) && title"
       :title="title"
       :subtitle="description"
     />
     <div
-      v-if="amethyst.state.settings.value.appearance.neonMode"
+      v-if="amethyst.state.settings.appearance.neonMode"
       class="blurLayer w-full opacity-0 duration-user-defined z-0 bg-primary filter h-full absolute top-0 left-0 blur-16px"
     />
   </button>

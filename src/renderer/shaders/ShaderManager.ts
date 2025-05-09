@@ -38,7 +38,7 @@ export class ShaderManager {
   }
 
   public getSelectedShader(): string {
-    return this.getShader(amethyst.state.settings.value.appearance.shader.selected);
+    return this.getShader(amethyst.state.settings.appearance.shader.selected);
   }
 
   public getShaderNames(): string[] {

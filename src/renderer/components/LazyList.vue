@@ -37,19 +37,19 @@ const setCurrentSortedMethod = (sortBy: PossibleSortingMethods) => {
 
 const isHoldingControl = amethyst.shortcuts.isControlPressed;
 
-const ITEM_HEIGHT = amethyst.state.settings.value.appearance.compactList ? 32 : 40;
+const ITEM_HEIGHT = amethyst.state.settings.appearance.compactList ? 32 : 40;
 
 // Context Menu options for this component 
 const handleTrackContextMenu = ({x, y}: MouseEvent, track: Track) => {
   useContextMenu().open({x, y}, trackContextMenuOptions(track));
 };
 
-const columns = amethyst.state.settings.value.columns;
+const columns = amethyst.state.settings.columns;
 
 const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
   const contextMenu = useContextMenu();
 
-  const columnOptions: {key: keyof typeof amethyst.state.settings.value.columns, title: string}[] = [
+  const columnOptions: {key: keyof typeof amethyst.state.settings.columns, title: string}[] = [
     { key: "cover", title: "queue.column.cover" },
     { key: "diskNumber", title: "track.metadata.disk_number" },
     { key: "trackNumber", title: "track.metadata.track_number" },
@@ -397,7 +397,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
             item.hasErrored && 'opacity-50 not-allowed',
             item.deleted && 'opacity-50 !text-rose-400 not-allowed',
             amethyst.player.getCurrentTrack()?.path == item.path && 'currentlyPlaying',
-            amethyst.state.settings.value.appearance.compactList ? 'py-1' : 'py-2',
+            amethyst.state.settings.appearance.compactList ? 'py-1' : 'py-2',
             useInspector().state.isVisible && (useInspector().state.currentItem == item as any) && 'currentlyInspecting',
           ]"
           draggable="true"

@@ -35,17 +35,17 @@ const playbackButtons = ref<HTMLDivElement>();
 const maxTrackTitleWidth = ref(0);
 
 watch(() => [
-  amethyst.state.settings.value.appearance.showCoverArt,
-  amethyst.state.settings.value.metering.decibelMeter.show,
-  amethyst.state.settings.value.metering.decibelMeter.separatePrePost
+  amethyst.state.settings.appearance.showCoverArt,
+  amethyst.state.settings.metering.decibelMeter.show,
+  amethyst.state.settings.metering.decibelMeter.separatePrePost
 ], () => updateTitleSpacing(playbackControlsWidth));
 
 const updateTitleSpacing = (newParentWidth: number) => {
   playbackControlsWidth = newParentWidth;
   let spacing = 0;
-  if (amethyst.state.settings.value.appearance.showCoverArt) spacing += COVER_ART_WIDTH + 8;
-  if (amethyst.state.settings.value.metering.decibelMeter.show) spacing += DB_METER_WIDTH;
-  if (amethyst.state.settings.value.metering.decibelMeter.show && amethyst.state.settings.value.metering.decibelMeter.separatePrePost) spacing += DB_METER_WIDTH + 20;
+  if (amethyst.state.settings.appearance.showCoverArt) spacing += COVER_ART_WIDTH + 8;
+  if (amethyst.state.settings.metering.decibelMeter.show) spacing += DB_METER_WIDTH;
+  if (amethyst.state.settings.metering.decibelMeter.show && amethyst.state.settings.metering.decibelMeter.separatePrePost) spacing += DB_METER_WIDTH + 20;
 
   spacing += PLAYBACK_CONTROLS_WIDTH;
 
@@ -112,11 +112,11 @@ const editMeterContextMenuOption = (name :string) => [{
     class="absolute filter drop-shadow-xl pointer-events-none bottom-4 flex justify-center px-4 gap-2 w-full left-1/2 transform-gpu -translate-x-1/2 z-30 text-playback-controls-text"
   >
     <div
-      v-if="amethyst.state.settings.value.metering.loudnessMeter.show"
-      :class="[!amethyst.state.settings.value.metering.oscilloscope.show && 'max-w-304px']"
+      v-if="amethyst.state.settings.metering.loudnessMeter.show"
+      :class="[!amethyst.state.settings.metering.oscilloscope.show && 'max-w-304px']"
       class="flex pointer-events-auto items-center h-16 gap-2 rounded-8px w-full min-w-180px max-w-240px bg-playback-controls-background hide p-2"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
-        { title: 'Hide loudness meter', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.metering.loudnessMeter.show = false },
+        { title: 'Hide loudness meter', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.metering.loudnessMeter.show = false },
         ...editMeterContextMenuOption('loudness meter')
       ]);"
     >
@@ -128,20 +128,20 @@ const editMeterContextMenuOption = (name :string) => [{
     <!-- Spacer to keep the middle dock centered  -->
     <div
       v-else
-      :class="[!amethyst.state.settings.value.metering.oscilloscope.show && 'max-w-304px']"
+      :class="[!amethyst.state.settings.metering.oscilloscope.show && 'max-w-304px']"
       class="flex pointer-events-auto p-2 items-center h-16 gap-2 w-full xl:w-full max-w-180px select-none"
     />
 
     <div
-      v-if="amethyst.state.settings.value.metering.oscilloscope.show"
+      v-if="amethyst.state.settings.metering.oscilloscope.show"
       class="flex pointer-events-auto overflow-hidden items-center justify-center h-16 gap-2 rounded-8px transition w-full min-w-64px max-w-64px bg-playback-controls-background"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
-        { title: 'Hide oscilloscope', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.metering.oscilloscope.show = false },
+        { title: 'Hide oscilloscope', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.metering.oscilloscope.show = false },
         ...editMeterContextMenuOption('oscilloscope')
       ]);"
     >
       <oscilloscope
-        v-if="amethyst.state.settings.value.metering.oscilloscope.show && amethyst.player.source"
+        v-if="amethyst.state.settings.metering.oscilloscope.show && amethyst.player.source"
         :key="amethyst.player.nodeManager.getNodeConnectionsString()"
         :node="amethyst.player.nodeManager.master.pre"
         :width="64"
@@ -180,31 +180,31 @@ const editMeterContextMenuOption = (name :string) => [{
           @wheel.passive="handleSeekMouseScroll"
         />
         <db-meter
-          v-if="amethyst.state.settings.value.metering.decibelMeter.show && amethyst.state.settings.value.metering.decibelMeter.separatePrePost && amethyst.player.source"
+          v-if="amethyst.state.settings.metering.decibelMeter.show && amethyst.state.settings.metering.decibelMeter.separatePrePost && amethyst.player.source"
           :key="amethyst.player.nodeManager.getNodeConnectionsString()"
           class="duration-user-defined cursor-pointer"
           :node="amethyst.player.nodeManager.master.pre"
           pre
           :channels="amethyst.player.getCurrentTrack()?.getChannels()"
           @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
-            { title: 'Hide decibel meter', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.metering.decibelMeter.show = false },
+            { title: 'Hide decibel meter', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.metering.decibelMeter.show = false },
           ]);"
           @click="router.currentRoute.value.name === 'audio-monitor' ? router.back() : router.push({ name: 'audio-monitor' })"
         />
         <db-meter
-          v-if="amethyst.state.settings.value.metering.decibelMeter.show && amethyst.player.source"
+          v-if="amethyst.state.settings.metering.decibelMeter.show && amethyst.player.source"
           :key="amethyst.player.nodeManager.getNodeConnectionsString()"
           class="duration-user-defined cursor-pointer"
           :node="amethyst.player.nodeManager.master.post"
           post
           :channels="amethyst.player.getCurrentTrack()?.getChannels()"
           @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
-            { title: 'Hide decibel meter', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.metering.decibelMeter.show = false },
+            { title: 'Hide decibel meter', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.metering.decibelMeter.show = false },
           ]);"
           @click="router.currentRoute.value.name === 'audio-monitor' ? router.back() : router.push({ name: 'audio-monitor' })"
         />
         <cover-art
-          v-if="amethyst.state.settings.value.appearance.showCoverArt"
+          v-if="amethyst.state.settings.appearance.showCoverArt"
           class="rounded-4px h-48px w-48px min-h-48px min-w-48px text-primary-900 border-1 border-transparent cursor-pointer hover:border-primary-800"
           :class="[
             amethyst.state.window.isShowingBigCover && 'border-primary-700'
@@ -273,9 +273,9 @@ const editMeterContextMenuOption = (name :string) => [{
             icon="ic:twotone-waves"
             class="utilityButton"
             :class="[
-              amethyst.state.settings.value.metering.loudnessMeter.show && 'text-accent'
+              amethyst.state.settings.metering.loudnessMeter.show && 'text-accent'
             ]"
-            @click="amethyst.state.settings.value.metering.loudnessMeter.show = !amethyst.state.settings.value.metering.loudnessMeter.show"
+            @click="amethyst.state.settings.metering.loudnessMeter.show = !amethyst.state.settings.metering.loudnessMeter.show"
           />
         </base-tooltip>
         <base-tooltip
@@ -286,9 +286,9 @@ const editMeterContextMenuOption = (name :string) => [{
             icon="ic:twotone-graphic-eq"
             class="utilityButton"
             :class="[
-              amethyst.state.settings.value.metering.spectrum.show && 'text-accent'
+              amethyst.state.settings.metering.spectrum.show && 'text-accent'
             ]"
-            @click="amethyst.state.settings.value.metering.spectrum.show = !amethyst.state.settings.value.metering.spectrum.show"
+            @click="amethyst.state.settings.metering.spectrum.show = !amethyst.state.settings.metering.spectrum.show"
           />
         </base-tooltip>
         <base-tooltip
@@ -327,15 +327,15 @@ const editMeterContextMenuOption = (name :string) => [{
       </div>
     </resizable-div>
     <div
-      v-if="amethyst.state.settings.value.metering.vectorscope.show"
+      v-if="amethyst.state.settings.metering.vectorscope.show"
       class="flex pointer-events-auto overflow-hidden items-center justify-center h-16 gap-2 rounded-8px transition w-full min-w-64px max-w-64px bg-playback-controls-background"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
-        { title: 'Hide vectorscope', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.metering.vectorscope.show = false },
+        { title: 'Hide vectorscope', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.metering.vectorscope.show = false },
         ...editMeterContextMenuOption('vectorscope')
       ]);"
     >
       <vectorscope
-        v-if="amethyst.state.settings.value.metering.vectorscope.show && amethyst.player.source"
+        v-if="amethyst.state.settings.metering.vectorscope.show && amethyst.player.source"
         :key="amethyst.player.nodeManager.getNodeConnectionsString()"
         :node="amethyst.player.nodeManager.master.pre"
         :width="64"
@@ -344,11 +344,11 @@ const editMeterContextMenuOption = (name :string) => [{
     </div>
 
     <div
-      v-if="amethyst.state.settings.value.metering.spectrum.show"
-      :class="[!amethyst.state.settings.value.metering.vectorscope.show && 'max-w-304px']"
+      v-if="amethyst.state.settings.metering.spectrum.show"
+      :class="[!amethyst.state.settings.metering.vectorscope.show && 'max-w-304px']"
       class="flex pointer-events-auto overflow-hidden items-center h-16 gap-2 rounded-8px transition w-full min-w-180px max-w-240px bg-playback-controls-background hide"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
-        { title: 'Hide spectrum analyzer', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.value.metering.spectrum.show = false },
+        { title: 'Hide spectrum analyzer', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.metering.spectrum.show = false },
         ...editMeterContextMenuOption('spectrum analyzer')
       ]);"
       @click="amethyst.state.showBigSpectrum.value = true"
@@ -356,9 +356,9 @@ const editMeterContextMenuOption = (name :string) => [{
       <spectrum-analyzer
         :key="amethyst.player.nodeManager.getNodeConnectionsString()"
         :node="amethyst.player.nodeManager.master.pre"
-        :fft-size="amethyst.state.settings.value.metering.spectrum.fftSize"
-        :smoothing="amethyst.state.settings.value.metering.spectrum.smoothing"
-        :spectrogram="amethyst.state.settings.value.metering.spectrogram.show"
+        :fft-size="amethyst.state.settings.metering.spectrum.fftSize"
+        :smoothing="amethyst.state.settings.metering.spectrum.smoothing"
+        :spectrogram="amethyst.state.settings.metering.spectrogram.show"
         :accent-color="getThemeColor('--accent')"
         :paused="amethyst.shouldPauseVisualizers()"
       />
@@ -366,7 +366,7 @@ const editMeterContextMenuOption = (name :string) => [{
     <!-- Spacer to keep the middle dock centered  -->
     <div
       v-else
-      :class="[!amethyst.state.settings.value.metering.vectorscope.show && 'max-w-304px']"
+      :class="[!amethyst.state.settings.metering.vectorscope.show && 'max-w-304px']"
       class="flex pointer-events-auto p-2 items-center h-16 gap-2 w-full xl:w-full max-w-180px select-none"
     />
   </div>

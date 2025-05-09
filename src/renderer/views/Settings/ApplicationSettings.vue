@@ -13,7 +13,7 @@ const handleToggleAutostart = () => {
   window.electron.ipcRenderer.invoke("set-autostart", [application.autoStart]);
 };
 
-const {application} = amethyst.state.settings.value;
+const {application} = amethyst.state.settings;
 
 </script>
 

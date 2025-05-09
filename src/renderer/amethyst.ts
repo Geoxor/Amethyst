@@ -250,7 +250,7 @@ export class Amethyst extends AmethystBackend {
       }));
       window.electron.ipcRenderer.on<(string)[]>("play-folder", paths => amethyst.player.queue.add(flattenArray(paths)));
   
-      this.state.settings.value.behavior.fetchMetadataOnStartup && setTimeout(async() => {
+      this.state.settings.behavior.fetchMetadataOnStartup && setTimeout(async() => {
         await this.player.queue.fetchAsyncData();
         console.log("fetching data finished, refreshing discovery");
         this.analytics.getDiscoveryTracks();
@@ -264,7 +264,7 @@ export class Amethyst extends AmethystBackend {
     this.handleFileDrops();
     this.handleDiscordRichPresence();
 
-    if (this.state.settings.value.behavior.autoPlayOnStartup) {
+    if (this.state.settings.behavior.autoPlayOnStartup) {
       const track = this.player.queue.getTrack(0);
       track && this.player.play(track);
     }
@@ -286,7 +286,7 @@ export class Amethyst extends AmethystBackend {
 
     let outputDeviceName;
 
-    if (this.state.settings.value.audio.driver == "default") {
+    if (this.state.settings.audio.driver == "default") {
       const mediaDevices = await navigator.mediaDevices?.enumerateDevices();
       navigator.mediaDevices.addEventListener("devicechange", event => {
         if (event.type == "devicechange") {
@@ -294,14 +294,14 @@ export class Amethyst extends AmethystBackend {
         }
       });
       outputDeviceName = mediaDevices.find(device => device.deviceId == "default" && device.kind == "audiooutput")?.label;
-      outputDeviceName && (this.state.settings.value.audio.outputDeviceName = extractDeviceName(outputDeviceName));
-    } else if (this.state.settings.value.audio.driver == "asio" || this.state.settings.value.audio.driver == "alsa" || this.state.settings.value.audio.driver == "coreaudio") {
+      outputDeviceName && (this.state.settings.audio.outputDeviceName = extractDeviceName(outputDeviceName));
+    } else if (this.state.settings.audio.driver == "asio" || this.state.settings.audio.driver == "alsa" || this.state.settings.audio.driver == "coreaudio") {
 
       // updates on first load unlike the code in outputnode
-      this.state.settings.value.audio.outputDeviceName = this.state.settings.value.audio.outputRealtimeDeviceName;
+      this.state.settings.audio.outputDeviceName = this.state.settings.audio.outputRealtimeDeviceName;
     }
 
-    console.log(`Current audio device: ${this.state.settings.value.audio.outputDeviceName}`);
+    console.log(`Current audio device: ${this.state.settings.audio.outputDeviceName}`);
   };
 
   private handleDiscordRichPresence() {
@@ -342,7 +342,7 @@ export class Amethyst extends AmethystBackend {
       currentTrack && await updateRichPresence(currentTrack);
     };
 
-    if (this.state.settings.value.integrations.useDiscordRichPresence) {
+    if (this.state.settings.integrations.useDiscordRichPresence) {
       this.player.on("play", async () => {
         if (isPaused && trackNameBeforePause == this.player.getCurrentTrack()?.getTitleFormatted()) {
           start = seekDuringPause ? start : start + Math.abs(Date.now() - startBegin);
@@ -377,7 +377,7 @@ export class Amethyst extends AmethystBackend {
       });
     };
 
-    watch(() => this.state.settings.value.integrations.useDiscordRichPresence, value => {
+    watch(() => this.state.settings.integrations.useDiscordRichPresence, value => {
       value ? updateWithCurrentTrack() : clearRichPresence();
     });
   }
@@ -595,7 +595,7 @@ export class Amethyst extends AmethystBackend {
   }
 
   public shouldPauseAnimations(): boolean {
-    return !this.state.window.isFocused && this.state.settings.value.performance.pauseVisualsWhenUnfocused;
+    return !this.state.window.isFocused && this.state.settings.performance.pauseVisualsWhenUnfocused;
   }
 
   public shouldPauseVisualizers(): boolean {

@@ -31,7 +31,7 @@ const fallbackToDefault = () => {
 };
 
 const setDynamicColors = async (track: Track) => {
-  if (!amethyst.state.settings.value.appearance.coverBasedColors) return;
+  if (!amethyst.state.settings.appearance.coverBasedColors) return;
   const coverBase64 = track.getCover();
   if (!coverBase64) return fallbackToDefault();
   
@@ -46,7 +46,7 @@ const setDynamicColors = async (track: Track) => {
   amethyst.state.emit("theme:change", "");
 };
 
-watch(() => amethyst.state.settings.value.appearance.coverBasedColors, enabled => {
+watch(() => amethyst.state.settings.appearance.coverBasedColors, enabled => {
   if (enabled) {
     const currentTrack = amethyst.player.getCurrentTrack();
     if (!currentTrack) return;
@@ -82,9 +82,9 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
     <spectrum-analyzer
       key="big-spectrum-analyzer"
       :node="amethyst.player.nodeManager.master.pre"
-      :fft-size="amethyst.state.settings.value.metering.spectrum.fftSize"
-      :smoothing="amethyst.state.settings.value.metering.spectrum.smoothing"
-      :spectrogram="amethyst.state.settings.value.metering.spectrogram.show"
+      :fft-size="amethyst.state.settings.metering.spectrum.fftSize"
+      :smoothing="amethyst.state.settings.metering.spectrum.smoothing"
+      :spectrogram="amethyst.state.settings.metering.spectrogram.show"
       :accent-color="getThemeColor('--accent')"
       :paused="amethyst.shouldPauseVisualizers()"
     />
@@ -115,7 +115,7 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
     </div>
 
     <background-image
-      v-if="amethyst.state.settings.value.appearance.ambientBackground.show"
+      v-if="amethyst.state.settings.appearance.ambientBackground.show"
       :ambient-background-image="ambientBackgroundImage"
     />
 
@@ -172,7 +172,7 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
         <inspector-bar v-if="useInspector().state.isVisible" />
       </div>
 
-      <playback-controls v-if="amethyst.state.settings.value.appearance.showPlaybackControls" />
+      <playback-controls v-if="amethyst.state.settings.appearance.showPlaybackControls" />
     </div>
   </div>
 </template> 
