@@ -147,7 +147,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
       </div>
       <div
         v-if="columns.title"
-        class="flex-grow w-[200px] w-min-100px "
+        class="flex-grow w-[200px] w-min-100px"
         :class="[currentShortMethod == 'title' && 'activeSort']"
         @click="setCurrentSortedMethod('title')"
       >
@@ -179,7 +179,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
       </div>
       <div
         v-if="columns.album"
-        class="px-2 flex-grow w-[150px] min-w-[100px]"
+        class="flex-grow w-[200px] w-min-100px"
         :class="[currentShortMethod == 'album' && 'activeSort']"
         @click="setCurrentSortedMethod('album')"
       >
@@ -390,7 +390,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
     >
       <template #default="{ item } : { item: Track}">
         <div
-          class="row flex items-center px-2 rounded-4px "
+          class="row flex items-center px-2 rounded-4px"
           :class="[
             `h-[${ITEM_HEIGHT}px]`,
             isHoldingControl && 'control cursor-external-pointer',

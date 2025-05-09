@@ -37,10 +37,10 @@ const DEFAULT_APPEARANCE_SETTINGS = {
 			show: false,
 			opacity: 10,
 			spin: true,
-			blurStrength: 32,
+			blurStrength: 96,
 			spinSpeed: 64,
 			zoom: 130,
-			blendMode: "color-dodge",
+			blendMode: "normal",
 		},
 		shader: {
 			use: false,
