@@ -367,7 +367,7 @@ export class Amethyst extends AmethystBackend {
     };
 
     if (this.state.settings.integrations.useDiscordRichPresence) {
-      this.player.on("player:play", async () => {
+      this.player.on("player:trackChange", async () => {
         if (isPaused && trackNameBeforePause == this.player.getCurrentTrack()?.getTitleFormatted()) {
           start = seekDuringPause ? start : start + Math.abs(Date.now() - startBegin);
         } else {
