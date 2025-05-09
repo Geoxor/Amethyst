@@ -1,8 +1,7 @@
-## Locale Coverage
 | Locale | Coverage |
 |--------|----------|
 | de-DE | 93.5% |
-| el-GR | 93.5% |
+| el-GR | 90.1% |
 | en-GB | 93.5% |
 | fi-FI | 93.5% |
 | fr-FR | 93.5% |
