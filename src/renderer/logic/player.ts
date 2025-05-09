@@ -16,13 +16,16 @@ export enum LoopMode {
 }
 
 export class Player extends EventEmitter<{
-  play: Track;
   currentTrackMetadataLoaded: Track;
-  pause: Track;
-  volume: number;
-  shuffle: void;
-  stop: void;
-  timeupdate: number;
+  "player:seek": number;
+  "player:play": Track;
+  "player:unpause": Track;
+  "player:pause": Track;
+  "player:stop": void;
+  "player:volumeChange": number;
+  "player:next": Track;
+  "player:previous": Track;
+  "player:trackChange": Track;
 }> {
   private minVolume: number = 0.001;
   private maxVolume: number = 1.0;
@@ -63,6 +66,20 @@ export class Player extends EventEmitter<{
     this.nodeManager.master.post.gain.value = this.volumeStored.value;
 
     watch(() => this.pitchSemitones.value, newPitch => {this.setPlaybackSpeed(newPitch);});
+
+    amethyst.IS_DEV && this.showEventLogs();
+  }
+
+  private showEventLogs() {
+    this.on("player:play", () => console.log("%cplayer:play", "color: #ff00b6"));
+    this.on("player:pause", () => console.log("%cplayer:pause", "color: #ff00b6"));
+    this.on("player:unpause", () => console.log("%cplayer:unpause", "color: #ff00b6"));
+    this.on("player:stop", () => console.log("%cplayer:stop", "color: #ff00b6"));
+    this.on("player:volumeChange", () => console.log("%cplayer:volumeChange", "color: #ff00b6"));
+    this.on("player:next", () => console.log("%cplayer:next", "color: #ff00b6"));
+    this.on("player:previous", () => console.log("%cplayer:previous", "color: #ff00b6"));
+    this.on("player:trackChange", () => console.log("%cplayer:trackChange", "color: #ff00b6"));
+    this.on("player:seek", () => console.log("%cplayer:seek", "color: #ff00b6"));
   }
 
   public playRandomTrack = () => {
@@ -84,6 +101,8 @@ export class Player extends EventEmitter<{
     this.currentTrack.value = track;
     this.currentTrackIndex.value = this.queue.getList().indexOf(track);
     this.input.play();
+    this.emit("player:trackChange", this.getCurrentTrack()!);
+
     if (!track.isLoaded) {
       await track.fetchAsyncData();
       this.emit("currentTrackMetadataLoaded", track);
@@ -107,18 +126,20 @@ export class Player extends EventEmitter<{
       const track = target instanceof Track ? target : this.queue.getTrack(target);
       if (track.hasErrored) return;
       this.setPlayingTrack(track);
+      return;
     }
     // Play the first track by default
     if (!this.currentTrack.value) {
       // Find the first non-errored track
       const track = this.queue.getList().find(track => !track.hasErrored);
       track && this.setPlayingTrack(track);
+      return;
     }
     this.input.play();
     this.isPlaying.value = true;
     this.isPaused.value = false;
     this.isStopped.value = false;
-    this.emit("play", this.getCurrentTrack()!);
+    this.emit("player:unpause", this.getCurrentTrack()!);
   }
 
   public pause() {
@@ -126,7 +147,7 @@ export class Player extends EventEmitter<{
     this.isPlaying.value = false;
     this.isPaused.value = true;
     this.isStopped.value = false;
-    this.emit("pause", this.getCurrentTrack()!);
+    this.emit("player:pause", this.getCurrentTrack()!);
   }
 
   public stop(){
@@ -136,12 +157,11 @@ export class Player extends EventEmitter<{
     this.isStopped.value = true;
     this.currentTrack.value = undefined;
     this.currentTrackIndex.value = 0;
-    this.emit("stop");
+    this.emit("player:stop");
   }
 
   public shuffle() {
     this.queue.shuffle();
-    this.emit("shuffle");
   }
 
   /*
@@ -190,6 +210,10 @@ export class Player extends EventEmitter<{
     }
 
     this.play(this.currentTrackIndex.value);
+
+    // For event
+    const newTrack = this.getCurrentTrack();
+    newTrack && this.getCurrentTrack() && this.emit("player:next", newTrack);
   }
 
   public previous() {
@@ -208,12 +232,15 @@ export class Player extends EventEmitter<{
     }
 
     this.play(this.currentTrackIndex.value);
+
+    // For event
+    const newTrack = this.getCurrentTrack();
+    newTrack && this.getCurrentTrack() && this.emit("player:previous", newTrack);
   }
 
   public seekTo(time: number) {
 		this.input.currentTime = time;
-
-    this.emit("timeupdate", this.input.currentTime);
+    this.emit("player:seek", this.input.currentTime);
 	}
 
 	public seekForward(step = 5) {
@@ -252,15 +279,15 @@ export class Player extends EventEmitter<{
     this.volume = dB;
     const linear = this.volumeStored.value;
     this.nodeManager.master.post.gain.value = linear;
-    this.emit("volume", dB);
+    this.emit("player:volumeChange", dB);
   }
 
-	public volumeUp(amount = 1) {
-		this.setVolume(this.volume + amount);
+	public volumeUp(dB = 1) {
+		this.setVolume(this.volume + dB);
 	}
 
-	public volumeDown(amount = 1) {
-		this.setVolume(this.volume - amount);
+	public volumeDown(dB = 1) {
+		this.setVolume(this.volume - dB);
 	}
 
   public getCurrentTrack(): Track | undefined {

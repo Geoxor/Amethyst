@@ -38,14 +38,14 @@ const handlePlay = (track: Track) => {
 };
 
 onMounted(() => {
-  amethyst.player.on("play", handlePlay);
+  amethyst.player.on("player:play", handlePlay);
   const currentTrack = amethyst.player.getCurrentTrack();
   if (!currentTrack) return;
   if (!inspector.state.currentItem) inspector.inspect(currentTrack);
 });
 
 onUnmounted(() => {
-  amethyst.player.off("play", handlePlay);
+  amethyst.player.off("player:play", handlePlay);
 });
 
 function cloneWithoutPicture(obj: Record<string, any>): Record<string, any> {

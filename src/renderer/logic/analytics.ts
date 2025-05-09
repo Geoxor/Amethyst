@@ -24,7 +24,7 @@ export class Analytics {
   private lastClickedPlay: Record<string, number> = {};
 
   public constructor(public amethyst: Amethyst) {
-    amethyst.player.on("play", track => {
+    amethyst.player.on("player:play", track => {
       if (!track.uuid) return;
 
       // Check if trackAnalytics object is defined for this song hash

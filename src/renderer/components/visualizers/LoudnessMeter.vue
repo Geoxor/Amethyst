@@ -58,7 +58,7 @@ onMounted(() => {
 
   loudnessMeter.start();
 
-  amethyst.player.on("play", () => {
+  amethyst.player.on("player:play", () => {
     if (amethyst.state.window.isFocused) {
       loudnessMeter.reset();
       loudnessMeter.resume();
@@ -67,7 +67,7 @@ onMounted(() => {
       integratedMax.value = MINIMUM_LUFS;
     }
   });
-  amethyst.player.on("pause", () => loudnessMeter.pause());
+  amethyst.player.on("player:pause", () => loudnessMeter.pause());
 
   watch(() => amethyst.state.window.isFocused, isFocused => {
     if (amethyst.state.settings.performance.pauseVisualsWhenUnfocused) {

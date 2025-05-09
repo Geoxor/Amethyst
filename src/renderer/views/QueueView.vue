@@ -22,10 +22,10 @@ const scrollToCurrentElement = (track?: Track) => {
 const autoscroll = () => amethyst.state.followQueue.value && scrollToCurrentElement();
 watch(() => amethyst.state.followQueue.value, () => autoscroll());
 onMounted(() => {
-  amethyst.player.on("play", autoscroll);
+  amethyst.player.on("player:play", autoscroll);
 });
 onUnmounted(() => {
-  amethyst.player.off("play", autoscroll);
+  amethyst.player.off("player:play", autoscroll);
 });
 
 </script>

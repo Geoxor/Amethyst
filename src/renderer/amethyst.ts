@@ -343,7 +343,7 @@ export class Amethyst extends AmethystBackend {
     };
 
     if (this.state.settings.integrations.useDiscordRichPresence) {
-      this.player.on("play", async () => {
+      this.player.on("player:play", async () => {
         if (isPaused && trackNameBeforePause == this.player.getCurrentTrack()?.getTitleFormatted()) {
           start = seekDuringPause ? start : start + Math.abs(Date.now() - startBegin);
         } else {
@@ -356,7 +356,7 @@ export class Amethyst extends AmethystBackend {
         updateWithCurrentTrack();
       });
 
-      this.player.on("timeupdate", async newTime => {
+      this.player.on("player:seek", async newTime => {
         start = Date.now() - newTime * 1000; 
         if (!isPaused) {
           updateWithCurrentTrack();
@@ -365,14 +365,14 @@ export class Amethyst extends AmethystBackend {
         }
       });
 
-      this.player.on("pause", () => {
+      this.player.on("player:pause", () => {
         startBegin = Date.now();
         trackNameBeforePause = this.player.getCurrentTrack()?.getTitleFormatted() ?? "";
         isPaused = true;
         updateWithCurrentTrack();
       });
 
-      this.player.on("stop", () => {
+      this.player.on("player:stop", () => {
         clearRichPresence();
       });
     };

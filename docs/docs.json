@@ -23,6 +23,12 @@
               "guides/development",
               "guides/localization"
             ]
+          },
+          {
+            "group": "Events",
+            "pages": [
+              "guides/player_events"
+            ]
           }
         ]
       },
