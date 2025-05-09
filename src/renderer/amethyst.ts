@@ -464,9 +464,9 @@ export class Amethyst extends AmethystBackend {
     const loadedSettings = await fetch(dialog.filePaths[0]);
     const parsedSettings = await loadedSettings.json();
   
-    Object.keys(amethyst.state.settings.value).forEach(key => {
+    Object.keys(amethyst.state.settings).forEach(key => {
       // @ts-ignore
-      amethyst.state.settings.value[key] = parsedSettings[key];
+      amethyst.state.settings[key] = parsedSettings[key];
     });
   };
   
@@ -477,14 +477,14 @@ export class Amethyst extends AmethystBackend {
     });
     if (dialog?.canceled || !dialog?.filePath) return;
   
-    return amethyst.writeFile(JSON.stringify(amethyst.state.settings.value, null, 2), dialog?.filePath);
+    return amethyst.writeFile(JSON.stringify(amethyst.state.settings, null, 2), dialog?.filePath);
   };
 
   public resetSettings = () => {
     localStorage.removeItem("settings");
 		Object.keys(this.state.defaultSettings).forEach(key => {
       // @ts-ignore
-      this.state.settings.value[key] = this.state.defaultSettings[key];
+      this.state.settings[key] = this.state.defaultSettings[key];
     });
   };
 
