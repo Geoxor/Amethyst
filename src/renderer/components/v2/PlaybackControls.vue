@@ -22,6 +22,7 @@ import BaseTooltip from "../BaseTooltip.vue";
 import DraggableModifierInput from "../input/DraggableModifierInput.vue";
 
 let lastVolumeBeforeMute = amethyst.player.volume;
+
 let resizeObserver: ResizeObserver;
 let playbackControlsWidth = 0;
 const PADDING = 32;

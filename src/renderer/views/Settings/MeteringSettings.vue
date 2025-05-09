@@ -118,7 +118,7 @@ const {metering} = amethyst.state.settings.value;
             v-model="metering.vectorscope.lineThickness"
             :min="0.1"
             :max="10"
-            :step="1"
+            :step="0.1"
             suffix="px"
           />
         </settings-setting>
@@ -255,7 +255,7 @@ const {metering} = amethyst.state.settings.value;
             v-model="metering.oscilloscope.lineThickness"
             :min="0.1"
             :max="10"
-            :step="1"
+            :step="0.1"
             suffix="px"
           />
         </settings-setting>
