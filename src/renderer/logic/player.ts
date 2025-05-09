@@ -24,7 +24,12 @@ export class Player extends EventEmitter<{
   stop: void;
   timeupdate: number;
 }> {
-  
+  private minVolume: number = 0.001;
+  private maxVolume: number = 1.0;
+  public minDb: number = -48;
+  public maxDb: number = 0;
+  private volumeStored = useLocalStorage<number>("volume", 1, { writeDefaults: true });
+
   private currentTrack = ref<Track>();
   private currentTrackIndex = ref(0);
   public pitchSemitones = useLocalStorage<number>("pitchSemitones", 0);
@@ -34,7 +39,6 @@ export class Player extends EventEmitter<{
 
   public loopMode = ref(LoopMode.None);
   public currentTime = ref(0);
-  public volume = useLocalStorage<number>("volume", 1);
   public queue = new Queue(this.amethyst);
 
   public input = new Audio();
@@ -54,7 +58,9 @@ export class Player extends EventEmitter<{
     this.nodeManager = new AmethystAudioNodeManager(this.source, this.context, this.amethyst);
     
     // Set the volume on first load
-    this.nodeManager.master.post.gain.value = this.volume.value;
+    console.log(this.volumeStored.value);
+    
+    this.nodeManager.master.post.gain.value = this.volumeStored.value;
 
     watch(() => this.pitchSemitones.value, newPitch => {this.setPlaybackSpeed(newPitch);});
   }
@@ -230,18 +236,31 @@ export class Player extends EventEmitter<{
 		this.loopMode.value = LoopMode.All;
 	};
 
-  public setVolume(volume: number) {
-		this.volume.value = Math.max(0, Math.min(1, volume));
-    this.nodeManager.master.post.gain.value = this.volume.value;
-    this.emit("volume", this.volume.value);
+  public get volume(): number {
+    const clampedVolume = Math.max(this.minVolume, Math.min(this.maxVolume, this.volumeStored.value));
+    const dB = 20 * Math.log10(clampedVolume);
+    return Math.max(this.minDb, dB); // Clamp for safety
+  }
+
+  public set volume(dB: number) {
+    const clampedDb = Math.max(this.minDb, Math.min(this.maxDb, dB));
+    const linear = Math.pow(10, clampedDb / 20);
+    this.volumeStored.value = dB <= this.minDb ? 0 : linear; // completely mute at -60
+  }
+
+  public setVolume(dB: number) {
+    this.volume = dB;
+    const linear = this.volumeStored.value;
+    this.nodeManager.master.post.gain.value = linear;
+    this.emit("volume", dB);
+  }
+
+	public volumeUp(amount = 1) {
+		this.setVolume(this.volume + amount);
 	}
 
-	public volumeUp(amount = 0.1) {
-		this.setVolume(this.volume.value + amount);
-	}
-
-	public volumeDown(amount = 0.1) {
-		this.setVolume(this.volume.value - amount);
+	public volumeDown(amount = 1) {
+		this.setVolume(this.volume - amount);
 	}
 
   public getCurrentTrack(): Track | undefined {

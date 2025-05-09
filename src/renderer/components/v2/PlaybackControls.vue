@@ -20,7 +20,7 @@ import { LoadStatus } from "@shared/types";
 import BaseTooltip from "../BaseTooltip.vue";
 import DraggableModifierInput from "../input/DraggableModifierInput.vue";
 
-let lastVolumeBeforeMute = amethyst.player.volume.value;
+let lastVolumeBeforeMute = amethyst.player.volume;
 
 const handleContextCoverMenu = ({ x, y }: MouseEvent) => {
   useContextMenu().open({ x, y }, [
@@ -52,8 +52,8 @@ const handleSeekMouseScroll = (e: WheelEvent) => {
 
 const handleVolumeMouseScroll = (e: WheelEvent) => {
   const delta = Math.sign(e.deltaY);
-  const fineTuneStep = 0.01;
-  const normalTuneStep = 0.05;
+  const fineTuneStep = 1;
+  const normalTuneStep = 4;
 
   if (e.altKey)
     delta > 0 ? amethyst.player.volumeDown(fineTuneStep) : amethyst.player.volumeUp(fineTuneStep);
@@ -251,10 +251,10 @@ const editMeterContextMenuOption = (name :string) => [{
           placement="top"
         >
           <icon
-            v-if="amethyst.player.volume.value > 0"
+            v-if="amethyst.player.volume > amethyst.player.minDb"
             icon="ic:round-volume-up"
             class="utilityButton"
-            @click="lastVolumeBeforeMute = amethyst.player.volume.value; amethyst.player.setVolume(0);"
+            @click="lastVolumeBeforeMute = amethyst.player.volume; amethyst.player.setVolume(0);"
           />
           <icon
             v-else
@@ -263,18 +263,22 @@ const editMeterContextMenuOption = (name :string) => [{
             @click="amethyst.player.setVolume(lastVolumeBeforeMute);"
           />
         </base-tooltip>
-
-        <slider
-          id="volume"
-          key="volume"
-          v-model="amethyst.player.volume.value"
-          class="min-w-16 h-1.5"
-          min="0"
-          max="1"
-          step="0.001"
-          @input="amethyst.player.setVolume(amethyst.player.volume.value)"
-          @wheel.passive="handleVolumeMouseScroll"
-        />
+        <base-tooltip
+          :text="`${amethyst.player.volume.toFixed(1)} dB`"
+          placement="top"
+        >
+          <slider
+            id="volume"
+            key="volume"
+            v-model="amethyst.player.volume"
+            class="w-16 h-1.5"
+            :min="amethyst.player.minDb"
+            :max="amethyst.player.maxDb"
+            :step="0.1"
+            @input="amethyst.player.setVolume(amethyst.player.volume)"
+            @wheel.passive="handleVolumeMouseScroll"
+          />
+        </base-tooltip>
       </div>
     </resizable-div>
     <div
