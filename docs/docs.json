@@ -27,7 +27,8 @@
           {
             "group": "Events",
             "pages": [
-              "guides/player_events"
+              "guides/player_events",
+              "guides/window_events"
             ]
           }
         ]

@@ -17,6 +17,7 @@ import messages from "@intlify/unplugin-vue-i18n/messages";
 import { useLocalStorage } from "@vueuse/core";
 import type { Track } from "./logic/track";
 import { Analytics } from "./logic/analytics";
+import { EventEmitter } from "./logic/eventEmitter";
 
 export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale
@@ -31,8 +32,15 @@ export const favoriteTracks = useLocalStorage<string[]>("favoriteTracks", []);
  * Handles interfacing with operating system and unifies methods 
  * to a simple form for all the platforms
  */
-export class AmethystBackend{
+export class AmethystBackend extends EventEmitter<{
+  "window:maximize": void;
+  "window:unmaximize": void;
+  "window:minimize": void;
+  "window:focus": void;
+  "window:unfocus": void;
+}>{
   public constructor() {
+    super();
     console.log(`Current platform: ${this.getCurrentPlatform()}`);
     console.log(`Current operating system: ${this.getCurrentOperatingSystem()}`);
   }
@@ -237,11 +245,19 @@ export class Amethyst extends AmethystBackend {
     if (this.getCurrentPlatform() === "desktop") {
       window.electron.ipcRenderer.invoke<string>("get-appdata-path").then(path => this.APPDATA_PATH = path);
 
-      window.electron.ipcRenderer.on("maximize", () => this.state.window.isMaximized = true);
-      window.electron.ipcRenderer.on("unmaximize", () => this.state.window.isMaximized = false);
-      window.electron.ipcRenderer.on("minimize", () => this.state.window.isMinimized = true);
-      window.electron.ipcRenderer.on("focus", () => this.state.window.isFocused = true);
-      window.electron.ipcRenderer.on("unfocus", () => this.state.window.isFocused = false);
+      window.electron.ipcRenderer.on("maximize", () => this.emit("window:maximize"));
+      window.electron.ipcRenderer.on("unmaximize", () => this.emit("window:unmaximize"));
+      window.electron.ipcRenderer.on("minimize", () => this.emit("window:minimize"));
+      window.electron.ipcRenderer.on("focus", () => this.emit("window:focus"));
+      window.electron.ipcRenderer.on("unfocus", () => this.emit("window:unfocus"));
+
+      this.on("window:maximize", () => this.state.window.isMaximized = true);
+      this.on("window:unmaximize", () => this.state.window.isMaximized = false);
+      this.on("window:minimize", () => this.state.window.isMinimized = true);
+      this.on("window:focus", () => this.state.window.isFocused = true);
+      this.on("window:unfocus", () => this.state.window.isFocused = false);
+
+      this.IS_DEV && this.showEventLogs();
 
       window.electron.ipcRenderer.on("update", () => this.state.window.updateReady = true);
 
@@ -271,6 +287,14 @@ export class Amethyst extends AmethystBackend {
 
     this.updateCurrentOutputDevice();
     
+  }
+
+  private showEventLogs() {
+    this.on("window:maximize", () => console.log("%cwindow:maximize", "color:#00b7ff"));
+    this.on("window:unmaximize", () => console.log("%cwindow:unmaximize", "color: #00b7ff"));
+    this.on("window:minimize", () => console.log("%cwindow:minimize", "color: #00b7ff"));
+    this.on("window:focus", () => console.log("%cwindow:focus", "color: #00b7ff"));
+    this.on("window:unfocus", () => console.log("%cwindow:unfocus", "color: #00b7ff"));
   }
 
   public updateCurrentOutputDevice = async () => {
