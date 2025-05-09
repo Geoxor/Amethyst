@@ -80,7 +80,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="text-11px font-bold text-playback-controls-text w-full flex flex-col justify-between items-start h-full disable-select no-drag">
+  <div class="text-11px font-bold text-playback-controls-text w-full flex flex-col justify-between overflow-hidden items-start h-full disable-select no-drag">
     <div class="meter">
       <p class="type overflow-hidden overflow-ellipsis">
         M

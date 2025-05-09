@@ -17,25 +17,43 @@ import { router } from "@/router";
 import { Icon } from "@iconify/vue";
 import { secondsToColinHuman } from "@shared/formating";
 import { LoadStatus } from "@shared/types";
-import { onMounted, onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 import BaseTooltip from "../BaseTooltip.vue";
 import DraggableModifierInput from "../input/DraggableModifierInput.vue";
 
 let lastVolumeBeforeMute = amethyst.player.volume;
 let resizeObserver: ResizeObserver;
-const PADDING = 24;
-const PLAYBACK_CONTROLS_WIDTH = 176;
+let playbackControlsWidth = 0;
+const PADDING = 32;
+const PLAYBACK_CONTROLS_WIDTH = 176 / 2;
+const DB_METER_WIDTH = 20;
+const COVER_ART_WIDTH = 48;
 
 const trackTitles = ref<HTMLDivElement>();
 const playbackButtons = ref<HTMLDivElement>();
 const maxTrackTitleWidth = ref(0);
 
+watch(() => [
+  amethyst.state.settings.value.appearance.showCoverArt,
+  amethyst.state.settings.value.metering.decibelMeter.show,
+  amethyst.state.settings.value.metering.decibelMeter.separatePrePost
+], () => updateTitleSpacing(playbackControlsWidth));
+
+const updateTitleSpacing = (newParentWidth: number) => {
+  playbackControlsWidth = newParentWidth;
+  let spacing = 0;
+  if (amethyst.state.settings.value.appearance.showCoverArt) spacing += COVER_ART_WIDTH + 8;
+  if (amethyst.state.settings.value.metering.decibelMeter.show) spacing += DB_METER_WIDTH;
+  if (amethyst.state.settings.value.metering.decibelMeter.show && amethyst.state.settings.value.metering.decibelMeter.separatePrePost) spacing += DB_METER_WIDTH + 20;
+
+  spacing += PLAYBACK_CONTROLS_WIDTH;
+
+  maxTrackTitleWidth.value = newParentWidth / 2 - (spacing + PADDING);
+};
+
 onMounted(() => {
   const parent = trackTitles.value!.parentElement!;
-  resizeObserver = new ResizeObserver(e => {
-    const width = e[0].borderBoxSize[0].inlineSize;
-    maxTrackTitleWidth.value = width / 2 - PLAYBACK_CONTROLS_WIDTH - PADDING;
-  });
+  resizeObserver = new ResizeObserver(e => updateTitleSpacing(e[0].borderBoxSize[0].inlineSize));
   parent && resizeObserver.observe(parent);
 });  
 
