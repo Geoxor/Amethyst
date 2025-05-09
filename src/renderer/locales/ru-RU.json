@@ -15,7 +15,7 @@
   "output_diagram.dsp.title": "DSP",
   "output_diagram.audio_device.title": "Устройство аудио",
   "output_diagram.output.title": "Вывод",
-  "output_diagram.resampler.title": "Resampler",
+  "output_diagram.resampler.title": "Ресэмплер",
   "output_diagram.os_api.title": "API",
   "output_breakdown.title": "Разбор вывода",
   "menu.file": "Файл",
