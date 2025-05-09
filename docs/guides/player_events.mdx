@@ -8,38 +8,39 @@ Amethyst's player will emit these events when things happen
 ### player:play
 Emits when a new song starts playing
 ```ts
-amethyst.on("player:play", track: Track => {});
+amethyst.on("player:play", (track: Track) => {});
 ```
 
 ### player:pause
 Emits when user pauses playback
 ```ts
-amethyst.on("player:pause", track: Track => {});
+amethyst.on("player:pause", (track: Track) => {});
 ```
 
 ### player:unpause
 Emits when user unpauses/continues playback
 ```ts
-amethyst.on("player:unpause", track: Track => {});
+amethyst.on("player:unpause", (track: Track) => {});
 ```
 
 ### player:stop
 Emits when the player has finished playing the queue
 <Note>This will not emit if looping entire queue is enabled</Note>
+
 ```ts
-amethyst.on("player:unpause", track: Track => {});
+amethyst.on("player:unpause", (track: Track) => {});
 ```
 
 ### player:seek
 Emits when user seeks
 ```ts
-amethyst.on("player:seek", position => {});
+amethyst.on("player:seek", (position: Number) => {});
 ```
 
 ### player:trackChange
 Emits when user changes the playing track
 ```ts
-amethyst.on("player:trackChange", track: Track => {});
+amethyst.on("player:trackChange", (track: Track) => {});
 ```
 
 ### player:next
@@ -47,7 +48,7 @@ Emits when user skips to the next track
 <Note>[player:trackChange](#player:trackChange) will also emit alongside this</Note>
 
 ```ts
-amethyst.on("player:next", track: Track => {});
+amethyst.on("player:next", (track: Track) => {});
 ```
 
 ### player:previous
@@ -55,12 +56,12 @@ Emits when user skips to the previous track
 <Note>[player:trackChange](#player:trackChange) will also emit alongside this</Note>
 
 ```ts
-amethyst.on("player:previous", track: Track => {});
+amethyst.on("player:previous", (track: Track) => {});
 ```
 
 ### player:volumeChange
 Emits when user changes the playback volume
 ```ts
-amethyst.on("player:volumeChange", dB => {});
+amethyst.on("player:volumeChange", (dB: number) => {});
 ```
 
