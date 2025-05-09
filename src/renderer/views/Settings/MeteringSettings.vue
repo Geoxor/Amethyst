@@ -155,12 +155,6 @@ const {metering} = amethyst.state.settings.value;
       >
         <settings-setting
           subsetting
-          :title="$t('settings.spectrum_line_analyzer.title')"
-          :description="$t('settings.spectrum_line_analyzer.description')"
-          icon="ic:twotone-area-chart"
-        />
-        <settings-setting
-          subsetting
           :title="$t('settings.smoothing_duration.title')"
           :description="$t('settings.smoothing_duration.description')"
           icon="ic:twotone-access-time"
@@ -235,12 +229,6 @@ const {metering} = amethyst.state.settings.value;
       >
         <settings-setting
           subsetting
-          :title="$t('settings.spectrogram_analyzer.title')"
-          :description="$t('settings.spectrogram_analyzer.description')"
-          icon="ic:twotone-area-chart"
-        />
-        <settings-setting
-          subsetting
           :title="$t('settings.smoothing_duration.title')"
           :description="$t('settings.smoothing_duration.description')"
           icon="ic:twotone-access-time"
@@ -270,12 +258,6 @@ const {metering} = amethyst.state.settings.value;
         v-else-if="metering.spectrum.type == 'bars'"
         class="p-2 flex flex-col gap-2"
       >
-        <settings-setting
-          subsetting
-          :title="$t('settings.spectrum_bars_analyzer.title')"
-          :description="$t('settings.spectrum_bars_analyzer.description')"
-          icon="ic:twotone-area-chart"
-        />
         <settings-setting
           subsetting
           :title="$t('settings.smoothing_duration.title')"

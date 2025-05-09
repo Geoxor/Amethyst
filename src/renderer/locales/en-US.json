@@ -175,8 +175,6 @@
   "settings.spectrum_analyzer.title": "Frequency Spectrum analyzer",
   "settings.spectrum_analyzer.description": "Displays the frequency spectrum and their amplitudes of the audio signal using various visualization methods",
 
-  "settings.spectrum_line_analyzer.title": "Line Spectrum",
-  "settings.spectrum_line_analyzer.description": "Displays the frequency amplitudes in a long along the x-axis",
   "settings.spectrum_line_analyzer.line_thickness.title": "Line thickness",
   "settings.spectrum_line_analyzer.line_thickness.description": "Changes how thick the line in the spectrum analyzer appears",
   "settings.spectrum_line_analyzer.fill_opacity.title": "Fill opacity",
@@ -184,11 +182,6 @@
   "settings.spectrum_line_analyzer.opacity_falloff.title": "Fill opacity falloff",
   "settings.spectrum_line_analyzer.opacity_falloff.description": "Changes how much the opacity falls off under the line towards the bottom",
   
-  "settings.spectrogram_analyzer.title": "Spectrogram",
-  "settings.spectrogram_analyzer.description": "Displays the frequency spectrum of the audio signal over time. Low frequencies are displayed on the bottom while high frequencies are on the top",
-  
-  "settings.spectrum_bars_analyzer.title": "Bar Spectrum",
-  "settings.spectrum_bars_analyzer.description": "Displays frequency amplitudes in separated bars linearly",
   "settings.spectrum_bars_analyzer.bars.title": "Frequency Bars",
   "settings.spectrum_bars_analyzer.bars.description": "The amount of bars used to display frequencies",
 
