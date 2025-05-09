@@ -57,14 +57,14 @@ watch(() => amethyst.state.settings.appearance.coverBasedColors, enabled => {
 });
 
 onMounted(() => {
-  amethyst.player.on("play", track => {
+  amethyst.player.on("player:trackChange", track => {
     setAmbientCover(track);
     setDynamicColors(track);
   });
 });
 
 onUnmounted(() => {
-  amethyst.player.off("play", setAmbientCover);
+  amethyst.player.off("player:trackChange", setAmbientCover);
 });
 
 watch(() => amethyst.state.showBigSpectrum.value, () => {
