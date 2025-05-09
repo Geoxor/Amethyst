@@ -17,10 +17,10 @@ Emits when user pauses playback
 amethyst.on("player:pause", (track: Track) => {});
 ```
 
-### player:unpause
-Emits when user unpauses/continues playback
+### player:resume
+Emits when user resumes/continues playback
 ```ts
-amethyst.on("player:unpause", (track: Track) => {});
+amethyst.on("player:resume", (track: Track) => {});
 ```
 
 ### player:stop
@@ -28,7 +28,7 @@ Emits when the player has finished playing the queue
 <Note>This will not emit if looping entire queue is enabled</Note>
 
 ```ts
-amethyst.on("player:unpause", (track: Track) => {});
+amethyst.on("player:resume", (track: Track) => {});
 ```
 
 ### player:seek

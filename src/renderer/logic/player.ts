@@ -19,7 +19,7 @@ export class Player extends EventEmitter<{
   currentTrackMetadataLoaded: Track;
   "player:seek": number;
   "player:play": Track;
-  "player:unpause": Track;
+  "player:resume": Track;
   "player:pause": Track;
   "player:stop": void;
   "player:volumeChange": number;
@@ -73,7 +73,7 @@ export class Player extends EventEmitter<{
   private showEventLogs() {
     this.on("player:play", () => console.log("%cplayer:play", "color: #ff00b6"));
     this.on("player:pause", () => console.log("%cplayer:pause", "color: #ff00b6"));
-    this.on("player:unpause", () => console.log("%cplayer:unpause", "color: #ff00b6"));
+    this.on("player:resume", () => console.log("%cplayer:resume", "color: #ff00b6"));
     this.on("player:stop", () => console.log("%cplayer:stop", "color: #ff00b6"));
     this.on("player:volumeChange", () => console.log("%cplayer:volumeChange", "color: #ff00b6"));
     this.on("player:next", () => console.log("%cplayer:next", "color: #ff00b6"));
@@ -101,6 +101,9 @@ export class Player extends EventEmitter<{
     this.currentTrack.value = track;
     this.currentTrackIndex.value = this.queue.getList().indexOf(track);
     this.input.play();
+    this.isPlaying.value = true;
+    this.isPaused.value = false;
+    this.isStopped.value = false;
     this.emit("player:trackChange", this.getCurrentTrack()!);
 
     if (!track.isLoaded) {
@@ -139,7 +142,7 @@ export class Player extends EventEmitter<{
     this.isPlaying.value = true;
     this.isPaused.value = false;
     this.isStopped.value = false;
-    this.emit("player:unpause", this.getCurrentTrack()!);
+    this.emit("player:resume", this.getCurrentTrack()!);
   }
 
   public pause() {
