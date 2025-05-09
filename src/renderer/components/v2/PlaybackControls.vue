@@ -17,10 +17,29 @@ import { router } from "@/router";
 import { Icon } from "@iconify/vue";
 import { secondsToColinHuman } from "@shared/formating";
 import { LoadStatus } from "@shared/types";
+import { onMounted, onUnmounted, ref } from "vue";
 import BaseTooltip from "../BaseTooltip.vue";
 import DraggableModifierInput from "../input/DraggableModifierInput.vue";
 
 let lastVolumeBeforeMute = amethyst.player.volume;
+let resizeObserver: ResizeObserver;
+const PADDING = 24;
+const PLAYBACK_CONTROLS_WIDTH = 176;
+
+const trackTitles = ref<HTMLDivElement>();
+const playbackButtons = ref<HTMLDivElement>();
+const maxTrackTitleWidth = ref(0);
+
+onMounted(() => {
+  const parent = trackTitles.value!.parentElement!;
+  resizeObserver = new ResizeObserver(e => {
+    const width = e[0].borderBoxSize[0].inlineSize;
+    maxTrackTitleWidth.value = width / 2 - PLAYBACK_CONTROLS_WIDTH - PADDING;
+  });
+  parent && resizeObserver.observe(parent);
+});  
+
+onUnmounted(() => resizeObserver.disconnect());
 
 const handleContextCoverMenu = ({ x, y }: MouseEvent) => {
   useContextMenu().open({ x, y }, [
@@ -176,7 +195,11 @@ const editMeterContextMenuOption = (name :string) => [{
           @click="amethyst.player.getCurrentTrack()?.cover.state === LoadStatus.Loaded && (amethyst.state.window.isShowingBigCover = !amethyst.state.window.isShowingBigCover)"
         />
             
-        <div class="flex justify-between select-none max-w-40 flex-col h-full w-full py-0.5 font-bold">
+        <div
+          ref="trackTitles"
+          :style="`max-width: ${maxTrackTitleWidth}px;`"
+          class="flex justify-between select-none flex-col h-full w-full py-0.5 font-bold"
+        >
           <h1
             class="text-13px hover:underline cursor-external-pointer overflow-hidden overflow-ellipsis"
             @click=" amethyst.showItem(amethyst.player.getCurrentTrack()?.path!)"
@@ -192,7 +215,10 @@ const editMeterContextMenuOption = (name :string) => [{
           </p>
         </div>
 
-        <playback-buttons :player="amethyst.player" />
+        <playback-buttons
+          ref="playbackButtons"
+          :player="amethyst.player"
+        />
 
         <base-tooltip
           :text="$t('playback_controls.pitch_shift')"
