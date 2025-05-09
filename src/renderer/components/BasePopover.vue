@@ -58,7 +58,10 @@ onMounted(async() => {
 </script>
 
 <template>
-  <div @mouseenter="updatePosition()">
+  <div
+    @dragstart.prevent=""
+    @mouseenter="updatePosition()"
+  >
     <slot />
   </div>
   <div
