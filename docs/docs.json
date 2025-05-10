@@ -23,6 +23,7 @@
             "pages": [
               "guides/showcase",
               "guides/installation",
+              "guides/android",
               "guides/development",
               "guides/localization"
             ]

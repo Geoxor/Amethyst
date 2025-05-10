@@ -11,10 +11,10 @@ let captureNode: AudioWorkletNode;
 
 let paused = false;
 
-window.electron.ipcRenderer.on("pause-audio-worklet", () => paused = true);
-window.electron.ipcRenderer.on("resume-audio-worklet", () => paused = false);
-
 const createRealtimeNode = (context: AudioContext, pre: GainNode ) => {
+
+  window.electron.ipcRenderer.on("pause-audio-worklet", () => paused = true);
+  window.electron.ipcRenderer.on("resume-audio-worklet", () => paused = false);
 
   // Add the worklet module and connect it
   // @ts-ignore

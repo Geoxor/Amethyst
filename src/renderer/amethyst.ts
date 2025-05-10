@@ -155,6 +155,7 @@ export class AmethystBackend extends EventEmitter<{
           // use capacitor to implement getting a file path
           const {FilePicker} = await import("@capawesome/capacitor-file-picker");
           const result = await FilePicker.pickFiles({ readData: true, types: ["application/json", "text/comma-separated-values", "text/*"]});
+          console.log(result)
           const path = result.files.map(file => file.path!)[0];
           path ? res({canceled: false, filePaths: [decodeURIComponent(path)]}) : rej();
         });
@@ -229,7 +230,7 @@ export class Amethyst extends AmethystBackend {
   public IS_DEV = import.meta.env.DEV;
   public APPDATA_PATH: string | undefined;
   public isLoading = ref(false);
-  public state: State = new State();
+  public state: State = new State(this);
   public player = new Player(this);
   public shortcuts: Shortcuts = new Shortcuts();
   public mediaSession: MediaSession | undefined = this.getCurrentPlatform() === "desktop" ? new MediaSession(this.player) : undefined;
@@ -573,6 +574,7 @@ export class Amethyst extends AmethystBackend {
    * @mobile_only
    */
   private loadMusicFolder = async () => {
+    const MUSIC_FOLDER_NAME = "Amethyst Music";
     const { Filesystem } = await import("@capacitor/filesystem");
     const evalPermission = async () => {
       const status = await Filesystem.requestPermissions();
@@ -581,23 +583,30 @@ export class Amethyst extends AmethystBackend {
 
     const evalMusicFolder = async () => {
       Filesystem.stat({ directory: Directory.Documents, 
-        path: "Music" }).catch(() => {
+        path: MUSIC_FOLDER_NAME }).catch((e) => {
+            console.log(e);
+
           Filesystem.mkdir({ directory: Directory.Documents, 
-            path: "Music", recursive: true })
+            path: MUSIC_FOLDER_NAME, recursive: true })
           .then(() => {
-            console.log("Created music folder in Documents/Music");
+            console.log("Created music folder in Documents/Amethyst Music");
           }).catch(err => {
             console.log(err);
           });
         });
     };
 
+    console.log('reading', MUSIC_FOLDER_NAME)
+
+
     await evalPermission();
     await evalMusicFolder();
-    const {files} = await Filesystem.readdir({
-      path: "Music",
+    const files = await Filesystem.readdir({
+      path: MUSIC_FOLDER_NAME,
       directory: Directory.Documents,
-    });
+    }); 
+
+    console.log(files)
     
     this.player.queue.add(files.map(file => Capacitor.convertFileSrc(file.uri)));
   };

@@ -1,11 +1,12 @@
 import { useLocalStorage } from "@vueuse/core";
-import {reactive, ref, watch} from "vue";
+import { reactive, ref, watch } from "vue";
 import type { MediaSourceType } from "@/logic/mediaSources.js";
 import { FONT_WEIGHTS } from "@shared/constants.js";
 import { EventEmitter } from "@/logic/eventEmitter.js";
-import {ShaderManager} from "@/shaders/ShaderManager";
+import { ShaderManager } from "@/shaders/ShaderManager.js";
 import type { RtAudioDeviceInfo } from "audify";
 import { DEFAULT_SETTINGS } from "@/logic/settings.js";
+import { Amethyst, amethyst } from "./amethyst.js";
 
 function deepMerge<T>(target: T, source: Partial<T>): T {
 	if (typeof target !== "object" || typeof source !== "object" || !target || !source) {
@@ -80,7 +81,7 @@ export class State extends EventEmitter<StateEvents> {
 	public shaders = ref<ShaderManager>(new ShaderManager());
 
 	public realtimeDevices = ref<RtAudioDeviceInfo[]>([]);
-	
+
 	public applyCurrentTheme = () => {
 		if (typeof document !== "undefined") {
 			const dom = document.querySelector("html");
@@ -89,7 +90,7 @@ export class State extends EventEmitter<StateEvents> {
 		this.emit("theme:change", this.settings.appearance.theme);
 	};
 
-	constructor() {
+	constructor(private amethyst: Amethyst) {
 		super();
 		this.applyCurrentTheme();
 		Object.keys(this.defaultSettings).forEach(key => {
@@ -104,15 +105,18 @@ export class State extends EventEmitter<StateEvents> {
 		document.documentElement.style.setProperty("--smoothing-duration", `${this.settings.metering.decibelMeter.smoothingDuration}ms`);
 		document.documentElement.style.setProperty("--font-weight", `${(FONT_WEIGHTS.indexOf(this.settings.appearance.fontWeight) + 1) * 100}`);
 
-		window.electron.ipcRenderer.invoke<RtAudioDeviceInfo[]>("get-realtime-devices").then(devices => {
-			this.realtimeDevices.value = devices;
+		if (this.amethyst.getCurrentOperatingSystem() != 'android') {
+			window.electron.ipcRenderer.invoke<RtAudioDeviceInfo[]>("get-realtime-devices").then(devices => {
+				this.realtimeDevices.value = devices;
 
-			// Check if it's the first time and populate so when user selects asio for the first time
-			// it doesn't bug out
-			if (this.settings.audio.outputRealtimeDeviceName == "") {
-				this.settings.audio.outputRealtimeDeviceName = this.realtimeDevices.value[0].name;
-			}
-	});
+				// Check if it's the first time and populate so when user selects asio for the first time
+				// it doesn't bug out
+				if (this.settings.audio.outputRealtimeDeviceName == "") {
+					this.settings.audio.outputRealtimeDeviceName = this.realtimeDevices.value[0].name;
+				}
+			});
+		}
+
 
 		// Update css when state changes
 		watch(() => this.settings.appearance.animationDuration, newValue => {

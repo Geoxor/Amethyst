@@ -143,7 +143,7 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
         class="duration-user-defined underline cursor-pointer hover:text-primary-800"
       >download the native app</strong> </a> 
     </div>
-    <top-bar v-if="amethyst.getCurrentPlatform() === 'desktop'" />
+    <top-bar  />
     <context-menu v-if="useContextMenu().state.isVisible" />
     <div
       v-if="amethyst.getCurrentPlatform() === 'mobile'"
@@ -176,7 +176,7 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
     </div>
     <div class="h-full whitespace-nowrap flex flex-col justify-between">
       <div class="flex-1 flex h-full max-h-full relative">
-        <navigation-bar v-if="amethyst.getCurrentPlatform() !== 'mobile'" />
+        <navigation-bar />
 
         <div class="flex flex-col w-full">
           <router-view class="overflow-hidden disable-select no-drag" />
