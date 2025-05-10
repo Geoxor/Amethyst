@@ -405,7 +405,7 @@ export class MainWindow {
 					const baseB = img[i * 4 + 2];
 					const alpha = img[i * 4 + 3];
 				
-					const brightness = (baseR + baseG + baseB) / (3*255);
+					const brightness = (baseR + baseG + baseB) / (3 * 255);
 				
 					//idk why but electron interprets the color as bgra not rgba
 					buffer[i * 4 + 0] = Math.round(b * brightness);

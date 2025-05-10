@@ -8,12 +8,11 @@ import NavigationBar from "@/components/NavigationBar.vue";
 import NavigationButton from "@/components/NavigationButton.vue";
 import TopBar from "@/components/TopBar.vue";
 import PlaybackControls from "@/components/v2/PlaybackControls.vue";
-import SpectrumAnalyzer from "@/components/visualizers/SpectrumAnalyzer.vue";
+import SpectrumAnalyzerComposite from "@/components/visualizers/SpectrumAnalyzerComposite.vue";
 import { AmethystIcon } from "@/icons";
 import { getThemeColor } from "@/logic/color";
 import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
-import { set } from "@vueuse/core";
 import { Vibrant } from "node-vibrant/browser";
 import { onMounted, onUnmounted, ref, watch } from "vue";
 
@@ -51,7 +50,7 @@ const setDynamicColors = async (track: Track) => {
 };
 
 function setDynamicIconColors() {
-  if (!amethyst.state.settings.value.appearance.coverBasedIconColors) {
+  if (!amethyst.state.settings.appearance.coverBasedIconColors) {
     window.electron.ipcRenderer.invoke("set-default-icon", []);
     return;
   }
@@ -70,7 +69,7 @@ watch(() => amethyst.state.settings.appearance.coverBasedColors, enabled => {
   }
 });
 
-watch(() => amethyst.state.settings.value.appearance.coverBasedIconColors, setDynamicIconColors);
+watch(() => amethyst.state.settings.appearance.coverBasedIconColors, setDynamicIconColors);
 
 onMounted(() => {
   amethyst.player.on("player:trackChange", track => {
@@ -96,14 +95,10 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
     class="absolute top-0 left-0 w-320px h-280px z-30 bg-surface-800 "
     @click="amethyst.state.showBigSpectrum.value = false"
   >
-    <spectrum-analyzer
+    <spectrum-analyzer-composite
       key="big-spectrum-analyzer"
       :node="amethyst.player.nodeManager.master.pre"
-      :fft-size="amethyst.state.settings.metering.spectrum.fftSize"
-      :smoothing="amethyst.state.settings.metering.spectrum.smoothing"
-      :spectrogram="amethyst.state.settings.metering.spectrogram.show"
-      :accent-color="getThemeColor('--accent')"
-      :paused="amethyst.shouldPauseVisualizers()"
+      :type="amethyst.state.settings.metering.spectrum.type"
     />
   </div>
   <div

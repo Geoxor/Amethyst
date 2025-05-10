@@ -59,6 +59,8 @@
   "settings.appearance.description": "Background, themes and accessibility",
   "settings.cover_based_colors.title": "Dynamic colors",
   "settings.cover_based_colors.description": "This will make the main accent colors based on the cover art of the currently playing song",
+  "settings.cover_based_icon_colors.title": "Dynamic icon color",
+  "settings.cover_based_icon_colors.description": "Matches the app icon color to the dynamic colors",
 
   "settings.performance.title": "Performance",
   "settings.performance.description": "VSync, animations and rendering",
@@ -99,6 +101,7 @@
 
   "settings.animation_duration.title": "Animation speed",
   "settings.animation_duration.description": "Changes the speed of the animations across the Amethyst UI",
+
 
   "settings.ambient_background.title": "Ambient art",
   "settings.ambient_background.description": "Presents the cover art of the currently playing song on the background",
@@ -172,11 +175,18 @@
   "settings.vectorscope.lissajous.title": "Lissajous",
   "settings.vectorscope.lissajous.description": "Display diagonally in a Lissajous pattern",
 
-  "settings.spectrum_analyzer.title": "Spectrum analyzer",
-  "settings.spectrum_analyzer.description": "Displays the frequency spectrum of the audio signal using a graph, where the x-axis represents the frequency range and the y-axis represents the amplitude",
+  "settings.spectrum_analyzer.title": "Frequency Spectrum analyzer",
+  "settings.spectrum_analyzer.description": "Displays the frequency spectrum and their amplitudes of the audio signal using various visualization methods",
+
+  "settings.spectrum_line_analyzer.line_thickness.title": "Line thickness",
+  "settings.spectrum_line_analyzer.line_thickness.description": "Changes how thick the line in the spectrum analyzer appears",
+  "settings.spectrum_line_analyzer.fill_opacity.title": "Fill opacity",
+  "settings.spectrum_line_analyzer.fill_opacity.description": "Changes how opaque the area under the line appears",
+  "settings.spectrum_line_analyzer.opacity_falloff.title": "Fill opacity falloff",
+  "settings.spectrum_line_analyzer.opacity_falloff.description": "Changes how much the opacity falls off under the line towards the bottom",
   
-  "settings.spectrogram_analyzer.title": "Spectrogram mode",
-  "settings.spectrogram_analyzer.description": "Displays the frequency spectrum of the audio signal over time. Low frequencies are displayed on the bottom while high frequencies are on the top",
+  "settings.spectrum_bars_analyzer.bars.title": "Frequency Bars",
+  "settings.spectrum_bars_analyzer.bars.description": "The amount of bars used to display frequencies",
 
   "settings.oscilloscope_analyzer.title": "Oscilloscope analyzer",
   "settings.oscilloscope_analyzer.description": "Displays the audio signal waveform, where the x-axis represents time and the y-axis represents amplitude",

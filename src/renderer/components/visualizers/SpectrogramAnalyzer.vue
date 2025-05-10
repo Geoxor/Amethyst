@@ -4,18 +4,15 @@ import ShaderCanvas from "@/components/ShaderCanvas.vue";
 import {VISUALIZER_BIN_COUNT} from "@shared/constants";
 import * as THREE from "three";
 import { watch } from "vue";
-import {SpectrumShader} from "@/shaders/components/SpectrumShader";
+import {SpectrogramShader} from "@/shaders/components/SpectrogramShader";
 import { amethyst } from "@/amethyst";
-import {getThemeColor} from "@/logic/color";
+import { getThemeColorRgb } from "@/logic/color";
 
 const props = defineProps<{
   node: AudioNode,
   accentColor: { r: number, g: number, b: number},
   fftSize: number,
   smoothing: number,
-  lineThickness: number,
-  fillOpacity: number,
-  opacityFalloff: number,
   paused?: boolean,
 }>();
 
@@ -34,18 +31,13 @@ updateAnalyser();
 watch(() => [props.fftSize, props.smoothing], updateAnalyser);
 amethyst.state.on("theme:change", () => {
   setTimeout(() => {
-    const accentColor = getThemeColor("--accent");
+    const accentColor = getThemeColorRgb("--accent");
     uniformData.u_color.value.set(
-        normalize8bit(accentColor.r),
-        normalize8bit(accentColor.g),
-        normalize8bit(accentColor.b)
+      normalize8bit(accentColor[0]),
+      normalize8bit(accentColor[1]),
+      normalize8bit(accentColor[2])
     );
   }, 100);
-});
-watch(() => [props.lineThickness, props.fillOpacity, props.opacityFalloff], () => {
-  uniformData.u_line_thickness.value = props.lineThickness;
-  uniformData.u_fill_opacity.value = props.fillOpacity;
-  uniformData.u_opacity_falloff.value = props.opacityFalloff;
 });
 
 // Don't change these
@@ -59,9 +51,6 @@ const uniformData = {
     normalize8bit(props.accentColor.b)
   )},
   u_amplitudes: {value: new Float32Array(VISUALIZER_BIN_COUNT)},
-  u_fill_opacity: {value: props.fillOpacity},
-  u_line_thickness: {value: props.lineThickness},
-  u_opacity_falloff: {value: props.opacityFalloff},
 };
 
 const render = (uniforms: Record<string, any>) => {
@@ -75,7 +64,7 @@ const render = (uniforms: Record<string, any>) => {
   <div class="relative overflow-hidden w-full h-full rounded-4px">
     <shader-canvas
       class="origin-top-left absolute"
-      :frag-shader="SpectrumShader"
+      :frag-shader="SpectrogramShader"
       :analyser="analyser"
       :pause-rendering="paused"
       :uniforms="uniformData"

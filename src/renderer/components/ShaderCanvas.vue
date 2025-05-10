@@ -22,8 +22,8 @@ let shouldDispose = false;
 const getDimensions = () => {
   const bounds = shaderCanvas.value?.parentElement?.getBoundingClientRect();
   return {
-    width: props.width || bounds?.width || 1,
-    height: props.height || bounds?.height || 1
+    width: Math.round(props.width || bounds?.width || 1),
+    height: Math.round(props.height || bounds?.height || 1)
   };
 };
 
