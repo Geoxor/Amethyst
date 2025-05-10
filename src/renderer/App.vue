@@ -13,6 +13,7 @@ import { AmethystIcon } from "@/icons";
 import { getThemeColor } from "@/logic/color";
 import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
+import { set } from "@vueuse/core";
 import { Vibrant } from "node-vibrant/browser";
 import { onMounted, onUnmounted, ref, watch } from "vue";
 
@@ -34,7 +35,7 @@ const setDynamicColors = async (track: Track) => {
   if (!amethyst.state.settings.appearance.coverBasedColors) return;
   const coverBase64 = track.getCover();
   if (!coverBase64) return fallbackToDefault();
-  
+
   const palette = await Vibrant.from(coverBase64).getPalette();
   if (!palette.Vibrant && !palette.LightVibrant) return;
   
@@ -43,8 +44,21 @@ const setDynamicColors = async (track: Track) => {
 
   document.documentElement.style.setProperty("--accent", newAccentColor);
   document.documentElement.style.setProperty("--primary", newPrimaryColor);
+
+  setDynamicIconColors();
+
   amethyst.state.emit("theme:change", "");
 };
+
+function setDynamicIconColors() {
+  if (!amethyst.state.settings.value.appearance.coverBasedIconColors) {
+    window.electron.ipcRenderer.invoke("set-default-icon", []);
+    return;
+  }
+
+  const color = getThemeColor("--accent");
+  window.electron.ipcRenderer.invoke("set-icon-tint", [color.r, color.g, color.b]);
+}
 
 watch(() => amethyst.state.settings.appearance.coverBasedColors, enabled => {
   if (enabled) {
@@ -56,10 +70,13 @@ watch(() => amethyst.state.settings.appearance.coverBasedColors, enabled => {
   }
 });
 
+watch(() => amethyst.state.settings.value.appearance.coverBasedIconColors, setDynamicIconColors);
+
 onMounted(() => {
   amethyst.player.on("player:trackChange", track => {
     setAmbientCover(track);
     setDynamicColors(track);
+    setDynamicIconColors();
   });
 });
 

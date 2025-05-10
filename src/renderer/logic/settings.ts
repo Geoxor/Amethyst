@@ -33,6 +33,7 @@ const DEFAULT_APPEARANCE_SETTINGS = {
     fontWeight: "normal",
 		theme: "amethyst-dark",
     coverBasedColors: false,
+    coverBasedIconColors: false,
 		ambientBackground: {
 			show: false,
 			opacity: 10,
