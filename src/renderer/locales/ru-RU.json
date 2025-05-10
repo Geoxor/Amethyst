@@ -134,7 +134,7 @@
   "settings.vectorscope.description": "Отображает визуальное представление стереоаудиосигнала. Показывает относительную фазу и ширину стерео аудиосигнала с использованием кругового графика. Вектороскоп можно использовать для проверки стереоизображения и фазовой согласованности аудиосигнала",
   "settings.vectorscope.lissajous.title": "Лиссажу",
   "settings.vectorscope.lissajous.description": "Отображение по диагонали в виде лиссажа",
-  "settings.spectrum_analyzer.title": "Спектральный анализатор",
+  "settings.spectrum_analyzer.title": "Frequency spectrum analyzer",
   "settings.spectrum_analyzer.description": "Отображает визуальное представление частотного содержания аудиосигнала. Показывает частотный спектр аудиосигнала с использованием графика, где ось X представляет диапазон частот, а ось Y представляет амплитуду. Спектральный анализатор можно использовать для анализа частотного баланса аудиосигнала и выявления частотных пиков или углублений",
   "settings.spectrum_line_analyzer.line_thickness.title": "Line thickness",
   "settings.spectrum_line_analyzer.line_thickness.description": "Changes how thick the line in the spectrum analyzer appears",
