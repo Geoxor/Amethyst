@@ -35,19 +35,19 @@ onMounted(() => {
   const splitter = context.createChannelSplitter(CHANNELS);
   const analyzers = Array.from({ length: CHANNELS }, () => {
     const analyzer = context.createAnalyser();
-    analyzer.fftSize = amethyst.state.settings.value.metering.decibelMeter.fftSize;
+    analyzer.fftSize = amethyst.state.settings.metering.decibelMeter.fftSize;
     return analyzer;
   });
 
   let buffers = analyzers.map(analyzer => new Float32Array(analyzer.fftSize));
   
-  watch(() => amethyst.state.settings.value.metering.decibelMeter.fftSize, value => {
+  watch(() => amethyst.state.settings.metering.decibelMeter.fftSize, value => {
     analyzers.forEach(a => a.fftSize = value);
     buffers = analyzers.map(() => new Float32Array(value));
   });
 
   watch(() => amethyst.state.window.isFocused, isFocused => {
-    if (amethyst.state.settings.value.performance.pauseVisualsWhenUnfocused) {
+    if (amethyst.state.settings.performance.pauseVisualsWhenUnfocused) {
       if (!isFocused) shouldStopRendering = true;
       else {
         shouldStopRendering = false;
@@ -84,7 +84,7 @@ onMounted(() => {
 });
 
 const computedHeight = (value: number): number => {
-  const width = (1 + value / Math.abs(amethyst.state.settings.value.metering.decibelMeter.minimumDb)) * 90;
+  const width = (1 + value / Math.abs(amethyst.state.settings.metering.decibelMeter.minimumDb)) * 90;
   return Math.min(100, Math.max(0.01, width));
 };
 

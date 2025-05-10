@@ -11,6 +11,7 @@ import NavigationButton from "@/components/NavigationButton.vue";
     />
 
     <navigation-button
+      v-if="amethyst.IS_DEV"
       icon="mdi:compass"
       route-name="discovery"
     />

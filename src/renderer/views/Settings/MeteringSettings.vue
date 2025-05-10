@@ -6,7 +6,7 @@ import SliderInput from "@/components/v2/SliderInput.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 import { FFT_SIZES } from "@shared/constants";
 import {SPECTRUM_TYPES} from "@/logic/settings";
-const {metering} = amethyst.state.settings.value;
+const {metering} = amethyst.state.settings;
 </script>
 
 <template>
@@ -115,7 +115,7 @@ const {metering} = amethyst.state.settings.value;
             v-model="metering.vectorscope.lineThickness"
             :min="0.1"
             :max="10"
-            :step="1"
+            :step="0.1"
             suffix="px"
           />
         </settings-setting>
@@ -337,7 +337,7 @@ const {metering} = amethyst.state.settings.value;
             v-model="metering.oscilloscope.lineThickness"
             :min="0.1"
             :max="10"
-            :step="1"
+            :step="0.1"
             suffix="px"
           />
         </settings-setting>

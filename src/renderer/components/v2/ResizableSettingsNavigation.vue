@@ -48,7 +48,7 @@ onBeforeUnmount(() => {
     <resizable-div
       class="min-w-min"
       :class="[
-        amethyst.state.settings.value.appearance.minimalistMode && amethyst.state.settings.value.appearance.hideCategoryTitles ? 'max-w-min' : 'max-w-400px'
+        amethyst.state.settings.appearance.minimalistMode && amethyst.state.settings.appearance.hideCategoryTitles ? 'max-w-min' : 'max-w-400px'
       ]"
       container-class="flex flex-col"
       name="settings-navigation"

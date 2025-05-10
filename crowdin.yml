@@ -1,0 +1,5 @@
+bundles:
+  - 2
+files:
+  - source: /src/renderer/locales/en-US.json
+    translation: /src/renderer/locales/%locale%.json

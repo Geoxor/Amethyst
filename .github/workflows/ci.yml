@@ -4,7 +4,8 @@ on:
   push:
     paths-ignore:
       - "**/*.md"
-
+      - 'src/renderer/locales/**'
+      - 'scripts/localizationStatus.js'
 jobs:
   test:
     name: Test

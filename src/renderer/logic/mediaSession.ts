@@ -21,9 +21,9 @@ export class MediaSession {
       }
     }
 
-    this.player.on("play", () => navigator.mediaSession.playbackState = "playing");
-    this.player.on("pause", () => navigator.mediaSession.playbackState = "paused");
-    this.player.on("play", async track => {
+    this.player.on("player:play", () => navigator.mediaSession.playbackState = "playing");
+    this.player.on("player:pause", () => navigator.mediaSession.playbackState = "paused");
+    this.player.on("player:play", async track => {
       const coverUrl = track.getCover();
       if (!coverUrl) return;
 

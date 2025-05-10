@@ -38,7 +38,10 @@ export class State extends EventEmitter<StateEvents> {
 
 	public defaultSettings = DEFAULT_SETTINGS;
 
-	public settings = useLocalStorage("settings", this.defaultSettings, { writeDefaults: true, mergeDefaults: true });
+	public settings = reactive({
+		...useLocalStorage("settings", this.defaultSettings, { writeDefaults: true, mergeDefaults: true }).value
+	});
+
 	public shaders = ref<ShaderManager>(new ShaderManager());
 
 	public realtimeDevices = ref<RtAudioDeviceInfo[]>([]);
@@ -46,9 +49,9 @@ export class State extends EventEmitter<StateEvents> {
 	public applyCurrentTheme = () => {
 		if (typeof document !== "undefined") {
 			const dom = document.querySelector("html");
-			dom!.className = `theme-${this.settings.value.appearance.theme}`;
+			dom!.className = `theme-${this.settings.appearance.theme}`;
 		}
-		this.emit("theme:change", this.settings.value.appearance.theme);
+		this.emit("theme:change", this.settings.appearance.theme);
 	};
 
 	constructor() {
@@ -62,34 +65,34 @@ export class State extends EventEmitter<StateEvents> {
 		});
 
 		// Load from persistance
-		document.documentElement.style.setProperty("--transition-duration", `${this.settings.value.appearance.animationDuration}ms`);
-		document.documentElement.style.setProperty("--smoothing-duration", `${this.settings.value.metering.decibelMeter.smoothingDuration}ms`);
-		document.documentElement.style.setProperty("--font-weight", `${(FONT_WEIGHTS.indexOf(this.settings.value.appearance.fontWeight) + 1) * 100}`);
+		document.documentElement.style.setProperty("--transition-duration", `${this.settings.appearance.animationDuration}ms`);
+		document.documentElement.style.setProperty("--smoothing-duration", `${this.settings.metering.decibelMeter.smoothingDuration}ms`);
+		document.documentElement.style.setProperty("--font-weight", `${(FONT_WEIGHTS.indexOf(this.settings.appearance.fontWeight) + 1) * 100}`);
 
     window.electron.ipcRenderer.invoke<RtAudioDeviceInfo[]>("get-realtime-devices").then(devices => {
       this.realtimeDevices.value = devices;
 
 			// Check if it's the first time and populate so when user selects asio for the first time
 			// it doesn't bug out
-			if (this.settings.value.audio.outputRealtimeDeviceName == "") {
-				this.settings.value.audio.outputRealtimeDeviceName = this.realtimeDevices.value[0].name;
+			if (this.settings.audio.outputRealtimeDeviceName == "") {
+				this.settings.audio.outputRealtimeDeviceName = this.realtimeDevices.value[0].name;
 			}
     });
 
 		// Update css when state changes
-		watch(() => this.settings.value.appearance.animationDuration, newValue => {
+		watch(() => this.settings.appearance.animationDuration, newValue => {
 			document.documentElement.style.setProperty("--transition-duration", `${newValue}ms`);
 		});
 
-		watch(() => this.settings.value.metering.decibelMeter.smoothingDuration, newValue => {
+		watch(() => this.settings.metering.decibelMeter.smoothingDuration, newValue => {
 			document.documentElement.style.setProperty("--smoothing-duration", `${newValue}ms`);
 		});
 
-		watch(() => this.settings.value.appearance.fontWeight, newValue => {
+		watch(() => this.settings.appearance.fontWeight, newValue => {
 			document.documentElement.style.setProperty("--font-weight", `${(FONT_WEIGHTS.indexOf(newValue) + 1) * 100}`);
 		});
 
-		watch(() => this.settings.value.appearance.theme, newThemeName => {
+		watch(() => this.settings.appearance.theme, newThemeName => {
 			this.applyCurrentTheme();
 			this.emit("theme:change", newThemeName);
 		});

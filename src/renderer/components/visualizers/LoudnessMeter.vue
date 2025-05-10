@@ -58,7 +58,7 @@ onMounted(() => {
 
   loudnessMeter.start();
 
-  amethyst.player.on("play", () => {
+  amethyst.player.on("player:play", () => {
     if (amethyst.state.window.isFocused) {
       loudnessMeter.reset();
       loudnessMeter.resume();
@@ -67,10 +67,10 @@ onMounted(() => {
       integratedMax.value = MINIMUM_LUFS;
     }
   });
-  amethyst.player.on("pause", () => loudnessMeter.pause());
+  amethyst.player.on("player:pause", () => loudnessMeter.pause());
 
   watch(() => amethyst.state.window.isFocused, isFocused => {
-    if (amethyst.state.settings.value.performance.pauseVisualsWhenUnfocused) {
+    if (amethyst.state.settings.performance.pauseVisualsWhenUnfocused) {
       if (!isFocused) loudnessMeter.pause();
       else loudnessMeter.resume();
     }
@@ -80,7 +80,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="text-11px font-bold text-playback-controls-text w-full flex flex-col justify-between items-start h-full disable-select no-drag">
+  <div class="text-11px font-bold text-playback-controls-text w-full flex flex-col justify-between overflow-hidden items-start h-full disable-select no-drag">
     <div class="meter">
       <p class="type overflow-hidden overflow-ellipsis">
         M

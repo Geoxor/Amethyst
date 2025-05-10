@@ -13,7 +13,7 @@ const router = useRouter();
 
 <template>
   <big-button 
-    :class="[isActive && 'active', amethyst.state.settings.value.appearance.neonMode && 'neonMode']"
+    :class="[isActive && 'active', amethyst.state.settings.appearance.neonMode && 'neonMode']"
     :title="title"
     :description="description"
     :icon="icon"

@@ -21,18 +21,18 @@ onMounted(() => {
     }, 100);
   });
 
-  canvasCtx.lineWidth = amethyst.state.settings.value.metering.vectorscope.lineThickness;
-  watch(() => amethyst.state.settings.value.metering.vectorscope.lineThickness, () => canvasCtx.lineWidth = amethyst.state.settings.value.metering.vectorscope.lineThickness);
+  canvasCtx.lineWidth = amethyst.state.settings.metering.vectorscope.lineThickness;
+  watch(() => amethyst.state.settings.metering.vectorscope.lineThickness, () => canvasCtx.lineWidth = amethyst.state.settings.metering.vectorscope.lineThickness);
 
   const { context } = props.node;
   const analyzerX = context.createAnalyser();
   const analyzerY = context.createAnalyser();
-  analyzerX.fftSize = amethyst.state.settings.value.metering.vectorscope.fftSize;
-  analyzerY.fftSize = amethyst.state.settings.value.metering.vectorscope.fftSize;
+  analyzerX.fftSize = amethyst.state.settings.metering.vectorscope.fftSize;
+  analyzerY.fftSize = amethyst.state.settings.metering.vectorscope.fftSize;
   let bufferX = new Float32Array(analyzerX.fftSize);
   let bufferY = new Float32Array(analyzerY.fftSize);
 
-	watch(() => amethyst.state.settings.value.metering.vectorscope.fftSize, value => {
+	watch(() => amethyst.state.settings.metering.vectorscope.fftSize, value => {
     analyzerX.fftSize = value;
     analyzerY.fftSize = value;
     bufferX = new Float32Array(value);
@@ -47,7 +47,7 @@ onMounted(() => {
   let lastPosition = [props.width / 2, props.height / 2];
 
   watch(() => amethyst.state.window.isFocused, isFocused => {
-    if (amethyst.state.settings.value.performance.pauseVisualsWhenUnfocused) {
+    if (amethyst.state.settings.performance.pauseVisualsWhenUnfocused) {
       if (!isFocused) shouldStopRendering = true;
       else {
         shouldStopRendering = false;
@@ -87,7 +87,7 @@ onUnmounted(() => shouldStopRendering = true);
 <template>
   <canvas
     :id="`vectorscope-${randomId}`"
-    :class="[amethyst.state.settings.value.metering.vectorscope.lissajous && 'lissajous bg-slider-background bg-opacity-50']"
+    :class="[amethyst.state.settings.metering.vectorscope.lissajous && 'lissajous bg-slider-background bg-opacity-50']"
     class="transform rotate-90"
     :width="width"
     :height="height"

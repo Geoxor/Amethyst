@@ -7,6 +7,9 @@
     "light": "#a0a2eb",
     "dark": "#646ac3"
   },
+  "icons": {
+    "library": "fontawesome"
+  },
   "favicon": "/favicon.svg",
   "navigation": {
     "dropdowns": [
@@ -22,6 +25,13 @@
               "guides/installation",
               "guides/development",
               "guides/localization"
+            ]
+          },
+          {
+            "group": "Events",
+            "pages": [
+              "guides/player_events",
+              "guides/window_events"
             ]
           }
         ]

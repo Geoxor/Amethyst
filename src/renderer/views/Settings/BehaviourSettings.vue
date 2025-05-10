@@ -2,7 +2,7 @@
 import { amethyst } from "@/amethyst";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
-const {behavior} = amethyst.state.settings.value;
+const {behavior} = amethyst.state.settings;
 
 </script>
 

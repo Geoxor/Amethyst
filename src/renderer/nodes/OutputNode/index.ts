@@ -31,9 +31,9 @@ const createRealtimeNode = (context: AudioContext, pre: GainNode ) => {
       
       // Send to backend
       window.electron.ipcRenderer.invoke("audio-chunk", [
-        JSON.parse(JSON.stringify(amethyst.state.realtimeDevices.value.find(device => device.name == amethyst.state.settings.value.audio.outputRealtimeDeviceName))),
+        JSON.parse(JSON.stringify(amethyst.state.realtimeDevices.value.find(device => device.name == amethyst.state.settings.audio.outputRealtimeDeviceName))),
         2, // channels
-        amethyst.state.settings.value.audio.bufferSize,
+        amethyst.state.settings.audio.bufferSize,
         amethyst.player.context.sampleRate,
         int16.buffer,
       ]);
@@ -44,26 +44,26 @@ const createRealtimeNode = (context: AudioContext, pre: GainNode ) => {
 
 function connectToFinalNode(amethyst: Amethyst, context: AudioContext, pre: GainNode) {
 
-  const device = (): RtAudioDeviceInfo => JSON.parse(JSON.stringify(amethyst.state.realtimeDevices.value.find(device => device.name == amethyst.state.settings.value.audio.outputRealtimeDeviceName)));
+  const device = (): RtAudioDeviceInfo => JSON.parse(JSON.stringify(amethyst.state.realtimeDevices.value.find(device => device.name == amethyst.state.settings.audio.outputRealtimeDeviceName)));
   const connectRealtimeDriver = () => {
-    console.log(`Creating node for realtime device: ${amethyst.state.settings.value.audio.outputDeviceName}`);
-    window.electron.ipcRenderer.invoke("start-realtime-audio-stream", [device(), 2, amethyst.state.settings.value.audio.bufferSize, amethyst.player.context.sampleRate]);
+    console.log(`Creating node for realtime device: ${amethyst.state.settings.audio.outputDeviceName}`);
+    window.electron.ipcRenderer.invoke("start-realtime-audio-stream", [device(), 2, amethyst.state.settings.audio.bufferSize, amethyst.player.context.sampleRate]);
 
     // Watch for when the user changes the ASIO device
-    watch(() => amethyst.state.settings.value.audio.outputRealtimeDeviceName, async newValue => {
-      amethyst.state.settings.value.audio.outputDeviceName = newValue;
+    watch(() => amethyst.state.settings.audio.outputRealtimeDeviceName, async newValue => {
+      amethyst.state.settings.audio.outputDeviceName = newValue;
     });
 
     createRealtimeNode(context, pre);
   };
 
-  if (amethyst.state.settings.value.audio.driver == "default") {
+  if (amethyst.state.settings.audio.driver == "default") {
     pre.connect(context.destination);
-  } else if (amethyst.state.settings.value.audio.driver == "asio" || amethyst.state.settings.value.audio.driver == "alsa" || amethyst.state.settings.value.audio.driver == "coreaudio") {
+  } else if (amethyst.state.settings.audio.driver == "asio" || amethyst.state.settings.audio.driver == "alsa" || amethyst.state.settings.audio.driver == "coreaudio") {
     connectRealtimeDriver();
   }
 
-  watch(() => amethyst.state.settings.value.audio.driver, (newValue, oldValue) => {
+  watch(() => amethyst.state.settings.audio.driver, (newValue, oldValue) => {
     console.log(`Changed audio driver from ${oldValue} to ${newValue}`);
     amethyst.updateCurrentOutputDevice();
 
@@ -78,7 +78,7 @@ function connectToFinalNode(amethyst: Amethyst, context: AudioContext, pre: Gain
         pre.disconnect(context.destination);
         if (hasWorkletStarted) {
           pre.connect(captureNode);
-          window.electron.ipcRenderer.invoke("start-realtime-audio-stream", [device(), 2, amethyst.state.settings.value.audio.bufferSize, amethyst.player.context.sampleRate]);
+          window.electron.ipcRenderer.invoke("start-realtime-audio-stream", [device(), 2, amethyst.state.settings.audio.bufferSize, amethyst.player.context.sampleRate]);
         } else {
           connectRealtimeDriver();
         }
@@ -88,7 +88,7 @@ function connectToFinalNode(amethyst: Amethyst, context: AudioContext, pre: Gain
     }
   });
 
-  console.log(`Using audio driver: ${amethyst.state.settings.value.audio.driver}`);
+  console.log(`Using audio driver: ${amethyst.state.settings.audio.driver}`);
 }
 
 export class AmethystOutputNode extends AmethystAudioNode {

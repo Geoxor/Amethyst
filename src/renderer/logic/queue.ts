@@ -108,7 +108,7 @@ export class Queue {
     const tracks = force ? this.getList() : this.getList().filter(track => !track.isLoaded);
     const pool = await PromisePool
 			.for(tracks)
-			.withConcurrency(this.amethyst.state.settings.value.performance.processingConcurrency)
+			.withConcurrency(this.amethyst.state.settings.performance.processingConcurrency)
 			.process(async track => {
         await track.fetchAsyncData(force);
       });

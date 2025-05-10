@@ -7,7 +7,7 @@ import GenericBlob from "./GenericBlob.vue";
 
 <template>
   <generic-blob
-    v-if="amethyst.state.settings.value.audio.driver == 'default' && amethyst.getCurrentOperatingSystem() === 'windows'"
+    v-if="amethyst.state.settings.audio.driver == 'default' && amethyst.getCurrentOperatingSystem() === 'windows'"
     :title="$t('output_diagram.os_api.title')"
     subtitle="WASAPI" 
   >

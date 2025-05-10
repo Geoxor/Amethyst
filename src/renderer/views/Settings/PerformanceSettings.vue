@@ -34,7 +34,7 @@ onMounted(() => {
   }, 1000);
 });
 
-const {performance} = amethyst.state.settings.value;
+const {performance} = amethyst.state.settings;
 </script>
 
 <template>
