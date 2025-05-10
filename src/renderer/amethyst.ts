@@ -21,7 +21,7 @@ import { EventEmitter } from "./logic/eventEmitter";
 
 export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale
-  locale: localStorage.getItem("settings") !== null ? JSON.parse(localStorage.getItem("settings")!).application.language : "en-US",
+  locale: JSON.parse(localStorage.getItem("settings")!)?.application?.language || "en-US",
   messages,
 });
 
