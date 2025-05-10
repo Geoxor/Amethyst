@@ -16,6 +16,7 @@ import { Icon } from "@iconify/vue";
 import { set } from "@vueuse/core";
 import { Vibrant } from "node-vibrant/browser";
 import { onMounted, onUnmounted, ref, watch } from "vue";
+import SpectrumAnalyzerComposite from "@/components/visualizers/SpectrumAnalyzerComposite.vue";
 
 const ambientBackgroundImage = ref("");
 
@@ -96,14 +97,10 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
     class="absolute top-0 left-0 w-320px h-280px z-30 bg-surface-800 "
     @click="amethyst.state.showBigSpectrum.value = false"
   >
-    <spectrum-analyzer
+    <spectrum-analyzer-composite
       key="big-spectrum-analyzer"
       :node="amethyst.player.nodeManager.master.pre"
-      :fft-size="amethyst.state.settings.metering.spectrum.fftSize"
-      :smoothing="amethyst.state.settings.metering.spectrum.smoothing"
-      :spectrogram="amethyst.state.settings.metering.spectrogram.show"
-      :accent-color="getThemeColor('--accent')"
-      :paused="amethyst.shouldPauseVisualizers()"
+      :type="amethyst.state.settings.metering.spectrum.type"
     />
   </div>
   <div

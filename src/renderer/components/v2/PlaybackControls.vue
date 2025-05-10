@@ -10,9 +10,7 @@ import ResizableDiv from "@/components/ResizableDiv";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import LoudnessMeter from "@/components/visualizers/LoudnessMeter.vue";
 import Oscilloscope from "@/components/visualizers/OscilloscopeAnalyzer.vue";
-import SpectrumAnalyzer from "@/components/visualizers/SpectrumAnalyzer.vue";
 import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
-import { getThemeColor } from "@/logic/color";
 import { router } from "@/router";
 import { Icon } from "@iconify/vue";
 import { secondsToColinHuman } from "@shared/formating";
@@ -20,6 +18,7 @@ import { LoadStatus } from "@shared/types";
 import { onMounted, onUnmounted, ref, watch } from "vue";
 import BaseTooltip from "../BaseTooltip.vue";
 import DraggableModifierInput from "../input/DraggableModifierInput.vue";
+import SpectrumAnalyzerComposite from "@/components/visualizers/SpectrumAnalyzerComposite.vue";
 
 let lastVolumeBeforeMute = amethyst.player.volume;
 
@@ -56,7 +55,7 @@ onMounted(() => {
   const parent = trackTitles.value!.parentElement!;
   resizeObserver = new ResizeObserver(e => updateTitleSpacing(e[0].borderBoxSize[0].inlineSize));
   parent && resizeObserver.observe(parent);
-});  
+});
 
 onUnmounted(() => resizeObserver.disconnect());
 
@@ -345,6 +344,7 @@ const editMeterContextMenuOption = (name :string) => [{
 
     <div
       v-if="amethyst.state.settings.metering.spectrum.show"
+      :key="amethyst.player.nodeManager.getNodeConnectionsString()"
       :class="[!amethyst.state.settings.metering.vectorscope.show && 'max-w-304px']"
       class="flex pointer-events-auto overflow-hidden items-center h-16 gap-2 rounded-8px transition w-full min-w-180px max-w-240px bg-playback-controls-background hide"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
@@ -353,14 +353,9 @@ const editMeterContextMenuOption = (name :string) => [{
       ]);"
       @click="amethyst.state.showBigSpectrum.value = true"
     >
-      <spectrum-analyzer
-        :key="amethyst.player.nodeManager.getNodeConnectionsString()"
+      <spectrum-analyzer-composite
         :node="amethyst.player.nodeManager.master.pre"
-        :fft-size="amethyst.state.settings.metering.spectrum.fftSize"
-        :smoothing="amethyst.state.settings.metering.spectrum.smoothing"
-        :spectrogram="amethyst.state.settings.metering.spectrogram.show"
-        :accent-color="getThemeColor('--accent')"
-        :paused="amethyst.shouldPauseVisualizers()"
+        :type="amethyst.state.settings.metering.spectrum.type"
       />
     </div>
     <!-- Spacer to keep the middle dock centered  -->
