@@ -65,7 +65,7 @@
 }
 
 * {
-  @apply !outline-none;
+  @apply !outline-none border-none ;
   cursor: url("./icons/cursors/default.png"), auto !important;
 }
 
@@ -75,6 +75,16 @@ body,
 #app,
 #app {
   @apply bg-surface-900 p-0 m-0;
+}
+
+p,
+h1,
+h2,
+h3 {
+  @apply p-0 m-0;
+}
+button,input {
+  @apply bg-transparent;
 }
 
 html,
