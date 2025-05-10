@@ -39,7 +39,12 @@ export class State extends EventEmitter<StateEvents> {
 	public defaultSettings = DEFAULT_SETTINGS;
 
 	public settings = reactive({
-		...useLocalStorage("settings", this.defaultSettings, { writeDefaults: true, mergeDefaults: true }).value
+		...useLocalStorage("settings", this.defaultSettings, {
+			writeDefaults: true,
+			mergeDefaults: (storageValue, defaults) => {
+				return { ...defaults, ...storageValue };
+			}
+		}).value
 	});
 
 	public shaders = ref<ShaderManager>(new ShaderManager());
