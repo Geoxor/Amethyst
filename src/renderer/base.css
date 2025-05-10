@@ -77,15 +77,19 @@ body,
   @apply bg-surface-900 p-0 m-0;
 }
 
-p,
+p {
+  @apply p-0 m-0 text-[11px];
+}
+
 h1,
 h2,
-h3 {
+h3,
+ul {
   @apply p-0 m-0 text-[12px];
 }
 
 button, input {
-  @apply bg-transparent text-text-title;
+  @apply bg-transparent text-text-title p-0 m-0 ;
 }
 
 html,

@@ -153,9 +153,9 @@ const editMeterContextMenuOption = (name :string) => [{
       side="centerVertical"
       :handles-visible="false"
       default-size="960px"
-      class="relative rounded-8px min-w-670px max-w-full pointer-events-auto bg-playback-controls-background"
+      class=" rounded-8px min-w-670px max-w-full pointer-events-auto bg-playback-controls-background"
     >
-      <div class="flex items-center h-16 gap-2 p-2 w-full">
+      <div class="flex relative items-center h-16 gap-2 p-2 w-full">
         <Transition name="slide">
           <div 
             v-if="amethyst.state.showOutputDiagram.value"
@@ -173,7 +173,7 @@ const editMeterContextMenuOption = (name :string) => [{
           id="seek"
           key="seek"
           v-model="amethyst.player.currentTime.value"
-          class="w-full h-8 absolute -top-1.5 hover:-top-3 w-full left-0 -z-1"
+          class="h-8 absolute -top-1.5 hover:-top-3 w-full left-0 -z-1"
           :max="amethyst.player.input.duration"
           @input="amethyst.player.seekTo(amethyst.player.currentTime.value)"
           @wheel.passive="handleSeekMouseScroll"
