@@ -133,7 +133,7 @@ const FILTER_TYPES = [
           suffix="Q"
           :digits="2"
         />
-        <div class="flex rounded-2px overflow-hidden">
+        <div class="flex rounded-2px truncate">
           <button
             v-for="filterType of FILTER_TYPES"
             :key="filterType"

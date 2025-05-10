@@ -206,7 +206,7 @@ provide("menuGroupRef", menuGroupRef);
       />
     </p>
 
-    <div class="flex gap-1.25 h-6 items-center overflow-hidden font-aseprite whitespace-nowrap">
+    <div class="flex gap-1.25 h-6 items-center truncate font-aseprite whitespace-nowrap">
       <div
         v-if="amethyst.state.settings.appearance.showDebugStats"
         class="w-56 flex gap-1 justify-end no-drag" 

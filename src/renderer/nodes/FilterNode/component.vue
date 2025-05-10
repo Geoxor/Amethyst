@@ -28,7 +28,7 @@ watch(() => props.node.frequencyPercent, percent => {
       <p class="text-primary-900 ">
         Type
       </p>
-      <div class="flex rounded-2px overflow-hidden">
+      <div class="flex rounded-2px truncate">
         <button
           v-for="filterType of node.getParameters().type.options"
           :key="filterType"

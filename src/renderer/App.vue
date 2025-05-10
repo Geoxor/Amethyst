@@ -107,7 +107,7 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
   >
     <div
       v-if="amethyst.state.window.isShowingBigCover"
-      class="absolute select-none rounded-8px w-full sm:w-auto max-w-3/4 max-h-3/4 overflow-hidden top-1/2 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2 z-50"
+      class="absolute select-none rounded-8px w-full sm:w-auto max-w-3/4 max-h-3/4 truncate top-1/2 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2 z-50"
       style="aspect-ratio: 1/1;"
     >
       <cover-art 
@@ -150,7 +150,7 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
       class="w-full absolute bottom-0 z-10 "
     >
       <div
-        class="p-2 rounded-t-24px overflow-hidden drop-shadow-2xl flex bg-surface-700 justify-between"
+        class="p-2 rounded-t-24px truncate drop-shadow-2xl flex bg-surface-700 justify-between"
       > 
         <navigation-button
           :icon="AmethystIcon"
@@ -179,7 +179,7 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
         <navigation-bar v-if="amethyst.getCurrentPlatform() !== 'mobile'" />
 
         <div class="flex flex-col w-full">
-          <router-view class="overflow-hidden disable-select no-drag" />
+          <router-view class="truncate disable-select no-drag" />
         </div>
         <inspector-bar v-if="useInspector().state.isVisible" />
       </div>

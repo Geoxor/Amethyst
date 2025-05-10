@@ -99,7 +99,7 @@ onUnmounted(() => shouldStopRendering = true);
       class="flex flex-col gap-2 h-full items-center"
     >
       <div
-        class="relative h-full overflow-hidden rounded-2px flex gap-2"
+        class="relative h-full truncate rounded-2px flex gap-2"
         :style="`width: ${width}px;`"
       >
         <div

@@ -64,7 +64,7 @@ const filteredMetadata = computed(() => {
 
 <template>
   <div
-    class="inspector text-12px top-16 right-2 overflow-hidden w-min-96 rounded-4px z-30 text-primary-900 h-full bg-surface-1000"
+    class="inspector text-12px top-16 right-2 truncate w-min-96 rounded-4px z-30 text-primary-900 h-full bg-surface-1000"
   >
     <div class="h-10 pl-3 flex w-full  justify-between items-center ">
       <div class="flex gap-2 items-center text-inspector-color">
@@ -410,7 +410,7 @@ section {
 
   & input,
   & p {
-    @apply px-2 py-1 bg-surface-800 rounded-4px overflow-hidden text-ellipsis;
+    @apply px-2 py-1 bg-surface-800 rounded-4px truncate text-ellipsis;
   }
 
   input {

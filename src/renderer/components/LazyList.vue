@@ -392,12 +392,12 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
         <div
           class="row flex items-center px-2 rounded-4px"
           :class="[
-            `h-[${ITEM_HEIGHT}px]`,
+            `max-h-[${ITEM_HEIGHT}px] h-[${ITEM_HEIGHT}px]`,
             isHoldingControl && 'control cursor-external-pointer',
             item.hasErrored && 'opacity-50 not-allowed',
             item.deleted && 'opacity-50 !text-rose-400 not-allowed',
             amethyst.player.getCurrentTrack()?.path == item.path && 'currentlyPlaying',
-            amethyst.state.settings.appearance.compactList ? 'py-1' : 'py-2',
+            amethyst.state.settings.appearance.compactList ? 'py-1' : 'py-1.5',
             useInspector().state.isVisible && (useInspector().state.currentItem == item as any) && 'currentlyInspecting',
           ]"
           draggable="true"
@@ -648,7 +648,7 @@ td {
 }
 
 tr {
-  @apply overflow-hidden;
+  @apply truncate;
 }
 
 .cover {
@@ -678,10 +678,10 @@ tr {
 }
 
 .row {
-  @apply overflow-hidden text-text-subtitle ;
+  @apply truncate text-text-subtitle ;
 
   & > div {
-    @apply overflow-hidden text-ellipsis;
+    @apply truncate text-ellipsis;
   }
 
   &:hover {

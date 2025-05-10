@@ -53,6 +53,6 @@ onUnmounted(() => {
 }
 
 td {
-  @apply overflow-hidden text-ellipsis;
+  @apply truncate text-ellipsis;
 }
 </style>

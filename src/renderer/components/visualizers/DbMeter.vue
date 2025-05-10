@@ -85,7 +85,7 @@ onUnmounted(() => shouldStopRendering = true);
       <div
         v-for="i of currentChannels"
         :key="i"
-        class="absolute h-full overflow-hidden rounded-full"
+        class="absolute h-full truncate rounded-full"
         :style="`width: ${width}px; left: ${(width * 1.75) * i - (width * 1.75)}px;`"
       >
         <div
