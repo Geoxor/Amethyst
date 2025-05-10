@@ -23,6 +23,8 @@ defineProps<{
     :line-thickness="amethyst.state.settings.metering.spectrumLine.lineThickness"
     :fill-opacity="amethyst.state.settings.metering.spectrumLine.fillOpacity"
     :opacity-falloff="amethyst.state.settings.metering.spectrumLine.opacityFalloff"
+    :max-decibels="amethyst.state.settings.metering.spectrumLine.maxDecibels"
+    :min-decibels="amethyst.state.settings.metering.spectrumLine.minDecibels"
     :paused="amethyst.shouldPauseVisualizers()"
   />
   <spectrum-bar-analyzer

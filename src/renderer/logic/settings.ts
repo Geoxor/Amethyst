@@ -108,6 +108,8 @@ const DEFAULT_METERING_SETTINGS = {
       lineThickness: 2,
       fillOpacity: 1,
       opacityFalloff: 0,
+      maxDecibels: 0,
+      minDecibels: -128,
     },
     spectrumBars: {
       smoothing: 0.5,

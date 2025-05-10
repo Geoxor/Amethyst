@@ -102,6 +102,10 @@
   "settings.animation_duration.title": "Animation speed",
   "settings.animation_duration.description": "Changes the speed of the animations across the Amethyst UI",
 
+  "settings.max_decibels.title": "Maximum decibels",
+  "settings.max_decibels.description": "The upper limit of the vertical axis in decibels. Frequencies louder than this value will be clipped",
+  "settings.min_decibels.title": "Minimum decibels",
+  "settings.min_decibels.description": "The lower limit of the vertical axis in decibels. Frequencies quieter than this value will not be displayed",
 
   "settings.ambient_background.title": "Ambient art",
   "settings.ambient_background.description": "Presents the cover art of the currently playing song on the background",

@@ -14,6 +14,8 @@ const props = defineProps<{
   fftSize: number,
   smoothing: number,
   lineThickness: number,
+  maxDecibels: number,
+  minDecibels: number,
   fillOpacity: number,
   opacityFalloff: number,
   paused?: boolean,
@@ -27,11 +29,13 @@ props.node.connect(analyser);
 const updateAnalyser = () => {
   analyser.fftSize = props.fftSize;
   analyser.smoothingTimeConstant = props.smoothing;
+  analyser.maxDecibels = props.maxDecibels;
+  analyser.minDecibels = props.minDecibels;
 };
 
 updateAnalyser();
 
-watch(() => [props.fftSize, props.smoothing], updateAnalyser);
+watch(() => [props.fftSize, props.smoothing, props.maxDecibels, props.minDecibels], updateAnalyser);
 amethyst.state.on("theme:change", () => {
   setTimeout(() => {
     const accentColor = getThemeColor("--accent");
@@ -47,10 +51,6 @@ watch(() => [props.lineThickness, props.fillOpacity, props.opacityFalloff], () =
   uniformData.u_fill_opacity.value = props.fillOpacity;
   uniformData.u_opacity_falloff.value = props.opacityFalloff;
 });
-
-// Don't change these
-analyser.maxDecibels = -0;
-analyser.minDecibels = -128;
 
 const uniformData = {
   u_color: {value: new THREE.Vector3(

@@ -179,6 +179,37 @@ const {metering} = amethyst.state.settings;
             suffix="smp"
           />
         </settings-setting>
+
+        <settings-setting
+          subsetting
+          :title="$t('settings.max_decibels.title')"
+          :description="$t('settings.max_decibels.description')"
+          icon="ic:twotone-keyboard-double-arrow-up"
+        >
+          <slider-input
+            v-model="metering.spectrumLine.maxDecibels"
+            :min="-64"
+            :max="32"
+            :step="1"
+            suffix="dB"
+          />
+        </settings-setting>
+
+        <settings-setting
+          subsetting
+          :title="$t('settings.min_decibels.title')"
+          :description="$t('settings.min_decibels.description')"
+          icon="ic:twotone-keyboard-double-arrow-down"
+        >
+          <slider-input
+            v-model="metering.spectrumLine.minDecibels"
+            :min="-128"
+            :max="-32"
+            :step="1"
+            suffix="dB"
+          />
+        </settings-setting>
+
         <settings-setting
           subsetting
           :title="$t('settings.spectrum_line_analyzer.line_thickness.title')"
