@@ -5,7 +5,6 @@ import { nodePolyfills } from "vite-plugin-node-polyfills";
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import path from "path";
 import UnoCSS from 'unocss/vite'
-import presetIcons from '@unocss/preset-icons';
 
 const PACKAGE_ROOT = __dirname;
 
@@ -23,20 +22,16 @@ export default defineConfig({
 		},
 	},
 	plugins: [
-		// VueI18nPlugin({
-    //   include: [path.resolve(__dirname, "./locales/*.json")],
-    // }),
+		VueI18nPlugin({
+      include: [path.resolve(__dirname, "./locales/*.json")],
+    }),
 		nodePolyfills({
 			include: ["crypto", "buffer", "path"],
 			globals: {
 				Buffer: true,
 			}
 		}),
-		UnoCSS({
-				presets: [
-					presetIcons({}),
-				],
-		}),
+		UnoCSS(),
 		vue(),
 	],
 	base: "",

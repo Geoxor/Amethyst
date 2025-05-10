@@ -1,5 +1,4 @@
 import { defineConfig } from 'unocss'
-import presetIcons from '@unocss/preset-icons';
 
 function cssVarRgbHelper(cssVariable: string) {
 	return ({ opacityVariable, opacityValue }: { opacityVariable: string; opacityValue: number }) => {
@@ -16,9 +15,6 @@ function cssVarRgbHelper(cssVariable: string) {
 const returnColorVariable = (variableName: string) => ({[variableName]: cssVarRgbHelper(variableName)});
 
 export default defineConfig({
-	presets: [
-		presetIcons({}),
-	],
 	theme: {
 		extend: {
 			colors: {

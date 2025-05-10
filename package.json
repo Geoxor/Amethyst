@@ -348,6 +348,7 @@
     "@domchristie/needles": "^0.0.2-1",
     "@floating-ui/core": "^1.2.6",
     "@floating-ui/dom": "^1.2.7",
+    "@iconify/vue": "^5.0.0",
     "@intlify/unplugin-vue-i18n": "^1.6.0",
     "@supercharge/promise-pool": "^2.4.0",
     "@types/node-wav": "^0.0.4",
