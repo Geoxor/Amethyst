@@ -9,10 +9,10 @@
     <div>
         <img src="https://img.shields.io/discord/385387666415550474?label=Discord&logo=discord&style=flat">
         <img src="https://img.shields.io/github/repo-size/geoxor/amethyst?label=Size">
+        <a title="Crowdin" target="_blank" href="https://crowdin.com/project/amethyst-player"><img src="https://badges.crowdin.net/amethyst-player/localized.svg"></a>
     </div>
 </div>
 
-## What is Amethyst?
 
 Amethyst is an cross-platform audio player with a [node-based](https://en.wikipedia.org/wiki/Node_graph_architecture) [audio routing](https://en.wikipedia.org/wiki/Audio_signal_flow) system, the main goal of this project is to make a [music player](https://en.wikipedia.org/wiki/Media_player_software) in [TypeScript](https://www.typescriptlang.org/) to see how far the language can be stretched to prove it's possible to provide pro-level features as most [DAWs](https://en.wikipedia.org/wiki/Digital_audio_workstation) / [DAEs](https://en.wikipedia.org/wiki/Audio_editing_software), while also providing useful tools and customizability to the [end-user](https://en.wikipedia.org/wiki/End_user).
 
