@@ -185,7 +185,7 @@
   "settings.spectrum_line_analyzer.opacity_falloff.title": "Fill opacity falloff",
   "settings.spectrum_line_analyzer.opacity_falloff.description": "Changes how much the opacity falls off under the line towards the bottom",
   
-  "settings.spectrum_bars_analyzer.bars.title": "Frequency Bars",
+  "settings.spectrum_bars_analyzer.bars.title": "Frequency bars",
   "settings.spectrum_bars_analyzer.bars.description": "The amount of bars used to display frequencies",
 
   "settings.oscilloscope_analyzer.title": "Oscilloscope analyzer",
