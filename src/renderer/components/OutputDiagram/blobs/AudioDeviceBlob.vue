@@ -41,8 +41,8 @@ const router = useRouter();
     <conexant-logo v-else-if="['cx31993'].some(string => amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes(string))" />
     <fiio-logo v-else-if="['jadeaudio'].some(string => amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes(string))" />
     <tanchjim-logo v-else-if="['tanchjim'].some(string => amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes(string))" />
-    <arturia-logo v-else-if="['minifuse', 'arturia'].some(string => amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes(string))" />
     <jcally-logo v-else-if="['jcally'].some(string => amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes(string))" />
+    <arturia-logo v-else-if="['minifuse', 'arturia'].some(string => amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes(string))" />
       
     <nvidia-logo v-else-if="amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes('nvidia')" />
     <moondrop-logo v-else-if="amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes('moondrop')" />
