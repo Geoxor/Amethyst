@@ -114,7 +114,7 @@
   "settings.language.description": "Ändere die Sprache von Amethyst",
   "settings.fft_size.title": "FFT-Größe",
   "settings.fft_size.description": "Ändert die Größe des Fensters für die schnelle Fourier-Transformation (FFT). Größere Werte führen zu Daten mit höherer Auflösung, gehen jedoch mit mehr Latenz einher.",
-  "settings.line_thickness.title": "Line thickness",
+  "settings.line_thickness.title": "Linienstärke",
   "settings.line_thickness.description": "Ändert, wie dick/auffällig die Linien sind",
   "settings.smoothing_duration.title": "Smoothing duration",
   "settings.smoothing_duration.description": "Smoothly animate between data-frames (useful for smoothing small FFT sizes that create jitter)",
