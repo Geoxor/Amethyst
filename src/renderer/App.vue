@@ -8,15 +8,13 @@ import NavigationBar from "@/components/NavigationBar.vue";
 import NavigationButton from "@/components/NavigationButton.vue";
 import TopBar from "@/components/TopBar.vue";
 import PlaybackControls from "@/components/v2/PlaybackControls.vue";
-import SpectrumAnalyzer from "@/components/visualizers/SpectrumAnalyzer.vue";
+import SpectrumAnalyzerComposite from "@/components/visualizers/SpectrumAnalyzerComposite.vue";
 import { AmethystIcon } from "@/icons";
 import { getThemeColor } from "@/logic/color";
 import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
-import { set } from "@vueuse/core";
 import { Vibrant } from "node-vibrant/browser";
 import { onMounted, onUnmounted, ref, watch } from "vue";
-import SpectrumAnalyzerComposite from "@/components/visualizers/SpectrumAnalyzerComposite.vue";
 
 const ambientBackgroundImage = ref("");
 
