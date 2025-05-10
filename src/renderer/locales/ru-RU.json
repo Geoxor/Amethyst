@@ -49,6 +49,8 @@
   "settings.appearance.description": "Настройка фона, тем и доступности",
   "settings.cover_based_colors.title": "Динамические цвета",
   "settings.cover_based_colors.description": "Цвета интерфейса будут автоматически подстраиваться под обложку играющей песни",
+  "settings.cover_based_icon_colors.title": "Динамические цвета иконок",
+  "settings.cover_based_icon_colors.description": "Цвет иконки на панели задач будет автоматически подстраиваться под обложку играющей песни.",
   "settings.performance.title": "Производительность",
   "settings.performance.description": "Настройка вертикальной синхронизации, анимаций и рендеринга",
   "settings.performance.minimum_framerate": "Минимальная частота кадров",
@@ -230,5 +232,11 @@
   "track.state.loaded": "Загружено",
   "track.state.loading": "Загрузка",
   "track.show_file_in_file_explorer": "Показать в проводнике",
-  "track.show_amf_in_file_explorer": "Показать .amf в проводнике"
+  "track.show_amf_in_file_explorer": "Показать .amf в проводнике",
+  "playback_controls.favorite": "В избранное",
+  "playback_controls.loop": "Цикл",
+  "playback_controls.shuffle": "Перемешать",
+  "playback_controls.mute": "Заглушить",
+  "playback_controls.pitch_shift": "Смещение тона",
+  "playback_controls.output_information": "Информация о выводе"
 }
