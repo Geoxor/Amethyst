@@ -134,7 +134,7 @@
   "settings.vectorscope.description": "Displays a visual representation of the stereo audio signal. It shows the relative phase and stereo width of the audio signal using a circular graph",
   "settings.vectorscope.lissajous.title": "Lissajous",
   "settings.vectorscope.lissajous.description": "Display diagonally in a Lissajous pattern",
-  "settings.spectrum_analyzer.title": "Spectrum analyzer",
+  "settings.spectrum_analyzer.title": "Frequency spectrum analyzer",
   "settings.spectrum_analyzer.description": "Displays the frequency spectrum of the audio signal using a graph, where the x-axis represents the frequency range and the y-axis represents the amplitude",
   "settings.spectrum_line_analyzer.line_thickness.title": "Line thickness",
   "settings.spectrum_line_analyzer.line_thickness.description": "Changes how thick the line in the spectrum analyzer appears",
