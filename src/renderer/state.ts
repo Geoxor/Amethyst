@@ -7,6 +7,36 @@ import {ShaderManager} from "@/shaders/ShaderManager";
 import type { RtAudioDeviceInfo } from "audify";
 import { DEFAULT_SETTINGS } from "./logic/settings";
 
+function deepMerge<T>(target: T, source: Partial<T>): T {
+	if (typeof target !== "object" || typeof source !== "object" || !target || !source) {
+		return source as T;
+	}
+
+	const result = Array.isArray(target) ? [...target] : { ...target };
+
+	for (const key in source) {
+		if (Object.prototype.hasOwnProperty.call(source, key)) {
+			const sourceVal = source[key];
+			const targetVal = (target as any)[key];
+
+			if (
+				sourceVal &&
+				typeof sourceVal === "object" &&
+				!Array.isArray(sourceVal) &&
+				targetVal &&
+				typeof targetVal === "object" &&
+				!Array.isArray(targetVal)
+			) {
+				(result as any)[key] = deepMerge(targetVal, sourceVal);
+			} else {
+				(result as any)[key] = sourceVal;
+			}
+		}
+	}
+
+	return result as any;
+}
+
 export interface IContextMenuOption {
 	title: string;
 	icon?: any;
@@ -42,7 +72,7 @@ export class State extends EventEmitter<StateEvents> {
 		...useLocalStorage("settings", this.defaultSettings, {
 			writeDefaults: true,
 			mergeDefaults: (storageValue, defaults) => {
-				return { ...defaults, ...storageValue };
+				return deepMerge(structuredClone(defaults), storageValue);
 			}
 		}).value
 	});
