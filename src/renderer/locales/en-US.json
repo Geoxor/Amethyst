@@ -59,6 +59,8 @@
   "settings.appearance.description": "Background, themes and accessibility",
   "settings.cover_based_colors.title": "Dynamic colors",
   "settings.cover_based_colors.description": "This will make the main accent colors based on the cover art of the currently playing song",
+  "settings.cover_based_icon_colors.title": "Dynamic icon color",
+  "settings.cover_based_icon_colors.description": "Matches the app icon color to the dynamic colors",
 
   "settings.performance.title": "Performance",
   "settings.performance.description": "VSync, animations and rendering",
@@ -99,6 +101,7 @@
 
   "settings.animation_duration.title": "Animation speed",
   "settings.animation_duration.description": "Changes the speed of the animations across the Amethyst UI",
+
 
   "settings.ambient_background.title": "Ambient art",
   "settings.ambient_background.description": "Presents the cover art of the currently playing song on the background",

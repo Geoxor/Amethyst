@@ -80,17 +80,16 @@ const {appearance} = amethyst.state.settings;
           <toggle-switch
             v-model="appearance.coverBasedColors" 
           />
-
-          <settings-setting
-            subsetting
-            :title="$t('settings.cover_based_icon_colors.title')"
-            :description="$t('settings.cover_based_icon_colors.description')"
-            icon="ic:twotone-blur-linear"
-          >
-            <toggle-switch
-              v-model="appearance.coverBasedIconColors" 
-            />
-          </settings-setting>
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.cover_based_icon_colors.title')"
+          :description="$t('settings.cover_based_icon_colors.description')"
+          icon="ic:twotone-brush"
+        >
+          <toggle-switch
+            v-model="appearance.coverBasedIconColors" 
+          />
         </settings-setting>
       </div>
     </template>
