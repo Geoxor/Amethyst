@@ -16,7 +16,7 @@ import NvidiaLogo from "@/icons/logos/NvidiaLogo.vue";
 import RealtekLogo from "@/icons/logos/RealtekLogo.vue";
 import SoundIDLogo from "@/icons/logos/SoundIDLogo.vue";
 import SteamLogo from "@/icons/logos/SteamLogo.vue";
-import TanchijimLogo from "@/icons/logos/TanchijimLogo.vue";
+import TanchjimLogo from "@/icons/logos/TanchjimLogo.vue";
 import { Icon } from "@iconify/vue";
 import { useRouter } from "vue-router";
 import BlobLine from "./BlobLine.vue";
@@ -39,10 +39,10 @@ const router = useRouter();
     <alsa-logo v-else-if="amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes('alsa')" />
     <dunu-logo v-else-if="['dtc 500', 'dtc 480', 'dtc 800'].some(string => amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes(string))" />
     <conexant-logo v-else-if="['cx31993'].some(string => amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes(string))" />
-    <arturia-logo v-else-if="['minifuse', 'arturia'].some(string => amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes(string))" />
     <fiio-logo v-else-if="['jadeaudio'].some(string => amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes(string))" />
+    <tanchjim-logo v-else-if="['tanchjim'].some(string => amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes(string))" />
+    <arturia-logo v-else-if="['minifuse', 'arturia'].some(string => amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes(string))" />
     <jcally-logo v-else-if="['jcally'].some(string => amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes(string))" />
-    <tanchijim-logo v-else-if="['tanchijim'].some(string => amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes(string))" />
       
     <nvidia-logo v-else-if="amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes('nvidia')" />
     <moondrop-logo v-else-if="amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes('moondrop')" />
