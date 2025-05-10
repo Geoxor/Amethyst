@@ -49,6 +49,8 @@
   "settings.appearance.description": "Mukauta taustaa, teemaa ja käytettävyyttä",
   "settings.cover_based_colors.title": "Dynamic colors",
   "settings.cover_based_colors.description": "This will make the main accent colors based on the cover art of the currently playing song",
+  "settings.cover_based_icon_colors.title": "Dynamic icon color",
+  "settings.cover_based_icon_colors.description": "Matches the app icon color to the dynamic colors",
   "settings.performance.title": "Suorituskyky",
   "settings.performance.description": "Hienosäädä pystytahdistusta, animaatioita ja renderöintiä",
   "settings.performance.minimum_framerate": "Minimum framerate",
