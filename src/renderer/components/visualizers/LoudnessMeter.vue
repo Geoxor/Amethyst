@@ -80,7 +80,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="text-11px font-bold text-playback-controls-text w-full flex flex-col justify-between overflow-hidden items-start h-full disable-select no-drag">
+  <div class="text-[9px] font-bold text-playback-controls-text w-full flex flex-col justify-between overflow-hidden items-start h-full disable-select no-drag">
     <div class="meter">
       <p class="type overflow-hidden overflow-ellipsis">
         M
@@ -127,14 +127,15 @@ onMounted(() => {
 </template>
 
 <style scoped lang="postcss">
+
 .meter {
-  @apply flex gap-2 w-full;
+  @apply flex gap-3 w-full max-h-[10px];
 }
 .barBg {
-  @apply bg-slider-background w-3/4 overflow-hidden rounded-2px;
+  @apply bg-slider-background w-3/4 overflow-hidden rounded-[2px];
 }
 .bar {
-  @apply h-full rounded-2px;
+  @apply h-full rounded-[2px];
 }
 
 .type {
@@ -142,7 +143,7 @@ onMounted(() => {
 }
 
 .value {
-  @apply min-w-16 text-right;
+  @apply min-w-14 text-right;
 }
 
 </style>
