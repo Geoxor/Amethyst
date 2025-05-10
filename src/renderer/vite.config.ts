@@ -4,7 +4,8 @@ import { defineConfig } from "vite";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import path from "path";
-import WindiCSS from "vite-plugin-windicss";
+import UnoCSS from 'unocss/vite'
+import presetIcons from '@unocss/preset-icons';
 
 const PACKAGE_ROOT = __dirname;
 
@@ -22,21 +23,19 @@ export default defineConfig({
 		},
 	},
 	plugins: [
-		VueI18nPlugin({
-      include: [path.resolve(__dirname, "./locales/*.json")],
-
-    }),
+		// VueI18nPlugin({
+    //   include: [path.resolve(__dirname, "./locales/*.json")],
+    // }),
 		nodePolyfills({
 			include: ["crypto", "buffer", "path"],
 			globals: {
 				Buffer: true,
 			}
 		}),
-		WindiCSS({
-			scan: {
-				dirs: ["."], // all files in the cwd
-				fileExtensions: ["vue", "js", "ts"], // also enabled scanning for js/ts
-			},
+		UnoCSS({
+				presets: [
+					presetIcons({}),
+				],
 		}),
 		vue(),
 	],

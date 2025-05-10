@@ -1,5 +1,5 @@
-import { defineConfig } from "vite-plugin-windicss";
-import typography from "windicss/plugin/typography";
+import { defineConfig } from 'unocss'
+import presetIcons from '@unocss/preset-icons';
 
 function cssVarRgbHelper(cssVariable: string) {
 	return ({ opacityVariable, opacityValue }: { opacityVariable: string; opacityValue: number }) => {
@@ -16,11 +16,9 @@ function cssVarRgbHelper(cssVariable: string) {
 const returnColorVariable = (variableName: string) => ({[variableName]: cssVarRgbHelper(variableName)});
 
 export default defineConfig({
-	darkMode: "class",
-	plugins: [typography()],
-	alias: {
-		fullscreen: "absolute top-0 left-0 w-full h-full",
-	},
+	presets: [
+		presetIcons({}),
+	],
 	theme: {
 		extend: {
 			colors: {
