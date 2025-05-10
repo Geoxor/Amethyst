@@ -49,6 +49,8 @@
   "settings.appearance.description": "Φόντο, θέματα και προσβασιμότητα",
   "settings.cover_based_colors.title": "Δυναμικά χρώματα",
   "settings.cover_based_colors.description": "Αλλάζει τα βασικά χρώματα ανάλογα με το εξώφυλλο του τραγουδιού που παίζει",
+  "settings.cover_based_icon_colors.title": "Dynamic icon color",
+  "settings.cover_based_icon_colors.description": "Matches the app icon color to the dynamic colors",
   "settings.performance.title": "Απόδοση",
   "settings.performance.description": "VSync, εφέ και απόδοση γραφικών",
   "settings.performance.minimum_framerate": "Ελάχιστα FPS",
