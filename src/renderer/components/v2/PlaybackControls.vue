@@ -227,7 +227,7 @@ const editMeterContextMenuOption = (name :string) => [{
           <p class="text-11px overflow-hidden overflow-ellipsis">
             {{ amethyst.player.getCurrentTrack()?.getArtistsFormatted() || 'No artist' }}
           </p>
-          <p class="text-11px text-text_subtitle">
+          <p class="text-11px text-text-subtitle">
             {{ amethyst.player.currentTimeFormatted(true) }} /
             {{ secondsToColinHuman(amethyst.player.input.duration) || '0:00' }}
           </p>

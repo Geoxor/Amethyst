@@ -14,10 +14,10 @@ const router = useRouter();
     :class="[
       isActive && 'active',
       mobile && 'rounded-full',
-      amethyst.state.window.isFocused ? 'text-text_title' : 'text-text_subtitle'
+      amethyst.state.window.isFocused ? 'text-text-title' : 'text-text-subtitle'
     ]"
 
-    class="duration-user-defined items-center gap-2 transition-colors duration-user-defined flex relative disable-select p-4 no-drag text-text_title rounded-r-8px"
+    class="duration-user-defined items-center gap-2 transition-colors duration-user-defined flex relative disable-select p-4 no-drag text-text-title rounded-r-8px"
     @click="router.push({ name: routeName })"
   >
     <icon

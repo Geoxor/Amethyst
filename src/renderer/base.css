@@ -74,7 +74,7 @@ html,
 body,
 #app,
 #app {
-  @apply bg-surface-900;
+  @apply bg-surface-900 p-0 m-0;
 }
 
 html,

@@ -1,4 +1,4 @@
-import { defineConfig } from 'unocss'
+import { defineConfig, presetWind3, transformerDirectives } from 'unocss'
 
 function cssVarRgbHelper(cssVariable: string) {
 	return ({ opacityVariable, opacityValue }: { opacityVariable: string; opacityValue: number }) => {
@@ -15,45 +15,41 @@ function cssVarRgbHelper(cssVariable: string) {
 const returnColorVariable = (variableName: string) => ({[variableName]: cssVarRgbHelper(variableName)});
 
 export default defineConfig({
-	theme: {
-		extend: {
-			colors: {
-				// v2
-				...returnColorVariable("settings-setting-background"),
-				...returnColorVariable("settings-subsetting-background"),
-				...returnColorVariable("playback-controls-background"),
-				...returnColorVariable("playback-controls-text"),
-				...returnColorVariable("slider-background"),
-				...returnColorVariable("slider-fill"),
-				...returnColorVariable("alert-color"),
-				...returnColorVariable("inspector-color"),
-
-				///
-				text_title: cssVarRgbHelper("text-title"),
-				text_subtitle: cssVarRgbHelper("text-subtitle"),
-				accent: cssVarRgbHelper("accent"),
-				// TODO: change this to primary when done revamping
-				primary: cssVarRgbHelper("primary"),
-
-				// primary: {
-				// 	1000: cssVarRgbHelper("primary-1000"),
-				// 	900: cssVarRgbHelper("primary-900"),
-				// 	800: cssVarRgbHelper("primary-800"),
-				// 	700: cssVarRgbHelper("primary-700"),
-				// },
-				surface: {
-					1000: cssVarRgbHelper("surface-1000"),
-					900: cssVarRgbHelper("surface-900"),
-					800: cssVarRgbHelper("surface-800"),
-					700: cssVarRgbHelper("surface-700"),
-					600: cssVarRgbHelper("surface-600"),
-					500: cssVarRgbHelper("surface-500"),
-					400: cssVarRgbHelper("surface-400"),
-				},
-				unlit: {
-					900: cssVarRgbHelper("unlit-900"),
-				}
-			},
-		},
-	},
-});
+  theme: {
+    colors: {
+			"textTitle": "#cec7fe",
+			"textSubtitle": "#898dc7",
+			"primary": "#da74fe",
+			"accent": "#868aff",
+			"inspectorColor": "#38bdf8",
+			"alertColor": "#ff4967",
+			"settingsSettingBackground": "#141621",
+			"settingsSubsettingBackground": "#101119",
+			"playbackControlsBackground": "#181a27",
+			"playbackControlsText": "#cec7fe",
+			"sliderBackground": "#2d2d49",
+			"sliderFill": "#868aff",
+			"surface-1000": "#0b0d13",
+			"surface-900": "#0f1119",
+			"surface-800": "#141621",
+			"surface-700": "#181a27",
+			"surface-600": "#1f2134",
+			"surface-500": "#2d2d49",
+			"surface-400": "#383854",
+			"primary-1000": "#a3a3d1",
+			"primary-900": "#8282a8",
+			"primary-800": "#868aff",
+			"primary-700": "#646ac3",
+			"unlit-900": "#65658a",
+			"contrast": "#ffffff"
+    },
+  },
+  presets: [
+    presetWind3({
+			dark: "class"
+		}),
+  ],
+	transformers: [
+    transformerDirectives(),
+  ],
+})

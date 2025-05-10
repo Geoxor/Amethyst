@@ -40,7 +40,7 @@ const value = useVModel(props, "modelValue", emits);
         <button
           v-for="(option, i) in options"
           :key="`Lang${i}`"
-          class="flex items-center gap-2 py-2 px-4 flex w-full justify-start hover:bg-surface-400 font-weight-user-defined text-text_title rounded-6px"
+          class="flex items-center gap-2 py-2 px-4 flex w-full justify-start hover:bg-surface-400 font-weight-user-defined text-text-title rounded-6px"
           :value="option"
           :class="option == value && 'active'"
           @click="emits('update:modelValue', option)"

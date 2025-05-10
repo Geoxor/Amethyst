@@ -238,7 +238,7 @@ onKeyStroke("Delete", () => {
       <input
         v-model="amethyst.player.nodeManager.graphName.value"
         type="text"
-        class="text-text_title px-2 py-1 rounded-4px bg-surface-900 text-xs placeholder-text_title placeholder-opacity-50"
+        class="text-text-title px-2 py-1 rounded-4px bg-surface-900 text-xs placeholder-text-title placeholder-opacity-50"
         placeholder="untitled"
         @keydown.stop
       >

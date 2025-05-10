@@ -29,7 +29,7 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
           <icon
             v-if="!amethyst.player.getCurrentTrack()?.isFavorited"
             icon="ic:baseline-favorite-border"
-            class="h-5 w-5 cursor-pointer opacity-75 hover:opacity-100 hover:text-text_title"
+            class="h-5 w-5 cursor-pointer opacity-75 hover:opacity-100 hover:text-text-title"
             @click.stop.prevent="amethyst.player.getCurrentTrack()?.toggleFavorite()"
           />
           <icon

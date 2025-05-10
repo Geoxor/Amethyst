@@ -122,10 +122,10 @@ onUnmounted(() => shouldStopRendering = true);
           :style="`width: ${width}px; height: ${computedHeight(channelData[i - 1][1].value)}%`"
         />
       </div>
-      <div class="w-8 h-8 max-h-8 max-h-8 min-h-8 min-w-8 rounded-4px bg-surface-700 text-text_title text-11px flex items-center justify-center">
+      <div class="w-8 h-8 max-h-8 max-h-8 min-h-8 min-w-8 rounded-4px bg-surface-700 text-text-title text-11px flex items-center justify-center">
         <p>{{ isFinite(channelData[i - 1][0].value) ? channelData[i - 1][0].value.toFixed(1) : '-∞' }}</p>
       </div>
-      <div class="w-8 h-8 max-h-8 max-h-8 min-h-8 min-w-8 rounded-4px text-text_subtitle text-13px flex items-center justify-center">
+      <div class="w-8 h-8 max-h-8 max-h-8 min-h-8 min-w-8 rounded-4px text-text-subtitle text-13px flex items-center justify-center">
         <p>{{ CHANNEL_NAMES[i - 1] }}</p>
       </div>
     </div>

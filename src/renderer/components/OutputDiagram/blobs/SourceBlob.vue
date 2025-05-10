@@ -39,7 +39,7 @@ onMounted(() => {
     clickable
     @click="router.push({ name: 'queue' })"
   >
-    <span class="text-text_title">
+    <span class="text-text-title">
       <flac-logo v-if="mimeType == 'FLAC'" />
       <mp3-logo v-else-if="mimeType == 'MPEG 1 Layer 3'" />
       <opus-logo v-else-if="mimeType == 'Opus'" />
@@ -48,7 +48,7 @@ onMounted(() => {
       <aac-logo v-else-if="['AAC', 'MPEG-4/AAC'].includes(mimeType)" />
       <icon
         v-else
-        class="h-6 w-6 text-text_title"
+        class="h-6 w-6 text-text-title"
         icon="ic:twotone-question-mark"
       />
     </span>

@@ -83,7 +83,7 @@ const filteredMetadata = computed(() => {
         </base-chip>
       </div>
       <button
-        class="p-3 cursor-pointer hover:text-text_title"
+        class="p-3 cursor-pointer hover:text-text-title"
         @click="inspector.hide()"
       >
         <icon
@@ -184,7 +184,7 @@ const filteredMetadata = computed(() => {
           {{ $t('node.properties') }}
         </h1>
         {{ inspector.state.currentItem.properties.name }}
-        <h2 class="text-text_subtitle">
+        <h2 class="text-text-subtitle">
           {{ inspector.state.currentItem.properties.id }}
         </h2>
       </section>
@@ -387,7 +387,7 @@ const filteredMetadata = computed(() => {
 
 <style scoped lang="postcss">
 .inspector {
-  @apply text-text_title text-12px pt-44px transform-gpu -translate-y-40px rounded-tl-16px;
+  @apply text-text-title text-12px pt-44px transform-gpu -translate-y-40px rounded-tl-16px;
 }
 
 section {
@@ -416,10 +416,10 @@ section {
   input {
     @apply border-1 border-transparent w-1/2;
     &:hover {
-      @apply bg-accent bg-opacity-25 text-text_title;
+      @apply bg-accent bg-opacity-25 text-text-title;
     }
     &:focus {
-      @apply bg-accent bg-opacity-25 border-1 border-accent text-text_title;
+      @apply bg-accent bg-opacity-25 border-1 border-accent text-text-title;
     }
   }
 }

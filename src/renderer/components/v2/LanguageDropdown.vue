@@ -61,7 +61,7 @@ const flagURL = (name: string) => {
         <button
           v-for="(lang, i) in useI18n().availableLocales"
           :key="`Lang${i}`"
-          class="flex items-center gap-2 py-2 px-4 flex w-full justify-start hover:bg-surface-400 font-weight-user-defined text-text_title rounded-6px"
+          class="flex items-center gap-2 py-2 px-4 flex w-full justify-start hover:bg-surface-400 font-weight-user-defined text-text-title rounded-6px"
           :value="lang"
           :class="$i18n.locale == lang && 'active'"
           @click="$i18n.locale = lang; amethyst.state.settings.application.language = lang;"

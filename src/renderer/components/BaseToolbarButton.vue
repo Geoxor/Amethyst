@@ -53,7 +53,7 @@ defineProps<{ tooltipText?: string, active?: boolean, icon?: string, text?: stri
 
 <style scoped lang="postcss">
 button {
-  @apply text-text_title;
+  @apply text-text-title;
 
   &.active, &:hover {
     @apply bg-primary-800 hover:bg-accent-800 text-accent;

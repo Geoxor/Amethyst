@@ -13,7 +13,7 @@ const handleNodeRemove = () => {
 </script>
 
 <template>
-  <div class="minimenu text-text_title cursor-pointer w-min items-center text-primary-1000 text-11px flex rounded-4px overflow-hidden bg-surface-800">
+  <div class="minimenu text-text-title cursor-pointer w-min items-center text-primary-1000 text-11px flex rounded-4px overflow-hidden bg-surface-800">
     <button
       @click="node.disconnect()"
     >
