@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import {logParabolicSpectrum, normalize8bit} from "@/logic/math";
 import ShaderCanvas from "@/components/ShaderCanvas.vue";
-import {VISUALIZER_BIN_COUNT} from "@shared/constants";
+import {VISUALIZER_BIN_COUNT} from "@shared/constants.ts";
 import * as THREE from "three";
 import { watch } from "vue";
 import {SpectrumShader} from "@/shaders/components/SpectrumShader";

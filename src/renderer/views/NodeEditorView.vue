@@ -8,7 +8,7 @@ import { useInspector } from "@/components/Inspector";
 import type { AmethystAudioNode } from "@/logic/audio";
 import { getThemeColorHex } from "@/logic/color";
 import { AmethystFilterNode, AmethystGainNode, AmethystPannerNode, AmethystSpectrumNode } from "@/nodes";
-import type { Coords } from "@shared/types";
+import type { Coords } from "@shared/types.ts";
 import { Background, BackgroundVariant } from "@vue-flow/additional-components";
 import type { Connection, EdgeMouseEvent, NodeDragEvent } from "@vue-flow/core";
 import { VueFlow } from "@vue-flow/core";

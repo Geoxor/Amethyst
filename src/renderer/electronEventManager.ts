@@ -1,5 +1,5 @@
-import type { IMetadata } from "@shared/types";
-import type { State } from "./state";
+import type { IMetadata } from "@shared/types.ts";
+import type { State } from "./state.ts";
 export class ElectronEventManager {
   public ipc = window.electron.ipcRenderer;
   public APPDATA_PATH = "";

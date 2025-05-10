@@ -1,0 +1,5 @@
+{
+    "watch": ["dist/main"],
+    "main": "dist/main/main.js"
+  }
+  

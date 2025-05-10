@@ -7,10 +7,10 @@
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 import { Menu, app } from "electron";
-import { checkForUpdatesAndInstall, MainWindow } from "./mainWindow";
+import { checkForUpdatesAndInstall, MainWindow } from "./mainWindow.js";
 import Store from "electron-store";
-import "./realtimeAudio";
-import "./drag-drop";
+import "./realtimeAudio.js";
+import "./drag-drop.js";
 
 export const store = new Store();
 

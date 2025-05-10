@@ -61,5 +61,6 @@
     "**/.factorypath": true
   },
   "testing.automaticallyOpenPeekView": "never",
-  "hide-files.files": []
+  "hide-files.files": [],
+  "eslint.experimental.useFlatConfig": true
 }

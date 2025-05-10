@@ -1,12 +1,12 @@
 // Lets us import multiple components in one line
 
-import { AmethystGainNode } from "./GainNode";
-import { AmethystFilterNode } from "./FilterNode";
-import { AmethystPannerNode } from "./PannerNode";
-import { AmethystInputNode } from "./InputNode";
-import { AmethystSpectrumNode } from "./SpectrumNode";
-import { AmethystOutputNode } from "./OutputNode";
-import { AmethystMasterNode } from "./MasterNode";
+import { AmethystGainNode } from "./GainNode/index.js";
+import { AmethystFilterNode } from "./FilterNode/index.js";
+import { AmethystPannerNode } from "./PannerNode/index.js";
+import { AmethystInputNode } from "./InputNode/index.js";
+import { AmethystSpectrumNode } from "./SpectrumNode/index.js";
+import { AmethystOutputNode } from "./OutputNode/index.js";
+import { AmethystMasterNode } from "./MasterNode/index.js";
 
 export {
   AmethystGainNode,

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { componentToHex, rgbToHex } from "./color";
+import { componentToHex, rgbToHex } from "@/logic/color.js";
 import { vi } from "vitest";
 
 const getThemeColorHex = vi.fn((string: string) => {

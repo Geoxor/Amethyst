@@ -6,18 +6,18 @@ import { MediaSourceManager } from "@/logic/mediaSources";
 import { Capacitor } from "@capacitor/core";
 import { StatusBar } from "@capacitor/status-bar";
 import {NavigationBar} from "@hugotomazi/capacitor-navigation-bar";
-import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
+import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants.ts";
 import type { OpenDialogReturnValue, SaveDialogReturnValue } from "electron";
 import { ref, watch } from "vue";
-import { flattenArray } from "./logic/math";
+import { flattenArray } from "@/logic/math.ts";
 import { Directory } from "@capacitor/filesystem";
-import { router } from "./router";
+import { router } from "./router.js";
 import { createI18n } from "vue-i18n";
 import messages from "@intlify/unplugin-vue-i18n/messages";
 import { useLocalStorage } from "@vueuse/core";
-import type { Track } from "./logic/track";
-import { Analytics } from "./logic/analytics";
-import { EventEmitter } from "./logic/eventEmitter";
+import type { Track } from "@/logic/track.ts";
+import { Analytics } from "@/logic/analytics.ts";
+import { EventEmitter } from "@/logic/eventEmitter.ts";
 
 export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale
@@ -334,7 +334,7 @@ export class Amethyst extends AmethystBackend {
     let startBegin: number = 0;
     let isPaused: boolean = false;
     let seekDuringPause: boolean = false;
-    let trackNameBeforePause: String;
+    let trackNameBeforePause: string;
 
     const clearRichPresence = () => {
       richPresenceTimer && clearInterval(richPresenceTimer);

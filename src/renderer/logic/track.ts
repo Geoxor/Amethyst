@@ -1,15 +1,15 @@
 import { ref } from "vue";
 import { bytesToHuman, secondsToColinHuman, secondsToHuman, bitrateToHuman } from "@shared/formating";
-import type { IMetadata, LoadState } from "@shared/types";
-import { LoadStatus } from "@shared/types";
-import * as mm from "music-metadata-browser";
+import type { IMetadata, LoadState } from "@shared/types.ts";
+import { LoadStatus } from "@shared/types.ts";
+import * as mm from "music-metadata";
 import FileSaver from "file-saver";
 import mime from "mime-types";
 import type { Amethyst } from "@/amethyst";
 import { amethyst, favoriteTracks } from "@/amethyst";
 import { MusicBrainzApi } from "musicbrainz-api";
-import { saveArrayBufferToFile } from "./dom";
-import { convertDfpwm } from "./encoding";
+import { saveArrayBufferToFile } from "@/logic/dom.ts";
+import { convertDfpwm } from "@/logic/encoding.ts";
 import { useInspector } from "@/components/Inspector";
 
 const mbApi = new MusicBrainzApi({

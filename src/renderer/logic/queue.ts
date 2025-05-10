@@ -3,8 +3,8 @@ import { useLocalStorage } from "@vueuse/core";
 import type { Ref} from "vue";
 import { ref } from "vue";
 import { bytesToHuman, secondsToHuman } from "@shared/formating";
-import { fisherYatesShuffle } from "./math";
-import { Track } from "./track";
+import { fisherYatesShuffle } from "@/logic/math.ts";
+import { Track } from "@/logic/track.ts";
 import type { Amethyst } from "@/amethyst";
 
 const COMPARATORS_BY_METHOD = {
