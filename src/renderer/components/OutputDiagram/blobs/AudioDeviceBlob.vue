@@ -15,6 +15,7 @@ import SteamLogo from "@/icons/logos/SteamLogo.vue";
 import { useRouter } from "vue-router";
 import BlobLine from "./BlobLine.vue";
 import GenericBlob from "./GenericBlob.vue";
+import { Icon } from "@iconify/vue";
 const router = useRouter();
 
 </script>
