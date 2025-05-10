@@ -1,5 +1,5 @@
 
-import {i18n} from "@/amethyst";
+import {i18n} from "@/amethyst.js";
 import App from "@/App.vue";
 import "virtual:windi-devtools";
 import "virtual:windi.css";
@@ -8,7 +8,7 @@ import {RecycleScroller} from "vue-virtual-scroller";
 import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 
 import { createApp } from "vue";
-import { router } from "@/router";
+import { router } from "@/router.js";
 
 const app = createApp(App);
 

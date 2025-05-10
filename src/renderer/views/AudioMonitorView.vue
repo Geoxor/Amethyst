@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst";
+import { amethyst } from "@/amethyst.js";
 import OutputDiagram from "@/components/OutputDiagram/OutputDiagram.vue";
 import DecibelMeter from "@/components/v2/DecibelMeter.vue";
 import OutputBreakdown from "@/components/v2/OutputBreakdown.vue";

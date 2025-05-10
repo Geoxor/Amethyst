@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst";
+import { amethyst } from "@/amethyst.js";
 import CoverArt from "@/components/CoverArt.vue";
 import ShaderCanvas from "@/components/ShaderCanvas.vue";
 

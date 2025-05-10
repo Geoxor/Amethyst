@@ -1,16 +1,16 @@
 import { ref } from "vue";
-import { bytesToHuman, secondsToColinHuman, secondsToHuman, bitrateToHuman } from "@shared/formating";
-import type { IMetadata, LoadState } from "@shared/types.ts";
-import { LoadStatus } from "@shared/types.ts";
+import { bytesToHuman, secondsToColinHuman, secondsToHuman, bitrateToHuman } from "@shared/formating.js";
+import type { IMetadata, LoadState } from "@shared/types.js";
+import { LoadStatus } from "@shared/types.js";
 import * as mm from "music-metadata";
 import FileSaver from "file-saver";
 import mime from "mime-types";
-import type { Amethyst } from "@/amethyst";
-import { amethyst, favoriteTracks } from "@/amethyst";
+import type { Amethyst } from "@/amethyst.js";
+import { amethyst, favoriteTracks } from "@/amethyst.js";
 import { MusicBrainzApi } from "musicbrainz-api";
-import { saveArrayBufferToFile } from "@/logic/dom.ts";
-import { convertDfpwm } from "@/logic/encoding.ts";
-import { useInspector } from "@/components/Inspector";
+import { saveArrayBufferToFile } from "@/logic/dom.js";
+import { convertDfpwm } from "@/logic/encoding.js";
+import { useInspector } from "@/components/Inspector/index.js";
 
 const mbApi = new MusicBrainzApi({
     appName: "Amethyst",

@@ -1,8 +1,8 @@
 import type { IContextMenuOption } from "@/state";
-import type { Coords } from "@shared/types.ts";
+import type { Coords } from "@shared/types.js";
 import { reactive, markRaw } from "vue";
 import ContextMenu from "./component.vue";
-import { amethyst } from "@/amethyst";
+import { amethyst } from "@/amethyst.js";
 
 const instance = {
   state: reactive({

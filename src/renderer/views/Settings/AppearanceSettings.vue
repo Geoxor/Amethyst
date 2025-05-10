@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst";
+import { amethyst } from "@/amethyst.js";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import DropdownInput from "@/components/v2/DropdownInput.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
@@ -9,7 +9,7 @@ import AmethystDarkSkeleton from "@/themes/AmethystDarkSkeleton.vue";
 import EmeraldDarkSkeleton from "@/themes/EmeraldDarkSkeleton.vue";
 import OnyxDarkSkeleton from "@/themes/OnyxDarkSkeleton.vue";
 import SapphireDarkSkeleton from "@/themes/SapphireDarkSkeleton.vue";
-import { BLEND_MODES, FONT_WEIGHTS } from "@shared/constants.ts";
+import { BLEND_MODES, FONT_WEIGHTS } from "@shared/constants.js";
 
 const {appearance} = amethyst.state.settings;
 </script>

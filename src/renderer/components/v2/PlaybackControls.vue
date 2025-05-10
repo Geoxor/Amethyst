@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst";
+import { amethyst } from "@/amethyst.js";
 import { useContextMenu } from "@/components/ContextMenu";
 import CoverArt from "@/components/CoverArt.vue";
 import Slider from "@/components/input/BaseSlider.vue";
@@ -10,15 +10,15 @@ import ResizableDiv from "@/components/ResizableDiv";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import LoudnessMeter from "@/components/visualizers/LoudnessMeter.vue";
 import Oscilloscope from "@/components/visualizers/OscilloscopeAnalyzer.vue";
+import SpectrumAnalyzerComposite from "@/components/visualizers/SpectrumAnalyzerComposite.vue";
 import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 import { router } from "@/router";
 import { Icon } from "@iconify/vue";
 import { secondsToColinHuman } from "@shared/formating";
-import { LoadStatus } from "@shared/types.ts";
+import { LoadStatus } from "@shared/types.js";
 import { onMounted, onUnmounted, ref, watch } from "vue";
 import BaseTooltip from "../BaseTooltip.vue";
 import DraggableModifierInput from "../input/DraggableModifierInput.vue";
-import SpectrumAnalyzerComposite from "@/components/visualizers/SpectrumAnalyzerComposite.vue";
 
 const lastVolumeBeforeMute = amethyst.player.volume;
 

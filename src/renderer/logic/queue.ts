@@ -2,10 +2,10 @@ import PromisePool from "@supercharge/promise-pool";
 import { useLocalStorage } from "@vueuse/core";
 import type { Ref} from "vue";
 import { ref } from "vue";
-import { bytesToHuman, secondsToHuman } from "@shared/formating";
-import { fisherYatesShuffle } from "@/logic/math.ts";
-import { Track } from "@/logic/track.ts";
-import type { Amethyst } from "@/amethyst";
+import { bytesToHuman, secondsToHuman } from "@shared/formating.js";
+import { fisherYatesShuffle } from "@/logic/math.js";
+import { Track } from "@/logic/track.js";
+import type { Amethyst } from "@/amethyst.js";
 
 const COMPARATORS_BY_METHOD = {
   "default": () => 0,

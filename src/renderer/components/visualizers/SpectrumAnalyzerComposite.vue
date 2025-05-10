@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import SpectrumAnalyzer from "@/components/visualizers/SpectrumAnalyzer.vue";
-import {amethyst} from "@/amethyst";
-import {getThemeColor} from "@/logic/color";
-import SpectrumBarAnalyzer from "@/components/visualizers/SpectrumBarAnalyzer.vue";
+import { amethyst } from "@/amethyst.js";
 import SpectrogramAnalyzer from "@/components/visualizers/SpectrogramAnalyzer.vue";
-import type {SPECTRUM_TYPES_STRING} from "@/logic/settings";
+import SpectrumAnalyzer from "@/components/visualizers/SpectrumAnalyzer.vue";
+import SpectrumBarAnalyzer from "@/components/visualizers/SpectrumBarAnalyzer.vue";
+import { getThemeColor } from "@/logic/color";
+import type { SPECTRUM_TYPES_STRING } from "@/logic/settings";
 
 defineProps<{
   node: AudioNode,

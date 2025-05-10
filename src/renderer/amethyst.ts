@@ -1,23 +1,23 @@
-import { Player } from "@/logic/player";
-import { MediaSession } from "@/logic/mediaSession";
-import { Shortcuts } from "@/logic/shortcuts";
-import { State } from "@/state";
-import { MediaSourceManager } from "@/logic/mediaSources";
+import { Player } from "@/logic/player.js";
+import { MediaSession } from "@/logic/mediaSession.js";
+import { Shortcuts } from "@/logic/shortcuts.js";
+import { State } from "@/state.js";
+import { MediaSourceManager } from "@/logic/mediaSources.js";
 import { Capacitor } from "@capacitor/core";
 import { StatusBar } from "@capacitor/status-bar";
 import {NavigationBar} from "@hugotomazi/capacitor-navigation-bar";
-import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants.ts";
-import type { OpenDialogReturnValue, SaveDialogReturnValue } from "electron";
+import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants.js";
+import type { OpenDialogReturnValue, SaveDialogReturnValue  } from "electron";
 import { ref, watch } from "vue";
-import { flattenArray } from "@/logic/math.ts";
+import { flattenArray } from "@/logic/math.js";
 import { Directory } from "@capacitor/filesystem";
 import { router } from "./router.js";
 import { createI18n } from "vue-i18n";
 import messages from "@intlify/unplugin-vue-i18n/messages";
 import { useLocalStorage } from "@vueuse/core";
-import type { Track } from "@/logic/track.ts";
-import { Analytics } from "@/logic/analytics.ts";
-import { EventEmitter } from "@/logic/eventEmitter.ts";
+import type { Track } from "@/logic/track.js";
+import { Analytics } from "@/logic/analytics.js";
+import { EventEmitter } from "@/logic/eventEmitter.js";
 
 export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale
@@ -420,11 +420,12 @@ export class Amethyst extends AmethystBackend {
       event.preventDefault();
       event.stopPropagation();
 
-      const droppedPath = event.dataTransfer!.files[0]!.path;
+
+      const droppedPath = window.electron.showFilePath(event.dataTransfer!.files[0]!);
 
       const usableFiles = 
         Array.from(event.dataTransfer!.files)
-          .map(file => file.path)
+          .map(file => window.electron.showFilePath(file))
           .filter(filteredAllowedAudioExtensions);
 
       // We are dealing with a file dropped

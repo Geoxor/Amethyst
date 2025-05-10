@@ -1,4 +1,5 @@
-import { amethyst } from "@/amethyst";
+import { amethyst } from "@/amethyst.js";
+
 import type { UseKeyModifierReturn} from "@vueuse/core";
 import { onKeyStroke, useKeyModifier, useLocalStorage } from "@vueuse/core";
 import { computed } from "vue";

@@ -84,7 +84,6 @@ export class MainWindow {
 	public watchers: Record<string, FSWatcher> = {};
 
 	constructor() {
-
 		this.window = new BrowserWindow({
 			titleBarStyle: "hidden",
 			show: false,

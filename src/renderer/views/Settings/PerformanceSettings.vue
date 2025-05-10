@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst";
+import { amethyst } from "@/amethyst.js";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import SubtitleText from "@/components/v2/SubtitleText.vue";

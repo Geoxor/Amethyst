@@ -18,6 +18,7 @@ declare global {
     dialog: Electron.Dialog;
     electron: {
 			startDrag: (fileName: string) => void,
+			showFilePath: (file: File) => string,
 			isMac: boolean, 
 			isWindows: boolean, 
 			isLinux: boolean,

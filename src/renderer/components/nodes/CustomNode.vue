@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst";
+import { amethyst } from "@/amethyst.js";
 import { useContextMenu } from "@/components/ContextMenu";
 import QuickMenu from "@/components/nodes/QuickMenu.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";

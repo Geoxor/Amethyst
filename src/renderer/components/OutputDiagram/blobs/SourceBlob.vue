@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst";
+import { amethyst } from "@/amethyst.js";
 import AacLogo from "@/icons/logos/AacLogo.vue";
 import FlacLogo from "@/icons/logos/FlacLogo.vue";
 import Mp3Logo from "@/icons/logos/Mp3Logo.vue";
@@ -27,7 +27,7 @@ onMounted(() => {
   const currentTrack = amethyst.player.getCurrentTrack();
   if (currentTrack) updateMimeType(currentTrack);;
   amethyst.player.on("player:play", updateMimeType);
-  amethyst.player.on("currentTrackMetadataLoaded", updateMimeType);
+  amethyst.player.on("player:currentTrackMetadataLoaded", updateMimeType);
 });
 
 </script>

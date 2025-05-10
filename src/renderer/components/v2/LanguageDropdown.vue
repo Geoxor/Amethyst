@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst";
+import { amethyst } from "@/amethyst.js";
 import { Icon } from "@iconify/vue";
 import { onClickOutside } from "@vueuse/core";
 import iso6391 from "iso-639-1";

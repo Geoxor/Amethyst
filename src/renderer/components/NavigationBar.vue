@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst";
+import { amethyst } from "@/amethyst.js";
 import NavigationButton from "@/components/NavigationButton.vue";
 </script>
 

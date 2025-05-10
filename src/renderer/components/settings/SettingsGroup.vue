@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AmethystPlatforms } from "@/amethyst";
+import type { AmethystPlatforms } from "@/amethyst.js";
 import BaseChip from "@/components/BaseChip.vue";
 
 defineProps<{ text: string, description?: string, warning?: string, icon?: any, platforms?: AmethystPlatforms[] }>();

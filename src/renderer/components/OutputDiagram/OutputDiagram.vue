@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst";
+import { amethyst } from "@/amethyst.js";
 import TitleText from "@/components/v2/TitleText.vue";
 
 import ApiBlob from "./blobs/ApiBlob.vue";

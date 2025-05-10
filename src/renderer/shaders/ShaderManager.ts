@@ -1,4 +1,4 @@
-import {amethyst} from "@/amethyst";
+import {amethyst} from "@/amethyst.js";
 
 export class ShaderManager {
 

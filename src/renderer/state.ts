@@ -1,11 +1,11 @@
 import { useLocalStorage } from "@vueuse/core";
 import {reactive, ref, watch} from "vue";
-import type { MediaSourceType } from "@/logic/mediaSources.ts";
-import { FONT_WEIGHTS } from "@shared/constants.ts";
-import { EventEmitter } from "@/logic/eventEmitter.ts";
+import type { MediaSourceType } from "@/logic/mediaSources.js";
+import { FONT_WEIGHTS } from "@shared/constants.js";
+import { EventEmitter } from "@/logic/eventEmitter.js";
 import {ShaderManager} from "@/shaders/ShaderManager";
 import type { RtAudioDeviceInfo } from "audify";
-import { DEFAULT_SETTINGS } from "@/logic/settings.ts";
+import { DEFAULT_SETTINGS } from "@/logic/settings.js";
 
 function deepMerge<T>(target: T, source: Partial<T>): T {
 	if (typeof target !== "object" || typeof source !== "object" || !target || !source) {

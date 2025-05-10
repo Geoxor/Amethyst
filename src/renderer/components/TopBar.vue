@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import { amethyst } from "@/amethyst";
+import { amethyst } from "@/amethyst.js";
 import BaseChip from "@/components/BaseChip.vue";
 import ControlButtons from "@/components/input/ControlButtons.vue";
 import UpdateButton from "@/components/input/UpdateButton.vue";

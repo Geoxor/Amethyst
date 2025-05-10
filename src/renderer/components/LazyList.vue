@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst";
+import { amethyst } from "@/amethyst.js";
 import { useContextMenu } from "@/components/ContextMenu";
 import type { PossibleSortingMethods } from "@/logic/queue";
 import { trackContextMenuOptions, type Track } from "@/logic/track";

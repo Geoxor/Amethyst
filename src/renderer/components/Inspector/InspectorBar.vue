@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst";
+import { amethyst } from "@/amethyst.js";
 import LoadingIcon from "@/components/v2/LoadingIcon.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import { AmethystAudioNode } from "@/logic/audio";
@@ -7,7 +7,7 @@ import { Track } from "@/logic/track";
 import { AmethystOutputNode } from "@/nodes";
 import { Icon } from "@iconify/vue";
 import { bytesToHuman } from "@shared/formating";
-import { removeEmptyObjects } from "@shared/logic.ts";
+import { removeEmptyObjects } from "@shared/logic.js";
 import { computed, onMounted, onUnmounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useInspector } from ".";

@@ -4,14 +4,14 @@ import { AmethystGainNode,
   AmethystInputNode,
   AmethystMasterNode,
   AmethystOutputNode,
-  AmethystSpectrumNode, } from "@/nodes";
-import type { Coords } from "@shared/types.ts";
+  AmethystSpectrumNode, } from "@/nodes/index.js";
+import type { Coords } from "@shared/types.js";
 import type { Position as SourcePosition } from "@vue-flow/core";
 import type { Ref} from "vue";
 import { ref } from "vue";
-import type { AmethystAudioNode } from "@/logic/audio.ts";
+import type { AmethystAudioNode } from "@/logic/audio.js";
 import { useLocalStorage } from "@vueuse/core";
-import type { Amethyst } from "@/amethyst";
+import type { Amethyst } from "@/amethyst.js";
 
 const audioNodes: Record<string, any> = {
   AmethystGainNode,

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst";
+import { amethyst } from "@/amethyst.js";
 import BigButton from "@/components/BigButton.vue";
 import DiscoveryFeed from "@/components/DiscoveryFeed.vue";
 import RouteHeader from "@/components/v2/RouteHeader.vue";

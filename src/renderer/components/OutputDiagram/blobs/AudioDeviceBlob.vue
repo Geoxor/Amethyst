@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst";
+import { amethyst } from "@/amethyst.js";
 import AlsaLogo from "@/icons/logos/AlsaLogo.vue";
 import AppleLogo from "@/icons/logos/AppleLogo.vue";
 import ArturiaLogo from "@/icons/logos/ArturiaLogo.vue";

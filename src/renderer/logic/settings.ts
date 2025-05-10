@@ -1,4 +1,4 @@
-import type { MediaSourceType } from "@/logic/mediaSources.ts";
+import type { MediaSourceType } from "@/logic/mediaSources.js";
 
 export const VALID_SAMPLE_RATES = [
   4000,

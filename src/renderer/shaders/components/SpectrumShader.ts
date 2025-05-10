@@ -1,4 +1,4 @@
-import {VISUALIZER_BIN_COUNT} from "@shared/constants.ts";
+import {VISUALIZER_BIN_COUNT} from "@shared/constants.js";
 
 export const SpectrumShader = `
   precision highp float;

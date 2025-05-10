@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst";
+import { amethyst } from "@/amethyst.js";
 import type { KeyFilter } from "@vueuse/core";
 import { onKeyDown, onKeyUp } from "@vueuse/core";
 import { onMounted, ref, watch } from "vue";

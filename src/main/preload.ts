@@ -2,7 +2,7 @@ import type { IpcRendererEvent } from "electron";
 
 // hack: import electron through cjs so it doesn't throw an error.
 const electron = require('electron');
-const { ipcRenderer, dialog } = electron;
+const { ipcRenderer, dialog, webUtils } = electron;
 
 import * as fs from "fs/promises";
 import * as os from "os";
@@ -20,6 +20,7 @@ window.electron = {
   isMac: os.platform() === "darwin",
   isWindows: os.platform() === "win32",
   isLinux: os.platform() === "linux",
+  showFilePath: (file: File) => webUtils.getPathForFile(file),
   ipcRenderer: {
     invoke<T>(channel: string, args?: unknown[]): Promise<T> {
       return ipcRenderer.invoke(channel, args);

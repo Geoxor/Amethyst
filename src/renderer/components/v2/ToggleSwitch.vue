@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst";
+import { amethyst } from "@/amethyst.js";
 import { useVModel as useModelValue } from "@vueuse/core";
 const props = defineProps<{modelValue: boolean}>();
 const emits = defineEmits(["update:modelValue", "change"]);

@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import {normalize8bit} from "@/logic/math";
+import { amethyst } from "@/amethyst.js";
 import ShaderCanvas from "@/components/ShaderCanvas.vue";
+import { getThemeColorRgb } from "@/logic/color";
+import { normalize8bit } from "@/logic/math";
+import { SpectrumBarShader } from "@/shaders/components/SpectrumBarShader";
 import * as THREE from "three";
 import { watch } from "vue";
-import { amethyst } from "@/amethyst";
-import { getThemeColorRgb } from "@/logic/color";
-import {SpectrumBarShader} from "@/shaders/components/SpectrumBarShader";
 
 const props = defineProps<{
   node: AudioNode,

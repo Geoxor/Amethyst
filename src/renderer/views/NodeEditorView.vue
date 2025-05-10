@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst";
+import { amethyst } from "@/amethyst.js";
 import BaseToolbar from "@/components/BaseToolbar.vue";
 import BaseToolbarButton from "@/components/BaseToolbarButton.vue";
 import BaseToolbarSplitter from "@/components/BaseToolbarSplitter.vue";
@@ -8,7 +8,7 @@ import { useInspector } from "@/components/Inspector";
 import type { AmethystAudioNode } from "@/logic/audio";
 import { getThemeColorHex } from "@/logic/color";
 import { AmethystFilterNode, AmethystGainNode, AmethystPannerNode, AmethystSpectrumNode } from "@/nodes";
-import type { Coords } from "@shared/types.ts";
+import type { Coords } from "@shared/types.js";
 import { Background, BackgroundVariant } from "@vue-flow/additional-components";
 import type { Connection, EdgeMouseEvent, NodeDragEvent } from "@vue-flow/core";
 import { VueFlow } from "@vue-flow/core";

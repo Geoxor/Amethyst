@@ -1,12 +1,12 @@
-import type { PossibleSortingMethods} from "@/logic/queue";
-import { Queue } from "@/logic/queue";
-import { Track } from "@/logic/track";
+import type { PossibleSortingMethods} from "@/logic/queue.js";
+import { Queue } from "@/logic/queue.js";
+import { Track } from "@/logic/track.js";
 import { useLocalStorage } from "@vueuse/core";
 import { ref, watch } from "vue";
-import { AmethystAudioNodeManager } from "@/logic/audioManager.ts";
-import { EventEmitter } from "@/logic/eventEmitter.ts";
-import { secondsToColinHuman, secondsToHuman } from "@shared/formating";
-import type { Amethyst } from "@/amethyst";
+import { AmethystAudioNodeManager } from "@/logic/audioManager.js";
+import { EventEmitter } from "@/logic/eventEmitter.js";
+import { secondsToColinHuman, secondsToHuman } from "@shared/formating.js";
+import type { Amethyst } from "@/amethyst.js";
 import "./analytics";
 
 export enum LoopMode {
@@ -15,8 +15,8 @@ export enum LoopMode {
 	One,
 }
 
-export class Player extends EventEmitter<{
-  currentTrackMetadataLoaded: Track;
+export interface PlayerEvents {
+  "player:currentTrackMetadataLoaded": Track;
   "player:seek": number;
   "player:play": Track;
   "player:resume": Track;
@@ -26,7 +26,9 @@ export class Player extends EventEmitter<{
   "player:next": Track;
   "player:previous": Track;
   "player:trackChange": Track;
-}> {
+}
+
+export class Player extends EventEmitter<PlayerEvents> {
   private minVolume: number = 0.001;
   private maxVolume: number = 1.0;
   public minDb: number = -48;
@@ -108,7 +110,7 @@ export class Player extends EventEmitter<{
 
     if (!track.isLoaded) {
       await track.fetchAsyncData();
-      this.emit("currentTrackMetadataLoaded", track);
+      this.emit("player:currentTrackMetadataLoaded", track);
     }
   }
   

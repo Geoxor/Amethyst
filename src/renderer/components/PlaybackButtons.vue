@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst";
+import { amethyst } from "@/amethyst.js";
 import { LoopMode } from "@/logic/player";
 import { Icon } from "@iconify/vue";
 import { computed } from "vue";

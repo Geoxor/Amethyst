@@ -88,3 +88,13 @@ Emits when user changes the playback volume
 ```ts
 amethyst.player.on("player:volumeChange", (dB: number) => {});
 ```
+
+### player:currentTrackMetadataLoaded
+
+Emits when the metadata for the currently playing track has finished loading
+
+```ts
+amethyst.player.on("player:currentTrackMetadataLoaded", (track: Track) => {});
+```
+
+
