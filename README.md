@@ -16,23 +16,6 @@
 
 Amethyst is an cross-platform audio player with a [node-based](https://en.wikipedia.org/wiki/Node_graph_architecture) [audio routing](https://en.wikipedia.org/wiki/Audio_signal_flow) system, the main goal of this project is to make a [music player](https://en.wikipedia.org/wiki/Media_player_software) in [TypeScript](https://www.typescriptlang.org/) to see how far the language can be stretched to prove it's possible to provide pro-level features as most [DAWs](https://en.wikipedia.org/wiki/Digital_audio_workstation) / [DAEs](https://en.wikipedia.org/wiki/Audio_editing_software), while also providing useful tools and customizability to the [end-user](https://en.wikipedia.org/wiki/End_user).
 
-## 🈳 Translation Coverage
-
-<!-- START LOCALE_COVERAGE -->
-| Locale | Coverage |
-|--------|----------|
-| de-DE | 100.0% |
-| el-GR | 100.0% |
-| es-ES | 100.0% |
-| fi-FI | 100.0% |
-| fr-FR | 100.0% |
-| it-IT | 100.0% |
-| ja-JP | 100.0% |
-| pl-PL | 100.0% |
-| pt-BR | 48.3% |
-| ru-RU | 100.0% |
-<!-- END LOCALE_COVERAGE -->
-
 ## [Download](https://amethyst.geoxor.moe/introduction)
 
 ## Showcase
