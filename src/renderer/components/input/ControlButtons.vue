@@ -40,7 +40,7 @@ defineProps<{ isMaximized: boolean }>();
 
 <style scoped lang="postcss">
 button {
-  @apply h-full fill-current flex items-center justify-center py-1.5 px-4 rounded-4px  hover:text-text-title hover:bg-surface-600;
+  @apply h-full fill-current flex items-center justify-center py-0.5.5 px-4 rounded-4px  hover:text-text-title hover:bg-surface-600;
   &.close {
     @apply hover:bg-primary hover:text-surface-700 active:text-text-title active:bg-primary;
   }

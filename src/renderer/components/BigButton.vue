@@ -9,7 +9,7 @@ const props = defineProps<{title?: string, description?: string, icon: any}>();
 
 <template>
   <button
-    class="duration-user-defined flex relative gap-4 cursor-pointer bg-transparent text-text-title max-h-52px h-52px items-center py-2 px-4 rounded-8px"
+    class="duration-user-defined flex relative gap-4 cursor-pointer bg-transparent text-text-title max-h-52px h-52px items-center py-1 px-4 rounded-8px"
   >
     <icon
       :icon="icon"
@@ -33,7 +33,7 @@ const props = defineProps<{title?: string, description?: string, icon: any}>();
 button {
   @apply border-transparent;
   &.neonMode {
-    @apply border-2 py-1 px-4;
+    @apply border-2 py-0.5 px-4;
   }
 
   &:not(.neonMode):hover:not(.active) {

@@ -20,7 +20,7 @@ const hasSubsetting = () => {
   >
     <div
       class="flex gap-4 items-center min-h-52px px-4 "
-      :class="[hasSubsetting() ? 'pt-2' : 'py-2']"
+      :class="[hasSubsetting() ? 'pt-2' : 'py-1']"
     >
       <icon
         :icon="icon"

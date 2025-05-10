@@ -208,7 +208,7 @@ const handleEnter = (e: KeyboardEvent) => {
 <template>
   <button
     ref="modifier"
-    class="modifier font-semibold duration-user-defined flex flex-col justify-center h-5 items-center min-w-16 leading-tight rounded-full py-1 px-2 bg-accent text-accent bg-opacity-15"
+    class="modifier font-semibold duration-user-defined flex flex-col justify-center h-5 items-center min-w-16 leading-tight rounded-full py-0.5 px-1 bg-accent text-accent bg-opacity-15"
     @mousedown.stop.passive="onMouseDown"
     @mouseup.stop.passive="dragging = false"
     @keydown="handleEnter"

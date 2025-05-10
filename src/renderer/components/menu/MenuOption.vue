@@ -16,7 +16,7 @@ defineProps<{
       title.includes('...') && 'cursor-pointer',
       red ? 'hover:bg-rose-600 hover:font-bold' : 'hover:bg-surface-600 hover:text-primary-800'
     ]"
-    class="text-left h-32px text-text-title text-11px py-2 px-4 w-full flex justify-between items-center"
+    class="text-left h-32px text-text-title text-11px py-1 px-4 w-full flex justify-between items-center"
   >
     <div class="flex gap-4 items-center">
       <icon
