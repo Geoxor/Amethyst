@@ -24,11 +24,9 @@ export const SpectrumShader = `
 
     float a = 0.0;
     
-    if(abs(dist) <= u_resolution.x * 0.005 * u_line_thickness || (uv.y >= lowest && uv.y <= amplitude)) {
-      a = 1.0;
-    } else if(dist > 0.0) {
-      a = interpolate(1.0, u_fill_opacity, pow(1.0 - uv.y, 1.0 - u_opacity_falloff));
-    }
+    a += float(abs(dist) <= u_resolution.x * 0.005 * u_line_thickness || (uv.y >= lowest && uv.y <= amplitude));
+    a += clamp(sign(amplitude - uv.y), 0.0, 1.0) * interpolate(1.0, u_fill_opacity, pow(1.0 - uv.y, 1.0 - u_opacity_falloff));
+    a = clamp(a, 0.0, 1.0);
     gl_FragColor = vec4(u_color * a, a);
   }
 `;
