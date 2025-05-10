@@ -12,7 +12,7 @@ defineProps<{ url?: string }>();
   >
   <div
     v-else
-    class="flex items-center justify-center bg-slider-background bg-opacity-50 disable-select no-drag"
+    class="flex items-center justify-center bg-slider-background disable-select no-drag"
   >
     <amethyst-icon />
   </div>

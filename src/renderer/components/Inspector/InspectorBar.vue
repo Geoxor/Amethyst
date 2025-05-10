@@ -64,7 +64,7 @@ const filteredMetadata = computed(() => {
 
 <template>
   <div
-    class="inspector text-12px top-16 right-2 overflow-hidden w-min-96 rounded-4px z-30 text-primary-900 h-full bg-surface-1000"
+    class="inspector text-[12px] top-16 right-2 overflow-hidden min-w-96 rounded-[4px] z-30 text-primary-900 h-full bg-surface-1000"
   >
     <div class="h-10 pl-3 flex w-full  justify-between items-center ">
       <div class="flex gap-2 items-center text-inspector-color">
@@ -72,7 +72,7 @@ const filteredMetadata = computed(() => {
           icon="mdi:flask"
           class="h-5-w-5 min-w-5 min-h-5"
         />
-        <h1 class="font-zen-dots text-13px">
+        <h1 class="font-zen-dots text-[13px]">
           {{ $t('inspector.title') }}
         </h1>
         <base-chip
@@ -83,7 +83,7 @@ const filteredMetadata = computed(() => {
         </base-chip>
       </div>
       <button
-        class="p-3 cursor-pointer hover:text-text_title"
+        class="p-3 cursor-pointer hover:text-text-title"
         @click="inspector.hide()"
       >
         <icon
@@ -184,7 +184,7 @@ const filteredMetadata = computed(() => {
           {{ $t('node.properties') }}
         </h1>
         {{ inspector.state.currentItem.properties.name }}
-        <h2 class="text-text_subtitle">
+        <h2 class="text-text-subtitle">
           {{ inspector.state.currentItem.properties.id }}
         </h2>
       </section>
@@ -385,9 +385,11 @@ const filteredMetadata = computed(() => {
   </div>
 </template>
 
-<style scoped lang="postcss">
+<style scoped>
+@import "../../base.css";
+
 .inspector {
-  @apply text-text_title text-12px pt-44px transform-gpu -translate-y-40px rounded-tl-16px;
+  @apply text-text-title text-[12px] pt-[44px] transform-gpu -translate-y-[40px] rounded-tl-[16px];
 }
 
 section {
@@ -410,16 +412,16 @@ section {
 
   & input,
   & p {
-    @apply px-2 py-1 bg-surface-800 rounded-4px overflow-hidden overflow-ellipsis;
+    @apply px-2 py-1 bg-surface-800 rounded-[4px] overflow-hidden overflow-ellipsis;
   }
 
   input {
     @apply border-1 border-transparent w-1/2;
     &:hover {
-      @apply bg-accent bg-opacity-25 text-text_title;
+      @apply bg-accent/25 text-text-title;
     }
     &:focus {
-      @apply bg-accent bg-opacity-25 border-1 border-accent text-text_title;
+      @apply bg-accent/25 border-1 border-accent text-text-title;
     }
   }
 }

@@ -4,7 +4,7 @@ import { defineConfig } from "vite";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
 import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import path from "path";
-import WindiCSS from "vite-plugin-windicss";
+import tailwindcss from "@tailwindcss/vite";
 
 const PACKAGE_ROOT = __dirname;
 
@@ -32,12 +32,7 @@ export default defineConfig({
 				Buffer: true,
 			}
 		}),
-		WindiCSS({
-			scan: {
-				dirs: ["."], // all files in the cwd
-				fileExtensions: ["vue", "js", "ts"], // also enabled scanning for js/ts
-			},
-		}),
+		tailwindcss(),
 		vue(),
 	],
 	base: "",

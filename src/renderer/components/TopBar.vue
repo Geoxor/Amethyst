@@ -49,8 +49,8 @@ provide("menuGroupRef", menuGroupRef);
 
 <template>
   <div
-    class=" z-100 font-main drag min-h-40px pr-2 text-12px select-none flex justify-between items-center transition-colors duration-user-defined"
-    :class="[amethyst.state.window.isFocused ? 'text-text_title' : 'text-text_subtitle']"
+    class=" z-100 font-main drag min-h-[40px] pr-2 text-[12px] select-none flex justify-between items-center transition-colors duration-user-defined"
+    :class="[amethyst.state.window.isFocused ? 'text-text-title' : 'text-text-subtitle']"
   >
     <div
       class="flex no-drag h-full items-center"
@@ -58,7 +58,7 @@ provide("menuGroupRef", menuGroupRef);
       :class="[amethyst.getCurrentOperatingSystem() == 'mac' && 'pl-16']"
     >
       <div
-        class="duration-user-defined logo w-52px h-full items-center flex justify-center cursor-heart-pointer rounded-br-8px hover:bg-primary hover:bg-opacity-10 hover:text-primary"
+        class="duration-user-defined logo w-[52px] h-full items-center flex justify-center cursor-heart-pointer rounded-br-[8px] hover:bg-primary/10 hover:text-primary"
       >
         <amethyst-icon class="w-5 h-5" />
       </div>
@@ -187,7 +187,7 @@ provide("menuGroupRef", menuGroupRef);
       </menu-container>
     </div>
 
-    <p class="absolute flex items-center gap-1 top-10px left-1/2 transform-gpu -translate-x-1/2 select-none">
+    <p class="absolute flex items-center gap-1 top-[10px] left-1/2 transform-gpu -translate-x-1/2 select-none">
       <loading-icon v-if="amethyst.isLoading.value" />
       <title-text text="Amethyst" />
       <title-text
@@ -212,10 +212,10 @@ provide("menuGroupRef", menuGroupRef);
         class="w-56 flex gap-1 justify-end no-drag" 
         @click="min = Number.POSITIVE_INFINITY; max = Number.NEGATIVE_INFINITY;"
       >
-        <div class="hidden lg:inline font-aseprite text-primary-900 text-opacity-50">
-          {{ domSize }}<span class="text-primary-900 text-opacity-25">DOM </span>
-          {{ amethyst.player.getBufferSize() }}<span class="text-primary-900 text-opacity-25">smp</span>
-          {{ latency.toFixed(2) }}<span class="text-primary-900 text-opacity-25">ms</span>
+        <div class="hidden lg:inline font-aseprite text-primary-900/50">
+          {{ domSize }}<span class="text-primary-900/25">DOM </span>
+          {{ amethyst.player.getBufferSize() }}<span class="text-primary-900/25">smp</span>
+          {{ latency.toFixed(2) }}<span class="text-primary-900/25">ms</span>
         </div>
         <div 
           :class="[
@@ -246,12 +246,14 @@ provide("menuGroupRef", menuGroupRef);
   </div>
 </template>
 
-<style lang="postcss">
+<style scoped>
+@import "../base.css";
+
 select::-ms-expand {
   display: none;
 }
 
 .logo img {
-  @apply transform active: rotate-360 active:scale-50 transition duration-200 ml-1 h-4;
+  @apply transform active:rotate-360 active:scale-50 transition duration-200 ml-1 h-4;
 }
 </style>

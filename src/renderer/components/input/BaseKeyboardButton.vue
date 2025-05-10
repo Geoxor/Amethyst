@@ -37,16 +37,18 @@ onMounted(() => {
 
 <template>
   <kbd
-    class="text-7px font-aseprite"
+    class="text-[7px] font-aseprite"
     :class="[active && 'active']"
   >
     <slot />
   </kbd>
 </template>
 
-<style scoped lang="postcss">
+<style scoped>
+@import "../../base.css";
+
 kbd {
-  @apply mx-0.25 py-0.25 px-1.25 rounded-3px border-1 border-surface-900 bg-surface-600;
+  @apply mx-0.25 py-0.25 px-1.25 rounded-[3px] border-1 border-surface-900 bg-surface-600;
   line-height: 1.4;
   box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 0px 2px rgb(var(--surface-600));
 

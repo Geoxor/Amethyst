@@ -11,7 +11,9 @@ import ResizableSettingsNavigation from "@/components/v2/ResizableSettingsNaviga
   </div>
 </template>
 
-<style lang="postcss">
+<style scoped>
+@import "../../base.css";
+
 .settingsView .slider {
   @apply w-48;
 }

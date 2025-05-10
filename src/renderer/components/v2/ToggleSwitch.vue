@@ -9,7 +9,7 @@ const value = useModelValue(props, "modelValue", emits);
 <template>
   <button
     class="px-4 cursor-pointer py-1.5 w-12 min-w-12 flex justify-center rounded-full relative"
-    :class="[value ? (amethyst.state.settings.appearance.neonMode ? 'neonMode' : 'bg-primary text-surface-700') : 'bg-accent bg-opacity-15']"
+    :class="[value ? (amethyst.state.settings.appearance.neonMode ? 'neonMode' : 'bg-primary text-surface-700') : 'bg-accent/15']"
     @click="emits('update:modelValue', !value); emits('change')"
   >
     <div
@@ -18,21 +18,23 @@ const value = useModelValue(props, "modelValue", emits);
     />
     <div
       v-if="amethyst.state.settings.appearance.neonMode && value"
-      class="w-full opacity-50 duration-user-defined blurLayer z-0 bg-primary filter h-full absolute top-0 left-0 blur-16px"
+      class="w-full opacity-50 duration-user-defined blurLayer z-0 bg-primary filter h-full absolute top-0 left-0 blur-[16px]"
     />
   </button>
 </template>
 
-<style scoped lang="postcss">
+<style scoped>
+@import "../../base.css";
+
 button:hover:not(.neonMode):not(.bg-primary) {
-  @apply bg-accent hover:bg-opacity-25;
+  @apply bg-accent hover:bg-accent/25;
 }
 
 button.neonMode {
   @apply border-2 border-primary text-primary;
 
   &:hover {
-    @apply bg-primary bg-opacity-15;
+    @apply bg-primary/15;
   }
 }
 

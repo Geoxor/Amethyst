@@ -9,7 +9,7 @@ const props = defineProps<{title?: string, description?: string, icon: any}>();
 
 <template>
   <button
-    class="duration-user-defined flex relative gap-4 cursor-pointer bg-transparent text-text_title max-h-52px h-52px items-center py-2 px-4 rounded-8px"
+    class="duration-user-defined flex relative gap-4 cursor-pointer bg-transparent text-text-title max-h-[52px] h-[52px] items-center py-2 px-4 rounded-[8px]"
   >
     <icon
       :icon="icon"
@@ -23,12 +23,13 @@ const props = defineProps<{title?: string, description?: string, icon: any}>();
     />
     <div
       v-if="amethyst.state.settings.appearance.neonMode"
-      class="blurLayer w-full opacity-0 duration-user-defined z-0 bg-primary filter h-full absolute top-0 left-0 blur-16px"
+      class="blurLayer w-full opacity-0 duration-user-defined z-0 bg-primary filter h-full absolute top-0 left-0 blur-[16px]"
     />
   </button>
 </template>
 
-<style scoped lang="postcss">
+<style scoped>
+@import "../base.css";
 
 button {
   @apply border-transparent;
@@ -37,12 +38,11 @@ button {
   }
 
   &:not(.neonMode):hover:not(.active) {
-    @apply bg-primary bg-opacity-15 text-primary;
+    @apply bg-primary/15 text-primary;
 
     &::v-deep(h1),
     &::v-deep(p) {
-      @apply text-primary;
-      @apply text-opacity-75;
+      @apply text-primary/75;
     }
   }
 
@@ -56,11 +56,10 @@ button {
   }
 
   &.neonMode:hover {
-    @apply text-primary text-opacity-75;
+    @apply text-primary/75;
     &::v-deep(h1),
     &::v-deep(p) {
-      @apply text-primary;
-      @apply text-opacity-100;
+      @apply text-primary/100;
     }
   }
   
@@ -73,7 +72,7 @@ button {
     }
 
     &:hover {
-      @apply bg-primary hover:bg-opacity-10;
+      @apply bg-primary hover:bg-primary/10;
     }
 
     .blurLayer {

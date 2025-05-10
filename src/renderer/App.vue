@@ -92,7 +92,7 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
 <template>
   <div
     v-if="amethyst.state.showBigSpectrum.value"
-    class="absolute top-0 left-0 w-320px h-280px z-30 bg-surface-800 "
+    class="absolute top-0 left-0 w-[320px] h-[280px] z-30 bg-surface-800"
     @click="amethyst.state.showBigSpectrum.value = false"
   >
     <spectrum-analyzer-composite
@@ -107,7 +107,7 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
   >
     <div
       v-if="amethyst.state.window.isShowingBigCover"
-      class="absolute select-none rounded-8px w-full sm:w-auto max-w-3/4 max-h-3/4 overflow-hidden top-1/2 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2 z-50"
+      class="absolute select-none rounded-[8px] w-full sm:w-auto max-w-3/4 max-h-3/4 overflow-hidden top-1/2 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2 z-50"
       style="aspect-ratio: 1/1;"
     >
       <cover-art 
@@ -133,7 +133,7 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
 
     <div
       v-if="amethyst.getCurrentPlatform() === 'web'"
-      class="h-6 bg-yellow-500  items-center flex gap-1 justify-center select-none w-full text-12px"
+      class="h-6 bg-yellow-500 items-center flex gap-1 justify-center select-none w-full text-[12px]"
     >
       Amethyst Web is heavily disfunctional due to 
       Chrome's security policies regarding filesystem access, for the best experience <a
@@ -150,7 +150,7 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
       class="w-full absolute bottom-0 z-10 "
     >
       <div
-        class="p-2 rounded-t-24px overflow-hidden drop-shadow-2xl flex bg-surface-700 justify-between"
+        class="p-2 rounded-t-[24px] overflow-hidden drop-shadow-2xl flex bg-surface-700 justify-between"
       > 
         <navigation-button
           :icon="AmethystIcon"
@@ -176,6 +176,7 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
     </div>
     <div class="h-full whitespace-nowrap flex flex-col justify-between">
       <div class="flex-1 flex h-full max-h-full relative">
+
         <navigation-bar v-if="amethyst.getCurrentPlatform() !== 'mobile'" />
 
         <div class="flex flex-col w-full">

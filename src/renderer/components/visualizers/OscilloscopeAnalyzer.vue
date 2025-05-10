@@ -91,7 +91,7 @@ onUnmounted(() => shouldStopRendering = true);
 <template>
   <canvas
     :id="`oscilloscope-${randomId}`"
-    class="transform rounded-4px"
+    class="transform rounded-[4px]"
     :width="width"
     :height="height"
   />

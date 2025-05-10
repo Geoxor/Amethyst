@@ -91,9 +91,9 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 </script>
 
 <template>
-  <div class="text-13px text-text_title min-h-0 h-full flex flex-col text-left relative select-none ">
+  <div class="text-[13px] text-text-title min-h-0 h-full flex flex-col text-left relative select-none mr-3">
     <div
-      class="flex text-left font-bold sticky top-0 z-10 bg-surface-900 py-2 px-2 columnHeader min-h-36px pr-5"
+      class="flex text-left font-bold sticky top-0 z-10 bg-surface-900 py-2 px-2 columnHeader min-h-[36px] pr-5"
       :class="[amethyst.player.queue.currentSortingDirection.value]"
       @contextmenu="handleColumnContextMenu($event)"
     >
@@ -104,7 +104,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
       />
       <div
         v-if="columns.trackNumber"
-        class="flex-none w-32px transform-gpu -translate-x-1.75"
+        class="flex-none w-[32px] transform-gpu -translate-x-1.75"
         :class="[currentShortMethod == 'trackNumber' && 'activeSort']"
         @click="setCurrentSortedMethod('trackNumber')"
       >
@@ -119,7 +119,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
       </div>
       <div
         v-if="columns.diskNumber"
-        class="flex-none w-32px transform-gpu -translate-x-1.75"
+        class="flex-none w-[32px] transform-gpu -translate-x-1.75"
         :class="[currentShortMethod == 'diskNumber' && 'activeSort']"
         @click="setCurrentSortedMethod('diskNumber')"
       >
@@ -134,7 +134,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
       </div>
       <div
         v-if="columns.filename"
-        class="flex-grow w-[200px] w-min-100px"
+        class="grow w-[200px] w-min-[100px]"
         :class="[currentShortMethod == 'filename' && 'activeSort']"
         @click="setCurrentSortedMethod('filename')"
       >
@@ -147,7 +147,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
       </div>
       <div
         v-if="columns.title"
-        class="flex-grow w-[200px] w-min-100px"
+        class="grow w-[200px] w-min-[100px]"
         :class="[currentShortMethod == 'title' && 'activeSort']"
         @click="setCurrentSortedMethod('title')"
       >
@@ -160,7 +160,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
       </div>
       <div
         v-if="columns.artist"
-        class="flex-grow w-[200px] w-min-100px"
+        class="grow w-[200px] w-min-[100px]"
         :class="[currentShortMethod == 'artist' && 'activeSort']"
         @click="setCurrentSortedMethod('artist')"
       >
@@ -173,13 +173,13 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
       </div>
       <div
         v-if="columns.location"
-        class="flex-none w-[70px] w-min-100px "
+        class="flex-none w-[70px] w-min-[100px] "
       >
         {{ $t('queue.column.location') }}
       </div>
       <div
         v-if="columns.album"
-        class="flex-grow w-[200px] w-min-100px"
+        class="grow w-[200px] w-min-[100px]"
         :class="[currentShortMethod == 'album' && 'activeSort']"
         @click="setCurrentSortedMethod('album')"
       >
@@ -206,7 +206,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 
       <div
         v-if="columns.genre"
-        class="flex-grow w-[120px]"
+        class="grow w-[120px]"
         :class="[currentShortMethod == 'genre' && 'activeSort']"
         @click="setCurrentSortedMethod('genre')"
       >
@@ -220,7 +220,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 
       <div
         v-if="columns.barcode"
-        class="flex-grow w-[120px]"
+        class="grow w-[120px]"
         :class="[currentShortMethod == 'barcode' && 'activeSort']"
         @click="setCurrentSortedMethod('barcode')"
       >
@@ -234,7 +234,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 
       <div
         v-if="columns.label"
-        class="flex-grow w-[100px]"
+        class="grow w-[100px]"
         :class="[currentShortMethod == 'label' && 'activeSort']"
         @click="setCurrentSortedMethod('label')"
       >
@@ -248,7 +248,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 
       <div
         v-if="columns.isrc"
-        class="flex-grow w-[110px]"
+        class="grow w-[110px]"
         :class="[currentShortMethod == 'isrc' && 'activeSort']"
         @click="setCurrentSortedMethod('isrc')"
       >
@@ -262,7 +262,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 
       <div
         v-if="columns.copyright"
-        class="flex-grow w-[100px]"
+        class="grow w-[100px]"
         :class="[currentShortMethod == 'copyright' && 'activeSort']"
         @click="setCurrentSortedMethod('copyright')"
       >
@@ -390,7 +390,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
     >
       <template #default="{ item } : { item: Track}">
         <div
-          class="row flex items-center px-2 rounded-4px"
+          class="row flex items-center px-2 rounded-[4px]"
           :class="[
             `h-[${ITEM_HEIGHT}px]`,
             isHoldingControl && 'control cursor-external-pointer',
@@ -450,14 +450,14 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
             />
             <cover-art
               v-else
-              class="cover rounded-2px"
+              class="cover rounded-[2px]"
               :url="item.isLoaded && item.getCover() ? item.getCover() : ''"
             />
           </div>
 
           <div
             v-if="columns.trackNumber"
-            class="flex-none w-32px"
+            class="flex-none w-[32px]"
           >
             <span v-if="item.getTrackNumber()">{{ item.getTrackNumber() }}</span>
             <not-applicable-text v-else />
@@ -465,7 +465,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 
           <div
             v-if="columns.diskNumber"
-            class="flex-none w-32px"
+            class="flex-none w-[32px]"
           >
             <span v-if="item.getDiskNumber()">{{ item.getDiskNumber() }}</span>
             <not-applicable-text v-else />
@@ -473,14 +473,14 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 
           <div
             v-if="columns.filename"
-            class="flex-grow w-[200px] w-min-100px"
+            class="grow w-[200px] w-min-[100px]"
           >
             <span>{{ item.getFilename() }}</span>
           </div>
 
           <div
             v-if="columns.title"
-            class="flex-grow w-[200px] w-min-100px"
+            class="grow w-[200px] w-min-[100px]"
           >
             <span v-if="item.getTitle()">{{ item.getTitle() }}</span>
             <not-applicable-text v-else />
@@ -488,7 +488,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 
           <div
             v-if="columns.artist"
-            class="flex-grow w-[200px] w-min-100px"
+            class="grow w-[200px] w-min-[100px]"
           >
             <span v-if="item.getArtistsFormatted()">{{ item.getArtistsFormatted() }}</span>
             <not-applicable-text v-else />
@@ -499,7 +499,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
             class="flex-none w-[70px] pl-4"
           >
             <button
-              class="cursor-pointer hover:text-text_title"
+              class="cursor-pointer hover:text-text-title"
               @click.stop.prevent="amethyst.showItem(item.path)"
             >
               <icon
@@ -511,7 +511,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 
           <div
             v-if="columns.album"
-            class="flex-grow w-[200px] w-min-100px "
+            class="grow w-[200px] w-min-[100px]"
           >
             <span v-if="item.getAlbum()">{{ item.getAlbum() }}</span>
             <not-applicable-text v-else />
@@ -527,7 +527,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 
           <div
             v-if="columns.genre"
-            class="flex-grow w-[120px]"
+            class="grow w-[120px]"
           >
             <span v-if="item.getGenre()">{{ item.getGenreFormatted() }}</span>
             <not-applicable-text v-else />
@@ -535,7 +535,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 
           <div
             v-if="columns.barcode"
-            class="flex-grow w-[120px]"
+            class="grow w-[120px]"
           >
             <span v-if="item.getBarcode()">{{ item.getBarcode() }}</span>
             <not-applicable-text v-else />
@@ -543,7 +543,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 
           <div
             v-if="columns.label"
-            class="flex-grow w-[100px]"
+            class="grow w-[100px]"
           >
             <span v-if="item.getLabel()?.[0]">{{ item.getLabel()![0] }}</span>
             <not-applicable-text v-else />
@@ -551,7 +551,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 
           <div
             v-if="columns.isrc"
-            class="flex-grow w-[110px]"
+            class="grow w-[110px]"
           >
             <span v-if="item.getISRC()?.[0]">{{ item.getISRC()![0] }}</span>
             <not-applicable-text v-else />
@@ -559,7 +559,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 
           <div
             v-if="columns.copyright"
-            class="flex-grow w-[100px]"
+            class="grow w-[100px]"
           >
             <span v-if="item.getCopyright()">{{ item.getCopyright() }}</span>
             <not-applicable-text v-else />
@@ -595,8 +595,8 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
           >
             <icon
               icon="ic:baseline-favorite-border"
-              class="h-4 w-4 cursor-pointer "
-              :class="[item.isFavorited ? 'text-alert-color' :'hover:text-text_title']"
+              class="h-4 w-4 cursor-pointer"
+              :class="[item.isFavorited ? 'text-alert-color' :'hover:text-text-title']"
               @click.stop.prevent="item.toggleFavorite()"
             />
           </div>
@@ -637,7 +637,8 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
   </div>
 </template>
 
-<style lang="postcss">
+<style scoped>
+@import "../base.css";
 
 th {
   @apply sticky top-0 z-10 bg-surface-900 py-4;
@@ -678,14 +679,14 @@ tr {
 }
 
 .row {
-  @apply overflow-hidden text-text_subtitle ;
+  @apply overflow-hidden text-text-subtitle ;
 
   & > div {
     @apply overflow-hidden overflow-ellipsis;
   }
 
   &:hover {
-    @apply text-accent bg-surface-400 bg-opacity-20;
+    @apply text-accent bg-surface-400/20;
   }
 
   &.control:hover {
@@ -693,16 +694,16 @@ tr {
   }
 
   &.currentlyPlaying {
-    @apply text-primary bg-primary bg-opacity-10;
+    @apply text-primary bg-primary/10;
     &:hover {
-      @apply bg-opacity-15;
+      @apply bg-primary/15;
     }
   }
 
   &.currentlyInspecting {
-    @apply text-inspector-color bg-inspector-color bg-opacity-10;
+    @apply text-inspector-color bg-inspector-color/10;
     &:hover {
-      @apply bg-opacity-15;
+      @apply bg-inspector-color/15;
     }
   }
 }

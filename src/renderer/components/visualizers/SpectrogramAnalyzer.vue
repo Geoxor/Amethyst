@@ -61,7 +61,7 @@ const render = (uniforms: Record<string, any>) => {
 </script>
 
 <template>
-  <div class="relative overflow-hidden w-full h-full rounded-4px">
+  <div class="relative overflow-hidden w-full h-full rounded-[4px]">
     <shader-canvas
       class="origin-top-left absolute"
       :frag-shader="SpectrogramShader"

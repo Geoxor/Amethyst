@@ -11,7 +11,7 @@ defineProps<{title: string, subtitle?: string, clickable?: boolean}>();
   >
     <div 
       :class="[clickable && 'hover:bg-surface-400 cursor-pointer transform-gpu hover:scale-110']"
-      class="flex items-center duration-user-defined justify-center h-48px w-48px bg-surface-600 rounded-4px text-text_title"
+      class="flex items-center duration-user-defined justify-center h-[48px] w-[48px] bg-surface-600 rounded-[4px] text-text-title"
     >
       <slot />
     </div>
@@ -28,9 +28,9 @@ defineProps<{title: string, subtitle?: string, clickable?: boolean}>();
     </div>
     <div
       v-if="subtitle"
-      class="w-full h-2px bg-surface-600 absolute top-24px -z-10"
+      class="w-full h-[2px] bg-surface-600 absolute top-[24px] -z-10"
     >
-      <div class="h-4 w-4 bg-surface-600 transform-gpu rotate-45 absolute left-9 -top-7px" />
+      <div class="h-4 w-4 bg-surface-600 transform-gpu rotate-45 absolute left-9 -top-[7px]" />
     </div>
   </div>
 </template>

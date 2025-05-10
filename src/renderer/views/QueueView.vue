@@ -40,7 +40,9 @@ onUnmounted(() => {
   </div>
 </template>
 
-<style lang="postcss" scoped>
+<style scoped>
+@import "../base.css";
+
 .slide-fade-enter-active,
 .slide-fade-leave-active {
   transition: all 0.5s ease;

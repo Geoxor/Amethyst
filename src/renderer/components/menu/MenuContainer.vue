@@ -35,14 +35,14 @@ const onClick = () => {
   >
     <div
       :class="isShowing && 'text-primary-700 bg-surface-600'"
-      class="hover:text-primary-800 hover:bg-surface-600 cursor-default flex rounded-b-8px items-center mt-0.25 px-3 h-full duration-user-defined" 
+      class="hover:text-primary-800 hover:bg-surface-600 cursor-default flex rounded-b-[8px] items-center mt-0.25 px-3 h-full duration-user-defined" 
       @click.stop="onClick"
     >
       <title-text :text="title" />
     </div>
     <div
       v-if="isShowing"
-      class="absolute z-30 flex select-none items-center bg-surface-800 shadow-xl rounded-6px left-0 mt-1 p-1 flex-col w-96"
+      class="absolute z-30 flex select-none items-center bg-surface-800 shadow-xl rounded-[6px] left-0 mt-1 p-1 flex-col w-96"
       @click="onClick"
     >
       <slot />

@@ -23,7 +23,7 @@ const handleMouseScroll = (e: WheelEvent) => {
     </p>
   </base-chip>
   <div
-    class="slider py-3 min-w-160px max-w-160px"
+    class="slider py-3 min-w-[160px] max-w-[160px]"
     @wheel.prevent="handleMouseScroll"
   >
     <slider
@@ -38,32 +38,3 @@ const handleMouseScroll = (e: WheelEvent) => {
     />
   </div>
 </template>
-
-<style lang="postcss">
-@import "@vueform/slider/themes/default.css";
-:root {
-  --slider-handle-width: 8px;
-  --slider-handle-height: 20px;
-  --slider-handle-bg: rgba(var(--text-title));
-  --slider-tooltip-bg: rgba(var(--accent));
-  --slider-focus-bg: rgba(var(--accent));
-  --slider-handle-ring-color: rgba(var(--accent), 0.25);
-}
-
-.slider-connect {
-  @apply bg-accent bg-opacity-50;
-}
-
-.slider-handle {
-  @apply bg-accent;
-}
-
-.slider-base {
-  @apply bg-accent bg-opacity-15;
-}
-
-.slider-tooltip {
-  @apply bg-accent border-none;
-}
-
-</style>

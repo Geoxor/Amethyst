@@ -13,9 +13,9 @@ import SourceBlob from "./blobs/SourceBlob.vue";
 </script>
 
 <template>
-  <div class="flex flex-col gap-3 w-full">
+  <div class="flex flex-col gap-3 w-full ">
     <title-text :text="$t('output_diagram.title')" />
-    <div class="flex">
+    <div class="flex ">
       <source-blob />
       <decoder-blob />
       <resampler-blob v-if="amethyst.player.getCurrentTrack() && amethyst.player.context.sampleRate != amethyst.player.getCurrentTrack()!.getSampleRate()" />

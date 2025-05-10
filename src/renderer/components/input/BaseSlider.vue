@@ -13,7 +13,9 @@ const value = useVModel(props, "modelValue", emits);
   >
 </template>
 
-<style scoped lang="postcss">
+<style scoped>
+@import "../../base.css";
+
 input[type=range] {
   transition: 200ms ease;
 }

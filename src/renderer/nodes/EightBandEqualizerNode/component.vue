@@ -101,7 +101,7 @@ const FILTER_TYPES = [
       <div
         v-for="(filter, i) of node.filters"
         :key="i"
-        class="div flex flex-col h-min w-min font-aseprite bg-surface-1000 p-2 rounded-4px gap-2"
+        class="div flex flex-col h-min w-min font-aseprite bg-surface-1000 p-2 rounded-[4px] gap-2"
         @mousedown.stop
       >
         <equalizer-band
@@ -133,12 +133,12 @@ const FILTER_TYPES = [
           suffix="Q"
           :digits="2"
         />
-        <div class="flex rounded-2px overflow-hidden">
+        <div class="flex rounded-[2px] overflow-hidden">
           <button
             v-for="filterType of FILTER_TYPES"
             :key="filterType"
-            class="text-11px cursor-pointer px-1 py-0.5 bg-surface-900"
-            :class="[filter.type == filterType ? 'text-primary-800 bg-primary-800 bg-opacity-10' : 'text-surface-500']"
+            class="text-[11px] cursor-pointer px-1 py-0.5 bg-surface-900"
+            :class="[filter.type == filterType ? 'text-primary-800 bg-primary-800/10' : 'text-surface-500']"
             @mousedown.stop
             @click="filter.type = filterType;"
           >
@@ -172,20 +172,20 @@ const FILTER_TYPES = [
     </div>
     <div class="relative w-full bg-surface-1000 rounded-4px">
       <spectrum-analyzer-composite
-        class="h-168px w-full opacity-25"
+        class="h-[168px] w-full opacity-25"
         type="line"
         :node="node.pre"
       />
       <div class="absolute top-0 left-0 right-0">
         <spectrum-analyzer-composite
-          class="h-168px w-full"
+          class="h-[168px] w-full"
           :node="node.post"
           type="line"
         />
       </div>
       <canvas
         ref="frequencyResponseCanvas" 
-        class="h-168px w-full absolute top-0 left-0"
+        class="h-[168px] w-full absolute top-0 left-0"
       />
     </div>
   </custom-node>

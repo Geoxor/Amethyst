@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst.js";
+import { amethyst } from "@/amethyst";
 import { Icon } from "@iconify/vue";
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
@@ -14,10 +14,10 @@ const router = useRouter();
     :class="[
       isActive && 'active',
       mobile && 'rounded-full',
-      amethyst.state.window.isFocused ? 'text-text_title' : 'text-text_subtitle'
+      amethyst.state.window.isFocused ? 'text-text-title' : 'text-text-subtitle'
     ]"
 
-    class="duration-user-defined items-center gap-2 transition-colors duration-user-defined flex relative disable-select p-4 no-drag text-text_title rounded-r-8px"
+    class="duration-user-defined items-center gap-2 transition-colors duration-user-defined flex relative disable-select p-4 no-drag text-text-title rounded-r-[8px]"
     @click="router.push({ name: routeName })"
   >
     <icon
@@ -28,15 +28,16 @@ const router = useRouter();
   </button>
 </template>
 
-<style scoped lang="postcss">
+<style scoped>
+@import "../base.css";
 
 button:hover:not(.active) {
-  @apply bg-accent bg-opacity-15 text-accent;
+  @apply bg-accent/15 text-accent;
   & h1, p {
     @apply text-accent;
   }
   & p {
-    @apply text-opacity-75;
+    @apply text-text-title/75;
   }
 }
 

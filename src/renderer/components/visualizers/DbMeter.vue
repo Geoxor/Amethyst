@@ -74,7 +74,7 @@ onUnmounted(() => shouldStopRendering = true);
 </script>
 
 <template>
-  <div class="flex flex-col gap-0.5 items-center  h-full">
+  <div class="flex flex-col gap-0.5 items-center h-full">
     <div
       class="relative h-full"
       :style="`
@@ -98,7 +98,7 @@ onUnmounted(() => shouldStopRendering = true);
         />
 
         <div
-          :class="channelData[i - 1][0].value > 0 ?'bg-rose-600' : 'bg-slider-fill bg-opacity-80'"
+          :class="channelData[i - 1][0].value > 0 ?'bg-rose-600' : 'bg-slider-fill/80'"
           class="rounded-full transition-all duration-meter-user-defined absolute bottom-0"
           :style="`width: ${width}px; height: ${computedWidth(channelData[i - 1][0].value)}%`"
         />
@@ -110,7 +110,7 @@ onUnmounted(() => shouldStopRendering = true);
       </div>
 
       <svg
-        class="absolute h-full stroke-3px w-4px"
+        class="absolute h-full stroke-[3px] w-[4px]"
         :style="`left: ${((width + 2) * currentChannels + currentChannels)}px;`"
       >
         <line
@@ -124,13 +124,13 @@ onUnmounted(() => shouldStopRendering = true);
     </div>
     <div
       v-if="pre"
-      class="div text-surface-600 w-min font-aseprite text-7px pl-0.7 bg-accent py-0.5 px-0.25 rounded-2px flex items-center justify-center"
+      class="div text-surface-600 w-min font-aseprite text-[7px] pl-0.7 bg-accent py-0.5 px-0.25 rounded-[2px] flex items-center justify-center"
     >
       PRE
     </div>
     <div
       v-else-if="amethyst.state.settings.metering.decibelMeter.separatePrePost"
-      class="div text-surface-600 w-min font-aseprite text-7px pl-0.7 bg-inspector-color py-0.5 px-0.25 rounded-2px flex items-center justify-center"
+      class="div text-surface-600 w-min font-aseprite text-[7px] pl-0.7 bg-inspector-color py-0.5 px-0.25 rounded-[2px] flex items-center justify-center"
     >
       POST
     </div>

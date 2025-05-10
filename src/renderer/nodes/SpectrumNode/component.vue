@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import CustomNode from "@/components/nodes/CustomNode.vue";
-import type { AmethystSpectrumNode } from ".";
 import SpectrumAnalyzerComposite from "@/components/visualizers/SpectrumAnalyzerComposite.vue";
+import type { AmethystSpectrumNode } from ".";
 defineProps<{ node: AmethystSpectrumNode }>();
 
 </script>
@@ -12,7 +12,7 @@ defineProps<{ node: AmethystSpectrumNode }>();
     title="Spectrum analyzer"
   >
     <spectrum-analyzer-composite
-      class="h-76px w-152px"
+      class="h-[76px] w-[152px]"
       type="line"
       :node="node.post"
     />

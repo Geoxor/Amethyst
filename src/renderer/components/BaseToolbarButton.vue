@@ -13,7 +13,7 @@ defineProps<{ tooltipText?: string, active?: boolean, icon?: string, text?: stri
   >
     <button
       :class="active && 'active'"
-      class="select-none text-primary-1000 rounded-2px p-1.5"
+      class="select-none text-primary-1000 rounded-[2px] p-1.5"
       v-bind="$attrs"
     >
       <icon
@@ -32,8 +32,8 @@ defineProps<{ tooltipText?: string, active?: boolean, icon?: string, text?: stri
   </base-tooltip>
   <button
     v-else
-    :class="active && 'active'"
-    class="select-none text-primary-1000 rounded-2px p-1.5"
+    :class="active && 'active bg-primary-800 hover:bg-accent-800 text-accent'"
+    class="select-none rounded-[2px] p-1.5 text-text-title"
     v-bind="$attrs"
   >
     <icon
@@ -50,13 +50,3 @@ defineProps<{ tooltipText?: string, active?: boolean, icon?: string, text?: stri
     </p>
   </button>
 </template>
-
-<style scoped lang="postcss">
-button {
-  @apply text-text_title;
-
-  &.active, &:hover {
-    @apply bg-primary-800 hover:bg-accent-800 text-accent;
-  }
-}
-</style>

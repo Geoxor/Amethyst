@@ -21,7 +21,3 @@ const props = defineProps<{title: string, subtitle: string, tracks: Set<Track>}>
     </section>
   </div>
 </template>
-
-<style scoped lang="postcss">
-
-</style>

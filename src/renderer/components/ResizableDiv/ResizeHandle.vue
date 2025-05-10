@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import {type Direction} from ".";
-import {ref, onMounted, onBeforeUnmount, computed} from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
+import { type Direction } from ".";
 
 const emit = defineEmits<{
   (e: "reset"): void;
@@ -78,7 +78,7 @@ const handlePositionClass = computed(() => {
     :class="handlePositionClass"
   >
     <button
-      class="flex items-center justify-center p-4px"
+      class="flex items-center justify-center p-[4px]"
       :class="[cursorClass, props.class, props.visible && 'absolute top-0 left-0']"
       @dblclick="emit('reset')"
       @mousedown="onMouseDown"
@@ -97,7 +97,9 @@ const handlePositionClass = computed(() => {
   </div>
 </template>
 
-<style lang="postcss" scoped>
+<style scoped>
+@import "../../base.css";
+
 .handle-horizontal {
   cursor: ns-resize !important;
   width: 100%;

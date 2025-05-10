@@ -42,10 +42,10 @@ onMounted(() => {
     @click="amethyst.player.play(track)"
     @contextmenu="handleTrackContextMenu($event, track)"
   >
-    <span class="relative overflow-hidden rounded-8px transition-all duration-100 transform-gpu hover:scale-110">
+    <span class="relative overflow-hidden rounded-[8px] transition-all duration-100 transform-gpu hover:scale-110">
       <h1
         v-if="amethyst.analytics.getPlayCount(track)"
-        class="absolute flex items-center gap-0.5 top-0 font-weight-user-defined right-0 min-w-4 text-12px text-center p-1 z-5 rounded-bl-8px  text-black"
+        class="absolute flex items-center gap-0.5 top-0 font-weight-user-defined right-0 min-w-4 text-[12px] text-center p-1 z-5 rounded-bl-[8px] text-black"
         :class="[`bg-[${color}]`]"
       >
       
@@ -72,7 +72,7 @@ onMounted(() => {
         <cover-art
           :url="track.getCover()"
           :class="[amethyst.player.getCurrentTrack() == track && 'opacity-35']"
-          class="min-w-32 min-h-32 "
+          class="min-w-32 min-h-32"
         />
       </div>
     </span>
@@ -84,7 +84,9 @@ onMounted(() => {
   </div>
 </template>
 
-<style scoped lang="postcss">
+<style scoped>
+@import "../base.css";
+
 .icon {
   @apply h-16 w-16 absolute top-1/2 left-1/2 z-1 transform-gpu -translate-x-1/2 -translate-y-1/2;
 }

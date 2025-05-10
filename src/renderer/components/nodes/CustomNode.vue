@@ -24,7 +24,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
 
 <template>
   <div
-    class="duration-user-defined flex select-none h-full text-text_title gap-2 relative rounded-4px hover:border-primary-800 border-surface-500 flex gap-2 bg-surface-800 border-1 p-2"
+    class="duration-user-defined flex select-none h-full text-text-title gap-2 relative rounded-[4px] hover:border-primary-800 border-surface-500 bg-surface-800 border-1 p-2"
     @contextmenu.stop="handleContextMenu"
   >
     <quick-menu
@@ -34,7 +34,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
 
     <div
       v-if="!meterless && amethyst.state.settings.metering.decibelMeter.separatePrePost"
-      class="flex "
+      class="flex"
     >
       <db-meter
         pre
@@ -48,12 +48,12 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
         <icon
           :icon="node.properties.icon"
         />
-        <h1 class="text-primary-600 uppercase text-11px flex-1">
+        <h1 class="text-primary-600 uppercase text-[11px] flex-1">
           {{ title }}
         </h1>
         <base-chip
           v-if="node.isBypassed"
-          class="animate-pulse text-alert-color bg-alert-color bg-opacity-15"
+          class="animate-pulse text-alert-color bg-alert-color/15"
         >
           {{ $t('node.bypassed') }}
         </base-chip>

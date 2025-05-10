@@ -238,7 +238,7 @@ onKeyStroke("Delete", () => {
       <input
         v-model="amethyst.player.nodeManager.graphName.value"
         type="text"
-        class="text-text_title px-2 py-1 rounded-4px bg-surface-900 text-xs placeholder-text_title placeholder-opacity-50"
+        class="text-text-title px-2 py-1 rounded-[4px] bg-surface-900 text-xs placeholder-text-title/50"
         placeholder="untitled"
         @keydown.stop
       >
@@ -320,7 +320,9 @@ onKeyStroke("Delete", () => {
     </vue-flow>
   </div>
 </template>
-<style lang="postcss">
+<style>
+@import "../base.css";
+
 .magnet:hover {
   @apply bg-surface-500;
 }
@@ -360,7 +362,7 @@ onKeyStroke("Delete", () => {
     }
   }
   &:hover div {
-    @apply border-accent border-opacity-50;
+    @apply border-accent/50;
   }
 
   &.selected div {
@@ -386,12 +388,12 @@ onKeyStroke("Delete", () => {
   }
 
   &.selected path {
-    @apply stroke-primary !important;
+    @apply stroke-primary;
   }
 }
 
 .vue-flow__handle {
-  @apply border-surface-400 border-opacity-60 h-1/2 rounded-2px hover:border-accent bg-surface-800 hover:bg-surface-600 duration-100transition-colors;
+  @apply border-surface-400/60 h-1/2 rounded-[2px] hover:border-accent bg-surface-800 hover:bg-surface-600 duration-100 transition-colors;
 }
 
 </style>

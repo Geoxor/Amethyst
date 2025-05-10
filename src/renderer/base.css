@@ -1,35 +1,98 @@
-@font-face {
-  font-family: "jost";
-  src: url("../../assets/fonts/jost.ttf");
+@import "tailwindcss";
+@import "@vueform/slider/themes/default.css";
+
+@theme {
+  --color-text-title: rgba(var(--text-title), 1);
+  --color-text-subtitle: rgba(var(--text-subtitle), 1);
+  --color-primary: rgba(var(--primary), 1);
+  --color-accent: rgba(var(--accent), 1);
+  --color-inspector-color: rgba(var(--inspector-color), 1);
+  --color-alert-color: rgba(var(--alert-color), 1);
+
+  --color-surface-1000: rgba(var(--surface-1000), 1);
+  --color-surface-900: rgba(var(--surface-900), 1);
+  --color-surface-800: rgba(var(--surface-800), 1);
+  --color-surface-700: rgba(var(--surface-900), 1);
+  --color-surface-600: rgba(var(--surface-800), 1);
+  --color-surface-500: rgba(var(--surface-700), 1);
+  --color-surface-400: rgba(var(--surface-600), 1);
+
+  --color-primary-1000: rgba(var(--primary-1000), 1);
+  --color-primary-900: rgba(var(--primary-900), 1);
+  --color-primary-800: rgba(var(--primary-800), 1);
+  --color-primary-700: rgba(var(--primary-700), 1);
+
+  --color-unlit-900: rgba(var(--unlit-900), 1);
+  --color-contrast: rgba(var(--contrast), 1);
+
+  --color-settings-setting-background: rgba(var(--settings-setting-background), 1);
+  --color-settings-subsetting-background: rgba(var(--settings-subsetting-background), 1);
+  --color-playback-controls-background: rgba(var(--playback-controls-background), 1);
+  --color-playback-controls-text: rgba(var(--playback-controls-text), 1);
+  --color-slider-background: rgba(var(--slider-background), 1);
+  --color-slider-fill: rgba(var(--slider-fill), 1);
+  --color-alert-color: rgba(var(--alert-color), 1);
+  --color-inspector-color: rgba(var(--inspector-color), 1);
+}
+
+:root {
+  --slider-handle-width: 8px;
+  --slider-handle-height: 20px;
+  --slider-handle-bg: rgba(var(--text-title));
+  --slider-tooltip-bg: rgba(var(--accent));
+  --slider-focus-bg: rgba(var(--accent));
+  --slider-handle-ring-color: rgba(var(--accent), 0.25);
+}
+
+.slider-connect {
+  @apply bg-accent/50;
+}
+
+.slider-handle {
+  @apply bg-accent;
+}
+
+.slider-base {
+  @apply bg-accent/15;
+}
+
+.slider-tooltip {
+  @apply bg-accent border-none;
 }
 
 @font-face {
-  font-family: "zen-dots";
-  src: url("../../assets/fonts/zen-dots.ttf");
+  font-family: jost;
+  src: url(../../assets/fonts/jost.ttf);
 }
 
 @font-face {
-  font-family: "aseprite";
-  src: url("../../assets/fonts/aseprite-remix.ttf");
+  font-family: zen-dots;
+  src: url(../../assets/fonts/zen-dots.ttf);
+}
+
+@font-face {
+  font-family: aseprite;
+  src: url(../../assets/fonts/aseprite-remix.ttf);
 }
 
 * {
-  cursor: url("./icons/cursors/default.png"), auto;
+  @apply !outline-none;
+  cursor: url(./icons/cursors/default.png), auto;
   font-family: jost, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 *.font-aseprite {
-  font-family: "aseprite";
-  @apply text-7px;
+  font-family: aseprite;
+  @apply text-[7px];
 }
 
 *.font-zen-dots {
-  font-family: "zen-dots";
-  @apply text-20px;
+  font-family: zen-dots;
+  @apply text-[20px];
 }
 
 *.font-aseprite * {
-  font-family: "aseprite";
+  font-family: aseprite;
 }
 
 *.duration-user-defined {
@@ -44,29 +107,24 @@
   font-weight: var(--font-weight);
 }
 
-.cursor-pointer,
-.cursor-pointer * {
-  cursor: url("./icons/cursors/pointer.png") 4 0, auto !important;
-}
-
-.cursor-heart-pointer,
-.cursor-heart-pointer * {
-  cursor: url("./icons/cursors/heart-pointer.png") 4 0, auto !important;
-}
-
-.cursor-external-pointer,
-.cursor-external-pointer * {
-  cursor: url("./icons/cursors/external-pointer.png") 4 0, auto !important;
-}
-
 .not-allowed,
 .not-allowed * {
   cursor: not-allowed !important;
 }
 
-* {
-  @apply !outline-none;
-  cursor: url("./icons/cursors/default.png"), auto !important;
+.cursor-pointer,
+.cursor-pointer * {
+  cursor: url(./icons/cursors/pointer.png) 4 0, auto !important;
+}
+
+.cursor-heart-pointer,
+.cursor-heart-pointer * {
+  cursor: url(./icons/cursors/heart-pointer.png) 4 0, auto !important;
+}
+
+.cursor-external-pointer,
+.cursor-external-pointer * {
+  cursor: url(./icons/cursors/external-pointer.png) 4 0, auto !important;
 }
 
 /*  Fixes the white bg showing up when resizing */
@@ -114,7 +172,7 @@ body,
 }
 
 .clickable {
-  @apply cursor-pointer border-1 border-transparent hover:bg-opacity-10;
+  @apply cursor-pointer border-1 border-transparent hover:bg-primary/10;
 }
 
 .disable-select {
@@ -122,4 +180,9 @@ body,
   -moz-user-select: none;    
   -ms-user-select: none;      
   user-select: none;
+}
+
+/* previously a windicss alias, tailwind doesn't have such functionality, so define it here */
+.fullscreen {
+  @apply absolute top-0 left-0 w-full h-full;
 }
