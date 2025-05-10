@@ -21,14 +21,16 @@ Amethyst is an cross-platform audio player with a [node-based](https://en.wikipe
 <!-- START LOCALE_COVERAGE -->
 | Locale | Coverage |
 |--------|----------|
-| de-DE | 43.1% |
+| de-DE | 100.0% |
 | el-GR | 100.0% |
-| fi-FI | 38.8% |
-| fr-FR | 47.4% |
-| ja-JP | 96.1% |
-| pl-PL | 17.7% |
-| pt-BR | 48.3% |
-| ru-RU | 97.4% |
+| es-ES | 100.0% |
+| fi-FI | 100.0% |
+| fr-FR | 100.0% |
+| it-IT | 100.0% |
+| ja-JP | 100.0% |
+| pl-PL | 100.0% |
+| pt-BR | 100.0% |
+| ru-RU | 100.0% |
 <!-- END LOCALE_COVERAGE -->
 
 ## [Download](https://amethyst.geoxor.moe/introduction)
