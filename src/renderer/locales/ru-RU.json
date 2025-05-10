@@ -49,6 +49,8 @@
   "settings.appearance.description": "Настройка фона, тем и доступности",
   "settings.cover_based_colors.title": "Динамические цвета",
   "settings.cover_based_colors.description": "Цвета интерфейса будут автоматически подстраиваться под обложку играющей песни",
+  "settings.cover_based_icon_colors.title": "Dynamic icon color",
+  "settings.cover_based_icon_colors.description": "Matches the app icon color to the dynamic colors",
   "settings.performance.title": "Производительность",
   "settings.performance.description": "Настройка вертикальной синхронизации, анимаций и рендеринга",
   "settings.performance.minimum_framerate": "Минимальная частота кадров",
