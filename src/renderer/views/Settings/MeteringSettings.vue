@@ -187,7 +187,7 @@ const {metering} = amethyst.state.settings;
         >
           <slider-input
             v-model="metering.spectrumLine.lineThickness"
-            :min="0.5"
+            :min="1"
             :max="5"
             :step="0.5"
             suffix="px"
