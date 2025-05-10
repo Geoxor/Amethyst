@@ -50,7 +50,7 @@ const updatePosition = () => {
     id="contextMenu"
     ref="menu"
     role="contextMenu"
-    class="absolute overflow-hidden py-0.5 text-text-title rounded-8px shadow-xl border-1 border-surface-600 bg-surface-800 z-100"
+    class="absolute overflow-hidden py-1 text-text-title rounded-8px shadow-xl border-1 border-surface-600 bg-surface-800 z-100"
   >
     <ul class="flex flex-col min-w-48">
       <menu-option

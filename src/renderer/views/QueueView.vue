@@ -31,7 +31,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex-col flex w-full py-1 gap-4 px-4 relative">
+  <div class="flex-col flex w-full py-2 gap-4 px-4 relative">
     <route-header :title="$t('route.queue')">
       <search-input v-model="filterText" />
     </route-header>
@@ -53,6 +53,6 @@ onUnmounted(() => {
 }
 
 td {
-  @apply overflow-hidden overflow-ellipsis;
+  @apply overflow-hidden text-ellipsis;
 }
 </style>

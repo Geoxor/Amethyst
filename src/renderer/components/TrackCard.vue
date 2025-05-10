@@ -77,7 +77,7 @@ onMounted(() => {
       </div>
     </span>
     <title-subtitle
-      class="text-center max-w-32 overflow-hidden overflow-ellipsis"
+      class="text-center max-w-32 overflow-hidden text-ellipsis"
       :title="track.getTitleFormatted()"
       :subtitle="track.getArtistsFormatted()"
     />

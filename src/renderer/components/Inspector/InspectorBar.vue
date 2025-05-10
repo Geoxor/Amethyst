@@ -210,7 +210,7 @@ const filteredMetadata = computed(() => {
         <div
           v-for="(picture, i) of inspector.state.currentItem.getMetadata()?.common.picture"
           :key="picture.data.byteLength"
-          class="flex flex-col gap-2 py-0.5 last:border-none"
+          class="flex flex-col gap-2 py-1 last:border-none"
         >
           <cover-art 
             class="w-auto h-full rounded-4px"
@@ -410,7 +410,7 @@ section {
 
   & input,
   & p {
-    @apply px-1 py-0.5 bg-surface-800 rounded-4px overflow-hidden overflow-ellipsis;
+    @apply px-2 py-1 bg-surface-800 rounded-4px overflow-hidden text-ellipsis;
   }
 
   input {

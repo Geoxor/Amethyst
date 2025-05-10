@@ -49,7 +49,7 @@ const {appearance} = amethyst.state.settings;
     />
     <template #subsettings>
       <div class="p-2 flex flex-col gap-2">
-        <div class="flex gap-2 px-1">
+        <div class="flex gap-2 px-2">
           <amethyst-dark-skeleton
             class="theme-skeleton cursor-pointer"
             :class="[appearance.theme === 'amethyst-dark' && 'active']"

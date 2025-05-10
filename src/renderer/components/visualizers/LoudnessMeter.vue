@@ -82,7 +82,7 @@ onMounted(() => {
 <template>
   <div class="text-[9px] font-bold text-playback-controls-text w-full flex flex-col justify-between overflow-hidden items-start h-full disable-select no-drag">
     <div class="meter">
-      <p class="type overflow-hidden overflow-ellipsis">
+      <p class="type overflow-hidden text-ellipsis">
         M
       </p>
       <div class="barBg">
@@ -96,7 +96,7 @@ onMounted(() => {
       </p>
     </div>
     <div class="meter">
-      <p class="type overflow-hidden overflow-ellipsis">
+      <p class="type overflow-hidden text-ellipsis">
         S
       </p>
       <div class="barBg">
@@ -110,7 +110,7 @@ onMounted(() => {
       </p>
     </div>
     <div class="meter">
-      <p class="type overflow-hidden overflow-ellipsis">
+      <p class="type overflow-hidden text-ellipsis">
         I
       </p>
       <div class="barBg">

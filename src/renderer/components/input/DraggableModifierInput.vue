@@ -208,7 +208,7 @@ const handleEnter = (e: KeyboardEvent) => {
 <template>
   <button
     ref="modifier"
-    class="modifier font-semibold duration-user-defined flex flex-col justify-center h-5 items-center min-w-16 leading-tight rounded-full py-0.5 px-1 bg-accent/15 text-accent"
+    class="modifier font-semibold duration-user-defined flex flex-col justify-center h-5 items-center min-w-16 leading-tight rounded-full py-1 px-2 bg-accent/15 text-accent"
     @mousedown.stop.passive="onMouseDown"
     @mouseup.stop.passive="dragging = false"
     @keydown="handleEnter"
@@ -251,7 +251,7 @@ const handleEnter = (e: KeyboardEvent) => {
 }
 
 .modifier {
-  @apply select-none text-11px transition duration-0 transform rounded-full border-2 border-transparent;
+  @apply select-none text-6px transition duration-0 transform rounded-full border-2 border-transparent;
   cursor: ns-resize;
 
   &:hover {

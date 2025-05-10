@@ -216,15 +216,15 @@ const editMeterContextMenuOption = (name :string) => [{
         <div
           ref="trackTitles"
           :style="`max-width: ${maxTrackTitleWidth}px;`"
-          class="flex justify-between select-none flex-col h-full w-full py-0.5 font-bold"
+          class="flex justify-between select-none flex-col h-full w-full py-1 font-bold leading-2.5"
         >
           <h1
-            class="text-13px hover:underline cursor-external-pointer overflow-hidden overflow-ellipsis"
+            class="text-13px hover:underline cursor-external-pointer overflow-hidden text-ellipsis"
             @click=" amethyst.showItem(amethyst.player.getCurrentTrack()?.path!)"
           >
             {{ amethyst.player.getCurrentTrack()?.getTitleFormatted() || 'No track' }}
           </h1>
-          <p class="text-11px overflow-hidden overflow-ellipsis">
+          <p class="text-11px overflow-hidden text-ellipsis">
             {{ amethyst.player.getCurrentTrack()?.getArtistsFormatted() || 'No artist' }}
           </p>
           <p class="text-11px text-text-subtitle">

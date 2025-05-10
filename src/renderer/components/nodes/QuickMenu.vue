@@ -59,7 +59,7 @@ const handleNodeRemove = () => {
 <style scoped lang="postcss">
 .minimenu {
   button {
-    @apply px-1 py-0.5 gap-1 flex items-center justify-center border-surface-500;
+    @apply px-2 py-1 gap-1 flex items-center justify-center border-surface-500;
 
     &.dangerous {
       @apply hover:bg-alert-color hover:text-playback-controls-text;

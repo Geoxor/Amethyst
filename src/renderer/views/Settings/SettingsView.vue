@@ -5,7 +5,7 @@ import ResizableSettingsNavigation from "@/components/v2/ResizableSettingsNaviga
 <template>
   <div class="h-full flex w-ful p-2 settingsView">
     <resizable-settings-navigation />
-    <div class="flex flex-col px-1 gap-2 pb-64 flex-1 h-full overflow-y-auto">
+    <div class="flex flex-col px-2 gap-2 pb-64 flex-1 h-full overflow-y-auto">
       <router-view />
     </div>
   </div>

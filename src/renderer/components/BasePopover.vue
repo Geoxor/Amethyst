@@ -59,6 +59,7 @@ onMounted(async() => {
 
 <template>
   <div
+    class="flex"
     @dragstart.prevent=""
     @mouseenter="updatePosition()"
   >

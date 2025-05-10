@@ -93,7 +93,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 <template>
   <div class="text-13px text-text-title min-h-0 h-full flex flex-col text-left relative select-none ">
     <div
-      class="flex text-left font-bold sticky top-0 z-10 bg-surface-900 py-1 px-1 columnHeader min-h-36px pr-5"
+      class="flex text-left font-bold sticky top-0 z-10 bg-surface-900 py-2 px-2 columnHeader min-h-36px pr-5"
       :class="[amethyst.player.queue.currentSortingDirection.value]"
       @contextmenu="handleColumnContextMenu($event)"
     >
@@ -390,14 +390,14 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
     >
       <template #default="{ item } : { item: Track}">
         <div
-          class="row flex items-center px-1 rounded-4px"
+          class="row flex items-center px-2 rounded-4px"
           :class="[
             `h-[${ITEM_HEIGHT}px]`,
             isHoldingControl && 'control cursor-external-pointer',
             item.hasErrored && 'opacity-50 not-allowed',
             item.deleted && 'opacity-50 !text-rose-400 not-allowed',
             amethyst.player.getCurrentTrack()?.path == item.path && 'currentlyPlaying',
-            amethyst.state.settings.appearance.compactList ? 'py-0.5' : 'py-1',
+            amethyst.state.settings.appearance.compactList ? 'py-1' : 'py-2',
             useInspector().state.isVisible && (useInspector().state.currentItem == item as any) && 'currentlyInspecting',
           ]"
           draggable="true"
@@ -644,7 +644,7 @@ th {
 }
 
 td {
-  @apply py-1;
+  @apply py-2;
 }
 
 tr {
@@ -681,7 +681,7 @@ tr {
   @apply overflow-hidden text-text-subtitle ;
 
   & > div {
-    @apply overflow-hidden overflow-ellipsis;
+    @apply overflow-hidden text-ellipsis;
   }
 
   &:hover {
