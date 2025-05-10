@@ -6,6 +6,12 @@ on:
       - "**/*.md"
       - 'src/renderer/locales/**'
       - 'scripts/localizationStatus.js'
+  pull_request:
+    paths-ignore:
+      - "**/*.md"
+      - 'src/renderer/locales/**'
+      - 'scripts/localizationStatus.js'
+      
 jobs:
   test:
     name: Test
