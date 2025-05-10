@@ -31,12 +31,12 @@ const router = useRouter();
 <style scoped lang="postcss">
 
 button:hover:not(.active) {
-  @apply bg-accent bg-opacity-15 text-accent;
+  @apply bg-accent/15 text-accent;
   & h1, p {
     @apply text-accent;
   }
   & p {
-    @apply text-opacity-75;
+    @apply text-accent/75;
   }
 }
 

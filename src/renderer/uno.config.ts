@@ -1,53 +1,45 @@
 import { defineConfig, presetWind3, transformerDirectives } from 'unocss'
+import {presetColorsRGB} from 'unocss-preset-colors-rgb'
 
-function cssVarRgbHelper(cssVariable: string) {
-	return ({ opacityVariable, opacityValue }: { opacityVariable: string; opacityValue: number }) => {
-		if (opacityValue !== undefined)
-			return `rgba(var(--${cssVariable}), ${opacityValue})`;
-
-		if (opacityVariable !== undefined)
-			return `rgba(var(--${cssVariable}), var(${opacityVariable}, 1))`;
-
-		return `rgb(var(--${cssVariable}))`;
-	};
+const cssVar = (string: string) => {
+	return `rgba(var(--${string}), <alpha-value>)`
 }
-
-const returnColorVariable = (variableName: string) => ({[variableName]: cssVarRgbHelper(variableName)});
 
 export default defineConfig({
   theme: {
     colors: {
-			"textTitle": "#cec7fe",
-			"textSubtitle": "#898dc7",
-			"primary": "#da74fe",
-			"accent": "#868aff",
-			"inspectorColor": "#38bdf8",
-			"alertColor": "#ff4967",
-			"settingsSettingBackground": "#141621",
-			"settingsSubsettingBackground": "#101119",
-			"playbackControlsBackground": "#181a27",
-			"playbackControlsText": "#cec7fe",
-			"sliderBackground": "#2d2d49",
-			"sliderFill": "#868aff",
-			"surface-1000": "#0b0d13",
-			"surface-900": "#0f1119",
-			"surface-800": "#141621",
-			"surface-700": "#181a27",
-			"surface-600": "#1f2134",
-			"surface-500": "#2d2d49",
-			"surface-400": "#383854",
-			"primary-1000": "#a3a3d1",
-			"primary-900": "#8282a8",
-			"primary-800": "#868aff",
-			"primary-700": "#646ac3",
-			"unlit-900": "#65658a",
-			"contrast": "#ffffff"
+			"textTitle": cssVar('text-title'),
+			"textSubtitle": cssVar('text-subtitle'),
+			"primary": cssVar('primary'),
+			"accent": cssVar('accent'),
+			"inspectorColor": cssVar('inspector-color'),
+			"alertColor": cssVar('alert-color'),
+			"settingsSettingBackground": cssVar('settings-setting-background'),
+			"settingsSubsettingBackground": cssVar('settings-subsetting-background'),
+			"playbackControlsBackground": cssVar('playback-controls-background'),
+			"playbackControlsText": cssVar('playback-controls-text'),
+			"sliderBackground": cssVar('slider-background'),
+			"sliderFill": cssVar('slider-fill'),
+			"surface-1000": cssVar('surface-1000'),
+			"surface-900": cssVar('surface-900'),
+			"surface-800": cssVar('surface-800'),
+			"surface-700": cssVar('surface-700'),
+			"surface-600": cssVar('surface-600'),
+			"surface-500": cssVar('surface-500'),
+			"surface-400": cssVar('surface-400'),
+			"primary-1000": cssVar('primary-1000'),
+			"primary-900": cssVar('primary-900'),
+			"primary-800": cssVar('primary-800'),
+			"primary-700": cssVar('primary-700'),
+			"unlit-900": cssVar('unlit-900'),
+			"contrast": cssVar('contrast')
     },
   },
   presets: [
     presetWind3({
 			dark: "class"
 		}),
+		presetColorsRGB(),
   ],
 	transformers: [
     transformerDirectives(),

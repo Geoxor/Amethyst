@@ -39,7 +39,7 @@ const flagURL = (name: string) => {
 
 <template>
   <button
-    class="flex relative gap-1 items-center bg-accent bg-opacity-15 text-accent  py-1 px-4 text-13px font-weight-user-defined rounded-8px gap-2"
+    class="flex relative gap-1 items-center bg-accent/15 text-accent  py-1 px-4 text-13px font-weight-user-defined rounded-8px gap-2"
     :class="showLanguageDropdown && 'active'"
     @click="showLanguageDropdown = true;"
   >

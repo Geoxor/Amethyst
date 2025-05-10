@@ -340,6 +340,7 @@
     "tsx": "^4.19.4",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.32.0",
+    "unocss-preset-colors-rgb": "^1.0.0",
     "vitest": "^3.1.2",
     "vitest-browser-vue": "^0.2.0",
     "vue-tsc": "^1.6.1"

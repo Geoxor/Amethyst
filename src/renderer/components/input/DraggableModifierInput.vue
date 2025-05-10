@@ -208,7 +208,7 @@ const handleEnter = (e: KeyboardEvent) => {
 <template>
   <button
     ref="modifier"
-    class="modifier font-semibold duration-user-defined flex flex-col justify-center h-5 items-center min-w-16 leading-tight rounded-full py-0.5 px-1 bg-accent text-accent bg-opacity-15"
+    class="modifier font-semibold duration-user-defined flex flex-col justify-center h-5 items-center min-w-16 leading-tight rounded-full py-0.5 px-1 bg-accent/15 text-accent"
     @mousedown.stop.passive="onMouseDown"
     @mouseup.stop.passive="dragging = false"
     @keydown="handleEnter"
@@ -224,7 +224,7 @@ const handleEnter = (e: KeyboardEvent) => {
     <template v-else>
       <icon
         icon="ic:baseline-arrow-drop-up"
-        class="w-5 h-5 min-w-5 min-h-5 text-accent text-opacity-25"
+        class="w-5 h-5 min-w-5 min-h-5 text-accent/25"
       />
       <div :class="{ pop }">
         <h1>
@@ -233,7 +233,7 @@ const handleEnter = (e: KeyboardEvent) => {
       </div>
       <icon
         icon="ic:baseline-arrow-drop-down"
-        class="w-5 h-5 min-w-5 min-h-5 text-accent text-opacity-25"
+        class="w-5 h-5 min-w-5 min-h-5 text-accent/25"
       />
     </template>
   </button>
@@ -257,7 +257,7 @@ const handleEnter = (e: KeyboardEvent) => {
   &:hover {
     @apply border-accent border-opacity-50;
     & > svg {
-      @apply text-accent text-opacity-50;
+      @apply text-accent/50;
     }
   }
 

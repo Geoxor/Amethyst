@@ -685,7 +685,7 @@ tr {
   }
 
   &:hover {
-    @apply text-accent bg-surface-400 bg-opacity-20;
+    @apply text-accent bg-surface-400/20;
   }
 
   &.control:hover {
@@ -693,16 +693,16 @@ tr {
   }
 
   &.currentlyPlaying {
-    @apply text-primary bg-primary bg-opacity-10;
+    @apply text-primary bg-primary/10;
     &:hover {
-      @apply bg-opacity-15;
+      @apply bg-primary/15;
     }
   }
 
   &.currentlyInspecting {
-    @apply text-inspector-color bg-inspector-color bg-opacity-10;
+    @apply text-inspector-color bg-inspector-color/10;
     &:hover {
-      @apply bg-opacity-15;
+      @apply bg-inspector-color/15;
     }
   }
 }

@@ -9,7 +9,7 @@ const value = useModelValue(props, "modelValue", emits);
 <template>
   <button
     class="px-4 cursor-pointer py-0.5.5 w-12 min-w-12 flex justify-center rounded-full relative"
-    :class="[value ? (amethyst.state.settings.appearance.neonMode ? 'neonMode' : 'bg-primary text-surface-700') : 'bg-accent bg-opacity-15']"
+    :class="[value ? (amethyst.state.settings.appearance.neonMode ? 'neonMode' : 'bg-primary text-surface-700') : 'bg-accent/15']"
     @click="emits('update:modelValue', !value); emits('change')"
   >
     <div
@@ -25,14 +25,14 @@ const value = useModelValue(props, "modelValue", emits);
 
 <style scoped lang="postcss">
 button:hover:not(.neonMode):not(.bg-primary) {
-  @apply bg-accent hover:bg-opacity-25;
+  @apply bg-accent hover:bg-accent/25;
 }
 
 button.neonMode {
   @apply border-2 border-primary text-primary;
 
   &:hover {
-    @apply bg-primary bg-opacity-15;
+    @apply bg-primary/15;
   }
 }
 

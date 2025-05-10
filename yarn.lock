@@ -8254,6 +8254,11 @@ unixify@^1.0.0:
   dependencies:
     normalize-path "^2.1.1"
 
+unocss-preset-colors-rgb@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/unocss-preset-colors-rgb/-/unocss-preset-colors-rgb-1.0.0.tgz#0f9c349b8caa87b94738b345bd457cd67f5479bd"
+  integrity sha512-53Q2Bc77HKqKDCJIVC7cSfZ1/HJcuIKdP5SjgS4LOpMFmLL9InC4fbnQpbaZR5oOGfNxBezYlj8CrlcsOikdBA==
+
 unocss@^66.1.1:
   version "66.1.1"
   resolved "https://registry.yarnpkg.com/unocss/-/unocss-66.1.1.tgz#3f097bc5e557d794eb0a4bc09d0b1f6783a6c3a8"

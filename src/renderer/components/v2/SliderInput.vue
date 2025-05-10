@@ -51,7 +51,7 @@ const handleMouseScroll = (e: WheelEvent) => {
 }
 
 .slider-connect {
-  @apply bg-accent bg-opacity-50;
+  @apply bg-accent/50;
 }
 
 .slider-handle {
@@ -59,7 +59,7 @@ const handleMouseScroll = (e: WheelEvent) => {
 }
 
 .slider-base {
-  @apply bg-accent bg-opacity-15;
+  @apply bg-accent/15;
 }
 
 .slider-tooltip {

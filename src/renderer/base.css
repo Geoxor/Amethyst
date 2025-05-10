@@ -91,7 +91,7 @@ html,
 body,
 #app,
 #app>div {
-  @apply h-full w-full;
+  @apply h-full w-full ;
 }
 
 *::-webkit-scrollbar {
@@ -124,7 +124,7 @@ body,
 }
 
 .clickable {
-  @apply cursor-pointer border-1 border-transparent hover:bg-opacity-10;
+  @apply cursor-pointer border-1 border-transparent;
 }
 
 .disable-select {

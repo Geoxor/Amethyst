@@ -112,7 +112,7 @@ onUnmounted(() => shouldStopRendering = true);
         />
 
         <div
-          :class="channelData[i - 1][0].value > 0 ? 'bg-rose-600' : 'bg-accent bg-opacity-50'"
+          :class="channelData[i - 1][0].value > 0 ? 'bg-rose-600' : 'bg-accent/50'"
           class="rounded-2px duration-meter-user-defined absolute bottom-0"
           :style="`width: ${width}px; height: ${computedHeight(channelData[i - 1][0].value)}%`"
         />

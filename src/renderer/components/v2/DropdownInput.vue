@@ -56,7 +56,7 @@ const value = useVModel(props, "modelValue", emits);
 
 <style scoped lang="postcss">
 .dropdown .active {
-  @apply bg-accent bg-opacity-15 text-accent;
+  @apply bg-accent/15 text-accent;
 }
 
 .slide-enter-active,

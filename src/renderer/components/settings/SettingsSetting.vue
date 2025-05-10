@@ -16,7 +16,7 @@ const hasSubsetting = () => {
 <template>
   <div
     class="rounded-8px  gap-2 w-full text-text-title  duration-user-defined"
-    :class="[subsetting ? 'bg-settings-subsetting-background hover:bg-black hover:bg-opacity-20' : 'bg-settings-setting-background hover:bg-surface-700 ']"
+    :class="[subsetting ? 'bg-settings-subsetting-background hover:bg-black hover:bg-settings-subsetting-background/20' : 'bg-settings-setting-background hover:bg-surface-700 ']"
   >
     <div
       class="flex gap-4 items-center min-h-52px px-4 "
