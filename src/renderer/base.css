@@ -81,10 +81,11 @@ p,
 h1,
 h2,
 h3 {
-  @apply p-0 m-0;
+  @apply p-0 m-0 text-[12px];
 }
-button,input {
-  @apply bg-transparent;
+
+button, input {
+  @apply bg-transparent text-text-title;
 }
 
 html,
