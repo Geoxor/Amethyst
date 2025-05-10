@@ -10,7 +10,7 @@ import {
   infinityClamp,
   mapValueToPercentage,
   floatToInt16
-} from "./math";
+} from "@/logic/math.ts";
 
 describe("getLogIndex", () => {
   it("computes a log index in range", () => {

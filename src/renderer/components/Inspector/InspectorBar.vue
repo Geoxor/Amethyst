@@ -7,7 +7,7 @@ import { Track } from "@/logic/track";
 import { AmethystOutputNode } from "@/nodes";
 import { Icon } from "@iconify/vue";
 import { bytesToHuman } from "@shared/formating";
-import { removeEmptyObjects } from "@shared/logic";
+import { removeEmptyObjects } from "@shared/logic.ts";
 import { computed, onMounted, onUnmounted, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useInspector } from ".";

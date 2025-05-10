@@ -1,7 +1,7 @@
 import { Position } from "@vue-flow/core";
 import type { DefineComponent} from "vue";
 import { markRaw } from "vue";
-import type { Connection, NodeProperties } from "./audioManager";
+import type { Connection, NodeProperties } from "@/logic/audioManager.ts";
 import { v4 as uuidv4 } from "uuid";
 import { amethyst } from "@/amethyst";
  
@@ -19,7 +19,7 @@ export interface NumberNodeParameter extends NodeParameter<number> {
   unit: string;
 }
 
-export interface StringNodeParameter<T extends String> extends NodeParameter<T> {
+export interface StringNodeParameter<T extends string> extends NodeParameter<T> {
   type: "string",
   options: T[];
 }

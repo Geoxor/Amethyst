@@ -1,12 +1,19 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "baseUrl": ".",
+    "baseUrl": "../../src",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["renderer/*"],
+      "@shared/*": ["shared/*"]
     },
-    "outDir": "../../release/dist"
+    "outDir": "../../release/dist",
+    "rootDir": "../../src",
+    "module": "Node16",
+    "target": "ES2021",
   },
-  "files": ["main.ts"],
-  "include": ["../../types/**/*.d.ts", "preload.ts"]
+  "include": [
+    "../main/**/*.ts",
+    "../shared/**/*.ts",
+    "../renderer/types/**/*.d.ts"
+  ]
 }

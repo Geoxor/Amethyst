@@ -1,8 +1,8 @@
-import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants";
+import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants.ts";
 import type { Ref} from "vue";
 import { ref } from "vue";
 import type { Amethyst } from "@/amethyst";
-import { EventEmitter } from "./eventEmitter";
+import { EventEmitter } from "@/logic/eventEmitter.ts";
 import { v4 as uuidv4 } from "uuid";
 
 export enum MediaSourceType {

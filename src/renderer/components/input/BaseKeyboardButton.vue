@@ -7,7 +7,7 @@ const props = defineProps<{
   button: KeyFilter,
 }>();
 
-let active = ref(false);
+const active = ref(false);
 
 onMounted(() => {
   if (props.button === "CTRL") {

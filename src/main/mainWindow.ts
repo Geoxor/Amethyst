@@ -1,18 +1,20 @@
-/* eslint-disable no-console */
+ 
 import fs from "fs";
 import os from "os";
 import path from "path";
 import type { Event} from "electron";
 import electron, { app, BrowserWindow, dialog, ipcMain, Notification, shell, nativeImage } from "electron";
-import type { IRichPresenceInfo, FormatIcons } from "./discord";
-import { Discord } from "./discord";
-import {ALLOWED_AUDIO_EXTENSIONS} from "../shared/constants";
-import {sleep} from "../shared/logic";
-import { IS_DEV, store, getWindow } from "./main";
+import type { IRichPresenceInfo, FormatIcons } from "./discord.js";
+import { Discord } from "./discord.js";
+import {ALLOWED_AUDIO_EXTENSIONS} from "../shared/constants.js";
+import {sleep} from "../shared/logic.js";
+import { IS_DEV, store } from "./main.js";
 import windowStateKeeper from "electron-window-state";
 import type { FSWatcher } from "chokidar";
 import chokidar from "chokidar";
 import chalk from "chalk";
+import { __filename, __dirname } from "./utility.js";
+import { getWindow } from "./main.js";
 
 export const APP_VERSION = app.isPackaged ? app.getVersion() : process.env.npm_package_version ?? "0.0.0";
 export const METADATA_CACHE_PATH = path.join(app.getPath("appData"), "/amethyst/Metadata Cache");
@@ -96,8 +98,10 @@ export class MainWindow {
 			frame: false,
 			webPreferences: {
 				preload: path.join(__dirname, "preload.js"),
+				contextIsolation: false,
 				webSecurity: false,
 				nodeIntegration: true,
+				backgroundThrottling: false,
 			},
 		});
 
@@ -114,9 +118,10 @@ export class MainWindow {
 	}
 
 	public async getCover(path: string): Promise<Buffer | undefined> {
-		const { Metadata } = await import("./metadata");
+		const { Metadata } = await import("./metadata.js");
 		const meta = await Metadata.getMetadata(path);
-		return meta?.common.picture?.[0].data;
+		const buffer = meta?.common.picture?.[0].data;
+		return buffer ? Buffer.from(buffer) : undefined;
 	}
 
 	public async getResizedCover(path: string, resizeTo = 128): Promise<string | undefined> {
@@ -133,16 +138,15 @@ export class MainWindow {
 	}
 
 	private resolveHTMLPath(htmlFileName: string) {
-    if (process.env.NODE_ENV === "development") {
-        const url = new URL(`http://localhost:${6969}`);
-				url.pathname = htmlFileName;
-        return url.href;
-    }
-		
-    else {
+		if (process.env.NODE_ENV === "development") {
+			const url = new URL(`http://localhost:${6969}`);
+					url.pathname = htmlFileName;
+			return url.href;
+		}
+		else {
 			return `file://${path.resolve(__dirname, "../renderer/", htmlFileName + ".html")}`;
-    }
-}
+		}
+	}
 
 	public show(): void {
 		this.window.loadURL(this.resolveHTMLPath("index"));
@@ -303,7 +307,7 @@ export class MainWindow {
 			},
 
 			"get-metadata": async (_: Event, [path]: string[]) => {
-				const { Metadata } = await import("./metadata");
+				const { Metadata } = await import("./metadata.js");
 				return Metadata.getMetadata(path);
 			},
 

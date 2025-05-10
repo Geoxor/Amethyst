@@ -1,20 +1,20 @@
 import { Client, ActivityType } from "minimal-discord-rpc";
-import { APP_VERSION } from "./mainWindow";
+import { APP_VERSION } from "./mainWindow.js";
 
 const DISCORD_CLIENT_ID = "976036303156162570"; 
 
 export type FormatIcons = "aiff" | "flac" | "mpeg" | "ogg" | "wave";
 
 export interface IRichPresenceInfo {
-  title: String;
-  album: String;
+  title: string;
+  album: string;
   timestamps: {
     start: number;
     end: number;
   }
-  coverUrl: String;
+  coverUrl: string;
   containerFormat: FormatIcons;
-  pauseStatus: String;
+  pauseStatus: string;
 }
 
 export class Discord {

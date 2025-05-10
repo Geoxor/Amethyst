@@ -1,8 +1,11 @@
 import type { RtAudioDeviceInfo} from "audify";
-import { RtAudio, RtAudioFormat } from "audify";
+
+import pkg from 'audify';
+const { RtAudio, RtAudioFormat } = pkg;
+
 import chalk from "chalk";
 import { ipcMain } from "electron/main";
-import { getWindow } from "./main";
+import { getWindow } from "./main.js";
 
 const rtAudio = new RtAudio(/* Insert here specific API if needed */);
 const devices = rtAudio.getDevices();

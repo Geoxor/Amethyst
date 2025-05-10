@@ -1,5 +1,5 @@
 import type { IContextMenuOption } from "@/state";
-import type { Coords } from "@shared/types";
+import type { Coords } from "@shared/types.ts";
 import { reactive, markRaw } from "vue";
 import ContextMenu from "./component.vue";
 import { amethyst } from "@/amethyst";

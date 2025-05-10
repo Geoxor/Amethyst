@@ -1,7 +1,7 @@
 import type { Amethyst } from "@/amethyst";
 import { useLocalStorage } from "@vueuse/core";
-import type { Track } from "./track";
-import { fisherYatesShuffle } from "./math";
+import type { Track } from "@/logic/track.ts";
+import { fisherYatesShuffle } from "@/logic/math.ts";
 import type { Ref } from "vue";
 import { ref } from "vue";
 

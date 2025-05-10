@@ -70,9 +70,9 @@ onMounted(() => {
     canvas.beginPath();
 
     for (let i = 1; i < oscilloscopeAnalyzer.frequencyBinCount; i += 1) {
-      let x = i * segmentWidth;
-      let v = oscilloscopeBuffer[i] / 128.0;
-      let y = (v * props.height) / 2;
+      const x = i * segmentWidth;
+      const v = oscilloscopeBuffer[i] / 128.0;
+      const y = (v * props.height) / 2;
       canvas.lineTo(x, y);
     }
 

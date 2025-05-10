@@ -9,7 +9,7 @@ import AmethystDarkSkeleton from "@/themes/AmethystDarkSkeleton.vue";
 import EmeraldDarkSkeleton from "@/themes/EmeraldDarkSkeleton.vue";
 import OnyxDarkSkeleton from "@/themes/OnyxDarkSkeleton.vue";
 import SapphireDarkSkeleton from "@/themes/SapphireDarkSkeleton.vue";
-import { BLEND_MODES, FONT_WEIGHTS } from "@shared/constants";
+import { BLEND_MODES, FONT_WEIGHTS } from "@shared/constants.ts";
 
 const {appearance} = amethyst.state.settings;
 </script>

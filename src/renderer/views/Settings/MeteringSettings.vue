@@ -4,8 +4,8 @@ import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import DropdownInput from "@/components/v2/DropdownInput.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
-import { FFT_SIZES } from "@shared/constants";
-import {SPECTRUM_TYPES} from "@/logic/settings";
+import { FFT_SIZES } from "@shared/constants.ts";
+import {SPECTRUM_TYPES} from "@/logic/settings.ts";
 const {metering} = amethyst.state.settings;
 </script>
 

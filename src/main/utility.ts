@@ -1,4 +1,9 @@
 import {createHash} from "node:crypto";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+export const __filename = fileURLToPath(import.meta.url);
+export const __dirname = dirname(__filename);
 
 export const md5 = (data: string) => {
   return createHash("md5")

@@ -14,13 +14,13 @@ import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 import { router } from "@/router";
 import { Icon } from "@iconify/vue";
 import { secondsToColinHuman } from "@shared/formating";
-import { LoadStatus } from "@shared/types";
+import { LoadStatus } from "@shared/types.ts";
 import { onMounted, onUnmounted, ref, watch } from "vue";
 import BaseTooltip from "../BaseTooltip.vue";
 import DraggableModifierInput from "../input/DraggableModifierInput.vue";
 import SpectrumAnalyzerComposite from "@/components/visualizers/SpectrumAnalyzerComposite.vue";
 
-let lastVolumeBeforeMute = amethyst.player.volume;
+const lastVolumeBeforeMute = amethyst.player.volume;
 
 let resizeObserver: ResizeObserver;
 let playbackControlsWidth = 0;

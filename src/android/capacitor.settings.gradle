@@ -2,6 +2,9 @@
 include ':capacitor-android'
 project(':capacitor-android').projectDir = new File('../../node_modules/@capacitor/android/capacitor')
 
+include ':hugotomazi-capacitor-navigation-bar'
+project(':hugotomazi-capacitor-navigation-bar').projectDir = new File('../../node_modules/@hugotomazi/capacitor-navigation-bar/android')
+
 include ':capacitor-action-sheet'
 project(':capacitor-action-sheet').projectDir = new File('../../node_modules/@capacitor/action-sheet/android')
 
@@ -31,6 +34,3 @@ project(':capawesome-team-capacitor-file-opener').projectDir = new File('../../n
 
 include ':capawesome-capacitor-file-picker'
 project(':capawesome-capacitor-file-picker').projectDir = new File('../../node_modules/@capawesome/capacitor-file-picker/android')
-
-include ':hugotomazi-capacitor-navigation-bar'
-project(':hugotomazi-capacitor-navigation-bar').projectDir = new File('../../node_modules/@hugotomazi/capacitor-navigation-bar/android')
