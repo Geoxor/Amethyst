@@ -52,7 +52,7 @@ const setDynamicColors = async (track: Track) => {
 };
 
 function setDynamicIconColors() {
-  if (!amethyst.state.settings.value.appearance.coverBasedIconColors) {
+  if (!amethyst.state.settings.appearance.coverBasedIconColors) {
     window.electron.ipcRenderer.invoke("set-default-icon", []);
     return;
   }
@@ -71,7 +71,7 @@ watch(() => amethyst.state.settings.appearance.coverBasedColors, enabled => {
   }
 });
 
-watch(() => amethyst.state.settings.value.appearance.coverBasedIconColors, setDynamicIconColors);
+watch(() => amethyst.state.settings.appearance.coverBasedIconColors, setDynamicIconColors);
 
 onMounted(() => {
   amethyst.player.on("player:trackChange", track => {
