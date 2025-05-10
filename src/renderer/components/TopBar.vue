@@ -23,7 +23,15 @@ const domSize = ref(0);
 const latency = ref(0);
 const router = useRouter();
 
+const branchName = ref("Development");
+
 onMounted(() => {
+  if (amethyst.IS_DEV) {
+    window.electron.ipcRenderer.invoke<string>('get-branch-name').then(name => {
+      branchName.value = name;
+    })
+  }
+
   setInterval(() => {
     fps.value = fpsCounter.value;
     if (fps.value > max.value) max.value = fps.value;
@@ -198,7 +206,7 @@ provide("menuGroupRef", menuGroupRef);
         v-if="amethyst.IS_DEV"
         :color="amethyst.state.window.isFocused ? undefined : 'bg-gray-500'"
       >
-        Development
+        {{ branchName }}
       </base-chip>
       <title-text
         class="opacity-50 font-normal capitalize"

@@ -317,6 +317,7 @@
     "@vue/eslint-config-typescript": "^14.5.0",
     "concurrently": "^9.1.2",
     "cross-env": "^7.0.3",
+    "current-git-branch": "^2.0.1",
     "dmg-builder": "^26.0.15",
     "electron": "^36.2.0",
     "electron-builder": "^26.0.15",

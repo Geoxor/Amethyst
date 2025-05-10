@@ -2,7 +2,7 @@
 import fs from "fs";
 import os from "os";
 import path from "path";
-import type { Event} from "electron";
+import type { Event} from "electron"; 
 import electron, { app, BrowserWindow, dialog, ipcMain, Notification, shell, nativeImage } from "electron";
 import type { IRichPresenceInfo, FormatIcons } from "./discord.js";
 import { Discord } from "./discord.js";
@@ -15,6 +15,12 @@ import chokidar from "chokidar";
 import chalk from "chalk";
 import { __filename, __dirname } from "./utility.js";
 import { getWindow } from "./main.js";
+
+import branchName from "current-git-branch";
+
+ipcMain.handle("get-branch-name", () => {
+  return branchName();
+});
 
 export const APP_VERSION = app.isPackaged ? app.getVersion() : process.env.npm_package_version ?? "0.0.0";
 export const METADATA_CACHE_PATH = path.join(app.getPath("appData"), "/amethyst/Metadata Cache");
