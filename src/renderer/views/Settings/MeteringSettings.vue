@@ -204,7 +204,7 @@ const {metering} = amethyst.state.settings;
             :min="0"
             :max="1"
             :step="0.05"
-            suffix="%"
+            suffix=""
           />
         </settings-setting>
         <settings-setting
