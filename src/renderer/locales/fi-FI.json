@@ -134,7 +134,7 @@
   "settings.vectorscope.description": "Näyttää stereoäänisignaalin visuaalisen esityksen. Se näyttää äänisignaalin suhteellisen vaiheen ja stereoleveyden ympyränmuotoisen kuvaajan avulla. Vektoriskooppia voidaan käyttää audiosignaalin stereokuvauksen ja vaihekoherenssin tarkistamiseen.",
   "settings.vectorscope.lissajous.title": "Lissajous",
   "settings.vectorscope.lissajous.description": "Näytä diagonaalisesti lissajous-kuviona",
-  "settings.spectrum_analyzer.title": "Spektrianalysaattori",
+  "settings.spectrum_analyzer.title": "Frequency spectrum analyzer",
   "settings.spectrum_analyzer.description": "Näyttää äänisignaalin taajuussisällön visuaalisen esityksen. Se näyttää audiosignaalin taajuusspektrin kuvaajan avulla, jossa x-akseli edustaa taajuusaluetta ja y-akseli amplitudia. Spektrianalysaattorin avulla voidaan analysoida audiosignaalin taajuustasapainoa ja tunnistaa taajuuspiikkejä tai -notkoja.",
   "settings.spectrum_line_analyzer.line_thickness.title": "Line thickness",
   "settings.spectrum_line_analyzer.line_thickness.description": "Changes how thick the line in the spectrum analyzer appears",

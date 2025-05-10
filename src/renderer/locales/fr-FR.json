@@ -134,7 +134,7 @@
   "settings.vectorscope.description": "Affiche une représentation visuelle du signal audio stéréo. Il montre la phase relative et la largeur stéréo du signal audio à l'aide d'un graphique circulaire. Le vecteurscope peut être utilisé pour vérifier l'imagerie stéréo et la cohérence de phase du signal audio",
   "settings.vectorscope.lissajous.title": "Lissajous",
   "settings.vectorscope.lissajous.description": "Affiche en diagonale dans un motif de Lissajous",
-  "settings.spectrum_analyzer.title": "Analyseur de spectre",
+  "settings.spectrum_analyzer.title": "Frequency spectrum analyzer",
   "settings.spectrum_analyzer.description": "Affiche une représentation visuelle des fréquences du signal audio. Il montre le spectre de fréquences du signal audio à l'aide d'un graphique, où l'axe des x représente la plage de fréquences et l'axe des y représente l'amplitude. L'analyseur de spectre peut être utilisé pour analyser l'équilibre fréquentiel du signal audio et identifier les pics ou les creux de fréquence",
   "settings.spectrum_line_analyzer.line_thickness.title": "Line thickness",
   "settings.spectrum_line_analyzer.line_thickness.description": "Changes how thick the line in the spectrum analyzer appears",

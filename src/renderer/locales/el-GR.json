@@ -134,7 +134,7 @@
   "settings.vectorscope.description": "Οπτική αναπαράσταση του στερεοφωνικού σήματος με κυκλικό γράφημα",
   "settings.vectorscope.lissajous.title": "Lissajous",
   "settings.vectorscope.lissajous.description": "Εμφάνιση με Lissajous pattern",
-  "settings.spectrum_analyzer.title": "Ανάλυση φάσματος",
+  "settings.spectrum_analyzer.title": "Frequency spectrum analyzer",
   "settings.spectrum_analyzer.description": "Δείχνει το φάσμα συχνοτήτων του ήχου με γράφημα",
   "settings.spectrum_line_analyzer.line_thickness.title": "Line thickness",
   "settings.spectrum_line_analyzer.line_thickness.description": "Changes how thick the line in the spectrum analyzer appears",
