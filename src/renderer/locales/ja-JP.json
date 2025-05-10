@@ -226,5 +226,16 @@
   "settings.spectrogram_analyzer.title": "Spectrogram mode",
   "settings.spectrogram_analyzer.description": "Displays the frequency spectrum of the audio signal over time. Low frequencies are displayed on the bottom while high frequencies are on the top",
   "settings.oscilloscope_analyzer.title": "Oscilloscope analyzer",
-  "settings.oscilloscope_analyzer.description": "Displays the audio signal waveform, where the x-axis represents time and the y-axis represents amplitude"
+  "settings.oscilloscope_analyzer.description": "Displays the audio signal waveform, where the x-axis represents time and the y-axis represents amplitude",
+  "route.discovery": "Discovery",
+  "discovery.for_you.title": "For you",
+  "discovery.for_you.description": "Songs you have not heard yet",
+  "discovery.favorites.title": "Favorites",
+  "discovery.favorites.description": "The top most played favorite songs",
+  "discovery.random.title": "Random",
+  "discovery.random.description": "A selection of random songs",
+  "settings.cover_based_colors.title": "Dynamic colors",
+  "settings.cover_based_colors.description": "This will make the main accent colors based on the cover art of the currently playing song",
+  "settings.cover_based_icon_colors.title": "Dynamic icon colors",
+  "settings.cover_based_icon_colors.description": "Changes the taskbar icon color to the current theme"
 }

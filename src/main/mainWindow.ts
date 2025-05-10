@@ -3,12 +3,12 @@ import fs from "fs";
 import os from "os";
 import path from "path";
 import type { Event} from "electron";
-import electron, { app, BrowserWindow, dialog, ipcMain, Notification, shell } from "electron";
+import electron, { app, BrowserWindow, dialog, ipcMain, Notification, shell, nativeImage } from "electron";
 import type { IRichPresenceInfo, FormatIcons } from "./discord";
 import { Discord } from "./discord";
 import {ALLOWED_AUDIO_EXTENSIONS} from "../shared/constants";
 import {sleep} from "../shared/logic";
-import { IS_DEV, store } from "./main";
+import { IS_DEV, store, getWindow } from "./main";
 import windowStateKeeper from "electron-window-state";
 import type { FSWatcher } from "chokidar";
 import chokidar from "chokidar";
@@ -391,6 +391,37 @@ export class MainWindow {
 				watcher.close();
 				console.log("Stopped watching media source folder:", chalk.yellow(path));
 			},
+
+			"set-icon-tint": async (_: Event, [r, g, b]: number[]) => {
+				const icon = nativeImage.createFromPath(path.join(RESOURCES_PATH, "colorless_icon.png"));
+		
+				const { width, height } = icon.getSize();
+				const img = icon.toBitmap();
+				const buffer = Buffer.alloc(width * height * 4);
+		
+				for (let i = 0; i < width * height; i++) {
+					const baseR = img[i * 4 + 0];
+					const baseG = img[i * 4 + 1];
+					const baseB = img[i * 4 + 2];
+					const alpha = img[i * 4 + 3];
+				
+					const brightness = (baseR + baseG + baseB) / (3*255);
+				
+					//idk why but electron interprets the color as bgra not rgba
+					buffer[i * 4 + 0] = Math.round(b * brightness);
+					buffer[i * 4 + 1] = Math.round(g * brightness);
+					buffer[i * 4 + 2] = Math.round(r * brightness);
+					buffer[i * 4 + 3] = alpha;
+				}
+
+				const tintedIcon = nativeImage.createFromBuffer(buffer, { width, height });
+				getWindow().window.setIcon(tintedIcon);
+			},
+
+			"set-default-icon": async () => {
+				const icon = nativeImage.createFromPath(path.join(RESOURCES_PATH, "icon.png"));
+				getWindow().window.setIcon(icon);
+			}
 
 		}).forEach(([channel, handler]) => ipcMain.handle(channel, handler));
 	}
