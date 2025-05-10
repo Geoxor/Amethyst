@@ -69,15 +69,15 @@ export class State extends EventEmitter<StateEvents> {
 		document.documentElement.style.setProperty("--smoothing-duration", `${this.settings.metering.decibelMeter.smoothingDuration}ms`);
 		document.documentElement.style.setProperty("--font-weight", `${(FONT_WEIGHTS.indexOf(this.settings.appearance.fontWeight) + 1) * 100}`);
 
-    window.electron.ipcRenderer.invoke<RtAudioDeviceInfo[]>("get-realtime-devices").then(devices => {
-      this.realtimeDevices.value = devices;
+		window.electron.ipcRenderer.invoke<RtAudioDeviceInfo[]>("get-realtime-devices").then(devices => {
+			this.realtimeDevices.value = devices;
 
 			// Check if it's the first time and populate so when user selects asio for the first time
 			// it doesn't bug out
 			if (this.settings.audio.outputRealtimeDeviceName == "") {
 				this.settings.audio.outputRealtimeDeviceName = this.realtimeDevices.value[0].name;
 			}
-    });
+	});
 
 		// Update css when state changes
 		watch(() => this.settings.appearance.animationDuration, newValue => {
@@ -96,6 +96,5 @@ export class State extends EventEmitter<StateEvents> {
 			this.applyCurrentTheme();
 			this.emit("theme:change", newThemeName);
 		});
-
 	}
 }
