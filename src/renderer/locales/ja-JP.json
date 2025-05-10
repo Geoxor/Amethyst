@@ -134,7 +134,7 @@
   "settings.vectorscope.description": "ステレオ音声の位相や幅を円グラフで表示",
   "settings.vectorscope.lissajous.title": "リサジュ表示",
   "settings.vectorscope.lissajous.description": "リサジュ図形として斜めに表示",
-  "settings.spectrum_analyzer.title": "スペクトラムアナライザー",
+  "settings.spectrum_analyzer.title": "Frequency spectrum analyzer",
   "settings.spectrum_analyzer.description": "音声の周波数帯域をグラフで表示するやつ",
   "settings.spectrum_line_analyzer.line_thickness.title": "Line thickness",
   "settings.spectrum_line_analyzer.line_thickness.description": "Changes how thick the line in the spectrum analyzer appears",
