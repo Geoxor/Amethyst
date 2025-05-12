@@ -135,11 +135,24 @@ export class Track {
       case "desktop":
         return window.electron.ipcRenderer.invoke<string>("get-cover", [this.absolutePath]);
       case "mobile":
+
+        function arrayBufferToBase64(buffer: ArrayBuffer | Uint8Array): string {
+          let binary = "";
+          const bytes = new Uint8Array(buffer);
+          const len = bytes.length;
+
+          for (let i = 0; i < len; i++) {
+            binary += String.fromCharCode(bytes[i]);
+          }
+
+          return btoa(binary);
+        }
+
         const response = await fetch(this.absolutePath);
         const buffer = new Uint8Array(await response.arrayBuffer());
         const { common } = await mm.parseBuffer(buffer, undefined);
         if (common.picture) {
-          return common.picture[0].data.toString("base64") as string;
+          return arrayBufferToBase64(common.picture[0].data);
         }
         return;
       default:

@@ -179,7 +179,7 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
     </div>
     <div class="h-full whitespace-nowrap flex flex-col justify-between">
       <div class="flex-1 flex h-full max-h-full relative">
-        <navigation-bar />
+        <navigation-bar v-if="amethyst.getCurrentPlatform() == 'desktop'"/>
 
         <div class="flex flex-col w-full">
           <router-view class="overflow-hidden disable-select no-drag" />
