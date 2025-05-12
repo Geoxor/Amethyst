@@ -148,7 +148,7 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
     <context-menu v-if="useContextMenu().state.isVisible" />
     <div
     v-if="amethyst.getCurrentPlatform() === 'mobile'"
-      class="p-2 absolute left-0 bottom-0 z-30 w-full overflow-hidden drop-shadow-2xl flex bg-surface-700 justify-between"
+      class="p-2 absolute left-0 bottom-10 z-30 w-full overflow-hidden drop-shadow-2xl flex bg-surface-700 justify-between"
     > 
       <navigation-button
         icon="ic:twotone-queue-music"
