@@ -201,6 +201,7 @@ jobs:
       - name: Rename APK with version and move
         run: |
           VERSION=$(jq -r .version package.json)
+          mkdir -p ./release/build
           mv ./src/android/app/build/outputs/apk/release/app-release.apk "./release/build/amethyst-v${VERSION}.apk"
 
       - name: Upload Artifacts
