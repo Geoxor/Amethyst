@@ -8,6 +8,7 @@ const commonConfig: CapacitorConfig = {
   webDir: "release/dist/renderer",
   android: {
     path: "src/android",
+    allowMixedContent: true,
   },
   ios: {
     path: "src/ios"

@@ -143,7 +143,7 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
         class="duration-user-defined underline cursor-pointer hover:text-primary-800"
       >download the native app</strong> </a> 
     </div>
-    <top-bar  />
+    <top-bar  class="mt-8" />
     <context-menu v-if="useContextMenu().state.isVisible" />
     <div
       v-if="amethyst.getCurrentPlatform() === 'mobile'"

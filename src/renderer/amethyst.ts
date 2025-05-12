@@ -25,6 +25,13 @@ export const i18n = createI18n({
   messages,
 });
 
+function base64ToBlob(base64: string, contentType: string): Blob {
+  const byteCharacters = atob(base64);
+  const byteNumbers = Array.from(byteCharacters, (char) => char.charCodeAt(0));
+  const byteArray = new Uint8Array(byteNumbers);
+  return new Blob([byteArray], { type: contentType });
+}
+
 export type AmethystPlatforms = ReturnType<typeof amethyst.getCurrentPlatform>;
 export const favoriteTracks = useLocalStorage<string[]>("favoriteTracks", []);
 
@@ -152,12 +159,14 @@ export class AmethystBackend extends EventEmitter<{
         });
       case "mobile":
         return new Promise(async (res, rej) => {
-          // use capacitor to implement getting a file path
-          const {FilePicker} = await import("@capawesome/capacitor-file-picker");
-          const result = await FilePicker.pickFiles({ readData: true, types: ["application/json", "text/comma-separated-values", "text/*"]});
-          console.log(result)
-          const path = result.files.map(file => file.path!)[0];
-          path ? res({canceled: false, filePaths: [decodeURIComponent(path)]}) : rej();
+          const { FilePicker } = await import ('@capawesome/capacitor-file-picker');
+          const result = await FilePicker.pickFiles({
+            types: ['audio/*'],
+          });
+
+          const files = result.files.map(file => Capacitor.convertFileSrc(file.path!));
+          
+          files ? res({canceled: false, filePaths: files}) : rej();
         });
       default:
         return Promise.reject();
@@ -568,48 +577,6 @@ export class Amethyst extends AmethystBackend {
 
     this.loadMusicFolder();
   }
-
-  /**
-   * Loads all the music in Documents/Music to the queue
-   * @mobile_only
-   */
-  private loadMusicFolder = async () => {
-    const MUSIC_FOLDER_NAME = "Amethyst Music";
-    const { Filesystem } = await import("@capacitor/filesystem");
-    const evalPermission = async () => {
-      const status = await Filesystem.requestPermissions();
-      if (status.publicStorage == "denied") evalPermission();
-    };
-
-    const evalMusicFolder = async () => {
-      Filesystem.stat({ directory: Directory.Documents, 
-        path: MUSIC_FOLDER_NAME }).catch((e) => {
-            console.log(e);
-
-          Filesystem.mkdir({ directory: Directory.Documents, 
-            path: MUSIC_FOLDER_NAME, recursive: true })
-          .then(() => {
-            console.log("Created music folder in Documents/Amethyst Music");
-          }).catch(err => {
-            console.log(err);
-          });
-        });
-    };
-
-    console.log('reading', MUSIC_FOLDER_NAME)
-
-
-    await evalPermission();
-    await evalMusicFolder();
-    const files = await Filesystem.readdir({
-      path: MUSIC_FOLDER_NAME,
-      directory: Directory.Documents,
-    }); 
-
-    console.log(files)
-    
-    this.player.queue.add(files.map(file => Capacitor.convertFileSrc(file.uri)));
-  };
 
   public async checkForUpdates() {
     this.state.window.isCheckingForUpdates = true;
