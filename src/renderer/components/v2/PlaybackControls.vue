@@ -109,7 +109,6 @@ const editMeterContextMenuOption = (name :string) => [{
 <template>
   <div
     class="absolute filter drop-shadow-xl pointer-events-none bottom-4 flex justify-center px-4 gap-2 w-full left-1/2 transform-gpu -translate-x-1/2 z-20 text-playback-controls-text"
-    :class="[amethyst.getCurrentPlatform() == 'mobile' && 'bottom-20']"
   >
     <div
       v-if="amethyst.state.settings.metering.loudnessMeter.show"
@@ -154,7 +153,7 @@ const editMeterContextMenuOption = (name :string) => [{
       side="centerVertical"
       :handles-visible="false"
       default-size="960px"
-      :class="[amethyst.getCurrentPlatform() == 'mobile' ? 'rounded-t-8px pb-5 pt-1 min-w-410px ' : 'rounded-8px min-w-670px']"
+      :class="[amethyst.getCurrentPlatform() == 'mobile' ? 'rounded-t-8px pb-8 pt-0.5 min-w-410px ' : 'rounded-8px min-w-670px']"
       class="relative max-w-full pointer-events-auto bg-playback-controls-background"
     >
       <div class="flex relative items-center h-16 gap-2 p-2 w-full">

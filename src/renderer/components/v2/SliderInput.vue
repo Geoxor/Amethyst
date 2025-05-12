@@ -23,7 +23,7 @@ const handleMouseScroll = (e: WheelEvent) => {
     </p>
   </base-chip>
   <div
-    class="slider py-3 min-w-160px max-w-160px"
+    class="slider py-3 max-w-160px"
     @wheel.prevent="handleMouseScroll"
   >
     <slider
