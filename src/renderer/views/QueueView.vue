@@ -5,6 +5,7 @@ import LazyList from "@/components/LazyList.vue";
 import RouteHeader from "@/components/v2/RouteHeader.vue";
 import SearchInput from "@/components/v2/SearchInput.vue";
 import type { Track } from "@/logic/track";
+import { Icon } from "@iconify/vue";
 import { useLocalStorage } from "@vueuse/core";
 import { onMounted, onUnmounted, watch } from "vue";
 
@@ -27,12 +28,15 @@ onMounted(() => {
 onUnmounted(() => {
   amethyst.player.off("player:play", autoscroll);
 });
-
 </script>
 
 <template>
   <div class="flex-col flex w-full py-2 gap-4 px-4 relative">
     <route-header :title="$t('route.queue')">
+      <icon
+        icon="mdi:plus"
+        @click="amethyst.openAudioFilesAndAddToQueue"
+      />
       <search-input v-model="filterText" />
     </route-header>
     

@@ -36,7 +36,7 @@ const setDynamicColors = async (track: Track) => {
 
   const palette = await Vibrant.from(coverBase64).getPalette();
   if (!palette.Vibrant && !palette.LightVibrant) return;
-  
+
   const newAccentColor = `${palette.Vibrant?.r}, ${palette.Vibrant?.g}, ${palette.Vibrant?.b}`;
   const newPrimaryColor = `${palette.LightVibrant?.r}, ${palette.LightVibrant?.g}, ${palette.LightVibrant?.b}`;
 
@@ -92,94 +92,66 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
 
 <template>
   <div
-    v-if="amethyst.state.showBigSpectrum.value"
-    class="absolute top-0 left-0 w-320px h-280px z-30 bg-surface-800 "
-    @click="amethyst.state.showBigSpectrum.value = false"
-  >
+v-if="amethyst.state.showBigSpectrum.value" class="absolute top-0 left-0 w-320px h-280px z-30 bg-surface-800 "
+    @click="amethyst.state.showBigSpectrum.value = false">
     <spectrum-analyzer-composite
-      key="big-spectrum-analyzer"
-      :node="amethyst.player.nodeManager.master.pre"
-      :type="amethyst.state.settings.metering.spectrum.type"
-    />
+key="big-spectrum-analyzer" :node="amethyst.player.nodeManager.master.pre"
+      :type="amethyst.state.settings.metering.spectrum.type" />
   </div>
   <div
-    v-else
-    class="flex fixed flex-col bg-surface-900"
+v-else class="flex fixed flex-col bg-surface-900"
+    :class="[amethyst.getCurrentPlatform() =='mobile' && 'pt-8 pb-24 ']"
+  
+  
   >
     <div
-      v-if="amethyst.state.window.isShowingBigCover"
+v-if="amethyst.state.window.isShowingBigCover"
       class="absolute select-none rounded-8px w-full sm:w-auto max-w-3/4 max-h-3/4 overflow-hidden top-1/2 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2 z-50"
-      style="aspect-ratio: 1/1;"
-    >
-      <cover-art 
-        :url="ambientBackgroundImage"
-        class="w-full drop-shadow-2xl z-30"
-        @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-          { title: 'Export cover...', icon: 'ic:twotone-add-photo-alternate', action: () => amethyst.player.getCurrentTrack()?.exportCover() },
-        ]);"
-        @click="amethyst.state.window.isShowingBigCover = !amethyst.state.window.isShowingBigCover"
-      />
+      style="aspect-ratio: 1/1;">
+      <cover-art
+:url="ambientBackgroundImage" class="w-full drop-shadow-2xl z-30" @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
+        { title: 'Export cover...', icon: 'ic:twotone-add-photo-alternate', action: () => amethyst.player.getCurrentTrack()?.exportCover() },
+      ]);" @click="amethyst.state.window.isShowingBigCover = !amethyst.state.window.isShowingBigCover" />
 
       <icon
-        icon="ic:twotone-close"
-        class="utilityButton absolute top-3 right-3 cursor-pointer"
-        @click="amethyst.state.window.isShowingBigCover = false"
-      />
+icon="ic:twotone-close" class="utilityButton absolute top-3 right-3 cursor-pointer"
+        @click="amethyst.state.window.isShowingBigCover = false" />
     </div>
 
     <background-image
-      v-if="amethyst.state.settings.appearance.ambientBackground.show"
-      :ambient-background-image="ambientBackgroundImage"
-    />
+v-if="amethyst.state.settings.appearance.ambientBackground.show"
+      :ambient-background-image="ambientBackgroundImage" />
 
     <div
-      v-if="amethyst.getCurrentPlatform() === 'web'"
-      class="h-6 bg-yellow-500  items-center flex gap-1 justify-center select-none w-full text-12px"
-    >
-      Amethyst Web is heavily disfunctional due to 
+v-if="amethyst.getCurrentPlatform() === 'web'"
+      class="h-6 bg-yellow-500  items-center flex gap-1 justify-center select-none w-full text-12px">
+      Amethyst Web is heavily disfunctional due to
       Chrome's security policies regarding filesystem access, for the best experience <a
-        href="https://github.com/Geoxor/amethyst/releases/latest"
-        target="_blank"
-      > <strong
-        class="duration-user-defined underline cursor-pointer hover:text-primary-800"
-      >download the native app</strong> </a> 
+        href="https://github.com/Geoxor/amethyst/releases/latest" target="_blank"> <strong
+          class="duration-user-defined underline cursor-pointer hover:text-primary-800">download the native app</strong>
+      </a>
     </div>
-    <top-bar  class="mt-8" />
+    <top-bar v-if="amethyst.getCurrentPlatform() === 'desktop'" class="mt-8" />
     <context-menu v-if="useContextMenu().state.isVisible" />
+
     <div
-    v-if="amethyst.getCurrentPlatform() === 'mobile'"
-      class="p-2 absolute left-0 bottom-10 z-30 w-full overflow-hidden drop-shadow-2xl flex bg-surface-700 justify-between"
-    > 
-      <navigation-button
-        icon="ic:twotone-queue-music"
-        route-name="queue"
-        text="Queue"
-        mobile
-      />
+v-if="amethyst.getCurrentPlatform() === 'mobile'"
+      class="p-2 absolute pb-14 left-0 bottom-0 rounded-32px z-30 w-full overflow-hidden drop-shadow-2xl flex bg-surface-700 justify-between">
 
-      <navigation-button
-        icon="ic:twotone-mic-external-on"
-          mobile
-        route-name="audio-monitor"
-      />
+      <navigation-button icon="ic:twotone-mic-external-on" route-name="audio-monitor" mobile />
 
-      <navigation-button
-        icon="mdi:resistor-nodes"
-        route-name="node-editor"
-        text="Node Editor"
-        mobile
-      />
+      <navigation-button v-if="amethyst.IS_DEV" icon="mdi:compass" mobile route-name="discovery" />
 
-      <navigation-button
-        icon="ic:twotone-settings"
-        route-name="settings"
-        text="Settings"
-        mobile
-      />
+      <navigation-button icon="mdi:resistor-nodes" route-name="node-editor" mobile />
+
+      <navigation-button icon="ic:twotone-queue-music" route-name="queue" mobile />
+
+      <navigation-button icon="ic:twotone-settings" route-name="settings" mobile />
     </div>
+
     <div class="h-full whitespace-nowrap flex flex-col justify-between">
       <div class="flex-1 flex h-full max-h-full relative">
-        <navigation-bar v-if="amethyst.getCurrentPlatform() == 'desktop'"/>
+        <navigation-bar v-if="amethyst.getCurrentPlatform() == 'desktop'" />
 
         <div class="flex flex-col w-full">
           <router-view class="overflow-hidden disable-select no-drag" />
@@ -190,7 +162,7 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
       <playback-controls v-if="amethyst.state.settings.appearance.showPlaybackControls" />
     </div>
   </div>
-</template> 
+</template>
 
 <style lang="postcss">
 @import url(themes/amethyst-dark.css);

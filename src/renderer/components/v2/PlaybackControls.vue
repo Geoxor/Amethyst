@@ -109,7 +109,7 @@ const editMeterContextMenuOption = (name :string) => [{
 <template>
   <div
     class="absolute filter drop-shadow-xl pointer-events-none bottom-4 flex justify-center px-4 gap-2 w-full left-1/2 transform-gpu -translate-x-1/2 z-20 text-playback-controls-text"
-    :class="[amethyst.getCurrentPlatform() && 'bottom-26']"
+    :class="[amethyst.getCurrentPlatform() == 'mobile' && 'bottom-20']"
   >
     <div
       v-if="amethyst.state.settings.metering.loudnessMeter.show"
@@ -154,7 +154,7 @@ const editMeterContextMenuOption = (name :string) => [{
       side="centerVertical"
       :handles-visible="false"
       default-size="960px"
-      :class="[amethyst.getCurrentPlatform() == 'mobile' ? 'rounded-t-8px' : 'rounded-8px']"
+      :class="[amethyst.getCurrentPlatform() == 'mobile' ? 'rounded-t-8px pb-5 pt-1' : 'rounded-8px']"
       class="relative min-w-410px max-w-full pointer-events-auto bg-playback-controls-background"
     >
       <div class="flex items-center h-16 gap-2 p-2 w-full">
@@ -175,8 +175,8 @@ const editMeterContextMenuOption = (name :string) => [{
           id="seek"
           key="seek"
           v-model="amethyst.player.currentTime.value"
-          class="w-full h-8 absolute left-0 -z-1"
-          :class="[amethyst.getCurrentPlatform() == 'mobile' ? '-top-3' : '-top-1.5 hover:-top-3 ']"
+          class="w-full absolute rounded-8px left-0 -z-1"
+          :class="[amethyst.getCurrentPlatform() == 'mobile' ? '-top-3 h-16' : '-top-1.5 hover:-top-3 h-8']"
           :max="amethyst.player.input.duration"
           @input="amethyst.player.seekTo(amethyst.player.currentTime.value)"
           @wheel.passive="handleSeekMouseScroll"
@@ -269,6 +269,7 @@ const editMeterContextMenuOption = (name :string) => [{
         </base-tooltip>
 
         <base-tooltip
+          v-if="amethyst.getCurrentPlatform() != 'mobile'"
           :text="$t('playback_controls.mute')"
           placement="top"
         >
@@ -286,6 +287,7 @@ const editMeterContextMenuOption = (name :string) => [{
           />
         </base-tooltip>
         <base-tooltip
+          v-if="amethyst.getCurrentPlatform() != 'mobile'"
           :text="`${amethyst.player.volume.toFixed(1)} dB`"
           placement="top"
         >

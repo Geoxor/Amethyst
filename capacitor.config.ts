@@ -3,7 +3,7 @@ import ip from "ip";
 import 'dotenv/config'
 
 const commonConfig: CapacitorConfig = {
-  appId: "com.geoxor.amethyst",
+  appId: "com.example.app",
   backgroundColor: "#0f1119",
   appName: "Amethyst",
   webDir: "release/dist/renderer",
@@ -32,5 +32,8 @@ const devConfig: CapacitorConfig = {
 };
 
 const config = process.env.NODE_ENV === "development" ? devConfig : commonConfig;
+
+console.log(config)
+
 
 export default config;
