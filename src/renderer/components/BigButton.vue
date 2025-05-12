@@ -33,7 +33,7 @@ const props = defineProps<{title?: string, description?: string, icon: any}>();
 button {
   @apply border-transparent;
   &.neonMode {
-    @apply border-2 py-1 px-4;
+    @apply border-solid border-2 py-1 px-4;
   }
 
   &:not(.neonMode):hover:not(.active) {
@@ -63,7 +63,7 @@ button {
   }
   
   &.neonMode.active {
-    @apply border-2 border-primary text-primary;
+    @apply border-solid border-2 border-primary text-primary;
 
     &::v-deep(h1),
     &::v-deep(p) {

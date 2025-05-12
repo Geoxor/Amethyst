@@ -204,7 +204,7 @@ const editMeterContextMenuOption = (name :string) => [{
         />
         <cover-art
           v-if="amethyst.state.settings.appearance.showCoverArt"
-          class="rounded-4px h-48px w-48px min-h-48px min-w-48px text-primary-900 border-1 border-transparent cursor-pointer hover:border-primary-800"
+          class="rounded-4px h-48px w-48px min-h-48px min-w-48px text-primary-900 border-solid border-1 border-transparent cursor-pointer hover:border-primary-800"
           :class="[
             amethyst.state.window.isShowingBigCover && 'border-primary-700'
           ]"

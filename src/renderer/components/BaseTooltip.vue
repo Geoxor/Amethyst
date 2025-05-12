@@ -14,7 +14,7 @@ defineProps<{
     :placement="placement"
     :arrow="true"
     class="tooltip mt-1"
-    :class="borderless ? '' : ' border-1 border-surface-600 bg-surface-800 p-2' "
+    :class="borderless ? '' : ' border-solid border-1 border-surface-600 bg-surface-800 p-2' "
   >
     <slot />
     <template #content>

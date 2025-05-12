@@ -251,7 +251,7 @@ const handleEnter = (e: KeyboardEvent) => {
 }
 
 .modifier {
-  @apply select-none text-6px transition duration-0 transform rounded-full border-2 border-transparent;
+  @apply select-none text-6px transition duration-0 transform rounded-full border-solid border-2 border-transparent;
   cursor: ns-resize;
 
   &:hover {

@@ -29,7 +29,7 @@ button:hover:not(.neonMode):not(.bg-primary) {
 }
 
 button.neonMode {
-  @apply border-2 border-primary text-primary;
+  @apply border-solid border-2 border-primary text-primary;
 
   &:hover {
     @apply bg-primary/15;

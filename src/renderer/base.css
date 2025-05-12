@@ -129,7 +129,7 @@ body,
 }
 
 .clickable {
-  @apply cursor-pointer border-1 border-transparent;
+  @apply cursor-pointer border-solid border-1 border-transparent;
 }
 
 .disable-select {

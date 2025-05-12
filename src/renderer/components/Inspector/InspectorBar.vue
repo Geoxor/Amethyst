@@ -414,12 +414,12 @@ section {
   }
 
   input {
-    @apply border-1 border-transparent w-1/2;
+    @apply border-solid border-1 border-transparent w-1/2;
     &:hover {
       @apply bg-accent/25 text-text-title;
     }
     &:focus {
-      @apply bg-accent/25 border-1 border-accent text-text-title;
+      @apply bg-accent/25 border-solid border-1 border-accent text-text-title;
     }
   }
 }
