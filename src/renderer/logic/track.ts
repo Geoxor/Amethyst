@@ -11,6 +11,7 @@ import { MusicBrainzApi } from "musicbrainz-api";
 import { saveArrayBufferToFile } from "@/logic/dom.js";
 import { convertDfpwm } from "@/logic/encoding.js";
 import { useInspector } from "@/components/Inspector/index.js";
+import { md5 } from 'js-md5';
 
 const mbApi = new MusicBrainzApi({
     appName: "Amethyst",
@@ -57,7 +58,7 @@ export class Track {
   }
 
   private generateHash() {
-    this.uuid = window.md5(`${this.getArtistsFormatted()}, ${this.getAlbum()}, ${this.getTitle()}`);
+    this.uuid = md5(`${this.getArtistsFormatted()}, ${this.getAlbum()}, ${this.getTitle()}`);
     this.isFavorited = favoriteTracks.value.includes(this.uuid);
   }
 
@@ -119,7 +120,7 @@ export class Track {
       case "desktop":
         return window.electron.ipcRenderer.invoke<IMetadata>("get-metadata", [this.absolutePath]);
       case "mobile":
-        const response = await fetch(decodeURIComponent(this.absolutePath));
+        const response = await fetch(this.absolutePath);
         const buffer = new Uint8Array(await response.arrayBuffer());
         const { format, common } = await mm.parseBuffer(buffer, undefined);
         const size = buffer.length;
@@ -134,7 +135,7 @@ export class Track {
       case "desktop":
         return window.electron.ipcRenderer.invoke<string>("get-cover", [this.absolutePath]);
       case "mobile":
-        const response = await fetch(decodeURIComponent(this.absolutePath));
+        const response = await fetch(this.absolutePath);
         const buffer = new Uint8Array(await response.arrayBuffer());
         const { common } = await mm.parseBuffer(buffer, undefined);
         if (common.picture) {

@@ -371,6 +371,7 @@ export class Amethyst extends AmethystBackend {
     };
 
     const updateWithCurrentTrack = async () => {
+      if (amethyst.getCurrentPlatform() == "mobile") return;
       const currentTrack = this.player.getCurrentTrack();
       await currentTrack?.fetchAlbumCoverUrl();
       currentTrack && await updateRichPresence(currentTrack);

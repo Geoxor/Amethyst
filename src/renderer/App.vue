@@ -9,7 +9,6 @@ import NavigationButton from "@/components/NavigationButton.vue";
 import TopBar from "@/components/TopBar.vue";
 import PlaybackControls from "@/components/v2/PlaybackControls.vue";
 import SpectrumAnalyzerComposite from "@/components/visualizers/SpectrumAnalyzerComposite.vue";
-import { AmethystIcon } from "@/icons";
 import { getThemeColor } from "@/logic/color";
 import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
@@ -50,6 +49,8 @@ const setDynamicColors = async (track: Track) => {
 };
 
 function setDynamicIconColors() {
+  if (amethyst.getCurrentPlatform() == "mobile") return;
+
   if (!amethyst.state.settings.appearance.coverBasedIconColors) {
     window.electron.ipcRenderer.invoke("set-default-icon", []);
     return;
@@ -146,33 +147,35 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
     <top-bar  class="mt-8" />
     <context-menu v-if="useContextMenu().state.isVisible" />
     <div
-      v-if="amethyst.getCurrentPlatform() === 'mobile'"
-      class="w-full absolute bottom-0 z-10 "
-    >
-      <div
-        class="p-2 rounded-t-24px overflow-hidden drop-shadow-2xl flex bg-surface-700 justify-between"
-      > 
-        <navigation-button
-          :icon="AmethystIcon"
-          route-name="queue"
-          text="Queue"
-          mobile
-        />
+    v-if="amethyst.getCurrentPlatform() === 'mobile'"
+      class="p-2 absolute left-0 bottom-0 z-30 w-full overflow-hidden drop-shadow-2xl flex bg-surface-700 justify-between"
+    > 
+      <navigation-button
+        icon="ic:twotone-queue-music"
+        route-name="queue"
+        text="Queue"
+        mobile
+      />
 
-        <navigation-button
-          :icon="AmethystIcon"
-          route-name="node-editor"
-          text="Node Editor"
+      <navigation-button
+        icon="ic:twotone-mic-external-on"
           mobile
-        />
+        route-name="audio-monitor"
+      />
 
-        <navigation-button
-          :icon="AmethystIcon"
-          route-name="settings"
-          text="Settings"
-          mobile
-        />
-      </div>
+      <navigation-button
+        icon="mdi:resistor-nodes"
+        route-name="node-editor"
+        text="Node Editor"
+        mobile
+      />
+
+      <navigation-button
+        icon="ic:twotone-settings"
+        route-name="settings"
+        text="Settings"
+        mobile
+      />
     </div>
     <div class="h-full whitespace-nowrap flex flex-col justify-between">
       <div class="flex-1 flex h-full max-h-full relative">
