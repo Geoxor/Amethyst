@@ -19,12 +19,14 @@
         "icon": "book",
         "groups": [
           {
-            "group": "Get Started",
+            "group": "Installation",
+            "pages": ["guides/installation", "guides/showcase"]
+          },
+          {
+            "group": "Development",
             "pages": [
-              "guides/showcase",
-              "guides/installation",
+              "guides/setting_up",
               "guides/android",
-              "guides/development",
               "guides/localization"
             ]
           },
