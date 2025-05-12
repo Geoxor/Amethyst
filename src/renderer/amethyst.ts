@@ -18,6 +18,7 @@ import { useLocalStorage } from "@vueuse/core";
 import type { Track } from "@/logic/track.js";
 import { Analytics } from "@/logic/analytics.js";
 import { EventEmitter } from "@/logic/eventEmitter.js";
+import { getThemeColorHex } from "./logic/color.js";
 
 export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale
@@ -201,8 +202,10 @@ export class AmethystBackend extends EventEmitter<{
   };
 
   public openAudioFilesAndAddToQueue = async () => {
-    amethyst.showOpenFileDialog({filters: [{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }]}).then(result => {
-      !result.canceled && amethyst.player.queue.add(result.filePaths);
+    amethyst.showOpenFileDialog({filters: [{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }]}).then(async result => {
+      if (result.canceled) return;
+      await amethyst.player.queue.add(result.filePaths);
+      amethyst.player.queue.fetchAsyncData();
     }).catch(error => console.error(error));
   };
 
@@ -566,17 +569,21 @@ export class Amethyst extends AmethystBackend {
     this.state.window.isFullscreen = windowState.isFullscreen;
   };
 
+  public async updateAppColors() {
+    await StatusBar.setBackgroundColor({color: getThemeColorHex('--surface-900')});
+    await NavigationBar.setColor({color: getThemeColorHex('--surface-700')});
+  }
+
   private async initMobile() {
     switch (this.getCurrentOperatingSystem()) {
       case "android":
-        await StatusBar.setBackgroundColor({color: "#0f1119"});
-        await NavigationBar.setColor({color: "#181a27"});
+        this.updateAppColors()
         break;
       default:
         break;
     }
 
-    this.loadMusicFolder();
+    this.state.on("theme:change", () => this.updateAppColors())
   }
 
   public async checkForUpdates() {

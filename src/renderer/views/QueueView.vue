@@ -31,7 +31,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex-col flex w-full py-2 gap-4 px-4 relative">
+  <div class="flex-col flex w-full py-2 gap-4 relative" :class="[amethyst.getCurrentPlatform() == 'mobile' ? 'px-2' : 'px-4']">
     <route-header :title="$t('route.queue')">
       <icon
         icon="mdi:plus"
