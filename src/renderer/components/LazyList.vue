@@ -397,7 +397,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
             item.hasErrored && 'opacity-50 not-allowed',
             item.deleted && 'opacity-50 !text-rose-400 not-allowed',
             amethyst.player.getCurrentTrack()?.path == item.path && 'currentlyPlaying',
-            amethyst.state.settings.appearance.compactList ? 'py-1' : 'py-1.5',
+            amethyst.state.settings.appearance.compactList ? 'py-1' : 'py-2',
             useInspector().state.isVisible && (useInspector().state.currentItem == item as any) && 'currentlyInspecting',
           ]"
           draggable="true"
@@ -433,7 +433,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 
           <div
             v-if="columns.cover"
-            class="flex-none w-[32px]"
+            class="flex-none w-[32px] h-[24px]"
           >
             <loading-icon 
               v-if="item.isLoading"
