@@ -28,12 +28,12 @@ watch(() => props.node.frequencyPercent, percent => {
       <p class="text-primary-900 ">
         Type
       </p>
-      <div class="flex rounded-2px overflow-hidden">
+      <div class="flex rounded-2px truncate">
         <button
           v-for="filterType of node.getParameters().type.options"
           :key="filterType"
-          class="text-11px cursor-pointer px-1 py-0.5 bg-surface-900"
-          :class="[node.type == filterType ? 'text-accent bg-accent bg-opacity-10' : 'text-surface-500']"
+          class="text-11px cursor-pointer px-1 py-1 bg-surface-900"
+          :class="[node.type == filterType ? 'text-accent bg-accent/10' : 'text-surface-500']"
           @mousedown.stop
           @click="node.type = filterType"
         >

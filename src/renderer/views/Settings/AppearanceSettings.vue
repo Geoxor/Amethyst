@@ -278,7 +278,7 @@ const {appearance} = amethyst.state.settings;
 
 <style scoped lang="postcss">
 .theme-skeleton {
-  @apply border-2 border-transparent box-content rounded-8px w-32 h-auto lg:w-min;
+  @apply border-solid border-2 border-transparent box-content rounded-8px w-32 h-auto lg:w-min;
 
   &:hover {
     @apply border-surface-400;

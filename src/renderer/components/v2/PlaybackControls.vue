@@ -133,7 +133,7 @@ const editMeterContextMenuOption = (name :string) => [{
 
     <div
       v-if="amethyst.state.settings.metering.oscilloscope.show"
-      class="flex pointer-events-auto overflow-hidden items-center justify-center h-16 gap-2 rounded-8px transition w-full min-w-64px max-w-64px bg-playback-controls-background"
+      class="flex pointer-events-auto truncate items-center justify-center h-16 gap-2 rounded-8px transition w-full min-w-64px max-w-64px bg-playback-controls-background"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
         { title: 'Hide oscilloscope', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.metering.oscilloscope.show = false },
         ...editMeterContextMenuOption('oscilloscope')
@@ -153,13 +153,13 @@ const editMeterContextMenuOption = (name :string) => [{
       side="centerVertical"
       :handles-visible="false"
       default-size="960px"
-      class="relative rounded-8px min-w-670px max-w-full pointer-events-auto bg-playback-controls-background"
+      class=" rounded-8px min-w-670px max-w-full pointer-events-auto bg-playback-controls-background"
     >
-      <div class="flex items-center h-16 gap-2 p-2 w-full">
+      <div class="flex relative items-center h-16 gap-2 p-2 w-full">
         <Transition name="slide">
           <div 
             v-if="amethyst.state.showOutputDiagram.value"
-            class="flex gap-4 overflow-hidden items-center flex-col h-48 w-full bg-playback-controls-background absolute bottom-40px rounded-8px -z-5 left-0"
+            class="flex gap-4 truncate items-center flex-col h-48 w-full bg-playback-controls-background absolute bottom-40px rounded-8px -z-5 left-0"
           >
             <icon
               icon="ic:twotone-keyboard-double-arrow-down"
@@ -173,7 +173,7 @@ const editMeterContextMenuOption = (name :string) => [{
           id="seek"
           key="seek"
           v-model="amethyst.player.currentTime.value"
-          class="w-full h-8 absolute -top-1.5 hover:-top-3 w-full left-0 -z-1"
+          class="h-8 absolute -top-1.5 hover:-top-3 w-full left-0 -z-1"
           :max="amethyst.player.input.duration"
           @input="amethyst.player.seekTo(amethyst.player.currentTime.value)"
           @wheel.passive="handleSeekMouseScroll"
@@ -204,7 +204,7 @@ const editMeterContextMenuOption = (name :string) => [{
         />
         <cover-art
           v-if="amethyst.state.settings.appearance.showCoverArt"
-          class="rounded-4px h-48px w-48px min-h-48px min-w-48px text-primary-900 border-1 border-transparent cursor-pointer hover:border-primary-800"
+          class="rounded-4px h-48px w-48px min-h-48px min-w-48px text-primary-900 border-solid border-1 border-transparent cursor-pointer hover:border-primary-800"
           :class="[
             amethyst.state.window.isShowingBigCover && 'border-primary-700'
           ]"
@@ -216,18 +216,18 @@ const editMeterContextMenuOption = (name :string) => [{
         <div
           ref="trackTitles"
           :style="`max-width: ${maxTrackTitleWidth}px;`"
-          class="flex justify-between select-none flex-col h-full w-full py-0.5 font-bold"
+          class="flex justify-between select-none flex-col h-full w-full py-1 font-bold leading-2.5"
         >
           <h1
-            class="text-13px hover:underline cursor-external-pointer overflow-hidden overflow-ellipsis"
+            class="text-13px hover:underline cursor-external-pointer truncate text-ellipsis"
             @click=" amethyst.showItem(amethyst.player.getCurrentTrack()?.path!)"
           >
             {{ amethyst.player.getCurrentTrack()?.getTitleFormatted() || 'No track' }}
           </h1>
-          <p class="text-11px overflow-hidden overflow-ellipsis">
+          <p class="text-11px truncate text-ellipsis">
             {{ amethyst.player.getCurrentTrack()?.getArtistsFormatted() || 'No artist' }}
           </p>
-          <p class="text-11px text-text_subtitle">
+          <p class="text-11px text-text-subtitle">
             {{ amethyst.player.currentTimeFormatted(true) }} /
             {{ secondsToColinHuman(amethyst.player.input.duration) || '0:00' }}
           </p>
@@ -327,7 +327,7 @@ const editMeterContextMenuOption = (name :string) => [{
     </resizable-div>
     <div
       v-if="amethyst.state.settings.metering.vectorscope.show"
-      class="flex pointer-events-auto overflow-hidden items-center justify-center h-16 gap-2 rounded-8px transition w-full min-w-64px max-w-64px bg-playback-controls-background"
+      class="flex pointer-events-auto truncate items-center justify-center h-16 gap-2 rounded-8px transition w-full min-w-64px max-w-64px bg-playback-controls-background"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
         { title: 'Hide vectorscope', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.metering.vectorscope.show = false },
         ...editMeterContextMenuOption('vectorscope')
@@ -346,7 +346,7 @@ const editMeterContextMenuOption = (name :string) => [{
       v-if="amethyst.state.settings.metering.spectrum.show"
       :key="amethyst.player.nodeManager.getNodeConnectionsString()"
       :class="[!amethyst.state.settings.metering.vectorscope.show && 'max-w-304px']"
-      class="flex pointer-events-auto overflow-hidden items-center h-16 gap-2 rounded-8px transition w-full min-w-180px max-w-240px bg-playback-controls-background hide"
+      class="flex pointer-events-auto truncate items-center h-16 gap-2 rounded-8px transition w-full min-w-180px max-w-240px bg-playback-controls-background hide"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
         { title: 'Hide spectrum analyzer', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.metering.spectrum.show = false },
         ...editMeterContextMenuOption('spectrum analyzer')

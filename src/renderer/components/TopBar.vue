@@ -23,7 +23,15 @@ const domSize = ref(0);
 const latency = ref(0);
 const router = useRouter();
 
+const branchName = ref("Development");
+
 onMounted(() => {
+  if (amethyst.IS_DEV) {
+    window.electron.ipcRenderer.invoke<string>('get-branch-name').then(name => {
+      branchName.value = name;
+    })
+  }
+
   setInterval(() => {
     fps.value = fpsCounter.value;
     if (fps.value > max.value) max.value = fps.value;
@@ -50,7 +58,7 @@ provide("menuGroupRef", menuGroupRef);
 <template>
   <div
     class=" z-100 font-main drag min-h-40px pr-2 text-12px select-none flex justify-between items-center transition-colors duration-user-defined"
-    :class="[amethyst.state.window.isFocused ? 'text-text_title' : 'text-text_subtitle']"
+    :class="[amethyst.state.window.isFocused ? 'text-text-title' : 'text-text-subtitle']"
   >
     <div
       class="flex no-drag h-full items-center"
@@ -58,7 +66,7 @@ provide("menuGroupRef", menuGroupRef);
       :class="[amethyst.getCurrentOperatingSystem() == 'mac' && 'pl-16']"
     >
       <div
-        class="duration-user-defined logo w-52px h-full items-center flex justify-center cursor-heart-pointer rounded-br-8px hover:bg-primary hover:bg-opacity-10 hover:text-primary"
+        class="duration-user-defined logo w-52px h-full items-center flex justify-center cursor-heart-pointer rounded-br-8px hover:bg-primary/10 hover:text-primary"
       >
         <amethyst-icon class="w-5 h-5" />
       </div>
@@ -198,7 +206,7 @@ provide("menuGroupRef", menuGroupRef);
         v-if="amethyst.IS_DEV"
         :color="amethyst.state.window.isFocused ? undefined : 'bg-gray-500'"
       >
-        Development
+        {{ branchName }}
       </base-chip>
       <title-text
         class="opacity-50 font-normal capitalize"
@@ -206,16 +214,16 @@ provide("menuGroupRef", menuGroupRef);
       />
     </p>
 
-    <div class="flex gap-1.25 h-6 items-center overflow-hidden font-aseprite whitespace-nowrap">
+    <div class="flex gap-1.25 h-6 items-center truncate font-aseprite whitespace-nowrap">
       <div
         v-if="amethyst.state.settings.appearance.showDebugStats"
         class="w-56 flex gap-1 justify-end no-drag" 
         @click="min = Number.POSITIVE_INFINITY; max = Number.NEGATIVE_INFINITY;"
       >
-        <div class="hidden lg:inline font-aseprite text-primary-900 text-opacity-50">
-          {{ domSize }}<span class="text-primary-900 text-opacity-25">DOM </span>
-          {{ amethyst.player.getBufferSize() }}<span class="text-primary-900 text-opacity-25">smp</span>
-          {{ latency.toFixed(2) }}<span class="text-primary-900 text-opacity-25">ms</span>
+        <div class="hidden lg:inline font-aseprite text-primary-900/50">
+          {{ domSize }}<span class="text-primary-900/25">DOM </span>
+          {{ amethyst.player.getBufferSize() }}<span class="text-primary-900/25">smp</span>
+          {{ latency.toFixed(2) }}<span class="text-primary-900/25">ms</span>
         </div>
         <div 
           :class="[

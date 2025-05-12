@@ -42,11 +42,11 @@ onMounted(() => {
     @click="amethyst.player.play(track)"
     @contextmenu="handleTrackContextMenu($event, track)"
   >
-    <span class="relative overflow-hidden rounded-8px transition-all duration-100 transform-gpu hover:scale-110">
+    <span class="relative truncate rounded-8px transition-all duration-100 transform-gpu hover:scale-110">
       <h1
         v-if="amethyst.analytics.getPlayCount(track)"
         class="absolute flex items-center gap-0.5 top-0 font-weight-user-defined right-0 min-w-4 text-12px text-center p-1 z-5 rounded-bl-8px  text-black"
-        :class="[`bg-[${color}]`]"
+        :style="`background-color: ${color};`"
       >
       
         <icon
@@ -77,7 +77,7 @@ onMounted(() => {
       </div>
     </span>
     <title-subtitle
-      class="text-center max-w-32 overflow-hidden overflow-ellipsis"
+      class="text-center max-w-32 truncate text-ellipsis"
       :title="track.getTitleFormatted()"
       :subtitle="track.getArtistsFormatted()"
     />
