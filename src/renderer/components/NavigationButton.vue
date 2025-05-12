@@ -13,7 +13,7 @@ const router = useRouter();
   <button
     :class="[
       isActive && 'active',
-      mobile ? 'rounded-full' : 'rounded-r-8px',
+      mobile ? 'rounded-full w-full justify-center' : 'rounded-r-8px',
       amethyst.state.window.isFocused ? 'text-text_title' : 'text-text_subtitle'
     ]"
 
