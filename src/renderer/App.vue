@@ -9,6 +9,7 @@ import NavigationButton from "@/components/NavigationButton.vue";
 import TopBar from "@/components/TopBar.vue";
 import PlaybackControls from "@/components/v2/PlaybackControls.vue";
 import SpectrumAnalyzerComposite from "@/components/visualizers/SpectrumAnalyzerComposite.vue";
+import { AmethystIcon } from "@/icons";
 import { getThemeColor } from "@/logic/color";
 import type { Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
@@ -36,7 +37,7 @@ const setDynamicColors = async (track: Track) => {
 
   const palette = await Vibrant.from(coverBase64).getPalette();
   if (!palette.Vibrant && !palette.LightVibrant) return;
-
+  
   const newAccentColor = `${palette.Vibrant?.r}, ${palette.Vibrant?.g}, ${palette.Vibrant?.b}`;
   const newPrimaryColor = `${palette.LightVibrant?.r}, ${palette.LightVibrant?.g}, ${palette.LightVibrant?.b}`;
 
@@ -49,8 +50,6 @@ const setDynamicColors = async (track: Track) => {
 };
 
 function setDynamicIconColors() {
-  if (amethyst.getCurrentPlatform() == "mobile") return;
-
   if (!amethyst.state.settings.appearance.coverBasedIconColors) {
     window.electron.ipcRenderer.invoke("set-default-icon", []);
     return;
@@ -92,17 +91,19 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
 
 <template>
   <div
-v-if="amethyst.state.showBigSpectrum.value" class="absolute top-0 left-0 w-320px h-280px z-30 bg-surface-800 "
-    @click="amethyst.state.showBigSpectrum.value = false">
+    v-if="amethyst.state.showBigSpectrum.value"
+    class="absolute top-0 left-0 w-320px h-280px z-30 bg-surface-800 "
+    @click="amethyst.state.showBigSpectrum.value = false"
+  >
     <spectrum-analyzer-composite
-key="big-spectrum-analyzer" :node="amethyst.player.nodeManager.master.pre"
-      :type="amethyst.state.settings.metering.spectrum.type" />
+      key="big-spectrum-analyzer"
+      :node="amethyst.player.nodeManager.master.pre"
+      :type="amethyst.state.settings.metering.spectrum.type"
+    />
   </div>
   <div
-v-else class="flex fixed flex-col bg-surface-900"
-    :class="[amethyst.getCurrentPlatform() =='mobile' && 'pt-8 pb-24 ']"
-  
-  
+    v-else
+    class="flex fixed flex-col bg-surface-900"
   >
     <div
       v-if="amethyst.state.window.isShowingBigCover"
@@ -119,32 +120,37 @@ v-else class="flex fixed flex-col bg-surface-900"
       />
 
       <icon
-icon="ic:twotone-close" class="utilityButton absolute top-3 right-3 cursor-pointer"
-        @click="amethyst.state.window.isShowingBigCover = false" />
+        icon="ic:twotone-close"
+        class="utilityButton absolute top-3 right-3 cursor-pointer"
+        @click="amethyst.state.window.isShowingBigCover = false"
+      />
     </div>
 
     <background-image
-v-if="amethyst.state.settings.appearance.ambientBackground.show"
-      :ambient-background-image="ambientBackgroundImage" />
+      v-if="amethyst.state.settings.appearance.ambientBackground.show"
+      :ambient-background-image="ambientBackgroundImage"
+    />
 
     <div
-v-if="amethyst.getCurrentPlatform() === 'web'"
-      class="h-6 bg-yellow-500  items-center flex gap-1 justify-center select-none w-full text-12px">
-      Amethyst Web is heavily disfunctional due to
+      v-if="amethyst.getCurrentPlatform() === 'web'"
+      class="h-6 bg-yellow-500  items-center flex gap-1 justify-center select-none w-full text-12px"
+    >
+      Amethyst Web is heavily disfunctional due to 
       Chrome's security policies regarding filesystem access, for the best experience <a
-        href="https://github.com/Geoxor/amethyst/releases/latest" target="_blank"> <strong
-          class="duration-user-defined underline cursor-pointer hover:text-primary-800">download the native app</strong>
-      </a>
+        href="https://github.com/Geoxor/amethyst/releases/latest"
+        target="_blank"
+      > <strong
+        class="duration-user-defined underline cursor-pointer hover:text-primary-800"
+      >download the native app</strong> </a> 
     </div>
-    <top-bar v-if="amethyst.getCurrentPlatform() === 'desktop'" class="mt-8" />
+    <top-bar v-if="amethyst.getCurrentPlatform() === 'desktop'" />
     <context-menu v-if="useContextMenu().state.isVisible" />
-
     <div
       v-if="amethyst.getCurrentPlatform() === 'mobile'"
       class="w-full absolute bottom-0 z-10 "
     >
       <div
-        class="p-2 rounded-t-24px overflow-hidden drop-shadow-2xl flex bg-surface-700 justify-between"
+        class="p-2 rounded-t-24px truncate drop-shadow-2xl flex bg-surface-700 justify-between"
       > 
         <navigation-button
           :icon="AmethystIcon"
@@ -153,18 +159,24 @@ v-if="amethyst.getCurrentPlatform() === 'web'"
           mobile
         />
 
-      <navigation-button v-if="amethyst.IS_DEV" icon="mdi:compass" mobile route-name="discovery" />
+        <navigation-button
+          :icon="AmethystIcon"
+          route-name="node-editor"
+          text="Node Editor"
+          mobile
+        />
 
-      <navigation-button icon="mdi:resistor-nodes" route-name="node-editor" mobile />
-
-      <navigation-button icon="ic:twotone-queue-music" route-name="queue" mobile />
-
-      <navigation-button icon="ic:twotone-settings" route-name="settings" mobile />
+        <navigation-button
+          :icon="AmethystIcon"
+          route-name="settings"
+          text="Settings"
+          mobile
+        />
+      </div>
     </div>
-
     <div class="h-full whitespace-nowrap flex flex-col justify-between">
       <div class="flex-1 flex h-full max-h-full relative">
-        <navigation-bar v-if="amethyst.getCurrentPlatform() == 'desktop'" />
+        <navigation-bar v-if="amethyst.getCurrentPlatform() !== 'mobile'" />
 
         <div class="flex flex-col w-full">
           <router-view class="truncate disable-select no-drag" />
@@ -175,7 +187,7 @@ v-if="amethyst.getCurrentPlatform() === 'web'"
       <playback-controls v-if="amethyst.state.settings.appearance.showPlaybackControls" />
     </div>
   </div>
-</template>
+</template> 
 
 <style lang="postcss">
 @import url(themes/amethyst-dark.css);
