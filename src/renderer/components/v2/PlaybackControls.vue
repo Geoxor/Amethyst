@@ -295,7 +295,7 @@ const editMeterContextMenuOption = (name :string) => [{
             id="volume"
             key="volume"
             v-model="amethyst.player.volume"
-            class="w-16 h-1.5"
+            class="w-16 h-1.5 rounded-full"
             :min="amethyst.player.minDb"
             :max="amethyst.player.maxDb"
             :step="0.1"
