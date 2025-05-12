@@ -1,4 +1,4 @@
-package com.example.app;
+package com.geoxor.amethyst;
 
 import com.getcapacitor.BridgeActivity;
 

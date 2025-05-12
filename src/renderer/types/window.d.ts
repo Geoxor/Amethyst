@@ -1,4 +1,5 @@
- 
+import { md5 } from "../../../src/main/utility.ts";
+
 declare global {
 
 	interface Import {
@@ -15,6 +16,7 @@ declare global {
     os: typeof import("os");
     path: typeof import("path");
     dialog: import('electron').Dialog;
+		md5: typeof md5
     electron: {
 			isMac: boolean, 
 			isWindows: boolean, 

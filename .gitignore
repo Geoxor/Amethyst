@@ -1,6 +1,7 @@
 # Logs
 logs
 *.log
+.env
 
 # Runtime data
 pids
@@ -34,3 +35,4 @@ npm-debug.log.*
 
 release
 dist
+resources/android/**/*
