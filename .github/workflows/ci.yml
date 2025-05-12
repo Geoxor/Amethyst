@@ -198,8 +198,10 @@ jobs:
       - name: List APK output directory
         run: ls -R src/android/app/build/outputs/apk/
 
-      - name: Move file
-        run: yarn move-file ./src/android/app/build/outputs/apk/release/app-release.apk ./release/build/amethyst.apk
+      - name: Rename APK with version and move
+        run: |
+          VERSION=$(jq -r .version package.json)
+          mv ./src/android/app/build/outputs/apk/release/app-release.apk "./release/build/amethyst-v${VERSION}.apk"
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
