@@ -14,10 +14,10 @@ const router = useRouter();
     :class="[
       isActive && 'active',
       mobile ? 'rounded-full w-full justify-center p-4 py-3' : 'rounded-r-8px p-4',
-      amethyst.state.window.isFocused ? 'text-text_title' : 'text-text_subtitle'
+      amethyst.state.window.isFocused ? 'text-text-title' : 'text-text-subtitle'
     ]"
 
-    class="duration-user-defined items-center gap-2 transition-colors duration-user-defined flex relative disable-select no-drag text-text_title "
+    class="duration-user-defined items-center gap-2 transition-colors duration-user-defined flex relative disable-select no-drag text-text-title"
     @click="router.push({ name: routeName })"
   >
     <icon
@@ -31,12 +31,12 @@ const router = useRouter();
 <style scoped lang="postcss">
 
 button:hover:not(.active) {
-  @apply bg-accent bg-opacity-15 text-accent;
+  @apply bg-accent/15 text-accent;
   & h1, p {
     @apply text-accent;
   }
   & p {
-    @apply text-opacity-75;
+    @apply text-accent/75;
   }
 }
 

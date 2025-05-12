@@ -14,7 +14,7 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
       :class="[amethyst.getCurrentPlatform() === 'mobile' ? 'rounded-full ' : 'rounded-4px']"
       class="absolute -top-1 left-[calc(50%-14px)] transform-gpu -translate-x-1/2 translate-y-1/2"
     >
-      <div class="flex text-primary-800 gap-2 items-center">
+      <div class="flex gap-2 items-center">
         <!-- <icon
             icon="ic:round-favorite"
             class="h-5 w-5 opacity-75 hover:opacity-100"
@@ -29,7 +29,7 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
           <icon
             v-if="!amethyst.player.getCurrentTrack()?.isFavorited"
             icon="ic:baseline-favorite-border"
-            class="h-5 w-5 cursor-pointer opacity-75 hover:opacity-100 hover:text-text_title"
+            class="h-5 w-5 cursor-pointer opacity-75 hover:opacity-100 hover:text-text-title"
             @click.stop.prevent="amethyst.player.getCurrentTrack()?.toggleFavorite()"
           />
           <icon

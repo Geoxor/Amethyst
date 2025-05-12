@@ -25,7 +25,7 @@
 
 *.font-zen-dots {
   font-family: "zen-dots";
-  @apply text-20px;
+  @apply text-20px font-normal;
 }
 
 *.font-aseprite * {
@@ -65,7 +65,7 @@
 }
 
 * {
-  @apply !outline-none;
+  @apply !outline-none border-none box-border;
   cursor: url("./icons/cursors/default.png"), auto !important;
 }
 
@@ -74,14 +74,29 @@ html,
 body,
 #app,
 #app {
-  @apply bg-surface-900;
+  @apply bg-surface-900 p-0 m-0;
+}
+
+p {
+  @apply p-0 m-0 text-[11px];
+}
+
+h1,
+h2,
+h3,
+ul {
+  @apply p-0 m-0 text-[12px];
+}
+
+button, input {
+  @apply bg-transparent text-text-title p-0 m-0 ;
 }
 
 html,
 body,
 #app,
 #app>div {
-  @apply h-full w-full;
+  @apply h-full w-full ;
 }
 
 *::-webkit-scrollbar {
@@ -114,7 +129,7 @@ body,
 }
 
 .clickable {
-  @apply cursor-pointer border-1 border-transparent hover:bg-opacity-10;
+  @apply cursor-pointer border-solid border-1 border-transparent;
 }
 
 .disable-select {

@@ -14,11 +14,11 @@ defineProps<{
     :placement="placement"
     :arrow="true"
     class="tooltip mt-1"
-    :class="borderless ? '' : ' border-1 border-surface-600 bg-surface-800 p-2' "
+    :class="borderless ? '' : ' border-solid border-1 border-surface-600 bg-surface-800 p-2' "
   >
     <slot />
     <template #content>
-      <p class=" text-text_title text-13px">
+      <p class=" text-text-title text-13px">
         {{ text }}
       </p>
       <slot name="content" />
@@ -31,7 +31,7 @@ defineProps<{
   @apply z-2;
 }
 .tooltip.popover {
-  @apply text-text_title shadow-xl;
+  @apply text-text-title shadow-xl;
 }
 
 </style>

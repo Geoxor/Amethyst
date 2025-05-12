@@ -91,7 +91,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 </script>
 
 <template>
-  <div class="text-13px text-text_title min-h-0 h-full flex flex-col text-left relative select-none ">
+  <div class="text-13px text-text-title min-h-0 h-full flex flex-col text-left relative select-none ">
     <div
       class="flex text-left font-bold sticky top-0 z-10 bg-surface-900 py-2 px-2 columnHeader min-h-36px pr-5"
       :class="[amethyst.player.queue.currentSortingDirection.value]"
@@ -392,7 +392,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
         <div
           class="row flex items-center px-2 rounded-4px"
           :class="[
-            `h-[${ITEM_HEIGHT}px]`,
+            `max-h-[${ITEM_HEIGHT}px] h-[${ITEM_HEIGHT}px]`,
             isHoldingControl && 'control cursor-external-pointer',
             item.hasErrored && 'opacity-50 not-allowed',
             item.deleted && 'opacity-50 !text-rose-400 not-allowed',
@@ -433,7 +433,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 
           <div
             v-if="columns.cover"
-            class="flex-none w-[32px]"
+            class="flex-none w-[32px] h-[24px]"
           >
             <loading-icon 
               v-if="item.isLoading"
@@ -499,7 +499,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
             class="flex-none w-[70px] pl-4"
           >
             <button
-              class="cursor-pointer hover:text-text_title"
+              class="cursor-pointer hover:text-text-title"
               @click.stop.prevent="amethyst.showItem(item.path)"
             >
               <icon
@@ -596,7 +596,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
             <icon
               icon="ic:baseline-favorite-border"
               class="h-4 w-4 cursor-pointer "
-              :class="[item.isFavorited ? 'text-alert-color' :'hover:text-text_title']"
+              :class="[item.isFavorited ? 'text-alert-color' :'hover:text-text-title']"
               @click.stop.prevent="item.toggleFavorite()"
             />
           </div>
@@ -648,7 +648,7 @@ td {
 }
 
 tr {
-  @apply overflow-hidden;
+  @apply truncate;
 }
 
 .cover {
@@ -678,14 +678,14 @@ tr {
 }
 
 .row {
-  @apply overflow-hidden text-text_subtitle ;
+  @apply truncate text-text-subtitle ;
 
   & > div {
-    @apply overflow-hidden overflow-ellipsis;
+    @apply truncate text-ellipsis;
   }
 
   &:hover {
-    @apply text-accent bg-surface-400 bg-opacity-20;
+    @apply text-accent bg-surface-400/20;
   }
 
   &.control:hover {
@@ -693,16 +693,16 @@ tr {
   }
 
   &.currentlyPlaying {
-    @apply text-primary bg-primary bg-opacity-10;
+    @apply text-primary bg-primary/10;
     &:hover {
-      @apply bg-opacity-15;
+      @apply bg-primary/15;
     }
   }
 
   &.currentlyInspecting {
-    @apply text-inspector-color bg-inspector-color bg-opacity-10;
+    @apply text-inspector-color bg-inspector-color/10;
     &:hover {
-      @apply bg-opacity-15;
+      @apply bg-inspector-color/15;
     }
   }
 }

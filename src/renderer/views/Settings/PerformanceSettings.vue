@@ -39,7 +39,7 @@ const {performance} = amethyst.state.settings;
 
 <template>
   <div class="w-full flex gap-2">
-    <div class="p-4 w-min rounded-8px bg-settings-setting-background text-text_title flex gap-4 items-center justify-between">
+    <div class="p-4 w-min rounded-8px bg-settings-setting-background text-text-title flex gap-4 items-center justify-between">
       <div class="flex-col flex justify-center h-full gap-2">
         <subtitle-text
           :text="$t('settings.performance.minimum_framerate')"
@@ -62,7 +62,7 @@ const {performance} = amethyst.state.settings;
         <title-text :text="`${Number.isFinite(maxFps) && maxFps != -1 ? `${maxFps} fps` : 'loading'}`" />
       </div>
     </div>
-    <div class="p-4 w-min rounded-8px bg-settings-setting-background text-text_title flex flex-col gap-4">
+    <div class="p-4 w-min rounded-8px bg-settings-setting-background text-text-title flex flex-col gap-4">
       <div class="flex-col flex justify-center h-full gap-2">
         <subtitle-text
           :text="$t('settings.performance.audio_latency')"

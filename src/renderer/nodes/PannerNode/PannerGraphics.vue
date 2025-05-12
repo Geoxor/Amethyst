@@ -4,7 +4,7 @@ defineProps<{pan: number}>();
 </script>
 
 <template>
-  <div class="relative overflow-hidden w-min">
+  <div class="relative truncate w-min">
     <svg
       width="188"
       height="88"

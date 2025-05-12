@@ -105,13 +105,18 @@ v-else class="flex fixed flex-col bg-surface-900"
   
   >
     <div
-v-if="amethyst.state.window.isShowingBigCover"
-      class="absolute select-none rounded-8px w-full sm:w-auto max-w-3/4 max-h-3/4 overflow-hidden top-1/2 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2 z-50"
-      style="aspect-ratio: 1/1;">
-      <cover-art
-:url="ambientBackgroundImage" class="w-full drop-shadow-2xl z-30" @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
-        { title: 'Export cover...', icon: 'ic:twotone-add-photo-alternate', action: () => amethyst.player.getCurrentTrack()?.exportCover() },
-      ]);" @click="amethyst.state.window.isShowingBigCover = !amethyst.state.window.isShowingBigCover" />
+      v-if="amethyst.state.window.isShowingBigCover"
+      class="absolute select-none rounded-8px w-full sm:w-auto max-w-3/4 max-h-3/4 truncate top-1/2 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2 z-50"
+      style="aspect-ratio: 1/1;"
+    >
+      <cover-art 
+        :url="ambientBackgroundImage"
+        class="w-full drop-shadow-2xl z-30"
+        @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
+          { title: 'Export cover...', icon: 'ic:twotone-add-photo-alternate', action: () => amethyst.player.getCurrentTrack()?.exportCover() },
+        ]);"
+        @click="amethyst.state.window.isShowingBigCover = !amethyst.state.window.isShowingBigCover"
+      />
 
       <icon
 icon="ic:twotone-close" class="utilityButton absolute top-3 right-3 cursor-pointer"
@@ -135,10 +140,18 @@ v-if="amethyst.getCurrentPlatform() === 'web'"
     <context-menu v-if="useContextMenu().state.isVisible" />
 
     <div
-v-if="amethyst.getCurrentPlatform() === 'mobile'"
-      class="p-2 absolute pb-14 left-0 bottom-0 rounded-32px z-30 w-full overflow-hidden drop-shadow-2xl flex bg-surface-700 justify-between">
-
-      <navigation-button icon="ic:twotone-mic-external-on" route-name="audio-monitor" mobile />
+      v-if="amethyst.getCurrentPlatform() === 'mobile'"
+      class="w-full absolute bottom-0 z-10 "
+    >
+      <div
+        class="p-2 rounded-t-24px overflow-hidden drop-shadow-2xl flex bg-surface-700 justify-between"
+      > 
+        <navigation-button
+          :icon="AmethystIcon"
+          route-name="queue"
+          text="Queue"
+          mobile
+        />
 
       <navigation-button v-if="amethyst.IS_DEV" icon="mdi:compass" mobile route-name="discovery" />
 
@@ -154,7 +167,7 @@ v-if="amethyst.getCurrentPlatform() === 'mobile'"
         <navigation-bar v-if="amethyst.getCurrentPlatform() == 'desktop'" />
 
         <div class="flex flex-col w-full">
-          <router-view class="overflow-hidden disable-select no-drag" />
+          <router-view class="truncate disable-select no-drag" />
         </div>
         <inspector-bar v-if="useInspector().state.isVisible" />
       </div>

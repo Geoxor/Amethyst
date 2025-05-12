@@ -24,7 +24,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
 
 <template>
   <div
-    class="duration-user-defined flex select-none h-full text-text_title gap-2 relative rounded-4px hover:border-primary-800 border-surface-500 flex gap-2 bg-surface-800 border-1 p-2"
+    class="duration-user-defined flex select-none h-full text-text-title gap-2 relative rounded-4px hover:border-primary-800 border-solid border-1 border-surface-500 flex gap-2 bg-surface-800  p-2"
     @contextmenu.stop="handleContextMenu"
   >
     <quick-menu
@@ -53,7 +53,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
         </h1>
         <base-chip
           v-if="node.isBypassed"
-          class="animate-pulse text-alert-color bg-alert-color bg-opacity-15"
+          class="animate-pulse text-alert-color bg-alert-color/15"
         >
           {{ $t('node.bypassed') }}
         </base-chip>

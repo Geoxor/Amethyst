@@ -10,7 +10,7 @@ import GenericBlob from "./GenericBlob.vue";
   >
     <icon
       icon="ic:twotone-volume-up" 
-      class="h-6 w-6 text-text_title"
+      class="h-6 w-6 text-text-title"
     />
   </generic-blob>
 </template>

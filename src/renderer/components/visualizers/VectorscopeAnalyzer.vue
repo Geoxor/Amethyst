@@ -87,7 +87,7 @@ onUnmounted(() => shouldStopRendering = true);
 <template>
   <canvas
     :id="`vectorscope-${randomId}`"
-    :class="[amethyst.state.settings.metering.vectorscope.lissajous && 'lissajous bg-slider-background bg-opacity-50']"
+    :class="[amethyst.state.settings.metering.vectorscope.lissajous && 'lissajous bg-slider-background/50']"
     class="transform rotate-90"
     :width="width"
     :height="height"
