@@ -43,7 +43,7 @@ const onClick = () => {
     </div>
     <div
       v-if="isShowing"
-      class="absolute z-30 flex select-none items-center bg-surface-800 shadow-xl rounded-6px left-0 mt-1 p-1 flex-col w-96"
+      class="absolute z-30 flex select-none items-center bg-surface-800 shadow-xl rounded-8px border-solid border-1 border-surface-600 left-0 mt-1 py-1 flex-col w-96"
       @click="onClick"
     >
       <slot />
