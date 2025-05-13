@@ -5,14 +5,14 @@ import globals from 'globals';
 import typescriptEslint from 'typescript-eslint';
 
 export default typescriptEslint.config(
-  { ignores: ['*.d.ts', '**/coverage', '**/dist'] },
   {
     extends: [
       eslint.configs.recommended,
       ...typescriptEslint.configs.recommended,
       ...eslintPluginVue.configs['flat/recommended'],
     ],
-    files: ['**/*.ts', '**/*.vue', '**/**/*.ts', '**/**/*.vue'],
+    ignores: ['**/*.d.ts', '**/*.js', '**/coverage', '**/dist'],
+    files: ['**/*.ts', '**/*.vue'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
@@ -40,7 +40,7 @@ export default typescriptEslint.config(
         }
       ],
       '@typescript-eslint/no-unused-expressions': 'off',
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': 'warn',
       '@typescript-eslint/ban-ts-comment': 'off',
       '@typescript-eslint/no-empty-object-type': 'warn',
@@ -55,16 +55,16 @@ export default typescriptEslint.config(
       'prefer-const': 'warn',
       'no-empty': 'off'
     },
-    "settings": {
+    settings: {
       "import/resolver": {
-        "alias": {
-          "map": [
+        alias: {
+          map: [
             [
               "@",
               "./src/renderer"
             ]
           ],
-          "extensions": [
+          extensions: [
             ".ts",
             ".vue"
           ]
