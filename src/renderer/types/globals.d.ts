@@ -1,4 +1,4 @@
-import { md5 } from "../../../src/main/utility.ts";
+import { md5 } from "../../main/utility.ts";
 
 declare global {
 

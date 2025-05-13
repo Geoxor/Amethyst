@@ -21,12 +21,7 @@
   },
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "always",
-    "source.organizeImports": "never"
-  },
-  "[vue]": {
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": "always"
-    },
+    "source.organizeImports": "always"
   },
   "typescript.inlayHints.variableTypes.enabled": false,
   "typescript.inlayHints.parameterNames.enabled": "all",
