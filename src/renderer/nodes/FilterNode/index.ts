@@ -1,9 +1,9 @@
 import { ref } from "vue";
 
-import type { NodeParameters, NumberNodeParameter, StringNodeParameter } from "@/logic/audio";
-import { AmethystAudioNode } from "@/logic/audio";
-import type { NodeProperties } from "@/logic/audioManager";
-import { logValueToPercentage } from "@/logic/math";
+import type { NodeParameters, NumberNodeParameter, StringNodeParameter } from "@/logic/audio.js";
+import { AmethystAudioNode } from "@/logic/audio.js";
+import type { NodeProperties } from "@/logic/audioManager.js";
+import { logValueToPercentage } from "@/logic/math.js";
 
 import component from "./component.vue";
 

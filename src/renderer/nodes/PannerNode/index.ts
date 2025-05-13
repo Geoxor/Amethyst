@@ -1,7 +1,7 @@
-import type { NodeParameters, NumberNodeParameter } from "@/logic/audio";
-import { AmethystAudioNode } from "@/logic/audio";
-import type { NodeProperties } from "@/logic/audioManager";
-import { map } from "@/logic/math";
+import type { NodeParameters, NumberNodeParameter } from "@/logic/audio.js";
+import { AmethystAudioNode } from "@/logic/audio.js";
+import type { NodeProperties } from "@/logic/audioManager.js";
+import { map } from "@/logic/math.js";
 
 import component from "./component.vue";
 

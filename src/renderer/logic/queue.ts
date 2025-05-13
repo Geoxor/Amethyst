@@ -1,5 +1,5 @@
 import { secondsToHuman } from "@shared/formating.js";
-import PromisePool from "@supercharge/promise-pool";
+import {PromisePool} from "@supercharge/promise-pool";
 import { useLocalStorage } from "@vueuse/core";
 import type { Ref } from "vue";
 import { ref } from "vue";
@@ -40,7 +40,7 @@ export type PossibleSortingMethods = keyof typeof COMPARATORS_BY_METHOD;
 
 export class Queue {
   private savedQueue = useLocalStorage<string[]>("queuev2", []);
-  private list = ref(new Map<string, Track>());
+  private list: Ref<Map<string, Track>> = ref(new Map());
 
   public totalSize = ref(0);
   public totalDuration = ref(0);
@@ -105,7 +105,6 @@ export class Queue {
    * Fetches all async data for each track concurrently
    */
   public async fetchAsyncData(force?: boolean){
-    console.time("[fetchAsyncData]");
     const tracks = force ? this.getList() : this.getList().filter(track => !track.isLoaded);
     const pool = await PromisePool
 			.for(tracks)
@@ -114,11 +113,10 @@ export class Queue {
         await track.fetchAsyncData(force);
       });
 
-      console.timeEnd("[fetchAsyncData]");
     return pool;
   }
 
-  public getTrack(idx: number){
+  public getTrack(idx: number) {
     return this.getList()[idx];
   }
 

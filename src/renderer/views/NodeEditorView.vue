@@ -189,7 +189,7 @@ const handleOpenFile = async () => {
       amethyst.player.nodeManager.loadGraph(JSON.parse(jsonString), "file://" + result.filePaths[0]);
 
       // Fixes volume resetting to 100% when loading a new graph
-      amethyst.player.setVolume(amethyst.player.volume.value);
+      amethyst.player.setVolume(amethyst.player.volume);
     });
 };
 
@@ -206,7 +206,7 @@ const handleSaveFile = async () => {
 
 const handleReset = () => {
   amethyst.player.nodeManager.reset();
-  amethyst.player.setVolume(amethyst.player.volume.value);
+  amethyst.player.setVolume(amethyst.player.volume);
 };
 
 const removeSelectedNodes = dash.value?.getSelectedNodes.forEach((nodeElement: any) => {
