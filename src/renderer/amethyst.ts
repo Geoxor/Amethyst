@@ -570,7 +570,7 @@ export class Amethyst extends AmethystBackend {
     this.state.window.isFullscreen = windowState.isFullscreen;
   };
 
-  public async updateAppColors() {
+  public async updateMobileAppColors() {
     await StatusBar.setBackgroundColor({color: getThemeColorHex('--surface-900')});
     await NavigationBar.setColor({color: getThemeColorHex('--surface-700')});
   }
@@ -578,13 +578,13 @@ export class Amethyst extends AmethystBackend {
   private async initMobile() {
     switch (this.getCurrentOperatingSystem()) {
       case "android":
-        this.updateAppColors()
+        this.updateMobileAppColors()
         break;
       default:
         break;
     }
 
-    this.state.on("theme:change", () => this.updateAppColors())
+    this.state.on("theme:change", () => this.updateMobileAppColors())
   }
 
   public async checkForUpdates() {
