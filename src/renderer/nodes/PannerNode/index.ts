@@ -1,8 +1,9 @@
 import type { NodeParameters, NumberNodeParameter } from "@/logic/audio";
 import { AmethystAudioNode } from "@/logic/audio";
 import type { NodeProperties } from "@/logic/audioManager";
-import component from "./component.vue";
 import { map } from "@/logic/math";
+
+import component from "./component.vue";
 
 interface PannerNodeParameters extends NodeParameters {
   pan: NumberNodeParameter;

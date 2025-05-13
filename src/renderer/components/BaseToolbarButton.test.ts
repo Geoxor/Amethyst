@@ -1,5 +1,6 @@
 import { expect, test } from "vitest";
 import { render } from "vitest-browser-vue";
+
 import BaseToolbarButton from "./BaseToolbarButton.vue";
 
 test("BaseToolbarButton.vue", async () => {

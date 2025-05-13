@@ -1,9 +1,10 @@
 import { Position } from "@vue-flow/core";
+import { v4 as uuidv4 } from "uuid";
 import type { DefineComponent} from "vue";
 import { markRaw } from "vue";
-import type { Connection, NodeProperties } from "@/logic/audioManager.js";
-import { v4 as uuidv4 } from "uuid";
+
 import { amethyst } from "@/amethyst.js";
+import type { Connection, NodeProperties } from "@/logic/audioManager.js";
  
 export interface NodeParameter<T> {
   type: "number" | "string",

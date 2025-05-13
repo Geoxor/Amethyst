@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
+
 import GenericBlob from "./GenericBlob.vue";
 
 </script>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
+
 import BaseTooltip from "./BaseTooltip.vue";
 
 defineProps<{ tooltipText?: string, active?: boolean, icon?: string, text?: string }>();

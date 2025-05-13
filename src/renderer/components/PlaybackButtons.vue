@@ -1,8 +1,10 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst.js";
-import { LoopMode } from "@/logic/player";
 import { Icon } from "@iconify/vue";
 import { computed } from "vue";
+
+import { amethyst } from "@/amethyst.js";
+import { LoopMode } from "@/logic/player";
+
 import BaseTooltip from "./BaseTooltip.vue";
 
 const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()?.isFavorited);

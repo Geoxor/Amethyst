@@ -1,12 +1,13 @@
-import { useLocalStorage } from "@vueuse/core";
-import { reactive, ref, watch } from "vue";
-import type { MediaSourceType } from "@/logic/mediaSources.js";
 import { FONT_WEIGHTS } from "@shared/constants.js";
-import { EventEmitter } from "@/logic/eventEmitter.js";
-import { ShaderManager } from "@/shaders/ShaderManager.js";
+import { useLocalStorage } from "@vueuse/core";
 import type { RtAudioDeviceInfo } from "audify";
+import { reactive, ref, watch } from "vue";
+
+import { EventEmitter } from "@/logic/eventEmitter.js";
 import { DEFAULT_SETTINGS } from "@/logic/settings.js";
-import { Amethyst, amethyst } from "./amethyst.js";
+import { ShaderManager } from "@/shaders/ShaderManager.js";
+
+import { Amethyst } from "./amethyst.js";
 
 function deepMerge<T>(target: T, source: Partial<T>): T {
 	if (typeof target !== "object" || typeof source !== "object" || !target || !source) {

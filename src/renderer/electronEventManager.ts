@@ -1,4 +1,5 @@
 import type { IMetadata } from "@shared/types.js";
+
 import type { State } from "./state.js";
 export class ElectronEventManager {
   public ipc = window.electron.ipcRenderer;

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Slider from "@vueform/slider";
 import { useVModel } from "@vueuse/core";
+
 import BaseChip from "../BaseChip.vue";
 
 const props = defineProps<{ modelValue: number, step: number, prefix?: string, suffix: string, max: number, min: number}>();

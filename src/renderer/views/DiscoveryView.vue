@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { onMounted } from "vue";
+
 import { amethyst } from "@/amethyst.js";
 import BigButton from "@/components/BigButton.vue";
 import DiscoveryFeed from "@/components/DiscoveryFeed.vue";
 import RouteHeader from "@/components/v2/RouteHeader.vue";
-import { onMounted } from "vue";
 onMounted(() => {
   amethyst.analytics.getDiscoveryTracks();
 });

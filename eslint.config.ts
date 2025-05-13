@@ -1,5 +1,6 @@
 import eslint from '@eslint/js';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import simpleImportSort from "eslint-plugin-simple-import-sort";
 import eslintPluginVue from 'eslint-plugin-vue';
 import globals from 'globals';
 import typescriptEslint from 'typescript-eslint';
@@ -21,7 +22,12 @@ export default typescriptEslint.config(
         parser: typescriptEslint.parser,
       },
     },
+    plugins: {
+      "simple-import-sort": simpleImportSort,
+    },
     rules: {
+      "simple-import-sort/imports": "warn",
+      "simple-import-sort/exports": "warn",
       'vue/no-mutating-props': 'off',
       "vue/prefer-import-from-vue": "warn",
       "vue/html-closing-bracket-spacing": "warn",

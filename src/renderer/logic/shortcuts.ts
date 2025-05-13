@@ -1,8 +1,8 @@
-import { amethyst } from "@/amethyst.js";
-
 import type { UseKeyModifierReturn} from "@vueuse/core";
 import { onKeyStroke, useKeyModifier, useLocalStorage } from "@vueuse/core";
 import { computed } from "vue";
+
+import { amethyst } from "@/amethyst.js";
 
 export type ShortcutBindings = Record<string, [string[], (e: KeyboardEvent) => void]>;
 export type CustomShortcutBindings = Record<string, string[]>;

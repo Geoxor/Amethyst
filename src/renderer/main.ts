@@ -1,12 +1,13 @@
 
-import {i18n} from "@/amethyst.js";
-import App from "@/App.vue";
-// @ts-ignore no types
-import {RecycleScroller} from "vue-virtual-scroller";
+import 'virtual:uno.css';
 import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
-import 'virtual:uno.css'
 
 import { createApp } from "vue";
+// @ts-ignore no types
+import { RecycleScroller } from "vue-virtual-scroller";
+
+import { i18n } from "@/amethyst.js";
+import App from "@/App.vue";
 import { router } from "@/router.js";
 
 const app = createApp(App);

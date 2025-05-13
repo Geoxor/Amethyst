@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst.js";
 import { onBeforeUnmount, onMounted, ref } from "vue";
+
+import { amethyst } from "@/amethyst.js";
+
 import SubtitleText from "./SubtitleText.vue";
 import TitleText from "./TitleText.vue";
 const props = defineProps<{ title?: string, subtitle?: string; alignment?: "left" | "center" | "right", subtitleEllipses?: boolean }>();

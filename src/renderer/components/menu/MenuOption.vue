@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import { Icon } from "@iconify/vue";
+
 import BaseKeyboardButton from "../input/BaseKeyboardButton.vue";
 import TitleText from "../v2/TitleText.vue";
 defineProps<{

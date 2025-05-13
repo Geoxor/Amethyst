@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { Icon } from "@iconify/vue";
+import { Vibrant } from "node-vibrant/browser";
+import { onMounted, onUnmounted, ref, watch } from "vue";
+
 import { amethyst } from "@/amethyst.js";
 import BackgroundImage from "@/components/BackgroundImage.vue";
 import { ContextMenu, useContextMenu } from "@/components/ContextMenu";
@@ -11,9 +15,6 @@ import PlaybackControls from "@/components/v2/PlaybackControls.vue";
 import SpectrumAnalyzerComposite from "@/components/visualizers/SpectrumAnalyzerComposite.vue";
 import { getThemeColor } from "@/logic/color";
 import type { Track } from "@/logic/track";
-import { Icon } from "@iconify/vue";
-import { Vibrant } from "node-vibrant/browser";
-import { onMounted, onUnmounted, ref, watch } from "vue";
 
 const ambientBackgroundImage = ref("");
 

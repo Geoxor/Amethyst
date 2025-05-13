@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import { onKeyStroke } from "@vueuse/core";
 import { computed, inject } from "vue";
+
 import TitleText from "../v2/TitleText.vue";
 
 const props = defineProps<{ title: string }>();

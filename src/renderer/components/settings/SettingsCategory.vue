@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst.js";
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
+
+import { amethyst } from "@/amethyst.js";
+
 import BigButton from "../BigButton.vue";
 
 const route = useRoute();

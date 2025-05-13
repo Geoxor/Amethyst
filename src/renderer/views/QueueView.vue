@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst.js";
+import { Icon } from "@iconify/vue";
+import { useLocalStorage } from "@vueuse/core";
+import { onMounted, onUnmounted, watch } from "vue";
 
+import { amethyst } from "@/amethyst.js";
 import LazyList from "@/components/LazyList.vue";
 import RouteHeader from "@/components/v2/RouteHeader.vue";
 import SearchInput from "@/components/v2/SearchInput.vue";
 import type { Track } from "@/logic/track";
-import { Icon } from "@iconify/vue";
-import { useLocalStorage } from "@vueuse/core";
-import { onMounted, onUnmounted, watch } from "vue";
 
 const filterText = useLocalStorage("filterText", "");
 

@@ -1,22 +1,21 @@
  
+import chalk from "chalk";
+import type { FSWatcher } from "chokidar";
+import chokidar from "chokidar";
+import branchName from "current-git-branch";
+import type { Event } from "electron";
+import electron, { app, BrowserWindow, dialog, ipcMain, nativeImage, Notification, shell } from "electron";
+import windowStateKeeper from "electron-window-state";
 import fs from "fs";
 import os from "os";
 import path from "path";
-import type { Event} from "electron"; 
-import electron, { app, BrowserWindow, dialog, ipcMain, Notification, shell, nativeImage } from "electron";
-import type { IRichPresenceInfo, FormatIcons } from "./discord.js";
-import { Discord } from "./discord.js";
-import {ALLOWED_AUDIO_EXTENSIONS} from "../shared/constants.js";
-import {sleep} from "../shared/logic.js";
-import { IS_DEV, store } from "./main.js";
-import windowStateKeeper from "electron-window-state";
-import type { FSWatcher } from "chokidar";
-import chokidar from "chokidar";
-import chalk from "chalk";
-import { __filename, __dirname } from "./utility.js";
-import { getWindow } from "./main.js";
 
-import branchName from "current-git-branch";
+import { ALLOWED_AUDIO_EXTENSIONS } from "../shared/constants.js";
+import { sleep } from "../shared/logic.js";
+import type { FormatIcons, IRichPresenceInfo } from "./discord.js";
+import { Discord } from "./discord.js";
+import { getWindow, IS_DEV, store } from "./main.js";
+import { __dirname } from "./utility.js";
 
 ipcMain.handle("get-branch-name", () => {
   return branchName();

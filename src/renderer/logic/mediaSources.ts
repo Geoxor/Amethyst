@@ -1,9 +1,10 @@
 import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants.js";
+import { v4 as uuidv4 } from "uuid";
 import type { Ref} from "vue";
 import { ref } from "vue";
+
 import type { Amethyst } from "@/amethyst.js";
 import { EventEmitter } from "@/logic/eventEmitter.js";
-import { v4 as uuidv4 } from "uuid";
 
 export enum MediaSourceType {
   LocalFolder = "settings.media_source_type.local_folder",

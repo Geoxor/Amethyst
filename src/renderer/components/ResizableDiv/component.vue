@@ -2,8 +2,9 @@
 import {useLocalStorage} from "@vueuse/core";
 import type { Ref} from "vue";
 import {onMounted, ref} from "vue";
-import {type ResizeSide, type Direction, getResizeDirection} from ".";
 import {computed} from "vue";
+
+import {type Direction, getResizeDirection,type ResizeSide} from ".";
 import ResizeHandle from "./ResizeHandle.vue";
 
 const props = defineProps<{

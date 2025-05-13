@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { Icon } from "@iconify/vue";
+import { useRouter } from "vue-router";
+
 import { amethyst } from "@/amethyst.js";
 import AlsaLogo from "@/icons/logos/AlsaLogo.vue";
 import AppleLogo from "@/icons/logos/AppleLogo.vue";
@@ -17,8 +20,7 @@ import RealtekLogo from "@/icons/logos/RealtekLogo.vue";
 import SoundIDLogo from "@/icons/logos/SoundIDLogo.vue";
 import SteamLogo from "@/icons/logos/SteamLogo.vue";
 import TanchjimLogo from "@/icons/logos/TanchjimLogo.vue";
-import { Icon } from "@iconify/vue";
-import { useRouter } from "vue-router";
+
 import BlobLine from "./BlobLine.vue";
 import GenericBlob from "./GenericBlob.vue";
 const router = useRouter();

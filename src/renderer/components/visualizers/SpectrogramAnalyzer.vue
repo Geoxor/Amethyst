@@ -1,12 +1,13 @@
 <script setup lang="ts">
+import { VISUALIZER_BIN_COUNT } from "@shared/constants";
+import * as THREE from "three";
+import { watch } from "vue";
+
 import { amethyst } from "@/amethyst.js";
 import ShaderCanvas from "@/components/ShaderCanvas.vue";
 import { getThemeColorRgb } from "@/logic/color";
 import { logParabolicSpectrum, normalize8bit } from "@/logic/math";
 import { SpectrogramShader } from "@/shaders/components/SpectrogramShader";
-import { VISUALIZER_BIN_COUNT } from "@shared/constants";
-import * as THREE from "three";
-import { watch } from "vue";
 
 const props = defineProps<{
   node: AudioNode,

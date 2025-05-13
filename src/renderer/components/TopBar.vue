@@ -1,4 +1,8 @@
 <script lang="ts" setup>
+import { useFps } from "@vueuse/core";
+import { computed, onMounted, provide, ref } from "vue";
+import { useRouter } from "vue-router";
+
 import { amethyst } from "@/amethyst.js";
 import BaseChip from "@/components/BaseChip.vue";
 import ControlButtons from "@/components/input/ControlButtons.vue";
@@ -10,9 +14,6 @@ import LoadingIcon from "@/components/v2/LoadingIcon.vue";
 import TitleText from "@/components/v2/TitleText.vue";
 import AmethystIcon from "@/icons/AmethystIcon.vue";
 import { countDomElements, refreshWindow, smoothTween } from "@/logic/dom";
-import { useFps } from "@vueuse/core";
-import { computed, onMounted, provide, ref } from "vue";
-import { useRouter } from "vue-router";
 
 const min = ref(Number.POSITIVE_INFINITY);
 const max = ref(Number.NEGATIVE_INFINITY);

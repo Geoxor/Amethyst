@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst.js";
-import { useContextMenu } from "@/components/ContextMenu";
-import type { PossibleSortingMethods } from "@/logic/queue";
-import { trackContextMenuOptions, type Track } from "@/logic/track";
-import type { IContextMenuOption } from "@/state";
 import { Icon } from "@iconify/vue";
 import { useLocalStorage } from "@vueuse/core";
 import { computed } from "vue";
+
+import { amethyst } from "@/amethyst.js";
+import { useContextMenu } from "@/components/ContextMenu";
+import type { PossibleSortingMethods } from "@/logic/queue";
+import { type Track,trackContextMenuOptions } from "@/logic/track";
+import type { IContextMenuOption } from "@/state";
+
 import CoverArt from "./CoverArt.vue";
 import { useInspector } from "./Inspector";
 import NotApplicableText from "./NotApplicableText.vue";

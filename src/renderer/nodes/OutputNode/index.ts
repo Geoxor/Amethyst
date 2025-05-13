@@ -1,10 +1,12 @@
+import type { RtAudioDeviceInfo } from "audify";
+import { watch } from "vue";
+
+import { type Amethyst,amethyst} from "@/amethyst.js";
 import { AmethystAudioNode } from "@/logic/audio.js";
 import type { NodeProperties } from "@/logic/audioManager.js";
-import component from "./component.vue";
-import { amethyst, type Amethyst} from "@/amethyst.js";
-import { watch } from "vue";
 import { floatToInt16 } from "@/logic/math.js";
-import type { RtAudioDeviceInfo } from "audify";
+
+import component from "./component.vue";
 
 let hasWorkletStarted = false;
 let captureNode: AudioWorkletNode;

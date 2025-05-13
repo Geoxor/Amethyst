@@ -1,15 +1,15 @@
-import { describe, it, expect, vi } from "vitest";
+import { describe, expect, it, vi } from "vitest";
+
 import {
-  getLogIndex,
-  normalize8bit,
-  logParabolicSpectrum,
   fisherYatesShuffle,
   flattenArray,
-  percentToLogValue,
-  logValueToPercentage,
+  floatToInt16,
+  getLogIndex,
   infinityClamp,
-  mapValueToPercentage,
-  floatToInt16
+  logParabolicSpectrum,
+  logValueToPercentage,
+  normalize8bit,
+  percentToLogValue
 } from "@/logic/math.js";
 
 describe("getLogIndex", () => {

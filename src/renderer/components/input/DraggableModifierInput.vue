@@ -148,8 +148,9 @@ watch(model, () => {
   setTimeout(() => pop.value = false, 100);
 });
 
-import { clamp } from "@/logic/math";
 import { onClickOutside } from "@vueuse/core";
+
+import { clamp } from "@/logic/math";
 onClickOutside(modifier, () => isShowingInputElement.value = false);
 
 const isShowingInputElement = ref(false);

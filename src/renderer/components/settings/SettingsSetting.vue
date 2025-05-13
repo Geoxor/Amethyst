@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
 import { useSlots } from "vue";
+
 import BaseChip from "../BaseChip.vue";
 import TitleSubtitle from "../v2/TitleSubtitle.vue";
 defineProps<{subsetting?:boolean, title: string, description?: string, warning?:string, icon: string }>();

@@ -21,7 +21,7 @@
   },
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "always",
-    "source.organizeImports": "always"
+    "source.organizeImports": "never"
   },
   "typescript.inlayHints.variableTypes.enabled": false,
   "typescript.inlayHints.parameterNames.enabled": "all",

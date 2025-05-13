@@ -1,6 +1,7 @@
 import type { NodeParameters, NumberNodeParameter } from "@/logic/audio";
 import { AmethystAudioNode } from "@/logic/audio";
 import type { NodeProperties } from "@/logic/audioManager";
+
 import component from "./component.vue";
 
 interface GainNodeParameters extends NodeParameters{

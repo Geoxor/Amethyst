@@ -1,10 +1,10 @@
+import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import vue from "@vitejs/plugin-vue";
 import { join } from "path";
-import { defineConfig } from "vite";
-import { nodePolyfills } from "vite-plugin-node-polyfills";
-import VueI18nPlugin from "@intlify/unplugin-vue-i18n/vite";
 import path from "path";
 import UnoCSS from 'unocss/vite'
+import { defineConfig } from "vite";
+import { nodePolyfills } from "vite-plugin-node-polyfills";
 
 const PACKAGE_ROOT = __dirname;
 

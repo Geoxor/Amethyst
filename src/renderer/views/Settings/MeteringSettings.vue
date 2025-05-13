@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { FFT_SIZES } from "@shared/constants.js";
+
 import { amethyst } from "@/amethyst.js";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import DropdownInput from "@/components/v2/DropdownInput.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 import { SPECTRUM_TYPES } from "@/logic/settings.js";
-import { FFT_SIZES } from "@shared/constants.js";
 const {metering} = amethyst.state.settings;
 </script>
 

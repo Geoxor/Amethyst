@@ -1,6 +1,8 @@
-import fs from "fs";
-import {version, description, license} from "../package.json";
 import chalk from "chalk";
+import fs from "fs";
+
+import packageJson from "../package.json";
+const { version, description, license } = packageJson;
 
 const INSTALL_BINARY = `Amethyst-Setup-${version}.exe`;
 

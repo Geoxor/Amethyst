@@ -1,24 +1,25 @@
-import { Player } from "@/logic/player.js";
-import { MediaSession } from "@/logic/mediaSession.js";
-import { Shortcuts } from "@/logic/shortcuts.js";
-import { State } from "@/state.js";
-import { MediaSourceManager } from "@/logic/mediaSources.js";
 import { Capacitor } from "@capacitor/core";
 import { StatusBar } from "@capacitor/status-bar";
-import {NavigationBar} from "@hugotomazi/capacitor-navigation-bar";
-import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants.js";
-import type { OpenDialogReturnValue, SaveDialogReturnValue  } from "electron";
-import { ref, watch } from "vue";
-import { flattenArray } from "@/logic/math.js";
-import { Directory } from "@capacitor/filesystem";
-import { router } from "./router.js";
-import { createI18n } from "vue-i18n";
+import { NavigationBar } from "@hugotomazi/capacitor-navigation-bar";
 import messages from "@intlify/unplugin-vue-i18n/messages";
+import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants.js";
 import { useLocalStorage } from "@vueuse/core";
-import type { Track } from "@/logic/track.js";
+import type { OpenDialogReturnValue, SaveDialogReturnValue } from "electron";
+import { ref, watch } from "vue";
+import { createI18n } from "vue-i18n";
+
 import { Analytics } from "@/logic/analytics.js";
 import { EventEmitter } from "@/logic/eventEmitter.js";
+import { flattenArray } from "@/logic/math.js";
+import { MediaSession } from "@/logic/mediaSession.js";
+import { MediaSourceManager } from "@/logic/mediaSources.js";
+import { Player } from "@/logic/player.js";
+import { Shortcuts } from "@/logic/shortcuts.js";
+import type { Track } from "@/logic/track.js";
+import { State } from "@/state.js";
+
 import { getThemeColorHex } from "./logic/color.js";
+import { router } from "./router.js";
 
 export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale

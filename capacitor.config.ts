@@ -1,6 +1,7 @@
+import 'dotenv/config'
+
 import type { CapacitorConfig } from "@capacitor/cli";
 import ip from "ip";
-import 'dotenv/config'
 
 const commonConfig: CapacitorConfig = {
   appId: "com.example.app",

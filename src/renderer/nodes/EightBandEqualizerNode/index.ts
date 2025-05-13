@@ -1,6 +1,8 @@
+import { ref } from "vue";
+
 import { AmethystAudioNode } from "@/logic/audio";
 import type { NodeProperties } from "@/logic/audioManager";
-import { ref } from "vue";
+
 import component from "./component.vue";
 
 export class AmethystEightBandEqualizerNode extends AmethystAudioNode {

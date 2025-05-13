@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst.js";
 import { onMounted, onUnmounted, ref, watch } from "vue";
+
+import { amethyst } from "@/amethyst.js";
 const props = defineProps<{ node: AudioNode }>();
 const FLOOR = -120;
 const CHANNELS = 16;

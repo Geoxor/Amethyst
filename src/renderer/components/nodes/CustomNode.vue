@@ -1,12 +1,14 @@
 <script setup lang="ts">
+import { Icon } from "@iconify/vue";
+import { Handle, Position } from "@vue-flow/core";
+
 import { amethyst } from "@/amethyst.js";
 import { useContextMenu } from "@/components/ContextMenu";
 import QuickMenu from "@/components/nodes/QuickMenu.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import type { AmethystAudioNode } from "@/logic/audio";
 import type { IContextMenuOption } from "@/state";
-import { Icon } from "@iconify/vue";
-import { Handle, Position } from "@vue-flow/core";
+
 import BaseChip from "../BaseChip.vue";
 
 const props = defineProps<{ title: string, description?: string, node: AmethystAudioNode, meterless?: boolean }>();

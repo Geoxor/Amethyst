@@ -6,11 +6,13 @@
  * When running `yarn build` or `yarn build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import { Menu, app } from "electron";
-import { checkForUpdatesAndInstall, MainWindow } from "./mainWindow.js";
-import Store from "electron-store";
-import "./realtimeAudio.js";
 import "./drag-drop.js";
+import "./realtimeAudio.js";
+
+import { app, Menu } from "electron";
+import Store from "electron-store";
+
+import { checkForUpdatesAndInstall, MainWindow } from "./mainWindow.js";
 
 export const store = new Store();
 

@@ -1,9 +1,11 @@
+import { ref } from "vue";
+
 import type { NodeParameters, NumberNodeParameter, StringNodeParameter } from "@/logic/audio";
 import { AmethystAudioNode } from "@/logic/audio";
 import type { NodeProperties } from "@/logic/audioManager";
-import { ref } from "vue";
-import component from "./component.vue";
 import { logValueToPercentage } from "@/logic/math";
+
+import component from "./component.vue";
 
 interface FilterNodeParameters extends NodeParameters {
   frequency: NumberNodeParameter,

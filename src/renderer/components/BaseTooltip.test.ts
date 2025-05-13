@@ -1,5 +1,6 @@
 import { expect, test } from "vitest";
 import { render } from "vitest-browser-vue";
+
 import BaseTooltip from "./BaseTooltip.vue";
 
 test("BaseTooltip.vue", async () => {

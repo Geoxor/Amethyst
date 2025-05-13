@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst.js";
 import { Icon } from "@iconify/vue";
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
+
+import { amethyst } from "@/amethyst.js";
 const props = defineProps<{ icon: any, routeName: string, mobile?: boolean}>();
 const route = useRoute();
 const isActive = computed(() => route.name?.toString().startsWith(props.routeName) || props.routeName === route.name);
