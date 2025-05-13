@@ -122,3 +122,6 @@ export const floatToInt16 = (float32Array: Float32Array) => {
   }
   return int16Array;
 };
+
+export const randomIntInRange = (min: number, max: number): number =>
+  ~~(Math.random() * (max - min + 1)) + min;
