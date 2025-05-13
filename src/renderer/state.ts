@@ -4,7 +4,7 @@ import type { RtAudioDeviceInfo } from "audify";
 import { reactive, ref, watch } from "vue";
 
 import { EventEmitter } from "@/logic/eventEmitter.js";
-import { DEFAULT_SETTINGS } from "@/logic/settings.js";
+import { createDefaultSettings } from "@/logic/settings.js";
 import { ShaderManager } from "@/shaders/ShaderManager.js";
 
 import { Amethyst } from "./amethyst.js";
@@ -68,7 +68,7 @@ export class State extends EventEmitter<StateEvents> {
 	public isSnappingToGrid = ref(false);
 	public zoomLevel = useLocalStorage("zoomValue", 1);
 
-	public defaultSettings = DEFAULT_SETTINGS;
+	public defaultSettings = createDefaultSettings(this.amethyst.getCurrentPlatform());
 
 	public settings = reactive({
 		...useLocalStorage("settings", this.defaultSettings, {
