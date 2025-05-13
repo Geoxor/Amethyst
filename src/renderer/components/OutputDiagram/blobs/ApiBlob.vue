@@ -12,9 +12,7 @@ import GenericBlob from "./GenericBlob.vue";
     :title="$t('output_diagram.os_api.title')"
     subtitle="WASAPI" 
   >
-    <span class="text-text-title">
-      <windows-logo />
-    </span>
+    <windows-logo />
   </generic-blob>
   <blob-line />
 </template>

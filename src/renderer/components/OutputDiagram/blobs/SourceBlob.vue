@@ -42,19 +42,17 @@ onMounted(() => {
     clickable
     @click="router.push({ name: 'queue' })"
   >
-    <span class="text-text-title">
-      <flac-logo v-if="mimeType == 'FLAC'" />
-      <mp3-logo v-else-if="mimeType == 'MPEG 1 Layer 3'" />
-      <opus-logo v-else-if="mimeType == 'Opus'" />
-      <ogg-logo v-else-if="mimeType == 'Vorbis I'" />
-      <windows-logo v-else-if="['PCM', 'non-PCM (65534)', 'IEEE_FLOAT'].includes(mimeType)" />
-      <aac-logo v-else-if="['AAC', 'MPEG-4/AAC'].includes(mimeType)" />
-      <icon
-        v-else
-        class="h-6 w-6 text-text-title"
-        icon="ic:twotone-question-mark"
-      />
-    </span>
+    <flac-logo v-if="mimeType == 'FLAC'" />
+    <mp3-logo v-else-if="mimeType == 'MPEG 1 Layer 3'" />
+    <opus-logo v-else-if="mimeType == 'Opus'" />
+    <ogg-logo v-else-if="mimeType == 'Vorbis I'" />
+    <windows-logo v-else-if="['PCM', 'non-PCM (65534)', 'IEEE_FLOAT'].includes(mimeType)" />
+    <aac-logo v-else-if="['AAC', 'MPEG-4/AAC'].includes(mimeType)" />
+    <icon
+      v-else
+      class="h-6 w-6 text-text-title"
+      icon="ic:twotone-question-mark"
+    />
   </generic-blob>
   <blob-line />
 </template>
