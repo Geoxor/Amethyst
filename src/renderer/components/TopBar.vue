@@ -61,9 +61,8 @@ provide("menuGroupRef", menuGroupRef);
     :class="[amethyst.state.window.isFocused ? 'text-text-title' : 'text-text-subtitle']"
   >
     <div
-      class="flex no-drag h-full items-center"
-    
-      :class="[amethyst.getCurrentOperatingSystem() == 'mac' && 'pl-16']"
+        v-if="amethyst.getCurrentOperatingSystem() !== 'mac'"
+        class="flex no-drag h-full items-center"
     >
       <div
         class="duration-user-defined logo w-52px h-full items-center flex justify-center cursor-heart-pointer rounded-br-8px hover:bg-primary/10 hover:text-primary"
