@@ -108,7 +108,7 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
   >
     <div
       v-if="amethyst.state.window.isShowingBigCover"
-      class="absolute select-none rounded-8px w-full sm:w-auto max-w-3/4 max-h-3/4 truncate top-1/2 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2 z-50"
+      class=" select-none rounded-8px w-full sm:w-auto max-w-3/4 max-h-3/4 truncate absolute-xy z-50"
       style="aspect-ratio: 1/1;"
     >
       <cover-art 

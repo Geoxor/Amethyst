@@ -196,7 +196,7 @@ provide("menuGroupRef", menuGroupRef);
       </menu-container>
     </div>
 
-    <p class="absolute flex items-center gap-1 top-10px left-1/2 transform-gpu -translate-x-1/2 select-none">
+    <p class="absolute-x  flex items-center gap-1 top-10px select-none">
       <loading-icon v-if="amethyst.isLoading.value" />
       <title-text text="Amethyst" />
       <title-text

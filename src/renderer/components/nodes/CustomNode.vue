@@ -31,7 +31,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
   >
     <quick-menu
       :node="node"
-      class="absolute left-1/2 -top-8 transform-gpu -translate-x-1/2"
+      class="absolute-x -top-8"
     />
 
     <div

@@ -88,6 +88,6 @@ onMounted(() => {
 
 <style scoped lang="postcss">
 .icon {
-  @apply h-16 w-16 absolute top-1/2 left-1/2 z-1 transform-gpu -translate-x-1/2 -translate-y-1/2;
+  @apply h-16 w-16 absolute-xy;
 }
 </style>

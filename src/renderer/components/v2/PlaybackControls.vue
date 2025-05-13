@@ -110,7 +110,7 @@ const editMeterContextMenuOption = (name :string) => [{
 
 <template>
   <div
-    class="absolute filter drop-shadow-xl pointer-events-none bottom-4 flex justify-center px-4 gap-2 w-full left-1/2 transform-gpu -translate-x-1/2 z-20 text-playback-controls-text"
+    class=" filter drop-shadow-xl pointer-events-none bottom-4 flex justify-center px-4 gap-2 w-full absolute-x z-20 text-playback-controls-text"
   >
     <div
       v-if="amethyst.state.settings.metering.loudnessMeter.show"
