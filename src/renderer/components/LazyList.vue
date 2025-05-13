@@ -98,7 +98,7 @@ class="text-13px text-text-title min-h-0 flex flex-col text-left relative select
     :class="[amethyst.getCurrentPlatform() == 'mobile' && 'h-[calc(100%-228px)]']"
   >
     <div
-      class="flex text-left font-bold sticky top-0 z-10 bg-surface-900 py-2 px-2 columnHeader min-h-36px pr-5"
+      class="flex text-left font-weight-user-defined sticky top-0 z-10 bg-surface-900 py-2 px-2 columnHeader min-h-36px pr-5"
       :class="[amethyst.player.queue.currentSortingDirection.value]"
       @contextmenu="handleColumnContextMenu($event)"
     >
@@ -391,12 +391,12 @@ class="text-13px text-text-title min-h-0 flex flex-col text-left relative select
       :items="tracks"
       :item-size="ITEM_HEIGHT"
       key-field="path"
-      :buffer="16"
+      :buffer="24"
       :class="[amethyst.getCurrentPlatform() != 'mobile' && 'pb-32']"
     >
       <template #default="{ item } : { item: Track}">
         <div
-          class="row flex items-center px-2 rounded-4px"
+          class="row flex items-center px-2 rounded-4px font-weight-user-defined"
           :class="[
             `max-h-[${ITEM_HEIGHT}px] h-[${ITEM_HEIGHT}px]`,
             isHoldingControl && 'control cursor-external-pointer',
