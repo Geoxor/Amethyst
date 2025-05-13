@@ -504,15 +504,11 @@ class="text-13px text-text-title min-h-0 flex flex-col text-left relative select
             v-if="columns.location"
             class="flex-none w-[70px] pl-4"
           >
-            <button
-              class="cursor-pointer hover:text-text-title"
+            <icon
+              icon="ic:baseline-folder-open"
+              class="h-4 w-4 cursor-pointer hover:text-text-title"
               @click.stop.prevent="amethyst.showItem(item.path)"
-            >
-              <icon
-                icon="ic:baseline-folder-open"
-                class="h-4 w-4"
-              />
-            </button>
+            />
           </div>
 
           <div

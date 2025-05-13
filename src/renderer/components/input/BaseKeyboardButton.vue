@@ -47,13 +47,13 @@ onMounted(() => {
 
 <style scoped lang="postcss">
 kbd {
-  @apply mx-0.25 py-0.25 px-1.25 rounded-3px border-solid border-1 border-surface-900 bg-surface-600;
-  line-height: 1.4;
-  box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 0px 2px rgb(var(--surface-600));
+  @apply mx-0.25 py-0.5 pt-1 px-1.25 rounded-3px border-solid border-1 border-surface-900 bg-surface-800;
+  line-height: 1.5;
+  box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 0px 2px rgb(var(--surface-600));
 
   &.active {
-    @apply border-primary-700 bg-primary-800 ;
-    box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 0px 2px rgb(var(--primary-800));
+    @apply bg-primary-800 text-black transform-gpu translate-y-2px;
+    box-shadow: inset 0px 0px 0px 2px rgb(var(--primary-800));
   }
 }
 </style>
