@@ -57,8 +57,8 @@ provide("menuGroupRef", menuGroupRef);
 
 <template>
   <div
-    class=" z-100 font-main drag min-h-40px pr-2 text-12px select-none flex justify-between items-center transition-colors duration-user-defined"
-    :class="[amethyst.state.window.isFocused ? 'text-text-title' : 'text-text-subtitle']"
+    class=" z-100 font-main drag pr-2 text-12px select-none flex justify-between items-center transition-colors duration-user-defined"
+    :class="[amethyst.state.window.isFocused ? 'text-text-title' : 'text-text-subtitle', amethyst.getCurrentOperatingSystem() == 'mac' ? 'min-h-24px' : 'min-h-40px']"
   >
     <div
         v-if="amethyst.getCurrentOperatingSystem() !== 'mac'"
