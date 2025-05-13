@@ -176,6 +176,7 @@ const editMeterContextMenuOption = (name :string) => [{
           id="seek"
           key="seek"
           v-model="amethyst.player.currentTime.value"
+          step="0.0001"
           class="w-full absolute rounded-8px left-0 -z-1"
           :class="[amethyst.getCurrentPlatform() == 'mobile' ? '-top-3 h-16' : '-top-1.5 hover:-top-3 h-8']"
           :max="amethyst.player.input.duration"
