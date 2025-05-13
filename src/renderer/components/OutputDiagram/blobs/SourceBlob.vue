@@ -9,6 +9,7 @@ import FlacLogo from "@/icons/logos/FlacLogo.vue";
 import Mp3Logo from "@/icons/logos/Mp3Logo.vue";
 import OggLogo from "@/icons/logos/OggLogo.vue";
 import OpusLogo from "@/icons/logos/OpusLogo.vue";
+import WindowsLogo from "@/icons/logos/WindowsLogo.vue";
 import type { Track } from "@/logic/track";
 
 import BlobLine from "./BlobLine.vue";
@@ -28,7 +29,7 @@ const updateMimeType = (track: Track) => {
 onMounted(() => {
   const currentTrack = amethyst.player.getCurrentTrack();
   if (currentTrack) updateMimeType(currentTrack);;
-  amethyst.player.on("player:play", updateMimeType);
+  amethyst.player.on("player:trackChange", updateMimeType);
   amethyst.player.on("player:currentTrackMetadataLoaded", updateMimeType);
 });
 
