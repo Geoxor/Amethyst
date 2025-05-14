@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { computed } from "vue";
+
 import { amethyst } from "@/amethyst.js";
 import JavascriptLogo from "@/icons/logos/JavascriptLogo.vue";
-import { computed } from "vue";
+
 import BlobLine from "./BlobLine.vue";
 import GenericBlob from "./GenericBlob.vue";
 

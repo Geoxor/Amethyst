@@ -28,7 +28,7 @@ defineProps<{
       transform: translate(-50%, -50%) scale(${amethyst.state.settings.appearance.ambientBackground.zoom}%);
       mix-blend-mode: ${amethyst.state.settings.appearance.ambientBackground.blendMode};
     `"
-    class="absolute z-1000 select-none pointer-events-none top-1/2 transform-gpu -translate-y-1/2 left-1/2 -translate-x-1/2 w-full"
+    class="z-1000 select-none pointer-events-none absolute-xy w-full"
   >
     <cover-art
       class="w-full h-full"

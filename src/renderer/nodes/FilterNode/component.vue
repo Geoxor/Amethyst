@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import CustomNode from "@/components/nodes/CustomNode.vue";
-import { percentToLogValue } from "@/logic/math";
 import { watch } from "vue";
-import type { AmethystFilterNode } from ".";
 
+import CustomNode from "@/components/nodes/CustomNode.vue";
 import BandpassIcon from "@/icons/equalizer/BandpassIcon.vue";
 import HighpassIcon from "@/icons/equalizer/HighpassIcon.vue";
 import HighShelfIcon from "@/icons/equalizer/HighShelfIcon.vue";
 import LowpassIcon from "@/icons/equalizer/LowpassIcon.vue";
 import LowShelfIcon from "@/icons/equalizer/LowShelfIcon.vue";
 import PeakIcon from "@/icons/equalizer/PeakIcon.vue";
+import { percentToLogValue } from "@/logic/math";
+
+import type { AmethystFilterNode } from ".";
 
 const props = defineProps<{ node: AmethystFilterNode }>();
 

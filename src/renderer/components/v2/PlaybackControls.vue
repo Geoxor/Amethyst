@@ -1,4 +1,9 @@
 <script setup lang="ts">
+import { Icon } from "@iconify/vue";
+import { secondsToColinHuman } from "@shared/formating";
+import { LoadStatus } from "@shared/types.js";
+import { onMounted, onUnmounted, ref, watch } from "vue";
+
 import { amethyst } from "@/amethyst.js";
 import { useContextMenu } from "@/components/ContextMenu";
 import CoverArt from "@/components/CoverArt.vue";
@@ -13,10 +18,7 @@ import Oscilloscope from "@/components/visualizers/OscilloscopeAnalyzer.vue";
 import SpectrumAnalyzerComposite from "@/components/visualizers/SpectrumAnalyzerComposite.vue";
 import Vectorscope from "@/components/visualizers/VectorscopeAnalyzer.vue";
 import { router } from "@/router";
-import { Icon } from "@iconify/vue";
-import { secondsToColinHuman } from "@shared/formating";
-import { LoadStatus } from "@shared/types.js";
-import { onMounted, onUnmounted, ref, watch } from "vue";
+
 import BaseTooltip from "../BaseTooltip.vue";
 import DraggableModifierInput from "../input/DraggableModifierInput.vue";
 
@@ -108,7 +110,7 @@ const editMeterContextMenuOption = (name :string) => [{
 
 <template>
   <div
-    class="absolute filter drop-shadow-xl pointer-events-none bottom-4 flex justify-center px-4 gap-2 w-full left-1/2 transform-gpu -translate-x-1/2 z-30 text-playback-controls-text"
+    class=" filter drop-shadow-xl pointer-events-none bottom-4 flex justify-center px-4 gap-2 w-full absolute-x z-20 text-playback-controls-text"
   >
     <div
       v-if="amethyst.state.settings.metering.loudnessMeter.show"
@@ -153,7 +155,8 @@ const editMeterContextMenuOption = (name :string) => [{
       side="centerVertical"
       :handles-visible="false"
       default-size="960px"
-      class=" rounded-8px min-w-670px max-w-full pointer-events-auto bg-playback-controls-background"
+      :class="[amethyst.getCurrentPlatform() == 'mobile' ? 'rounded-t-8px pb-8 pt-0.5 min-w-410px ' : 'rounded-8px min-w-670px']"
+      class="relative max-w-full pointer-events-auto bg-playback-controls-background"
     >
       <div class="flex relative items-center h-16 gap-2 p-2 w-full">
         <Transition name="slide">
@@ -173,7 +176,9 @@ const editMeterContextMenuOption = (name :string) => [{
           id="seek"
           key="seek"
           v-model="amethyst.player.currentTime.value"
-          class="h-8 absolute -top-1.5 hover:-top-3 w-full left-0 -z-1"
+          step="0.0001"
+          class="w-full absolute rounded-8px left-0 -z-1"
+          :class="[amethyst.getCurrentPlatform() == 'mobile' ? '-top-3 h-16' : '-top-1.5 hover:-top-3 h-8']"
           :max="amethyst.player.input.duration"
           @input="amethyst.player.seekTo(amethyst.player.currentTime.value)"
           @wheel.passive="handleSeekMouseScroll"
@@ -216,10 +221,10 @@ const editMeterContextMenuOption = (name :string) => [{
         <div
           ref="trackTitles"
           :style="`max-width: ${maxTrackTitleWidth}px;`"
-          class="flex justify-between select-none flex-col h-full w-full py-1 font-bold leading-2.5"
+          class="flex justify-between select-none flex-col h-full w-full font-weight-user-defined"
         >
           <h1
-            class="text-13px hover:underline cursor-external-pointer truncate text-ellipsis"
+            class="text-13px hover:underline cursor-external-pointer truncate text-ellipsis font-weight-user-defined"
             @click=" amethyst.showItem(amethyst.player.getCurrentTrack()?.path!)"
           >
             {{ amethyst.player.getCurrentTrack()?.getTitleFormatted() || 'No track' }}
@@ -264,33 +269,9 @@ const editMeterContextMenuOption = (name :string) => [{
             @click="amethyst.state.showOutputDiagram.value = !amethyst.state.showOutputDiagram.value"
           />
         </base-tooltip>
+
         <base-tooltip
-          :text="$t('settings.loudness_meter.title')"
-          placement="top"
-        >
-          <icon
-            icon="ic:twotone-waves"
-            class="utilityButton"
-            :class="[
-              amethyst.state.settings.metering.loudnessMeter.show && 'text-accent'
-            ]"
-            @click="amethyst.state.settings.metering.loudnessMeter.show = !amethyst.state.settings.metering.loudnessMeter.show"
-          />
-        </base-tooltip>
-        <base-tooltip
-          :text="$t('settings.spectrum_analyzer.title')"
-          placement="top"
-        >
-          <icon
-            icon="ic:twotone-graphic-eq"
-            class="utilityButton"
-            :class="[
-              amethyst.state.settings.metering.spectrum.show && 'text-accent'
-            ]"
-            @click="amethyst.state.settings.metering.spectrum.show = !amethyst.state.settings.metering.spectrum.show"
-          />
-        </base-tooltip>
-        <base-tooltip
+          v-if="amethyst.getCurrentPlatform() != 'mobile'"
           :text="$t('playback_controls.mute')"
           placement="top"
         >
@@ -308,6 +289,7 @@ const editMeterContextMenuOption = (name :string) => [{
           />
         </base-tooltip>
         <base-tooltip
+          v-if="amethyst.getCurrentPlatform() != 'mobile'"
           :text="`${amethyst.player.volume.toFixed(1)} dB`"
           placement="top"
         >
@@ -315,7 +297,7 @@ const editMeterContextMenuOption = (name :string) => [{
             id="volume"
             key="volume"
             v-model="amethyst.player.volume"
-            class="w-16 h-1.5"
+            class="w-16 h-1.5 rounded-full"
             :min="amethyst.player.minDb"
             :max="amethyst.player.maxDb"
             :step="0.1"

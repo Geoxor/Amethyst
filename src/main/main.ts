@@ -12,6 +12,11 @@ import Store from "electron-store";
 import "./realtimeAudio.js";
 import "./drag-drop.js";
 
+import { app, Menu } from "electron";
+import Store from "electron-store";
+
+import { checkForUpdatesAndInstall, MainWindow } from "./mainWindow.js";
+
 export const store = new Store();
 
 let mainWindow: MainWindow;

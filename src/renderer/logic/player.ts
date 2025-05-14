@@ -1,13 +1,15 @@
+import "./analytics";
+
+import { secondsToColinHuman, secondsToHuman } from "@shared/formating.js";
+import { useLocalStorage } from "@vueuse/core";
+import { ref, watch } from "vue";
+
+import type { Amethyst } from "@/amethyst.js";
+import { AmethystAudioNodeManager } from "@/logic/audioManager.js";
+import { EventEmitter } from "@/logic/eventEmitter.js";
 import type { PossibleSortingMethods} from "@/logic/queue.js";
 import { Queue } from "@/logic/queue.js";
 import { Track } from "@/logic/track.js";
-import { useLocalStorage } from "@vueuse/core";
-import { ref, watch } from "vue";
-import { AmethystAudioNodeManager } from "@/logic/audioManager.js";
-import { EventEmitter } from "@/logic/eventEmitter.js";
-import { secondsToColinHuman, secondsToHuman } from "@shared/formating.js";
-import type { Amethyst } from "@/amethyst.js";
-import "./analytics";
 
 export enum LoopMode {
 	None,

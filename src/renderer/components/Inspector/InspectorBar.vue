@@ -1,22 +1,24 @@
 <script setup lang="ts">
+import { Icon } from "@iconify/vue";
+import { bytesToHuman } from "@shared/formating";
+import { removeEmptyObjects } from "@shared/logic.js";
+import { computed, onMounted, onUnmounted, watch } from "vue";
+import { useRoute } from "vue-router";
+
 import { amethyst } from "@/amethyst.js";
 import LoadingIcon from "@/components/v2/LoadingIcon.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import { AmethystAudioNode } from "@/logic/audio";
 import { Track } from "@/logic/track";
 import { AmethystOutputNode } from "@/nodes";
-import { Icon } from "@iconify/vue";
-import { bytesToHuman } from "@shared/formating";
-import { removeEmptyObjects } from "@shared/logic.js";
-import { computed, onMounted, onUnmounted, watch } from "vue";
-import { useRoute } from "vue-router";
-import { useInspector } from ".";
+
 import BaseChip from "../BaseChip.vue";
 import { useContextMenu } from "../ContextMenu";
 import CoverArt from "../CoverArt.vue";
 import DraggableModifierInput from "../input/DraggableModifierInput.vue";
 import QuickMenu from "../nodes/QuickMenu.vue";
 import DropdownInput from "../v2/DropdownInput.vue";
+import { useInspector } from ".";
 
 const route = useRoute();
 

@@ -1,10 +1,12 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst.js";
-import { getThemeColorHex } from "@/logic/color";
-import { trackContextMenuOptions, type Track } from "@/logic/track";
 import { Icon } from "@iconify/vue";
 import { Vibrant } from "node-vibrant/browser";
 import { onMounted, ref } from "vue";
+
+import { amethyst } from "@/amethyst.js";
+import { getThemeColorHex } from "@/logic/color";
+import { type Track,trackContextMenuOptions } from "@/logic/track";
+
 import { useContextMenu } from "./ContextMenu";
 import CoverArt from "./CoverArt.vue";
 import TitleSubtitle from "./v2/TitleSubtitle.vue";
@@ -86,6 +88,6 @@ onMounted(() => {
 
 <style scoped lang="postcss">
 .icon {
-  @apply h-16 w-16 absolute top-1/2 left-1/2 z-1 transform-gpu -translate-x-1/2 -translate-y-1/2;
+  @apply h-16 w-16 absolute-xy;
 }
 </style>

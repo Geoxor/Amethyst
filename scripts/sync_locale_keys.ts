@@ -1,6 +1,6 @@
+import chalk from "chalk";
 import fs from "fs";
 import path from "path";
-import chalk from "chalk";
 
 const localesFolder = path.join(__dirname, "../src/renderer/locales");
 const defaultLocaleFile = path.join(localesFolder, "en-US.json");

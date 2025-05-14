@@ -1,3 +1,5 @@
+import 'dotenv/config'
+
 import type { CapacitorConfig } from "@capacitor/cli";
 import ip from "ip";
 
@@ -8,6 +10,14 @@ const commonConfig: CapacitorConfig = {
   webDir: "release/dist/renderer",
   android: {
     path: "src/android",
+    allowMixedContent: true,
+    buildOptions: {
+      releaseType: 'APK',
+      keystorePath: process.env.KEYSTORE_PATH || 'keystore.jks',
+      keystorePassword: process.env.KEYSTORE_PASSWORD,
+      keystoreAlias: process.env.KEY_ALIAS,
+      keystoreAliasPassword: process.env.KEY_PASSWORD
+    },
   },
   ios: {
     path: "src/ios"
@@ -22,7 +32,9 @@ const devConfig: CapacitorConfig = {
   },
 };
 
-const config = devConfig;
-// const config = process.env.NODE_ENV === "development" ? devConfig : commonConfig;
+const config = process.env.NODE_ENV === "development" ? devConfig : commonConfig;
+
+console.log(config)
+
 
 export default config;

@@ -148,8 +148,9 @@ watch(model, () => {
   setTimeout(() => pop.value = false, 100);
 });
 
-import { clamp } from "@/logic/math";
 import { onClickOutside } from "@vueuse/core";
+
+import { clamp } from "@/logic/math";
 onClickOutside(modifier, () => isShowingInputElement.value = false);
 
 const isShowingInputElement = ref(false);
@@ -208,7 +209,7 @@ const handleEnter = (e: KeyboardEvent) => {
 <template>
   <button
     ref="modifier"
-    class="modifier font-semibold duration-user-defined flex flex-col justify-center h-5 items-center min-w-16 leading-tight rounded-full py-1 px-2 bg-accent/15 text-accent"
+    class="modifier  duration-user-defined flex flex-col justify-center h-5 items-center min-w-16 leading-tight rounded-full py-1 px-2 bg-accent/15 text-accent"
     @mousedown.stop.passive="onMouseDown"
     @mouseup.stop.passive="dragging = false"
     @keydown="handleEnter"
@@ -219,7 +220,7 @@ const handleEnter = (e: KeyboardEvent) => {
       ref="inputElement"
       v-model.number="inputValue"
       size="5"
-      class="bg-transparent font-semibold text-center"
+      class="bg-transparent  text-center"
     >
     <template v-else>
       <icon
@@ -227,7 +228,7 @@ const handleEnter = (e: KeyboardEvent) => {
         class="w-5 h-5 min-w-5 min-h-5 text-accent/25"
       />
       <div :class="{ pop }">
-        <h1>
+        <h1 class="font-weight-user-defined">
           {{ prefix }} {{ displayValue }} {{ suffix }}
         </h1>
       </div>

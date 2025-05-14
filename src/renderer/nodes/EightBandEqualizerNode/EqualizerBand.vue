@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import BaseSlider from "@/components/input/BaseSlider.vue";
 import { ref, watch } from "vue";
+
+import BaseSlider from "@/components/input/BaseSlider.vue";
 
 const props = defineProps<{
   param: AudioParam,

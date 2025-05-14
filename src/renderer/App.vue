@@ -1,4 +1,8 @@
 <script setup lang="ts">
+import { Icon } from "@iconify/vue";
+import { Vibrant } from "node-vibrant/browser";
+import { onMounted, onUnmounted, ref, watch } from "vue";
+
 import { amethyst } from "@/amethyst.js";
 import BackgroundImage from "@/components/BackgroundImage.vue";
 import { ContextMenu, useContextMenu } from "@/components/ContextMenu";
@@ -9,12 +13,8 @@ import NavigationButton from "@/components/NavigationButton.vue";
 import TopBar from "@/components/TopBar.vue";
 import PlaybackControls from "@/components/v2/PlaybackControls.vue";
 import SpectrumAnalyzerComposite from "@/components/visualizers/SpectrumAnalyzerComposite.vue";
-import { AmethystIcon } from "@/icons";
 import { getThemeColor } from "@/logic/color";
 import type { Track } from "@/logic/track";
-import { Icon } from "@iconify/vue";
-import { Vibrant } from "node-vibrant/browser";
-import { onMounted, onUnmounted, ref, watch } from "vue";
 
 const ambientBackgroundImage = ref("");
 
@@ -104,10 +104,11 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
   <div
     v-else
     class="flex fixed flex-col bg-surface-900"
+    :class="[amethyst.getCurrentPlatform() == 'mobile' && 'pt-8']"
   >
     <div
       v-if="amethyst.state.window.isShowingBigCover"
-      class="absolute select-none rounded-8px w-full sm:w-auto max-w-3/4 max-h-3/4 truncate top-1/2 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2 z-50"
+      class=" select-none rounded-8px w-full sm:w-auto max-w-3/4 max-h-3/4 truncate absolute-xy z-50"
       style="aspect-ratio: 1/1;"
     >
       <cover-art 
@@ -140,39 +141,29 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
         href="https://github.com/Geoxor/amethyst/releases/latest"
         target="_blank"
       > <strong
-        class="duration-user-defined underline cursor-pointer hover:text-primary-800"
+        class="duration-user-defined underline cursor-pointer hover:text-accent"
       >download the native app</strong> </a> 
     </div>
     <top-bar v-if="amethyst.getCurrentPlatform() === 'desktop'" />
     <context-menu v-if="useContextMenu().state.isVisible" />
     <div
-      v-if="amethyst.getCurrentPlatform() === 'mobile'"
-      class="w-full absolute bottom-0 z-10 "
+      v-if="amethyst.getCurrentPlatform() == 'mobile'"
+      class="w-full absolute bottom-0 "
     >
-      <div
-        class="p-2 rounded-t-24px truncate drop-shadow-2xl flex bg-surface-700 justify-between"
-      > 
-        <navigation-button
-          :icon="AmethystIcon"
-          route-name="queue"
-          text="Queue"
-          mobile
-        />
+    <div
+v-if="amethyst.getCurrentPlatform() === 'mobile'"
+      class="p-2 absolute pb-14 left-0 bottom-0 rounded-32px z-30 w-full overflow-hidden flex bg-surface-700 justify-between">
 
-        <navigation-button
-          :icon="AmethystIcon"
-          route-name="node-editor"
-          text="Node Editor"
-          mobile
-        />
+      <navigation-button icon="ic:twotone-mic-external-on" route-name="audio-monitor" mobile />
 
-        <navigation-button
-          :icon="AmethystIcon"
-          route-name="settings"
-          text="Settings"
-          mobile
-        />
-      </div>
+      <navigation-button v-if="amethyst.IS_DEV" icon="mdi:compass" mobile route-name="discovery" />
+
+      <navigation-button icon="mdi:resistor-nodes" route-name="node-editor" mobile />
+
+      <navigation-button icon="ic:twotone-queue-music" route-name="queue" mobile />
+
+      <navigation-button icon="ic:twotone-settings" route-name="settings" mobile />
+    </div>
     </div>
     <div class="h-full whitespace-nowrap flex flex-col justify-between">
       <div class="flex-1 flex h-full max-h-full relative">
@@ -184,7 +175,12 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
         <inspector-bar v-if="useInspector().state.isVisible" />
       </div>
 
-      <playback-controls v-if="amethyst.state.settings.appearance.showPlaybackControls" />
+      <playback-controls
+v-if="amethyst.state.settings.appearance.showPlaybackControls"
+      
+        :class="[amethyst.getCurrentPlatform() == 'mobile' && 'mb-14']"
+      
+      />
     </div>
   </div>
 </template> 

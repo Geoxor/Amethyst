@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Track } from "@/logic/track";
+
 import TrackCard from "./TrackCard.vue";
 import TitleSubtitle from "./v2/TitleSubtitle.vue";
 

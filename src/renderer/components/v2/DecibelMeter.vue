@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst.js";
 import { onMounted, onUnmounted, ref, watch } from "vue";
+
+import { amethyst } from "@/amethyst.js";
 const props = defineProps<{ node: AudioNode }>();
 const FLOOR = -120;
 const CHANNELS = 16;
@@ -92,7 +93,7 @@ onUnmounted(() => shouldStopRendering = true);
 </script>
 
 <template>
-  <div class="flex h-full p-2 flex gap-1 ">
+  <div class="flex justify-between p-2 flex gap-1 ">
     <div
       v-for="i of CHANNELS"
       :key="i"
@@ -122,10 +123,10 @@ onUnmounted(() => shouldStopRendering = true);
           :style="`width: ${width}px; height: ${computedHeight(channelData[i - 1][1].value)}%`"
         />
       </div>
-      <div class="w-8 h-8 max-h-8 max-h-8 min-h-8 min-w-8 rounded-4px bg-surface-700 text-text-title text-11px flex items-center justify-center">
+      <div class="w-4 h-4 rounded-4px text-text-title text-11px flex items-center justify-center">
         <p>{{ isFinite(channelData[i - 1][0].value) ? channelData[i - 1][0].value.toFixed(1) : '-∞' }}</p>
       </div>
-      <div class="w-8 h-8 max-h-8 max-h-8 min-h-8 min-w-8 rounded-4px text-text-subtitle text-13px flex items-center justify-center">
+      <div class="w-4 h-4 rounded-4px text-text-subtitle text-13px flex items-center justify-center">
         <p>{{ CHANNEL_NAMES[i - 1] }}</p>
       </div>
     </div>

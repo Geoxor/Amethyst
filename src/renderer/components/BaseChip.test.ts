@@ -1,5 +1,6 @@
 import { expect, test } from "vitest";
 import { render } from "vitest-browser-vue";
+
 import BaseChip from "./BaseChip.vue";
 
 test("BaseChip.vue", async () => {

@@ -154,6 +154,63 @@ jobs:
             release/build/*.pacman
             release/build/*.snap
 
+  build-android:
+    name: Build Android
+    runs-on: ubuntu-latest
+    env:
+      KEYSTORE_PATH: './release-key.jks'
+      KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+      KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+      KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: oracle
+          java-version: '21'
+          
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.17.0
+          cache: "yarn"
+      
+      - name: Reconstruct keystore from base64
+        run: echo "${{ secrets.JKS_BASE64 }}" | base64 -d > src/android/app/release-key.jks
+
+      - name: List android app directory
+        run: ls src/android/app
+
+      - name: Install Dependencies
+        run: yarn install
+
+      - name: Make gradlew executable
+        run: chmod +x ./src/android/gradlew
+
+      - name: Generate icons from assets
+        run: yarn gen:android-icons
+
+      - name: Build Amethyst
+        run: yarn build:android
+
+      - name: List APK output directory
+        run: ls -R src/android/app/build/outputs/apk/
+
+      - name: Rename APK with version and move
+        run: |
+          VERSION=$(jq -r .version package.json)
+          mkdir -p ./release/build
+          mv ./src/android/app/build/outputs/apk/release/app-release.apk "./release/build/amethyst-v${VERSION}.apk"
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifact-android
+          path: |
+            release/build/*.apk
+
   release-to-aur-git:
     name: Release to AUR -git
     runs-on: ubuntu-latest
@@ -194,7 +251,7 @@ jobs:
 
   publish-releases:
     if: startsWith(github.ref, 'refs/tags/v')
-    needs: [build-windows, build-macos, build-linux]
+    needs: [build-windows, build-macos, build-linux, build-android]
     name: Publish Releases
     runs-on: ubuntu-latest
     permissions:

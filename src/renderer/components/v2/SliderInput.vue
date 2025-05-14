@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Slider from "@vueform/slider";
 import { useVModel } from "@vueuse/core";
+
 import BaseChip from "../BaseChip.vue";
 
 const props = defineProps<{ modelValue: number, step: number, prefix?: string, suffix: string, max: number, min: number}>();
@@ -23,7 +24,7 @@ const handleMouseScroll = (e: WheelEvent) => {
     </p>
   </base-chip>
   <div
-    class="slider py-3 min-w-160px max-w-160px"
+    class="slider py-3 max-w-160px"
     @wheel.prevent="handleMouseScroll"
   >
     <slider

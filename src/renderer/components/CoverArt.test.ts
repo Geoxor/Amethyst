@@ -1,5 +1,6 @@
 import { expect, test } from "vitest";
 import { render } from "vitest-browser-vue";
+
 import CoverArt from "./CoverArt.vue";
 
 test("CoverArt.vue", async () => {

@@ -6,6 +6,11 @@ const cssVar = (string: string) => {
 }
 
 export default defineConfig({
+	shortcuts: {
+		"absolute-xy": "absolute top-1/2 left-1/2 transform-gpu -translate-x-1/2 -translate-y-1/2",
+		"absolute-x": "absolute left-1/2 transform-gpu -translate-x-1/2",
+		"absolute-y": "absolute top-1/2 transform-gpu -translate-y-1/2",
+	},
   theme: {
     colors: {
 			"textTitle": cssVar('text-title'),

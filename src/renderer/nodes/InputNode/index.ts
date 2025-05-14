@@ -1,5 +1,6 @@
 import { AmethystAudioNode } from "@/logic/audio.js";
 import type { NodeProperties } from "@/logic/audioManager.js";
+
 import component from "./component.vue";
 
 export class AmethystInputNode extends AmethystAudioNode {

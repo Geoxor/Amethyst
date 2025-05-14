@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst.js";
 import { Icon } from "@iconify/vue";
 import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
+
+import { amethyst } from "@/amethyst.js";
 const props = defineProps<{ icon: any, routeName: string, mobile?: boolean}>();
 const route = useRoute();
 const isActive = computed(() => route.name?.toString().startsWith(props.routeName) || props.routeName === route.name);
@@ -13,11 +14,11 @@ const router = useRouter();
   <button
     :class="[
       isActive && 'active',
-      mobile && 'rounded-full',
+      mobile ? 'rounded-full w-full justify-center p-4 py-3' : 'rounded-r-8px p-4',
       amethyst.state.window.isFocused ? 'text-text-title' : 'text-text-subtitle'
     ]"
 
-    class="duration-user-defined items-center gap-2 transition-colors duration-user-defined flex relative disable-select p-4 no-drag text-text-title rounded-r-8px"
+    class="duration-user-defined items-center gap-2 transition-colors duration-user-defined flex relative disable-select no-drag text-text-title"
     @click="router.push({ name: routeName })"
   >
     <icon

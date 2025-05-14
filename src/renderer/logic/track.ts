@@ -1,16 +1,18 @@
-import { ref } from "vue";
-import { bytesToHuman, secondsToColinHuman, secondsToHuman, bitrateToHuman } from "@shared/formating.js";
+import { bitrateToHuman, bytesToHuman, secondsToColinHuman, secondsToHuman } from "@shared/formating.js";
 import type { IMetadata, LoadState } from "@shared/types.js";
 import { LoadStatus } from "@shared/types.js";
-import * as mm from "music-metadata";
 import FileSaver from "file-saver";
+import { md5 } from 'js-md5';
 import mime from "mime-types";
+import * as mm from "music-metadata";
+import { MusicBrainzApi } from "musicbrainz-api";
+import { ref } from "vue";
+
 import type { Amethyst } from "@/amethyst.js";
 import { amethyst, favoriteTracks } from "@/amethyst.js";
-import { MusicBrainzApi } from "musicbrainz-api";
+import { useInspector } from "@/components/Inspector/index.js";
 import { saveArrayBufferToFile } from "@/logic/dom.js";
 import { convertDfpwm } from "@/logic/encoding.js";
-import { useInspector } from "@/components/Inspector/index.js";
 
 const mbApi = new MusicBrainzApi({
     appName: "Amethyst",
@@ -57,7 +59,7 @@ export class Track {
   }
 
   private generateHash() {
-    this.uuid = window.md5(`${this.getArtistsFormatted()}, ${this.getAlbum()}, ${this.getTitle()}`);
+    this.uuid = md5(`${this.getArtistsFormatted()}, ${this.getAlbum()}, ${this.getTitle()}`);
     this.isFavorited = favoriteTracks.value.includes(this.uuid);
   }
 
@@ -119,7 +121,7 @@ export class Track {
       case "desktop":
         return window.electron.ipcRenderer.invoke<IMetadata>("get-metadata", [this.absolutePath]);
       case "mobile":
-        const response = await fetch(decodeURIComponent(this.absolutePath));
+        const response = await fetch(this.absolutePath);
         const buffer = new Uint8Array(await response.arrayBuffer());
         const { format, common } = await mm.parseBuffer(buffer, undefined);
         const size = buffer.length;
@@ -134,11 +136,24 @@ export class Track {
       case "desktop":
         return window.electron.ipcRenderer.invoke<string>("get-cover", [this.absolutePath]);
       case "mobile":
-        const response = await fetch(decodeURIComponent(this.absolutePath));
+
+        function arrayBufferToBase64(buffer: ArrayBuffer | Uint8Array): string {
+          let binary = "";
+          const bytes = new Uint8Array(buffer);
+          const len = bytes.length;
+
+          for (let i = 0; i < len; i++) {
+            binary += String.fromCharCode(bytes[i]);
+          }
+
+          return btoa(binary);
+        }
+
+        const response = await fetch(this.absolutePath);
         const buffer = new Uint8Array(await response.arrayBuffer());
         const { common } = await mm.parseBuffer(buffer, undefined);
         if (common.picture) {
-          return common.picture[0].data.toString("base64") as string;
+          return arrayBufferToBase64(common.picture[0].data);
         }
         return;
       default:

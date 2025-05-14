@@ -1,7 +1,8 @@
 <script setup lang="ts">
+import { onMounted, onUnmounted, watch } from "vue";
+
 import { amethyst } from "@/amethyst.js";
 import { getThemeColorHex } from "@/logic/color";
-import { onMounted, onUnmounted, watch } from "vue";
 
 const props = defineProps<{ node: AudioNode, width: number, height: number }>();
 const randomId = Date.now();

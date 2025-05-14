@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {onMounted, onUnmounted, ref, watch} from "vue";
 import * as THREE from "three";
+import {onMounted, onUnmounted, ref, watch} from "vue";
 
 const props = defineProps<{
   fragShader: string,
