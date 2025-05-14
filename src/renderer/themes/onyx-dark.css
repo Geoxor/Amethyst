@@ -1,8 +1,8 @@
 .theme-onyx-dark {
     --text-title: 246, 246, 246;                            /* #f6f6f6; */  
     --text-subtitle: 133, 133, 133;                         /* #858585; */  
-    --primary: 200, 200, 200;                               /* #c8c8c8; */
-    --accent: 160, 160, 160;                                /* #a0a0a0; */
+    --primary: 160, 160, 160;                               /* #a0a0a0; */
+    --accent: 200, 200, 200;                                /* #c8c8c8; */
     --inspector-color: var(--text-title);                   
     --alert-color: 255, 225, 73;                            /* #FFE149; */
   

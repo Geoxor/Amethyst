@@ -141,7 +141,7 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
         href="https://github.com/Geoxor/amethyst/releases/latest"
         target="_blank"
       > <strong
-        class="duration-user-defined underline cursor-pointer hover:text-primary-800"
+        class="duration-user-defined underline cursor-pointer hover:text-accent"
       >download the native app</strong> </a> 
     </div>
     <top-bar v-if="amethyst.getCurrentPlatform() === 'desktop'" />

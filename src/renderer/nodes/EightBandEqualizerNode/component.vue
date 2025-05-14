@@ -139,7 +139,7 @@ const FILTER_TYPES = [
             v-for="filterType of FILTER_TYPES"
             :key="filterType"
             class="text-11px cursor-pointer px-1 py-1 bg-surface-900"
-            :class="[filter.type == filterType ? 'text-primary-800 bg-primary-800/10' : 'text-surface-500']"
+            :class="[filter.type == filterType ? 'text-accent bg-primary-800/10' : 'text-surface-500']"
             @mousedown.stop
             @click="filter.type = filterType;"
           >

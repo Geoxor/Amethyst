@@ -27,13 +27,6 @@ export const i18n = createI18n({
   messages,
 });
 
-function base64ToBlob(base64: string, contentType: string): Blob {
-  const byteCharacters = atob(base64);
-  const byteNumbers = Array.from(byteCharacters, (char) => char.charCodeAt(0));
-  const byteArray = new Uint8Array(byteNumbers);
-  return new Blob([byteArray], { type: contentType });
-}
-
 export type AmethystPlatforms = ReturnType<typeof amethyst.getCurrentPlatform>;
 export const favoriteTracks = useLocalStorage<string[]>("favoriteTracks", []);
 
@@ -571,19 +564,12 @@ export class Amethyst extends AmethystBackend {
   };
 
   public async updateMobileAppColors() {
-    await StatusBar.setBackgroundColor({color: getThemeColorHex('--surface-900')});
-    await NavigationBar.setColor({color: getThemeColorHex('--surface-700')});
+    await StatusBar.setBackgroundColor({color: getThemeColorHex('--surface-900') || '#0f1119'});
+    await NavigationBar.setColor({color: getThemeColorHex('--surface-700') || '#181a27'});
   }
 
   private async initMobile() {
-    switch (this.getCurrentOperatingSystem()) {
-      case "android":
-        this.updateMobileAppColors()
-        break;
-      default:
-        break;
-    }
-
+    this.updateMobileAppColors()
     this.state.on("theme:change", () => this.updateMobileAppColors())
   }
 

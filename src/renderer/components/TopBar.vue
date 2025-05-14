@@ -63,7 +63,8 @@ const playEasterEggSound = () => {
   }, 500);
   showHeart.value = true;
   const audioElement = document.createElement("audio");
-  audioElement.src = `../sounds/amethyst${randomIntInRange(1, 4)}.wav`;
+  // @ts-ignore
+  audioElement.src = new URL(`/sounds/amethyst${randomIntInRange(1, 4)}.wav`, import.meta.url).toString();;
   audioElement.volume = 0.33;
   audioElement.play();
   audioElement.remove();
