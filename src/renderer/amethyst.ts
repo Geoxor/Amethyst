@@ -271,7 +271,17 @@ export class Amethyst extends AmethystBackend {
       window.electron.ipcRenderer.on<string>("play-file", path => path !== "--require" && amethyst.player.queue.add(path).then(() => {
         amethyst.player.play(amethyst.player.queue.getList().findIndex(track => track.path == path));
       }));
+
       window.electron.ipcRenderer.on<(string)[]>("play-folder", paths => amethyst.player.queue.add(flattenArray(paths)));
+
+      // only register native menu listeners on macOS
+      if (this.getCurrentOperatingSystem() === "mac") {
+        window.electron.ipcRenderer.on("open-settings-native", () => router.push("/settings"));
+        window.electron.ipcRenderer.on("open-file-native", () => this.openAudioFilesAndAddToQueue());
+        window.electron.ipcRenderer.on("open-folder-native", () => this.openAudioFoldersAndAddToQueue());
+        window.electron.ipcRenderer.on("clear-queue-native", () => this.player.queue.clear());
+        window.electron.ipcRenderer.on("reload-queue-native", () => this.player.queue.fetchAsyncData(true));
+      }
   
       this.state.settings.behavior.fetchMetadataOnStartup && setTimeout(async() => {
         await this.player.queue.fetchAsyncData();

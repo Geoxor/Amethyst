@@ -31,7 +31,7 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex-col flex w-full py-2 relative" :class="[amethyst.getCurrentPlatform() == 'mobile' ? 'px-2' : 'px-4']">
+  <div class="py-2 pl-4 pr-2" :class="[amethyst.getCurrentPlatform() == 'mobile' ? 'px-2' : 'px-4']">
     <route-header :title="$t('route.queue')">
       <icon
         icon="mdi:plus"
@@ -39,7 +39,6 @@ onUnmounted(() => {
       />
       <search-input v-model="filterText" />
     </route-header>
-    
     <lazy-list />
   </div>
 </template>

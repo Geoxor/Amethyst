@@ -118,6 +118,7 @@ export class MainWindow {
 		// and restore the maximized or full screen state
 
 		this.setIpcEvents();
+		this.setNativeMenuIpcEvents();
 		this.setWindowEvents();  
 	}
 
@@ -432,5 +433,15 @@ export class MainWindow {
 			}
 
 		}).forEach(([channel, handler]) => ipcMain.handle(channel, handler));
+	}
+
+	private setNativeMenuIpcEvents(): void {
+		Object.entries([
+			"open-settings-native",
+			"open-file-native",
+			"open-folder-native",
+			"clear-queue-native",
+			"reload-queue-native"
+		]).forEach(([channel]) => ipcMain.handle(channel, async () => {}));
 	}
 }

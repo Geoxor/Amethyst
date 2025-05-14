@@ -8,8 +8,7 @@ import RouteHeader from "@/components/v2/RouteHeader.vue";
 
 <template>
   <div
-    v-if="amethyst.player.source" 
-    class="flex flex-col h-full w-full py-2 pb-24 text-text-title"
+    class="h-full w-full py-2 px-4 pb-32 text-text-title"
     :class="[amethyst.getCurrentPlatform() == 'mobile' ? 'px-2 pb-48' : 'px-4']"
   >
     <route-header :title="$t('route.audio_monitor')" />

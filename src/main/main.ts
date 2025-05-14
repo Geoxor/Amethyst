@@ -6,8 +6,11 @@
  * When running `yarn build` or `yarn build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import "./drag-drop.js";
+import {Menu, app, shell } from "electron";
+import { checkForUpdatesAndInstall, MainWindow } from "./mainWindow.js";
+import Store from "electron-store";
 import "./realtimeAudio.js";
+import "./drag-drop.js";
 
 import { app, Menu } from "electron";
 import Store from "electron-store";
@@ -35,12 +38,39 @@ else {
   app.whenReady()
     .then(() => {
 
+      const useVsync = store.get("useVsync", true);
+      if (useVsync) {
+        app.commandLine.removeSwitch("disable-frame-rate-limit");
+        console.log("Vsync enabled");
+      } else {
+        app.commandLine.appendSwitch("disable-frame-rate-limit");
+        console.log("Vsync disabled");
+      }
+
+      mainWindow = new MainWindow();
+
       if (process.platform === "darwin") {
-        Menu.setApplicationMenu(Menu.buildFromTemplate([ 
+        Menu.setApplicationMenu(Menu.buildFromTemplate([
           {
             label: app.name,
             submenu: [
               { role: "about" },
+              {
+                label: "Check for updates...",
+                toolTip: "",
+                click: async () => {
+                  mainWindow.window.webContents.send("check-for-updates");
+                }
+              },
+              { type: "separator" },
+              {
+                label: "Settings...",
+                toolTip: "",
+                accelerator: "Cmd+,",
+                click: async () => {
+                  mainWindow.window.webContents.send("open-settings-native");
+                }
+              },
               { type: "separator" },
               { role: "services" },
               { type: "separator" },
@@ -49,7 +79,49 @@ else {
               { role: "unhide" },
               { type: "separator" },
               { role: "quit" }
-              ],
+            ],
+          },
+          {
+            label: "File",
+            submenu: [
+              {
+                label: "Open file",
+                toolTip: "",
+                accelerator: "Cmd+O",
+                click: async () => {
+                  mainWindow.window.webContents.send("open-file-native");
+                }
+              },
+              {
+                label: "Open folder",
+                toolTip: "",
+                accelerator: "Cmd+Shift+O",
+                click: async () => {
+                  mainWindow.window.webContents.send("open-folder-native");
+                }
+              }
+            ],
+          },
+          {
+            label: "Queue",
+            submenu: [
+              {
+                label: "Clear queue",
+                toolTip: "",
+                accelerator: "Cmd+Shift+Z",
+                click: async () => {
+                  mainWindow.window.webContents.send("clear-queue-native");
+                }
+              },
+              {
+                label: "Reload queue",
+                toolTip: "",
+                accelerator: "Cmd+Alt+R",
+                click: async () => {
+                  mainWindow.window.webContents.send("reload-queue-native");
+                }
+              }
+            ],
           },
           {
             label: "View",
@@ -64,6 +136,35 @@ else {
               { type: "separator" },
               { role: "togglefullscreen" },
             ],
+          },
+          {
+            role: 'help',
+            submenu: [
+              {
+                label: 'Guides...',
+                click: async () => {
+                  await shell.openExternal("https://amethyst.geoxor.moe/guides/showcase")
+                }
+              },
+              {
+                label: 'User Manual...',
+                click: async () => {
+                  await shell.openExternal("https://amethyst.geoxor.moe/user-manual/keyboard-shortcuts")
+                }
+              },
+              {
+                label: 'Github Repository...',
+                click: async () => {
+                  await shell.openExternal("https://github.com/geoxor/amethyst")
+                }
+              },
+              {
+                label: 'Discord Server...',
+                click: async () => {
+                  await shell.openExternal("https://discord.gg/geoxor")
+                }
+              }
+            ]
           }
         ]));
       } else {
@@ -83,17 +184,6 @@ else {
           ],
         },]));
       }
-
-      const useVsync = store.get("useVsync", true);
-      if (useVsync) {
-        app.commandLine.removeSwitch("disable-frame-rate-limit");
-        console.log("Vsync enabled");
-      } else {
-        app.commandLine.appendSwitch("disable-frame-rate-limit");
-        console.log("Vsync disabled");
-      }
-
-       mainWindow = new MainWindow();
 
       app.on("window-all-closed", () => {
         // Respect the OSX convention of having the application in memory even
