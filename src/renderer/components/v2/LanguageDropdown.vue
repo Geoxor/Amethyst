@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst.js";
 import { Icon } from "@iconify/vue";
 import { onClickOutside } from "@vueuse/core";
 import iso6391 from "iso-639-1";
 import { ref } from "vue";
 import { useI18n } from "vue-i18n";
+
+import { amethyst } from "@/amethyst.js";
 
 const showLanguageDropdown = ref(false);
 const languageDropdown = ref(null);

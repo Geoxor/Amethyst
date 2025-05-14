@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import JavascriptLogo from "@/icons/logos/JavascriptLogo.vue";
+
 import BlobLine from "./BlobLine.vue";
 import GenericBlob from "./GenericBlob.vue";
 

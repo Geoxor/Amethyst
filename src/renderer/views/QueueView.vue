@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst.js";
+import { Icon } from "@iconify/vue";
+import { useLocalStorage } from "@vueuse/core";
+import { onMounted, onUnmounted, watch } from "vue";
 
+import { amethyst } from "@/amethyst.js";
 import LazyList from "@/components/LazyList.vue";
 import RouteHeader from "@/components/v2/RouteHeader.vue";
 import SearchInput from "@/components/v2/SearchInput.vue";
 import type { Track } from "@/logic/track";
-import { useLocalStorage } from "@vueuse/core";
-import { onMounted, onUnmounted, watch } from "vue";
 
 const filterText = useLocalStorage("filterText", "");
 
@@ -27,15 +28,17 @@ onMounted(() => {
 onUnmounted(() => {
   amethyst.player.off("player:play", autoscroll);
 });
-
 </script>
 
 <template>
-  <div class="flex-col flex w-full py-2 gap-4 px-4 relative">
+  <div class="py-2 pl-4 pr-2 flex flex-col" :class="[amethyst.getCurrentPlatform() == 'mobile' ? 'px-2' : 'px-4']">
     <route-header :title="$t('route.queue')">
+      <icon
+        icon="mdi:plus"
+        @click="amethyst.openAudioFilesAndAddToQueue"
+      />
       <search-input v-model="filterText" />
     </route-header>
-    
     <lazy-list />
   </div>
 </template>

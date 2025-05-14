@@ -1,18 +1,19 @@
 import eslint from '@eslint/js';
 import eslintConfigPrettier from 'eslint-config-prettier';
+import simpleImportSort from "eslint-plugin-simple-import-sort";
 import eslintPluginVue from 'eslint-plugin-vue';
 import globals from 'globals';
 import typescriptEslint from 'typescript-eslint';
 
 export default typescriptEslint.config(
-  { ignores: ['*.d.ts', '**/coverage', '**/dist'] },
   {
     extends: [
       eslint.configs.recommended,
       ...typescriptEslint.configs.recommended,
       ...eslintPluginVue.configs['flat/recommended'],
     ],
-    files: ['**/*.ts', '**/*.vue', '**/**/*.ts', '**/**/*.vue'],
+    ignores: ['**/*.d.ts', '**/*.js', '**/coverage', '**/dist'],
+    files: ['**/*.ts', '**/*.vue'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
@@ -21,22 +22,61 @@ export default typescriptEslint.config(
         parser: typescriptEslint.parser,
       },
     },
+    plugins: {
+      "simple-import-sort": simpleImportSort,
+    },
     rules: {
+      "simple-import-sort/imports": "warn",
+      "simple-import-sort/exports": "warn",
+      'vue/no-mutating-props': 'off',
+      "vue/prefer-import-from-vue": "warn",
+      "vue/html-closing-bracket-spacing": "warn",
+      "vue/no-unused-components": "warn",
+      "vue/html-self-closing": "warn",
+      "vue/no-unused-refs": "warn",
+      "vue/no-v-html": "off",
+      "vue/block-order": [
+        "warn",
+        {
+          "order": [
+            "script",
+            "template",
+            "style"
+          ]
+        }
+      ],
       '@typescript-eslint/no-unused-expressions': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-unused-vars': 'warn',
       '@typescript-eslint/ban-ts-comment': 'off',
-      '@typescript-eslint/no-empty-object-type': 'off',
+      '@typescript-eslint/no-empty-object-type': 'warn',
       '@typescript-eslint/no-wrapper-object-types': 'warn',
-      '@typescript-eslint/no-unsafe-function-type': 'off',
-      '@typescript-eslint/no-require-imports': 'off',
+      '@typescript-eslint/no-unsafe-function-type': 'warn',
+      '@typescript-eslint/no-require-imports': 'warn',
       'no-async-promise-executor': 'warn',
       'no-unused-expressions': 'off',
       'no-case-declarations': 'off',
+      "no-multi-spaces": "warn",
+      "no-mixed-spaces-and-tabs": "warn",
       'prefer-const': 'warn',
-      'vue/no-mutating-props': 'off',
       'no-empty': 'off'
     },
+    settings: {
+      "import/resolver": {
+        alias: {
+          map: [
+            [
+              "@",
+              "./src/renderer"
+            ]
+          ],
+          extensions: [
+            ".ts",
+            ".vue"
+          ]
+        }
+      }
+    }
   },
   eslintConfigPrettier
 );

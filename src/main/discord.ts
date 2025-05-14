@@ -1,4 +1,5 @@
-import { Client, ActivityType } from "minimal-discord-rpc";
+import { ActivityType, Client } from "minimal-discord-rpc";
+
 import { APP_VERSION } from "./mainWindow.js";
 
 const DISCORD_CLIENT_ID = "976036303156162570"; 

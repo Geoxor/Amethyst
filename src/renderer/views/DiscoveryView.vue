@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { onMounted } from "vue";
+
 import { amethyst } from "@/amethyst.js";
 import BigButton from "@/components/BigButton.vue";
 import DiscoveryFeed from "@/components/DiscoveryFeed.vue";
 import RouteHeader from "@/components/v2/RouteHeader.vue";
-import { onMounted } from "vue";
 onMounted(() => {
   amethyst.analytics.getDiscoveryTracks();
 });
@@ -11,7 +12,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col h-full w-[calc(100%-44px)] py-2 px-4 gap-4 text-text-title">
+  <div class="w-[calc(100%-50px)] py-2 pl-4 pr-2 text-text-title">
     <route-header :title="$t('route.discovery')" />
     <div class="flex gap-2 mt-1">
       <big-button

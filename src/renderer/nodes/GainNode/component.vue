@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import DraggableModifierInput from "@/components/input/DraggableModifierInput.vue";
 import CustomNode from "@/components/nodes/CustomNode.vue";
+
 import type { AmethystGainNode } from ".";
 defineProps<{ node: AmethystGainNode }>();
 </script>

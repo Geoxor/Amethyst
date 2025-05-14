@@ -1,3 +1,4 @@
+import { AmethystPlatforms } from "@/amethyst.js";
 import type { MediaSourceType } from "@/logic/mediaSources.js";
 
 export const VALID_SAMPLE_RATES = [
@@ -195,7 +196,7 @@ const DEFAULT_COLUMN_SETTINGS = {
   }
 };
 
-export const DEFAULT_SETTINGS = {
+const DEFAULT_SETTINGS = {
   ...DEFAULT_APPEARANCE_SETTINGS,
   ...DEFAULT_PERFORMANCE_SETTINGS,
   ...DEFAULT_BEHAVIOR_SETTINGS,
@@ -207,3 +208,42 @@ export const DEFAULT_SETTINGS = {
   ...DEFAULT_APPLICATION_SETTINGS,
   ...DEFAULT_COLUMN_SETTINGS
 };
+
+
+export const createDefaultSettings = (platform: AmethystPlatforms): typeof DEFAULT_SETTINGS => {
+  const defaultSettings = DEFAULT_SETTINGS;
+  if (platform == 'mobile') {
+    defaultSettings.appearance.minimalistMode = true;
+    defaultSettings.metering.decibelMeter.show = false;
+    defaultSettings.metering.oscilloscope.show = false;
+    defaultSettings.metering.vectorscope.show = false;
+    defaultSettings.metering.loudnessMeter.show = false;
+    defaultSettings.metering.spectrum.show = false;
+    defaultSettings.performance.pauseVisualsWhenUnfocused = true;
+    defaultSettings.columns = {
+      cover: true,
+      artist: true,
+      title: true,
+      diskNumber: false,
+      filename: false,
+      album: false,
+      year: false,
+      bitsPerSample: false,
+      genre: false,
+      bitrate: false,
+      sampleRate: false,
+      barcode: false,
+      label: false,
+      isrc: false,
+      copyright: false,
+      bpm: false,
+      duration: false,
+      trackNumber: false,
+      location: false,
+      container: false,
+      favorite: false,
+      size: false,
+    };
+  }
+  return defaultSettings;
+}

@@ -114,7 +114,7 @@ defineProps<{pan: number}>();
     </svg>
 
     <svg
-      class="absolute origin-bottom -bottom-[22px] left-1/2 transform-gpu "
+      class="absolute-x origin-bottom -bottom-[22px]"
       :style="`transform: rotate(${pan / 4}deg) translateX(-50%)`"
       width="2"
       height="73"

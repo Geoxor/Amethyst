@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst.js";
-import { useContextMenu } from "@/components/ContextMenu";
-import type { PossibleSortingMethods } from "@/logic/queue";
-import { trackContextMenuOptions, type Track } from "@/logic/track";
-import type { IContextMenuOption } from "@/state";
 import { Icon } from "@iconify/vue";
 import { useLocalStorage } from "@vueuse/core";
 import { computed } from "vue";
+
+import { amethyst } from "@/amethyst.js";
+import { useContextMenu } from "@/components/ContextMenu";
+import type { PossibleSortingMethods } from "@/logic/queue";
+import { type Track,trackContextMenuOptions } from "@/logic/track";
+import type { IContextMenuOption } from "@/state";
+
 import CoverArt from "./CoverArt.vue";
 import { useInspector } from "./Inspector";
 import NotApplicableText from "./NotApplicableText.vue";
@@ -91,9 +93,10 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 </script>
 
 <template>
-  <div class="text-13px text-text-title min-h-0 h-full flex flex-col text-left relative select-none ">
+  <div class="text-13px text-text-title min-h-0 flex flex-col text-left relative select-none "
+    :class="[amethyst.getCurrentPlatform() == 'mobile' && 'h-[calc(100%-228px)]']">
     <div
-      class="flex text-left font-bold sticky top-0 z-10 bg-surface-900 py-2 px-2 columnHeader min-h-36px pr-5"
+      class="flex text-left font-weight-user-defined sticky top-0 z-10 bg-surface-900 py-2 px-2 columnHeader min-h-36px"
       :class="[amethyst.player.queue.currentSortingDirection.value]"
       @contextmenu="handleColumnContextMenu($event)"
     >
@@ -382,15 +385,16 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
     </div>
 
     <RecycleScroller
-      class="h-full pb-32 pr-2 leading-tight"
+      class="h-full w-full pb-32 leading-tight"
       :items="tracks"
       :item-size="ITEM_HEIGHT"
       key-field="path"
-      :buffer="16"
+      :buffer="24"
+      :class="[amethyst.getCurrentPlatform() != 'mobile' && 'pb-32']"
     >
       <template #default="{ item } : { item: Track}">
         <div
-          class="row flex items-center px-2 rounded-4px"
+          class="row flex items-center px-2 rounded-4px font-weight-user-defined"
           :class="[
             `max-h-[${ITEM_HEIGHT}px] h-[${ITEM_HEIGHT}px]`,
             isHoldingControl && 'control cursor-external-pointer',
@@ -498,15 +502,11 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
             v-if="columns.location"
             class="flex-none w-[70px] pl-4"
           >
-            <button
-              class="cursor-pointer hover:text-text-title"
+            <icon
+              icon="ic:baseline-folder-open"
+              class="h-4 w-4 cursor-pointer hover:text-text-title"
               @click.stop.prevent="amethyst.showItem(item.path)"
-            >
-              <icon
-                icon="ic:baseline-folder-open"
-                class="h-4 w-4"
-              />
-            </button>
+            />
           </div>
 
           <div

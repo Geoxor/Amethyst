@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import { amethyst } from "@/amethyst.js";
 import { Icon } from "@iconify/vue";
+
+import { amethyst } from "@/amethyst.js";
+
 import TitleSubtitle from "./v2/TitleSubtitle.vue";
 
 const props = defineProps<{title?: string, description?: string, icon: any}>();

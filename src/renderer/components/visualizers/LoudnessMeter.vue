@@ -1,11 +1,12 @@
 <script setup lang="ts">
+// @ts-ignore no types
+import { LoudnessMeter } from "@domchristie/needles";
 import type { Ref } from "vue";
 import { onMounted, ref, watch } from "vue";
-// @ts-ignore no types
+
 import { amethyst } from "@/amethyst.js";
 import { smoothTween } from "@/logic/dom";
 import { infinityClamp, mapValueToPercentage } from "@/logic/math";
-import { LoudnessMeter } from "@domchristie/needles";
 
 const props = defineProps<{ node: AudioNode }>();
 

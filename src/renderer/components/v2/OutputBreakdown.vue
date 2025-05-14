@@ -1,17 +1,16 @@
 <script setup lang="ts">
+import { computed, onMounted, ref } from "vue";
+
 import { amethyst } from "@/amethyst.js";
 import SubtitleText from "@/components/v2/SubtitleText.vue";
 import TitleText from "@/components/v2/TitleText.vue";
-
 import icon10 from "@/icons/speaker-configurations/1.0-icon.vue";
 import icon20 from "@/icons/speaker-configurations/2.0-icon.vue";
 import icon40 from "@/icons/speaker-configurations/4.0-icon.vue";
 import icon51 from "@/icons/speaker-configurations/5.1-icon.vue";
-import icon71 from "@/icons/speaker-configurations/7.1-icon.vue";
 import icon716 from "@/icons/speaker-configurations/7.1.6-icon.vue";
+import icon71 from "@/icons/speaker-configurations/7.1-icon.vue";
 import icon916 from "@/icons/speaker-configurations/9.1.6-icon.vue";
-
-import { computed, onMounted, ref } from "vue";
 
 const currentChannels = computed(() => amethyst.player.getCurrentTrack()?.getChannels() || 2);
 const currentBits = computed(() => amethyst.player.getCurrentTrack()?.getBitsPerSample() || 32);

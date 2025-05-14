@@ -1,5 +1,6 @@
 import fs from "fs";
 import * as mm from "music-metadata";
+
 import type { IMetadata } from "../shared/types.js";
 
 export class Metadata {

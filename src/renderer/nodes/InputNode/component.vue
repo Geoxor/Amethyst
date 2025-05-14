@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CustomNode from "@/components/nodes/CustomNode.vue";
+
 import type { AmethystInputNode } from ".";
 defineProps<{ node: AmethystInputNode }>();
 

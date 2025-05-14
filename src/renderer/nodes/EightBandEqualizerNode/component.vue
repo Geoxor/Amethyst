@@ -1,11 +1,8 @@
 <script setup lang="ts">
-import CustomNode from "@/components/nodes/CustomNode.vue";
-import { getThemeColorHex } from "@/logic/color";
 import type { Ref } from "vue";
 import { onMounted, ref, watch } from "vue";
-import type { AmethystEightBandEqualizerNode } from ".";
-import EqualizerBand from "./EqualizerBand.vue";
 
+import CustomNode from "@/components/nodes/CustomNode.vue";
 import SpectrumAnalyzerComposite from "@/components/visualizers/SpectrumAnalyzerComposite.vue";
 import BandpassIcon from "@/icons/equalizer/BandpassIcon.vue";
 import HighpassIcon from "@/icons/equalizer/HighpassIcon.vue";
@@ -13,6 +10,10 @@ import HighShelfIcon from "@/icons/equalizer/HighShelfIcon.vue";
 import LowpassIcon from "@/icons/equalizer/LowpassIcon.vue";
 import LowShelfIcon from "@/icons/equalizer/LowShelfIcon.vue";
 import PeakIcon from "@/icons/equalizer/PeakIcon.vue";
+import { getThemeColorHex } from "@/logic/color";
+
+import type { AmethystEightBandEqualizerNode } from ".";
+import EqualizerBand from "./EqualizerBand.vue";
 
 const props = defineProps<{ node: AmethystEightBandEqualizerNode }>();
 
@@ -138,7 +139,7 @@ const FILTER_TYPES = [
             v-for="filterType of FILTER_TYPES"
             :key="filterType"
             class="text-11px cursor-pointer px-1 py-1 bg-surface-900"
-            :class="[filter.type == filterType ? 'text-primary-800 bg-primary-800/10' : 'text-surface-500']"
+            :class="[filter.type == filterType ? 'text-accent bg-primary-800/10' : 'text-surface-500']"
             @mousedown.stop
             @click="filter.type = filterType;"
           >

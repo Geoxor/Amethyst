@@ -1,4 +1,11 @@
 <script setup lang="ts">
+import type { Coords } from "@shared/types.js";
+import { Background, BackgroundVariant } from "@vue-flow/additional-components";
+import type { Connection, EdgeMouseEvent, NodeDragEvent } from "@vue-flow/core";
+import { VueFlow } from "@vue-flow/core";
+import { onKeyStroke } from "@vueuse/core";
+import { computed, onMounted, onUnmounted, ref } from "vue";
+
 import { amethyst } from "@/amethyst.js";
 import BaseToolbar from "@/components/BaseToolbar.vue";
 import BaseToolbarButton from "@/components/BaseToolbarButton.vue";
@@ -8,12 +15,6 @@ import { useInspector } from "@/components/Inspector";
 import type { AmethystAudioNode } from "@/logic/audio";
 import { getThemeColorHex } from "@/logic/color";
 import { AmethystFilterNode, AmethystGainNode, AmethystPannerNode, AmethystSpectrumNode } from "@/nodes";
-import type { Coords } from "@shared/types.js";
-import { Background, BackgroundVariant } from "@vue-flow/additional-components";
-import type { Connection, EdgeMouseEvent, NodeDragEvent } from "@vue-flow/core";
-import { VueFlow } from "@vue-flow/core";
-import { onKeyStroke } from "@vueuse/core";
-import { computed, onMounted, onUnmounted, ref } from "vue";
 const dash = ref();
 const nodeEditor = ref();
 type NodeMenuOptions = Coords & {source?: AmethystAudioNode, target?: AmethystAudioNode};
@@ -188,7 +189,7 @@ const handleOpenFile = async () => {
       amethyst.player.nodeManager.loadGraph(JSON.parse(jsonString), "file://" + result.filePaths[0]);
 
       // Fixes volume resetting to 100% when loading a new graph
-      amethyst.player.setVolume(amethyst.player.volume.value);
+      amethyst.player.setVolume(amethyst.player.volume);
     });
 };
 
@@ -205,7 +206,7 @@ const handleSaveFile = async () => {
 
 const handleReset = () => {
   amethyst.player.nodeManager.reset();
-  amethyst.player.setVolume(amethyst.player.volume.value);
+  amethyst.player.setVolume(amethyst.player.volume);
 };
 
 const removeSelectedNodes = dash.value?.getSelectedNodes.forEach((nodeElement: any) => {
@@ -224,7 +225,7 @@ onKeyStroke("Delete", () => {
 <template>
   <div
     ref="nodeEditor"
-    class="flex-1 h-full w-full  flex flex-col"
+    class="h-full w-full py-2 px-4 pb-32 text-text-title"
   >
     <base-toolbar>
       <base-toolbar-button
@@ -285,7 +286,7 @@ onKeyStroke("Delete", () => {
       :delete-key-code="null"
       :snap-to-grid="amethyst.state.isSnappingToGrid.value"
       :max-zoom="2.00"
-      :min-zoom="1.00"
+      :min-zoom="0.50"
       :connection-line-style="{ stroke: getThemeColorHex('--primary-700') }"
       :fit-view-on-init="true"
       :select-nodes-on-drag="false"

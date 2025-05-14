@@ -1,9 +1,10 @@
 <script setup lang="ts">
+import { onBeforeUnmount, onMounted, ref } from "vue";
+
 import { amethyst } from "@/amethyst.js";
 import SettingsNavigation from "@/components/settings/SettingsNavigation.vue";
-import ResizableDiv from "../ResizableDiv";
 
-import { onBeforeUnmount, onMounted, ref } from "vue";
+import ResizableDiv from "../ResizableDiv";
 const hiddenNavigation = ref<HTMLElement | null>(null);
 const resizingParent = ref<HTMLElement | null>(null);
 let observer: ResizeObserver | null = null;

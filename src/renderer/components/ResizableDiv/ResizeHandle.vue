@@ -1,6 +1,7 @@
 <script lang="ts" setup>
+import {computed,onBeforeUnmount, onMounted, ref} from "vue";
+
 import {type Direction} from ".";
-import {ref, onMounted, onBeforeUnmount, computed} from "vue";
 
 const emit = defineEmits<{
   (e: "reset"): void;

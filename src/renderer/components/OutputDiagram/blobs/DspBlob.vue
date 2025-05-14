@@ -1,6 +1,8 @@
 <script setup lang="ts">
-import AmethystIcon from "@/icons/AmethystIcon.vue";
 import { useRouter } from "vue-router";
+
+import AmethystIcon from "@/icons/AmethystIcon.vue";
+
 import BlobLine from "./BlobLine.vue";
 import GenericBlob from "./GenericBlob.vue";
 const router = useRouter();

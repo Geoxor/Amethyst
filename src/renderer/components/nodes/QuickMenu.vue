@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { Icon } from "@iconify/vue";
+
 import { amethyst } from "@/amethyst.js";
 import type { AmethystAudioNode } from "@/logic/audio";
-import { Icon } from "@iconify/vue";
+
 import { useInspector } from "../Inspector";
 const props = defineProps<{node: AmethystAudioNode}>();
 

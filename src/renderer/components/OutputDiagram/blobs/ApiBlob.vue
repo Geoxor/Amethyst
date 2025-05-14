@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst.js";
 import WindowsLogo from "@/icons/logos/WindowsLogo.vue";
+
 import BlobLine from "./BlobLine.vue";
 import GenericBlob from "./GenericBlob.vue";
 </script>
@@ -11,9 +12,7 @@ import GenericBlob from "./GenericBlob.vue";
     :title="$t('output_diagram.os_api.title')"
     subtitle="WASAPI" 
   >
-    <span class="text-text-title">
-      <windows-logo />
-    </span>
+    <windows-logo />
   </generic-blob>
   <blob-line />
 </template>

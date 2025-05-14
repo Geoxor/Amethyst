@@ -1,4 +1,9 @@
 <script lang="ts" setup>
+import { Icon } from "@iconify/vue";
+import { useFps } from "@vueuse/core";
+import { computed, onMounted, provide, ref } from "vue";
+import { useRouter } from "vue-router";
+
 import { amethyst } from "@/amethyst.js";
 import BaseChip from "@/components/BaseChip.vue";
 import ControlButtons from "@/components/input/ControlButtons.vue";
@@ -10,9 +15,7 @@ import LoadingIcon from "@/components/v2/LoadingIcon.vue";
 import TitleText from "@/components/v2/TitleText.vue";
 import AmethystIcon from "@/icons/AmethystIcon.vue";
 import { countDomElements, refreshWindow, smoothTween } from "@/logic/dom";
-import { useFps } from "@vueuse/core";
-import { computed, onMounted, provide, ref } from "vue";
-import { useRouter } from "vue-router";
+import { randomIntInRange } from "@/logic/math";
 
 const min = ref(Number.POSITIVE_INFINITY);
 const max = ref(Number.NEGATIVE_INFINITY);
@@ -24,11 +27,13 @@ const latency = ref(0);
 const router = useRouter();
 
 const branchName = ref("Development");
+const commitHash = ref('unknown commit hash');
 
 onMounted(() => {
   if (amethyst.IS_DEV) {
-    window.electron.ipcRenderer.invoke<string>('get-branch-name').then(name => {
-      branchName.value = name;
+    window.electron.ipcRenderer.invoke<{branchName: string, commitHash: string}>('get-branch-name').then(info => {
+      branchName.value = info.branchName;
+      commitHash.value = info.commitHash.substring(0, 7);
     })
   }
 
@@ -52,12 +57,26 @@ const menuGroupRef = ref<{
   activeMenu: null
 });
 
+const showHeart = ref(false);
+
+const playEasterEggSound = () => {
+  showHeart.value == false && setTimeout(() => {
+    showHeart.value = false;
+  }, 500);
+  showHeart.value = true;
+  const audioElement = document.createElement("audio");
+  // @ts-ignore
+  audioElement.src = new URL(`/sounds/amethyst${randomIntInRange(1, 4)}.wav`, import.meta.url).toString();;
+  audioElement.volume = 0.33;
+  audioElement.play();
+  audioElement.remove();
+}
 provide("menuGroupRef", menuGroupRef);
 </script>
 
 <template>
   <div
-    class=" z-100 font-main drag pr-2 text-12px select-none flex justify-between items-center transition-colors duration-user-defined"
+    class=" z-100 font-main drag pr-2 text-12px flex justify-between items-center transition-colors duration-user-defined"
     :class="[amethyst.state.window.isFocused ? 'text-text-title' : 'text-text-subtitle', amethyst.getCurrentOperatingSystem() == 'mac' ? 'min-h-24px' : 'min-h-40px']"
   >
     <div
@@ -65,9 +84,11 @@ provide("menuGroupRef", menuGroupRef);
         class="flex no-drag h-full items-center"
     >
       <div
-        class="duration-user-defined logo w-52px h-full items-center flex justify-center cursor-heart-pointer rounded-br-8px hover:bg-primary/10 hover:text-primary"
+        class="duration-user-defined logo w-52px h-full items-center active:scale-90 flex justify-center cursor-heart-pointer rounded-br-8px hover:bg-primary/10 hover:text-primary"
+        @click="playEasterEggSound()"
       >
-        <amethyst-icon class="w-5 h-5" />
+        <amethyst-icon v-if="!showHeart" class="w-5 h-5" />
+        <icon v-else class="w-5 h-5 text-pink-700" icon="ic:twotone-favorite"/>
       </div>
       <menu-container :title="$t('menu.file')">
         <menu-option
@@ -194,7 +215,7 @@ provide("menuGroupRef", menuGroupRef);
       </menu-container>
     </div>
 
-    <p class="absolute flex items-center gap-1 top-10px left-1/2 transform-gpu -translate-x-1/2 select-none">
+    <p class="absolute-x flex items-center gap-1 top-10px">
       <loading-icon v-if="amethyst.isLoading.value" />
       <title-text text="Amethyst" />
       <title-text
@@ -204,11 +225,13 @@ provide("menuGroupRef", menuGroupRef);
       <base-chip
         v-if="amethyst.IS_DEV"
         :color="amethyst.state.window.isFocused ? undefined : 'bg-gray-500'"
+        class="hover:underline no-drag cursor-pointer"
+        @click="amethyst.openLink(`https://github.com/Geoxor/Amethyst/tree/${branchName}`)"
       >
-        {{ branchName }}
+        {{ branchName }} ⚐ {{commitHash}}
       </base-chip>
       <title-text
-        class="opacity-50 font-normal capitalize"
+        class="opacity-50 font-normal"
         :text="amethyst.VERSION"
       />
     </p>

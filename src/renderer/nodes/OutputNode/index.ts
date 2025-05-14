@@ -1,20 +1,22 @@
+import type { RtAudioDeviceInfo } from "audify";
+import { watch } from "vue";
+
+import { type Amethyst,amethyst} from "@/amethyst.js";
 import { AmethystAudioNode } from "@/logic/audio.js";
 import type { NodeProperties } from "@/logic/audioManager.js";
-import component from "./component.vue";
-import { amethyst, type Amethyst} from "@/amethyst.js";
-import { watch } from "vue";
 import { floatToInt16 } from "@/logic/math.js";
-import type { RtAudioDeviceInfo } from "audify";
+
+import component from "./component.vue";
 
 let hasWorkletStarted = false;
 let captureNode: AudioWorkletNode;
 
 let paused = false;
 
-window.electron.ipcRenderer.on("pause-audio-worklet", () => paused = true);
-window.electron.ipcRenderer.on("resume-audio-worklet", () => paused = false);
-
 const createRealtimeNode = (context: AudioContext, pre: GainNode ) => {
+
+  window.electron.ipcRenderer.on("pause-audio-worklet", () => paused = true);
+  window.electron.ipcRenderer.on("resume-audio-worklet", () => paused = false);
 
   // Add the worklet module and connect it
   // @ts-ignore

@@ -65,7 +65,7 @@
 }
 
 * {
-  @apply !outline-none border-none box-border;
+  @apply !outline-none border-none box-border leading-tight;
   cursor: url("./icons/cursors/default.png"), auto !important;
 }
 

@@ -1,0 +1,55 @@
+---
+title: "Android"
+---
+
+## Setting up environment
+
+<Steps>
+  <Step title="First Step" icon='github'>
+    Follow the cloning procedure stated in [Development](/guides/development)
+  </Step>
+
+  <Step title="Second Step" icon='java'>
+    Install [Java SDK v21](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html)
+  </Step>
+
+  <Step title="Third Step" icon='code'>
+    Validate environment variable `%JAVA_HOME%` points to the following path: `C:\Program Files\Java\jdk-21`
+  </Step>
+
+  <Step title="Fourth Step" icon='android'>
+    Install [Android Studio](https://developer.android.com/studio)
+  </Step>
+
+  <Step title="Fifth Step" icon='code'>
+    Add these paths to your environment variables
+
+    ```powershell
+    C:\Users\$USER\AppData\Local\Android\Sdk\emulator
+    ```
+    
+    ```powershell
+    C:\Users\$USER\AppData\Local\Android\Sdk\platform-tools
+    ```
+  </Step>
+
+  <Step title="Sixth Step" icon='mobile'>
+    Create a virtual emulator device on Android Studio
+
+    ![alt text]({ACF381EC-982C-4C61-B408-8051DACB8D0C}.png)
+
+    Or connect your android phone to your computer with USB debugging and use Android Studio to install the dev app
+
+    ![alt text]({B9390682-A373-4590-99C4-DC5AE2AE1C50}.png)
+  </Step>
+
+  <Step title="Seventh Step" icon='magnifying-glass'>
+    To start the dev server and emulator execute this command
+    ```sh
+    yarn start:renderer
+    ```
+
+    <Note>Devtools can be launched in the emulator, follow [these steps to see how](https://capacitorjs.com/docs/vscode/debugging#use-chrome-inspect)</Note>
+  </Step>
+
+</Steps>

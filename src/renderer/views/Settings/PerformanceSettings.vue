@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useFps } from "@vueuse/core";
+import { onMounted, ref } from "vue";
+
 import { amethyst } from "@/amethyst.js";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
@@ -6,8 +9,6 @@ import SubtitleText from "@/components/v2/SubtitleText.vue";
 import TitleText from "@/components/v2/TitleText.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 import { smoothTween } from "@/logic/dom";
-import { useFps } from "@vueuse/core";
-import { onMounted, ref } from "vue";
 
 const handleToggleVsync = () => {
   window.electron.ipcRenderer.invoke("set-vsync", [performance.useVsync]);

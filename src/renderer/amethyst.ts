@@ -1,23 +1,25 @@
-import { Player } from "@/logic/player.js";
-import { MediaSession } from "@/logic/mediaSession.js";
-import { Shortcuts } from "@/logic/shortcuts.js";
-import { State } from "@/state.js";
-import { MediaSourceManager } from "@/logic/mediaSources.js";
 import { Capacitor } from "@capacitor/core";
 import { StatusBar } from "@capacitor/status-bar";
-import {NavigationBar} from "@hugotomazi/capacitor-navigation-bar";
-import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants.js";
-import type { OpenDialogReturnValue, SaveDialogReturnValue  } from "electron";
-import { ref, watch } from "vue";
-import { flattenArray } from "@/logic/math.js";
-import { Directory } from "@capacitor/filesystem";
-import { router } from "./router.js";
-import { createI18n } from "vue-i18n";
+import { NavigationBar } from "@hugotomazi/capacitor-navigation-bar";
 import messages from "@intlify/unplugin-vue-i18n/messages";
+import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants.js";
 import { useLocalStorage } from "@vueuse/core";
-import type { Track } from "@/logic/track.js";
+import type { OpenDialogReturnValue, SaveDialogReturnValue } from "electron";
+import { ref, watch } from "vue";
+import { createI18n } from "vue-i18n";
+
 import { Analytics } from "@/logic/analytics.js";
 import { EventEmitter } from "@/logic/eventEmitter.js";
+import { flattenArray } from "@/logic/math.js";
+import { MediaSession } from "@/logic/mediaSession.js";
+import { MediaSourceManager } from "@/logic/mediaSources.js";
+import { Player } from "@/logic/player.js";
+import { Shortcuts } from "@/logic/shortcuts.js";
+import type { Track } from "@/logic/track.js";
+import { State } from "@/state.js";
+
+import { getThemeColorHex } from "./logic/color.js";
+import { router } from "./router.js";
 
 export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale
@@ -152,11 +154,14 @@ export class AmethystBackend extends EventEmitter<{
         });
       case "mobile":
         return new Promise(async (res, rej) => {
-          // use capacitor to implement getting a file path
-          const {FilePicker} = await import("@capawesome/capacitor-file-picker");
-          const result = await FilePicker.pickFiles({ readData: true, types: ["application/json", "text/comma-separated-values", "text/*"]});
-          const path = result.files.map(file => file.path!)[0];
-          path ? res({canceled: false, filePaths: [decodeURIComponent(path)]}) : rej();
+          const { FilePicker } = await import ('@capawesome/capacitor-file-picker');
+          const result = await FilePicker.pickFiles({
+            types: ['audio/*'],
+          });
+
+          const files = result.files.map(file => Capacitor.convertFileSrc(file.path!));
+          
+          files ? res({canceled: false, filePaths: files}) : rej();
         });
       default:
         return Promise.reject();
@@ -191,8 +196,10 @@ export class AmethystBackend extends EventEmitter<{
   };
 
   public openAudioFilesAndAddToQueue = async () => {
-    amethyst.showOpenFileDialog({filters: [{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }]}).then(result => {
-      !result.canceled && amethyst.player.queue.add(result.filePaths);
+    amethyst.showOpenFileDialog({filters: [{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }]}).then(async result => {
+      if (result.canceled) return;
+      await amethyst.player.queue.add(result.filePaths);
+      amethyst.player.queue.fetchAsyncData();
     }).catch(error => console.error(error));
   };
 
@@ -229,7 +236,7 @@ export class Amethyst extends AmethystBackend {
   public IS_DEV = import.meta.env.DEV;
   public APPDATA_PATH: string | undefined;
   public isLoading = ref(false);
-  public state: State = new State();
+  public state: State = new State(this);
   public player = new Player(this);
   public shortcuts: Shortcuts = new Shortcuts();
   public mediaSession: MediaSession | undefined = this.getCurrentPlatform() === "desktop" ? new MediaSession(this.player) : undefined;
@@ -371,6 +378,7 @@ export class Amethyst extends AmethystBackend {
     };
 
     const updateWithCurrentTrack = async () => {
+      if (amethyst.getCurrentPlatform() == "mobile") return;
       const currentTrack = this.player.getCurrentTrack();
       await currentTrack?.fetchAlbumCoverUrl();
       currentTrack && await updateRichPresence(currentTrack);
@@ -565,52 +573,15 @@ export class Amethyst extends AmethystBackend {
     this.state.window.isFullscreen = windowState.isFullscreen;
   };
 
-  private async initMobile() {
-    switch (this.getCurrentOperatingSystem()) {
-      case "android":
-        await StatusBar.setBackgroundColor({color: "#0f1119"});
-        await NavigationBar.setColor({color: "#181a27"});
-        break;
-      default:
-        break;
-    }
-
-    this.loadMusicFolder();
+  public async updateMobileAppColors() {
+    await StatusBar.setBackgroundColor({color: getThemeColorHex('--surface-900') || '#0f1119'});
+    await NavigationBar.setColor({color: getThemeColorHex('--surface-700') || '#181a27'});
   }
 
-  /**
-   * Loads all the music in Documents/Music to the queue
-   * @mobile_only
-   */
-  private loadMusicFolder = async () => {
-    const { Filesystem } = await import("@capacitor/filesystem");
-    const evalPermission = async () => {
-      const status = await Filesystem.requestPermissions();
-      if (status.publicStorage == "denied") evalPermission();
-    };
-
-    const evalMusicFolder = async () => {
-      Filesystem.stat({ directory: Directory.Documents, 
-        path: "Music" }).catch(() => {
-          Filesystem.mkdir({ directory: Directory.Documents, 
-            path: "Music", recursive: true })
-          .then(() => {
-            console.log("Created music folder in Documents/Music");
-          }).catch(err => {
-            console.log(err);
-          });
-        });
-    };
-
-    await evalPermission();
-    await evalMusicFolder();
-    const {files} = await Filesystem.readdir({
-      path: "Music",
-      directory: Directory.Documents,
-    });
-    
-    this.player.queue.add(files.map(file => Capacitor.convertFileSrc(file.uri)));
-  };
+  private async initMobile() {
+    this.updateMobileAppColors()
+    this.state.on("theme:change", () => this.updateMobileAppColors())
+  }
 
   public async checkForUpdates() {
     this.state.window.isCheckingForUpdates = true;

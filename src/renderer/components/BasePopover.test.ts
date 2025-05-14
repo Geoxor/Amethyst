@@ -1,5 +1,6 @@
 import { expect, test } from "vitest";
 import { render } from "vitest-browser-vue";
+
 import BasePopover from "./BasePopover.vue";
 
 test("BasePopover.vue", async () => {
