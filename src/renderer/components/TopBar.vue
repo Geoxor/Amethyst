@@ -27,11 +27,13 @@ const latency = ref(0);
 const router = useRouter();
 
 const branchName = ref("Development");
+const commitHash = ref('unknown commit hash');
 
 onMounted(() => {
   if (amethyst.IS_DEV) {
-    window.electron.ipcRenderer.invoke<string>('get-branch-name').then(name => {
-      branchName.value = name;
+    window.electron.ipcRenderer.invoke<{branchName: string, commitHash: string}>('get-branch-name').then(info => {
+      branchName.value = info.branchName;
+      commitHash.value = info.commitHash.substring(0, 7);
     })
   }
 
@@ -74,7 +76,7 @@ provide("menuGroupRef", menuGroupRef);
 
 <template>
   <div
-    class=" z-100 font-main drag pr-2 text-12px select-none flex justify-between items-center transition-colors duration-user-defined"
+    class=" z-100 font-main drag pr-2 text-12px flex justify-between items-center transition-colors duration-user-defined"
     :class="[amethyst.state.window.isFocused ? 'text-text-title' : 'text-text-subtitle', amethyst.getCurrentOperatingSystem() == 'mac' ? 'min-h-24px' : 'min-h-40px']"
   >
     <div
@@ -213,7 +215,7 @@ provide("menuGroupRef", menuGroupRef);
       </menu-container>
     </div>
 
-    <p class="absolute-x  flex items-center gap-1 top-10px select-none">
+    <p class="absolute-x flex items-center gap-1 top-10px">
       <loading-icon v-if="amethyst.isLoading.value" />
       <title-text text="Amethyst" />
       <title-text
@@ -223,11 +225,13 @@ provide("menuGroupRef", menuGroupRef);
       <base-chip
         v-if="amethyst.IS_DEV"
         :color="amethyst.state.window.isFocused ? undefined : 'bg-gray-500'"
+        class="hover:underline no-drag cursor-pointer"
+        @click="amethyst.openLink(`https://github.com/Geoxor/Amethyst/tree/${branchName}`)"
       >
-        {{ branchName }}
+        {{ branchName }} ⚐ {{commitHash}}
       </base-chip>
       <title-text
-        class="opacity-50 font-normal capitalize"
+        class="opacity-50 font-normal"
         :text="amethyst.VERSION"
       />
     </p>

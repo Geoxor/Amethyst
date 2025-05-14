@@ -7,6 +7,7 @@ import type { Event } from "electron";
 import electron, { app, BrowserWindow, dialog, ipcMain, nativeImage, Notification, shell } from "electron";
 import windowStateKeeper from "electron-window-state";
 import fs from "fs";
+import gitCommitInfo  from 'git-commit-info';
 import os from "os";
 import path from "path";
 
@@ -18,7 +19,8 @@ import { getWindow, IS_DEV, store } from "./main.js";
 import { __dirname } from "./utility.js";
 
 ipcMain.handle("get-branch-name", () => {
-  return branchName();
+	// @ts-ignore
+  return {branchName: branchName(), commitHash: gitCommitInfo().commit};
 });
 
 export const APP_VERSION = app.isPackaged ? app.getVersion() : process.env.npm_package_version ?? "0.0.0";
