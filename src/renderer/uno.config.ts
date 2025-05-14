@@ -45,6 +45,11 @@ export default defineConfig({
 			dark: "class"
 		}),
 		presetColorsRGB(),
+		
+  ],
+	rules: [
+    // Override the truncate class to only apply overflow-hidden
+    ['truncate', { overflow: 'hidden' }],
   ],
 	transformers: [
     transformerDirectives(),
