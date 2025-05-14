@@ -169,7 +169,7 @@
   "settings.reset.description": "Vrátit všechna nastavení do továrního nastavení (může pomoct opravit chyby a problémy)",
   "settings.reset.reset": "Obnovit",
   "settings.resampler_rate.title": "Hodnota vzorků",
-  "settings.resampler_rate.description": "Vynuceně zdroje převzorkujte než je předáte Amethyst DPS, pokud používáte ASIO, toto nastavení změní vzorkovací frekvenci vašeho rozhraní takže to bude nastaveno na jakoukoli hodnotu vašeho systému, aby se zabránila neustála změna vzorkové frekvence",
+  "settings.resampler_rate.description": "Vynuceně zdroje převzorkujte než je předáte Amethyst DSP, pokud používáte ASIO, toto nastavení změní vzorkovací frekvenci vašeho rozhraní takže to bude nastaveno na jakoukoli hodnotu vašeho systému, aby se zabránila neustála změna vzorkové frekvence",
   "settings.resampler_rate.warning": "Vyžadováno obnovení",
   "settings.audio_driver.title": "Zvukový ovladač",
   "settings.audio_driver.description": "Vyberte backendový zvukový výstup (např. WASAPI, ASIO, DirectSound)",
