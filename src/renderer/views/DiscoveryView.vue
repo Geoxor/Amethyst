@@ -11,7 +11,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col h-full w-[calc(100%-44px)] py-2 px-4 gap-4 text-text-title">
+  <div class="w-[calc(100%-50px)] py-2 pl-4 pr-2 text-text-title">
     <route-header :title="$t('route.discovery')" />
     <div class="flex gap-2 mt-1">
       <big-button

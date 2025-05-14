@@ -31,11 +31,10 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="flex-col flex w-full py-2 gap-4 px-4 relative">
+  <div class="py-2 pl-4 pr-2">
     <route-header :title="$t('route.queue')">
       <search-input v-model="filterText" />
     </route-header>
-    
     <lazy-list />
   </div>
 </template>

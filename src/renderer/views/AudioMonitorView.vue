@@ -8,8 +8,8 @@ import RouteHeader from "@/components/v2/RouteHeader.vue";
 
 <template>
   <div
-    v-if="amethyst.player.source" 
-    class="flex flex-col h-full w-full py-2 px-4 gap-4 pb-24 text-text-title"
+    v-if="amethyst.player.source"
+    class="h-full w-full py-2 px-4 pb-32 text-text-title"
   >
     <route-header :title="$t('route.audio_monitor')" />
     <div class="flex gap-2 h-full">
