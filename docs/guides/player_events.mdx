@@ -46,7 +46,7 @@ amethyst.player.on("player:resume", (track: Track) => {});
 Emits when user seeks
 
 ```ts
-amethyst.player.on("player:seek", (position: Number) => {});
+amethyst.player.on("player:seek", ({track: Track, seekedTo: number}) => {});
 ```
 
 ### player:trackChange
@@ -55,6 +55,14 @@ Emits when user changes the playing track
 
 ```ts
 amethyst.player.on("player:trackChange", (track: Track) => {});
+```
+
+### player:pitchChange
+
+Emits when user changes the playback rate / pitch shift (default is 1)
+
+```ts
+amethyst.player.on("player:pitchChange", ({track: Track, playbackRate: number}) => {});
 ```
 
 ### player:next

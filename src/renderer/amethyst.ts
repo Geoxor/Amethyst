@@ -11,11 +11,11 @@ import { createI18n } from "vue-i18n";
 import { Analytics } from "@/logic/analytics.js";
 import { EventEmitter } from "@/logic/eventEmitter.js";
 import { flattenArray } from "@/logic/math.js";
-import { MediaSession } from "@/logic/mediaSession.js";
 import { MediaSourceManager } from "@/logic/mediaSources.js";
 import { Player } from "@/logic/player.js";
 import { Shortcuts } from "@/logic/shortcuts.js";
 import type { Track } from "@/logic/track.js";
+import { MediaSession } from "@/modules/mediaSession.js";
 import { State } from "@/state.js";
 
 import { getThemeColorHex } from "./logic/color.js";

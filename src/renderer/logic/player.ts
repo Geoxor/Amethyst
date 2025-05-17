@@ -19,12 +19,13 @@ export enum LoopMode {
 
 export interface PlayerEvents {
   "player:currentTrackMetadataLoaded": Track;
-  "player:seek": number;
+  "player:seek": {track: Track, seekedTo: number};
   "player:play": Track;
   "player:resume": Track;
   "player:pause": Track;
   "player:stop": void;
   "player:volumeChange": number;
+  "player:pitchChange": {track?: Track, playbackRate: number};
   "player:next": Track;
   "player:previous": Track;
   "player:trackChange": Track;
@@ -69,7 +70,10 @@ export class Player extends EventEmitter<PlayerEvents> {
     
     this.nodeManager.master.post.gain.value = this.volumeStored.value;
 
-    watch(() => this.pitchSemitones.value, newPitch => {this.setPlaybackSpeed(newPitch);});
+    watch(() => this.pitchSemitones.value, newPitch => {
+      this.setPlaybackSpeed(newPitch);
+      this.emit("player:pitchChange", {track: this.getCurrentTrack(), playbackRate: newPitch});
+    });
 
     amethyst.IS_DEV && this.showEventLogs();
   }
@@ -83,6 +87,7 @@ export class Player extends EventEmitter<PlayerEvents> {
     this.on("player:next", () => console.log("%cplayer:next", "color: #ff00b6"));
     this.on("player:previous", () => console.log("%cplayer:previous", "color: #ff00b6"));
     this.on("player:trackChange", () => console.log("%cplayer:trackChange", "color: #ff00b6"));
+    this.on("player:pitchChange", () => console.log("%cplayer:pitchChange", "color: #ff00b6"));
     this.on("player:seek", () => console.log("%cplayer:seek", "color: #ff00b6"));
   }
 
@@ -246,8 +251,10 @@ export class Player extends EventEmitter<PlayerEvents> {
   }
 
   public seekTo(time: number) {
+    const track = this.getCurrentTrack();
+    if (!track) return;
 		this.input.currentTime = time;
-    this.emit("player:seek", this.input.currentTime);
+    this.emit("player:seek", {track, seekedTo: this.input.currentTime});
 	}
 
 	public seekForward(step = 5) {
