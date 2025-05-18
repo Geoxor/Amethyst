@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { onKeyStroke } from "@vueuse/core";
-import { computed, inject } from "vue";
+import { onClickOutside, onKeyStroke } from "@vueuse/core";
+import { computed, inject, ref } from "vue";
 
 import TitleText from "../v2/TitleText.vue";
 
@@ -10,6 +10,8 @@ const menuGroupRef = inject<{ value: {
 } }>("menuGroupRef", {
   value: { activeMenu: null } 
 });
+
+const menuContainer = ref<HTMLElement>();
 
 const isShowing = computed(() => menuGroupRef.value.activeMenu === props.title);
 
@@ -24,13 +26,22 @@ const onClick = () => {
     menuGroupRef.value.activeMenu = null;
   else 
     menuGroupRef.value.activeMenu = props.title;
-  
 };
+
+onClickOutside(
+  menuContainer,
+  () => {
+    if (menuGroupRef.value.activeMenu === props.title) 
+      menuGroupRef.value.activeMenu = null;
+  },
+  { ignore: [menuContainer] }
+);
 
 </script>
 
 <template>
   <div 
+    ref="menuContainer"
     class="menu relative h-full no-drag"
     @mouseenter="onMouseEnter"
   >

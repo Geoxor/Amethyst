@@ -76,7 +76,7 @@ provide("menuGroupRef", menuGroupRef);
 
 <template>
   <div
-    class=" z-100 font-main drag pr-2 text-12px flex justify-between items-center transition-colors duration-user-defined"
+    class=" z-100 font-main drag pr-2 text-12px flex justify-between select-none items-center transition-colors duration-user-defined"
     :class="[amethyst.state.window.isFocused ? 'text-text-title' : 'text-text-subtitle', amethyst.getCurrentOperatingSystem() == 'mac' ? 'min-h-24px' : 'min-h-40px']"
   >
     <div
