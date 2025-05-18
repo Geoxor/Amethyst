@@ -127,15 +127,21 @@ export type RewFilter =
 
 export type RewFilters = RewFilter[];
 
+export interface EQCalibration {
+  preamp?: number;
+  filters: RewFilters;
+}
+
 const filterRegex = /Filter\s+(?<index>\d+):\s+ON\s+(?<type>[\w\s-]+?)\s+Fc\s+(?<fc>[\d.]+)\s+Hz(?:\s+Gain\s+(?<gain>[-\d.]+)\s+dB)?(?:\s+Q\s+(?<q>[\d.]+))?(?:\s+T60 target\s+(?<t60>\d+)\s+ms)?(?:\s+Fp\s+(?<fp>[\d.]+))?(?:\s+Qp\s+(?<qp>[\d.]+))?/;
 
 /**
  * Should be used to parse a REW 'as text' txt file.
  */
-export const parseString = (data: string): RewFilters => {
+export const parseString = (data: string): EQCalibration => {
   const lines = data.split("\n");
   const filters: RewFilters = [];
 
+  // parse for filters
   for (const line of lines) {
     const match = line.match(filterRegex);
     if (match) {
@@ -208,5 +214,9 @@ export const parseString = (data: string): RewFilters => {
       }
   }
 
-  return filters;
+  // parse for preamp
+  const preampLine = lines.find(line => line.startsWith("Preamp:"));
+  const preampMatch = preampLine?.match(/Preamp:\s+(-?\d+(\.\d+)?)\s+dB/);
+
+  return { filters , preamp: preampMatch ? parseFloat(preampMatch[1]) : undefined }; 
 }

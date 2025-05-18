@@ -211,8 +211,14 @@ const handleOpenRewFile = async () => {
       const decoder = new TextDecoder("utf-8");
       const rewFilters = parseString( decoder.decode(buffer))
 
-      const nodes = rewFilters.map((filter, i) => {
-        const node = new AmethystFilterNode(amethyst.player.nodeManager.context, computeNodePosition({ x: i * 240, y: i * 0 }));
+      if (rewFilters.preamp) {
+        const gainNode = new AmethystGainNode(amethyst.player.nodeManager.context, computeNodePosition({ x: 0, y: 0 }));
+        gainNode.gain = rewFilters.preamp;
+        amethyst.player.nodeManager.addNode(gainNode);
+      }
+
+      const filterNodes = rewFilters.filters.map((filter, i) => {
+        const node = new AmethystFilterNode(amethyst.player.nodeManager.context, computeNodePosition({ x: 32 + i * 32, y: i * 0 }));
 
         switch (filter.type) {
           case RewFilterType.LowPass:
@@ -240,10 +246,10 @@ const handleOpenRewFile = async () => {
 
       // add and connect nodes in series
 
-      nodes.forEach((node, i) => {
+      filterNodes.forEach((node, i) => {
         amethyst.player.nodeManager.addNode(node);
         if (i > 0) {
-          const prevNode = nodes[i - 1];
+          const prevNode = filterNodes[i - 1];
            if(prevNode) {
              prevNode.connectTo(node);
           }
@@ -319,7 +325,7 @@ onKeyStroke("Delete", () => {
 
       <base-toolbar-button
         icon="ic:twotone-graphic-eq"
-        tooltip-text="Open REW File"
+        tooltip-text="Open REW/AutoEQ Textfile"
         @click="handleOpenRewFile"
       />
 
