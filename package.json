@@ -46,7 +46,8 @@
       "!src/__tests__/**",
       "!release/**",
       "!**/*.amf",
-      "!src/renderer/**"
+      "!src/renderer/**",
+      "!docs/**"
     ],
     "logLevel": "quiet"
   },

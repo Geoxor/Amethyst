@@ -15,7 +15,7 @@
     "dropdowns": [
       {
         "dropdown": "Guides",
-        "description": "Procedures and Development",
+        "description": "Procedures and development",
         "icon": "book",
         "groups": [
           {
@@ -40,7 +40,7 @@
         ]
       },
       {
-        "dropdown": "User Manual",
+        "dropdown": "User manual",
         "description": "Learn how to use Amethyst",
         "icon": "book-open",
         "groups": [
@@ -51,7 +51,13 @@
             ]
           },
           {
-            "group": "File Types",
+            "group": "User interface",
+            "pages": [
+              "user-manual/ui/playback-controls"
+            ]
+          },
+          {
+            "group": "File types",
             "pages": [
               "user-manual/file-types/amethyst-metadata-file",
               "user-manual/file-types/amethyst-node-graph",
