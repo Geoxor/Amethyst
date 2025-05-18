@@ -249,8 +249,8 @@
   "node.output.description": "To audio device",
   "node.input.title": "Input",
   "node.input.description": "From source",
-  "node.filter.title": "12 dB/oct Filter",
-  "node.panner.title": "Stereo Panner",
+  "node.filter.title": "Biquad filter",
+  "node.panner.title": "Stereo panner",
   "node.gain.title": "Gain",
 
   "queue.column.cover": "Cover",
