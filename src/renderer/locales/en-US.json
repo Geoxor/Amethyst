@@ -13,8 +13,9 @@
 
   "output_diagram.title": "Output diagram",
   "output_diagram.source.title": "Source",
-  "output_diagram.decoder.title": "Decoder",
+  "output_diagram.decoder.title": "Decoder", 
   "output_diagram.dsp.title": "DSP",
+  "output_diagram.dsp.node_count": "processor nodes",
   "output_diagram.audio_device.title": "Audio device",
   "output_diagram.output.title": "Output",
   "output_diagram.resampler.title": "Resampler",
