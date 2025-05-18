@@ -2,9 +2,11 @@
 import { Icon } from "@iconify/vue";
 import { useSlots } from "vue";
 
+import { amethyst } from "@/amethyst";
+
 import BaseChip from "../BaseChip.vue";
 import TitleSubtitle from "../v2/TitleSubtitle.vue";
-defineProps<{subsetting?:boolean, title: string, description?: string, warning?:string, icon: string }>();
+defineProps<{subsetting?:boolean, title: string, description?: string, info?: string, warning?:string, icon: string }>();
 
 const slots = useSlots();
 
@@ -30,8 +32,10 @@ const hasSubsetting = () => {
       <title-subtitle
         :title="title"
         :subtitle="description"
+        :info="info"
         class="whitespace-normal"
       />
+
       <div class="flex-1" />
       <base-chip
         v-if="warning"

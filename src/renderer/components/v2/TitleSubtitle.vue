@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import { Icon } from "@iconify/vue";
 import { onBeforeUnmount, onMounted, ref } from "vue";
 
 import { amethyst } from "@/amethyst.js";
 
+import BaseTooltip from "../BaseTooltip.vue";
 import SubtitleText from "./SubtitleText.vue";
 import TitleText from "./TitleText.vue";
-const props = defineProps<{ title?: string, subtitle?: string; alignment?: "left" | "center" | "right", subtitleEllipses?: boolean }>();
+const props = defineProps<{ title?: string, subtitle?: string; alignment?: "left" | "center" | "right", subtitleEllipses?: boolean, info?: string }>();
 
 const titleRef = ref<HTMLDivElement>();
 const subtitleRef = ref<HTMLDivElement>();
@@ -49,12 +51,27 @@ onBeforeUnmount(() => {
   >
     <div
       ref="titleRef"
-      class="w-full"
+      class="w-full flex gap-2"
     >
       <title-text
         :text="title ?? 'Title'"
         class="duration-user-defined"
       />
+
+      <base-tooltip
+        v-if="info"
+        text="Open manual "
+        placement="top"
+      >
+        <Icon
+          icon="mdi:information-slab-box-outline"  
+          class="min-w-4 min-h-4 text-inspector-color/75 hover:text-inspector-color/100 cursor-external-pointer"
+          @click="() => {
+            amethyst.openLink(info!);
+          }"
+        />
+      </base-tooltip>
+
     </div>
     <div
       v-if="!amethyst.state.settings.appearance.minimalistMode"

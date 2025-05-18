@@ -88,6 +88,7 @@ const {metering} = amethyst.state.settings;
   <settings-setting
     :title="$t('settings.vectorscope.title')"
     icon="ic:twotone-fiber-smart-record"
+    info="https://amethyst.geoxor.moe/user-manual/visuals/vectorscope"
     :description="$t('settings.vectorscope.description')"
   >
     <toggle-switch v-model="metering.vectorscope.show" />
@@ -139,6 +140,7 @@ const {metering} = amethyst.state.settings;
   <settings-setting
     :title="$t('settings.spectrum_analyzer.title')"
     icon="ic:twotone-graphic-eq"
+    info="https://amethyst.geoxor.moe/user-manual/visuals/spectrum-analyzer"
     :description="$t('settings.spectrum_analyzer.description')"
   >
     <toggle-switch v-model="metering.spectrum.show" />
