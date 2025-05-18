@@ -223,6 +223,8 @@ const {appearance} = amethyst.state.settings;
   </settings-setting>
   <settings-setting
     :title="$t('settings.playback_controls.title')"
+    info="https://amethyst.geoxor.moe/user-manual/ui/playback-controls"
+    :shortcuts="['F10']"
     :description="$t('settings.playback_controls.description')"
     icon="ic:twotone-skip-next"
   >
@@ -267,6 +269,7 @@ const {appearance} = amethyst.state.settings;
     />
   </settings-setting>
   <settings-setting
+    :shortcuts="['F9']"
     :title="$t('settings.debug_stats.title')"
     :description="$t('settings.debug_stats.description')"
     icon="ic:twotone-bug-report"
