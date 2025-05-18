@@ -17,31 +17,31 @@ onMounted(() => {
     <div class="flex gap-2 mt-1">
       <big-button
         class="flex gap-2"
-        :icon="'mdi:dice-5'" 
+        icon="mdi:dice-5" 
         @click="amethyst.analytics.getDiscoveryTracks()"
       />
       <big-button
         class="flex gap-2 w-full"
-        :icon="'ic:twotone-control-point-duplicate'" 
+        icon="ic:twotone-control-point-duplicate" 
         title="just send it"
         description="i cant decide"
         @click="amethyst.player.playRandomTrack()"
       />
       <big-button
         class="flex gap-2 w-full"
-        :icon="'ic:twotone-favorite'" 
+        icon="ic:twotone-favorite" 
         title="favorites"
         description="view your favorite saved songs"
       />
       <big-button
         class="flex gap-2 w-1/2"
-        :icon="'ic:twotone-list'" 
+        icon="ic:twotone-list" 
         title="just send it"
         description="i cant decide"
       />
       <big-button
         class="flex gap-2"
-        :icon="'ic:twotone-plus'" 
+        icon="ic:twotone-plus" 
         title="just send it"
         description="i cant decide"
       />
