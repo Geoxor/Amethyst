@@ -37,6 +37,8 @@ Filter 20: ON  L-T      Fc   50.00 Hz  Q   1.20 Fp 30 Qp 0.50
 describe("rewParser", () => {
   it("should parse rew files correctly", () => {
     const rewFilters = parseString(mockRewFilter);
+    console.log(rewFilters);
+
     expect(rewFilters).toHaveLength(20);
     expect(rewFilters[0]).toEqual({
       type: RewFilterType.Peaking,

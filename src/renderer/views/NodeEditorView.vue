@@ -14,6 +14,7 @@ import { useContextMenu } from "@/components/ContextMenu";
 import { useInspector } from "@/components/Inspector";
 import type { AmethystAudioNode } from "@/logic/audio";
 import { getThemeColorHex } from "@/logic/color";
+import { parseString, RewFilterType } from "@/modules/rewParser";
 import { AmethystFilterNode, AmethystGainNode, AmethystPannerNode, AmethystSpectrumNode } from "@/nodes";
 const dash = ref();
 const nodeEditor = ref();
@@ -193,6 +194,64 @@ const handleOpenFile = async () => {
     });
 };
 
+const handleOpenRewFile = async () => {
+  const result = await amethyst.showOpenFileDialog({filters: [{name: "Text file", extensions: ["txt"]}]});
+  if (result.canceled) return;
+  
+  fetch("file://" + result.filePaths[0])
+    .then(response => response.blob())
+    .then(blob => {
+      return new Promise<ArrayBuffer>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsArrayBuffer(blob);
+        reader.onloadend = () => reader.result ? resolve(reader.result as ArrayBuffer) : reject("reader null");
+      });
+    })
+    .then(buffer => {
+      const decoder = new TextDecoder("utf-8");
+      const rewFilters = parseString( decoder.decode(buffer))
+
+      const nodes = rewFilters.map((filter, i) => {
+        const node = new AmethystFilterNode(amethyst.player.nodeManager.context, computeNodePosition({ x: i * 240, y: i * 0 }));
+
+        switch (filter.type) {
+          case RewFilterType.LowPass:
+            node.type = "lowpass";
+            node.frequency = filter.frequency;
+            break;
+          case RewFilterType.HighPass:
+            node.type = "lowpass";
+            break;
+          case RewFilterType.Peaking:
+            node.type = "peaking";
+            node.frequency = filter.frequency;
+            node.gain = filter.gain;
+            node.q = filter.q;
+            break;
+          case RewFilterType.Notch:
+            node.type = "notch";
+            node.frequency = filter.frequency;
+            break;
+          default:
+            break;
+        }
+        return node;
+      });
+
+      // add and connect nodes in series
+
+      nodes.forEach((node, i) => {
+        amethyst.player.nodeManager.addNode(node);
+        if (i > 0) {
+          const prevNode = nodes[i - 1];
+           if(prevNode) {
+             prevNode.connectTo(node);
+          }
+        }
+      });
+    });
+};
+
 const handleSaveFile = async () => {
   const serializedGraph = amethyst.player.nodeManager.serialize();
   const dialog = await amethyst.showSaveFileDialog({
@@ -254,6 +313,14 @@ onKeyStroke("Delete", () => {
         :active="amethyst.state.isSnappingToGrid.value"
         tooltip-text="Snap to Grid"
         @click="amethyst.state.isSnappingToGrid.value = !amethyst.state.isSnappingToGrid.value"
+      />
+
+      <base-toolbar-splitter />
+
+      <base-toolbar-button
+        icon="ic:twotone-graphic-eq"
+        tooltip-text="Open REW File"
+        @click="handleOpenRewFile"
       />
 
       <base-toolbar-splitter />
