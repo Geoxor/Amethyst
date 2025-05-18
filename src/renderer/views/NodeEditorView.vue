@@ -228,6 +228,21 @@ const handleOpenRewFile = async () => {
           case RewFilterType.HighPass:
             node.type = "lowpass";
             break;
+          case RewFilterType.LowShelf:
+            node.type = "lowshelf";
+            node.frequency = filter.frequency;
+            node.gain = filter.gain;
+            break;
+          case RewFilterType.HighShelf:
+            node.type = "highshelf";
+            node.frequency = filter.frequency;
+            node.gain = filter.gain;
+            break;
+          case RewFilterType.Allpass:
+            node.type = "bandpass";
+            node.frequency = filter.frequency;
+            node.q = filter.q;
+            break;
           case RewFilterType.Peaking:
             node.type = "peaking";
             node.frequency = filter.frequency;
