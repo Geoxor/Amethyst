@@ -141,4 +141,57 @@ describe("rewParser", () => {
       qp: 0.5,
     });
   });
+
+  it("should parse valid filters when possible and ignore invalid", () => {
+    const badData = `
+      Filter Settings file
+
+      Room EQ V5.31.3
+      Dated: May 18, 2025 4:13:30 AM
+
+      Notes:
+
+      Equaliser: Generic
+      FL Mar 10
+      Filter  1: ON  aPK       Fc   53.90 Hz  Gain   0.f00 dB  Q 10.000
+      Filter  2: ON  Moxal    Fc   85d9.40 Hz  Ga.. ain   0.00 dB  Q 1
+      Filter  3: ON  LP       Fc   145.5 Hz 
+    `;
+    const rewFilters = parseString(badData);
+    expect(rewFilters).toHaveLength(1);
+    expect(rewFilters[0]).toEqual({
+      type: RewFilterType.LowPass,
+      frequency: 145.5,
+    });
+  });
+
+  it("should handle empty strings", () => {
+    const rewFilters = parseString("");
+    expect(rewFilters).toHaveLength(0);
+  });
+
+  it("should ignore filters that are off", () => {
+    const data = `
+      Filter 1: OFF PK Fc 53.90 Hz Gain 0.00 dB Q 10.000
+      Filter 2: ON  LP Fc 145.5 Hz
+    `;
+    const rewFilters = parseString(data);
+    expect(rewFilters).toHaveLength(1);
+    expect(rewFilters[0]).toEqual({
+      type: RewFilterType.LowPass,
+      frequency: 145.5,
+    });
+  });
+
+
+  it("should handle extra or irregular whitespace", () => {
+    const data = `Filter 1: ON   PK    Fc   53.90 Hz   Gain  0.00 dB     Q    10.000`;
+    const rewFilters = parseString(data);
+    expect(rewFilters[0]).toEqual({
+      type: RewFilterType.Peaking,
+      frequency: 53.9,
+      gain: 0,
+      q: 10,
+    });
+  });
 });

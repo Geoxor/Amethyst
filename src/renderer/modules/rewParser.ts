@@ -149,6 +149,9 @@ export const parseString = (data: string): RewFilters => {
 
       let filter: RewFilter;
 
+      // Check if filter type is invalid
+      if (!Object.values(RewFilterType).includes(type)) continue;
+
       switch (type) {
         case RewFilterType.Peaking:
           filter = { type, frequency, gain: gain!, q: q! };
