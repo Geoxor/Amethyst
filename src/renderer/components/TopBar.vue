@@ -224,7 +224,7 @@ provide("menuGroupRef", menuGroupRef);
       />
       <base-chip
         v-if="amethyst.IS_DEV"
-        :color="amethyst.state.window.isFocused ? undefined : 'bg-gray-500'"
+        :color="amethyst.state.window.isFocused ? undefined : 'primary-900'"
         class="hover:underline no-drag cursor-pointer"
         @click="amethyst.openLink(`https://github.com/Geoxor/Amethyst/tree/${branchName}`)"
       >
