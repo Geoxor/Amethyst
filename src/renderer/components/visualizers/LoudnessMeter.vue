@@ -130,7 +130,7 @@ onMounted(() => {
 <style scoped lang="postcss">
 
 .meter {
-  @apply flex gap-2 w-full max-h-[10px];
+  @apply flex gap-1 w-full max-h-[10px];
 }
 .barBg {
   @apply bg-slider-background w-3/4 truncate rounded-[2px];
@@ -140,7 +140,7 @@ onMounted(() => {
 }
 
 .type {
-  @apply w-4 text-center;
+  @apply min-w-4 text-center;
 }
 
 .value {

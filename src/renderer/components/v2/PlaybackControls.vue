@@ -115,7 +115,7 @@ const editMeterContextMenuOption = (name :string) => [{
     <div
       v-if="amethyst.state.settings.metering.loudnessMeter.show"
       :class="[!amethyst.state.settings.metering.oscilloscope.show && 'max-w-304px']"
-      class="flex pointer-events-auto items-center h-16 gap-2 rounded-8px w-full min-w-180px max-w-240px bg-playback-controls-background hide p-2"
+      class="flex pointer-events-auto items-center h-16 gap-2 rounded-8px w-full min-w-100px max-w-240px bg-playback-controls-background p-2"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
         { title: 'Hide loudness meter', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.metering.loudnessMeter.show = false },
         ...editMeterContextMenuOption('loudness meter')
@@ -130,7 +130,7 @@ const editMeterContextMenuOption = (name :string) => [{
     <div
       v-else
       :class="[!amethyst.state.settings.metering.oscilloscope.show && 'max-w-304px']"
-      class="flex pointer-events-auto p-2 items-center h-16 gap-2 w-full xl:w-full max-w-180px select-none"
+      class="flex pointer-events-auto p-2 items-center h-16 gap-2 w-full xl:w-full max-w-100px select-none"
     />
 
     <div
@@ -155,7 +155,7 @@ const editMeterContextMenuOption = (name :string) => [{
       side="centerVertical"
       :handles-visible="false"
       default-size="960px"
-      :class="[amethyst.getCurrentPlatform() == 'mobile' ? 'rounded-t-8px pb-8 pt-0.5 min-w-410px ' : 'rounded-8px min-w-670px']"
+      :class="[amethyst.getCurrentPlatform() == 'mobile' ? 'rounded-t-8px pb-8 pt-0.5 min-w-410px ' : 'rounded-8px min-w-560px']"
       class="relative max-w-full pointer-events-auto bg-playback-controls-background"
     >
       <div class="flex relative items-center h-16 gap-2 p-2 w-full">
@@ -328,7 +328,7 @@ const editMeterContextMenuOption = (name :string) => [{
       v-if="amethyst.state.settings.metering.spectrum.show"
       :key="amethyst.player.nodeManager.getNodeConnectionsString()"
       :class="[!amethyst.state.settings.metering.vectorscope.show && 'max-w-304px']"
-      class="flex pointer-events-auto truncate items-center h-16 gap-2 rounded-8px transition w-full min-w-180px max-w-240px bg-playback-controls-background hide"
+      class="flex pointer-events-auto truncate items-center h-16 gap-2 rounded-8px transition w-full min-w-100px max-w-240px bg-playback-controls-background"
       @contextmenu="useContextMenu().open({ x: $event.x, y: $event.y }, [
         { title: 'Hide spectrum analyzer', icon: 'ic:twotone-remove-red-eye', action: () => amethyst.state.settings.metering.spectrum.show = false },
         ...editMeterContextMenuOption('spectrum analyzer')
@@ -344,7 +344,7 @@ const editMeterContextMenuOption = (name :string) => [{
     <div
       v-else
       :class="[!amethyst.state.settings.metering.vectorscope.show && 'max-w-304px']"
-      class="flex pointer-events-auto p-2 items-center h-16 gap-2 w-full xl:w-full max-w-180px select-none"
+      class="flex pointer-events-auto p-2 items-center h-16 gap-2 w-full xl:w-full max-w-100px select-none"
     />
   </div>
 </template>
@@ -352,12 +352,6 @@ const editMeterContextMenuOption = (name :string) => [{
 <style scoped lang="postcss">
 .utilityButton {
   @apply w-5 min-w-5 h-5 min-h-5 opacity-75 hover:opacity-100;
-}
-
-@media only screen and (max-width: 1200px) {
-  .hide {
-    @apply min-w-0px max-w-0px p-0;
-  }
 }
 
 .slide-enter-active {

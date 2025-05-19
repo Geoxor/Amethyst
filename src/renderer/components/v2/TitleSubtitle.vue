@@ -51,7 +51,7 @@ onBeforeUnmount(() => {
   >
     <div
       ref="titleRef"
-      class="w-full flex gap-2"
+      class="w-full flex gap-1"
     >
       <title-text
         :text="title ?? 'Title'"
@@ -59,18 +59,18 @@ onBeforeUnmount(() => {
       />
 
       <base-tooltip
-        v-if="info"
-        text="Open manual "
+        text="Open manual"
         placement="top"
       >
-        <Icon
-          icon="mdi:information-slab-box-outline"  
-          class="min-w-4 min-h-4 text-inspector-color/75 hover:text-inspector-color/100 cursor-external-pointer"
-          @click="() => {
-            amethyst.openLink(info!);
-          }"
-        />
-      </base-tooltip>
+          <Icon
+            v-if="info"
+            icon="mdi:information-slab-box-outline"  
+            class="min-w-4 min-h-4 text-inspector-color cursor-external-pointer"
+            @click="() => {
+              amethyst.openLink(info!);
+            }"
+          />
+        </base-tooltip>
 
     </div>
     <div

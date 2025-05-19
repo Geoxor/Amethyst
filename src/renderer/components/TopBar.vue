@@ -239,7 +239,7 @@ provide("menuGroupRef", menuGroupRef);
     <div class="flex gap-1.25 h-6 items-center truncate font-aseprite whitespace-nowrap">
       <div
         v-if="amethyst.state.settings.appearance.showDebugStats"
-        class="w-56 flex gap-1 justify-end no-drag" 
+        class="w-min flex gap-1 justify-end no-drag" 
         @click="min = Number.POSITIVE_INFINITY; max = Number.NEGATIVE_INFINITY;"
       >
         <div class="hidden lg:inline font-aseprite text-primary-900/50">
