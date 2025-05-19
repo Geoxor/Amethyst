@@ -405,8 +405,8 @@ export class Amethyst extends AmethystBackend {
         updateWithCurrentTrack();
       });
 
-      this.player.on("player:seek", async newTime => {
-        start = Date.now() - newTime * 1000; 
+      this.player.on("player:seek", async ({seekedTo}) => {
+        start = Date.now() - seekedTo * 1000; 
         if (!isPaused) {
           updateWithCurrentTrack();
         } else {

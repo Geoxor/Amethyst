@@ -146,6 +146,7 @@ export class AmethystAudioNode {
   };
 
   public applyParameters(parameters: NodeParameters) {
+    parameters // shut the fuck up typescript
     throw new Error("Not implemented");
   }
 

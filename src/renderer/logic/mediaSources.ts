@@ -12,11 +12,12 @@ export enum MediaSourceType {
 }
 
 export class MediaSourceManager {
-  public mediaSources = ref<MediaSource[]>([]);
- 
+  public mediaSources = ref<(MediaSource)[]>([]);
+
   public constructor(protected amethyst: Amethyst) {
     this.amethyst.state.settings.mediaSources.saveMediaSources.forEach(savedSource => {
       if (savedSource.path) {
+        // @ts-ignore
         this.mediaSources.value.push(new LocalMediaSource(this.amethyst, savedSource.path));
       }
     });
@@ -34,6 +35,7 @@ export class MediaSourceManager {
       
       if (mediaSource.type && mediaSource.path) {
         this.amethyst.state.settings.mediaSources.saveMediaSources.push({type: mediaSource.type, path: mediaSource.path, uuid: mediaSource.uuid});
+        // @ts-ignore
         this.mediaSources.value.push(mediaSource);
       }
     });
