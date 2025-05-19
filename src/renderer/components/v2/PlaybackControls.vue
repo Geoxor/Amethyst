@@ -279,7 +279,7 @@ const editMeterContextMenuOption = (name :string) => [{
             v-if="amethyst.player.volume > amethyst.player.minDb"
             icon="ic:round-volume-up"
             class="utilityButton"
-            @click="lastVolumeBeforeMute = amethyst.player.volume; amethyst.player.setVolume(0);"
+            @click="lastVolumeBeforeMute = amethyst.player.volume; amethyst.player.mute()"
           />
           <icon
             v-else

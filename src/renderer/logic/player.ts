@@ -34,7 +34,7 @@ export interface PlayerEvents {
 export class Player extends EventEmitter<PlayerEvents> {
   private minVolume: number = 0.001;
   private maxVolume: number = 1.0;
-  public minDb: number = -48;
+  public minDb: number = -60;
   public maxDb: number = 0;
   private volumeStored = useLocalStorage<number>("volume", 1, { writeDefaults: true });
 
@@ -294,6 +294,10 @@ export class Player extends EventEmitter<PlayerEvents> {
     const linear = this.volumeStored.value;
     this.nodeManager.master.post.gain.value = linear;
     this.emit("player:volumeChange", dB);
+  }
+
+  public mute(){
+    this.setVolume(this.minDb);
   }
 
 	public volumeUp(dB = 1) {
