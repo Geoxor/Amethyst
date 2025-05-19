@@ -17,19 +17,23 @@ export enum LoopMode {
 	One,
 }
 
-export interface PlayerEvents {
-  "player:currentTrackMetadataLoaded": Track;
-  "player:seek": {track: Track, seekedTo: number};
-  "player:play": Track;
-  "player:resume": Track;
-  "player:pause": Track;
-  "player:stop": void;
-  "player:volumeChange": number;
-  "player:pitchChange": {track?: Track, playbackRate: number};
-  "player:next": Track;
-  "player:previous": Track;
-  "player:trackChange": Track;
-}
+const playerEventMap = {
+  "player:currentTrackMetadataLoaded": {} as Track,
+  "player:seek": {} as { track: Track; seekedTo: number },
+  "player:play": {} as Track,
+  "player:resume": {} as Track,
+  "player:pause": {} as Track,
+  "player:stop": undefined as void,
+  "player:volumeChange": 0 as number,
+  "player:pitchChange": {} as { track?: Track; playbackRate: number },
+  "player:next": {} as Track,
+  "player:previous": {} as Track,
+  "player:trackChange": {} as Track,
+} as const;
+
+export type PlayerEvents = {
+  [K in keyof typeof playerEventMap]: typeof playerEventMap[K];
+};
 
 export class Player extends EventEmitter<PlayerEvents> {
   private minVolume: number = 0.001;
@@ -79,16 +83,9 @@ export class Player extends EventEmitter<PlayerEvents> {
   }
 
   private showEventLogs() {
-    this.on("player:play", () => console.log("%cplayer:play", "color: #ff00b6"));
-    this.on("player:pause", () => console.log("%cplayer:pause", "color: #ff00b6"));
-    this.on("player:resume", () => console.log("%cplayer:resume", "color: #ff00b6"));
-    this.on("player:stop", () => console.log("%cplayer:stop", "color: #ff00b6"));
-    this.on("player:volumeChange", () => console.log("%cplayer:volumeChange", "color: #ff00b6"));
-    this.on("player:next", () => console.log("%cplayer:next", "color: #ff00b6"));
-    this.on("player:previous", () => console.log("%cplayer:previous", "color: #ff00b6"));
-    this.on("player:trackChange", () => console.log("%cplayer:trackChange", "color: #ff00b6"));
-    this.on("player:pitchChange", () => console.log("%cplayer:pitchChange", "color: #ff00b6"));
-    this.on("player:seek", () => console.log("%cplayer:seek", "color: #ff00b6"));
+    for (const event in playerEventMap) {
+      this.on(event as keyof PlayerEvents, (e) => console.log(`%c[⚐ Player Event]%c ${event}`, "background-color: #6562ff; color: black; font-weight: bold;", "color:rgb(188, 187, 233);", e));
+    }  
   }
 
   public playRandomTrack = () => {

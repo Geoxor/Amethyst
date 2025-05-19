@@ -30,17 +30,24 @@ export const i18n = createI18n({
 export type AmethystPlatforms = ReturnType<typeof amethyst.getCurrentPlatform>;
 export const favoriteTracks = useLocalStorage<string[]>("favoriteTracks", []);
 
+
+const windowEventMap = {
+  "window:maximize": undefined as void,
+  "window:unmaximize": undefined as void,
+  "window:minimize": undefined as void,
+  "window:focus": undefined as void,
+  "window:unfocus": undefined as void,
+} as const;
+
+export type WindowEvents = {
+  [K in keyof typeof windowEventMap]: typeof windowEventMap[K];
+};
+
 /**
  * Handles interfacing with operating system and unifies methods 
  * to a simple form for all the platforms
  */
-export class AmethystBackend extends EventEmitter<{
-  "window:maximize": void;
-  "window:unmaximize": void;
-  "window:minimize": void;
-  "window:focus": void;
-  "window:unfocus": void;
-}>{
+export class AmethystBackend extends EventEmitter<WindowEvents>{
   public constructor() {
     super();
     console.log(`Current platform: ${this.getCurrentPlatform()}`);
@@ -307,11 +314,9 @@ export class Amethyst extends AmethystBackend {
   }
 
   private showEventLogs() {
-    this.on("window:maximize", () => console.log("%cwindow:maximize", "color:#00b7ff"));
-    this.on("window:unmaximize", () => console.log("%cwindow:unmaximize", "color: #00b7ff"));
-    this.on("window:minimize", () => console.log("%cwindow:minimize", "color: #00b7ff"));
-    this.on("window:focus", () => console.log("%cwindow:focus", "color: #00b7ff"));
-    this.on("window:unfocus", () => console.log("%cwindow:unfocus", "color: #00b7ff"));
+    for (const event in windowEventMap) {
+      this.on(event as keyof WindowEvents, (e) => console.log(`%c[⚐ Window Event]%c ${event}`, "background-color: #00b7ff; color: black; font-weight: bold;", "color:rgb(188, 236, 255);", e));
+    }  
   }
 
   public updateCurrentOutputDevice = async () => {
