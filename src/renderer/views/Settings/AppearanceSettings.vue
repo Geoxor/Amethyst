@@ -97,16 +97,6 @@ const {appearance} = amethyst.state.settings;
   </settings-setting>
 
   <settings-setting
-    :title="$t('settings.queue.compact_mode.title')"
-    :description="$t('settings.queue.compact_mode.description')"
-    icon="ic:twotone-view-list"
-  >
-    <toggle-switch
-      v-model="appearance.compactList" 
-    />
-  </settings-setting>
-
-  <settings-setting
     :title="$t('settings.ambient_background.title')"
     :description="$t('settings.ambient_background.description')"
     icon="ic:twotone-photo-size-select-actual"
@@ -212,6 +202,17 @@ const {appearance} = amethyst.state.settings;
       </div>
     </template> 
   </settings-setting>
+
+  <settings-setting
+    :title="$t('settings.queue.compact_mode.title')"
+    :description="$t('settings.queue.compact_mode.description')"
+    icon="ic:twotone-view-list"
+  >
+    <toggle-switch
+      v-model="appearance.compactList" 
+    />
+  </settings-setting>
+
   <settings-setting
     :title="$t('settings.neon_mode.title')"
     :description="$t('settings.neon_mode.description')"
