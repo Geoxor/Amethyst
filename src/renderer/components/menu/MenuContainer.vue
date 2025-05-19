@@ -52,13 +52,15 @@ onClickOutside(
     >
       <title-text :text="title" />
     </div>
-    <div
-      v-if="isShowing"
-      class="absolute z-30 flex select-none items-center bg-surface-800 shadow-xl rounded-8px border-solid border-1 border-surface-600 left-0 mt-1 py-1 flex-col w-96"
-      @click="onClick"
-    >
-      <slot />
-    </div>
+    <transition name="slide">
+      <div
+        v-if="isShowing"
+        class="absolute z-30 flex select-none items-center bg-surface-800 shadow-xl rounded-8px border-solid border-1 border-surface-600 left-0 mt-1 py-1 flex-col w-96"
+        @click="onClick"
+      >
+        <slot />
+      </div>
+    </transition>
   </div>
   <div
     v-if="isShowing"
@@ -67,3 +69,19 @@ onClickOutside(
     @click="onClick"
   />
 </template>
+
+<style scoped lang="postcss">
+.dropdown .active {
+  @apply bg-accent/15 text-accent;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  @apply duration-100 opacity-100 translate-y-0;
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  @apply opacity-0 transform-gpu translate-y-4;
+}
+</style>
