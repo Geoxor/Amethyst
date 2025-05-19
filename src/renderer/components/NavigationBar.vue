@@ -17,12 +17,12 @@ import NavigationButton from "@/components/NavigationButton.vue";
     />
           
     <!-- <navigation-button
-      :icon="PlaylistIcon"
+      icon="ic:twotone-playlist"
       route-name="playlists"
     /> -->
 
     <!-- <navigation-button
-      :icon="HeartIcon"
+      icon="ic:twotone-favorite"
       route-name="favorites"
     /> -->
 

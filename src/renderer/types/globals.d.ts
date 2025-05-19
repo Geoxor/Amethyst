@@ -1,6 +1,9 @@
+import { Amethyst } from "@/amethyst.ts";
 import { md5 } from "../../main/utility.ts";
 
 declare global {
+	// Add type definition for __amethyst__ on globalThis
+  var __amethyst__: Amethyst | undefined;
 
 	interface Import {
 		meta: {

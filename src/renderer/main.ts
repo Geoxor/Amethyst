@@ -116,6 +116,8 @@ loadIcons([
   "mdi:play"
 ]);
 
+import "@/amethyst.js";
+
 import { createApp } from "vue";
 // @ts-ignore no types
 import { RecycleScroller } from "vue-virtual-scroller";

@@ -50,11 +50,11 @@ onMounted(() => {
         class="absolute flex items-center gap-0.5 top-0 font-weight-user-defined right-0 min-w-4 text-12px text-center p-1 z-5 rounded-bl-8px  text-black"
         :style="`background-color: ${color};`"
       >
-      
+        
         <icon
           icon="ic:twotone-refresh"
-          class="w-4 h-4"
-        />
+          class="w-4 h-4" 
+        /> 
         {{ amethyst.analytics.getPlayCount(track) }}</h1>
 
       <template v-if="amethyst.player.getCurrentTrack() == track">
@@ -68,13 +68,12 @@ onMounted(() => {
           icon="ic:round-pause"
           class="icon"
         />
-      </template>
+      </template>  
 
-      <div class="bg-surface-1000">
+      <div class="bg-surface-1000 w-32 h-32">
         <cover-art
           :url="track.getCover()"
           :class="[amethyst.player.getCurrentTrack() == track && 'opacity-35']"
-          class="min-w-32 min-h-32 "
         />
       </div>
     </span>

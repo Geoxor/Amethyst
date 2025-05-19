@@ -253,6 +253,8 @@ export class Amethyst extends AmethystBackend {
   public constructor() {
     super();
 
+    console.log("Amethyst initialized");
+
     // Init zoom from store
     document.body.style.zoom = this.state.zoomLevel.value.toString();
         
@@ -615,7 +617,15 @@ export class Amethyst extends AmethystBackend {
 
 }
 
-export const amethyst = new Amethyst();
+// this is to not reinitialize the Amethyst class on hot reload
+let globalAmethyst = globalThis.__amethyst__;
+
+if (!globalAmethyst) {
+  globalAmethyst = new Amethyst();
+  globalThis.__amethyst__ = globalAmethyst;
+}
+
+export const amethyst = globalAmethyst;
 
 // interface IPluginDefinitionParameters {
 //   store: Store, 
