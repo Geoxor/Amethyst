@@ -44,7 +44,7 @@ onMounted(() => {
     @click="amethyst.player.play(track)"
     @contextmenu="handleTrackContextMenu($event, track)"
   >
-    <span class="relative truncate rounded-8px transition-all duration-100 transform-gpu hover:scale-110">
+    <span class="relative truncate rounded-8px transition-all duration-user-defined transform-gpu hover:scale-110">
       <h1
         v-if="amethyst.analytics.getPlayCount(track)"
         class="absolute flex items-center gap-0.5 top-0 font-weight-user-defined right-0 min-w-4 text-12px text-center p-1 z-5 rounded-bl-8px  text-black"

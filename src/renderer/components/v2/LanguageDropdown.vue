@@ -89,7 +89,9 @@ button.active {
 
 .slide-enter-active,
 .slide-leave-active {
-  @apply duration-100 opacity-100 translate-y-0;
+  @apply opacity-100 translate-y-0;
+  transition-duration: var(--transition-duration);
+
 }
 
 .slide-enter-from,

@@ -352,7 +352,8 @@ onKeyStroke("Delete", () => {
 
 .vue-flow__node {
   .minimenu {
-    @apply invisible opacity-0 duration-100;
+    @apply invisible opacity-0;
+    transition-duration: var(--transition-duration);
   }
 
   &:hover {
@@ -379,7 +380,9 @@ onKeyStroke("Delete", () => {
   
 .vue-flow__edge {
   path {
-    @apply stroke-surface-400 duration-100 transition-colors;
+    @apply stroke-surface-400 transition-colors;
+    transition-duration: var(--transition-duration);
+
   }
 
   &:hover path {
@@ -392,7 +395,8 @@ onKeyStroke("Delete", () => {
 }
 
 .vue-flow__handle {
-  @apply border-surface-400 border-opacity-60 h-1/2 rounded-2px hover:border-accent bg-surface-800 hover:bg-surface-600 duration-100transition-colors;
+  @apply border-surface-400 border-opacity-60 h-1/2 rounded-2px hover:border-accent bg-surface-800 hover:bg-surface-600 transition-colors;
+  transition-duration: var(--transition-duration);
 }
 
 </style>

@@ -88,7 +88,7 @@ onMounted(() => {
       </p>
       <div class="barBg">
         <div
-          class="bar bg-slider-fill duration-100"
+          class="bar bg-slider-fill duration-meter-user-defined"
           :style="`width: ${mapValueToPercentage(MINIMUM_LUFS, 0, momentary)}%`"
         />
       </div>
@@ -102,7 +102,7 @@ onMounted(() => {
       </p>
       <div class="barBg">
         <div
-          class="bar bg-slider-fill duration-100"
+          class="bar bg-slider-fill duration-meter-user-defined"
           :style="`width: ${mapValueToPercentage(MINIMUM_LUFS, 0, shortTerm)}%`"
         />
       </div>
