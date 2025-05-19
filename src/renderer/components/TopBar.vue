@@ -2,6 +2,7 @@
 import { Icon } from "@iconify/vue";
 import { useFps } from "@vueuse/core";
 import { computed, onMounted, provide, ref } from "vue";
+import { onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 
 import { amethyst } from "@/amethyst.js";
@@ -28,24 +29,32 @@ const router = useRouter();
 
 const branchName = ref("Development");
 const commitHash = ref('unknown commit hash');
-
+let clock: NodeJS.Timeout;
+    
 onMounted(() => {
-  setInterval(() => {
-    if (amethyst.IS_DEV) {
+  if (amethyst.IS_DEV) {
     window.electron.ipcRenderer.invoke<{branchName: string, commitHash: string}>('get-branch-name').then(info => {
-        branchName.value = info.branchName;
-        commitHash.value = info.commitHash.substring(0, 7);
-      })
+      branchName.value = info.branchName;
+      commitHash.value = info.commitHash.substring(0, 7);
+    })
+  }    
+
+  clock = setInterval(() => {
+    if (amethyst.state.settings.appearance.showDebugStats) {
+      fps.value = fpsCounter.value;
+      if (fps.value > max.value) max.value = fps.value;
+      if (fps.value < min.value) min.value = fps.value;
+      domSize.value = countDomElements();
+      amethyst.player.getLatency().then(l => latency.value = l);
+      // TODO: multiplatform support
+      smoothTween(tweenedFps.value, fpsCounter.value, 1000, (tweenedNumber => tweenedFps.value = Math.ceil(tweenedNumber)));
     }
-    fps.value = fpsCounter.value;
-    if (fps.value > max.value) max.value = fps.value;
-    if (fps.value < min.value) min.value = fps.value;
-    domSize.value = countDomElements();
-    amethyst.player.getLatency().then(l => latency.value = l);
-    // TODO: multiplatform support
-    smoothTween(tweenedFps.value, fpsCounter.value, 1000, (tweenedNumber => tweenedFps.value = Math.ceil(tweenedNumber)));
 
   }, 1000);
+});
+
+onUnmounted(() => {
+  clearInterval(clock);
 });
 
 const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem() === "mac" ? "⌘" : "CTRL");

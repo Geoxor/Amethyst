@@ -4,6 +4,8 @@ import { computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
 
 import { amethyst } from "@/amethyst.js";
+
+import BaseTooltip from "./BaseTooltip.vue";
 const props = defineProps<{ icon: any, routeName: string, mobile?: boolean}>();
 const route = useRoute();
 const isActive = computed(() => route.name?.toString().startsWith(props.routeName) || props.routeName === route.name);
@@ -11,6 +13,11 @@ const router = useRouter();
 </script>
 
 <template>
+  <base-tooltip
+    :text="$t(`route.${props.routeName.replaceAll(/-/g, '_')}`)"
+    placement="right"
+  >
+        
   <button
     :class="[
       isActive && 'active',
@@ -27,6 +34,8 @@ const router = useRouter();
       class="h-5 w-5 min-h-5 min-w-5"
     />
   </button>
+        </base-tooltip>
+
 </template>
 
 <style scoped lang="postcss">

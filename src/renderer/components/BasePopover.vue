@@ -83,7 +83,8 @@ onMounted(async() => {
 <style scoped lang="postcss">
 
 .popover {
-  @apply rounded-8px transform-gpu transition-transform ease-in-out;
+  @apply rounded-8px transform-gpu transition-all ease-in-out;
+  transition-duration: var(--transition-duration);
 
   &.openOnHover,
   &:not(.open) {
