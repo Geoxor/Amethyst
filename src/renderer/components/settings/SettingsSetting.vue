@@ -18,11 +18,11 @@ const hasSubsetting = () => {
  
 <template>
   <div
-    class="rounded-8px  gap-2 w-full text-text-title  duration-user-defined"
-    :class="[subsetting ? 'bg-settings-subsetting-background hover:bg-black hover:bg-settings-subsetting-background/20' : 'bg-settings-setting-background hover:bg-surface-700 ']"
+    class="w-full text-text-title  duration-user-defined"
+    :class="[subsetting ? 'rounded-6px  bg-settings-subsetting-background hover:bg-black hover:bg-settings-subsetting-background/20' : 'rounded-8px bg-settings-setting-background hover:bg-surface-700 ']"
   >
     <div
-      class="flex gap-4 items-center min-h-52px px-4 "
+      class="flex gap-2 items-center min-h-52px px-4 pr-2 "
       :class="[hasSubsetting() ? 'pt-2' : 'py-1']"
     >
       <icon

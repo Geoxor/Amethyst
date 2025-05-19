@@ -57,7 +57,7 @@ const flagURL = (name: string) => {
       <menu
         v-if="showLanguageDropdown"
         ref="languageDropdown"
-        class="languageDropdown absolute w-full flex flex-col justify-start top-6 -right-0  p-1 rounded-8px bg-surface-600"
+        class="languageDropdown absolute w-full flex flex-col justify-start top-6 right-0  p-1 rounded-8px bg-surface-600"
       >
         <button
           v-for="(lang, i) in useI18n().availableLocales"

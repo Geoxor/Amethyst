@@ -20,8 +20,8 @@ const value = useVModel(props, "modelValue", emits);
 
 <template>
   <button
-    class="flex min-w-32 justify-between relative cursor-pointer gap-1 items-center bg-surface-600 text-accent py-2 px-4 text-13px font-weight-user-defined rounded-8px gap-2"
-    :class="showdropdown && 'active rounded-0px rounded-t-8px'"
+    class="flex min-w-32 justify-between relative cursor-pointer gap-1 items-center bg-surface-600 text-accent py-2 px-4 text-13px font-weight-user-defined rounded-4px gap-2"
+    :class="showdropdown && 'active rounded-b-0px '"
     @click="showdropdown = true;"
   >
     <p class="text-13px font-weight-user-defined">
@@ -35,7 +35,7 @@ const value = useVModel(props, "modelValue", emits);
       <menu
         v-if="showdropdown"
         ref="dropdown"
-        class="dropdown absolute flex flex-col justify-start top-6 -right-0 min-w-32 p-1  bg-surface-600  rounded-b-8px bg-surface-600 z-20"
+        class="dropdown absolute flex flex-col justify-start top-6 right-0 min-w-32 p-1  bg-surface-600  rounded-8px rounded-t-0px bg-surface-600 z-20"
       >
         <button
           v-for="(option, i) in options"
@@ -45,7 +45,7 @@ const value = useVModel(props, "modelValue", emits);
           :class="option == value && 'active'"
           @click="emits('update:modelValue', option)"
         >
-          <p class="text-13px font-weight-user-defined">
+          <p class="text-13px font-weight-user-defined mr-5">
             <span class="opacity-75">{{ prefix }}</span> {{ option }} <span class="opacity-75">{{ suffix }}</span>
           </p>
         </button>
