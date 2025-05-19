@@ -89,7 +89,7 @@ ul {
 }
 
 button, input {
-  @apply bg-transparent text-text-title p-0 m-0 ;
+  @apply bg-transparent text-inherit p-0 m-0 ;
 }
 
 html,

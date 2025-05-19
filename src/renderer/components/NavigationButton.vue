@@ -18,7 +18,7 @@ const router = useRouter();
       amethyst.state.window.isFocused ? 'text-text-title' : 'text-text-subtitle'
     ]"
 
-    class="duration-user-defined items-center gap-2 transition-colors duration-user-defined flex relative disable-select no-drag "
+    class="duration-user-defined items-center gap-2 transition-colors duration-user-defined flex relative disable-select no-drag"
     @click="router.push({ name: routeName })"
   >
     <icon
