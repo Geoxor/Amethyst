@@ -30,14 +30,13 @@ const branchName = ref("Development");
 const commitHash = ref('unknown commit hash');
 
 onMounted(() => {
-  if (amethyst.IS_DEV) {
-    window.electron.ipcRenderer.invoke<{branchName: string, commitHash: string}>('get-branch-name').then(info => {
-      branchName.value = info.branchName;
-      commitHash.value = info.commitHash.substring(0, 7);
-    })
-  }
-
   setInterval(() => {
+    if (amethyst.IS_DEV) {
+    window.electron.ipcRenderer.invoke<{branchName: string, commitHash: string}>('get-branch-name').then(info => {
+        branchName.value = info.branchName;
+        commitHash.value = info.commitHash.substring(0, 7);
+      })
+    }
     fps.value = fpsCounter.value;
     if (fps.value > max.value) max.value = fps.value;
     if (fps.value < min.value) min.value = fps.value;
