@@ -3,8 +3,10 @@ import { BLEND_MODES, FONT_WEIGHTS } from "@shared/constants.js";
 
 import { amethyst } from "@/amethyst.js";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
+import ColorInput from "@/components/v2/ColorInput.vue";
 import DropdownInput from "@/components/v2/DropdownInput.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
+import TitleSubtitle from "@/components/v2/TitleSubtitle.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 import { AVAILABLE_THEMES } from "@/logic/settings";
 import AmethystDarkSkeleton from "@/themes/AmethystDarkSkeleton.vue";
@@ -72,6 +74,36 @@ const {appearance} = amethyst.state.settings;
             @click="appearance.theme = 'sapphire-dark'"
           />
         </div>
+        <settings-setting
+          subsetting
+          :title="$t('settings.custom_colors.title')"
+          :description="$t('settings.custom_colors.description')"
+          icon="ic:twotone-colorize"
+        >
+          <toggle-switch
+            v-model="appearance.customColors.enabled" 
+          />
+          <template v-if=appearance.customColors.enabled #subsettings>
+            <div class="p-2 flex gap-2 ">
+              <ColorInput 
+                v-model="appearance.customColors.colors.primary"
+                color-name="primary"
+              />
+              <ColorInput 
+                v-model="appearance.customColors.colors.accent"
+                color-name="accent"
+              />
+              <ColorInput 
+                v-model="appearance.customColors.colors.inspector"
+                color-name="inspector"
+              />
+              <ColorInput 
+                v-model="appearance.customColors.colors.alert"
+                color-name="alert"
+              />
+            </div>
+          </template>
+        </settings-setting>
         <settings-setting
           subsetting
           :title="$t('settings.cover_based_colors.title')"

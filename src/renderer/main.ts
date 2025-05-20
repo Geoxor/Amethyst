@@ -10,6 +10,7 @@ loadIcons([
   "ic:baseline-arrow-drop-down",
   "mdi:flask",
   "ic:twotone-audio-file",
+  "ic:twotone-colorize",
   "mdi:resistor-nodes",
   "ic:twotone-close",
   "ic:twotone-settings",

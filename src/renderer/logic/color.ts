@@ -8,6 +8,16 @@ export const rgbToHex = (r: number, g: number, b: number) => {
   return "#" + componentToHex(r) + componentToHex(g) + componentToHex(b);
 };
 
+export const hexToRgb = (hex: string) => {
+  hex = hex.replace(/^#/, "");
+  // Parse r, g, b values
+  const bigint = parseInt(hex, 16);
+  const r = (bigint >> 16) & 255;
+  const g = (bigint >> 8) & 255;
+  const b = bigint & 255;
+  return {r, g, b};
+}
+
 /**
  * Gets a css variable value and returns it as hex color string.
  * @param variableName - The name of the css variable to get (eg: "--color-primary").

@@ -41,6 +41,15 @@ const DEFAULT_APPEARANCE_SETTINGS = {
     animationDuration: 100,
     fontWeight: "normal",
 		theme: "amethyst-dark",
+    customColors: {
+      enabled: false,
+      colors: {
+        accent: "#A58CDB",
+        primary: "#A58CDB",
+        inspector: "#94afff",
+        alert: "#d94a9d",
+      }
+    },
     coverBasedColors: false,
     coverBasedIconColors: false,
 		ambientBackground: {

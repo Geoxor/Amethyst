@@ -13,7 +13,7 @@ import NavigationButton from "@/components/NavigationButton.vue";
 import TopBar from "@/components/TopBar.vue";
 import PlaybackControls from "@/components/v2/PlaybackControls.vue";
 import SpectrumAnalyzerComposite from "@/components/visualizers/SpectrumAnalyzerComposite.vue";
-import { getThemeColor } from "@/logic/color";
+import { getThemeColor, hexToRgb } from "@/logic/color";
 import type { Track } from "@/logic/track";
 
 const ambientBackgroundImage = ref("");
@@ -27,6 +27,25 @@ const setAmbientCover = async (track: Track) => {
 const fallbackToDefault = () => {
   document.documentElement.style.removeProperty("--accent");
   document.documentElement.style.removeProperty("--primary");
+  amethyst.state.emit("theme:change", "");
+};
+
+const setCustomColors = () => {
+  const accentColor = amethyst.state.settings.appearance.customColors.colors.accent;
+  const primaryColor = amethyst.state.settings.appearance.customColors.colors.primary;
+  const inspectorColor = amethyst.state.settings.appearance.customColors.colors.inspector;
+  const alertColor = amethyst.state.settings.appearance.customColors.colors.alert;
+
+  const accentColorRgb = hexToRgb(accentColor);
+  const primaryColorRgb = hexToRgb(primaryColor);
+  const inspectorColorRgb = hexToRgb(inspectorColor);
+  const alertColorRgb = hexToRgb(alertColor);
+
+  document.documentElement.style.setProperty("--accent", `${accentColorRgb.r}, ${accentColorRgb.g}, ${accentColorRgb.b}`);
+  document.documentElement.style.setProperty("--primary", `${primaryColorRgb.r}, ${primaryColorRgb.g}, ${primaryColorRgb.b}`);
+  document.documentElement.style.setProperty("--inspector-color", `${inspectorColorRgb.r}, ${inspectorColorRgb.g}, ${inspectorColorRgb.b}`);
+  document.documentElement.style.setProperty("--alert-color", `${alertColorRgb.r}, ${alertColorRgb.g}, ${alertColorRgb.b}`);
+
   amethyst.state.emit("theme:change", "");
 };
 
@@ -67,6 +86,23 @@ watch(() => amethyst.state.settings.appearance.coverBasedColors, enabled => {
   } else {
     fallbackToDefault();
   }
+});
+
+watch(() => amethyst.state.settings.appearance.customColors.enabled, enabled => {
+  if (enabled) {
+    setCustomColors();
+  } else {
+    fallbackToDefault();
+  }
+});
+
+watch(() => [
+  amethyst.state.settings.appearance.customColors.colors.accent, 
+  amethyst.state.settings.appearance.customColors.colors.primary,
+  amethyst.state.settings.appearance.customColors.colors.inspector, 
+  amethyst.state.settings.appearance.customColors.colors.alert
+], () => {
+  setCustomColors();
 });
 
 watch(() => amethyst.state.settings.appearance.coverBasedIconColors, setDynamicIconColors);
