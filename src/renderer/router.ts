@@ -3,6 +3,7 @@ import { createRouter, createWebHashHistory } from "vue-router";
 
 const routes: RouteRecordRaw[] = [
   { path: "/", redirect: { name: "queue" } },
+  { path: "/now-playing", name: "now-playing", component: () => import("@/views/NowPlayingView.vue") },
   { path: "/node-editor", name: "node-editor", component: () => import("@/views/NodeEditorView.vue") },
   { path: "/queue", name: "queue", component: () => import("@/views/QueueView.vue") },
   { path: "/playground", name: "playground", component: () => import("@/views/PlaygroundView.vue") },

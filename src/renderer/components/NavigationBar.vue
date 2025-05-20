@@ -6,6 +6,11 @@ import NavigationButton from "@/components/NavigationButton.vue";
 <template>
   <div class="flex flex-col h-full mt-2">
     <navigation-button
+      icon="ic:twotone-play-arrow"
+      route-name="now-playing"
+    />
+
+    <navigation-button
       icon="ic:twotone-queue-music"
       route-name="queue"
     />
