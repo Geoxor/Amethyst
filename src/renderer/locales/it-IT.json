@@ -50,6 +50,8 @@
   "settings.media_sources.tracks": "Tracks",
   "settings.appearance.title": "Appearance",
   "settings.appearance.description": "Background, themes and accessibility",
+  "settings.custom_colors.title": "Custom colors",
+  "settings.custom_colors.description": "Custom colors for the UI elements",
   "settings.cover_based_colors.title": "Dynamic colors",
   "settings.cover_based_colors.description": "This will make the main accent colors based on the cover art of the currently playing song",
   "settings.cover_based_icon_colors.title": "Dynamic icon color",
