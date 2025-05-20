@@ -41,7 +41,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div
-    class="flex flex-col gap-1 py-1"
+    class="flex flex-col gap-1 py-1 w-full"
     :class="[
       !alignment && 'text-left',
       alignment == 'left' && 'text-left',

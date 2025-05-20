@@ -15,7 +15,7 @@ const input = ref<HTMLInputElement>();
 
 <template>
   <div class="colorPicker overflow-hidden rounded-8px relative box-content cursor-pointer flex justify-between items-center duration-user-defined border-solid border-transparent border-2px gap-2 px-3 py-0.5 min-w-24" :style="`background-color: ${value}33; color: ${value};`" @click="input!.click()">
-    <title-subtitle :title="colorName" :subtitle="value" />
+    <title-subtitle :title="colorName" :subtitle="value" class="mr-5"/>
     <div class="h-32 w-32 absolute -top-1/2 -right-20 transform-gpu -rotate-70 bg-current"></div>
     <input id="head" ref="input" v-model="value" class='invisible h-0 w-0 left-16 absolute' type="color" name="head" />
     <Icon v-if="colorName" icon="ic:twotone-restart-alt" class="h-5 w-5 min-w-5 min-h-5 text-surface-700 opacity-75 hover:opacity-100 z-1 " @click.stop="value = amethyst.state.defaultSettings.appearance.customColors.colors[colorName]" />
