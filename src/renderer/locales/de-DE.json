@@ -50,6 +50,8 @@
   "settings.media_sources.tracks": "Songs",
   "settings.appearance.title": "Erscheinungsbild",
   "settings.appearance.description": "Hintergrund, Themen und Barrierefreiheit anpassen",
+  "settings.custom_colors.title": "Custom colors",
+  "settings.custom_colors.description": "Custom colors for the UI elements",
   "settings.cover_based_colors.title": "Dynamische Farben",
   "settings.cover_based_colors.description": "Setzt das Farbthema basierend auf die Farben im Kunstwerk des aktuell abspielenden Songs",
   "settings.cover_based_icon_colors.title": "Dynamische Symbol-Farbe",
