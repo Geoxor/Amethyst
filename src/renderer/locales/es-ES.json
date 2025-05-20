@@ -50,6 +50,8 @@
   "settings.media_sources.tracks": "Pistas",
   "settings.appearance.title": "Apariencia",
   "settings.appearance.description": "Fondo, temas y accesibilidad",
+  "settings.custom_colors.title": "Custom colors",
+  "settings.custom_colors.description": "Custom colors for the UI elements",
   "settings.cover_based_colors.title": "Colores dinámicos",
   "settings.cover_based_colors.description": "Esto hará que los colores principales de acento se basen en el arte de portada de la canción actual",
   "settings.cover_based_icon_colors.title": "Color dinámico del icono",
