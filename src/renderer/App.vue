@@ -169,7 +169,7 @@ v-if="amethyst.getCurrentPlatform() === 'mobile'"
       <div class="flex-1 flex h-full max-h-full relative">
         <navigation-bar v-if="amethyst.getCurrentPlatform() !== 'mobile'" />
 
-        <div class="flex flex-col w-full">
+        <div class="flex flex-col w-full overflow-hidden">
           <router-view class="truncate disable-select no-drag" />
         </div>
         <inspector-bar v-if="useInspector().state.isVisible" />

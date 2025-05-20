@@ -138,7 +138,7 @@ class="text-13px text-text-title min-h-0 flex flex-col text-left relative select
       </div>
       <div
         v-if="columns.filename"
-        class="flex-grow w-[200px] w-min-100px"
+        class="flex-grow w-[200px] min-w-30px"
         :class="[currentShortMethod == 'filename' && 'activeSort']"
         @click="setCurrentSortedMethod('filename')"
       >
@@ -151,7 +151,7 @@ class="text-13px text-text-title min-h-0 flex flex-col text-left relative select
       </div>
       <div
         v-if="columns.title"
-        class="flex-grow w-[200px] w-min-100px"
+        class="flex-grow w-[200px] min-w-30px"
         :class="[currentShortMethod == 'title' && 'activeSort']"
         @click="setCurrentSortedMethod('title')"
       >
@@ -164,7 +164,7 @@ class="text-13px text-text-title min-h-0 flex flex-col text-left relative select
       </div>
       <div
         v-if="columns.artist"
-        class="flex-grow w-[200px] w-min-100px"
+        class="flex-grow w-[200px] min-w-30px"
         :class="[currentShortMethod == 'artist' && 'activeSort']"
         @click="setCurrentSortedMethod('artist')"
       >
@@ -177,13 +177,13 @@ class="text-13px text-text-title min-h-0 flex flex-col text-left relative select
       </div>
       <div
         v-if="columns.location"
-        class="flex-none w-[70px] w-min-100px "
+        class="flex-none w-[70px] min-w-30px "
       >
         {{ $t('queue.column.location') }}
       </div>
       <div
         v-if="columns.album"
-        class="flex-grow w-[200px] w-min-100px"
+        class="flex-grow w-[200px] min-w-30px"
         :class="[currentShortMethod == 'album' && 'activeSort']"
         @click="setCurrentSortedMethod('album')"
       >
@@ -478,14 +478,14 @@ class="text-13px text-text-title min-h-0 flex flex-col text-left relative select
 
           <div
             v-if="columns.filename"
-            class="flex-grow w-[200px] w-min-100px"
+            class="flex-grow w-[200px] min-w-30px"
           >
             <span>{{ item.getFilename() }}</span>
           </div>
 
           <div
             v-if="columns.title"
-            class="flex-grow w-[200px] w-min-100px"
+            class="flex-grow w-[200px] min-w-30px"
           >
             <span v-if="item.getTitle()">{{ item.getTitle() }}</span>
             <not-applicable-text v-else />
@@ -493,7 +493,7 @@ class="text-13px text-text-title min-h-0 flex flex-col text-left relative select
 
           <div
             v-if="columns.artist"
-            class="flex-grow w-[200px] w-min-100px"
+            class="flex-grow w-[200px] min-w-30px"
           >
             <span v-if="item.getArtistsFormatted()">{{ item.getArtistsFormatted() }}</span>
             <not-applicable-text v-else />
@@ -512,7 +512,7 @@ class="text-13px text-text-title min-h-0 flex flex-col text-left relative select
 
           <div
             v-if="columns.album"
-            class="flex-grow w-[200px] w-min-100px "
+            class="flex-grow w-[200px] min-w-30px "
           >
             <span v-if="item.getAlbum()">{{ item.getAlbum() }}</span>
             <not-applicable-text v-else />
@@ -657,7 +657,7 @@ tr {
 }
 
 .columnHeader > div {
-  @apply flex items-center relative;
+  @apply flex items-center relative min-w-0;
 
   &:hover:not(.activeSort) {@apply  hover:text-accent; }
 }
