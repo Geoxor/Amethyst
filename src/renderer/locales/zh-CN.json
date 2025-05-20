@@ -50,6 +50,8 @@
   "settings.media_sources.tracks": "音轨",
   "settings.appearance.title": "外观",
   "settings.appearance.description": "背景、主题和辅助功能",
+  "settings.custom_colors.title": "Custom colors",
+  "settings.custom_colors.description": "Custom colors for the UI elements",
   "settings.cover_based_colors.title": "动态色彩",
   "settings.cover_based_colors.description": "根据当前播放歌曲的封面艺术生成主色调",
   "settings.cover_based_icon_colors.title": "动态图标颜色",
