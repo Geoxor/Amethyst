@@ -40,11 +40,11 @@ onMounted(() => {
 
 <template>
   <div
-    class="flex flex-col gap-2 items-center w-min cursor-pointer overflow-visible hover:underline"
+    class="flex flex-col  gap-2 items-center cursor-pointer overflow-visible hover:underline"
     @click="amethyst.player.play(track)"
     @contextmenu="handleTrackContextMenu($event, track)"
   >
-    <span class="relative truncate rounded-8px transition-all duration-user-defined transform-gpu hover:scale-110">
+    <span class="relative w-inherit truncate rounded-8px transition-all duration-user-defined transform-gpu hover:scale-110">
       <h1
         v-if="amethyst.analytics.getPlayCount(track)"
         class="absolute flex items-center gap-0.5 top-0 font-weight-user-defined right-0 min-w-4 text-12px text-center p-1 z-5 rounded-bl-8px  text-black"
@@ -70,15 +70,17 @@ onMounted(() => {
         />
       </template>  
 
-      <div class="bg-surface-1000 w-32 h-32">
+      <div class="bg-surface-1000 w-full h-full">
         <cover-art
           :url="track.getCover()"
+          class="w-full h-full"
           :class="[amethyst.player.getCurrentTrack() == track && 'opacity-35']"
         />
       </div>
     </span>
     <title-subtitle
-      class="text-center max-w-32 truncate text-ellipsis"
+      alignment="center"
+      class="max-w-32 truncate text-ellipsis"
       :title="track.getTitleFormatted()"
       :subtitle="track.getArtistsFormatted()"
     />
@@ -87,6 +89,6 @@ onMounted(() => {
 
 <style scoped lang="postcss">
 .icon {
-  @apply h-16 w-16 absolute-xy;
+  @apply h-16 w-16 absolute-xy z-1;
 }
 </style>

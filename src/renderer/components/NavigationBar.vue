@@ -11,8 +11,7 @@ import NavigationButton from "@/components/NavigationButton.vue";
     />
 
     <navigation-button
-      v-if="amethyst.IS_DEV"
-      icon="mdi:compass"
+      icon="ic:twotone-library-music"
       route-name="discovery"
     />
           
@@ -21,10 +20,10 @@ import NavigationButton from "@/components/NavigationButton.vue";
       route-name="playlists"
     /> -->
 
-    <!-- <navigation-button
+    <navigation-button
       icon="ic:twotone-favorite"
       route-name="favorites"
-    /> -->
+    />
 
     <navigation-button
       icon="mdi:resistor-nodes"

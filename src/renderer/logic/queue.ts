@@ -77,6 +77,25 @@ export class Queue {
     return results;
   }
 
+  public searchTracks(search: string, tracks: Track[]) {
+    const words = search.split(" ");
+    let results = tracks;
+
+    for (let i = 0; i < words.length; i++) {
+      const word = words[i].toLowerCase();
+      results = results
+        .filter(track => word ? !track.hasErrored : track)
+        .filter(track => 
+          track.getFilename().toLowerCase().includes(word)
+          || track.getArtistsFormatted()?.toLowerCase().includes(word)
+          || track.getTitle()?.toLowerCase().includes(word)
+          || track.getGenreFormatted()?.toLowerCase().includes(word)
+          || track.getAlbum()?.toLowerCase().includes(word));
+    }
+
+    return results;
+  }
+
   public getListSorted(sortBy: PossibleSortingMethods, search?: string) {
     const sorted = [...(search ? this.search(search) : this.getList())];
     sorted.sort(COMPARATORS_BY_METHOD[sortBy]);

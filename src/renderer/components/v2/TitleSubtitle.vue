@@ -41,8 +41,9 @@ onBeforeUnmount(() => {
 
 <template>
   <div
-    class="flex flex-col gap-1 text-left py-1"
+    class="flex flex-col gap-1 py-1"
     :class="[
+      !alignment && 'text-left',
       alignment == 'left' && 'text-left',
       alignment == 'center' && 'text-center',
       alignment == 'right' && 'text-right',
@@ -51,7 +52,6 @@ onBeforeUnmount(() => {
   >
     <div
       ref="titleRef"
-      class="w-full flex gap-1"
     >
       <title-text
         :text="title ?? 'Title'"

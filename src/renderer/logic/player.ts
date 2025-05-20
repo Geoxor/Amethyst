@@ -100,6 +100,10 @@ export class Player extends EventEmitter<PlayerEvents> {
     this.input.playbackRate = semitonesToPlaybackRate(semitones);
   }
 
+  public getFavorites() {
+    return this.queue.getList().filter(track => track.isFavorited);
+  }
+  
   private async setPlayingTrack(track: Track) {
     this.input.src = ["mac", "linux"].includes(this.amethyst.getCurrentOperatingSystem()) ? `file://${track.path}` : track.path;
     this.input.preservesPitch = false;
