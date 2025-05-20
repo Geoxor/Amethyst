@@ -52,7 +52,7 @@ const {appearance} = amethyst.state.settings;
     />
     <template #subsettings>
       <div class="p-2 flex flex-col gap-2">
-        <div class="flex gap-2 px-2">
+        <div class="flex flex-wrap gap-2 px-2">
           <amethyst-dark-skeleton
             class="theme-skeleton cursor-pointer"
             :class="[appearance.theme === 'amethyst-dark' && 'active']"
@@ -84,20 +84,20 @@ const {appearance} = amethyst.state.settings;
             v-model="appearance.customColors.enabled" 
           />
           <template v-if=appearance.customColors.enabled #subsettings>
-            <div class="p-2 flex gap-2 ">
-              <ColorInput 
+            <div class="p-2 flex flex-wrap gap-2 ">
+              <color-input 
                 v-model="appearance.customColors.colors.primary"
                 color-name="primary"
               />
-              <ColorInput 
+              <color-input 
                 v-model="appearance.customColors.colors.accent"
                 color-name="accent"
               />
-              <ColorInput 
+              <color-input 
                 v-model="appearance.customColors.colors.inspector"
                 color-name="inspector"
               />
-              <ColorInput 
+              <color-input 
                 v-model="appearance.customColors.colors.alert"
                 color-name="alert"
               />
