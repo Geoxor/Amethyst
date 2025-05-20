@@ -59,10 +59,11 @@ onMounted(() => {
 
   loudnessMeter.start();
 
-  amethyst.player.on("player:play", () => {
+  amethyst.player.on("player:resume", () => {
     if (amethyst.state.window.isFocused) {
       loudnessMeter.reset();
       loudnessMeter.resume();
+      console.log("Loudness meter started");
       momentaryMax.value = MINIMUM_LUFS;
       shortTermMax.value = MINIMUM_LUFS;
       integratedMax.value = MINIMUM_LUFS;

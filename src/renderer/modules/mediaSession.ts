@@ -20,7 +20,7 @@ export class MediaSession {
   }
 
   private setEventListeners() {
-    this.player.on("player:play", () => navigator.mediaSession.playbackState = "playing");
+    this.player.on("player:resume", () => navigator.mediaSession.playbackState = "playing");
     this.player.on("player:pause", () => navigator.mediaSession.playbackState = "paused");
     this.player.on("player:seek", ({track, seekedTo}) => this.updatePositionState(track.getDuration(), seekedTo));
     this.player.on("player:pitchChange", ({track}) => this.updatePositionState(track?.getDuration()));

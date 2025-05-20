@@ -7,7 +7,7 @@ Amethyst's player will emit these events when things happen
 
 ### player:play
 
-Emits when a new song starts playing
+Emits only when a song starts playing after being at a **stopped** or **finished** state
 
 ```ts
 amethyst.player.on("player:play", (track: Track) => {});
