@@ -95,7 +95,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 <template>
   <div
 class="text-13px text-text-title min-h-0 flex flex-col text-left relative select-none "
-    :class="[amethyst.getCurrentPlatform() == 'mobile' && 'h-[calc(100%-228px)]']">
+    >
     <div
       class="flex text-left font-weight-user-defined sticky top-0 bg-surface-900 py-2 px-2 columnHeader min-h-36px"
       :class="[amethyst.player.queue.currentSortingDirection.value]"
@@ -386,12 +386,12 @@ class="text-13px text-text-title min-h-0 flex flex-col text-left relative select
     </div>
 
     <RecycleScroller
-      class="h-full w-full pb-32 leading-tight"
+      class="h-full w-full pb-16 leading-tight"
       :items="tracks"
       :item-size="ITEM_HEIGHT"
       key-field="path"
       :buffer="24"
-      :class="[amethyst.getCurrentPlatform() != 'mobile' && 'pb-32']"
+      :class="[amethyst.getCurrentPlatform() !== 'mobile' && 'pb-32']"
     >
       <template #default="{ item } : { item: Track}">
         <div

@@ -631,7 +631,7 @@ export class Amethyst extends AmethystBackend {
 
   public async updateMobileAppColors() {
     await StatusBar.setBackgroundColor({color: getThemeColorHex('--surface-900') || '#0f1119'});
-    await NavigationBar.setColor({color: getThemeColorHex('--surface-700') || '#181a27'});
+    await NavigationBar.setColor({color: getThemeColorHex('--surface-900') || '#0f1119'});
   }
 
   private async initMobile() {

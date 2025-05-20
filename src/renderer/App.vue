@@ -163,15 +163,15 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
     
     <div v-if="amethyst.getCurrentPlatform() == 'mobile' && !amethyst.state.settings.appearance.desktopMode" class="w-full absolute bottom-0 ">
       <div v-if="amethyst.getCurrentPlatform() == 'mobile'"
-        class="px-2 absolute z-30 left-0 bottom-2 w-full">
-        <div class="p-2 rounded-32px flex bg-surface-700 justify-between">
+        class="px-2 absolute z-30 left-0 bottom-3 w-full">
+        <div class="p-2 rounded-32px flex bg-surface-700 justify-between items-center h-50px">
           <navigation-button icon="ic:twotone-queue-music" route-name="queue" mobile />
 
           <navigation-button icon="ic:twotone-library-music" mobile route-name="discovery" />
 
           <navigation-button icon="ic:twotone-favorite" mobile route-name="favorites" />
 
-          <navigation-button icon="ic:round-play-arrow" route-name="now-playing" class="transform-gpu bg-surface-700 max-w-9 mx-4 rounded-full z-1 scale-170" mobile />
+          <navigation-button icon="ic:round-music-note" route-name="now-playing" class="transform-gpu box-content border-solid border-4px border-surface-900 bg-surface-700 max-w-9 mx-3 rounded-full z-1 scale-175" mobile />
 
           <navigation-button icon="mdi:resistor-nodes" route-name="node-editor" mobile />
 
