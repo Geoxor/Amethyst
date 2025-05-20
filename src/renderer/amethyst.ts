@@ -112,7 +112,10 @@ export class AmethystBackend extends EventEmitter<WindowEvents>{
   public async showItem(path: string) {
     switch (this.getCurrentPlatform()) {
       case "desktop":
-        return window.electron.ipcRenderer.invoke("show-item", [path]); 
+        return window.electron.ipcRenderer.invoke("show-item", [path]);
+      case "mobile":
+          (window as any).Android.openFolderInFiles(path);
+          return Promise.reject();
       default:
         return Promise.reject();
     }
