@@ -41,6 +41,7 @@ const DEFAULT_APPEARANCE_SETTINGS = {
     animationDuration: 100,
     fontWeight: "normal",
 		theme: "amethyst-dark",
+    desktopMode: false,
     customColors: {
       enabled: false,
       colors: {

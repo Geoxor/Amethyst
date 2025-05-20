@@ -191,11 +191,13 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
     >
     <div
 v-if="amethyst.getCurrentPlatform() === 'mobile'"
-      class="p-2 absolute pb-14 left-0 bottom-0 rounded-32px z-30 w-full overflow-hidden flex bg-surface-700 justify-between">
+      class="p-2 absolute left-0 bottom-0 rounded-32px z-30 w-full overflow-hidden flex bg-surface-700 justify-between">
 
       <navigation-button icon="ic:twotone-mic-external-on" route-name="audio-monitor" mobile />
 
-      <navigation-button v-if="amethyst.IS_DEV" icon="mdi:compass" mobile route-name="discovery" />
+      <navigation-button icon="ic:twotone-library-music" mobile route-name="discovery" />
+      
+      <navigation-button icon="ic:twotone-favorite" mobile route-name="favorites" />
 
       <navigation-button icon="mdi:resistor-nodes" route-name="node-editor" mobile />
 

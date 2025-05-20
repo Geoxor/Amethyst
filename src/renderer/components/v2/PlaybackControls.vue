@@ -155,8 +155,8 @@ const editMeterContextMenuOption = (name :string) => [{
       side="centerVertical"
       :handles-visible="false"
       default-size="960px"
-      :class="[amethyst.getCurrentPlatform() == 'mobile' ? 'rounded-t-8px pb-8 pt-0.5 min-w-410px ' : 'rounded-8px min-w-560px']"
-      class="relative max-w-full pointer-events-auto bg-playback-controls-background"
+      :class="[amethyst.getCurrentPlatform() == 'mobile' ? 'pt-0.5 min-w-410px ' : 'min-w-560px']"
+      class="relative max-w-full pointer-events-auto rounded-8px bg-playback-controls-background"
     >
       <div class="flex relative items-center h-16 gap-2 p-2 w-full">
         <Transition name="slide">

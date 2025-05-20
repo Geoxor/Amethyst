@@ -312,6 +312,7 @@ export class Amethyst extends AmethystBackend {
       const track = this.player.queue.getTrack(0);
       track && this.player.play(track);
     }
+
     
   }
 
