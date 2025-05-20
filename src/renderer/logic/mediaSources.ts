@@ -1,9 +1,8 @@
-import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants.js";
 import { v4 as uuidv4 } from "uuid";
 import type { Ref} from "vue";
 import { ref } from "vue";
 
-import type { Amethyst } from "@/amethyst.js";
+import {Amethyst} from "@/amethyst.js";
 import { EventEmitter } from "@/logic/eventEmitter.js";
 
 export enum MediaSourceType {
@@ -25,14 +24,15 @@ export class MediaSourceManager {
 
   public addLocalSource = async () => {
     const dialog = await this.amethyst.showOpenFolderDialog();
+    // @ts-ignore
     dialog.filePaths.forEach(path => {
       if (dialog.canceled || !path) return;
-    
+
       // Avoid adding folders if they already exist
       if (this.amethyst.state.settings.mediaSources.saveMediaSources.some(savedSource => savedSource.path == path)) return;
 
       const mediaSource = new LocalMediaSource(this.amethyst, path);
-      
+
       if (mediaSource.type && mediaSource.path) {
         this.amethyst.state.settings.mediaSources.saveMediaSources.push({type: mediaSource.type, path: mediaSource.path, uuid: mediaSource.uuid});
         // @ts-ignore
@@ -76,41 +76,52 @@ export class MediaSource {
 }
 
 export class LocalMediaSource extends MediaSource {
-  private watcher: FolderWatcher;
+
+  private watcher: FolderWatcher | undefined;
 
   public constructor(protected amethyst: Amethyst, public path: string) {
     super(amethyst, path);
 
     this.type = MediaSourceType.LocalFolder;
-    this.name = window.path.parse(this.path).base;
-    this.watcher = new FolderWatcher(this.path, this.uuid);
+
+    this.name = this.amethyst.getCurrentPlatform() === "mobile" ? this.path : window.path.parse(this.path).base;
+
     this.totalTracks = ref(0);
 
-    this.watcher.on("add", path => {
-      this.amethyst.player.queue.add(path);
-      this.amethyst.player.queue.fetchAsyncData();
-      this.totalTracks.value++;
-    });
+    if (this.amethyst.getCurrentPlatform() !== "mobile") {
+      this.watcher = new FolderWatcher(this.path, this.uuid);
+    }
 
-    this.watcher.on("unlink", path => {
-      const track = this.amethyst.player.queue.getList().find(t => t.path == path);
-      if (!track) return;
-      this.amethyst.player.queue.remove(track);
-      this.totalTracks.value--;
-    });
+    if (this.amethyst.getCurrentPlatform() !== "mobile") {
+      this.watcher?.on("add", path => {
+        this.amethyst.player.queue.add(path);
+        this.amethyst.player.queue.fetchAsyncData();
+        this.totalTracks.value++;
+      });
+
+      this.watcher?.on("unlink", path => {
+        const track = this.amethyst.player.queue.getList().find(t => t.path == path);
+        if (!track) return;
+        this.amethyst.player.queue.remove(track);
+        this.totalTracks.value--;
+      });
+    }
   }
 
   public override register() {
-    window.electron.ipcRenderer.invoke("watch-folder", [this.path, this.uuid]);
+    if (this.amethyst.getCurrentPlatform() !== "mobile") {
+      window.electron.ipcRenderer.invoke("watch-folder", [this.path, this.uuid]);
+    }
   }
 
   public override unregister() {
-    window.electron.ipcRenderer.invoke("unwatch-folder", [this.path, this.uuid]);
+    if (this.amethyst.getCurrentPlatform() !== "mobile") {
+      window.electron.ipcRenderer.invoke("unwatch-folder", [this.path, this.uuid]);
+    }
   }
 
   public override async fetchMedia() {
-    const paths = await window.electron.ipcRenderer.invoke<string[]>("fetch-folder-content", [this.path, [{name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS}]]);
-    const audioFiles = paths.filter(file => ALLOWED_AUDIO_EXTENSIONS.some(ext => file.endsWith(ext)));
+    const audioFiles = await this.amethyst.readFilesFromPath(this.path);
     audioFiles.forEach(path => this.amethyst.player.queue.add(path));
     this.totalTracks.value = audioFiles.length;
     await this.amethyst.player.queue.fetchAsyncData();
@@ -124,6 +135,7 @@ class FolderWatcher extends EventEmitter<{
 }> {
   public constructor(private path: string, private uuid: string) {
     super();
+
     window.electron.ipcRenderer.invoke("watch-folder", [this.path, this.uuid]);
 
     window.electron.ipcRenderer.on<[string, string]>("watch:add", ([path, uuid]) => {
