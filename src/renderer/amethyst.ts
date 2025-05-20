@@ -219,7 +219,7 @@ export class AmethystBackend extends EventEmitter<WindowEvents>{
             directory: Directory.ExternalStorage
           });
 
-          const files = result.files.filter(file => file.type === "file").map(file => Capacitor.convertFileSrc(file.uri));
+          const files = result.files.filter(file => file.type === "file" && ALLOWED_AUDIO_EXTENSIONS.some(ext => file.uri.endsWith(`.${ext}`))).map(file => Capacitor.convertFileSrc(file.uri));
           files ? res(files) : rej()
         });
       default:
