@@ -70,10 +70,10 @@ onMounted(() => {
         />
       </template>  
 
-      <div class="bg-surface-1000 w-full h-full">
+      <div class="flex bg-surface-1000">
         <cover-art
           :url="track.getCover()"
-          class="w-full h-full"
+          class="w-full"
           :class="[amethyst.player.getCurrentTrack() == track && 'opacity-35']"
         />
       </div>

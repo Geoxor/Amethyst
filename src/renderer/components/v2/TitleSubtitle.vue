@@ -52,6 +52,7 @@ onBeforeUnmount(() => {
   >
     <div
       ref="titleRef"
+      :class="[info && 'flex gap-1']"
     >
       <title-text
         :text="title ?? 'Title'"
