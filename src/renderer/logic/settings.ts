@@ -116,9 +116,9 @@ const DEFAULT_METERING_SETTINGS = {
     spectrumLine: {
       smoothing: 0.5,
       fftSize: 8192,
-      lineThickness: 2,
-      fillOpacity: 1,
-      opacityFalloff: 0,
+      lineThickness: 1,
+      fillOpacity: 0.15,
+      opacityFalloff: 1,
       maxDecibels: 0,
       minDecibels: -128,
     },
