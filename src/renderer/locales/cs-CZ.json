@@ -50,6 +50,8 @@
   "settings.media_sources.tracks": "Skladby",
   "settings.appearance.title": "Vzhled",
   "settings.appearance.description": "Pozadí, motivy a dostupnost",
+  "settings.custom_colors.title": "Custom colors",
+  "settings.custom_colors.description": "Custom colors for the UI elements",
   "settings.cover_based_colors.title": "Dynamické barvy",
   "settings.cover_based_colors.description": "Tohle nastavení změní hlavní barvy motivu podle toho, jaké barvy má náhled konkrétně přehrávané skladby",
   "settings.cover_based_icon_colors.title": "Dynamická barva ikony",
