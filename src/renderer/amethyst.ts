@@ -7,6 +7,7 @@ import { useLocalStorage } from "@vueuse/core";
 import type { OpenDialogReturnValue, SaveDialogReturnValue } from "electron";
 import { ref, watch } from "vue";
 import { createI18n } from "vue-i18n";
+
 import { Analytics } from "@/logic/analytics.js";
 import { EventEmitter } from "@/logic/eventEmitter.js";
 import { flattenArray } from "@/logic/math.js";
@@ -186,8 +187,9 @@ export class AmethystBackend extends EventEmitter<WindowEvents>{
           const {FilePicker} = await import('@capawesome/capacitor-file-picker');
 
           const directory = await FilePicker.pickDirectory();
+
           // hack: convert URI into a file path for Capacitor, probably not needed on iOS...
-          const path = Capacitor.convertFileSrc(directory.path.split("%3A")[1]).replace("%2F", "/");
+          const path = Capacitor.convertFileSrc(decodeURIComponent(directory.path.split("%3A")[1]));
 
           path ? res({canceled: false, filePaths: [path]}) : rej();
         });
