@@ -251,7 +251,7 @@ export class Track {
       metadata.common.picture = [];
     }
 
-    if (force && this.amethyst.getCurrentPlatform() === "desktop") {
+    if (force && this.amethyst.getCurrentPlatform() == "desktop") {
       window.fs.writeFile(this.getCachePath(true), JSON.stringify({
         cover,
         metadata

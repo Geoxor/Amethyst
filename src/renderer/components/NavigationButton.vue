@@ -13,9 +13,13 @@ const router = useRouter();
 </script>
 
 <template>
-  <base-tooltip
+  <component
+    :is="mobile ? 'div' : BaseTooltip"
     :text="$t(`route.${props.routeName.replaceAll(/-/g, '_')}`)"
     placement="right"
+    :class="[
+      mobile && 'w-full',
+    ]"
   >
         
     <button
@@ -35,7 +39,7 @@ const router = useRouter();
         class="h-5 w-5 min-h-5 min-w-5"
       />
     </button>
-  </base-tooltip>
+  </component>
 </template>
 
 <style scoped lang="postcss">

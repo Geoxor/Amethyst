@@ -51,7 +51,7 @@ const {appearance} = amethyst.state.settings;
     />
     <template #subsettings>
       <div class="p-2 flex flex-col gap-2">
-        <div class="flex flex-wrap gap-2 px-2">
+        <div class="grid grid-cols-2 sm:flex flex-wrap gap-2 px-2">
           <amethyst-dark-skeleton
             class="theme-skeleton cursor-pointer"
             :class="[appearance.theme === 'amethyst-dark' && 'active']"
@@ -83,7 +83,7 @@ const {appearance} = amethyst.state.settings;
             v-model="appearance.customColors.enabled" 
           />
           <template v-if=appearance.customColors.enabled #subsettings>
-            <div class="p-2 flex flex-wrap gap-2 ">
+            <div class="p-2 grid grid-cols-2 sm:flex flex-wrap gap-2 ">
               <color-input 
                 v-model="appearance.customColors.colors.primary"
                 color-name="primary"
@@ -325,7 +325,7 @@ const {appearance} = amethyst.state.settings;
 
 <style scoped lang="postcss">
 .theme-skeleton {
-  @apply border-solid border-2 border-transparent box-content rounded-8px w-32 h-auto lg:w-min;
+  @apply border-solid border-2 border-transparent box-content rounded-8px w-full sm:w-32 h-auto xl:w-min;
   transition-duration: var(--transition-duration);
 
   &:hover {

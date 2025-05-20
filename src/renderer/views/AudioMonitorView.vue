@@ -13,11 +13,13 @@ import RouteHeader from "@/components/v2/RouteHeader.vue";
   >
     <route-header :title="$t('route.audio_monitor')" />
     <div class="flex gap-2 h-full" :class="[amethyst.getCurrentPlatform() == 'mobile' && 'flex-col']">
-      <decibel-meter
-        :key="amethyst.player.nodeManager.getNodeConnectionsString()"
-        :node="amethyst.player.nodeManager.master.post"
-        :class="[amethyst.getCurrentPlatform() == 'mobile' ? 'h-48' : 'h-full']"
-      />
+      <div class="sm:w-min">
+        <decibel-meter
+          :key="amethyst.player.nodeManager.getNodeConnectionsString()"
+          :node="amethyst.player.nodeManager.master.post"
+          :class="[amethyst.getCurrentPlatform() == 'mobile' ? 'h-48' : 'h-full']"
+        />
+      </div>
       <div class="flex gap-2 py-2 flex-col w-full">
         <output-breakdown />
         <output-diagram />

@@ -8,7 +8,7 @@ const {integrations} = amethyst.state.settings;
 
 <template>
   <settings-setting
-    v-if="amethyst.getCurrentPlatform() === 'desktop'"
+    v-if="amethyst.getCurrentPlatform() == 'desktop'"
     title="Discord Rich Presence (RPC)"
     :description="$t('settings.discord_rpc.description')"
     :platforms="['desktop']"

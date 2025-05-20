@@ -247,7 +247,7 @@ export class Amethyst extends AmethystBackend {
   public state: State = new State(this);
   public player = new Player(this);
   public shortcuts: Shortcuts = new Shortcuts();
-  public mediaSession: MediaSession | undefined = this.getCurrentPlatform() === "desktop" ? new MediaSession(this.player) : undefined;
+  public mediaSession: MediaSession | undefined = this.getCurrentPlatform() == "desktop" ? new MediaSession(this.player) : undefined;
   public mediaSourceManager: MediaSourceManager = new MediaSourceManager(this);
   public analytics = new Analytics(this);
 
@@ -259,7 +259,7 @@ export class Amethyst extends AmethystBackend {
     // Init zoom from store
     document.body.style.zoom = this.state.zoomLevel.value.toString();
         
-    if (this.getCurrentPlatform() === "desktop") {
+    if (this.getCurrentPlatform() == "desktop") {
       window.electron.ipcRenderer.invoke<string>("get-appdata-path").then(path => this.APPDATA_PATH = path);
 
       window.electron.ipcRenderer.on("maximize", () => this.emit("window:maximize"));
@@ -300,7 +300,7 @@ export class Amethyst extends AmethystBackend {
       }, 1000);
     }
 
-    if (this.getCurrentPlatform() === "mobile") {
+    if (this.getCurrentPlatform() == "mobile") {
       this.initMobile();
     }
 
@@ -577,7 +577,7 @@ export class Amethyst extends AmethystBackend {
   }
 
   public performWindowAction(action: "close" | "maximize" | "unmaximize" | "minimize" | "fullscreen"): void {
-    if (this.getCurrentPlatform() === "desktop") {
+    if (this.getCurrentPlatform() == "desktop") {
       window.electron.ipcRenderer.invoke(action).then(() => this.syncWindowState());
     } else {
       throw new Error(`${this.performWindowAction.name} can only be executed when running in 'desktop' (electron) client`);

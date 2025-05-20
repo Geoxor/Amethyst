@@ -88,7 +88,7 @@ const {performance} = amethyst.state.settings;
   </settings-setting>
 
   <settings-setting
-    v-if="amethyst.getCurrentPlatform() === 'desktop'"
+    v-if="amethyst.getCurrentPlatform() == 'desktop'"
     icon="ic:twotone-monitor-heart"
     :description="$t('settings.vsync.description')"
     :title="$t('settings.vsync.title')"
