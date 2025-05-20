@@ -77,35 +77,28 @@ export class MediaSource {
 
 export class LocalMediaSource extends MediaSource {
 
-  private watcher: FolderWatcher | undefined;
+  private watcher: FolderWatcher | FolderWatcherMobile;
 
   public constructor(protected amethyst: Amethyst, public path: string) {
     super(amethyst, path);
 
     this.type = MediaSourceType.LocalFolder;
-
     this.name = this.amethyst.getCurrentPlatform() === "mobile" ? this.path : window.path.parse(this.path).base;
-
     this.totalTracks = ref(0);
+    this.watcher = this.amethyst.getCurrentPlatform() === "mobile" ? new FolderWatcherMobile(this.path, this.uuid) : new FolderWatcher(this.path, this.uuid);
 
-    if (this.amethyst.getCurrentPlatform() !== "mobile") {
-      this.watcher = new FolderWatcher(this.path, this.uuid);
-    }
+    this.watcher.on("add", path => {
+      this.amethyst.player.queue.add(path);
+      this.amethyst.player.queue.fetchAsyncData();
+      this.totalTracks.value++;
+    });
 
-    if (this.amethyst.getCurrentPlatform() !== "mobile") {
-      this.watcher?.on("add", path => {
-        this.amethyst.player.queue.add(path);
-        this.amethyst.player.queue.fetchAsyncData();
-        this.totalTracks.value++;
-      });
-
-      this.watcher?.on("unlink", path => {
-        const track = this.amethyst.player.queue.getList().find(t => t.path == path);
-        if (!track) return;
-        this.amethyst.player.queue.remove(track);
-        this.totalTracks.value--;
-      });
-    }
+    this.watcher.on("unlink", path => {
+      const track = this.amethyst.player.queue.getList().find(t => t.path == path);
+      if (!track) return;
+      this.amethyst.player.queue.remove(track);
+      this.totalTracks.value--;
+    });
   }
 
   public override register() {
@@ -152,5 +145,17 @@ class FolderWatcher extends EventEmitter<{
       if (uuid !== this.uuid) return;
       this.emit("change", path);
     });
+  }
+}
+
+class FolderWatcherMobile extends EventEmitter<{
+  add: string;
+  unlink: string;
+  change: string;
+}> {
+  public constructor(private path: string, private uuid: string) {
+    super();
+
+    // TODO: implement Mobile folder watching.
   }
 }
