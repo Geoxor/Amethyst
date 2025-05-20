@@ -47,8 +47,8 @@ const DEFAULT_APPEARANCE_SETTINGS = {
         accent: "#A58CDB",
         primary: "#A58CDB",
         inspector: "#94afff",
-        alert: "#d94a9d",
-      }
+        alert: "#1fa9ff",
+      } 
     },
     coverBasedColors: false,
     coverBasedIconColors: false,

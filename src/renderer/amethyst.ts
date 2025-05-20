@@ -306,13 +306,12 @@ export class Amethyst extends AmethystBackend {
 
     this.handleFileDrops();
     this.handleDiscordRichPresence();
+    this.updateCurrentOutputDevice();
 
     if (this.state.settings.behavior.autoPlayOnStartup) {
       const track = this.player.queue.getTrack(0);
       track && this.player.play(track);
     }
-
-    this.updateCurrentOutputDevice();
     
   }
 

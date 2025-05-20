@@ -113,6 +113,9 @@ onMounted(() => {
     setDynamicColors(track);
     setDynamicIconColors();
   });
+  if (amethyst.state.settings.appearance.customColors.enabled) {
+    setCustomColors();
+  }
 });
 
 onUnmounted(() => {
