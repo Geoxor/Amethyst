@@ -36,15 +36,19 @@ onMounted(() => {
       />
       <big-button
         class="flex gap-2 w-1/2"
-        icon="ic:twotone-list" 
-        title="just send it"
-        description="i cant decide"
+        icon="ic:twotone-settings" 
+        title="Settings"
+        description="View your settings"
       />
+
+
+
       <big-button
         class="flex gap-2"
-        icon="ic:twotone-plus" 
-        title="just send it"
-        description="i cant decide"
+        icon="ic:twotone-menu-book"
+        :title="$t('menu.about.user_manual')"
+        description="Open the user manual"
+        @click="amethyst.openLink('https://amethyst.geoxor.moe/user-manual')"
       />
     </div>
     <div class="flex flex-col overflow-y-auto pb-32 gap-2 h-full">
