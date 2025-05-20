@@ -3,6 +3,7 @@ import { StatusBar } from "@capacitor/status-bar";
 import { NavigationBar } from "@hugotomazi/capacitor-navigation-bar";
 import messages from "@intlify/unplugin-vue-i18n/messages";
 import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants.js";
+import { LoadStatus } from "@shared/types.js";
 import { useLocalStorage } from "@vueuse/core";
 import type { OpenDialogReturnValue, SaveDialogReturnValue } from "electron";
 import { ref, watch } from "vue";
@@ -392,8 +393,8 @@ export class Amethyst extends AmethystBackend {
     };
 
     if (this.state.settings.integrations.useDiscordRichPresence) {
-      this.player.on("player:trackChange", async () => {
-        if (isPaused && trackNameBeforePause == this.player.getCurrentTrack()?.getTitleFormatted()) {
+      this.player.on("player:trackChange", async track => {
+        if (isPaused && trackNameBeforePause == track.getTitleFormatted()) {
           start = seekDuringPause ? start : start + Math.abs(Date.now() - startBegin);
         } else {
           start = Date.now();
@@ -402,7 +403,17 @@ export class Amethyst extends AmethystBackend {
         seekDuringPause = false;
         isPaused = false;
         trackNameBeforePause = "";
-        updateWithCurrentTrack();
+        if (track.metadata.data?.format.container){
+          this.IS_DEV && console.log('Metadata is loaded so we can update the rich presence');
+          updateWithCurrentTrack();
+        } else {
+          this.IS_DEV && console.log('Metadata not loaded yet, waiting for it to load...');
+          this.player.on("player:currentTrackMetadataLoaded", () => {
+            this.IS_DEV && console.log('Metadata loaded updating rich presence');
+            this.player.off("player:currentTrackMetadataLoaded");
+            updateWithCurrentTrack();
+          });
+        }
       });
 
       this.player.on("player:seek", async ({seekedTo}) => {
@@ -414,9 +425,9 @@ export class Amethyst extends AmethystBackend {
         }
       });
 
-      this.player.on("player:pause", () => {
+      this.player.on("player:pause", track => {
         startBegin = Date.now();
-        trackNameBeforePause = this.player.getCurrentTrack()?.getTitleFormatted() ?? "";
+        trackNameBeforePause = track.getTitleFormatted() ?? "";
         isPaused = true;
         updateWithCurrentTrack();
       });

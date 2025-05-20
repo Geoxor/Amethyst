@@ -57,7 +57,7 @@ button {
   @apply text-text-title rounded-4px items-center flex;
 
   &.active, &:hover {
-    @apply bg-primary-800/15 bg-accent-800 text-accent;
+    @apply bg-accent/15 bg-accent-800 text-accent;
   }
 }
 </style>
