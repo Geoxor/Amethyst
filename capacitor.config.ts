@@ -24,6 +24,7 @@ const commonConfig: CapacitorConfig = {
     zoomEnabled: false,
     contentInset: "automatic",
     preferredContentMode: "mobile",
+    initialFocus: false
   }
 };
 
