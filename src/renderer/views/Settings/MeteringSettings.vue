@@ -263,6 +263,14 @@ const {metering} = amethyst.state.settings;
       >
         <settings-setting
           subsetting
+          :title="$t('settings.metering.spectrograph.logarithmic.title')"
+          :description="$t('settings.metering.spectrograph.logarithmic.description')"
+          icon="ic:twotone-graphic-eq"
+        >
+          <toggle-switch v-model="metering.spectrogram.logarithmic" />
+        </settings-setting>
+        <settings-setting
+          subsetting
           :title="$t('settings.metering.spectrograph.scroll_speed.title')"
           :description="$t('settings.metering.spectrograph.scroll_speed.description')"
           icon="ic:twotone-speed"

@@ -6,7 +6,7 @@ import { watch } from "vue";
 import { amethyst } from "@/amethyst.js";
 import ShaderCanvas from "@/components/ShaderCanvas.vue";
 import { getThemeColorRgb } from "@/logic/color";
-import { logParabolicSpectrum, normalize8bit } from "@/logic/math";
+import { linearSpectrum, logParabolicSpectrum, normalize8bit } from "@/logic/math";
 import { SpectrogramShader } from "@/shaders/components/SpectrogramShader";
 
 const props = defineProps<{
@@ -50,7 +50,7 @@ amethyst.state.on("theme:change", () => {
 });
 
 // Don't change these
-analyser.maxDecibels = -8;
+analyser.maxDecibels = amethyst.state.settings.metering.spectrogram.logarithmic ? -8 : -16;
 analyser.minDecibels = -128;
 
 function getNormalizedColorVector(cssVarName: string) {
@@ -71,7 +71,7 @@ const uniformData = {
 const render = (uniforms: Record<string, any>) => {
   const spectrum = new Uint8Array(analyser.frequencyBinCount);
   analyser.getByteFrequencyData(spectrum);
-  uniforms.u_amplitudes.value = logParabolicSpectrum(spectrum, VISUALIZER_BIN_COUNT);
+  uniforms.u_amplitudes.value = amethyst.state.settings.metering.spectrogram.logarithmic ? logParabolicSpectrum(spectrum, VISUALIZER_BIN_COUNT) : linearSpectrum(spectrum, VISUALIZER_BIN_COUNT);
 };
 </script>
 

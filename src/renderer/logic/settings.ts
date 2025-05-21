@@ -130,6 +130,7 @@ const DEFAULT_METERING_SETTINGS = {
     spectrogram: {
       smoothing: 0.0,
       fftSize: 4096,
+      logarithmic: true,
       scrollSpeed: 1.0,
     },
     decibelMeter: {

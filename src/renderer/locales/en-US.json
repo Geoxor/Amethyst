@@ -189,6 +189,8 @@
   "settings.spectrum_analyzer.title": "Frequency spectrum analyzer",
   "settings.spectrum_analyzer.description": "Displays the frequency spectrum and their amplitudes of the audio signal using various visualization methods",
 
+  "settings.metering.spectrograph.logarithmic.title": "Logarithmic scale",
+  "settings.metering.spectrograph.logarithmic.description": "Spreads the frequencies in a logarithmic scale, this is useful for visualizing low frequencies",
   "settings.metering.spectrograph.scroll_speed.title": "Scroll speed",
   "settings.metering.spectrograph.scroll_speed.description": "Changes how fast the spectrograph scrolls",
 

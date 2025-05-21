@@ -34,7 +34,33 @@ export const logParabolicSpectrum = (
 
     const y = a * t * t + b * t + c;
 
-    result[i] = y / 256.0;
+    result[i] = y / 255;
+  }
+
+  return result;
+};
+
+export const linearSpectrum = (
+  dataArray: Uint8Array,
+  outputLength: number
+): Float32Array => {
+  const inputLength = dataArray.length - 1;
+  const result = new Float32Array(outputLength);
+
+  for (let i = 0; i < outputLength; i++) {
+    // linearly mapped index
+    const linearIndex = (i / (outputLength - 1)) * inputLength;
+
+    const base = Math.floor(linearIndex);
+    const t = linearIndex - base;
+
+    const y0 = dataArray[base];
+    const y1 = dataArray[Math.min(base + 1, inputLength)];
+
+    // linear interpolation
+    const y = y0 + (y1 - y0) * t;
+
+    result[i] = y / 255;
   }
 
   return result;
