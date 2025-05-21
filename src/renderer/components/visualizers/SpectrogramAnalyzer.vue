@@ -14,6 +14,7 @@ const props = defineProps<{
   accentColor: { r: number, g: number, b: number},
   fftSize: number,
   smoothing: number,
+  scrollSpeed: number,
   paused?: boolean,
 }>();
 
@@ -35,6 +36,9 @@ function setNormalizedColorVector(vector: THREE.Vector3, cssVarName: string) {
 }
 
 watch(() => [props.fftSize, props.smoothing], updateAnalyser);
+
+watch(() => props.scrollSpeed, (v) => uniformData.u_scrollSpeed.value = v);
+
 amethyst.state.on("theme:change", () => {
   setTimeout(() => {
     setNormalizedColorVector(uniformData.u_color0.value, "--surface-900");
@@ -61,6 +65,7 @@ const uniformData = {
   u_color3: { value: getNormalizedColorVector("--primary") },
   u_color4: { value: getNormalizedColorVector("--alert-color") },
   u_amplitudes: { value: new Float32Array(VISUALIZER_BIN_COUNT) },
+  u_scrollSpeed: { value: props.scrollSpeed },
 };
 
 const render = (uniforms: Record<string, any>) => {

@@ -129,7 +129,8 @@ const DEFAULT_METERING_SETTINGS = {
     },
     spectrogram: {
       smoothing: 0.0,
-      fftSize: 4096
+      fftSize: 4096,
+      scrollSpeed: 1.0,
     },
     decibelMeter: {
       minimumDb: -60,

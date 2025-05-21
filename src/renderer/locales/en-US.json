@@ -189,6 +189,9 @@
   "settings.spectrum_analyzer.title": "Frequency spectrum analyzer",
   "settings.spectrum_analyzer.description": "Displays the frequency spectrum and their amplitudes of the audio signal using various visualization methods",
 
+  "settings.metering.spectrograph.scroll_speed.title": "Scroll speed",
+  "settings.metering.spectrograph.scroll_speed.description": "Changes how fast the spectrograph scrolls",
+
   "settings.spectrum_line_analyzer.line_thickness.title": "Line thickness",
   "settings.spectrum_line_analyzer.line_thickness.description": "Changes how thick the line in the spectrum analyzer appears",
   "settings.spectrum_line_analyzer.fill_opacity.title": "Fill opacity",

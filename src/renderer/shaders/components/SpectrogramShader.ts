@@ -4,6 +4,7 @@ export const SpectrogramShader = `
 precision highp float;
 
 uniform vec2 u_resolution;
+uniform float u_scrollSpeed;
 uniform sampler2D u_backbuffer;
 uniform float[${VISUALIZER_BIN_COUNT}] u_amplitudes;
 
@@ -34,7 +35,7 @@ void main() {
     vec3 color = gradientColor(amplitude);
     gl_FragColor = vec4(color, 1.0);
   } else {
-    gl_FragColor = texture2D(u_backbuffer, vec2(uv.x + (2.0 / u_resolution.x), uv.y));
+    gl_FragColor = texture2D(u_backbuffer, vec2(uv.x + (u_scrollSpeed / u_resolution.x), uv.y));
   }
 }
 `;
