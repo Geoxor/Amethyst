@@ -2,7 +2,7 @@ import type { Coords } from "@shared/types.js";
 import { markRaw,reactive } from "vue";
 
 import { amethyst } from "@/amethyst.js";
-import type { IContextMenuOption } from "@/state";
+import type { IContextMenuOption } from "@/state.js";
 
 import ContextMenu from "./component.vue";
 

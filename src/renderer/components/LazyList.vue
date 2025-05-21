@@ -85,11 +85,6 @@ const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
   contextMenu.open({ x, y }, menuItems);
 };
 
-const handleTrackDragStart = (e: DragEvent, path: Track) => {
-  window.electron.startDrag(path.absolutePath);
-  (e.target as HTMLDivElement).classList.add("dragging");
-};
-
 </script>
 
 <template>
@@ -407,7 +402,7 @@ class="text-13px text-text-title min-h-0 flex flex-col text-left relative select
           ]"
           draggable="true"
           @contextmenu="handleTrackContextMenu($event, item)"
-          @dragstart.prevent="handleTrackDragStart($event, item)"
+          @dragstart.prevent="amethyst.handleTrackDragStart($event, item)"
           @keypress.prevent
           @click="isHoldingControl ? amethyst.showItem(item.path) : amethyst.player.play(item)"
         >

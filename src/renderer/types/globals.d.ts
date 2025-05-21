@@ -23,7 +23,7 @@ declare global {
     electron: {
 			isMac: boolean, 
 			isWindows: boolean, 
-			startDrag: (fileName: string) => void,
+			startDrag: (fileName: string, buffer?: Buffer) => void,
 			showFilePath: (file: File) => string,
 			isLinux: boolean,
 			ipcRenderer: {

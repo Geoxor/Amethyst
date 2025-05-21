@@ -664,6 +664,12 @@ export class Amethyst extends AmethystBackend {
     return this.shouldPauseAnimations() || this.player.isPaused.value;
   }
 
+  public  handleTrackDragStart = async (e: DragEvent, track: Track) => {
+    const blob = await track.getCoverAsBlob();
+    const arrayBuffer = await blob.arrayBuffer();
+    window.electron.startDrag(track.absolutePath, Buffer.from(arrayBuffer));
+    (e.target as HTMLDivElement).classList.add("dragging");
+  };
 }
 
 // this is to not reinitialize the Amethyst class on hot reload

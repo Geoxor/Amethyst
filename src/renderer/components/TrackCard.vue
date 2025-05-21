@@ -42,6 +42,7 @@ onMounted(() => {
   <div
     class="flex flex-col  gap-2 items-center cursor-pointer overflow-visible hover:underline"
     @click="amethyst.player.play(track)"
+    @dragstart.prevent="amethyst.handleTrackDragStart($event, track)"
     @contextmenu="handleTrackContextMenu($event, track)"
   >
     <span class="relative w-inherit truncate rounded-8px transition-all duration-user-defined transform-gpu hover:scale-110">
