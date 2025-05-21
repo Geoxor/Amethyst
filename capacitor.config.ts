@@ -20,8 +20,11 @@ const commonConfig: CapacitorConfig = {
     },
   },
   ios: {
-    path: "src/ios"
-  },
+    path: "src/ios",
+    zoomEnabled: false,
+    contentInset: "automatic",
+    preferredContentMode: "mobile",
+  }
 };
 
 const devConfig: CapacitorConfig = {
