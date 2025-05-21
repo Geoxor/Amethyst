@@ -241,7 +241,7 @@ export class AmethystBackend extends EventEmitter<WindowEvents>{
 
           const result = await Filesystem.readdir({
             path: path,
-            directory: Capacitor.getPlatform() == "android" ? Directory.ExternalStorage : Directory.Data
+            directory: this.getCurrentOperatingSystem() == "android" ? Directory.ExternalStorage : Directory.Data
           });
 
           const files = result.files.filter(file => file.type === "file" && ALLOWED_AUDIO_EXTENSIONS.some(ext => file.uri.endsWith(`.${ext}`))).map(file => Capacitor.convertFileSrc(file.uri));
