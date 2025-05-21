@@ -3,7 +3,6 @@ import { StatusBar } from "@capacitor/status-bar";
 import { NavigationBar } from "@hugotomazi/capacitor-navigation-bar";
 import messages from "@intlify/unplugin-vue-i18n/messages";
 import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants.js";
-import { LoadStatus } from "@shared/types.js";
 import { useLocalStorage } from "@vueuse/core";
 import type { OpenDialogReturnValue, SaveDialogReturnValue } from "electron";
 import { ref, watch } from "vue";
@@ -114,7 +113,10 @@ export class AmethystBackend extends EventEmitter<WindowEvents>{
   public async showItem(path: string) {
     switch (this.getCurrentPlatform()) {
       case "desktop":
-        return window.electron.ipcRenderer.invoke("show-item", [path]); 
+        return window.electron.ipcRenderer.invoke("show-item", [path]);
+      case "mobile":
+          (window as any).Android.openFolderInFiles(path);
+          return Promise.reject();
       default:
         return Promise.reject();
     }
@@ -176,10 +178,21 @@ export class AmethystBackend extends EventEmitter<WindowEvents>{
     }
   }
   
-  public async showOpenFolderDialog() {
+  public async showOpenFolderDialog(): Promise<OpenDialogReturnValue> {
     switch (this.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-folder-dialog");
+      case "mobile":
+        return new Promise(async (res, rej) => {
+          const {FilePicker} = await import('@capawesome/capacitor-file-picker');
+
+          const directory = await FilePicker.pickDirectory();
+
+          // hack: convert URI into a file path for Capacitor, probably not needed on iOS...
+          const path = Capacitor.convertFileSrc(decodeURIComponent(directory.path.split("%3A")[1]));
+
+          path ? res({canceled: false, filePaths: [path]}) : rej();
+        });
       default:
         return Promise.reject();
     }
@@ -189,6 +202,31 @@ export class AmethystBackend extends EventEmitter<WindowEvents>{
     switch (this.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<SaveDialogReturnValue>("show-save-dialog", [options]);
+      default:
+        return Promise.reject();
+    }
+  }
+
+  public async readFilesFromPath(path: string): Promise<string[]> {
+    switch (this.getCurrentPlatform()) {
+      case "desktop":
+        return new Promise(async (res, rej) => {
+          const paths = await window.electron.ipcRenderer.invoke<string[]>("fetch-folder-content", [path, [{name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS}]]);
+          const files = paths.filter(file => ALLOWED_AUDIO_EXTENSIONS.some(ext => file.endsWith(ext)));
+          files ? res(files) : rej()
+        });
+      case "mobile":
+        return new Promise(async (res, rej) => {
+          const {Filesystem, Directory} = await import('@capacitor/filesystem');
+
+          const result = await Filesystem.readdir({
+            path: path,
+            directory: Directory.ExternalStorage
+          });
+
+          const files = result.files.filter(file => file.type === "file" && ALLOWED_AUDIO_EXTENSIONS.some(ext => file.uri.endsWith(`.${ext}`))).map(file => Capacitor.convertFileSrc(file.uri));
+          files ? res(files) : rej()
+        });
       default:
         return Promise.reject();
     }
@@ -247,7 +285,7 @@ export class Amethyst extends AmethystBackend {
   public state: State = new State(this);
   public player = new Player(this);
   public shortcuts: Shortcuts = new Shortcuts();
-  public mediaSession: MediaSession | undefined = this.getCurrentPlatform() === "desktop" ? new MediaSession(this.player) : undefined;
+  public mediaSession: MediaSession | undefined = this.getCurrentPlatform() == "desktop" ? new MediaSession(this.player) : undefined;
   public mediaSourceManager: MediaSourceManager = new MediaSourceManager(this);
   public analytics = new Analytics(this);
 
@@ -259,7 +297,7 @@ export class Amethyst extends AmethystBackend {
     // Init zoom from store
     document.body.style.zoom = this.state.zoomLevel.value.toString();
         
-    if (this.getCurrentPlatform() === "desktop") {
+    if (this.getCurrentPlatform() == "desktop") {
       window.electron.ipcRenderer.invoke<string>("get-appdata-path").then(path => this.APPDATA_PATH = path);
 
       window.electron.ipcRenderer.on("maximize", () => this.emit("window:maximize"));
@@ -300,7 +338,7 @@ export class Amethyst extends AmethystBackend {
       }, 1000);
     }
 
-    if (this.getCurrentPlatform() === "mobile") {
+    if (this.getCurrentPlatform() == "mobile") {
       this.initMobile();
     }
 
@@ -312,6 +350,7 @@ export class Amethyst extends AmethystBackend {
       const track = this.player.queue.getTrack(0);
       track && this.player.play(track);
     }
+
     
   }
 
@@ -576,7 +615,7 @@ export class Amethyst extends AmethystBackend {
   }
 
   public performWindowAction(action: "close" | "maximize" | "unmaximize" | "minimize" | "fullscreen"): void {
-    if (this.getCurrentPlatform() === "desktop") {
+    if (this.getCurrentPlatform() == "desktop") {
       window.electron.ipcRenderer.invoke(action).then(() => this.syncWindowState());
     } else {
       throw new Error(`${this.performWindowAction.name} can only be executed when running in 'desktop' (electron) client`);
@@ -592,7 +631,7 @@ export class Amethyst extends AmethystBackend {
 
   public async updateMobileAppColors() {
     await StatusBar.setBackgroundColor({color: getThemeColorHex('--surface-900') || '#0f1119'});
-    await NavigationBar.setColor({color: getThemeColorHex('--surface-700') || '#181a27'});
+    await NavigationBar.setColor({color: getThemeColorHex('--surface-900') || '#0f1119'});
   }
 
   private async initMobile() {

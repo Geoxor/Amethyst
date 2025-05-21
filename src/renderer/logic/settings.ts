@@ -41,6 +41,7 @@ const DEFAULT_APPEARANCE_SETTINGS = {
     animationDuration: 100,
     fontWeight: "normal",
 		theme: "amethyst-dark",
+    desktopMode: false,
     customColors: {
       enabled: false,
       colors: {
@@ -115,9 +116,9 @@ const DEFAULT_METERING_SETTINGS = {
     spectrumLine: {
       smoothing: 0.5,
       fftSize: 8192,
-      lineThickness: 2,
-      fillOpacity: 1,
-      opacityFalloff: 0,
+      lineThickness: 1,
+      fillOpacity: 0.15,
+      opacityFalloff: 1,
       maxDecibels: 0,
       minDecibels: -128,
     },

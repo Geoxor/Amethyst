@@ -19,7 +19,7 @@ const {application} = amethyst.state.settings;
 
 <template>
   <settings-setting
-    v-if="amethyst.getCurrentPlatform() === 'desktop'"
+    v-if="amethyst.getCurrentPlatform() == 'desktop'"
     icon="ic:twotone-update"
     :title="$t('settings.auto_update.title')"
     :description="$t('settings.auto_update.description')"
@@ -30,7 +30,7 @@ const {application} = amethyst.state.settings;
     />
   </settings-setting>
   <settings-setting
-    v-if="amethyst.getCurrentPlatform() === 'desktop'"
+    v-if="amethyst.getCurrentPlatform() == 'desktop'"
     :title="$t('settings.launch_on_startup.title')"
     :description="$t('settings.launch_on_startup.description')"
     icon="ic:twotone-rocket-launch"

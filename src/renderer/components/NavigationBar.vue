@@ -15,11 +15,6 @@ import NavigationButton from "@/components/NavigationButton.vue";
       route-name="discovery"
     />
           
-    <!-- <navigation-button
-      icon="ic:twotone-playlist"
-      route-name="playlists"
-    /> -->
-
     <navigation-button
       icon="ic:twotone-favorite"
       route-name="favorites"

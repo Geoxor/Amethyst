@@ -2,7 +2,7 @@
   "name": "amethyst",
   "author": "Geoxor <geoxor123@outlook.com>",
   "productName": "Amethyst",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "type": "module",
   "main": "./release/dist/main/main.js",
   "licenses": [
@@ -357,6 +357,7 @@
   "dependencies": {
     "@capacitor/app": "7.0.1",
     "@capacitor/keyboard": "7.0.1",
+    "@capawesome/capacitor-android-edge-to-edge-support": "^7.2.2",
     "@domchristie/needles": "^0.0.2-1",
     "@floating-ui/core": "^1.2.6",
     "@floating-ui/dom": "^1.2.7",

@@ -8,6 +8,9 @@ project(':capacitor-app').projectDir = new File('../../node_modules/@capacitor/a
 include ':capacitor-keyboard'
 project(':capacitor-keyboard').projectDir = new File('../../node_modules/@capacitor/keyboard/android')
 
+include ':capawesome-capacitor-android-edge-to-edge-support'
+project(':capawesome-capacitor-android-edge-to-edge-support').projectDir = new File('../../node_modules/@capawesome/capacitor-android-edge-to-edge-support/android')
+
 include ':capacitor-action-sheet'
 project(':capacitor-action-sheet').projectDir = new File('../../node_modules/@capacitor/action-sheet/android')
 

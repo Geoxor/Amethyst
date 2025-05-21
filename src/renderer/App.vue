@@ -129,84 +129,62 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
 </script>
 
 <template>
-  <div
-    v-if="amethyst.state.showBigSpectrum.value"
-    class="absolute top-0 left-0 w-320px h-280px z-30 bg-surface-800 "
-    @click="amethyst.state.showBigSpectrum.value = false"
-  >
-    <spectrum-analyzer-composite
-      key="big-spectrum-analyzer"
-      :node="amethyst.player.nodeManager.master.pre"
-      :type="amethyst.state.settings.metering.spectrum.type"
-    />
+  <div v-if="amethyst.state.showBigSpectrum.value" class="absolute top-0 left-0 w-320px h-280px z-30 bg-surface-800 "
+    @click="amethyst.state.showBigSpectrum.value = false">
+    <spectrum-analyzer-composite key="big-spectrum-analyzer" :node="amethyst.player.nodeManager.master.pre"
+      :type="amethyst.state.settings.metering.spectrum.type" />
   </div>
-  <div
-    v-else
-    class="flex fixed flex-col bg-surface-900"
-    :class="[amethyst.getCurrentPlatform() == 'mobile' && 'pt-8']"
-  >
-    <div
-      v-if="amethyst.state.window.isShowingBigCover"
-      class=" select-none rounded-8px w-full sm:w-auto max-w-3/4 max-h-3/4 truncate absolute-xy z-50"
-      style="aspect-ratio: 1/1;"
-    >
-      <cover-art 
-        :url="ambientBackgroundImage"
-        class="w-full drop-shadow-2xl z-30"
-        @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-          { title: 'Export cover...', icon: 'ic:twotone-add-photo-alternate', action: () => amethyst.player.getCurrentTrack()?.exportCover() },
-        ]);"
-        @click="amethyst.state.window.isShowingBigCover = !amethyst.state.window.isShowingBigCover"
-      />
-
-      <icon
-        icon="ic:twotone-close"
-        class="utilityButton absolute top-3 right-3 cursor-pointer"
-        @click="amethyst.state.window.isShowingBigCover = false"
-      />
-    </div>
-
-    <background-image
-      v-if="amethyst.state.settings.appearance.ambientBackground.show"
-      :ambient-background-image="ambientBackgroundImage"
-    />
-
-    <div
-      v-if="amethyst.getCurrentPlatform() === 'web'"
-      class="h-6 bg-yellow-500  items-center flex gap-1 justify-center select-none w-full text-12px"
-    >
-      Amethyst Web is heavily disfunctional due to 
-      Chrome's security policies regarding filesystem access, for the best experience <a
-        href="https://github.com/Geoxor/amethyst/releases/latest"
-        target="_blank"
-      > <strong
-        class="duration-user-defined underline cursor-pointer hover:text-accent"
-      >download the native app</strong> </a> 
-    </div>
-    <top-bar v-if="amethyst.getCurrentPlatform() === 'desktop'" />
+  <div v-else class="flex fixed flex-col bg-surface-900">
     <context-menu v-if="useContextMenu().state.isVisible" />
-    <div
-      v-if="amethyst.getCurrentPlatform() == 'mobile'"
-      class="w-full absolute bottom-0 "
-    >
-    <div
-v-if="amethyst.getCurrentPlatform() === 'mobile'"
-      class="p-2 absolute pb-14 left-0 bottom-0 rounded-32px z-30 w-full overflow-hidden flex bg-surface-700 justify-between">
 
-      <navigation-button icon="ic:twotone-mic-external-on" route-name="audio-monitor" mobile />
+    <background-image v-if="amethyst.state.settings.appearance.ambientBackground.show"
+      :ambient-background-image="ambientBackgroundImage" />
 
-      <navigation-button v-if="amethyst.IS_DEV" icon="mdi:compass" mobile route-name="discovery" />
+    <div v-if="amethyst.state.window.isShowingBigCover"
+      class=" select-none rounded-8px w-full sm:w-auto max-w-3/4 max-h-3/4 truncate absolute-xy z-50"
+      style="aspect-ratio: 1/1;">
+      <cover-art :url="ambientBackgroundImage" class="w-full drop-shadow-2xl z-30" @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
+          { title: 'Export cover...', icon: 'ic:twotone-add-photo-alternate', action: () => amethyst.player.getCurrentTrack()?.exportCover() },
+        ]);" @click="amethyst.state.window.isShowingBigCover = !amethyst.state.window.isShowingBigCover" />
 
-      <navigation-button icon="mdi:resistor-nodes" route-name="node-editor" mobile />
-
-      <navigation-button icon="ic:twotone-queue-music" route-name="queue" mobile />
-
-      <navigation-button icon="ic:twotone-settings" route-name="settings" mobile />
+      <icon icon="ic:twotone-close" class="utilityButton absolute top-3 right-3 cursor-pointer"
+        @click="amethyst.state.window.isShowingBigCover = false" />
     </div>
+
+    <div v-if="amethyst.getCurrentPlatform() == 'web'"
+      class="h-6 bg-yellow-500  items-center flex gap-1 justify-center select-none w-full text-12px">
+      Amethyst Web is heavily disfunctional due to
+      Chrome's security policies regarding filesystem access, for the best experience <a
+        href="https://github.com/Geoxor/amethyst/releases/latest" target="_blank"> <strong
+          class="duration-user-defined underline cursor-pointer hover:text-accent">download the native app</strong> </a>
+    </div>
+
+    <top-bar v-if="amethyst.getCurrentPlatform() == 'desktop'" />
+    
+    <div v-if="amethyst.getCurrentPlatform() == 'mobile' && !amethyst.state.settings.appearance.desktopMode" class="w-full absolute bottom-0 ">
+      <div v-if="amethyst.getCurrentPlatform() == 'mobile'"
+        class="px-2 absolute z-30 left-0 bottom-3 w-full">
+        <div class="p-2 rounded-32px flex bg-surface-700 justify-between items-center h-50px">
+          <navigation-button icon="ic:twotone-queue-music" route-name="queue" mobile />
+
+          <navigation-button icon="ic:twotone-library-music" mobile route-name="discovery" />
+
+          <navigation-button icon="ic:twotone-favorite" mobile route-name="favorites" />
+
+          <navigation-button icon="ic:round-music-note" route-name="now-playing" class="transform-gpu box-content border-solid border-4px border-surface-900 bg-surface-700 max-w-9 mx-3 rounded-full z-1 scale-175" mobile />
+
+          <navigation-button icon="mdi:resistor-nodes" route-name="node-editor" mobile />
+
+          <navigation-button icon="ic:twotone-mic-external-on" route-name="audio-monitor" mobile />
+
+          <navigation-button icon="ic:twotone-settings" route-name="settings" mobile />
+        </div>
+      </div>
+
     </div>
     <div class="h-full whitespace-nowrap flex flex-col justify-between">
       <div class="flex-1 flex h-full max-h-full relative">
-        <navigation-bar v-if="amethyst.getCurrentPlatform() !== 'mobile'" />
+        <navigation-bar v-if="amethyst.getCurrentPlatform() !== 'mobile' || amethyst.state.settings.appearance.desktopMode" />
 
         <div class="flex flex-col w-full overflow-hidden">
           <router-view class="truncate disable-select no-drag" />
@@ -214,12 +192,8 @@ v-if="amethyst.getCurrentPlatform() === 'mobile'"
         <inspector-bar v-if="useInspector().state.isVisible" />
       </div>
 
-      <playback-controls
-v-if="amethyst.state.settings.appearance.showPlaybackControls"
-      
-        :class="[amethyst.getCurrentPlatform() == 'mobile' && 'mb-14']"
-      
-      />
+      <playback-controls v-if="amethyst.state.settings.appearance.showPlaybackControls && amethyst.getCurrentPlatform() !== 'mobile' || amethyst.state.settings.appearance.desktopMode"
+        :class="[amethyst.getCurrentPlatform() == 'mobile'  && !amethyst.state.settings.appearance.desktopMode && 'mb-12']" />
     </div>
   </div>
 </template> 

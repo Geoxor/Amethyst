@@ -87,7 +87,7 @@ const handlePositionClass = computed(() => {
     >
       <div
         v-if="props.visible"
-        class="border-r border-r-surface-500 pointer-events-none"
+        class="border-r border-solid border-1px border-surface-500  pointer-events-none"
         :class="[
           props.direction === 'horizontal'
             ? 'handle-horizontal-thumb'

@@ -140,10 +140,10 @@ provide("menuGroupRef", menuGroupRef);
         />
 
         <menu-splitter 
-          v-if="amethyst.getCurrentPlatform() === 'desktop'"
+          v-if="amethyst.getCurrentPlatform() == 'desktop'"
         />
         <menu-option
-          v-if="amethyst.getCurrentPlatform() === 'desktop'"
+          v-if="amethyst.getCurrentPlatform() == 'desktop'"
           :title="$t('menu.utility.check_for_updates')"
           icon="ic:twotone-update"
           @click="amethyst.checkForUpdates()"
@@ -151,28 +151,28 @@ provide("menuGroupRef", menuGroupRef);
       </menu-container>
       <menu-container :title="$t('menu.view')">
         <menu-option
-          v-if="amethyst.getCurrentPlatform() === 'desktop'"
+          v-if="amethyst.getCurrentPlatform() == 'desktop'"
           :title="$t('menu.view.zoom_in')"
           icon="ic:twotone-zoom-in"
           :shortcuts="[commandOrControlSymbol, '+']"
           @click="amethyst.zoom('in')"
         />
         <menu-option
-          v-if="amethyst.getCurrentPlatform() === 'desktop'"
+          v-if="amethyst.getCurrentPlatform() == 'desktop'"
           :title="$t('menu.view.zoom_out')"
           icon="ic:twotone-zoom-out"
           :shortcuts="[commandOrControlSymbol, '-']"
           @click="amethyst.zoom('out')"
         />
         <menu-option
-          v-if="amethyst.getCurrentPlatform() === 'desktop'"
+          v-if="amethyst.getCurrentPlatform() == 'desktop'"
           :title="$t('menu.view.reset_zoom')"
           icon="ic:twotone-zoom-in-map"
           :shortcuts="[commandOrControlSymbol, '0']"
           @click="amethyst.zoom('reset')"
         />
         <menu-splitter 
-          v-if="amethyst.getCurrentPlatform() === 'desktop'"
+          v-if="amethyst.getCurrentPlatform() == 'desktop'"
         />
         <menu-option
           :title="$t('menu.view.settings')"
@@ -276,7 +276,7 @@ provide("menuGroupRef", menuGroupRef);
       />
         
       <control-buttons
-        v-if="amethyst.getCurrentPlatform() === 'desktop' && amethyst.getCurrentOperatingSystem() != 'mac'"
+        v-if="amethyst.getCurrentPlatform() == 'desktop' && amethyst.getCurrentOperatingSystem() != 'mac'"
         :is-maximized="amethyst.state.window.isMaximized"
         @close="amethyst.performWindowAction('close')"
         @minimize="amethyst.performWindowAction('minimize')"

@@ -39,7 +39,7 @@ const {performance} = amethyst.state.settings;
 </script>
 
 <template>
-  <div class="w-full flex gap-2">
+  <div class="w-full flex flex-col sm:flex-row gap-2">
     <div class="p-4 w-min rounded-8px bg-settings-setting-background text-text-title flex gap-4 items-center justify-between">
       <div class="flex-col flex justify-center h-full gap-2">
         <subtitle-text
@@ -69,7 +69,7 @@ const {performance} = amethyst.state.settings;
           :text="$t('settings.performance.audio_latency')"
           class="text-12px"
         />
-        <title-text :text="`${Number.isFinite(audioLatency) && audioLatency != -1 ? `${audioLatency} ms` : 'loading'}`" />
+        <title-text :text="`${Number.isFinite(audioLatency) && audioLatency != -1 ? `${audioLatency.toFixed(1)} ms` : 'loading'}`" />
       </div>
     </div>
   </div>
@@ -88,7 +88,7 @@ const {performance} = amethyst.state.settings;
   </settings-setting>
 
   <settings-setting
-    v-if="amethyst.getCurrentPlatform() === 'desktop'"
+    v-if="amethyst.getCurrentPlatform() == 'desktop'"
     icon="ic:twotone-monitor-heart"
     :description="$t('settings.vsync.description')"
     :title="$t('settings.vsync.title')"

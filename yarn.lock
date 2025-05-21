@@ -262,6 +262,11 @@
   resolved "https://registry.yarnpkg.com/@capawesome-team/capacitor-file-opener/-/capacitor-file-opener-7.0.1.tgz#638c4c5c8783924f94b44335ca2a05ce4ab4854d"
   integrity sha512-Cf0z65pCLcSzgIaY8G2pp5iJSVbR88IrjfIM1DeCBpHxZV4V17SCA5uZ7eFhaReF7UahGbAAo2JBsmv5M5n0WQ==
 
+"@capawesome/capacitor-android-edge-to-edge-support@^7.2.2":
+  version "7.2.2"
+  resolved "https://registry.yarnpkg.com/@capawesome/capacitor-android-edge-to-edge-support/-/capacitor-android-edge-to-edge-support-7.2.2.tgz#830720988b9db29a5bf18db907c4b8b1f8545f97"
+  integrity sha512-AAqCFswAVlA6WX0iaVbMCEnt/2mNBZGmU3JbbFlqWAg61NCMxm8+JlmiNoG+6wf/6S/BWVRL8Ac3L9csaZH/8w==
+
 "@capawesome/capacitor-file-picker@^7.0.1":
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/@capawesome/capacitor-file-picker/-/capacitor-file-picker-7.0.1.tgz#b77e437c78f4d0f3cc7449ebb67bca02a4c9dd50"
