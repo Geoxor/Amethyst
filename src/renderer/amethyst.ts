@@ -665,9 +665,13 @@ export class Amethyst extends AmethystBackend {
   }
 
   public  handleTrackDragStart = async (e: DragEvent, track: Track) => {
-    const blob = await track.getCoverAsBlob();
-    const arrayBuffer = await blob.arrayBuffer();
-    window.electron.startDrag(track.absolutePath, Buffer.from(arrayBuffer));
+    if (track.getCover()) {
+      const blob = await track.getCoverAsBlob();
+      const arrayBuffer = await blob.arrayBuffer();
+      window.electron.startDrag(track.absolutePath, Buffer.from(arrayBuffer));
+    } else {
+      window.electron.startDrag(track.absolutePath);
+    }
     (e.target as HTMLDivElement).classList.add("dragging");
   };
 }
