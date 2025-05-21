@@ -188,8 +188,27 @@ export class AmethystBackend extends EventEmitter<WindowEvents>{
 
           const directory = await FilePicker.pickDirectory();
 
-          // hack: convert URI into a file path for Capacitor, probably not needed on iOS...
-          const path = Capacitor.convertFileSrc(decodeURIComponent(directory.path.split("%3A")[1]));
+          const getPath = (): string | null => {
+            switch(Capacitor.getPlatform()) {
+              case "android":
+              {
+                return Capacitor.convertFileSrc(decodeURIComponent(directory.path.split("%3A")[1]));
+              }
+              case "ios":
+              {
+                const parts = directory.path.split("/");
+                // iOS apps can only import from Sandboxed "Documents" 🍌🍌🍌
+                const index = parts.findIndex(part => part === "Documents");
+                if (index > 0)
+                  return parts.splice(index + 1).join("/");
+                return null;
+              }
+              default:
+                return ""; // unsupported
+            }
+          };
+
+          const path = getPath();
 
           path ? res({canceled: false, filePaths: [path]}) : rej();
         });
@@ -221,7 +240,7 @@ export class AmethystBackend extends EventEmitter<WindowEvents>{
 
           const result = await Filesystem.readdir({
             path: path,
-            directory: Directory.ExternalStorage
+            directory: Capacitor.getPlatform() == "android" ? Directory.ExternalStorage : Directory.Data
           });
 
           const files = result.files.filter(file => file.type === "file" && ALLOWED_AUDIO_EXTENSIONS.some(ext => file.uri.endsWith(`.${ext}`))).map(file => Capacitor.convertFileSrc(file.uri));
