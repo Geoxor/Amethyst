@@ -25,6 +25,10 @@ const setAmbientCover = async (track: Track) => {
 };
 
 const fallbackToDefault = () => {
+  // dont revert if another option is enabled
+  if (amethyst.state.settings.appearance.coverBasedColors && amethyst.player.getCurrentTrack()) return setDynamicColors(amethyst.player.getCurrentTrack()!);
+  if (amethyst.state.settings.appearance.customColors.enabled) return setCustomColors();
+
   document.documentElement.style.removeProperty("--accent");
   document.documentElement.style.removeProperty("--primary");
   document.documentElement.style.removeProperty("--inspector-color");
@@ -52,7 +56,7 @@ const setCustomColors = () => {
   amethyst.state.emit("theme:change", "");
 };
 
-const setDynamicColors = async (track: Track) => {
+const setDynamicColors = async (track: Track): Promise<void> => {
   if (!amethyst.state.settings.appearance.coverBasedColors) return;
   const coverBase64 = track.getCover();
   if (!coverBase64) return fallbackToDefault();
