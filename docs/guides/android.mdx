@@ -10,18 +10,39 @@ title: "Android"
   </Step>
 
   <Step title="Second Step" icon='java'>
-    Install [Java SDK v21](https://www.oracle.com/java/technologies/javase/jdk21-archive-downloads.html)
+    #### Windows
+    
+    Install [Adoptium JavaJDK 21](https://adoptium.net/temurin/releases/?version=21&os=any&arch=any)
+
+    Make sure to enable "Add JAVA_HOME to PATH" during installation.
+
+    #### MacOS
+
+    ```bash
+    brew install openjdk@21
+    ```
+
+    ```bash
+    sudo ln -sfn /opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-21.jdk
+    ```
+
+    ```bash
+    echo 'export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"' >> ~/.zshrc
+    ```
+
+    #### Linux
+
+    If you're feeling generous, contribute guide for Linux
   </Step>
 
-  <Step title="Third Step" icon='code'>
-    Validate environment variable `%JAVA_HOME%` points to the following path: `C:\Program Files\Java\jdk-21`
+  <Step title="Third Step" icon='android'>
+    Install [Android Studio](https://developer.android.com/studio/archive)
+    
+    
+    <Note>Make sure to download Meerkat Feature Drop | 2024.3.2 from the page</Note>
   </Step>
 
-  <Step title="Fourth Step" icon='android'>
-    Install [Android Studio](https://developer.android.com/studio)
-  </Step>
-
-  <Step title="Fifth Step" icon='code'>
+  <Step title="Fourth Step" icon='code'>
     Add these paths to your environment variables
 
     ```powershell
@@ -33,23 +54,70 @@ title: "Android"
     ```
   </Step>
 
-  <Step title="Sixth Step" icon='mobile'>
+  <Step title="Fifth Step" icon='mobile'>
     Create a virtual emulator device on Android Studio
 
     ![alt text]({ACF381EC-982C-4C61-B408-8051DACB8D0C}.png)
 
-    Or connect your android phone to your computer with USB debugging and use Android Studio to install the dev app
+    or connect your android phone to your computer with USB debugging enabled from Developer settings.
 
-    ![alt text]({B9390682-A373-4590-99C4-DC5AE2AE1C50}.png)
   </Step>
 
-  <Step title="Seventh Step" icon='magnifying-glass'>
-    To start the dev server and emulator execute this command
+  <Step title="Sixth Step" icon='code'>
+    Generate a keystore by running the command and following the instructions
+
+    ```bash
+    keytool -genkey -v -keystore debug.keystore -alias key0 -keyalg RSA -keysize 2048 -validity 10000
+    ```
+
+    Rename the empty `example.env` to `.env` in the project root
+
+    ```ini
+    KEYSTORE_PATH=<path to your .keystore file>
+    KEYSTORE_PASSWORD=<keystore password>
+    KEY_PASSWORD=<keystore password>
+    KEY_ALIAS=<key alias>
+    NODE_ENV=development
+    ```
+
+    and fill the example values according to the instructions
+
+    <Note>You can run the `pwd` command to get the current absolute path of the folder for keystore</Note>
+
+  </Step>
+
+</Steps>
+
+## Running the app
+
+<Steps>
+  <Step title="First Step" icon='code'>
+    Start the Vite development server
+
     ```sh
     yarn start:renderer
     ```
 
-    <Note>Devtools can be launched in the emulator, follow [these steps to see how](https://capacitorjs.com/docs/vscode/debugging#use-chrome-inspect)</Note>
   </Step>
+  <Step title="Second Step" icon='android'>
+    Start the Capacitor development app
 
+    ```sh
+    yarn cap run android -l --port 6969 --host 127.0.0.1 --forwardPorts 6969:6969
+    ```
+
+    <Note>The following command will promt you for device selection, select your Emulator or real device and it will install and launch the development app</Note>
+  </Step>
 </Steps>
+
+## Debugging (via ADB)
+
+You can see the debug logs with ADB
+
+```bash
+adb shell 'logcat --pid $(pidof moe.geoxor.amethyst)'
+```
+
+## Debugging (via Devtools)
+
+Devtools can be launched in the target device, follow [these steps to see how](https://capacitorjs.com/docs/vscode/debugging#use-chrome-inspect)
