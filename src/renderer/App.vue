@@ -27,6 +27,9 @@ const setAmbientCover = async (track: Track) => {
 const fallbackToDefault = () => {
   document.documentElement.style.removeProperty("--accent");
   document.documentElement.style.removeProperty("--primary");
+  document.documentElement.style.removeProperty("--inspector-color");
+  document.documentElement.style.removeProperty("--alert-color");
+
   amethyst.state.emit("theme:change", "");
 };
 
