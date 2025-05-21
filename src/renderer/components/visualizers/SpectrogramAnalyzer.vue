@@ -61,7 +61,7 @@ amethyst.state.on("theme:change", () => {
 });
 
 // Don't change these
-analyser.maxDecibels = -16;
+analyser.maxDecibels = -8;
 analyser.minDecibels = -128;
 
 const uniformData = {
