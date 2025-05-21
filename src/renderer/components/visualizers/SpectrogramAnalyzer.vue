@@ -32,11 +32,30 @@ updateAnalyser();
 watch(() => [props.fftSize, props.smoothing], updateAnalyser);
 amethyst.state.on("theme:change", () => {
   setTimeout(() => {
-    const accentColor = getThemeColorRgb("--accent");
-    uniformData.u_color.value.set(
-      normalize8bit(accentColor[0]),
-      normalize8bit(accentColor[1]),
-      normalize8bit(accentColor[2])
+    uniformData.u_color0.value.set(
+      normalize8bit(getThemeColorRgb("--surface-900")[0]),
+      normalize8bit(getThemeColorRgb("--surface-900")[1]),
+      normalize8bit(getThemeColorRgb("--surface-900")[2])
+    );
+    uniformData.u_color1.value.set(
+      normalize8bit(getThemeColorRgb("--surface-500")[0]),
+      normalize8bit(getThemeColorRgb("--surface-500")[1]),
+      normalize8bit(getThemeColorRgb("--surface-500")[2])
+    );
+    uniformData.u_color2.value.set(
+      normalize8bit(getThemeColorRgb("--inspector-color")[0]),
+      normalize8bit(getThemeColorRgb("--inspector-color")[1]),
+      normalize8bit(getThemeColorRgb("--inspector-color")[2])
+    );
+    uniformData.u_color3.value.set(
+      normalize8bit(getThemeColorRgb("--primary")[0]),
+      normalize8bit(getThemeColorRgb("--primary")[1]),
+      normalize8bit(getThemeColorRgb("--primary")[2])
+    );
+    uniformData.u_color4.value.set(
+      normalize8bit(getThemeColorRgb("--alert-color")[0]),
+      normalize8bit(getThemeColorRgb("--alert-color")[1]),
+      normalize8bit(getThemeColorRgb("--alert-color")[2])
     );
   }, 100);
 });
@@ -46,10 +65,30 @@ analyser.maxDecibels = -0;
 analyser.minDecibels = -128;
 
 const uniformData = {
-  u_color: {value: new THREE.Vector3(
-    normalize8bit(props.accentColor.r),
-    normalize8bit(props.accentColor.g),
-    normalize8bit(props.accentColor.b)
+  u_color0: {value: new THREE.Vector3(
+    normalize8bit(getThemeColorRgb("--surface-900")[0]),
+    normalize8bit(getThemeColorRgb("--surface-900")[1]),
+    normalize8bit(getThemeColorRgb("--surface-900")[2])
+  )},
+  u_color1: {value: new THREE.Vector3(
+    normalize8bit(getThemeColorRgb("--surface-500")[0]),
+    normalize8bit(getThemeColorRgb("--surface-500")[1]),
+    normalize8bit(getThemeColorRgb("--surface-500")[2])
+  )},
+  u_color2: {value: new THREE.Vector3(
+    normalize8bit(getThemeColorRgb("--inspector-color")[0]),
+    normalize8bit(getThemeColorRgb("--inspector-color")[1]),
+    normalize8bit(getThemeColorRgb("--inspector-color")[2])
+  )},
+  u_color3: {value: new THREE.Vector3(
+    normalize8bit(getThemeColorRgb("--primary")[0]),
+    normalize8bit(getThemeColorRgb("--primary")[1]),
+    normalize8bit(getThemeColorRgb("--primary")[2])
+  )},
+  u_color4: {value: new THREE.Vector3(
+    normalize8bit(getThemeColorRgb("--alert-color")[0]),
+    normalize8bit(getThemeColorRgb("--alert-color")[1]),
+    normalize8bit(getThemeColorRgb("--alert-color")[2])
   )},
   u_amplitudes: {value: new Float32Array(VISUALIZER_BIN_COUNT)},
 };
