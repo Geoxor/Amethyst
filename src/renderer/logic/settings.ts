@@ -128,8 +128,8 @@ const DEFAULT_METERING_SETTINGS = {
       bars: 64,
     },
     spectrogram: {
-      smoothing: 0.5,
-      fftSize: 8192
+      smoothing: 0.0,
+      fftSize: 4096
     },
     decibelMeter: {
       minimumDb: -60,

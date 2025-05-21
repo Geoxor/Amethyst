@@ -66,9 +66,11 @@ const setDynamicColors = async (track: Track): Promise<void> => {
   
   const newAccentColor = `${palette.Vibrant?.r}, ${palette.Vibrant?.g}, ${palette.Vibrant?.b}`;
   const newPrimaryColor = `${palette.LightVibrant?.r}, ${palette.LightVibrant?.g}, ${palette.LightVibrant?.b}`;
+  const newInspectorColor = `${palette.LightMuted?.r}, ${palette.LightMuted?.g}, ${palette.LightMuted?.b}`;
 
   document.documentElement.style.setProperty("--accent", newAccentColor);
   document.documentElement.style.setProperty("--primary", newPrimaryColor);
+  document.documentElement.style.setProperty("--inspector-color", newInspectorColor);
 
   setDynamicIconColors();
 

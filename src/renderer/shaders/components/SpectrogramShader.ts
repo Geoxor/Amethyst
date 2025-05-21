@@ -34,7 +34,7 @@ void main() {
     vec3 color = gradientColor(amplitude);
     gl_FragColor = vec4(color, 1.0);
   } else {
-    gl_FragColor = texture2D(u_backbuffer, vec2(uv.x + (2.0 / u_resolution.x), uv.y));
+    gl_FragColor = texture2D(u_backbuffer, vec2(uv.x + (1.0 / u_resolution.x), uv.y));
   }
 }
 `;
