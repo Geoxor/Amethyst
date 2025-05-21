@@ -60,6 +60,10 @@ export class AmethystBackend extends EventEmitter<WindowEvents>{
 
   private static isPlatformWeb = !AmethystBackend.isPlatformMobile && !AmethystBackend.isPlatformDesktop;
 
+  private static isOperatingSystemiOS = AmethystBackend.isPlatformMobile && Capacitor.getPlatform() == "ios";
+
+  private static isOperatingSystemAndroid = AmethystBackend.isPlatformMobile && Capacitor.getPlatform() == "android";
+
   private static isOperatingSystemLinux = this.isPlatformDesktop && window.electron.isLinux;
 
   private static isOperatingSystemWindows = this.isPlatformDesktop && window.electron.isWindows;
@@ -88,7 +92,8 @@ export class AmethystBackend extends EventEmitter<WindowEvents>{
       throw new Error("Unknown operating system");
     }
     if (Amethyst.isPlatformMobile) {
-      return "android";
+      if (Amethyst.isOperatingSystemiOS) return "ios";
+      if (Amethyst.isOperatingSystemAndroid) return "android";
     }
     throw new Error("Unknown operating system");
   }
@@ -188,8 +193,23 @@ export class AmethystBackend extends EventEmitter<WindowEvents>{
 
           const directory = await FilePicker.pickDirectory();
 
-          // hack: convert URI into a file path for Capacitor, probably not needed on iOS...
-          const path = Capacitor.convertFileSrc(decodeURIComponent(directory.path.split("%3A")[1]));
+          const getPath = (): string | null => {
+            switch(this.getCurrentOperatingSystem()) {
+              case "android":
+                return Capacitor.convertFileSrc(decodeURIComponent(directory.path.split("%3A")[1]));
+              case "ios":
+                const parts = directory.path.split("/");
+                // iOS apps can only import from Sandboxed "Documents" 🍌🍌🍌
+                const index = parts.findIndex(part => part === "Documents");
+                if (index > 0)
+                  return parts.splice(index + 1).join("/");
+                return null;
+              default:
+                return null; // unsupported
+            }
+          };
+
+          const path = getPath();
 
           path ? res({canceled: false, filePaths: [path]}) : rej();
         });
@@ -221,7 +241,7 @@ export class AmethystBackend extends EventEmitter<WindowEvents>{
 
           const result = await Filesystem.readdir({
             path: path,
-            directory: Directory.ExternalStorage
+            directory: this.getCurrentOperatingSystem() == "android" ? Directory.ExternalStorage : Directory.Data
           });
 
           const files = result.files.filter(file => file.type === "file" && ALLOWED_AUDIO_EXTENSIONS.some(ext => file.uri.endsWith(`.${ext}`))).map(file => Capacitor.convertFileSrc(file.uri));
