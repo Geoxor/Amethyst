@@ -7,7 +7,7 @@ import { amethyst } from "@/amethyst.js";
 import BaseTooltip from "../BaseTooltip.vue";
 import SubtitleText from "./SubtitleText.vue";
 import TitleText from "./TitleText.vue";
-const props = defineProps<{ title?: string, subtitle?: string; alignment?: "left" | "center" | "right", subtitleEllipses?: boolean, info?: string }>();
+const props = defineProps<{ title?: string, platforms?: ("desktop" | "mobile" | "web")[], subtitle?: string; alignment?: "left" | "center" | "right", subtitleEllipses?: boolean, info?: string }>();
 
 const titleRef = ref<HTMLDivElement>();
 const subtitleRef = ref<HTMLDivElement>();
@@ -52,7 +52,7 @@ onBeforeUnmount(() => {
   >
     <div
       ref="titleRef"
-      :class="[info && 'flex gap-1']"
+      :class="[(info || platforms) && 'flex gap-1']"
     >
       <title-text
         :text="title ?? 'Title'"
@@ -63,15 +63,39 @@ onBeforeUnmount(() => {
         text="Open manual"
         placement="top"
       >
-          <Icon
-            v-if="info"
-            icon="mdi:information-slab-box-outline"  
-            class="min-w-4 min-h-4 text-inspector-color cursor-external-pointer"
-            @click="() => {
-              amethyst.openLink(info!);
-            }"
-          />
-        </base-tooltip>
+        <Icon
+          v-if="info"
+          icon="mdi:information-slab-box-outline"  
+          class="min-w-4 min-h-4 text-inspector-color cursor-external-pointer"
+          @click="() => {
+            amethyst.openLink(info!);
+          }"
+        />
+      </base-tooltip>
+
+      <base-tooltip
+        v-for="platform in platforms"
+        :key="platform"
+        :text="`This setting is available on ${platform} only`"
+        placement="top"
+      >
+        <Icon
+          v-if="platform == 'desktop'"
+          icon="ic:twotone-laptop"  
+          class="min-w-4 min-h-4"
+        />
+        <Icon
+          v-else-if="platform == 'mobile'"
+          icon="ic:twotone-smartphone"  
+          class="min-w-4 min-h-4"
+        />
+        <Icon
+          v-else-if="platform == 'web'"
+          icon="ic:twotone-web"  
+          class="min-w-4 min-h-4"
+        />
+        
+      </base-tooltip>
 
     </div>
     <div

@@ -114,6 +114,7 @@ const {appearance} = amethyst.state.settings;
           />
         </settings-setting>
         <settings-setting
+          :platforms="['desktop']"
           subsetting
           :title="$t('settings.appearance.cover_based_icon_colors.title')"
           :description="$t('settings.appearance.cover_based_icon_colors.description')"
@@ -235,7 +236,7 @@ const {appearance} = amethyst.state.settings;
   </settings-setting>
 
   <settings-setting
-    v-if="amethyst.getCurrentPlatform() == 'mobile'"
+    :platforms="['mobile']"
     :title="$t('settings.appearance.desktop_mode.title')"
     :description="$t('settings.appearance.desktop_mode.description')"
     icon="ic:twotone-computer"
@@ -315,6 +316,7 @@ const {appearance} = amethyst.state.settings;
     :shortcuts="['F9']"
     :title="$t('settings.appearance.debug_stats.title')"
     :description="$t('settings.appearance.debug_stats.description')"
+    :platforms="['desktop']"
     icon="ic:twotone-bug-report"
   >
     <toggle-switch

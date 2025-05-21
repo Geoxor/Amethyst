@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { amethyst } from "@/amethyst";
 import SettingsCategory from "@/components/settings/SettingsCategory.vue";
 
 defineProps<{
@@ -56,15 +57,16 @@ defineProps<{
     :description="$t('settings.media_sources.description')"
     icon="ic:twotone-folder"
   />
-  <settings-category
+  <!-- <settings-category
     route-name="settings.keybinds"
     :title="$t('settings.keybinds.title')"
     :active="false"
     :fullwidth-min="fullwidthMin"
     :description="$t('settings.keybinds.description')"
     icon="ic:twotone-keyboard"
-  />
+  /> -->
   <settings-category
+    v-if="amethyst.getCurrentPlatform() == 'desktop'" 
     route-name="settings.integrations"
     :title="$t('settings.integrations.title')"
     :active="false"
