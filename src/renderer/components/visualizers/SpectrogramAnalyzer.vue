@@ -29,68 +29,38 @@ const updateAnalyser = () => {
 
 updateAnalyser();
 
+function setNormalizedColorVector(vector: THREE.Vector3, cssVarName: string) {
+  const [r, g, b] = getThemeColorRgb(cssVarName).map(normalize8bit);
+  vector.set(r, g, b);
+}
+
 watch(() => [props.fftSize, props.smoothing], updateAnalyser);
 amethyst.state.on("theme:change", () => {
   setTimeout(() => {
-    uniformData.u_color0.value.set(
-      normalize8bit(getThemeColorRgb("--surface-900")[0]),
-      normalize8bit(getThemeColorRgb("--surface-900")[1]),
-      normalize8bit(getThemeColorRgb("--surface-900")[2])
-    );
-    uniformData.u_color1.value.set(
-      normalize8bit(getThemeColorRgb("--surface-500")[0]),
-      normalize8bit(getThemeColorRgb("--surface-500")[1]),
-      normalize8bit(getThemeColorRgb("--surface-500")[2])
-    );
-    uniformData.u_color2.value.set(
-      normalize8bit(getThemeColorRgb("--inspector-color")[0]),
-      normalize8bit(getThemeColorRgb("--inspector-color")[1]),
-      normalize8bit(getThemeColorRgb("--inspector-color")[2])
-    );
-    uniformData.u_color3.value.set(
-      normalize8bit(getThemeColorRgb("--primary")[0]),
-      normalize8bit(getThemeColorRgb("--primary")[1]),
-      normalize8bit(getThemeColorRgb("--primary")[2])
-    );
-    uniformData.u_color4.value.set(
-      normalize8bit(getThemeColorRgb("--alert-color")[0]),
-      normalize8bit(getThemeColorRgb("--alert-color")[1]),
-      normalize8bit(getThemeColorRgb("--alert-color")[2])
-    );
-  }, 100);
+    setNormalizedColorVector(uniformData.u_color0.value, "--surface-900");
+    setNormalizedColorVector(uniformData.u_color1.value, "--surface-500");
+    setNormalizedColorVector(uniformData.u_color2.value, "--inspector-color");
+    setNormalizedColorVector(uniformData.u_color3.value, "--primary");
+    setNormalizedColorVector(uniformData.u_color4.value, "--alert-color");
+  }, 100)
 });
 
 // Don't change these
 analyser.maxDecibels = -8;
 analyser.minDecibels = -128;
 
+function getNormalizedColorVector(cssVarName: string) {
+  const [r, g, b] = getThemeColorRgb(cssVarName).map(normalize8bit);
+  return new THREE.Vector3(r, g, b);
+}
+
 const uniformData = {
-  u_color0: {value: new THREE.Vector3(
-    normalize8bit(getThemeColorRgb("--surface-900")[0]),
-    normalize8bit(getThemeColorRgb("--surface-900")[1]),
-    normalize8bit(getThemeColorRgb("--surface-900")[2])
-  )},
-  u_color1: {value: new THREE.Vector3(
-    normalize8bit(getThemeColorRgb("--surface-500")[0]),
-    normalize8bit(getThemeColorRgb("--surface-500")[1]),
-    normalize8bit(getThemeColorRgb("--surface-500")[2])
-  )},
-  u_color2: {value: new THREE.Vector3(
-    normalize8bit(getThemeColorRgb("--inspector-color")[0]),
-    normalize8bit(getThemeColorRgb("--inspector-color")[1]),
-    normalize8bit(getThemeColorRgb("--inspector-color")[2])
-  )},
-  u_color3: {value: new THREE.Vector3(
-    normalize8bit(getThemeColorRgb("--primary")[0]),
-    normalize8bit(getThemeColorRgb("--primary")[1]),
-    normalize8bit(getThemeColorRgb("--primary")[2])
-  )},
-  u_color4: {value: new THREE.Vector3(
-    normalize8bit(getThemeColorRgb("--alert-color")[0]),
-    normalize8bit(getThemeColorRgb("--alert-color")[1]),
-    normalize8bit(getThemeColorRgb("--alert-color")[2])
-  )},
-  u_amplitudes: {value: new Float32Array(VISUALIZER_BIN_COUNT)},
+  u_color0: { value: getNormalizedColorVector("--surface-900") },
+  u_color1: { value: getNormalizedColorVector("--surface-500") },
+  u_color2: { value: getNormalizedColorVector("--inspector-color") },
+  u_color3: { value: getNormalizedColorVector("--primary") },
+  u_color4: { value: getNormalizedColorVector("--alert-color") },
+  u_amplitudes: { value: new Float32Array(VISUALIZER_BIN_COUNT) },
 };
 
 const render = (uniforms: Record<string, any>) => {
