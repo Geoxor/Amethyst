@@ -30,18 +30,26 @@ const updateAnalyser = () => {
 
 updateAnalyser();
 
+watch(() => [props.fftSize, props.smoothing], updateAnalyser);
+
+watch(() => props.scrollSpeed, (v) => uniformData.u_scrollSpeed.value = v);
+
+watch(() => amethyst.state.settings.metering.spectrogram.logarithmic, (v) => {
+  analyser.maxDecibels = v ? -8 : -16;
+});
+
+// Don't change these
+analyser.maxDecibels = amethyst.state.settings.metering.spectrogram.logarithmic ? -8 : -16;
+analyser.minDecibels = -128;
+
 function setNormalizedColorVector(vector: THREE.Vector3, cssVarName: string) {
   const [r, g, b] = getThemeColorRgb(cssVarName).map(normalize8bit);
   vector.set(r, g, b);
 }
 
-watch(() => [props.fftSize, props.smoothing], updateAnalyser);
-
-watch(() => props.scrollSpeed, (v) => uniformData.u_scrollSpeed.value = v);
-
 amethyst.state.on("theme:change", () => {
   setTimeout(() => {
-    setNormalizedColorVector(uniformData.u_color0.value, "--surface-900");
+    setNormalizedColorVector(uniformData.u_color0.value, "--surface-1000");
     setNormalizedColorVector(uniformData.u_color1.value, "--surface-500");
     setNormalizedColorVector(uniformData.u_color2.value, "--inspector-color");
     setNormalizedColorVector(uniformData.u_color3.value, "--primary");
@@ -49,17 +57,13 @@ amethyst.state.on("theme:change", () => {
   }, 100)
 });
 
-// Don't change these
-analyser.maxDecibels = amethyst.state.settings.metering.spectrogram.logarithmic ? -8 : -16;
-analyser.minDecibels = -128;
-
 function getNormalizedColorVector(cssVarName: string) {
   const [r, g, b] = getThemeColorRgb(cssVarName).map(normalize8bit);
   return new THREE.Vector3(r, g, b);
 }
 
 const uniformData = {
-  u_color0: { value: getNormalizedColorVector("--surface-900") },
+  u_color0: { value: getNormalizedColorVector("--surface-1000") },
   u_color1: { value: getNormalizedColorVector("--surface-500") },
   u_color2: { value: getNormalizedColorVector("--inspector-color") },
   u_color3: { value: getNormalizedColorVector("--primary") },
