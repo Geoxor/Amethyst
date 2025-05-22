@@ -11,6 +11,8 @@ import type { IContextMenuOption } from "@/state";
 
 import BaseChip from "../BaseChip.vue";
 
+defineOptions({ inheritAttrs: false })
+
 const props = defineProps<{ title: string, description?: string, node: AmethystAudioNode, meterless?: boolean }>();
 // Context Menu options for this component 
 const handleContextMenu = ({x, y}: MouseEvent) => {
