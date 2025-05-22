@@ -55,7 +55,7 @@ export class Queue {
   }
 
   public getList() {
-    return Array.from(this.list.value.values());
+    return [...this.list.value.values()];
   }
 
   public search(search: string) {
