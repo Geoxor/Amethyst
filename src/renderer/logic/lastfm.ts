@@ -101,7 +101,6 @@ export class LastFm {
                 );
 
                 const payload = await result.json();
-                console.log(payload);
 
                 if (payload["error"] == null) {
                     console.log(`%c[⚐ Last.fm]%c Scrobble -> ${track} by ${artist} was ${payload["scrobbles"]["@attr"]["accepted"] > 0 ? "Accepted" : "Rejected"}`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);");
