@@ -161,6 +161,8 @@
   "settings.lastfm.api_secret.placeholder": "Enter your Last.fm API secret",
   "settings.lastfm.username.placeholder": "Enter your Last.fm username",
   "settings.lastfm.api_key.placeholder": "Enter your Last.fm API key",
+  "settings.lastfm.enable_scrobbling.title" : "Scrobbling",
+  "settings.lastfm.enable_scrobbling.description" : "Enable scrobbling to send the currently playing track information to Last.fm",
 
   "settings.auto_update.title": "Automatic updates",
   "settings.auto_update.description": "Automatically check and install updates on startup",
