@@ -66,12 +66,11 @@ export class LastFm {
             const payload = await result.json();
 
             if (payload["error"] == null) {
-                console.log(`%c[⚐ Last.fm]%c Authenticated as ${payload["session"]["name"]}`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);");
+                console.log(`%c[⚐ Last.fm]%c Authenticated as ${payload["session"]["name"]}`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);", payload);
                 this.amethyst.state.settings.integrations.lastFm.sessionKey = payload["session"]["key"]
                 return true;
             } else {
-                console.log(`%c[⚐ Last.fm]%c Authenticated returned error`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);");
-                console.log(payload);
+                console.log(`%c[⚐ Last.fm]%c Authenticated returned error`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);", payload);
             }
 
             return false;
@@ -103,10 +102,9 @@ export class LastFm {
                 const payload = await result.json();
 
                 if (payload["error"] == null) {
-                    console.log(`%c[⚐ Last.fm]%c Scrobble -> ${track} by ${artist} was ${payload["scrobbles"]["@attr"]["accepted"] > 0 ? "Accepted" : "Rejected"}`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);");
+                    console.log(`%c[⚐ Last.fm]%c Scrobble -> ${track} by ${artist} was ${payload["scrobbles"]["@attr"]["accepted"] > 0 ? "Accepted" : "Rejected"}`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);", payload);
                 } else {
-                    console.log(`%c[⚐ Last.fm]%c Scrobble returned error (${payload["error"]})`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);");
-                    console.log(payload);
+                    console.log(`%c[⚐ Last.fm]%c Scrobble returned error (${payload["error"]})`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);", payload);
 
                     this.handleServerErrorResponse(payload["error"]);
                 }
