@@ -86,9 +86,9 @@ export class LastFm {
     }
 
     // https://www.last.fm/api/mobileauth
-    private async authenticate(force: boolean = false): Promise<boolean> {
+    private async authenticate(): Promise<boolean> {
 
-        if (this.amethyst.state.settings.integrations.lastFm.sessionKey.length == 0 || force)
+        if (this.amethyst.state.settings.integrations.lastFm.sessionKey.length == 0 || this.needsReAuthentication)
         {
             const params = new Map<string, string>();
 
@@ -104,7 +104,8 @@ export class LastFm {
 
             if (result !== null) {
                 console.log(`%c[⚐ Last.fm]%c Authenticated as ${result["session"]["name"]}`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);", result);
-                this.amethyst.state.settings.integrations.lastFm.sessionKey = result["session"]["key"]
+                this.amethyst.state.settings.integrations.lastFm.sessionKey = result["session"]["key"];
+                this.needsReAuthentication = false;
                 return true;
             }
 
@@ -116,7 +117,7 @@ export class LastFm {
 
     // https://www.last.fm/api/show/track.scrobble
     public scrobble(timestamp: number, track: string, artist: string) {
-        this.authenticate(this.needsReAuthentication).then(async (authenticated) => {
+        this.authenticate().then(async (authenticated) => {
             if (authenticated) {
                 const params = new Map<string, string>();
                 params.set("api_key", LAST_FM_API_KEY);
