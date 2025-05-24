@@ -10,7 +10,6 @@ import { EventEmitter } from "@/logic/eventEmitter.js";
 import type { PossibleSortingMethods} from "@/logic/queue.js";
 import { Queue } from "@/logic/queue.js";
 import { Track } from "@/logic/track.js";
-import {scrobbleTrack} from "@/logic/lastfm.js";
 
 export enum LoopMode {
 	None,
@@ -30,6 +29,7 @@ const playerEventMap = {
   "player:next": {} as Track,
   "player:previous": {} as Track,
   "player:trackChange": {} as Track,
+  "player:trackFinished": {} as { track?: Track, startTimestamp: number },
 } as const;
 
 export type PlayerEvents = {
@@ -189,13 +189,7 @@ export class Player extends EventEmitter<PlayerEvents> {
       return;
     }
 
-    if (amethyst.state.settings.integrations.lastFm.enabled) {
-      const currentTitle = this.currentTrack.value?.getTitleFormatted();
-      const currentArtist = this.currentTrack.value?.getArtistsFormatted();
-      if (currentTitle != null && currentArtist != null) {
-        scrobbleTrack(this.timeStarted.value, currentTitle, currentArtist);
-      }
-    }
+    this.emit("player:trackFinished", { track: this.getCurrentTrack(), startTimestamp: this.timeStarted.value });
     this.skip();
   }
 

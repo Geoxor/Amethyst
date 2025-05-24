@@ -1,8 +1,9 @@
-import { amethyst } from "@/amethyst.js";
+import crypto from 'crypto';
+import {Amethyst} from "@/amethyst.js";
 
-// TODO: hi geo, please make your own api keys at https://www.last.fm/api/account/create these for testing
 const LAST_FM_API_KEY = "567fbeb21916c9bbbf33e57b4bec008f";
 const LAST_FM_SECRET_KEY = "91e6024ca99e46fa9232e4af110f446a";
+const LAST_FM_API_BASE = "https://ws.audioscrobbler.com/2.0";
 
 const generateLastFmApiSignature = (params: Map<string, string>) => {
     const entries = Array.from(params.entries())
@@ -15,52 +16,91 @@ const generateLastFmApiSignature = (params: Map<string, string>) => {
 
     str += LAST_FM_SECRET_KEY;
 
-    // TODO: how do we generate md5 on mobile.
-    return window.md5(str);
+    return crypto.createHash('md5').update(str, 'utf-8').digest('hex');
 }
 
-// https://www.last.fm/api/mobileauth
-export const authenticateLastFm = async (): Promise<boolean> => {
+const encodeUrlParams = (params: Map<string, string>): string => {
+    const urlParams = new URLSearchParams();
+    params.forEach((value, key) => {
+        urlParams.append(key, value);
+    });
+    return urlParams.toString();
+}
 
-    const params = new Map<string, string>();
+export class LastFm {
 
-    params.set("api_key", LAST_FM_API_KEY);
-    params.set("method", "auth.getMobileSession");
-    params.set("username", amethyst.state.settings.integrations.lastFm.username);
-    params.set("password", amethyst.state.settings.integrations.lastFm.password);
+    constructor(private amethyst: Amethyst) { }
 
-    const result = await fetch(
-        `https://ws.audioscrobbler.com/2.0/?method=${params.get("method")}&api_key=${params.get("api_key")}&username=${params.get("username")}&password=${params.get("password")}&api_sig=${generateLastFmApiSignature(params)}&format=json`,
-        { method: "POST", headers: { "User-Agent": `Amethyst/${amethyst.VERSION}` } },
-    );
+    public isScrobblingEnabled(): boolean {
+        return this.amethyst.state.settings.integrations.lastFm.enabled && this.amethyst.state.settings.integrations.lastFm.enableScrobbling;
+    }
 
-    const payload = await result.json();
+    // https://www.last.fm/api/mobileauth
+    private async authenticate(): Promise<boolean> {
 
-    if (payload["error"] == null) {
-        amethyst.state.settings.integrations.lastFm.sessionKey = payload["session"]["key"]
+        if (this.amethyst.state.settings.integrations.lastFm.sessionKey.length == 0)
+        {
+            const params = new Map<string, string>();
+
+            params.set("api_key", LAST_FM_API_KEY);
+            params.set("method", "auth.getMobileSession");
+            params.set("username", this.amethyst.state.settings.integrations.lastFm.username);
+            params.set("password", this.amethyst.state.settings.integrations.lastFm.password);
+
+            const signature = generateLastFmApiSignature(params);
+            const urlParams = encodeUrlParams(params);
+
+            const result = await fetch(
+                `${LAST_FM_API_BASE}/?${urlParams}&api_sig=${signature}&format=json`,
+                { method: "POST", headers: { "User-Agent": `Amethyst/${this.amethyst.VERSION}` } },
+            );
+
+            const payload = await result.json();
+
+            if (payload["error"] == null) {
+                console.log(`%c[⚐ Last.fm]%c Authenticated as ${payload["session"]["key"]}`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);");
+                this.amethyst.state.settings.integrations.lastFm.sessionKey = payload["session"]["key"]
+                return true;
+            } else {
+                console.log(`%c[⚐ Last.fm]%c Authenticated returned error`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);");
+                console.log(payload);
+            }
+
+            return false;
+        }
+
         return true;
     }
 
-    return false;
-}
+    // https://www.last.fm/api/show/track.scrobble
+    public scrobble(timestamp: number, track: string, artist: string) {
+        this.authenticate().then(async (authenticated) => {
+            if (authenticated) {
+                const params = new Map<string, string>();
+                params.set("api_key", LAST_FM_API_KEY);
+                params.set("method", "track.scrobble");
+                params.set("timestamp", timestamp.toString());
+                params.set("track", track);
+                params.set("artist", artist);
+                params.set("sk", this.amethyst.state.settings.integrations.lastFm.sessionKey);
 
-// https://www.last.fm/api/show/track.scrobble
-export const scrobbleTrack = async (timestamp: number, track: string, artist: string) => {
+                const signature = generateLastFmApiSignature(params);
+                const urlParams = encodeUrlParams(params);
 
-    if (amethyst.state.settings.integrations.lastFm.sessionKey.length == 0)
-        await authenticateLastFm();
+                const result = await fetch(
+                    `${LAST_FM_API_BASE}/?${urlParams}&api_sig=${signature}&format=json`,
+                    { method: "POST", headers: { "User-Agent": `Amethyst/${this.amethyst.VERSION}` } },
+                );
 
-    const params = new Map<string, string>();
-    params.set("api_key", LAST_FM_API_KEY);
-    params.set("method", "track.scrobble");
-    params.set("timestamp", timestamp.toString());
-    params.set("track", track);
-    params.set("artist", artist);
-    params.set("sk", amethyst.state.settings.integrations.lastFm.sessionKey);
+                const payload = await result.json();
 
-    // TODO: do we need to validate the results?
-    await fetch(
-        `https://ws.audioscrobbler.com/2.0/?method=${params.get("method")}&api_key=${params.get("api_key")}&timestamp=${params.get("timestamp")}&track=${params.get("track")}&artist=${params.get("artist")}&sk=${params.get("sk")}&api_sig=${generateLastFmApiSignature(params)}&format=json`,
-        { method: "POST", headers: { "User-Agent": `Amethyst/${amethyst.VERSION}` } },
-    );
+                if (payload["error"] == null) {
+                    console.log(`%c[⚐ Last.fm]%c Scrobble -> ${track} by ${artist} was ${payload["scrobbles"]["accepted"] > 0 ? "Accepted" : "Rejected"}`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);");
+                } else {
+                    console.log(`%c[⚐ Last.fm]%c Scrobble returned error`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);");
+                    console.log(payload);
+                }
+            }
+        });
+    }
 }

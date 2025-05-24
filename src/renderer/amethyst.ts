@@ -20,6 +20,7 @@ import { State } from "@/state.js";
 
 import { getThemeColorHex } from "./logic/color.js";
 import { router } from "./router.js";
+import {LastFm} from "@/logic/lastfm.js";
 
 export const i18n = createI18n({
   fallbackLocale: "en-US", // set fallback locale
@@ -308,6 +309,7 @@ export class Amethyst extends AmethystBackend {
   public mediaSession: MediaSession | undefined = this.getCurrentPlatform() == "desktop" ? new MediaSession(this.player) : undefined;
   public mediaSourceManager: MediaSourceManager = new MediaSourceManager(this);
   public analytics = new Analytics(this);
+  public lastfm = new LastFm(this);
 
   public constructor() {
     super();
@@ -365,6 +367,7 @@ export class Amethyst extends AmethystBackend {
     this.handleFileDrops();
     this.handleDiscordRichPresence();
     this.updateCurrentOutputDevice();
+    this.handleLastfm();
 
     if (this.state.settings.behavior.autoPlayOnStartup) {
       const track = this.player.queue.getTrack(0);
@@ -372,6 +375,18 @@ export class Amethyst extends AmethystBackend {
     }
 
     
+  }
+
+  private handleLastfm() {
+    this.player.on("player:trackFinished", (data) => {
+      if (amethyst.lastfm.isScrobblingEnabled()) {
+        const currentTitle = data.track?.getTitleFormatted();
+        const currentArtist = data.track?.getArtistsFormatted();
+        if (currentTitle != null && currentArtist != null) {
+          amethyst.lastfm.scrobble(data.startTimestamp, currentTitle, currentArtist);
+        }
+      }
+    });
   }
 
   private showEventLogs() {

@@ -3,8 +3,6 @@ import { amethyst } from "@/amethyst.js";
 import BaseInput from "@/components/BaseInput.vue";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
-import BigButton from "@/components/BigButton.vue";
-import {authenticateLastFm} from "@/logic/lastfm.js";
 const {integrations} = amethyst.state.settings;
 </script>
 
@@ -55,15 +53,6 @@ const {integrations} = amethyst.state.settings;
             type="text"
             :placeholder="$t('settings.lastfm.password.placeholder')"
           />
-        </settings-setting>
-        <settings-setting
-            :title="$t('settings.lastfm.password.title')"
-            :description="$t('settings.lastfm.password.description')"
-            subsetting
-            icon="ic:baseline-key"
-
-        >
-          <big-button title="EAX" description="efex" @click="authenticateLastFm()"/>
         </settings-setting>
         <settings-setting
           :title="$t('settings.lastfm.enable_scrobbling.title')"
