@@ -29,16 +29,24 @@ const encodeUrlParams = (params: Map<string, string>): string => {
 
 export class LastFm {
 
+    private needsReAuthentication = false;
+
     constructor(private amethyst: Amethyst) { }
 
     public isScrobblingEnabled(): boolean {
         return this.amethyst.state.settings.integrations.lastFm.enabled && this.amethyst.state.settings.integrations.lastFm.enableScrobbling;
     }
 
-    // https://www.last.fm/api/mobileauth
-    private async authenticate(): Promise<boolean> {
+    private handleServerErrorResponse(error: number) {
+        if (error == 9) {
+            this.needsReAuthentication = true;
+        }
+    }
 
-        if (this.amethyst.state.settings.integrations.lastFm.sessionKey.length == 0)
+    // https://www.last.fm/api/mobileauth
+    private async authenticate(force: boolean = false): Promise<boolean> {
+
+        if (this.amethyst.state.settings.integrations.lastFm.sessionKey.length == 0 || force)
         {
             const params = new Map<string, string>();
 
@@ -58,7 +66,7 @@ export class LastFm {
             const payload = await result.json();
 
             if (payload["error"] == null) {
-                console.log(`%c[⚐ Last.fm]%c Authenticated as ${payload["session"]["key"]}`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);");
+                console.log(`%c[⚐ Last.fm]%c Authenticated as ${payload["session"]["name"]}`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);");
                 this.amethyst.state.settings.integrations.lastFm.sessionKey = payload["session"]["key"]
                 return true;
             } else {
@@ -74,7 +82,7 @@ export class LastFm {
 
     // https://www.last.fm/api/show/track.scrobble
     public scrobble(timestamp: number, track: string, artist: string) {
-        this.authenticate().then(async (authenticated) => {
+        this.authenticate(this.needsReAuthentication).then(async (authenticated) => {
             if (authenticated) {
                 const params = new Map<string, string>();
                 params.set("api_key", LAST_FM_API_KEY);
@@ -93,12 +101,15 @@ export class LastFm {
                 );
 
                 const payload = await result.json();
+                console.log(payload);
 
                 if (payload["error"] == null) {
-                    console.log(`%c[⚐ Last.fm]%c Scrobble -> ${track} by ${artist} was ${payload["scrobbles"]["accepted"] > 0 ? "Accepted" : "Rejected"}`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);");
+                    console.log(`%c[⚐ Last.fm]%c Scrobble -> ${track} by ${artist} was ${payload["scrobbles"]["@attr"]["accepted"] > 0 ? "Accepted" : "Rejected"}`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);");
                 } else {
-                    console.log(`%c[⚐ Last.fm]%c Scrobble returned error`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);");
+                    console.log(`%c[⚐ Last.fm]%c Scrobble returned error (${payload["error"]})`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);");
                     console.log(payload);
+
+                    this.handleServerErrorResponse(payload["error"]);
                 }
             }
         });
