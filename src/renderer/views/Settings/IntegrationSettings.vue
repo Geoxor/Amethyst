@@ -13,6 +13,7 @@ const {integrations} = amethyst.state.settings;
     :platforms="['desktop']"
     info="https://discord.com/developers/docs/rich-presence/overview"
     icon="ic:twotone-discord"
+    icon-color="#5865F2"
   >
     <toggle-switch v-model="integrations.discord.enabled" />
   </settings-setting>
@@ -22,6 +23,7 @@ const {integrations} = amethyst.state.settings;
     info="https://www.last.fm/about/trackmymusic"
     :description="$t('settings.lastfm.description')"
     icon="tabler:brand-lastfm"
+    icon-color="#c71d23"
   >
     <toggle-switch v-model="integrations.lastFm.enabled" />
 
