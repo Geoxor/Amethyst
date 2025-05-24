@@ -168,8 +168,6 @@ const DEFAULT_INTEGRATION_SETTINGS = {
       username: "",
       password: "",
       sessionKey: "",
-      apiKey: "",
-      apiSecret: "",
     }
   }
 };
