@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst.js";
+import BaseInput from "@/components/BaseInput.vue";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 const {integrations} = amethyst.state.settings;
-
 </script>
 
 <template>
@@ -11,6 +11,7 @@ const {integrations} = amethyst.state.settings;
     title="Discord Rich Presence (RPC)"
     :description="$t('settings.discord_rpc.description')"
     :platforms="['desktop']"
+    info="https://discord.com/developers/docs/rich-presence/overview"
     icon="ic:twotone-discord"
   >
     <toggle-switch v-model="integrations.discord.enabled" />
@@ -18,6 +19,7 @@ const {integrations} = amethyst.state.settings;
   
   <settings-setting
     title="Last.fm"
+    info="https://www.last.fm/about/trackmymusic"
     :description="$t('settings.lastfm.description')"
     icon="tabler:brand-lastfm"
   >
@@ -31,10 +33,9 @@ const {integrations} = amethyst.state.settings;
           subsetting
           icon="ic:baseline-account-circle"
         >
-          <input
+          <base-input
             v-model="integrations.lastFm.username"
             type="text"
-            class="input"
             :placeholder="$t('settings.lastfm.username.placeholder')"
           />
         </settings-setting>
@@ -45,10 +46,9 @@ const {integrations} = amethyst.state.settings;
           icon="ic:baseline-key"
 
         >
-          <input
+          <base-input
             v-model="integrations.lastFm.apiKey"
             type="text"
-            class="input"
             :placeholder="$t('settings.lastfm.api_key.placeholder')"
           />
         </settings-setting>
@@ -58,10 +58,9 @@ const {integrations} = amethyst.state.settings;
           subsetting
           icon="ic:baseline-key"
         >
-          <input
+          <base-input
             v-model="integrations.lastFm.apiSecret"
             type="text"
-            class="input"
             :placeholder="$t('settings.lastfm.api_secret.placeholder')"
           />
         </settings-setting>
@@ -69,14 +68,3 @@ const {integrations} = amethyst.state.settings;
     </template>
   </settings-setting>
 </template>
-
-<style scoped>
-input {
-  @apply bg-surface-600 max-w-48 w-full text-12px p-2 rounded-4px text-ellipsis;
-}
-
-input::placeholder {
-  @apply text-text-title/50 text-12px;
-}
-
-</style>

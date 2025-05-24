@@ -60,7 +60,7 @@ onBeforeUnmount(() => {
       />
 
       <base-tooltip
-        text="Open manual"
+        text="Learn more about this setting"
         placement="top"
       >
         <Icon
