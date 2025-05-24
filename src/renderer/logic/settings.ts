@@ -159,7 +159,17 @@ const DEFAULT_AUDIO_SETTINGS = {
 
 const DEFAULT_INTEGRATION_SETTINGS = {
   integrations: {
-		useDiscordRichPresence: true,
+		discord: {
+      enabled: true,
+    },
+    lastFm: {
+      enabled: false,
+      username: "",
+      password: "",
+      sessionKey: "",
+      apiKey: "",
+      apiSecret: "",
+    }
   }
 };
 

@@ -151,6 +151,17 @@
   
   "settings.discord_rpc.description" : "Discord Rich Presence allows users to share their current activity on Amethyst with Discord. When enabled, the RPC feature updates the user's Discord status to show the version of Amethyst, currently playing song or playlist, along with the artist and album",
   
+  "settings.lastfm.description": "Last.fm integration allows users to scrobble their music listening history to Last.fm. When enabled, Amethyst will automatically send the currently playing track information to Last.fm, allowing users to keep track of their listening habits and discover new music based on their preferences",
+  "settings.lastfm.username.title": "Username",
+  "settings.lastfm.username.description": "Your Last.fm username",
+  "settings.lastfm.api_key.title": "API Key",
+  "settings.lastfm.api_key.description": "Your Last.fm API key",
+  "settings.lastfm.api_secret.title": "API Secret",
+  "settings.lastfm.api_secret.description": "Your Last.fm API secret",
+  "settings.lastfm.api_secret.placeholder": "Enter your Last.fm API secret",
+  "settings.lastfm.username.placeholder": "Enter your Last.fm username",
+  "settings.lastfm.api_key.placeholder": "Enter your Last.fm API key",
+
   "settings.auto_update.title": "Automatic updates",
   "settings.auto_update.description": "Automatically check and install updates on startup",
   
