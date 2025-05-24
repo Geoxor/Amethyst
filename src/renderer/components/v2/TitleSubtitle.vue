@@ -60,7 +60,7 @@ onBeforeUnmount(() => {
       />
 
       <base-tooltip
-        text="Learn more about this setting"
+        :text="$t('settings.info.tooltip')"
         placement="top"
       >
         <Icon

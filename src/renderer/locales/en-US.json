@@ -51,6 +51,8 @@
 
   "search.placeholder": "Search",
 
+  "settings.info.tooltip": "Learn more about this setting",
+
   "settings.local_sources.title": "Local sources",
   "settings.local_sources.description": "Add local folders to your Amethyst library, these will update whenever Amethyst detects new or modified files",
   "settings.local_sources.add_folder": "Add folder",
