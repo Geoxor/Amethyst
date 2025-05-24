@@ -4,7 +4,7 @@ import { secondsToColinHuman, secondsToHuman } from "@shared/formating.js";
 import { useLocalStorage } from "@vueuse/core";
 import { ref, watch } from "vue";
 
-import {amethyst, Amethyst} from "@/amethyst.js";
+import {Amethyst,amethyst} from "@/amethyst.js";
 import { AmethystAudioNodeManager } from "@/logic/audioManager.js";
 import { EventEmitter } from "@/logic/eventEmitter.js";
 import type { PossibleSortingMethods} from "@/logic/queue.js";
@@ -184,12 +184,13 @@ export class Player extends EventEmitter<PlayerEvents> {
   * Should be called when a track ended
   */
   public next() {
+    this.emit("player:trackFinished", { track: this.getCurrentTrack(), startTimestamp: this.timeStarted.value });
+
     if (this.loopMode.value === LoopMode.One) {
       this.play(this.currentTrackIndex.value);
       return;
     }
 
-    this.emit("player:trackFinished", { track: this.getCurrentTrack(), startTimestamp: this.timeStarted.value });
     this.skip();
   }
 
