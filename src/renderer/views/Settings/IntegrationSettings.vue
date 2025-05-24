@@ -50,7 +50,7 @@ const {integrations} = amethyst.state.settings;
         >
           <base-input
             v-model="integrations.lastFm.password"
-            type="text"
+            type="password"
             :placeholder="$t('settings.lastfm.password.placeholder')"
           />
         </settings-setting>
