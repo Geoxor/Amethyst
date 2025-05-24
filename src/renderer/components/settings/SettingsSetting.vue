@@ -26,7 +26,7 @@ const hasSubsetting = () => {
     :class="[subsetting ? 'rounded-6px  bg-settings-subsetting-background hover:bg-black hover:bg-settings-subsetting-background/20' : 'rounded-8px bg-settings-setting-background hover:bg-surface-700 ']"
   >
     <div
-      class="flex gap-2 items-center min-h-52px px-4 pr-2 "
+      class="flex gap-4 items-center min-h-52px px-4 pr-2 "
       :class="[hasSubsetting() ? 'pt-2' : 'py-1']"
     >
       <icon

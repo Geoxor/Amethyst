@@ -66,6 +66,14 @@ const {integrations} = amethyst.state.settings;
             :placeholder="$t('settings.lastfm.api_secret.placeholder')"
           />
         </settings-setting>
+        <settings-setting
+          :title="$t('settings.lastfm.enable_scrobbling.title')"
+          :description="$t('settings.lastfm.enable_scrobbling.description')"
+          subsetting
+          icon="ic:twotone-check-circle"
+        >
+          <toggle-switch v-model="integrations.lastFm.enableScrobbling" />
+        </settings-setting>
       </div>
     </template>
   </settings-setting>

@@ -164,6 +164,7 @@ const DEFAULT_INTEGRATION_SETTINGS = {
     },
     lastFm: {
       enabled: false,
+      enableScrobbling: true,
       username: "",
       password: "",
       sessionKey: "",
