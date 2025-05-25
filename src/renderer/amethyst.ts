@@ -462,7 +462,9 @@ export class Amethyst extends AmethystBackend {
       if (this.getCurrentPlatform() == "mobile") return;
       const currentTrack = this.player.getCurrentTrack();
       await currentTrack?.fetchAlbumCoverUrl();
-      currentTrack && await updateRichPresence(currentTrack);
+      if (!currentTrack) return;
+      await updateRichPresence(currentTrack);
+      if (this.IS_DEV) console.log(`%c[⚐ Discord RPC]%c Updated RPC status`, "background-color: #7289da; color: black; font-weight: bold;", "color: #ffffff;");
     };
 
     if (this.state.settings.integrations.discord.enabled) {
