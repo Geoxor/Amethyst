@@ -172,10 +172,19 @@ const handleMouseScroll = (e: WheelEvent) => {
   model.value = clamp(newValue, props.min, props.max);
 };
 
-const handleEnter = (e: KeyboardEvent) => {
+const handleKeydown = (e: KeyboardEvent) => {
   const INPUT_BEGIN_KEYS = ["-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
   const closeInput = () => isShowingInputElement.value = false;
   if (e.key == "Escape") closeInput();
+
+  if (e.key == 'ArrowUp') {
+    model.value = Math.min(model.value + props.step, props.max);
+    return;
+  }
+  if (e.key == 'ArrowDown') {
+    model.value = Math.max(model.value - props.step, props.min);
+    return;
+  }
 
   // Start inputif the user clicks enter, or if they already begun typing in a value
   if (e.key == "Enter" || INPUT_BEGIN_KEYS.includes(e.key) && !isShowingInputElement.value) {
@@ -212,7 +221,7 @@ const handleEnter = (e: KeyboardEvent) => {
     class="modifier  duration-user-defined flex flex-col justify-center h-5 items-center min-w-16 leading-tight rounded-full py-1 px-2 bg-accent/15 text-accent"
     @mousedown.stop.passive="onMouseDown"
     @mouseup.stop.passive="dragging = false"
-    @keydown="handleEnter"
+    @keydown.stop="handleKeydown"
     @wheel.stop="handleMouseScroll"
   >
     <input

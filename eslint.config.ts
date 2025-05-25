@@ -32,6 +32,7 @@ export default typescriptEslint.config(
       "vue/prefer-import-from-vue": "warn",
       "vue/html-closing-bracket-spacing": "warn",
       "vue/no-unused-components": "warn",
+      "vue/first-attribute-linebreak": "off",
       "vue/html-self-closing": "warn",
       "vue/no-unused-refs": "warn",
       "vue/no-v-html": "off",

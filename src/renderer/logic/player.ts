@@ -4,7 +4,7 @@ import { secondsToColinHuman, secondsToHuman } from "@shared/formating.js";
 import { useLocalStorage } from "@vueuse/core";
 import { ref, watch } from "vue";
 
-import type { Amethyst } from "@/amethyst.js";
+import {Amethyst,amethyst} from "@/amethyst.js";
 import { AmethystAudioNodeManager } from "@/logic/audioManager.js";
 import { EventEmitter } from "@/logic/eventEmitter.js";
 import type { PossibleSortingMethods} from "@/logic/queue.js";
@@ -17,24 +17,29 @@ export enum LoopMode {
 	One,
 }
 
-export interface PlayerEvents {
-  "player:currentTrackMetadataLoaded": Track;
-  "player:seek": {track: Track, seekedTo: number};
-  "player:play": Track;
-  "player:resume": Track;
-  "player:pause": Track;
-  "player:stop": void;
-  "player:volumeChange": number;
-  "player:pitchChange": {track?: Track, playbackRate: number};
-  "player:next": Track;
-  "player:previous": Track;
-  "player:trackChange": Track;
-}
+const playerEventMap = {
+  "player:currentTrackMetadataLoaded": {} as Track,
+  "player:seek": {} as { track: Track; seekedTo: number },
+  "player:play": {} as Track,
+  "player:resume": {} as Track,
+  "player:pause": {} as Track,
+  "player:stop": undefined as void,
+  "player:volumeChange": 0 as number,
+  "player:pitchChange": {} as { track?: Track; playbackRate: number },
+  "player:next": {} as Track,
+  "player:previous": {} as Track,
+  "player:trackChange": {} as Track,
+  "player:trackFinished": {} as { track?: Track, startTimestamp: number },
+} as const;
+
+export type PlayerEvents = {
+  [K in keyof typeof playerEventMap]: typeof playerEventMap[K];
+};
 
 export class Player extends EventEmitter<PlayerEvents> {
   private minVolume: number = 0.001;
   private maxVolume: number = 1.0;
-  public minDb: number = -48;
+  public minDb: number = -60;
   public maxDb: number = 0;
   private volumeStored = useLocalStorage<number>("volume", 1, { writeDefaults: true });
 
@@ -47,6 +52,7 @@ export class Player extends EventEmitter<PlayerEvents> {
 
   public loopMode = ref(LoopMode.None);
   public currentTime = ref(0);
+  public timeStarted = ref(0);
   public queue = new Queue(this.amethyst);
 
   public input = new Audio();
@@ -79,16 +85,9 @@ export class Player extends EventEmitter<PlayerEvents> {
   }
 
   private showEventLogs() {
-    this.on("player:play", () => console.log("%cplayer:play", "color: #ff00b6"));
-    this.on("player:pause", () => console.log("%cplayer:pause", "color: #ff00b6"));
-    this.on("player:resume", () => console.log("%cplayer:resume", "color: #ff00b6"));
-    this.on("player:stop", () => console.log("%cplayer:stop", "color: #ff00b6"));
-    this.on("player:volumeChange", () => console.log("%cplayer:volumeChange", "color: #ff00b6"));
-    this.on("player:next", () => console.log("%cplayer:next", "color: #ff00b6"));
-    this.on("player:previous", () => console.log("%cplayer:previous", "color: #ff00b6"));
-    this.on("player:trackChange", () => console.log("%cplayer:trackChange", "color: #ff00b6"));
-    this.on("player:pitchChange", () => console.log("%cplayer:pitchChange", "color: #ff00b6"));
-    this.on("player:seek", () => console.log("%cplayer:seek", "color: #ff00b6"));
+    for (const event in playerEventMap) {
+      this.on(event as keyof PlayerEvents, (e) => console.log(`%c[⚐ Player Event]%c ${event}`, "background-color: #6562ff; color: black; font-weight: bold;", "color:rgb(188, 187, 233);", e));
+    }  
   }
 
   public playRandomTrack = () => {
@@ -103,7 +102,12 @@ export class Player extends EventEmitter<PlayerEvents> {
     this.input.playbackRate = semitonesToPlaybackRate(semitones);
   }
 
+  public getFavorites() {
+    return this.queue.getList().filter(track => track.isFavorited);
+  }
+  
   private async setPlayingTrack(track: Track) {
+    this.timeStarted.value = Math.floor(Date.now() / 1000);
     this.input.src = ["mac", "linux"].includes(this.amethyst.getCurrentOperatingSystem()) ? `file://${track.path}` : track.path;
     this.input.preservesPitch = false;
     this.setPlaybackSpeed(this.pitchSemitones.value);
@@ -180,6 +184,8 @@ export class Player extends EventEmitter<PlayerEvents> {
   * Should be called when a track ended
   */
   public next() {
+    this.emit("player:trackFinished", { track: this.getCurrentTrack(), startTimestamp: this.timeStarted.value });
+
     if (this.loopMode.value === LoopMode.One) {
       this.play(this.currentTrackIndex.value);
       return;
@@ -294,6 +300,10 @@ export class Player extends EventEmitter<PlayerEvents> {
     const linear = this.volumeStored.value;
     this.nodeManager.master.post.gain.value = linear;
     this.emit("player:volumeChange", dB);
+  }
+
+  public mute(){
+    this.setVolume(this.minDb);
   }
 
 	public volumeUp(dB = 1) {

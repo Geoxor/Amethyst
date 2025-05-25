@@ -14,12 +14,12 @@ defineProps<{
     open-on-hover
     :placement="placement"
     :arrow="true"
-    class="tooltip mt-1"
+    class="tooltip"
     :class="borderless ? '' : ' border-solid border-1 border-surface-600 bg-surface-800 p-2' "
   >
     <slot />
     <template #content>
-      <p class=" text-text-title text-13px">
+      <p class=" text-text-title whitespace-pre text-center text-13px">
         {{ text }}
       </p>
       <slot name="content" />
@@ -29,7 +29,7 @@ defineProps<{
 
 <style lang="postcss">
 .tooltip {
-  @apply z-2;
+  @apply z-200;
 }
 .tooltip.popover {
   @apply text-text-title shadow-xl;

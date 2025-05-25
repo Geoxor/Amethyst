@@ -2,6 +2,7 @@
 import type { Placement } from "@floating-ui/core";
 import { arrow, computePosition, offset, shift } from "@floating-ui/dom";
 import type { Ref } from "vue";
+import { nextTick } from "vue";
 import { computed, onMounted, ref } from "vue";
 
 const props = defineProps<{
@@ -27,10 +28,10 @@ async function updatePosition() {
 		middleware: middleware.value,
 	});
 
-	Object.assign(popover.value.style, {
-		left: `${x}px`,
-		top: `${y}px`,
-	});
+    popover.value && Object.assign(popover.value.style, {
+      left: `${x}px`,
+      top: `${y}px`,
+    });
 
 	if (props.showArrow) {
 		const staticSide = {
@@ -40,7 +41,7 @@ async function updatePosition() {
 			left: "right",
 		}[placement.split("-")[0]];
 		const { x: arrowX, y: arrowY } = middlewareData.arrow!;
-		Object.assign(arrowElement.value.style, {
+		Object.assign(arrowElement.value?.style, {
 			left: arrowX != null ? `${arrowX}px` : "",
 			top: arrowY != null ? `${arrowY}px` : "",
 			right: "",
@@ -83,7 +84,8 @@ onMounted(async() => {
 <style scoped lang="postcss">
 
 .popover {
-  @apply rounded-4px transform-gpu transition-transform ease-in-out;
+  @apply rounded-8px transform-gpu transition-all ease-in-out;
+  transition-duration: var(--transition-duration);
 
   &.openOnHover,
   &:not(.open) {

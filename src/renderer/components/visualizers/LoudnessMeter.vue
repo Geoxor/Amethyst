@@ -59,10 +59,11 @@ onMounted(() => {
 
   loudnessMeter.start();
 
-  amethyst.player.on("player:play", () => {
+  amethyst.player.on("player:resume", () => {
     if (amethyst.state.window.isFocused) {
       loudnessMeter.reset();
       loudnessMeter.resume();
+      console.log("Loudness meter started");
       momentaryMax.value = MINIMUM_LUFS;
       shortTermMax.value = MINIMUM_LUFS;
       integratedMax.value = MINIMUM_LUFS;
@@ -88,7 +89,7 @@ onMounted(() => {
       </p>
       <div class="barBg">
         <div
-          class="bar bg-slider-fill duration-100"
+          class="bar bg-slider-fill duration-meter-user-defined"
           :style="`width: ${mapValueToPercentage(MINIMUM_LUFS, 0, momentary)}%`"
         />
       </div>
@@ -102,7 +103,7 @@ onMounted(() => {
       </p>
       <div class="barBg">
         <div
-          class="bar bg-slider-fill duration-100"
+          class="bar bg-slider-fill duration-meter-user-defined"
           :style="`width: ${mapValueToPercentage(MINIMUM_LUFS, 0, shortTerm)}%`"
         />
       </div>
@@ -130,7 +131,7 @@ onMounted(() => {
 <style scoped lang="postcss">
 
 .meter {
-  @apply flex gap-2 w-full max-h-[10px];
+  @apply flex gap-1 w-full max-h-[10px];
 }
 .barBg {
   @apply bg-slider-background w-3/4 truncate rounded-[2px];
@@ -140,7 +141,7 @@ onMounted(() => {
 }
 
 .type {
-  @apply w-4 text-center;
+  @apply min-w-4 text-center;
 }
 
 .value {

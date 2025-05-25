@@ -2,6 +2,7 @@
 import { Icon } from "@iconify/vue";
 import { useFps } from "@vueuse/core";
 import { computed, onMounted, provide, ref } from "vue";
+import { onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 
 import { amethyst } from "@/amethyst.js";
@@ -28,25 +29,32 @@ const router = useRouter();
 
 const branchName = ref("Development");
 const commitHash = ref('unknown commit hash');
-
+let clock: NodeJS.Timeout;
+    
 onMounted(() => {
   if (amethyst.IS_DEV) {
     window.electron.ipcRenderer.invoke<{branchName: string, commitHash: string}>('get-branch-name').then(info => {
       branchName.value = info.branchName;
       commitHash.value = info.commitHash.substring(0, 7);
     })
-  }
+  }    
 
-  setInterval(() => {
-    fps.value = fpsCounter.value;
-    if (fps.value > max.value) max.value = fps.value;
-    if (fps.value < min.value) min.value = fps.value;
-    domSize.value = countDomElements();
-    amethyst.player.getLatency().then(l => latency.value = l);
-    // TODO: multiplatform support
-    smoothTween(tweenedFps.value, fpsCounter.value, 1000, (tweenedNumber => tweenedFps.value = Math.ceil(tweenedNumber)));
+  clock = setInterval(() => {
+    if (amethyst.state.settings.appearance.showDebugStats) {
+      fps.value = fpsCounter.value;
+      if (fps.value > max.value) max.value = fps.value;
+      if (fps.value < min.value) min.value = fps.value;
+      domSize.value = countDomElements();
+      amethyst.player.getLatency().then(l => latency.value = l);
+      // TODO: multiplatform support
+      smoothTween(tweenedFps.value, fpsCounter.value, 1000, (tweenedNumber => tweenedFps.value = Math.ceil(tweenedNumber)));
+    }
 
   }, 1000);
+});
+
+onUnmounted(() => {
+  clearInterval(clock);
 });
 
 const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem() === "mac" ? "⌘" : "CTRL");
@@ -76,7 +84,7 @@ provide("menuGroupRef", menuGroupRef);
 
 <template>
   <div
-    class=" z-100 font-main drag pr-2 text-12px flex justify-between items-center transition-colors duration-user-defined"
+    class=" z-100 font-main drag pr-2 text-12px flex justify-between select-none items-center transition-colors duration-user-defined"
     :class="[amethyst.state.window.isFocused ? 'text-text-title' : 'text-text-subtitle', amethyst.getCurrentOperatingSystem() == 'mac' ? 'min-h-24px' : 'min-h-40px']"
   >
     <div
@@ -132,10 +140,10 @@ provide("menuGroupRef", menuGroupRef);
         />
 
         <menu-splitter 
-          v-if="amethyst.getCurrentPlatform() === 'desktop'"
+          v-if="amethyst.getCurrentPlatform() == 'desktop'"
         />
         <menu-option
-          v-if="amethyst.getCurrentPlatform() === 'desktop'"
+          v-if="amethyst.getCurrentPlatform() == 'desktop'"
           :title="$t('menu.utility.check_for_updates')"
           icon="ic:twotone-update"
           @click="amethyst.checkForUpdates()"
@@ -143,28 +151,28 @@ provide("menuGroupRef", menuGroupRef);
       </menu-container>
       <menu-container :title="$t('menu.view')">
         <menu-option
-          v-if="amethyst.getCurrentPlatform() === 'desktop'"
+          v-if="amethyst.getCurrentPlatform() == 'desktop'"
           :title="$t('menu.view.zoom_in')"
           icon="ic:twotone-zoom-in"
           :shortcuts="[commandOrControlSymbol, '+']"
           @click="amethyst.zoom('in')"
         />
         <menu-option
-          v-if="amethyst.getCurrentPlatform() === 'desktop'"
+          v-if="amethyst.getCurrentPlatform() == 'desktop'"
           :title="$t('menu.view.zoom_out')"
           icon="ic:twotone-zoom-out"
           :shortcuts="[commandOrControlSymbol, '-']"
           @click="amethyst.zoom('out')"
         />
         <menu-option
-          v-if="amethyst.getCurrentPlatform() === 'desktop'"
+          v-if="amethyst.getCurrentPlatform() == 'desktop'"
           :title="$t('menu.view.reset_zoom')"
           icon="ic:twotone-zoom-in-map"
           :shortcuts="[commandOrControlSymbol, '0']"
           @click="amethyst.zoom('reset')"
         />
         <menu-splitter 
-          v-if="amethyst.getCurrentPlatform() === 'desktop'"
+          v-if="amethyst.getCurrentPlatform() == 'desktop'"
         />
         <menu-option
           :title="$t('menu.view.settings')"
@@ -224,8 +232,11 @@ provide("menuGroupRef", menuGroupRef);
       />
       <base-chip
         v-if="amethyst.IS_DEV"
-        :color="amethyst.state.window.isFocused ? undefined : 'bg-gray-500'"
+       
         class="hover:underline no-drag cursor-pointer"
+        :class="[
+          amethyst.state.window.isFocused ? 'text-primary' : 'text-text-subtitle bg-text-subtitle/15',
+        ]"
         @click="amethyst.openLink(`https://github.com/Geoxor/Amethyst/tree/${branchName}`)"
       >
         {{ branchName }} ⚐ {{commitHash}}
@@ -239,7 +250,7 @@ provide("menuGroupRef", menuGroupRef);
     <div class="flex gap-1.25 h-6 items-center truncate font-aseprite whitespace-nowrap">
       <div
         v-if="amethyst.state.settings.appearance.showDebugStats"
-        class="w-56 flex gap-1 justify-end no-drag" 
+        class="w-min flex gap-1 justify-end no-drag" 
         @click="min = Number.POSITIVE_INFINITY; max = Number.NEGATIVE_INFINITY;"
       >
         <div class="hidden lg:inline font-aseprite text-primary-900/50">
@@ -265,7 +276,7 @@ provide("menuGroupRef", menuGroupRef);
       />
         
       <control-buttons
-        v-if="amethyst.getCurrentPlatform() === 'desktop' && amethyst.getCurrentOperatingSystem() != 'mac'"
+        v-if="amethyst.getCurrentPlatform() == 'desktop' && amethyst.getCurrentOperatingSystem() != 'mac'"
         :is-maximized="amethyst.state.window.isMaximized"
         @close="amethyst.performWindowAction('close')"
         @minimize="amethyst.performWindowAction('minimize')"

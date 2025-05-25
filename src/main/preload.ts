@@ -2,7 +2,7 @@ import type { IpcRendererEvent } from "electron";
 
 // hack: import electron through cjs so it doesn't throw an error.
 const electron = require('electron');
-const { ipcRenderer, dialog, webUtils } = electron;
+const { ipcRenderer, dialog, webUtils } = electron
 
 import * as fs from "fs/promises";
 import * as os from "os";
@@ -17,7 +17,7 @@ window.md5 = md5;
 window.dialog = dialog;
 
 window.electron = {
-  startDrag: (fileName: string) => ipcRenderer.send("ondragstart", fileName),
+  startDrag: (fileName: string, buffer?: Buffer) => ipcRenderer.send("ondragstart", fileName, buffer),
   isMac: os.platform() === "darwin",
   isWindows: os.platform() === "win32",
   isLinux: os.platform() === "linux",

@@ -55,12 +55,31 @@ export class Queue {
   }
 
   public getList() {
-    return Array.from(this.list.value.values());
+    return [...this.list.value.values()];
   }
 
   public search(search: string) {
     const words = search.split(" ");
     let results = this.getList();
+
+    for (let i = 0; i < words.length; i++) {
+      const word = words[i].toLowerCase();
+      results = results
+        .filter(track => word ? !track.hasErrored : track)
+        .filter(track => 
+          track.getFilename().toLowerCase().includes(word)
+          || track.getArtistsFormatted()?.toLowerCase().includes(word)
+          || track.getTitle()?.toLowerCase().includes(word)
+          || track.getGenreFormatted()?.toLowerCase().includes(word)
+          || track.getAlbum()?.toLowerCase().includes(word));
+    }
+
+    return results;
+  }
+
+  public searchTracks(search: string, tracks: Track[]) {
+    const words = search.split(" ");
+    let results = tracks;
 
     for (let i = 0; i < words.length; i++) {
       const word = words[i].toLowerCase();

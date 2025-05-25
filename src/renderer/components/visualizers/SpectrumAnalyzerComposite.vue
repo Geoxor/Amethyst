@@ -41,6 +41,7 @@ defineProps<{
     :node="node"
     :accent-color="getThemeColor('--accent')"
     :fft-size="amethyst.state.settings.metering.spectrogram.fftSize"
+    :scroll-speed="amethyst.state.settings.metering.spectrogram.scrollSpeed"
     :smoothing="amethyst.state.settings.metering.spectrogram.smoothing"
     :bars="amethyst.shouldPauseVisualizers()"
   />

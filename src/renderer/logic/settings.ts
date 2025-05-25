@@ -41,6 +41,16 @@ const DEFAULT_APPEARANCE_SETTINGS = {
     animationDuration: 100,
     fontWeight: "normal",
 		theme: "amethyst-dark",
+    desktopMode: false,
+    customColors: {
+      enabled: false,
+      colors: {
+        accent: "#A58CDB",
+        primary: "#A58CDB",
+        inspector: "#94afff",
+        alert: "#1fa9ff",
+      } 
+    },
     coverBasedColors: false,
     coverBasedIconColors: false,
 		ambientBackground: {
@@ -106,9 +116,9 @@ const DEFAULT_METERING_SETTINGS = {
     spectrumLine: {
       smoothing: 0.5,
       fftSize: 8192,
-      lineThickness: 2,
-      fillOpacity: 1,
-      opacityFalloff: 0,
+      lineThickness: 1,
+      fillOpacity: 0.15,
+      opacityFalloff: 1,
       maxDecibels: 0,
       minDecibels: -128,
     },
@@ -118,8 +128,10 @@ const DEFAULT_METERING_SETTINGS = {
       bars: 64,
     },
     spectrogram: {
-      smoothing: 0.5,
-      fftSize: 8192
+      smoothing: 0.0,
+      fftSize: 4096,
+      logarithmic: true,
+      scrollSpeed: 1.0,
     },
     decibelMeter: {
       minimumDb: -60,
@@ -147,7 +159,16 @@ const DEFAULT_AUDIO_SETTINGS = {
 
 const DEFAULT_INTEGRATION_SETTINGS = {
   integrations: {
-		useDiscordRichPresence: true,
+		discord: {
+      enabled: true,
+    },
+    lastFm: {
+      enabled: false,
+      enableScrobbling: true,
+      username: "",
+      password: "",
+      sessionKey: "",
+    }
   }
 };
 

@@ -52,8 +52,8 @@ kbd {
   box-shadow: 0px 2px 0px rgba(0, 0, 0, 0.5), inset 0px 0px 0px 2px rgb(var(--surface-600));
 
   &.active {
-    @apply bg-primary-800 text-black transform-gpu translate-y-2px;
-    box-shadow: inset 0px 0px 0px 2px rgb(var(--primary-800));
+    @apply bg-accent text-black transform-gpu translate-y-2px;
+    box-shadow: inset 0px 0px 0px 2px rgb(var(--accent));
   }
 }
 </style>

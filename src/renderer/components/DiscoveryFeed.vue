@@ -17,6 +17,7 @@ const props = defineProps<{title: string, subtitle: string, tracks: Set<Track>}>
       <track-card
         v-for="track of tracks"
         :key="track.path"
+        class="w-32 h-48 min-w-32"
         :track="track"
       />
     </section>

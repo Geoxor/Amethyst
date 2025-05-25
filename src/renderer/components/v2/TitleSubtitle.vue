@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import { Icon } from "@iconify/vue";
 import { onBeforeUnmount, onMounted, ref } from "vue";
 
 import { amethyst } from "@/amethyst.js";
 
+import BaseTooltip from "../BaseTooltip.vue";
 import SubtitleText from "./SubtitleText.vue";
 import TitleText from "./TitleText.vue";
-const props = defineProps<{ title?: string, subtitle?: string; alignment?: "left" | "center" | "right", subtitleEllipses?: boolean }>();
+const props = defineProps<{ title?: string, platforms?: ("desktop" | "mobile" | "web")[], subtitle?: string; alignment?: "left" | "center" | "right", subtitleEllipses?: boolean, info?: string }>();
 
 const titleRef = ref<HTMLDivElement>();
 const subtitleRef = ref<HTMLDivElement>();
@@ -39,8 +41,9 @@ onBeforeUnmount(() => {
 
 <template>
   <div
-    class="flex flex-col gap-1 text-left py-1"
+    class="flex flex-col gap-1 py-1 w-full"
     :class="[
+      !alignment && 'text-left',
       alignment == 'left' && 'text-left',
       alignment == 'center' && 'text-center',
       alignment == 'right' && 'text-right',
@@ -49,12 +52,51 @@ onBeforeUnmount(() => {
   >
     <div
       ref="titleRef"
-      class="w-full"
+      :class="[(info || platforms) && 'flex gap-1']"
     >
       <title-text
         :text="title ?? 'Title'"
         class="duration-user-defined"
       />
+
+      <base-tooltip
+        :text="$t('settings.info.tooltip')"
+        placement="top"
+      >
+        <Icon
+          v-if="info"
+          icon="mdi:information-slab-box-outline"  
+          class="min-w-4 min-h-4 text-inspector-color cursor-external-pointer"
+          @click="() => {
+            amethyst.openLink(info!);
+          }"
+        />
+      </base-tooltip>
+
+      <base-tooltip
+        v-for="platform in platforms"
+        :key="platform"
+        :text="`This setting is available on ${platform} only`"
+        placement="top"
+      >
+        <Icon
+          v-if="platform == 'desktop'"
+          icon="ic:twotone-laptop"  
+          class="min-w-4 min-h-4"
+        />
+        <Icon
+          v-else-if="platform == 'mobile'"
+          icon="ic:twotone-smartphone"  
+          class="min-w-4 min-h-4"
+        />
+        <Icon
+          v-else-if="platform == 'web'"
+          icon="ic:twotone-web"  
+          class="min-w-4 min-h-4"
+        />
+        
+      </base-tooltip>
+
     </div>
     <div
       v-if="!amethyst.state.settings.appearance.minimalistMode"

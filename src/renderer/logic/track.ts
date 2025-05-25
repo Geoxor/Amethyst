@@ -177,7 +177,7 @@ export class Track {
       this.generateHash();
       return this.metadata.data;
     } catch (error) {
-      console.log(error);
+      console.log(error, this.absolutePath);
       return;
     }
   };
@@ -251,11 +251,13 @@ export class Track {
       metadata.common.picture = [];
     }
 
-    if (force && this.amethyst.getCurrentPlatform() === "desktop") {
+    if (force && this.amethyst.getCurrentPlatform() == "desktop") {
       window.fs.writeFile(this.getCachePath(true), JSON.stringify({
         cover,
         metadata
-      }, null, 2)).catch(console.log);
+      }, null, 2)).catch((error => {
+        console.error("Failed to write metadata cache file, did you delete the 'Metadata Cache' folder?", error);
+      }));
     }
 
     this.isLoading.value = false;

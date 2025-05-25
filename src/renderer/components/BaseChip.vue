@@ -14,7 +14,7 @@ defineProps<{ icon?: any, color?: string }>();
       class="w-4 h-4"
     />
 
-    <p class="flex items-center gap-1">
+    <p class="flex items-center  gap-1">
       <slot />
     </p>
   </div>

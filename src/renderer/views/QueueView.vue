@@ -23,15 +23,15 @@ const scrollToCurrentElement = (track?: Track) => {
 const autoscroll = () => amethyst.state.followQueue.value && scrollToCurrentElement();
 watch(() => amethyst.state.followQueue.value, () => autoscroll());
 onMounted(() => {
-  amethyst.player.on("player:play", autoscroll);
+  amethyst.player.on("player:trackChange", autoscroll);
 });
 onUnmounted(() => {
-  amethyst.player.off("player:play", autoscroll);
+  amethyst.player.off("player:trackChange", autoscroll);
 });
 </script>
 
 <template>
-  <div class="py-2 pl-4 pr-2 flex flex-col" :class="[amethyst.getCurrentPlatform() == 'mobile' ? 'px-2' : 'px-4']">
+  <div class="py-2 pl-4 pr-2 flex  flex-col" :class="[amethyst.getCurrentPlatform() == 'mobile' ? 'px-2' : 'px-4']">
     <route-header :title="$t('route.queue')">
       <icon
         icon="mdi:plus"

@@ -6,7 +6,7 @@ import { watch } from "vue";
 import { amethyst } from "@/amethyst.js";
 import ShaderCanvas from "@/components/ShaderCanvas.vue";
 import { getThemeColorRgb } from "@/logic/color";
-import { logParabolicSpectrum, normalize8bit } from "@/logic/math";
+import { linearSpectrum, logParabolicSpectrum, normalize8bit } from "@/logic/math";
 import { SpectrogramShader } from "@/shaders/components/SpectrogramShader";
 
 const props = defineProps<{
@@ -14,6 +14,7 @@ const props = defineProps<{
   accentColor: { r: number, g: number, b: number},
   fftSize: number,
   smoothing: number,
+  scrollSpeed: number,
   paused?: boolean,
 }>();
 
@@ -30,34 +31,51 @@ const updateAnalyser = () => {
 updateAnalyser();
 
 watch(() => [props.fftSize, props.smoothing], updateAnalyser);
-amethyst.state.on("theme:change", () => {
-  setTimeout(() => {
-    const accentColor = getThemeColorRgb("--accent");
-    uniformData.u_color.value.set(
-      normalize8bit(accentColor[0]),
-      normalize8bit(accentColor[1]),
-      normalize8bit(accentColor[2])
-    );
-  }, 100);
+
+watch(() => props.scrollSpeed, (v) => uniformData.u_scrollSpeed.value = v);
+
+watch(() => amethyst.state.settings.metering.spectrogram.logarithmic, (v) => {
+  analyser.maxDecibels = v ? -8 : -16;
 });
 
 // Don't change these
-analyser.maxDecibels = -0;
+analyser.maxDecibels = amethyst.state.settings.metering.spectrogram.logarithmic ? -8 : -16;
 analyser.minDecibels = -128;
 
+function setNormalizedColorVector(vector: THREE.Vector3, cssVarName: string) {
+  const [r, g, b] = getThemeColorRgb(cssVarName).map(normalize8bit);
+  vector.set(r, g, b);
+}
+
+amethyst.state.on("theme:change", () => {
+  setTimeout(() => {
+    setNormalizedColorVector(uniformData.u_color0.value, "--surface-1000");
+    setNormalizedColorVector(uniformData.u_color1.value, "--surface-500");
+    setNormalizedColorVector(uniformData.u_color2.value, "--inspector-color");
+    setNormalizedColorVector(uniformData.u_color3.value, "--primary");
+    setNormalizedColorVector(uniformData.u_color4.value, "--alert-color");
+  }, 100)
+});
+
+function getNormalizedColorVector(cssVarName: string) {
+  const [r, g, b] = getThemeColorRgb(cssVarName).map(normalize8bit);
+  return new THREE.Vector3(r, g, b);
+}
+
 const uniformData = {
-  u_color: {value: new THREE.Vector3(
-    normalize8bit(props.accentColor.r),
-    normalize8bit(props.accentColor.g),
-    normalize8bit(props.accentColor.b)
-  )},
-  u_amplitudes: {value: new Float32Array(VISUALIZER_BIN_COUNT)},
+  u_color0: { value: getNormalizedColorVector("--surface-1000") },
+  u_color1: { value: getNormalizedColorVector("--surface-500") },
+  u_color2: { value: getNormalizedColorVector("--inspector-color") },
+  u_color3: { value: getNormalizedColorVector("--primary") },
+  u_color4: { value: getNormalizedColorVector("--alert-color") },
+  u_amplitudes: { value: new Float32Array(VISUALIZER_BIN_COUNT) },
+  u_scrollSpeed: { value: props.scrollSpeed },
 };
 
 const render = (uniforms: Record<string, any>) => {
   const spectrum = new Uint8Array(analyser.frequencyBinCount);
   analyser.getByteFrequencyData(spectrum);
-  uniforms.u_amplitudes.value = logParabolicSpectrum(spectrum, VISUALIZER_BIN_COUNT);
+  uniforms.u_amplitudes.value = amethyst.state.settings.metering.spectrogram.logarithmic ? logParabolicSpectrum(spectrum, VISUALIZER_BIN_COUNT) : linearSpectrum(spectrum, VISUALIZER_BIN_COUNT);
 };
 </script>
 

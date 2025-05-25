@@ -88,6 +88,7 @@ const {metering} = amethyst.state.settings;
   <settings-setting
     :title="$t('settings.vectorscope.title')"
     icon="ic:twotone-fiber-smart-record"
+    info="https://amethyst.geoxor.moe/user-manual/visuals/vectorscope"
     :description="$t('settings.vectorscope.description')"
   >
     <toggle-switch v-model="metering.vectorscope.show" />
@@ -139,6 +140,7 @@ const {metering} = amethyst.state.settings;
   <settings-setting
     :title="$t('settings.spectrum_analyzer.title')"
     icon="ic:twotone-graphic-eq"
+    info="https://amethyst.geoxor.moe/user-manual/visuals/spectrum-analyzer"
     :description="$t('settings.spectrum_analyzer.description')"
   >
     <toggle-switch v-model="metering.spectrum.show" />
@@ -261,16 +263,24 @@ const {metering} = amethyst.state.settings;
       >
         <settings-setting
           subsetting
-          :title="$t('settings.smoothing_duration.title')"
-          :description="$t('settings.smoothing_duration.description')"
-          icon="ic:twotone-access-time"
+          :title="$t('settings.metering.spectrograph.logarithmic.title')"
+          :description="$t('settings.metering.spectrograph.logarithmic.description')"
+          icon="ic:twotone-graphic-eq"
+        >
+          <toggle-switch v-model="metering.spectrogram.logarithmic" />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.metering.spectrograph.scroll_speed.title')"
+          :description="$t('settings.metering.spectrograph.scroll_speed.description')"
+          icon="ic:twotone-speed"
         >
           <slider-input
-            v-model="metering.spectrogram.smoothing"
-            :min="0"
-            :max="1"
-            :step="0.01"
-            suffix="ms"
+            v-model="metering.spectrogram.scrollSpeed"
+            :min="1"
+            :max="8"
+            :step="1"
+            suffix="px/frame"
           />
         </settings-setting>
         <settings-setting
@@ -283,6 +293,20 @@ const {metering} = amethyst.state.settings;
             v-model="metering.spectrogram.fftSize"
             :options="FFT_SIZES"
             suffix="smp"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.smoothing_duration.title')"
+          :description="$t('settings.smoothing_duration.description')"
+          icon="ic:twotone-access-time"
+        >
+          <slider-input
+            v-model="metering.spectrogram.smoothing"
+            :min="0"
+            :max="1"
+            :step="0.01"
+            suffix="ms"
           />
         </settings-setting>
       </div>

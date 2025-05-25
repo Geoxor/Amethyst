@@ -1,6 +1,6 @@
 <script lang="ts" setup>
-import { onKeyStroke } from "@vueuse/core";
-import { computed, inject } from "vue";
+import { onClickOutside, onKeyStroke } from "@vueuse/core";
+import { computed, inject, ref } from "vue";
 
 import TitleText from "../v2/TitleText.vue";
 
@@ -10,6 +10,8 @@ const menuGroupRef = inject<{ value: {
 } }>("menuGroupRef", {
   value: { activeMenu: null } 
 });
+
+const menuContainer = ref<HTMLElement>();
 
 const isShowing = computed(() => menuGroupRef.value.activeMenu === props.title);
 
@@ -24,13 +26,22 @@ const onClick = () => {
     menuGroupRef.value.activeMenu = null;
   else 
     menuGroupRef.value.activeMenu = props.title;
-  
 };
+
+onClickOutside(
+  menuContainer,
+  () => {
+    if (menuGroupRef.value.activeMenu === props.title) 
+      menuGroupRef.value.activeMenu = null;
+  },
+  { ignore: [menuContainer] }
+);
 
 </script>
 
 <template>
   <div 
+    ref="menuContainer"
     class="menu relative h-full no-drag"
     @mouseenter="onMouseEnter"
   >
@@ -41,13 +52,15 @@ const onClick = () => {
     >
       <title-text :text="title" />
     </div>
-    <div
-      v-if="isShowing"
-      class="absolute z-30 flex select-none items-center bg-surface-800 shadow-xl rounded-8px border-solid border-1 border-surface-600 left-0 mt-1 py-1 flex-col w-96"
-      @click="onClick"
-    >
-      <slot />
-    </div>
+    <transition name="slide">
+      <div
+        v-if="isShowing"
+        class="absolute z-30 flex select-none items-center bg-surface-800 shadow-xl rounded-8px border-solid border-1 border-surface-600 left-0 mt-1 py-1 flex-col w-96"
+        @click="onClick"
+      >
+        <slot />
+      </div>
+    </transition>
   </div>
   <div
     v-if="isShowing"
@@ -56,3 +69,20 @@ const onClick = () => {
     @click="onClick"
   />
 </template>
+
+<style scoped lang="postcss">
+.dropdown .active {
+  @apply bg-accent/15 text-accent;
+}
+
+.slide-enter-active,
+.slide-leave-active {
+  @apply opacity-100 translate-y-0;
+  transition-duration: var(--transition-duration);
+}
+
+.slide-enter-from,
+.slide-leave-to {
+  @apply opacity-0 transform-gpu translate-y-4;
+}
+</style>

@@ -40,21 +40,22 @@ onMounted(() => {
 
 <template>
   <div
-    class="flex flex-col gap-2 items-center w-min cursor-pointer overflow-visible hover:underline"
+    class="flex flex-col  gap-2 items-center cursor-pointer overflow-visible hover:underline"
     @click="amethyst.player.play(track)"
+    @dragstart.prevent="amethyst.handleTrackDragStart($event, track)"
     @contextmenu="handleTrackContextMenu($event, track)"
   >
-    <span class="relative truncate rounded-8px transition-all duration-100 transform-gpu hover:scale-110">
+    <span class="relative w-inherit truncate rounded-8px transition-all duration-user-defined transform-gpu hover:scale-110">
       <h1
         v-if="amethyst.analytics.getPlayCount(track)"
         class="absolute flex items-center gap-0.5 top-0 font-weight-user-defined right-0 min-w-4 text-12px text-center p-1 z-5 rounded-bl-8px  text-black"
         :style="`background-color: ${color};`"
       >
-      
+        
         <icon
           icon="ic:twotone-refresh"
-          class="w-4 h-4"
-        />
+          class="w-4 h-4" 
+        /> 
         {{ amethyst.analytics.getPlayCount(track) }}</h1>
 
       <template v-if="amethyst.player.getCurrentTrack() == track">
@@ -68,18 +69,19 @@ onMounted(() => {
           icon="ic:round-pause"
           class="icon"
         />
-      </template>
+      </template>  
 
-      <div class="bg-surface-1000">
+      <div class="flex bg-surface-1000">
         <cover-art
           :url="track.getCover()"
+          class="w-full"
           :class="[amethyst.player.getCurrentTrack() == track && 'opacity-35']"
-          class="min-w-32 min-h-32 "
         />
       </div>
     </span>
     <title-subtitle
-      class="text-center max-w-32 truncate text-ellipsis"
+      alignment="center"
+      class="max-w-32 truncate text-ellipsis"
       :title="track.getTitleFormatted()"
       :subtitle="track.getArtistsFormatted()"
     />
@@ -88,6 +90,6 @@ onMounted(() => {
 
 <style scoped lang="postcss">
 .icon {
-  @apply h-16 w-16 absolute-xy;
+  @apply h-16 w-16 absolute-xy z-1;
 }
 </style>

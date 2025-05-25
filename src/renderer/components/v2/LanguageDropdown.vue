@@ -57,7 +57,7 @@ const flagURL = (name: string) => {
       <menu
         v-if="showLanguageDropdown"
         ref="languageDropdown"
-        class="languageDropdown absolute w-full flex flex-col justify-start top-6 -right-0  p-1 rounded-8px bg-surface-600"
+        class="languageDropdown absolute w-full flex flex-col justify-start top-6 right-0  p-1 rounded-8px bg-surface-600"
       >
         <button
           v-for="(lang, i) in useI18n().availableLocales"
@@ -89,7 +89,9 @@ button.active {
 
 .slide-enter-active,
 .slide-leave-active {
-  @apply duration-100 opacity-100 translate-y-0;
+  @apply opacity-100 translate-y-0;
+  transition-duration: var(--transition-duration);
+
 }
 
 .slide-enter-from,

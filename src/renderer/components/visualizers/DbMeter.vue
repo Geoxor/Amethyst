@@ -99,27 +99,27 @@ onUnmounted(() => shouldStopRendering = true);
         />
 
         <div
-          :class="channelData[i - 1][0].value > 0 ?'bg-rose-600' : 'bg-slider-fill/80'"
+          :class="channelData[i - 1][0].value > 0 ?'bg-alert-color' : 'bg-slider-fill/80'"
           class="rounded-full transition-all duration-meter-user-defined absolute bottom-0"
           :style="`width: ${width}px; height: ${computedWidth(channelData[i - 1][0].value)}%`"
         />
         <div
-          :class="channelData[i - 1][0].value > 0 ? 'bg-rose-500' : 'bg-accent'"
+          :class="channelData[i - 1][0].value > 0 ? 'bg-alert-color' : 'bg-accent'"
           class="absolute transition-all duration-meter-user-defined bottom-0 rounded-full"
           :style="`width: ${width}px; height: ${computedWidth(channelData[i - 1][1].value)}%`"
         />
       </div>
 
       <svg
-        class="absolute h-full stroke-3px w-4px"
+        class="absolute h-full stroke-2px w-4px"
         :style="`left: ${((width + 2) * currentChannels + currentChannels)}px;`"
       >
         <line
-          class="stroke-cap-round stroke-slider-fill"
+          class="stroke-cap-round stroke-surface-500"
           x1="2"
           y1="2"
           x2="2"
-          y2="100"
+          y2="512"
         />
       </svg>
     </div>
@@ -144,6 +144,6 @@ svg {
 }
 
 line {
-	stroke-dasharray: 0 9;
+	stroke-dasharray: 0 8.85;
 }
 </style>

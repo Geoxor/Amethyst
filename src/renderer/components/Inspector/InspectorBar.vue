@@ -40,14 +40,14 @@ const handlePlay = (track: Track) => {
 };
 
 onMounted(() => {
-  amethyst.player.on("player:play", handlePlay);
+  amethyst.player.on("player:trackChange", handlePlay);
   const currentTrack = amethyst.player.getCurrentTrack();
   if (!currentTrack) return;
   if (!inspector.state.currentItem) inspector.inspect(currentTrack);
 });
 
 onUnmounted(() => {
-  amethyst.player.off("player:play", handlePlay);
+  amethyst.player.off("player:trackChange", handlePlay);
 });
 
 function cloneWithoutPicture(obj: Record<string, any>): Record<string, any> {
@@ -66,7 +66,7 @@ const filteredMetadata = computed(() => {
 
 <template>
   <div
-    class="inspector text-12px top-16 right-2 truncate w-min-96 rounded-4px z-30 text-primary-900 h-full bg-surface-1000"
+    class="inspector text-12px top-16 right-2 truncate min-w-72 w-72 rounded-4px z-20 text-primary-900 h-[calc(100%+40px)] bg-surface-1000"
   >
     <div class="h-10 pl-3 flex w-full  justify-between items-center ">
       <div class="flex gap-2 items-center text-inspector-color">

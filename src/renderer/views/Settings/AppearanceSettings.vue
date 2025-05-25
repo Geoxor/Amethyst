@@ -3,6 +3,7 @@ import { BLEND_MODES, FONT_WEIGHTS } from "@shared/constants.js";
 
 import { amethyst } from "@/amethyst.js";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
+import ColorInput from "@/components/v2/ColorInput.vue";
 import DropdownInput from "@/components/v2/DropdownInput.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
@@ -17,8 +18,8 @@ const {appearance} = amethyst.state.settings;
 
 <template>
   <settings-setting
-    :title="$t('settings.animation_duration.title')"
-    :description="$t('settings.animation_duration.description')"
+    :title="$t('settings.appearance.animation_duration.title')"
+    :description="$t('settings.appearance.animation_duration.description')"
     icon="ic:twotone-access-time"
   >
     <slider-input
@@ -50,7 +51,7 @@ const {appearance} = amethyst.state.settings;
     />
     <template #subsettings>
       <div class="p-2 flex flex-col gap-2">
-        <div class="flex gap-2 px-2">
+        <div class="grid grid-cols-2 sm:flex flex-wrap gap-2 px-2">
           <amethyst-dark-skeleton
             class="theme-skeleton cursor-pointer"
             :class="[appearance.theme === 'amethyst-dark' && 'active']"
@@ -74,8 +75,38 @@ const {appearance} = amethyst.state.settings;
         </div>
         <settings-setting
           subsetting
-          :title="$t('settings.cover_based_colors.title')"
-          :description="$t('settings.cover_based_colors.description')"
+          :title="$t('settings.appearance.custom_colors.title')"
+          :description="$t('settings.appearance.custom_colors.description')"
+          icon="ic:twotone-colorize"
+        >
+          <toggle-switch
+            v-model="appearance.customColors.enabled" 
+          />
+          <template v-if=appearance.customColors.enabled #subsettings>
+            <div class="p-2 grid grid-cols-2 sm:flex flex-wrap gap-2 ">
+              <color-input 
+                v-model="appearance.customColors.colors.primary"
+                color-name="primary"
+              />
+              <color-input 
+                v-model="appearance.customColors.colors.accent"
+                color-name="accent"
+              />
+              <color-input 
+                v-model="appearance.customColors.colors.inspector"
+                color-name="inspector"
+              />
+              <color-input 
+                v-model="appearance.customColors.colors.alert"
+                color-name="alert"
+              />
+            </div>
+          </template>
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.appearance.cover_based_colors.title')"
+          :description="$t('settings.appearance.cover_based_colors.description')"
           icon="ic:twotone-palette"
         >
           <toggle-switch
@@ -83,9 +114,10 @@ const {appearance} = amethyst.state.settings;
           />
         </settings-setting>
         <settings-setting
+          :platforms="['desktop']"
           subsetting
-          :title="$t('settings.cover_based_icon_colors.title')"
-          :description="$t('settings.cover_based_icon_colors.description')"
+          :title="$t('settings.appearance.cover_based_icon_colors.title')"
+          :description="$t('settings.appearance.cover_based_icon_colors.description')"
           icon="ic:twotone-brush"
         >
           <toggle-switch
@@ -94,6 +126,124 @@ const {appearance} = amethyst.state.settings;
         </settings-setting>
       </div>
     </template>
+  </settings-setting>
+
+  <settings-setting
+    :title="$t('settings.appearance.ambient_background.title')"
+    :description="$t('settings.appearance.ambient_background.description')"
+    icon="ic:twotone-photo-size-select-actual"
+  >
+    <toggle-switch
+      v-model="appearance.ambientBackground.show" 
+    />
+    <template
+      v-if="appearance.ambientBackground.show"
+      #subsettings
+    >
+      <div class="p-2 flex flex-col gap-2">
+        <settings-setting
+          subsetting
+          :title="$t('settings.appearance.ambient_background.blending_mode.title')"
+          :description="$t('settings.appearance.ambient_background.blending_mode.description')"
+          icon="ic:twotone-water-drop"
+        >
+          <dropdown-input
+            v-model="appearance.ambientBackground.blendMode"
+            :options="BLEND_MODES"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.appearance.ambient_background.spin.title')"
+          :description="$t('settings.appearance.ambient_background.spin.description')"
+          icon="ic:twotone-rotate-90-degrees-ccw"
+        >
+          <toggle-switch
+            v-model="appearance.ambientBackground.spin" 
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.appearance.ambient_background.spin_speed.title')"
+          :description="$t('settings.appearance.ambient_background.spin_speed.description')"
+          icon="ic:twotone-rotate-90-degrees-ccw"
+        >
+          <slider-input
+            v-model="appearance.ambientBackground.spinSpeed"
+            :min="0"
+            :max="60"
+            :step="1"
+            suffix="sec/spin"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.appearance.ambient_background.opacity.title')"
+          :description="$t('settings.appearance.ambient_background.opacity.description')"
+          icon="ic:twotone-opacity"
+        >
+          <slider-input
+            v-model="appearance.ambientBackground.opacity"
+            :min="0"
+            :max="50"
+            :step="2.5"
+            suffix="%"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.appearance.ambient_background.blur_strength.title')"
+          :description="$t('settings.appearance.ambient_background.blur_strength.description')"
+          icon="ic:twotone-blur-linear"
+        >
+          <slider-input
+            v-model="appearance.ambientBackground.blurStrength"
+            :min="0"
+            :max="128"
+            :step="4"
+            suffix="px"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t('settings.appearance.ambient_background.zoom.title')"
+          :description="$t('settings.appearance.ambient_background.zoom.description')"
+          icon="ic:twotone-zoom-in"
+        >
+          <slider-input
+            v-model="appearance.ambientBackground.zoom"
+            :min="50"
+            :max="250"
+            :step="10"
+            suffix="%"
+          />
+        </settings-setting>
+        <settings-setting
+          subsetting
+          :title="$t(`settings.appearance.ambient_background.shader.title`)"
+          :description="$t('settings.appearance.ambient_background.shader.description')"
+          icon="ic:twotone-auto-awesome"
+        >
+          <toggle-switch v-model="appearance.shader.use" />
+          <!-- TODO: Shader options built-in and in amethyst user-config shader directory -->
+          <dropdown-input
+            v-model="appearance.shader.selected"
+            :options="amethyst.state.shaders.value.getShaderNames()"
+          />
+        </settings-setting>
+      </div>
+    </template> 
+  </settings-setting>
+
+  <settings-setting
+    :platforms="['mobile']"
+    :title="$t('settings.appearance.desktop_mode.title')"
+    :description="$t('settings.appearance.desktop_mode.description')"
+    icon="ic:twotone-computer"
+  >
+    <toggle-switch
+      v-model="appearance.desktopMode" 
+    />
   </settings-setting>
 
   <settings-setting
@@ -107,114 +257,8 @@ const {appearance} = amethyst.state.settings;
   </settings-setting>
 
   <settings-setting
-    :title="$t('settings.ambient_background.title')"
-    :description="$t('settings.ambient_background.description')"
-    icon="ic:twotone-photo-size-select-actual"
-  >
-    <toggle-switch
-      v-model="appearance.ambientBackground.show" 
-    />
-    <template
-      v-if="appearance.ambientBackground.show"
-      #subsettings
-    >
-      <div class="p-2 flex flex-col gap-2">
-        <settings-setting
-          subsetting
-          :title="$t('settings.ambient_background.blending_mode.title')"
-          :description="$t('settings.ambient_background.blending_mode.description')"
-          icon="ic:twotone-water-drop"
-        >
-          <dropdown-input
-            v-model="appearance.ambientBackground.blendMode"
-            :options="BLEND_MODES"
-          />
-        </settings-setting>
-        <settings-setting
-          subsetting
-          :title="$t('settings.ambient_background.spin.title')"
-          :description="$t('settings.ambient_background.spin.description')"
-          icon="ic:twotone-rotate-90-degrees-ccw"
-        >
-          <toggle-switch
-            v-model="appearance.ambientBackground.spin" 
-          />
-        </settings-setting>
-        <settings-setting
-          subsetting
-          :title="$t('settings.ambient_background.spin_speed.title')"
-          :description="$t('settings.ambient_background.spin_speed.description')"
-          icon="ic:twotone-rotate-90-degrees-ccw"
-        >
-          <slider-input
-            v-model="appearance.ambientBackground.spinSpeed"
-            :min="0"
-            :max="60"
-            :step="1"
-            suffix="sec/spin"
-          />
-        </settings-setting>
-        <settings-setting
-          subsetting
-          :title="$t('settings.ambient_background.opacity.title')"
-          :description="$t('settings.ambient_background.opacity.description')"
-          icon="ic:twotone-opacity"
-        >
-          <slider-input
-            v-model="appearance.ambientBackground.opacity"
-            :min="0"
-            :max="50"
-            :step="2.5"
-            suffix="%"
-          />
-        </settings-setting>
-        <settings-setting
-          subsetting
-          :title="$t('settings.ambient_background.blur_strength.title')"
-          :description="$t('settings.ambient_background.blur_strength.description')"
-          icon="ic:twotone-blur-linear"
-        >
-          <slider-input
-            v-model="appearance.ambientBackground.blurStrength"
-            :min="0"
-            :max="128"
-            :step="4"
-            suffix="px"
-          />
-        </settings-setting>
-        <settings-setting
-          subsetting
-          :title="$t('settings.ambient_background.zoom.title')"
-          :description="$t('settings.ambient_background.zoom.description')"
-          icon="ic:twotone-zoom-in"
-        >
-          <slider-input
-            v-model="appearance.ambientBackground.zoom"
-            :min="50"
-            :max="250"
-            :step="10"
-            suffix="%"
-          />
-        </settings-setting>
-        <settings-setting
-          subsetting
-          :title="$t(`settings.ambient_background.shader.title`)"
-          :description="$t('settings.ambient_background.shader.description')"
-          icon="ic:twotone-auto-awesome"
-        >
-          <toggle-switch v-model="appearance.shader.use" />
-          <!-- TODO: Shader options built-in and in amethyst user-config shader directory -->
-          <dropdown-input
-            v-model="appearance.shader.selected"
-            :options="amethyst.state.shaders.value.getShaderNames()"
-          />
-        </settings-setting>
-      </div>
-    </template> 
-  </settings-setting>
-  <settings-setting
-    :title="$t('settings.neon_mode.title')"
-    :description="$t('settings.neon_mode.description')"
+    :title="$t('settings.appearance.neon_mode.title')"
+    :description="$t('settings.appearance.neon_mode.description')"
     icon="ic:twotone-remove-red-eye"
   >
     <toggle-switch
@@ -222,8 +266,10 @@ const {appearance} = amethyst.state.settings;
     />
   </settings-setting>
   <settings-setting
-    :title="$t('settings.playback_controls.title')"
-    :description="$t('settings.playback_controls.description')"
+    :title="$t('settings.appearance.playback_controls.title')"
+    info="https://amethyst.geoxor.moe/user-manual/ui/playback-controls"
+    :shortcuts="['F10']"
+    :description="$t('settings.appearance.playback_controls.description')"
     icon="ic:twotone-skip-next"
   >
     <toggle-switch
@@ -231,8 +277,8 @@ const {appearance} = amethyst.state.settings;
     />
   </settings-setting>
   <settings-setting
-    :title="$t('settings.minimalist_mode.title')"
-    :description="$t('settings.minimalist_mode.description')"
+    :title="$t('settings.appearance.minimalist_mode.title')"
+    :description="$t('settings.appearance.minimalist_mode.description')"
     icon="ic:twotone-remove-red-eye"
   >
     <toggle-switch
@@ -245,8 +291,8 @@ const {appearance} = amethyst.state.settings;
       <div class="p-2 flex flex-col gap-2">
         <settings-setting
           subsetting
-          :title="$t('settings.minimalist_mode.hide_category_titles.title')"
-          :description="$t('settings.minimalist_mode.hide_category_titles.description')"
+          :title="$t('settings.appearance.minimalist_mode.hide_category_titles.title')"
+          :description="$t('settings.appearance.minimalist_mode.hide_category_titles.description')"
           icon="ic:twotone-format-strikethrough"
         >
           <toggle-switch
@@ -258,8 +304,8 @@ const {appearance} = amethyst.state.settings;
   </settings-setting>
   
   <settings-setting
-    :title="$t('settings.cover_art.title')"
-    :description="$t('settings.cover_art.description')"
+    :title="$t('settings.appearance.cover_art.title')"
+    :description="$t('settings.appearance.cover_art.description')"
     icon="ic:twotone-image"
   >
     <toggle-switch
@@ -267,8 +313,10 @@ const {appearance} = amethyst.state.settings;
     />
   </settings-setting>
   <settings-setting
-    :title="$t('settings.debug_stats.title')"
-    :description="$t('settings.debug_stats.description')"
+    :shortcuts="['F9']"
+    :title="$t('settings.appearance.debug_stats.title')"
+    :description="$t('settings.appearance.debug_stats.description')"
+    :platforms="['desktop']"
     icon="ic:twotone-bug-report"
   >
     <toggle-switch
@@ -279,7 +327,8 @@ const {appearance} = amethyst.state.settings;
 
 <style scoped lang="postcss">
 .theme-skeleton {
-  @apply border-solid border-2 border-transparent box-content rounded-8px w-32 h-auto lg:w-min;
+  @apply border-solid border-2 border-transparent box-content rounded-8px w-full sm:w-32 h-auto xl:w-min;
+  transition-duration: var(--transition-duration);
 
   &:hover {
     @apply border-surface-400;

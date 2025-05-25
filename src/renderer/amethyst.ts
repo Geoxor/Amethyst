@@ -10,6 +10,7 @@ import { createI18n } from "vue-i18n";
 
 import { Analytics } from "@/logic/analytics.js";
 import { EventEmitter } from "@/logic/eventEmitter.js";
+import { LastFm } from "@/logic/lastFM.js";
 import { flattenArray } from "@/logic/math.js";
 import { MediaSourceManager } from "@/logic/mediaSources.js";
 import { Player } from "@/logic/player.js";
@@ -30,17 +31,24 @@ export const i18n = createI18n({
 export type AmethystPlatforms = ReturnType<typeof amethyst.getCurrentPlatform>;
 export const favoriteTracks = useLocalStorage<string[]>("favoriteTracks", []);
 
+
+const windowEventMap = {
+  "window:maximize": undefined as void,
+  "window:unmaximize": undefined as void,
+  "window:minimize": undefined as void,
+  "window:focus": undefined as void,
+  "window:unfocus": undefined as void,
+} as const;
+
+export type WindowEvents = {
+  [K in keyof typeof windowEventMap]: typeof windowEventMap[K];
+};
+
 /**
  * Handles interfacing with operating system and unifies methods 
  * to a simple form for all the platforms
  */
-export class AmethystBackend extends EventEmitter<{
-  "window:maximize": void;
-  "window:unmaximize": void;
-  "window:minimize": void;
-  "window:focus": void;
-  "window:unfocus": void;
-}>{
+export class AmethystBackend extends EventEmitter<WindowEvents> {
   public constructor() {
     super();
     console.log(`Current platform: ${this.getCurrentPlatform()}`);
@@ -52,6 +60,10 @@ export class AmethystBackend extends EventEmitter<{
   private static isPlatformDesktop = navigator.userAgent.indexOf("Electron") >= 0;
 
   private static isPlatformWeb = !AmethystBackend.isPlatformMobile && !AmethystBackend.isPlatformDesktop;
+
+  private static isOperatingSystemiOS = AmethystBackend.isPlatformMobile && Capacitor.getPlatform() == "ios";
+
+  private static isOperatingSystemAndroid = AmethystBackend.isPlatformMobile && Capacitor.getPlatform() == "android";
 
   private static isOperatingSystemLinux = this.isPlatformDesktop && window.electron.isLinux;
 
@@ -81,7 +93,8 @@ export class AmethystBackend extends EventEmitter<{
       throw new Error("Unknown operating system");
     }
     if (Amethyst.isPlatformMobile) {
-      return "android";
+      if (Amethyst.isOperatingSystemiOS) return "ios";
+      if (Amethyst.isOperatingSystemAndroid) return "android";
     }
     throw new Error("Unknown operating system");
   }
@@ -106,7 +119,10 @@ export class AmethystBackend extends EventEmitter<{
   public async showItem(path: string) {
     switch (this.getCurrentPlatform()) {
       case "desktop":
-        return window.electron.ipcRenderer.invoke("show-item", [path]); 
+        return window.electron.ipcRenderer.invoke("show-item", [path]);
+      case "mobile":
+        (window as any).Android.openFolderInFiles(path);
+        return Promise.reject();
       default:
         return Promise.reject();
     }
@@ -138,9 +154,9 @@ export class AmethystBackend extends EventEmitter<{
         return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-file-dialog", [options]);
       case "web":
         const fileInput = document.createElement("input");
-          fileInput.type = "file";
-          fileInput.multiple = true;
-          fileInput.click();
+        fileInput.type = "file";
+        fileInput.multiple = true;
+        fileInput.click();
 
         // TODO: make a AmethystFile and AmethystAudioFile classes to manage this bullshit easily
         return new Promise((res, rej) => {
@@ -149,29 +165,55 @@ export class AmethystBackend extends EventEmitter<{
             if (!files) rej("no files");
             const blobs = await Promise.all(this.filesToBlobs(files!));
             const paths = blobs.map(blob => URL.createObjectURL(blob));
-            files ? res({canceled: false, filePaths: paths}) : rej();
+            files ? res({ canceled: false, filePaths: paths }) : rej();
           });
         });
       case "mobile":
         return new Promise(async (res, rej) => {
-          const { FilePicker } = await import ('@capawesome/capacitor-file-picker');
+          const { FilePicker } = await import('@capawesome/capacitor-file-picker');
           const result = await FilePicker.pickFiles({
             types: ['audio/*'],
           });
 
           const files = result.files.map(file => Capacitor.convertFileSrc(file.path!));
-          
-          files ? res({canceled: false, filePaths: files}) : rej();
+
+          files ? res({ canceled: false, filePaths: files }) : rej();
         });
       default:
         return Promise.reject();
     }
   }
-  
-  public async showOpenFolderDialog() {
+
+  public async showOpenFolderDialog(): Promise<OpenDialogReturnValue> {
     switch (this.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<OpenDialogReturnValue>("open-folder-dialog");
+      case "mobile":
+        return new Promise(async (res, rej) => {
+          const { FilePicker } = await import('@capawesome/capacitor-file-picker');
+
+          const directory = await FilePicker.pickDirectory();
+
+          const getPath = (): string | null => {
+            switch (this.getCurrentOperatingSystem()) {
+              case "android":
+                return Capacitor.convertFileSrc(decodeURIComponent(directory.path.split("%3A")[1]));
+              case "ios":
+                const parts = directory.path.split("/");
+                // iOS apps can only import from Sandboxed "Documents" 🍌🍌🍌
+                const index = parts.findIndex(part => part === "Documents");
+                if (index > 0)
+                  return parts.splice(index + 1).join("/");
+                return null;
+              default:
+                return null; // unsupported
+            }
+          };
+
+          const path = getPath();
+
+          path ? res({ canceled: false, filePaths: [path] }) : rej();
+        });
       default:
         return Promise.reject();
     }
@@ -181,6 +223,31 @@ export class AmethystBackend extends EventEmitter<{
     switch (this.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<SaveDialogReturnValue>("show-save-dialog", [options]);
+      default:
+        return Promise.reject();
+    }
+  }
+
+  public async readFilesFromPath(path: string): Promise<string[]> {
+    switch (this.getCurrentPlatform()) {
+      case "desktop":
+        return new Promise(async (res, rej) => {
+          const paths = await window.electron.ipcRenderer.invoke<string[]>("fetch-folder-content", [path, [{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }]]);
+          const files = paths.filter(file => ALLOWED_AUDIO_EXTENSIONS.some(ext => file.endsWith(ext)));
+          files ? res(files) : rej()
+        });
+      case "mobile":
+        return new Promise(async (res, rej) => {
+          const { Filesystem, Directory } = await import('@capacitor/filesystem');
+
+          const result = await Filesystem.readdir({
+            path: path,
+            directory: this.getCurrentOperatingSystem() == "android" ? Directory.ExternalStorage : Directory.Data
+          });
+
+          const files = result.files.filter(file => file.type === "file" && ALLOWED_AUDIO_EXTENSIONS.some(ext => file.uri.endsWith(`.${ext}`))).map(file => Capacitor.convertFileSrc(file.uri));
+          files ? res(files) : rej()
+        });
       default:
         return Promise.reject();
     }
@@ -196,7 +263,7 @@ export class AmethystBackend extends EventEmitter<{
   };
 
   public openAudioFilesAndAddToQueue = async () => {
-    amethyst.showOpenFileDialog({filters: [{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }]}).then(async result => {
+    amethyst.showOpenFileDialog({ filters: [{ name: "Audio", extensions: ALLOWED_AUDIO_EXTENSIONS }] }).then(async result => {
       if (result.canceled) return;
       await amethyst.player.queue.add(result.filePaths);
       amethyst.player.queue.fetchAsyncData();
@@ -239,17 +306,20 @@ export class Amethyst extends AmethystBackend {
   public state: State = new State(this);
   public player = new Player(this);
   public shortcuts: Shortcuts = new Shortcuts();
-  public mediaSession: MediaSession | undefined = this.getCurrentPlatform() === "desktop" ? new MediaSession(this.player) : undefined;
+  public mediaSession: MediaSession | undefined = this.getCurrentPlatform() == "desktop" ? new MediaSession(this.player) : undefined;
   public mediaSourceManager: MediaSourceManager = new MediaSourceManager(this);
   public analytics = new Analytics(this);
+  public lastfm = new LastFm(this);
 
   public constructor() {
     super();
 
+    console.log("Amethyst initialized");
+
     // Init zoom from store
     document.body.style.zoom = this.state.zoomLevel.value.toString();
-        
-    if (this.getCurrentPlatform() === "desktop") {
+
+    if (this.getCurrentPlatform() == "desktop") {
       window.electron.ipcRenderer.invoke<string>("get-appdata-path").then(path => this.APPDATA_PATH = path);
 
       window.electron.ipcRenderer.on("maximize", () => this.emit("window:maximize"));
@@ -282,42 +352,53 @@ export class Amethyst extends AmethystBackend {
         window.electron.ipcRenderer.on("clear-queue-native", () => this.player.queue.clear());
         window.electron.ipcRenderer.on("reload-queue-native", () => this.player.queue.fetchAsyncData(true));
       }
-  
-      this.state.settings.behavior.fetchMetadataOnStartup && setTimeout(async() => {
+
+      this.state.settings.behavior.fetchMetadataOnStartup && setTimeout(async () => {
         await this.player.queue.fetchAsyncData();
         console.log("fetching data finished, refreshing discovery");
         this.analytics.getDiscoveryTracks();
       }, 1000);
     }
 
-    if (this.getCurrentPlatform() === "mobile") {
+    if (this.getCurrentPlatform() == "mobile") {
       this.initMobile();
     }
 
     this.handleFileDrops();
     this.handleDiscordRichPresence();
+    this.updateCurrentOutputDevice();
+    this.handleLastfm();
 
     if (this.state.settings.behavior.autoPlayOnStartup) {
       const track = this.player.queue.getTrack(0);
       track && this.player.play(track);
     }
 
-    this.updateCurrentOutputDevice();
-    
+
+  }
+
+  private handleLastfm() {
+    this.player.on("player:trackFinished", (data) => {
+      if (amethyst.lastfm.isScrobblingEnabled()) {
+        const currentTitle = data.track?.getTitleFormatted();
+        const currentArtist = data.track?.getArtistsFormatted();
+        if (currentTitle != null && currentArtist != null) {
+          amethyst.lastfm.scrobble(data.startTimestamp, currentTitle, currentArtist);
+        }
+      }
+    });
   }
 
   private showEventLogs() {
-    this.on("window:maximize", () => console.log("%cwindow:maximize", "color:#00b7ff"));
-    this.on("window:unmaximize", () => console.log("%cwindow:unmaximize", "color: #00b7ff"));
-    this.on("window:minimize", () => console.log("%cwindow:minimize", "color: #00b7ff"));
-    this.on("window:focus", () => console.log("%cwindow:focus", "color: #00b7ff"));
-    this.on("window:unfocus", () => console.log("%cwindow:unfocus", "color: #00b7ff"));
+    for (const event in windowEventMap) {
+      this.on(event as keyof WindowEvents, (e) => console.log(`%c[⚐ Window Event]%c ${event}`, "background-color: #00b7ff; color: black; font-weight: bold;", "color:rgb(188, 236, 255);", e));
+    }
   }
 
   public updateCurrentOutputDevice = async () => {
     const extractDeviceName = (input: string): string => {
       let result = input;
-      if (amethyst.getCurrentOperatingSystem() == "windows" ) {
+      if (amethyst.getCurrentOperatingSystem() == "windows") {
         // Default - Speakers (2- Realtek(R) Audio)
         result = input.slice(input.indexOf("(") + 1, input.lastIndexOf(")"));
       }
@@ -360,7 +441,7 @@ export class Amethyst extends AmethystBackend {
 
     const updateRichPresence = async (track: Track) => {
       const sendData = () => {
-      const args = [
+        const args = [
           track.getArtistsFormatted() && track.getTitleFormatted() ? `${track.getTitleFormatted()}` : track.getFilename(),
           `${track.getArtistsFormatted()} -  ${track.getAlbum()}`,
           start.toString(),
@@ -378,15 +459,17 @@ export class Amethyst extends AmethystBackend {
     };
 
     const updateWithCurrentTrack = async () => {
-      if (amethyst.getCurrentPlatform() == "mobile") return;
+      if (this.getCurrentPlatform() == "mobile") return;
       const currentTrack = this.player.getCurrentTrack();
       await currentTrack?.fetchAlbumCoverUrl();
-      currentTrack && await updateRichPresence(currentTrack);
+      if (!currentTrack) return;
+      await updateRichPresence(currentTrack);
+      if (this.IS_DEV) console.log(`%c[⚐ Discord RPC]%c Updated RPC status`, "background-color: #7289da; color: black; font-weight: bold;", "color: #ffffff;");
     };
 
-    if (this.state.settings.integrations.useDiscordRichPresence) {
-      this.player.on("player:trackChange", async () => {
-        if (isPaused && trackNameBeforePause == this.player.getCurrentTrack()?.getTitleFormatted()) {
+    if (this.state.settings.integrations.discord.enabled) {
+      this.player.on("player:trackChange", async track => {
+        if (isPaused && trackNameBeforePause == track.getTitleFormatted()) {
           start = seekDuringPause ? start : start + Math.abs(Date.now() - startBegin);
         } else {
           start = Date.now();
@@ -395,11 +478,21 @@ export class Amethyst extends AmethystBackend {
         seekDuringPause = false;
         isPaused = false;
         trackNameBeforePause = "";
-        updateWithCurrentTrack();
+        if (track.metadata.data?.format.container) {
+          this.IS_DEV && console.log('Metadata is loaded so we can update the rich presence');
+          updateWithCurrentTrack();
+        } else {
+          this.IS_DEV && console.log('Metadata not loaded yet, waiting for it to load...');
+          this.player.on("player:currentTrackMetadataLoaded", () => {
+            this.IS_DEV && console.log('Metadata loaded updating rich presence');
+            this.player.off("player:currentTrackMetadataLoaded");
+            updateWithCurrentTrack();
+          });
+        }
       });
 
-      this.player.on("player:seek", async newTime => {
-        start = Date.now() - newTime * 1000; 
+      this.player.on("player:seek", async ({ seekedTo }) => {
+        start = Date.now() - seekedTo * 1000;
         if (!isPaused) {
           updateWithCurrentTrack();
         } else {
@@ -407,9 +500,9 @@ export class Amethyst extends AmethystBackend {
         }
       });
 
-      this.player.on("player:pause", () => {
+      this.player.on("player:pause", track => {
         startBegin = Date.now();
-        trackNameBeforePause = this.player.getCurrentTrack()?.getTitleFormatted() ?? "";
+        trackNameBeforePause = track.getTitleFormatted() ?? "";
         isPaused = true;
         updateWithCurrentTrack();
       });
@@ -419,7 +512,7 @@ export class Amethyst extends AmethystBackend {
       });
     };
 
-    watch(() => this.state.settings.integrations.useDiscordRichPresence, value => {
+    watch(() => this.state.settings.integrations.discord.enabled, value => {
       value ? updateWithCurrentTrack() : clearRichPresence();
     });
   }
@@ -441,7 +534,7 @@ export class Amethyst extends AmethystBackend {
 
       const droppedPath = window.electron.showFilePath(event.dataTransfer!.files[0]!);
 
-      const usableFiles = 
+      const usableFiles =
         Array.from(event.dataTransfer!.files)
           .map(file => window.electron.showFilePath(file))
           .filter(filteredAllowedAudioExtensions);
@@ -475,7 +568,7 @@ export class Amethyst extends AmethystBackend {
           this.isLoading.value = false;
           return console.error(error, "Dropped path is not a folder");
         };
-        
+
         await amethyst.player.queue.fetchAsyncData();
       }
       this.isLoading.value = false;
@@ -501,31 +594,31 @@ export class Amethyst extends AmethystBackend {
       filters: [{ name: "Amethyst Configuration File", extensions: ["acf"] }],
       defaultPath: "Amethyst Settings",
     });
-  
+
     if (dialog?.canceled || !dialog.filePaths[0]) return;
-  
+
     const loadedSettings = await fetch(dialog.filePaths[0]);
     const parsedSettings = await loadedSettings.json();
-  
+
     Object.keys(amethyst.state.settings).forEach(key => {
       // @ts-ignore
       amethyst.state.settings[key] = parsedSettings[key];
     });
   };
-  
+
   public exportSettings = async () => {
     const dialog = await amethyst.showSaveFileDialog({
       filters: [{ name: "Amethyst Configuration File", extensions: ["acf"] }],
       defaultPath: "Amethyst Settings"
     });
     if (dialog?.canceled || !dialog?.filePath) return;
-  
+
     return amethyst.writeFile(JSON.stringify(amethyst.state.settings, null, 2), dialog?.filePath);
   };
 
   public resetSettings = () => {
     localStorage.removeItem("settings");
-		Object.keys(this.state.defaultSettings).forEach(key => {
+    Object.keys(this.state.defaultSettings).forEach(key => {
       // @ts-ignore
       this.state.settings[key] = this.state.defaultSettings[key];
     });
@@ -559,7 +652,7 @@ export class Amethyst extends AmethystBackend {
   }
 
   public performWindowAction(action: "close" | "maximize" | "unmaximize" | "minimize" | "fullscreen"): void {
-    if (this.getCurrentPlatform() === "desktop") {
+    if (this.getCurrentPlatform() == "desktop") {
       window.electron.ipcRenderer.invoke(action).then(() => this.syncWindowState());
     } else {
       throw new Error(`${this.performWindowAction.name} can only be executed when running in 'desktop' (electron) client`);
@@ -574,8 +667,8 @@ export class Amethyst extends AmethystBackend {
   };
 
   public async updateMobileAppColors() {
-    await StatusBar.setBackgroundColor({color: getThemeColorHex('--surface-900') || '#0f1119'});
-    await NavigationBar.setColor({color: getThemeColorHex('--surface-700') || '#181a27'});
+    await StatusBar.setBackgroundColor({ color: getThemeColorHex('--surface-900') || '#0f1119' });
+    await NavigationBar.setColor({ color: getThemeColorHex('--surface-900') || '#0f1119' });
   }
 
   private async initMobile() {
@@ -589,11 +682,11 @@ export class Amethyst extends AmethystBackend {
       switch (this.getCurrentPlatform()) {
         case "desktop":
           await window.electron.ipcRenderer.invoke("check-for-updates");
-          break; 
+          break;
         default:
           break;
       }
-        
+
     } catch (error) {
       console.log(error);
     }
@@ -608,9 +701,27 @@ export class Amethyst extends AmethystBackend {
     return this.shouldPauseAnimations() || this.player.isPaused.value;
   }
 
+  public handleTrackDragStart = async (e: DragEvent, track: Track) => {
+    if (track.getCover()) {
+      const blob = await track.getCoverAsBlob();
+      const arrayBuffer = await blob.arrayBuffer();
+      window.electron.startDrag(track.absolutePath, Buffer.from(arrayBuffer));
+    } else {
+      window.electron.startDrag(track.absolutePath);
+    }
+    (e.target as HTMLDivElement).classList.add("dragging");
+  };
 }
 
-export const amethyst = new Amethyst();
+// this is to not reinitialize the Amethyst class on hot reload
+let globalAmethyst = globalThis.__amethyst__;
+
+if (!globalAmethyst) {
+  globalAmethyst = new Amethyst();
+  globalThis.__amethyst__ = globalAmethyst;
+}
+
+export const amethyst = globalAmethyst;
 
 // interface IPluginDefinitionParameters {
 //   store: Store, 

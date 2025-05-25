@@ -34,6 +34,7 @@ import ButtonInput from "@/components/v2/ButtonInput.vue";
             {{ source.totalTracks }} {{ $t('settings.media_sources.tracks') }}
           </base-chip>
           <button-input
+            v-if="amethyst.getCurrentPlatform() == 'desktop'"
             :text="$t('settings.local_sources.view')"
             icon="ic:twotone-remove-red-eye"
             @click="amethyst.showItem(source.path)"

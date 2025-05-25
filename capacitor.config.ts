@@ -4,7 +4,7 @@ import type { CapacitorConfig } from "@capacitor/cli";
 import ip from "ip";
 
 const commonConfig: CapacitorConfig = {
-  appId: "com.example.app",
+  appId: "moe.geoxor.amethyst",
   backgroundColor: "#0f1119",
   appName: "Amethyst",
   webDir: "release/dist/renderer",
@@ -20,8 +20,12 @@ const commonConfig: CapacitorConfig = {
     },
   },
   ios: {
-    path: "src/ios"
-  },
+    path: "src/ios",
+    zoomEnabled: false,
+    contentInset: "automatic",
+    preferredContentMode: "mobile",
+    initialFocus: false
+  }
 };
 
 const devConfig: CapacitorConfig = {

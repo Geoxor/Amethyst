@@ -305,7 +305,7 @@ onKeyStroke("Delete", () => {
 <template>
   <div
     ref="nodeEditor"
-    class="h-full w-full py-2 px-4 pb-32 text-text-title"
+    class="h-full w-full text-text-title"
   >
     <base-toolbar>
       <base-toolbar-button
@@ -394,17 +394,19 @@ onKeyStroke("Delete", () => {
         :key="node.properties.id"
         #[node.getSlotName()]
       >
-        <span
-          @click="useInspector().inspectAndShow(node)"
-        >
+        <div v-bind="$attrs">
+          <span
+              @click="useInspector().inspectAndShow(node)"
+          >
           <component
-            :is="node.component"
-            :node="node"
-            :class="[
+              :is="node.component"
+              :node="node"
+              :class="[
               useInspector().state.isVisible && (useInspector().state.currentItem == node as any) && 'currentlyInspecting',
             ]"
           />
         </span>
+        </div>
       </template>
     </vue-flow>
   </div>
@@ -440,7 +442,8 @@ onKeyStroke("Delete", () => {
 
 .vue-flow__node {
   .minimenu {
-    @apply invisible opacity-0 duration-100;
+    @apply invisible opacity-0;
+    transition-duration: var(--transition-duration);
   }
 
   &:hover {
@@ -467,7 +470,9 @@ onKeyStroke("Delete", () => {
   
 .vue-flow__edge {
   path {
-    @apply stroke-surface-400 duration-100 transition-colors;
+    @apply stroke-surface-400 transition-colors;
+    transition-duration: var(--transition-duration);
+
   }
 
   &:hover path {
@@ -480,7 +485,8 @@ onKeyStroke("Delete", () => {
 }
 
 .vue-flow__handle {
-  @apply border-surface-400 border-opacity-60 h-1/2 rounded-2px hover:border-accent bg-surface-800 hover:bg-surface-600 duration-100transition-colors;
+  @apply border-surface-400 border-opacity-60 h-1/2 rounded-2px hover:border-accent bg-surface-800 hover:bg-surface-600 transition-colors;
+  transition-duration: var(--transition-duration);
 }
 
 </style>

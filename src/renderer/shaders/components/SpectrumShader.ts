@@ -16,9 +16,15 @@ export const SpectrumShader = `
 
   void main(){
     vec2 uv = gl_FragCoord.xy / u_resolution;
-    float amplitude = u_amplitudes[int(uv.x * float(u_amplitudes.length()))];
-    float left = u_amplitudes[int((uv.x - 1.0 / u_resolution.x) * float(u_amplitudes.length()))];
-    float right = u_amplitudes[int((uv.x + 1.0 / u_resolution) * float(u_amplitudes.length()))];
+    int i = int(uv.x * float(u_amplitudes.length()));
+
+    // fixes: https://github.com/Geoxor/Amethyst/issues/827
+    int left_i = max(int((uv.x - 1.0 / u_resolution.x) * float(u_amplitudes.length())), 0);
+    int right_i = min(int((uv.x + 1.0 / u_resolution.x) * float(u_amplitudes.length())), int(u_amplitudes.length()) - 1);
+
+    float amplitude = u_amplitudes[i];
+    float left = u_amplitudes[left_i];
+    float right = u_amplitudes[right_i];
     float lowest = min(left, right);
     float dist = (amplitude - uv.y) * u_resolution.y;
 

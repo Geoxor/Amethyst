@@ -85,18 +85,14 @@ const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
   contextMenu.open({ x, y }, menuItems);
 };
 
-const handleTrackDragStart = (e: DragEvent, path: Track) => {
-  window.electron.startDrag(path.absolutePath);
-  (e.target as HTMLDivElement).classList.add("dragging");
-};
-
 </script>
 
 <template>
-  <div class="text-13px text-text-title min-h-0 flex flex-col text-left relative select-none "
-    :class="[amethyst.getCurrentPlatform() == 'mobile' && 'h-[calc(100%-228px)]']">
+  <div
+class="text-13px text-text-title min-h-0 flex flex-col text-left relative select-none "
+    >
     <div
-      class="flex text-left font-weight-user-defined sticky top-0 z-10 bg-surface-900 py-2 px-2 columnHeader min-h-36px"
+      class="flex text-left font-weight-user-defined sticky top-0 bg-surface-900 py-2 px-2 columnHeader min-h-36px"
       :class="[amethyst.player.queue.currentSortingDirection.value]"
       @contextmenu="handleColumnContextMenu($event)"
     >
@@ -137,7 +133,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
       </div>
       <div
         v-if="columns.filename"
-        class="flex-grow w-[200px] w-min-100px"
+        class="flex-grow w-[200px] min-w-30px"
         :class="[currentShortMethod == 'filename' && 'activeSort']"
         @click="setCurrentSortedMethod('filename')"
       >
@@ -150,7 +146,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
       </div>
       <div
         v-if="columns.title"
-        class="flex-grow w-[200px] w-min-100px"
+        class="flex-grow w-[200px] min-w-30px"
         :class="[currentShortMethod == 'title' && 'activeSort']"
         @click="setCurrentSortedMethod('title')"
       >
@@ -163,7 +159,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
       </div>
       <div
         v-if="columns.artist"
-        class="flex-grow w-[200px] w-min-100px"
+        class="flex-grow w-[200px] min-w-30px"
         :class="[currentShortMethod == 'artist' && 'activeSort']"
         @click="setCurrentSortedMethod('artist')"
       >
@@ -176,13 +172,13 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
       </div>
       <div
         v-if="columns.location"
-        class="flex-none w-[70px] w-min-100px "
+        class="flex-none w-[70px] min-w-30px "
       >
         {{ $t('queue.column.location') }}
       </div>
       <div
         v-if="columns.album"
-        class="flex-grow w-[200px] w-min-100px"
+        class="flex-grow w-[200px] min-w-30px"
         :class="[currentShortMethod == 'album' && 'activeSort']"
         @click="setCurrentSortedMethod('album')"
       >
@@ -385,12 +381,12 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
     </div>
 
     <RecycleScroller
-      class="h-full w-full pb-32 leading-tight"
+      class="h-full w-full pb-16 leading-tight"
       :items="tracks"
       :item-size="ITEM_HEIGHT"
       key-field="path"
       :buffer="24"
-      :class="[amethyst.getCurrentPlatform() != 'mobile' && 'pb-32']"
+      :class="[amethyst.getCurrentPlatform() !== 'mobile' && 'pb-32']"
     >
       <template #default="{ item } : { item: Track}">
         <div
@@ -406,7 +402,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
           ]"
           draggable="true"
           @contextmenu="handleTrackContextMenu($event, item)"
-          @dragstart.prevent="handleTrackDragStart($event, item)"
+          @dragstart.prevent="amethyst.handleTrackDragStart($event, item)"
           @keypress.prevent
           @click="isHoldingControl ? amethyst.showItem(item.path) : amethyst.player.play(item)"
         >
@@ -477,14 +473,14 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 
           <div
             v-if="columns.filename"
-            class="flex-grow w-[200px] w-min-100px"
+            class="flex-grow w-[200px] min-w-30px"
           >
             <span>{{ item.getFilename() }}</span>
           </div>
 
           <div
             v-if="columns.title"
-            class="flex-grow w-[200px] w-min-100px"
+            class="flex-grow w-[200px] min-w-30px"
           >
             <span v-if="item.getTitle()">{{ item.getTitle() }}</span>
             <not-applicable-text v-else />
@@ -492,7 +488,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 
           <div
             v-if="columns.artist"
-            class="flex-grow w-[200px] w-min-100px"
+            class="flex-grow w-[200px] min-w-30px"
           >
             <span v-if="item.getArtistsFormatted()">{{ item.getArtistsFormatted() }}</span>
             <not-applicable-text v-else />
@@ -511,7 +507,7 @@ const handleTrackDragStart = (e: DragEvent, path: Track) => {
 
           <div
             v-if="columns.album"
-            class="flex-grow w-[200px] w-min-100px "
+            class="flex-grow w-[200px] min-w-30px "
           >
             <span v-if="item.getAlbum()">{{ item.getAlbum() }}</span>
             <not-applicable-text v-else />
@@ -656,7 +652,7 @@ tr {
 }
 
 .columnHeader > div {
-  @apply flex items-center relative;
+  @apply flex items-center relative min-w-0;
 
   &:hover:not(.activeSort) {@apply  hover:text-accent; }
 }
