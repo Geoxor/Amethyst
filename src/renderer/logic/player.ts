@@ -4,7 +4,7 @@ import { secondsToColinHuman, secondsToHuman } from "@shared/formating.js";
 import { useLocalStorage } from "@vueuse/core";
 import { ref, watch } from "vue";
 
-import type { Amethyst } from "@/amethyst.js";
+import {Amethyst,amethyst} from "@/amethyst.js";
 import { AmethystAudioNodeManager } from "@/logic/audioManager.js";
 import { EventEmitter } from "@/logic/eventEmitter.js";
 import type { PossibleSortingMethods} from "@/logic/queue.js";
@@ -29,6 +29,7 @@ const playerEventMap = {
   "player:next": {} as Track,
   "player:previous": {} as Track,
   "player:trackChange": {} as Track,
+  "player:trackFinished": {} as { track?: Track, startTimestamp: number },
 } as const;
 
 export type PlayerEvents = {
@@ -51,6 +52,7 @@ export class Player extends EventEmitter<PlayerEvents> {
 
   public loopMode = ref(LoopMode.None);
   public currentTime = ref(0);
+  public timeStarted = ref(0);
   public queue = new Queue(this.amethyst);
 
   public input = new Audio();
@@ -105,6 +107,7 @@ export class Player extends EventEmitter<PlayerEvents> {
   }
   
   private async setPlayingTrack(track: Track) {
+    this.timeStarted.value = Math.floor(Date.now() / 1000);
     this.input.src = ["mac", "linux"].includes(this.amethyst.getCurrentOperatingSystem()) ? `file://${track.path}` : track.path;
     this.input.preservesPitch = false;
     this.setPlaybackSpeed(this.pitchSemitones.value);
@@ -181,6 +184,8 @@ export class Player extends EventEmitter<PlayerEvents> {
   * Should be called when a track ended
   */
   public next() {
+    this.emit("player:trackFinished", { track: this.getCurrentTrack(), startTimestamp: this.timeStarted.value });
+
     if (this.loopMode.value === LoopMode.One) {
       this.play(this.currentTrackIndex.value);
       return;
