@@ -29,7 +29,7 @@ defineProps<{
 
 <style lang="postcss">
 .tooltip {
-  @apply z-2;
+  @apply z-200;
 }
 .tooltip.popover {
   @apply text-text-title shadow-xl;
