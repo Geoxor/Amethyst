@@ -106,7 +106,7 @@ export class State extends EventEmitter<StateEvents> {
 		document.documentElement.style.setProperty("--smoothing-duration", `${this.settings.metering.decibelMeter.smoothingDuration}ms`);
 		document.documentElement.style.setProperty("--font-weight", `${(FONT_WEIGHTS.indexOf(this.settings.appearance.fontWeight) + 1) * 100}`);
 
-		if (this.amethyst.getCurrentOperatingSystem() != 'android') {
+		if (!["ios", "android"].includes(this.amethyst.getCurrentOperatingSystem())) {
 			window.electron.ipcRenderer.invoke<RtAudioDeviceInfo[]>("get-realtime-devices").then(devices => {
 				this.realtimeDevices.value = devices;
 

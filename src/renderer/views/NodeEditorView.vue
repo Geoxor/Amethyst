@@ -306,17 +306,19 @@ onKeyStroke("Delete", () => {
         :key="node.properties.id"
         #[node.getSlotName()]
       >
-        <span
-          @click="useInspector().inspectAndShow(node)"
-        >
+        <div v-bind="$attrs">
+          <span
+              @click="useInspector().inspectAndShow(node)"
+          >
           <component
-            :is="node.component"
-            :node="node"
-            :class="[
+              :is="node.component"
+              :node="node"
+              :class="[
               useInspector().state.isVisible && (useInspector().state.currentItem == node as any) && 'currentlyInspecting',
             ]"
           />
         </span>
+        </div>
       </template>
     </vue-flow>
   </div>

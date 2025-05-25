@@ -57,6 +57,14 @@ Emits when user changes the playing track
 amethyst.player.on("player:trackChange", (track: Track) => {});
 ```
 
+### player:trackFinished
+Emits when a track has finished playing before switching to the next one
+
+```ts
+amethyst.player.on("player:trackFinished", ({ track: Track, startTimestamp: number }) => {});
+```
+
+
 ### player:pitchChange
 
 Emits when user changes the playback rate / pitch shift (default is 1)

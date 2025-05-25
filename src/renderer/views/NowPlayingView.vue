@@ -22,7 +22,7 @@ const showVectorscope = useLocalStorage('showVectorscopeOverCover', false);
       <div :url="currentTrack?.getCover()" class="w-full h-64 bg-gradient-to-t absolute-xy top-32 from-transparent  to-surface-900"/>
     </template>
 
-    <div class="absolute-xy top-5/16 flex flex-col items-center gap-4">
+    <div class="absolute-xy top-5/16 flex z-1 flex-col items-center gap-4">
       <cover-art v-if="!showVectorscope" :url="currentTrack?.getCover()"
         class="w-72 h-72 rounded-8px "
         @click="showVectorscope = true" />
@@ -36,7 +36,7 @@ const showVectorscope = useLocalStorage('showVectorscopeOverCover', false);
         :title="currentTrack?.getTitleFormatted() || 'Amethyst'"
         :subtitle="currentTrack?.getArtistsFormatted() || 'Amethyst'" />
 
-      <PlaybackButtons v-if="amethyst.getCurrentPlatform() == 'mobile'" class="z-1 transform-gpu scale-150" />
+      <PlaybackButtons v-if="amethyst.getCurrentPlatform() == 'mobile'" class=" transform-gpu scale-150" />
 
     </div>
     <div class="w-7/8 flex gap-2 flex-col">
