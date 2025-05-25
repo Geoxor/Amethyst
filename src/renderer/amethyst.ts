@@ -10,12 +10,12 @@ import { createI18n } from "vue-i18n";
 
 import { Analytics } from "@/logic/analytics.js";
 import { EventEmitter } from "@/logic/eventEmitter.js";
+import { LastFm } from "@/logic/lastFM.js";
 import { flattenArray } from "@/logic/math.js";
 import { MediaSourceManager } from "@/logic/mediaSources.js";
 import { Player } from "@/logic/player.js";
 import { Shortcuts } from "@/logic/shortcuts.js";
 import type { Track } from "@/logic/track.js";
-import { LastFm } from "@/modules/lastfm.js";
 import { MediaSession } from "@/modules/mediaSession.js";
 import { State } from "@/state.js";
 
