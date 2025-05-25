@@ -27,6 +27,7 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
 </script>
 
 <template>
+  <div>
   <div
     class="duration-user-defined flex select-none h-full text-text-title gap-2 relative rounded-4px hover:border-accent border-solid border-1 border-surface-500 flex gap-2 bg-surface-800  p-2"
     @contextmenu.stop="handleContextMenu"
@@ -93,4 +94,6 @@ const handleContextMenu = ({x, y}: MouseEvent) => {
     :position="Position.Left"
     class=""
   />
+  </div>
+
 </template>
