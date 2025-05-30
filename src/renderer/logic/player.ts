@@ -6,6 +6,7 @@ import { ref, watch } from "vue";
 
 import {Amethyst,amethyst} from "@/amethyst.js";
 import { registerCommand } from "@/components/CommandPalette/registry.js";
+import { useInspector } from "@/components/Inspector/index.js";
 import { AmethystAudioNodeManager } from "@/logic/audioManager.js";
 import { EventEmitter } from "@/logic/eventEmitter.js";
 import type { PossibleSortingMethods} from "@/logic/queue.js";
@@ -89,8 +90,12 @@ export class Player extends EventEmitter<PlayerEvents> {
     registerCommand('command.player.skip_next', () => this.next(), 'ic:round-skip-next');
     registerCommand('command.player.skip_previous', () => this.previous(), 'ic:round-skip-previous');
     registerCommand('command.player.stop', () => this.stop(), 'ic:round-stop');
-    registerCommand('command.player.toggle_favorite_current', () => this.getCurrentTrack()?.toggleFavorite(), 'ic:round-favorite');
     registerCommand('command.player.play_random', () => this.playRandomTrack(), 'ic:round-shuffle');
+
+    registerCommand('command.track.toggle_favorite', () => this.getCurrentTrack()?.toggleFavorite(), 'ic:round-favorite');
+    registerCommand('command.track.export_cover_art', () => this.getCurrentTrack()?.exportCover(), 'ic:twotone-add-photo-alternate');
+    registerCommand('command.track.inspect', () => useInspector().inspectAndShow(this.getCurrentTrack()!), "mdi:flask");
+    registerCommand('command.track.show_explorer', () => amethyst.showItem(this.getCurrentTrack()!.path), "ic:twotone-pageview");
   }
 
   private showEventLogs() {
