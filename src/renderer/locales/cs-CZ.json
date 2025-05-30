@@ -12,6 +12,7 @@
   "discovery.favorites.description": "Nejoblíbenější skladby",
   "discovery.random.title": "Náhodné",
   "discovery.random.description": "Výběr náhodných skladeb",
+  "favorites.no_favorites": "You don't have any favorite tracks ( ´•︵•` )",
   "output_diagram.title": "Výstup diagramu",
   "output_diagram.source.title": "Zdroj",
   "output_diagram.decoder.title": "Dekodér",
