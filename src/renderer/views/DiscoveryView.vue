@@ -12,7 +12,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="w-full py-2 pl-4 pr-2 text-text-title">
+  <div class="w-full py-2 pl-4 pr-2 text-text-title ">
     <route-header :title="$t('route.discovery')" />
     <div class="flex gap-2 mt-1 mr-2">
       <big-button
@@ -50,7 +50,7 @@ onMounted(() => {
         @click="$router.push({ name: 'settings' })"
       />
     </div>
-    <div class="flex flex-col overflow-y-auto pb-32 gap-2 h-full">
+    <div class="flex flex-col overflow-y-auto gap-2 h-full pb-56">
       <discovery-feed
         :title="$t('discovery.for_you.title')"
         :subtitle="$t('discovery.for_you.description')"
