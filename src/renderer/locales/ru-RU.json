@@ -12,6 +12,7 @@
   "discovery.favorites.description": "Топ самых проигранных избранных песен",
   "discovery.random.title": "Случайно",
   "discovery.random.description": "Подборка случайных песен",
+  "favorites.no_favorites": "You don't have any favorite tracks ( ´•︵•` )",
   "output_diagram.title": "Диаграмма вывода",
   "output_diagram.source.title": "Источник",
   "output_diagram.decoder.title": "Декодер",
