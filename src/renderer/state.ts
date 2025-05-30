@@ -64,6 +64,7 @@ export class State extends EventEmitter<StateEvents> {
 
 	public showBigSpectrum = ref(false);
 	public showOutputDiagram = ref(false);
+	public showCommandPalette = ref(false);
 	public followQueue = ref(false);
 	public isSnappingToGrid = ref(false);
 	public zoomLevel = useLocalStorage("zoomValue", 1);

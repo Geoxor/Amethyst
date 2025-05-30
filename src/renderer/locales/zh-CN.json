@@ -28,7 +28,7 @@
   "menu.utility.clear_queue": "清空队列",
   "menu.utility.clear_errored_and_deleted": "清除错误/已删除项",
   "menu.utility.refresh_all_metadata": "刷新所有元数据",
-  "menu.utility.refresh_window": "刷新窗口",
+  "menu.utility.reload_window": "刷新窗口",
   "menu.utility.check_for_updates": "检查更新",
   "menu.view": "视图",
   "menu.view.zoom_in": "放大",

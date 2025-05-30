@@ -28,7 +28,7 @@
   "menu.utility.clear_queue": "Eliminar cola",
   "menu.utility.clear_errored_and_deleted": "Eliminar borrado/con error",
   "menu.utility.refresh_all_metadata": "Actualizar todos los metadatos",
-  "menu.utility.refresh_window": "Refrescar ventana",
+  "menu.utility.reload_window": "Refrescar ventana",
   "menu.utility.check_for_updates": "Buscar actualizaciones",
   "menu.view": "Vista",
   "menu.view.zoom_in": "Acercar",

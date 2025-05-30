@@ -19,6 +19,7 @@ import type { Track } from "@/logic/track.js";
 import { MediaSession } from "@/modules/mediaSession.js";
 import { State } from "@/state.js";
 
+import { registerCommand } from "./components/CommandPalette/registry.js";
 import { getThemeColorHex } from "./logic/color.js";
 import { router } from "./router.js";
 
@@ -366,15 +367,21 @@ export class Amethyst extends AmethystBackend {
 
     this.handleFileDrops();
     this.handleDiscordRichPresence();
-    this.updateCurrentOutputDevice();
     this.handleLastfm();
+    
+    this.updateCurrentOutputDevice();
 
     if (this.state.settings.behavior.autoPlayOnStartup) {
       const track = this.player.queue.getTrack(0);
       track && this.player.play(track);
     }
 
-
+    registerCommand('menu.utility.reload_window', () => this.reload(),'ic:round-refresh');
+    registerCommand('menu.view.show_developer_tools', () => this.openDevTools(),'ic:round-bug-report');
+    registerCommand('menu.about.guides', () => this.openLink('https://amethyst.geoxor.moe/guides'),"ic:twotone-book" )
+    registerCommand('menu.about.user_manual', () => this.openLink('https://amethyst.geoxor.moe/user-manual'), "ic:twotone-menu-book")
+    registerCommand('menu.about.github_repository', () => this.openLink('https://github.com/geoxor/amethyst'), "mdi:github")
+    registerCommand('menu.about.discord_server', () => this.openLink('https://discord.gg/geoxor'), "ic:baseline-discord")
   }
 
   private handleLastfm() {
