@@ -57,6 +57,7 @@ onMounted(() => {
         :tracks="amethyst.analytics.tracksBasedOnGenres.value"
       />
       <discovery-feed
+        v-if="amethyst.analytics.tracksBasedOnFavorites.value.size > 0"
         :title="$t('discovery.favorites.title')"
         :subtitle="$t('discovery.favorites.description')"
         :tracks="amethyst.analytics.tracksBasedOnFavorites.value"

@@ -56,29 +56,16 @@ const modifier = ref<HTMLDivElement>();
 let accumulatedDelta = 0;
 let initialValue = 0;
 let currentIdx = 0;
+let initialTouchX = 0;
 
 const displayValue = computed(() => {
   if (props.percent)
     return `${(model.value * 100).toFixed(0)}%`;
   return props.step < 1 ? model.value.toFixed(2) : model.value;
 });
-// Sets model to 0 if alt is held. Otherwise sets dragging to true.
-const onMouseDown = (e: MouseEvent) => {
-  checkForDoubleClick();
-  if (e.altKey) resetValue();
-  else {
-    modifier.value?.requestPointerLock({
-      unadjustedMovement: true,
-    });
 
-    modifier.value!.addEventListener("mouseup", () => document.exitPointerLock());
-
-    currentIdx = props.range.indexOf(model.value || props.default);
-    
-    dragging.value = true;
-    accumulatedDelta = 0;
-    initialValue = model.value;
-  }
+const roundNearestStep = (value: number) => {
+  return Math.ceil(value / props.step) * props.step;
 };
 
 let clicks = 0; // for checking double clicks
@@ -102,15 +89,65 @@ const checkForDoubleClick = () => {
   clicks++;
 };
 
-const roundNearestStep = (value: number) => {
-  return Math.ceil(value / props.step) * props.step;
+const onMouseUp = () => {
+  dragging.value = false;
 };
 
-const onMove = (e: MouseEvent) => {
+const onMouseMove = (e: MouseEvent) => {
   if (!dragging.value) return;
-  const scale = props.max - props.min;
   const deltaY = e.movementY;
   accumulatedDelta -= deltaY;
+  adjustValue()
+};
+
+const onMouseDown = (e: MouseEvent) => {
+  checkForDoubleClick();
+  if (e.altKey) resetValue();
+  else {
+    modifier.value?.requestPointerLock({
+      unadjustedMovement: true,
+    });
+
+    modifier.value!.addEventListener("mouseup", () => document.exitPointerLock());
+
+    currentIdx = props.range.indexOf(model.value || props.default);
+    
+    dragging.value = true;
+    accumulatedDelta = 0;
+    initialValue = model.value;
+  }
+};
+
+watch(dragging, () => {
+  if (dragging.value) {
+    document.addEventListener("mousemove", onMouseMove);
+    document.addEventListener("mouseup", onMouseUp);
+  }
+  else {
+    document.removeEventListener("mousemove", onMouseMove);
+    document.removeEventListener("mouseup", onMouseUp);
+  }
+});
+
+const onTouchStart = (e: TouchEvent) => {
+  const firstTouch = e.changedTouches[0];
+  if (initialTouchX == 0) initialTouchX = firstTouch.clientY;
+  initialValue = model.value;
+}
+
+const onTouchMove = (e: TouchEvent) => {
+  const firstTouch = e.changedTouches[0];
+  accumulatedDelta = initialTouchX - firstTouch.clientY;
+  adjustValue()
+}
+
+const onTouchEnd = () => {
+  initialTouchX = 0;
+}
+
+
+const adjustValue = () => {
+  const scale = props.max - props.min;
 
   if (props.range.length != 0) {
     const nextValue = (props.range as number[])[Math.max(0, Math.min(props.range.length - 1, currentIdx + ~~(accumulatedDelta / 10)))];
@@ -127,21 +164,8 @@ const onMove = (e: MouseEvent) => {
     ),
     props.max,
   );
-};
-const onMouseUp = () => {
-  dragging.value = false;
-};
+}
 
-watch(dragging, () => {
-  if (dragging.value) {
-    document.addEventListener("mousemove", onMove);
-    document.addEventListener("mouseup", onMouseUp);
-  }
-  else {
-    document.removeEventListener("mousemove", onMove);
-    document.removeEventListener("mouseup", onMouseUp);
-  }
-});
 const pop = ref(false);
 watch(model, () => {
   pop.value = true;
@@ -222,6 +246,9 @@ const handleKeydown = (e: KeyboardEvent) => {
     @mousedown.stop.passive="onMouseDown"
     @mouseup.stop.passive="dragging = false"
     @keydown.stop="handleKeydown"
+    @touchmove.prevent="onTouchMove"
+    @touchstart.stop="onTouchStart"
+    @touchend.stop="onTouchEnd"
     @wheel.stop="handleMouseScroll"
   >
     <input
