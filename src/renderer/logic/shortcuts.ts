@@ -34,19 +34,17 @@ export class Shortcuts {
     // please name these keys in the following syntax
     // <noun>.<verb>.<name>
     "audio.play.pause": [[" "], () => {
-      if (amethyst.state.showCommandPalette.value) return; 
       amethyst.player.isPlaying.value ? amethyst.player.pause() : amethyst.player.play()
     }], 
     "audio.next": [["ArrowDown"], () => {
-      if (amethyst.state.showCommandPalette.value) return; 
       amethyst.player.skip();
     }],
     "audio.previous": [["ArrowUp"], () => {
-      if (amethyst.state.showCommandPalette.value) return; 
       amethyst.player.previous();
     }],
     "audio.seek.forward": [["ArrowRight"], () => amethyst.player.seekForward()],
     "audio.seek.backward": [["ArrowLeft"], () => amethyst.player.seekBackward()],
+    "track.toggle_favorite": [["f"], () => amethyst.player.getCurrentTrack()?.toggleFavorite()],
     "audio.volume.up": [["PageUp"], () => amethyst.player.volumeUp()],
     "audio.volume.down": [["PageDown"], () => amethyst.player.volumeDown()],
     "queue.add.file": [["o"], () => this.isCommandOrControlPressed.value && amethyst.openAudioFilesAndAddToQueue()],
@@ -85,6 +83,7 @@ export class Shortcuts {
       // Register the event for each key
       for (let j = 0; j < keys.length; j++)
         onKeyStroke(keys[j], e => {
+          if (amethyst.state.showCommandPalette.value) return; 
           e.stopPropagation();
           action(e);
         });
