@@ -94,8 +94,8 @@ export class Player extends EventEmitter<PlayerEvents> {
 
     registerCommand('command.track.toggle_favorite', () => this.getCurrentTrack()?.toggleFavorite(), 'ic:round-favorite');
     registerCommand('command.track.export_cover_art', () => this.getCurrentTrack()?.exportCover(), 'ic:twotone-add-photo-alternate');
-    registerCommand('command.track.inspect', () => useInspector().inspectAndShow(this.getCurrentTrack()!), "mdi:flask");
-    registerCommand('command.track.show_explorer', () => amethyst.showItem(this.getCurrentTrack()!.path), "ic:twotone-pageview");
+    registerCommand('command.track.inspect', () => useInspector().inspectAndShow(this.getCurrentTrack()!), 'mdi:flask');
+    registerCommand('command.track.show_explorer', () => amethyst.showItem(this.getCurrentTrack()!.path), 'ic:twotone-pageview');
   }
 
   private showEventLogs() {
