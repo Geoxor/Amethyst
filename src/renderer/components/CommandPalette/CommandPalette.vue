@@ -20,14 +20,14 @@ onMounted(() => {
 
 const closePalette = () => amethyst.state.showCommandPalette.value = false;
 
-defineEmits([]);
-onKeyStroke("Escape", closePalette);
-onClickOutside(commandPalette, closePalette)
-
-
 const filteredCommands = computed(() => {
   return commands.filter(command => command.title.toLowerCase().includes(searchText.value.toLowerCase()))
 })
+
+defineEmits([]);
+onKeyStroke("Escape", closePalette);
+onKeyStroke("Enter", () => filteredCommands.value[0].action());
+onClickOutside(commandPalette, closePalette)
 
 </script>
 

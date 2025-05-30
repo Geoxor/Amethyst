@@ -5,6 +5,7 @@ import { useLocalStorage } from "@vueuse/core";
 import { ref, watch } from "vue";
 
 import {Amethyst,amethyst} from "@/amethyst.js";
+import { registerCommand } from "@/components/CommandPalette/registry.js";
 import { AmethystAudioNodeManager } from "@/logic/audioManager.js";
 import { EventEmitter } from "@/logic/eventEmitter.js";
 import type { PossibleSortingMethods} from "@/logic/queue.js";
@@ -82,6 +83,14 @@ export class Player extends EventEmitter<PlayerEvents> {
     });
 
     amethyst.IS_DEV && this.showEventLogs();
+
+    registerCommand('command.player.pause', () => this.pause(), 'ic:round-pause');
+    registerCommand('command.player.resume', () => this.play(), 'ic:round-play-arrow');
+    registerCommand('command.player.skip_next', () => this.next(), 'ic:round-skip-next');
+    registerCommand('command.player.skip_previous', () => this.previous(), 'ic:round-skip-previous');
+    registerCommand('command.player.stop', () => this.stop(), 'ic:round-stop');
+    registerCommand('command.player.toggle_favorite_current', () => this.getCurrentTrack()?.toggleFavorite(), 'ic:round-favorite');
+    registerCommand('command.player.play_random', () => this.playRandomTrack(), 'ic:round-shuffle');
   }
 
   private showEventLogs() {

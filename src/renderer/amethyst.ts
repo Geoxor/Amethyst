@@ -19,6 +19,7 @@ import type { Track } from "@/logic/track.js";
 import { MediaSession } from "@/modules/mediaSession.js";
 import { State } from "@/state.js";
 
+import { registerCommand } from "./components/CommandPalette/registry.js";
 import { getThemeColorHex } from "./logic/color.js";
 import { router } from "./router.js";
 
@@ -366,15 +367,16 @@ export class Amethyst extends AmethystBackend {
 
     this.handleFileDrops();
     this.handleDiscordRichPresence();
-    this.updateCurrentOutputDevice();
     this.handleLastfm();
+    
+    this.updateCurrentOutputDevice();
 
     if (this.state.settings.behavior.autoPlayOnStartup) {
       const track = this.player.queue.getTrack(0);
       track && this.player.play(track);
     }
 
-
+    registerCommand('command.window.reload', () => this.reload(),'ic:round-refresh');
   }
 
   private handleLastfm() {
