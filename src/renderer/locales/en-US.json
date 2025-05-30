@@ -68,6 +68,7 @@
   "menu.about.github_repository": "GitHub repository...",
   "menu.about.discord_server": "Discord server...",
   "search.placeholder": "Search",
+  "search.command_palette.placeholder": "What do you wanna do?",
   "settings.info.tooltip": "Learn more about this setting",
   "settings.local_sources.title": "Local sources",
   "settings.local_sources.description": "Add local folders to your Amethyst library, these will update whenever Amethyst detects new or modified files",

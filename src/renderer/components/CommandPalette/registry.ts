@@ -15,3 +15,5 @@ export const registerCommand = (title: string, action: () => void, icon?: string
 };
 
 export const commands: ICommandDefinition[] = []
+
+export const lastUsedCommands: ICommandDefinition[] = []

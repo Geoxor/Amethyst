@@ -376,7 +376,7 @@ export class Amethyst extends AmethystBackend {
       track && this.player.play(track);
     }
 
-    registerCommand('command.window.reload', () => this.reload(),'ic:round-refresh');
+    registerCommand('menu.utility.reload_window', () => this.reload(),'ic:round-refresh');
   }
 
   private handleLastfm() {
