@@ -28,7 +28,7 @@
   "menu.utility.clear_queue": "Effacer la file d'attente",
   "menu.utility.clear_errored_and_deleted": "Effacer les fichiers erronés / supprimés",
   "menu.utility.refresh_all_metadata": "Actualiser toutes les métadonnées",
-  "menu.utility.refresh_window": "Actualiser la fenêtre",
+  "menu.utility.reload_window": "Actualiser la fenêtre",
   "menu.utility.check_for_updates": "Vérifier les mises à jour",
   "menu.view": "Affichage",
   "menu.view.zoom_in": "Zoom avant",

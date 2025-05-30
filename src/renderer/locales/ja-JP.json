@@ -28,7 +28,7 @@
   "menu.utility.clear_queue": "キューをクリア",
   "menu.utility.clear_errored_and_deleted": "エラー / 削除済みをクリア",
   "menu.utility.refresh_all_metadata": "すべてのメタデータを更新",
-  "menu.utility.refresh_window": "ウィンドウを再読み込み",
+  "menu.utility.reload_window": "ウィンドウを再読み込み",
   "menu.utility.check_for_updates": "アップデートを確認",
   "menu.view": "表示",
   "menu.view.zoom_in": "ズームイン",

@@ -3,11 +3,6 @@
  */
 export const countDomElements = () => document.getElementsByTagName("*").length;
 
-/**
- * Refreshes the current window by reloading the page.
- */
-export const refreshWindow = () => location.reload();
-
 export const saveArrayBufferToFile = (arrayBuffer: ArrayBuffer, options: { filename: string, extension: string }) => {
   const blob = new Blob([arrayBuffer], { type: "application/octet-stream" });
   const url = URL.createObjectURL(blob);

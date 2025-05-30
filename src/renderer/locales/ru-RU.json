@@ -28,7 +28,7 @@
   "menu.utility.clear_queue": "Очистить очередь",
   "menu.utility.clear_errored_and_deleted": "Очистить поврежденные / удаленные файлы",
   "menu.utility.refresh_all_metadata": "Обновить все метаданные",
-  "menu.utility.refresh_window": "Обновить окно",
+  "menu.utility.reload_window": "Обновить окно",
   "menu.utility.check_for_updates": "Проверить обновления",
   "menu.view": "Вид",
   "menu.view.zoom_in": "Приблизить",

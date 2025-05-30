@@ -28,7 +28,7 @@
   "menu.utility.clear_queue": "Tyhjennä jono",
   "menu.utility.clear_errored_and_deleted": "Tyhjennä virheelliset / poistetut",
   "menu.utility.refresh_all_metadata": "Virkistä kaikki metadata",
-  "menu.utility.refresh_window": "Virkistä ikkuna",
+  "menu.utility.reload_window": "Virkistä ikkuna",
   "menu.utility.check_for_updates": "Tarkista päivitykset",
   "menu.view": "Näkymä",
   "menu.view.zoom_in": "Lähennä",

@@ -15,8 +15,10 @@ import MenuSplitter from "@/components/menu/MenuSplitter.vue";
 import LoadingIcon from "@/components/v2/LoadingIcon.vue";
 import TitleText from "@/components/v2/TitleText.vue";
 import AmethystIcon from "@/icons/AmethystIcon.vue";
-import { countDomElements, refreshWindow, smoothTween } from "@/logic/dom";
+import { countDomElements, smoothTween } from "@/logic/dom";
 import { randomIntInRange } from "@/logic/math";
+
+import { registerCommand } from "./CommandPalette/registry";
 
 const min = ref(Number.POSITIVE_INFINITY);
 const max = ref(Number.NEGATIVE_INFINITY);
@@ -80,6 +82,9 @@ const playEasterEggSound = () => {
   audioElement.remove();
 }
 provide("menuGroupRef", menuGroupRef);
+
+registerCommand('menu.utility.refresh_all_metadata', () => amethyst.player.queue.fetchAsyncData(true), 'ic:round-refresh')
+registerCommand('menu.utility.check_for_updates', () => amethyst.checkForUpdates(), 'ic:twotone-update')
 </script>
 
 <template>
@@ -134,9 +139,9 @@ provide("menuGroupRef", menuGroupRef);
         />
         <menu-option
           :shortcuts="[commandOrControlSymbol, 'R']"
-          :title="$t('menu.utility.refresh_window')"
+          :title="$t('menu.utility.reload_window')"
           icon="ic:twotone-refresh"
-          @click="refreshWindow"
+          @click="amethyst.reload()"
         />
 
         <menu-splitter 
