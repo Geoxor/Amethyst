@@ -381,7 +381,7 @@ class="text-13px text-text-title min-h-0 flex flex-col text-left relative select
     </div>
 
     <RecycleScroller
-      class="h-full w-full pb-16 leading-tight"
+      class="h-full w-full pb-16 pr-1.5 leading-tight"
       :items="tracks"
       :item-size="ITEM_HEIGHT"
       key-field="path"
