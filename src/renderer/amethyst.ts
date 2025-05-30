@@ -377,6 +377,11 @@ export class Amethyst extends AmethystBackend {
     }
 
     registerCommand('menu.utility.reload_window', () => this.reload(),'ic:round-refresh');
+    registerCommand('menu.view.show_developer_tools', () => this.openDevTools(),'ic:round-bug-report');
+    registerCommand('menu.about.guides', () => this.openLink('https://amethyst.geoxor.moe/guides'),"ic:twotone-book" )
+    registerCommand('menu.about.user_manual', () => this.openLink('https://amethyst.geoxor.moe/user-manual'), "ic:twotone-menu-book")
+    registerCommand('menu.about.github_repository', () => this.openLink('https://github.com/geoxor/amethyst'), "mdi:github")
+    registerCommand('menu.about.discord_server', () => this.openLink('https://discord.gg/geoxor'), "ic:baseline-discord")
   }
 
   private handleLastfm() {

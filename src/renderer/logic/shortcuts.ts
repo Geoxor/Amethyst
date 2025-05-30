@@ -10,12 +10,14 @@ export type CustomShortcutBindings = Record<string, string[]>;
 // Stops default HTML actions like scrolling when tapping space or seeking with pageup/down after clicking the seekbar
 window.addEventListener("keydown", function(e) {
   switch (e.code) {
-    case "Space":
     case "PageDown":
     case "PageUp":
     case "ArrowDown":
     case "ArrowUp":
       e.preventDefault();
+      break;
+    case "Space":
+      if (!amethyst.state.showCommandPalette.value) e.preventDefault();
       break;
   }
 });
@@ -31,7 +33,10 @@ export class Shortcuts {
   public DEFAULT_BINDINGS: ShortcutBindings = {
     // please name these keys in the following syntax
     // <noun>.<verb>.<name>
-    "audio.play.pause": [[" "], () => amethyst.player.isPlaying.value ? amethyst.player.pause() : amethyst.player.play()],
+    "audio.play.pause": [[" "], () => {
+      if (amethyst.state.showCommandPalette.value) return; 
+      amethyst.player.isPlaying.value ? amethyst.player.pause() : amethyst.player.play()
+    }], 
     "audio.next": [["ArrowDown"], () => {
       if (amethyst.state.showCommandPalette.value) return; 
       amethyst.player.skip();

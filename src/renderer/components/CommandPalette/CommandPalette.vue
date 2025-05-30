@@ -3,6 +3,9 @@ import { Icon } from "@iconify/vue";
 import { onClickOutside, onKeyStroke, useKeyModifier } from '@vueuse/core';
 import { computed, ref } from 'vue';
 import { onMounted, watch } from "vue";
+const { t } = useI18n()
+
+import { useI18n } from "vue-i18n";
 
 import { amethyst } from '@/amethyst';
 
@@ -24,7 +27,7 @@ onMounted(() => {
 const closePalette = () => amethyst.state.showCommandPalette.value = false;
 
 const filteredCommands = computed(() => {
-  return commands.filter(command => command.title.toLowerCase().includes(searchText.value.toLowerCase()))
+  return commands.filter(command => t(command.title).toLowerCase().includes(searchText.value.toLowerCase()))
 })
 
 watch(() => filteredCommands.value.length, (newLength) => {
@@ -41,7 +44,6 @@ const selectPrevious = () => {
   selectedCommand.value -= 1;
   if (selectedCommand.value < 0) selectedCommand.value = Math.min( NUMBER_OF_COMMANDS - 1, filteredCommands.value.length - 1);
 }
-
 onKeyStroke("Escape", closePalette);
 onKeyStroke("Enter", (e) => {
   e.preventDefault()
@@ -63,6 +65,8 @@ const handleClick = (command: ICommandDefinition) => {
   command.action(); 
   closePalette()
 }
+
+document.addEventListener('keydown', console.log)
 
 </script>
 
