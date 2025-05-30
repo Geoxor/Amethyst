@@ -33,18 +33,18 @@ onClickOutside(commandPalette, closePalette)
 const handleClick = (command: ICommandDefinition) => {
   command.action(); 
   closePalette()
-  lastUsedCommands.unshift(command);
+  if (!lastUsedCommands.includes(command)) lastUsedCommands.unshift(command);
 }
 
 </script>
 
 <template>
-  <div class="absolute-xy bg-black/50 z-200 w-full h-full flex items-center justify-center">
+  <div class="absolute-xy bg-black/50 z-200 w-full h-full flex items-center justify-center text-text-title">
     <div ref='commandPalette' class="bg-surface-700 rounded-16px flex flex-col gap-2 border-solid border-1px border-surface-500 p-2 min-w-128">
-      <input ref='commandPaletteSearchInput' v-model="searchText" :placeholder="$t('search.command_palette.placeholder')" type="text" class="p-2 py-3 rounded-8px bg-surface-900 text-white" @keydown.stop>
+      <input ref='commandPaletteSearchInput' v-model="searchText" :placeholder="$t('search.command_palette.placeholder')" type="text" class="p-2 py-3 rounded-8px bg-surface-900 " @keydown.stop>
       <div class="flex flex-col">
         <template v-if='filteredCommands.slice(0, 8).length > 0'>
-          <template v-if='searchText == ""'>
+          <template v-if='searchText == "" && lastUsedCommands.length != 0'>
            <button v-for="command in lastUsedCommands.slice(0, 3)" :key="command.title" @click="handleClick(command)">
               <Icon v-if="command.icon"  class="min-h-5 min-w-5" :icon="command.icon" />
               <TitleText :text="$t(command.title)"/>
@@ -67,6 +67,10 @@ const handleClick = (command: ICommandDefinition) => {
 
 <style scoped lang="postcss">
 button {
-  @apply flex gap-2 items-center rounded-8px p-2 py-3 text-left focus:bg-accent/15 focus:text-accent hover:bg-primary/15 hover:text-primary;
+  @apply flex gap-2 items-center rounded-8px p-2 py-3 text-left focus:bg-accent/15 focus:text-accent active:bg-accent/15 active:text-accent hover:bg-primary/15 hover:text-primary;
+}
+
+input::placeholder {
+  @apply text-text-title/50 text-12px;
 }
 </style>

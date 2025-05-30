@@ -31,6 +31,7 @@ if (import.meta.env.DEV) routes.push({ path: "/playground", name: "playground", 
 
 const registerRoute = (route: RouteRecordRaw) => {
   if (!route.name) return;
+  if (route.name == 'now-playing') return;
   registerCommand(`command.router.go.${route.name?.toString().replaceAll('-', "_")}`, () => router.push({name: route.name}), 'ic:twotone-navigation');
   if (route.children) route.children.forEach(registerRoute);
 }
