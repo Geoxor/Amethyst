@@ -12,6 +12,7 @@
   "discovery.favorites.description": "Las canciones favoritas más reproducidas",
   "discovery.random.title": "Aleatorio",
   "discovery.random.description": "Selección de canciones aleatorias",
+  "favorites.no_favorites": "You don't have any favorite tracks ( ´•︵•` )",
   "output_diagram.title": "Diagrama de salidas",
   "output_diagram.source.title": "Origen",
   "output_diagram.decoder.title": "Decodificador",
