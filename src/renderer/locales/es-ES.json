@@ -71,7 +71,7 @@
   "menu.about.github_repository": "Repositorio de GitHub...",
   "menu.about.discord_server": "Servidor de Discord...",
   "search.placeholder": "Buscar",
-  "search.command_palette.placeholder": "What do you wanna do?",
+  "search.command_palette.placeholder": "¿Qué quieres hacer?",
   "settings.info.tooltip": "Más información sobre esta configuración",
   "settings.local_sources.title": "Orígenes locales",
   "settings.local_sources.description": "Añade carpetas locales a tu biblioteca de Amethyst, estas se actualizarán cada vez que Amethyst detecte archivos nuevos o modificados",
