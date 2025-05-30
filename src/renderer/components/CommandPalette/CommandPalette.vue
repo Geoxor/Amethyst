@@ -28,7 +28,7 @@ const filteredCommands = computed(() => {
 })
 
 watch(() => filteredCommands.value.length, (newLength) => {
-  if (newLength < selectedCommand.value) selectedCommand.value = newLength - 1;
+  if (newLength <= selectedCommand.value) selectedCommand.value = Math.max(0, newLength - 1);
 })
 
 const shiftState = useKeyModifier('Shift')
