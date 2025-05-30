@@ -12,6 +12,7 @@
   "discovery.favorites.description": "The top most played favorite songs",
   "discovery.random.title": "Random",
   "discovery.random.description": "A selection of random songs",
+  "favorites.no_favorites": "You don't have any favorite tracks ( ´•︵•` )",
   "output_diagram.title": "Output diagram",
   "output_diagram.source.title": "Source",
   "output_diagram.decoder.title": "Decoder",
