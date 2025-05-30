@@ -12,6 +12,7 @@
   "discovery.favorites.description": "播放次数最多的收藏歌曲",
   "discovery.random.title": "随机播放",
   "discovery.random.description": "随机选择的歌曲列表",
+  "favorites.no_favorites": "You don't have any favorite tracks ( ´•︵•` )",
   "output_diagram.title": "输出流程图",
   "output_diagram.source.title": "源",
   "output_diagram.decoder.title": "解码器",
