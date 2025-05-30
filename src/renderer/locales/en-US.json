@@ -30,6 +30,7 @@
   "command.player.skip_previous": "Skip to previous song",
   "command.player.stop": "Stop playback",
   "command.player.play_random": "Play random track", 
+  "command.track.toggle_favorite": "Favorite current track",
   "command.track.export_cover_art": "Toggle favorite on current track",
   "command.track.inspect": "Inspect current track",
   "command.track.show_explorer": "Show current track in file system",
