@@ -50,6 +50,7 @@ export class Shortcuts {
     "interface.zoom.reset": [["0"], () => this.isCommandOrControlPressed.value && amethyst.zoom("reset")],
     "interface.reload": [["F5"], () => amethyst.reload()],
     "interface.navigate.settings": [[","], () => this.isCommandOrControlPressed.value && amethyst.openSettings()],
+    "interface.toggle.command_palette": [['k', 'p'], () => this.isCommandOrControlPressed.value && (amethyst.state.showCommandPalette.value = true)],
   };
 
   public bindings = this.DEFAULT_BINDINGS;

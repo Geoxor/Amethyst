@@ -16,6 +16,8 @@ import SpectrumAnalyzerComposite from "@/components/visualizers/SpectrumAnalyzer
 import { getThemeColor, hexToRgb } from "@/logic/color";
 import type { Track } from "@/logic/track";
 
+import CommandPalette from "./components/CommandPalette/CommandPalette.vue";
+
 const ambientBackgroundImage = ref("");
 
 const setAmbientCover = async (track: Track) => {
@@ -145,6 +147,8 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
   </div>
   <div v-else class="flex fixed flex-col bg-surface-900">
     <context-menu v-if="useContextMenu().state.isVisible" />
+
+    <command-palette v-if="amethyst.state.showCommandPalette.value" />
 
     <background-image v-if="amethyst.state.settings.appearance.ambientBackground.show"
       :ambient-background-image="ambientBackgroundImage" />
