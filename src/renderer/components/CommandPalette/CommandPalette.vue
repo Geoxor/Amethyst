@@ -3,14 +3,14 @@ import { Icon } from "@iconify/vue";
 import { onClickOutside, onKeyStroke } from '@vueuse/core';
 import { computed, ref } from 'vue';
 import { onMounted } from "vue";
-import { useRouter } from 'vue-router';
 
 import { amethyst } from '@/amethyst';
 
 import TitleText from '../v2/TitleText.vue';
-const router = useRouter();
+import { commands } from "./registry";
 const commandPalette = ref<HTMLDivElement>();
 const commandPaletteSearchInput = ref<HTMLInputElement>();
+
 const searchText = ref("");
 
 onMounted(() => {
@@ -24,20 +24,6 @@ defineEmits([]);
 onKeyStroke("Escape", closePalette);
 onClickOutside(commandPalette, closePalette)
 
-const defineCommand = (title: string, action: () => void, icon?: string) => ({
-  title,
-  action,
-  icon
-})
-
-const commands = [
-  defineCommand('Go to discovery', () => router.push({name: "discovery"}), 'ic:twotone-navigation'),
-  defineCommand('Go to audio monitor', () => router.push({name: "audio-monitor"}), 'ic:twotone-navigation'),
-  defineCommand('Go to queue', () => router.push({name: "queue"}), 'ic:twotone-navigation'),
-  defineCommand('Go to favorites', () => router.push({name: "favorites"}), 'ic:twotone-navigation'),
-  defineCommand('Go to node editor', () => router.push({name: "node-editor"}), 'ic:twotone-navigation'),
-  defineCommand('Go to settings', () => router.push({name: "settings"}), 'ic:twotone-navigation'),
-]
 
 const filteredCommands = computed(() => {
   return commands.filter(command => command.title.toLowerCase().includes(searchText.value.toLowerCase()))
@@ -50,10 +36,13 @@ const filteredCommands = computed(() => {
     <div ref='commandPalette' class="bg-surface-700 rounded-16px flex flex-col gap-2 border-solid border-2px border-surface-500 p-2 min-w-128">
       <input ref='commandPaletteSearchInput' v-model="searchText" placeholder="Search for some action..." type="text" class="p-2 py-3 rounded-8px bg-surface-900 text-white">
       <div class="flex flex-col">
-        <button v-for="command in filteredCommands" :key="command.title" class=" flex gap-2 items-center rounded-8px p-2 py-3 text-left hover:bg-primary/15 hover:text-primary" @click="command.action(); closePalette()">
-          <Icon v-if="command.icon"  class="min-h-5 min-w-5" :icon="command.icon" />
-          <TitleText :text="command.title"/>
-        </button>
+        <template v-if='filteredCommands.splice(0, 8).length > 0'>
+          <button v-for="command in filteredCommands.splice(0, 8)" :key="command.title" class=" flex gap-2 items-center rounded-8px p-2 py-3 text-left focus:bg-accent/15 focus:text-accent hover:bg-primary/15 hover:text-primary" @click="command.action(); closePalette()">
+            <Icon v-if="command.icon"  class="min-h-5 min-w-5" :icon="command.icon" />
+            <TitleText :text="$t(command.title)"/>
+          </button>
+        </template>
+        <TitleText v-else :text="$t('command.no_search_results')"/>
       </div>
     </div>
   </div>
