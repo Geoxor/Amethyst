@@ -2,15 +2,18 @@ name: Build Amethyst
 
 on:
   push:
+    branches:
+      - master
+      - main
+      - 'v*'
+      - 'feat/**'
     paths-ignore:
       - "**/*.md"
       - 'src/renderer/locales/**'
-      - 'scripts/localizationStatus.js'
   pull_request:
     paths-ignore:
       - "**/*.md"
       - 'src/renderer/locales/**'
-      - 'scripts/localizationStatus.js'
       
 jobs:
   test:
@@ -87,9 +90,6 @@ jobs:
         run: |
           yarn build
           yarn run electron-builder --publish never --win --${{ matrix.arch }}
-
-      - name: Show output files
-        run: dir release\build /s /b
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
