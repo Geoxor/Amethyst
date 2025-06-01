@@ -26,5 +26,10 @@ mdxContent = mdxContent.replace(
   (_, prefix, suffix) => `${prefix}${version}${suffix}`,
 );
 
+mdxContent = mdxContent.replace(
+  /([Aa]methyst[-_.]Setup[-_.])\d+\.\d+\.\d+([-_.a-zA-Z0-9]*)/g,
+  (_, prefix, suffix) => `${prefix}${version}${suffix}`,
+);
+
 fs.writeFileSync(mdxPath, mdxContent, "utf-8");
 console.log(chalk.bgGreen("[Docs]"), chalk.green(`Updated docs/installation.mdx to version ${version}`));
