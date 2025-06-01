@@ -247,7 +247,7 @@ jobs:
           sed -i -E "s/pkgver = .*/pkgver = $PKG_VERSION/g" .SRCINFO
           git add PKGBUILD .SRCINFO
           git commit -m "Update to $PKG_VERSION (Git ref: $COMMIT_LONGHASH)"
-          git push origin master -f
+          git push
 
   publish-releases:
     if: startsWith(github.ref, 'refs/tags/v')
