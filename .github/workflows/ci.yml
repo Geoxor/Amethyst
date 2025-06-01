@@ -301,7 +301,7 @@ jobs:
           artifacts: "*"
 
   update-download-links:
-    # needs: [publish-releases]
+    needs: [publish-releases]
     name: Update download links
     runs-on: ubuntu-latest
     steps:
