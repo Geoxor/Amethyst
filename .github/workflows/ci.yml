@@ -319,10 +319,13 @@ jobs:
       - name: Update download links
         run: yarn update-download-links
 
-      - name: Commit and push changes
+      - name: Commit and push changes as Geoxor
+        env:
+          GITHUB_TOKEN: ${{ secrets.GEOXOR_PERSONAL_GITHUB_TOKEN }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.name "Geoxor"
+          git config user.email "34042825+Geoxor@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
           git add .
           git diff --quiet && git diff --staged --quiet || git commit -m "chore: update download links to latest release"
           git push
