@@ -394,6 +394,16 @@ export class Amethyst extends AmethystBackend {
         }
       }
     });
+
+    this.player.on("player:trackChange", (track: Track) => {
+      const currentTitle = track?.getTitleFormatted();
+      const currentArtist = track?.getArtistsFormatted();
+      const currentDuration = Math.fround(track?.getDurationSeconds() ?? 0);
+      const musicBrainzTrackId = track?.metadata.data?.common.musicbrainz_trackid;
+      if (currentTitle != null && currentArtist != null && currentDuration > 0) {
+        amethyst.lastfm.updateNowPlaying(currentTitle, currentArtist, currentDuration, musicBrainzTrackId);
+      }
+    });
   }
 
   private showEventLogs() {

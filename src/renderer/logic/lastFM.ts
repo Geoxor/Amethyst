@@ -45,8 +45,11 @@ const encodeUrlParams = (params: Map<string, string>): string => {
   return urlParams.toString();
 };
 
+type Pair<T, U> = [T, U];
+
 export class LastFm {
   private needsReAuthentication = false;
+  private lastRequest: Pair<string, Map<string, string>> = ["", new Map()];
 
   constructor(private amethyst: Amethyst) { }
 
@@ -59,14 +62,25 @@ export class LastFm {
 
     switch (error) {
       case 9:
+      {
         this.needsReAuthentication = true;
+        this.authenticate().then(async (authenticated) => {
+          if (authenticated) {
+            const result = await this.sendRequest(this.lastRequest[0], this.lastRequest[1]);
+            console.log(`%c[⚐ Last.fm]%c re-sent last request after re-authenticating session`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);", result);
+          }
+        });
         break;
+      }
       default:
         break;
     }
   }
 
-  private async sendRequest(method: string, urlParams: string, signature: string): Promise<any> {
+  private async sendRequest(method: string, params: Map<string, string>): Promise<any> {
+    const signature = generateLastFmApiSignature(params);
+    const urlParams = encodeUrlParams(params);
+
     const methodUrl = `${LAST_FM_API_BASE}/?${urlParams}&api_sig=${signature}&format=json`;
     const result = await fetch(
       methodUrl,
@@ -79,6 +93,8 @@ export class LastFm {
       return payload;
     }
     else {
+      this.lastRequest[0] = method;
+      this.lastRequest[1] = params;
       this.handleServerError(payload["error"], methodUrl);
       return null;
     }
@@ -94,10 +110,7 @@ export class LastFm {
       params.set("username", this.amethyst.state.settings.integrations.lastFm.username);
       params.set("password", this.amethyst.state.settings.integrations.lastFm.password);
 
-      const signature = generateLastFmApiSignature(params);
-      const urlParams = encodeUrlParams(params);
-
-      const result = await this.sendRequest("POST", urlParams, signature);
+      const result = await this.sendRequest("POST", params);
 
       if (result !== null) {
         console.log(`%c[⚐ Last.fm]%c Authenticated as ${result["session"]["name"]}`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);", result);
@@ -122,15 +135,37 @@ export class LastFm {
         params.set("timestamp", timestamp.toString());
         params.set("track", track);
         params.set("artist", artist);
+        // noinspection DuplicatedCode
         params.set("sk", this.amethyst.state.settings.integrations.lastFm.sessionKey);
 
-        const signature = generateLastFmApiSignature(params);
-        const urlParams = encodeUrlParams(params);
-
-        const result = await this.sendRequest("POST", urlParams, signature);
+        const result = await this.sendRequest("POST", params);
 
         if (result !== null) {
           console.log(`%c[⚐ Last.fm]%c Scrobble -> ${track} by ${artist} was ${result["scrobbles"]["@attr"]["accepted"] > 0 ? "Accepted" : "Rejected"}`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);", result);
+        }
+      }
+    });
+  }
+
+  // https://www.last.fm/api/show/track.updateNowPlaying
+  public updateNowPlaying(track: string, artist: string, duration: number, mbid: string | undefined) {
+    this.authenticate().then(async (authenticated) => {
+      if (authenticated) {
+        const params = new Map<string, string>();
+        params.set("api_key", LAST_FM_API_KEY);
+        params.set("method", "track.updateNowPlaying");
+        params.set("track", track);
+        params.set("artist", artist);
+        params.set("duration", duration.toString());
+        if (mbid != null)
+          params.set("mbid", mbid);
+        // noinspection DuplicatedCode
+        params.set("sk", this.amethyst.state.settings.integrations.lastFm.sessionKey);
+
+        const result = await this.sendRequest("POST", params);
+
+        if (result !== null) {
+          console.log(`%c[⚐ Last.fm]%c UpdateNowPlaying -> ${track} by ${artist}`, "background-color: #ff4800; color: black; font-weight: bold;", "color:rgb(255, 200, 0);", result);
         }
       }
     });
