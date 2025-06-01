@@ -119,40 +119,47 @@ jobs:
             release/build/*.zip.*
 
   build-linux:
-    name: Build Linux
+    name: Build Linux - ${{ matrix.target }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    strategy:
+      matrix:
+        target: [appimage, deb, snap]
+
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20.17.0
           cache: "yarn"
 
       - name: Install linux dependencies
-        run: sudo apt update && sudo apt install libvips libvips-dev libvips-tools rpm snapd libarchive-tools && sudo snap install snapcraft --classic && sudo snap install multipass --beta --classic
+        run: |
+          sudo apt update
+          sudo apt install -y libvips libvips-dev libvips-tools rpm libarchive-tools
+          if [[ "${{ matrix.target }}" == "snap" ]]; then
+            sudo apt install -y snapd
+            sudo snap install snapcraft --classic
+            sudo snap install multipass --beta --classic
+          fi
 
       - name: Install Dependencies
         run: yarn install
 
-      - name: Build Amethyst
-        run: yarn package
+      - name: Build Amethyst for ${{ matrix.target }}
+        run: |
+          yarn build
+          yarn run electron-builder --publish never --linux ${{ matrix.target }}
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: artifact-linux
-          path: |
-            release/build/*.yml
-            release/build/*.yaml
-            release/build/*.AppImage
-            release/build/*.rpm
-            release/build/*.deb
-            release/build/*.pacman
-            release/build/*.snap
+          name: artifact-linux-${{ matrix.target }}
+          path: release/build/*.${{ matrix.target }}
 
   build-android:
     name: Build Android
