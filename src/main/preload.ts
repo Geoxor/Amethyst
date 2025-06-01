@@ -1,8 +1,8 @@
 import type { IpcRendererEvent } from "electron";
 
 // hack: import electron through cjs so it doesn't throw an error.
-const electron = require('electron');
-const { ipcRenderer, dialog, webUtils } = electron
+const electron = require("electron");
+const { ipcRenderer, dialog, webUtils } = electron;
 
 import * as fs from "fs/promises";
 import * as os from "os";

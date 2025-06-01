@@ -22,8 +22,8 @@ export const VALID_BUFFER_SIZES = [256, 512, 1024];
 export const AVAILABLE_THEMES = [
   "amethyst-dark",
   "emerald-dark",
-  "onyx-dark", 
-  "sapphire-dark", 
+  "onyx-dark",
+  "sapphire-dark",
   "rose-dark", // is missing css variables
   "ruby-dark", // is missing css variables
 ];
@@ -31,7 +31,7 @@ export const AVAILABLE_THEMES = [
 export const SPECTRUM_TYPES = [
   "line",
   "bars",
-  "spectrogram"
+  "spectrogram",
 ];
 
 export type SPECTRUM_TYPES_STRING = "line" | "bars" | "spectrogram";
@@ -40,7 +40,7 @@ const DEFAULT_APPEARANCE_SETTINGS = {
   appearance: {
     animationDuration: 100,
     fontWeight: "normal",
-		theme: "amethyst-dark",
+    theme: "amethyst-dark",
     desktopMode: false,
     customColors: {
       enabled: false,
@@ -49,46 +49,46 @@ const DEFAULT_APPEARANCE_SETTINGS = {
         primary: "#A58CDB",
         inspector: "#94afff",
         alert: "#1fa9ff",
-      } 
+      },
     },
     coverBasedColors: false,
     coverBasedIconColors: false,
-		ambientBackground: {
-			show: false,
-			opacity: 10,
-			spin: true,
-			blurStrength: 96,
-			spinSpeed: 64,
-			zoom: 130,
-			blendMode: "normal",
-		},
-		shader: {
-			use: false,
-			selected: "none",
-		},
-		neonMode: false,
-		showPlaybackControls: true,
-		minimalistMode: false,
-		hideCategoryTitles: true,
-		showCoverArt: true,
+    ambientBackground: {
+      show: false,
+      opacity: 10,
+      spin: true,
+      blurStrength: 96,
+      spinSpeed: 64,
+      zoom: 130,
+      blendMode: "normal",
+    },
+    shader: {
+      use: false,
+      selected: "none",
+    },
+    neonMode: false,
+    showPlaybackControls: true,
+    minimalistMode: false,
+    hideCategoryTitles: true,
+    showCoverArt: true,
     compactList: true,
-		showDebugStats: false,
-  }
+    showDebugStats: false,
+  },
 };
 
 const DEFAULT_PERFORMANCE_SETTINGS = {
   performance: {
-		useVsync: true,
-		processingConcurrency: 3,
-		pauseVisualsWhenUnfocused: false,
-  }
+    useVsync: true,
+    processingConcurrency: 3,
+    pauseVisualsWhenUnfocused: false,
+  },
 };
 
 const DEFAULT_BEHAVIOR_SETTINGS = {
   behavior: {
     autoPlayOnStartup: false,
     fetchMetadataOnStartup: true,
-  }
+  },
 };
 
 const DEFAULT_METERING_SETTINGS = {
@@ -100,14 +100,14 @@ const DEFAULT_METERING_SETTINGS = {
       show: true,
       smoothing: 0.5,
       fftSize: 8192,
-      lineThickness: 1
+      lineThickness: 1,
     },
     vectorscope: {
       show: true,
       smoothing: 0.5,
       lissajous: true,
       fftSize: 512,
-      lineThickness: 1
+      lineThickness: 1,
     },
     spectrum: {
       show: true,
@@ -144,7 +144,7 @@ const DEFAULT_METERING_SETTINGS = {
       use: false,
       selected: "none",
     },
-  }
+  },
 };
 
 const DEFAULT_AUDIO_SETTINGS = {
@@ -152,14 +152,14 @@ const DEFAULT_AUDIO_SETTINGS = {
     driver: "default" as "default" | "asio" | "coreaudio" | "alsa",
     bufferSize: 256,
     resampleRate: 44100,
-		outputDeviceName: "default",
+    outputDeviceName: "default",
     outputRealtimeDeviceName: "",
-  }
+  },
 };
 
 const DEFAULT_INTEGRATION_SETTINGS = {
   integrations: {
-		discord: {
+    discord: {
       enabled: true,
     },
     lastFm: {
@@ -168,26 +168,26 @@ const DEFAULT_INTEGRATION_SETTINGS = {
       username: "",
       password: "",
       sessionKey: "",
-    }
-  }
+    },
+  },
 };
 
 const DEFAULT_MEDIA_SOURCE_SETTINGS = {
   mediaSources: {
-    saveMediaSources: [{}] as {type: MediaSourceType, path: string, uuid: string}[],
-  }
+    saveMediaSources: [{}] as { type: MediaSourceType; path: string; uuid: string }[],
+  },
 };
 
 const DEFAULT_KEYBIND_SETTINGS = {
-  keybinds: {}
+  keybinds: {},
 };
 
 const DEFAULT_APPLICATION_SETTINGS = {
   application: {
     autoStart: false,
     autoUpdatesEnabled: true,
-		language: "en-US",
-  }
+    language: "en-US",
+  },
 };
 
 const DEFAULT_COLUMN_SETTINGS = {
@@ -214,7 +214,7 @@ const DEFAULT_COLUMN_SETTINGS = {
     container: true,
     favorite: true,
     size: true,
-  }
+  },
 };
 
 const DEFAULT_SETTINGS = {
@@ -227,13 +227,12 @@ const DEFAULT_SETTINGS = {
   ...DEFAULT_MEDIA_SOURCE_SETTINGS,
   ...DEFAULT_KEYBIND_SETTINGS,
   ...DEFAULT_APPLICATION_SETTINGS,
-  ...DEFAULT_COLUMN_SETTINGS
+  ...DEFAULT_COLUMN_SETTINGS,
 };
-
 
 export const createDefaultSettings = (platform: AmethystPlatforms): typeof DEFAULT_SETTINGS => {
   const defaultSettings = DEFAULT_SETTINGS;
-  if (platform == 'mobile') {
+  if (platform == "mobile") {
     defaultSettings.appearance.minimalistMode = true;
     defaultSettings.metering.decibelMeter.show = false;
     defaultSettings.metering.oscilloscope.show = false;
@@ -267,4 +266,4 @@ export const createDefaultSettings = (platform: AmethystPlatforms): typeof DEFAU
     };
   }
   return defaultSettings;
-}
+};

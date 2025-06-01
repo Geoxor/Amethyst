@@ -4,7 +4,7 @@ const props = defineProps<{ modelValue?: number | string }>();
 const emits = defineEmits(["update:modelValue"]);
 const value = useVModel(props, "modelValue", emits);
 </script>
-  
+
 <template>
   <input
     v-bind="$attrs"

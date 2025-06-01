@@ -3,7 +3,7 @@ import { CloseIcon, MaximizeIcon, MinimizeIcon, UnmaximizeIcon } from "@/icons";
 const emit = defineEmits(["close", "minimize", "maximize", "unmaximize"]);
 defineProps<{ isMaximized: boolean }>();
 </script>
-  
+
 <template>
   <div class="flex no-drag cursor-pointer">
     <button

@@ -13,18 +13,18 @@ export class MediaSession {
     navigator.mediaSession.setActionHandler("pause", () => this.player.pause());
     navigator.mediaSession.setActionHandler("previoustrack", () => this.player.previous());
     navigator.mediaSession.setActionHandler("nexttrack", () => this.player.skip());
-    navigator.mediaSession.setActionHandler("seekbackward", details => { this.player.seekBackward(details.seekOffset || undefined); });
-    navigator.mediaSession.setActionHandler("seekforward", details => { this.player.seekForward(details.seekOffset || undefined); });
-    navigator.mediaSession.setActionHandler("seekto", details => { details.seekTime && this.player.seekTo(details.seekTime); });
+    navigator.mediaSession.setActionHandler("seekbackward", (details) => this.player.seekBackward(details.seekOffset || undefined));
+    navigator.mediaSession.setActionHandler("seekforward", (details) => this.player.seekForward(details.seekOffset || undefined));
+    navigator.mediaSession.setActionHandler("seekto", (details) => details.seekTime && this.player.seekTo(details.seekTime));
     navigator.mediaSession.setActionHandler("stop", () => this.player.stop());
   }
 
   private setEventListeners() {
     this.player.on("player:resume", () => navigator.mediaSession.playbackState = "playing");
     this.player.on("player:pause", () => navigator.mediaSession.playbackState = "paused");
-    this.player.on("player:seek", ({track, seekedTo}) => this.updatePositionState(track.getDuration(), seekedTo));
-    this.player.on("player:pitchChange", ({track}) => this.updatePositionState(track?.getDuration()));
-    this.player.on("player:trackChange", async track => {
+    this.player.on("player:seek", ({ track, seekedTo }) => this.updatePositionState(track.getDuration(), seekedTo));
+    this.player.on("player:pitchChange", ({ track }) => this.updatePositionState(track?.getDuration()));
+    this.player.on("player:trackChange", async (track) => {
       const coverUrl = track.getCover();
       if (!coverUrl) return;
 
@@ -41,6 +41,6 @@ export class MediaSession {
 
   private updatePositionState(duration?: number, position: number = 0) {
     if (!duration) return;
-    navigator.mediaSession.setPositionState({ duration, playbackRate: this.player.input.playbackRate, position});
+    navigator.mediaSession.setPositionState({ duration, playbackRate: this.player.input.playbackRate, position });
   };
 }

@@ -79,7 +79,6 @@ export const decodeDfpwm = async (input: Int8Array): Promise<Float32Array> => {
 
 /// Credit goes to https://github.com/SquidDev-CC/music.madefor.cc
 export const convertDfpwm = async (inputAudio: ArrayBuffer): Promise<ArrayBuffer> => {
-
   const input = await emptyContext.decodeAudioData(inputAudio);
 
   const duration = input.length / input.sampleRate;

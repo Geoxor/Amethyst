@@ -28,7 +28,7 @@
   "menu.utility.clear_queue": "Vymazat frontu",
   "menu.utility.clear_errored_and_deleted": "Vymazat chyby / smazané",
   "menu.utility.refresh_all_metadata": "Obnovit všechna metadata",
-  "menu.utility.refresh_window": "Obnovit okno",
+  "menu.utility.reload_window": "Obnovit okno",
   "menu.utility.check_for_updates": "Zkontrolovat aktualizace",
   "menu.view": "Zobrazit",
   "menu.view.zoom_in": "Přiblížit",

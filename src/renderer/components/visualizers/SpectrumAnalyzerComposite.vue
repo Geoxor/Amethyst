@@ -7,8 +7,8 @@ import { getThemeColor } from "@/logic/color";
 import type { SPECTRUM_TYPES_STRING } from "@/logic/settings";
 
 defineProps<{
-  node: AudioNode,
-  type: SPECTRUM_TYPES_STRING
+  node: AudioNode;
+  type: SPECTRUM_TYPES_STRING;
 }>();
 
 </script>

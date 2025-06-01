@@ -5,7 +5,7 @@ import { amethyst } from "@/amethyst.js";
 
 import TitleSubtitle from "./v2/TitleSubtitle.vue";
 
-const props = defineProps<{title?: string, description?: string, icon: any}>();
+const props = defineProps<{ title?: string; description?: string; icon: any }>();
 
 </script>
 
@@ -63,7 +63,7 @@ button {
       @apply text-primary/100;
     }
   }
-  
+
   &.neonMode.active {
     @apply border-solid border-2 border-primary text-primary;
 

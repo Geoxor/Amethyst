@@ -1,4 +1,9 @@
 {
+  "prettier.enable": false,
+  "editor.formatOnSave": false,
+    "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
   "css.customData": [
     ".vscode/css.json"
   ],
@@ -7,8 +12,6 @@
     "vue",
     "typescript",
   ],
-  "prettier.enable": false,
-  "editor.formatOnSave": false,
   "editor.tokenColorCustomizations": {
       "textMateRules": [
         {
@@ -18,10 +21,6 @@
           }
         }
       ]
-  },
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "always",
-    "source.organizeImports": "never"
   },
   "typescript.inlayHints.variableTypes.enabled": false,
   "typescript.inlayHints.parameterNames.enabled": "all",
@@ -56,6 +55,5 @@
     "**/.factorypath": true
   },
   "testing.automaticallyOpenPeekView": "never",
-  "hide-files.files": [],
   "eslint.experimental.useFlatConfig": true
 }

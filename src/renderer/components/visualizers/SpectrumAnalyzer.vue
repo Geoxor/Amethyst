@@ -10,16 +10,16 @@ import { logParabolicSpectrum, normalize8bit } from "@/logic/math";
 import { SpectrumShader } from "@/shaders/components/SpectrumShader";
 
 const props = defineProps<{
-  node: AudioNode,
-  accentColor: { r: number, g: number, b: number},
-  fftSize: number,
-  smoothing: number,
-  lineThickness: number,
-  maxDecibels: number,
-  minDecibels: number,
-  fillOpacity: number,
-  opacityFalloff: number,
-  paused?: boolean,
+  node: AudioNode;
+  accentColor: { r: number; g: number; b: number };
+  fftSize: number;
+  smoothing: number;
+  lineThickness: number;
+  maxDecibels: number;
+  minDecibels: number;
+  fillOpacity: number;
+  opacityFalloff: number;
+  paused?: boolean;
 }>();
 
 const context = props.node.context;
@@ -41,9 +41,9 @@ amethyst.state.on("theme:change", () => {
   setTimeout(() => {
     const accentColor = getThemeColor("--accent");
     uniformData.u_color.value.set(
-        normalize8bit(accentColor.r),
-        normalize8bit(accentColor.g),
-        normalize8bit(accentColor.b)
+      normalize8bit(accentColor.r),
+      normalize8bit(accentColor.g),
+      normalize8bit(accentColor.b),
     );
   }, 100);
 });
@@ -54,15 +54,15 @@ watch(() => [props.lineThickness, props.fillOpacity, props.opacityFalloff], () =
 });
 
 const uniformData = {
-  u_color: {value: new THREE.Vector3(
+  u_color: { value: new THREE.Vector3(
     normalize8bit(props.accentColor.r),
     normalize8bit(props.accentColor.g),
-    normalize8bit(props.accentColor.b)
-  )},
-  u_amplitudes: {value: new Float32Array(VISUALIZER_BIN_COUNT)},
-  u_fill_opacity: {value: props.fillOpacity},
-  u_line_thickness: {value: props.lineThickness},
-  u_opacity_falloff: {value: props.opacityFalloff},
+    normalize8bit(props.accentColor.b),
+  ) },
+  u_amplitudes: { value: new Float32Array(VISUALIZER_BIN_COUNT) },
+  u_fill_opacity: { value: props.fillOpacity },
+  u_line_thickness: { value: props.lineThickness },
+  u_opacity_falloff: { value: props.opacityFalloff },
 };
 
 const render = (uniforms: Record<string, any>) => {

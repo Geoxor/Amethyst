@@ -28,20 +28,20 @@ const frequencyResponseCanvas = ref() as Ref<HTMLCanvasElement>;
 
 onMounted(() => {
   const ctx = frequencyResponseCanvas.value.getContext("2d")!,
-        w = frequencyResponseCanvas.value.width,
-        h = frequencyResponseCanvas.value.height,
-        frequencies = props.node.calculateFrequencies(frequencyResponseCanvas.value),
-        filterMagResponse = new Float32Array(frequencies.length),
-        filterPhaseResponse = new Float32Array(frequencies.length),
-        frequencyResponse = new Float32Array(frequencies.length);
+    w = frequencyResponseCanvas.value.width,
+    h = frequencyResponseCanvas.value.height,
+    frequencies = props.node.calculateFrequencies(frequencyResponseCanvas.value),
+    filterMagResponse = new Float32Array(frequencies.length),
+    filterPhaseResponse = new Float32Array(frequencies.length),
+    frequencyResponse = new Float32Array(frequencies.length);
 
   const renderFrequencyResponse = () => {
     frequencyResponse.fill(1);
-    props.node.filters.forEach(filter => {
+    props.node.filters.forEach((filter) => {
       filter.getFrequencyResponse(
         frequencies,
         filterMagResponse,
-        filterPhaseResponse
+        filterPhaseResponse,
       );
       for (let j = 0; j < frequencyResponse.length; j++) {
         frequencyResponse[j] *= filterMagResponse[j];
@@ -50,13 +50,13 @@ onMounted(() => {
   };
 
   const draw = () => {
-    renderFrequencyResponse(); 
+    renderFrequencyResponse();
     ctx.clearRect(0, 0, w, h);
     ctx.strokeStyle = getThemeColorHex("--primary-1000");
     ctx.lineWidth = 2;
     ctx.beginPath();
     const maxDb = 32;
-    const minDb = -32; 
+    const minDb = -32;
     for (let x = 0; x < frequencyResponse.length; x++) {
       const gain = frequencyResponse[x];
       const db = 20 * Math.log10(gain);
@@ -185,7 +185,7 @@ const FILTER_TYPES = [
         />
       </div>
       <canvas
-        ref="frequencyResponseCanvas" 
+        ref="frequencyResponseCanvas"
         class="h-168px w-full absolute top-0 left-0"
       />
     </div>

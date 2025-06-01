@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import * as THREE from "three";
-import {onMounted, onUnmounted, ref, watch} from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 
 const props = defineProps<{
-  fragShader: string,
-  vertexShader?: string,
-  uniforms?: Record<string, any>,
-  pauseRendering?: boolean,
-  width?: number,
-  height?: number,
+  fragShader: string;
+  vertexShader?: string;
+  uniforms?: Record<string, any>;
+  pauseRendering?: boolean;
+  width?: number;
+  height?: number;
 }>();
 
 const emit = defineEmits<{
@@ -23,7 +23,7 @@ const getDimensions = () => {
   const bounds = shaderCanvas.value?.parentElement?.getBoundingClientRect();
   return {
     width: Math.round(props.width || bounds?.width || 1),
-    height: Math.round(props.height || bounds?.height || 1)
+    height: Math.round(props.height || bounds?.height || 1),
   };
 };
 
@@ -36,7 +36,7 @@ onMounted(() => {
 
   const scene = new THREE.Scene();
   const camera = new THREE.OrthographicCamera();
-  const renderer = new THREE.WebGLRenderer({canvas: shaderCanvas.value});
+  const renderer = new THREE.WebGLRenderer({ canvas: shaderCanvas.value });
   // Two render targets for double-buffering and the ability to use a backbuffer in shaders
   const renderTarget1 = new THREE.WebGLRenderTarget(1, 1);
   const renderTarget2 = new THREE.WebGLRenderTarget(1, 1);
@@ -47,16 +47,16 @@ onMounted(() => {
 
   const material = new THREE.ShaderMaterial({
     uniforms: {
-      u_time: {value: 0},
-      u_backbuffer: {value: null},
-      u_resolution: {value: new THREE.Vector2()},
+      u_time: { value: 0 },
+      u_backbuffer: { value: null },
+      u_resolution: { value: new THREE.Vector2() },
       ...props.uniforms,
     },
     vertexShader: props.vertexShader || `
       void main() {
         gl_Position = vec4(position, 1.0);
       }`,
-    fragmentShader: props.fragShader
+    fragmentShader: props.fragShader,
   });
 
   const geometry = new THREE.PlaneGeometry(2, 2);
@@ -99,7 +99,8 @@ onMounted(() => {
   watch(() => props.pauseRendering, () => {
     if (props.pauseRendering) {
       renderer.setAnimationLoop(null);
-    } else {
+    }
+    else {
       renderer.setAnimationLoop(render);
     }
   });

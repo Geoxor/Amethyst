@@ -45,18 +45,18 @@ const router = useRouter();
     <tanchjim-logo v-else-if="['tanchjim'].some(string => amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes(string))" />
     <jcally-logo v-else-if="['jcally'].some(string => amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes(string))" />
     <arturia-logo v-else-if="['minifuse', 'arturia'].some(string => amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes(string))" />
-      
+
     <nvidia-logo v-else-if="amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes('nvidia')" />
     <moondrop-logo v-else-if="amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes('moondrop')" />
     <f-l-studio-logo v-else-if="amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes('fl studio')" />
     <apple-logo v-else-if="['apple inc.', 'usb-c to 3.5mm headphone jack adapter'].some(string => amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes(string))" />
-        
+
     <!-- asio last incase we don't recognise the company of the specific asio device -->
     <bluetooth-logo v-else-if="amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes('bluetooth')" />
     <asio-logo v-else-if="amethyst.state.settings.audio.outputDeviceName.toLowerCase().includes('asio')" />
     <icon
       v-else
-      icon="ic:twotone-volume-up" 
+      icon="ic:twotone-volume-up"
       class="h-6 w-6 "
     />
   </generic-blob>

@@ -11,17 +11,17 @@ import type { IContextMenuOption } from "@/state";
 
 import BaseChip from "../BaseChip.vue";
 
-defineOptions({ inheritAttrs: false })
+defineOptions({ inheritAttrs: false });
 
-const props = defineProps<{ title: string, description?: string, node: AmethystAudioNode, meterless?: boolean }>();
-// Context Menu options for this component 
-const handleContextMenu = ({x, y}: MouseEvent) => {
-  useContextMenu().open({x, y}, [
+const props = defineProps<{ title: string; description?: string; node: AmethystAudioNode; meterless?: boolean }>();
+// Context Menu options for this component
+const handleContextMenu = ({ x, y }: MouseEvent) => {
+  useContextMenu().open({ x, y }, [
     { title: "Unhook", icon: "ic:twotone-link-off", action: () => props.node.disconnect() },
     { title: "Bypass", icon: "ic:twotone-power-settings-new", action: () => props.node.toggleBypass() },
     { title: "Reset", icon: "ic:twotone-restart-alt", action: () => props.node.reset() },
     props.node.isRemovable ? { title: "Remove", icon: "ic:twotone-delete", red: true, action: () => amethyst.player.nodeManager.removeNode(props.node) } : undefined,
-  ].filter(o => !!o) as IContextMenuOption[]);
+  ].filter((o) => !!o) as IContextMenuOption[]);
 };
 
 </script>

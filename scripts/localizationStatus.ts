@@ -12,7 +12,8 @@ function flatten(obj: JSONObject, prefix = ""): Record<string, string> {
     const fullKey = prefix ? `${prefix}.${key}` : key;
     if (val && typeof val === "object" && !Array.isArray(val)) {
       Object.assign(acc, flatten(val, fullKey));
-    } else {
+    }
+    else {
       acc[fullKey] = String(val);
     }
     return acc;
@@ -33,15 +34,15 @@ let markdown = "| Locale | Coverage |\n|--------|----------|\n";
 
 // Process each locale
 const files = fs.readdirSync(localesDir).filter(
-  file => file !== baseLocale && file.endsWith(".json")
+  (file) => file !== baseLocale && file.endsWith(".json"),
 );
 
-files.forEach(file => {
+files.forEach((file) => {
   const locale = file.replace(".json", "");
   const target = loadJSON(path.join(localesDir, file));
   const targetKeys = Object.keys(flatten(target));
 
-  const translatedCount = targetKeys.filter(k => baseKeys.includes(k)).length;
+  const translatedCount = targetKeys.filter((k) => baseKeys.includes(k)).length;
   const coverage = ((translatedCount / baseKeys.length) * 100).toFixed(1);
 
   markdown += `| ${locale} | ${coverage}% |\n`;

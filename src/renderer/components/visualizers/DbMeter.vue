@@ -2,7 +2,7 @@
 import { computed, onMounted, onUnmounted, ref, watch } from "vue";
 
 import { amethyst } from "@/amethyst.js";
-const props = defineProps<{ node: AudioNode, channels?: number, pre?: boolean }>();
+const props = defineProps<{ node: AudioNode; channels?: number; pre?: boolean }>();
 const FLOOR = -120;
 const MAX_CHANNELS = 16;
 const currentChannels = computed(() => props.channels || 2);
@@ -22,14 +22,14 @@ onMounted(() => {
     return analyzer;
   });
 
-  let buffers = analyzers.map(analyzer => new Float32Array(analyzer.fftSize));
-  
-  watch(() => amethyst.state.settings.metering.decibelMeter.fftSize, value => {
-    analyzers.forEach(a => a.fftSize = value);
+  let buffers = analyzers.map((analyzer) => new Float32Array(analyzer.fftSize));
+
+  watch(() => amethyst.state.settings.metering.decibelMeter.fftSize, (value) => {
+    analyzers.forEach((a) => a.fftSize = value);
     buffers = analyzers.map(() => new Float32Array(value));
   });
 
-  watch(() => amethyst.state.window.isFocused, isFocused => {
+  watch(() => amethyst.state.window.isFocused, (isFocused) => {
     if (amethyst.state.settings.performance.pauseVisualsWhenUnfocused) {
       if (!isFocused) shouldStopRendering = true;
       else {
@@ -49,7 +49,7 @@ onMounted(() => {
     const sumOfSquares = Array.from({ length: MAX_CHANNELS }, () => 0);
 
     for (let i = 0; i < buffers[0].length; i++) {
-      const powers = buffers.map(buffer => buffer[i] ** 2);
+      const powers = buffers.map((buffer) => buffer[i] ** 2);
       powers.forEach((power, k) => {
         sumOfSquares[k] += power;
         peaks[k] = Math.max(peaks[k], power);
@@ -79,9 +79,9 @@ onUnmounted(() => shouldStopRendering = true);
     <div
       class="relative h-full"
       :style="`
-			width: ${(width + (width / 2)) * (currentChannels) + currentChannels}px;
-			min-width: ${(width + (width / 2)) * (currentChannels) + currentChannels}px;
-		`"
+      width: ${(width + (width / 2)) * (currentChannels) + currentChannels}px;
+      min-width: ${(width + (width / 2)) * (currentChannels) + currentChannels}px;
+    `"
     >
       <div
         v-for="i of currentChannels"
@@ -140,10 +140,10 @@ onUnmounted(() => shouldStopRendering = true);
 
 <style scoped>
 svg {
-	stroke-width: 3px;
+  stroke-width: 3px;
 }
 
 line {
-	stroke-dasharray: 0 8.85;
+  stroke-dasharray: 0 8.85;
 }
 </style>

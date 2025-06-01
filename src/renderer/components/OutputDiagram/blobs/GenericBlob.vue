@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import SubtitleText from "@/components/v2/SubtitleText.vue";
 import TitleText from "@/components/v2/TitleText.vue";
-defineProps<{title: string, subtitle?: string, clickable?: boolean}>();
+defineProps<{ title: string; subtitle?: string; clickable?: boolean }>();
 </script>
 
 <template>
@@ -9,13 +9,13 @@ defineProps<{title: string, subtitle?: string, clickable?: boolean}>();
     class="flex flex-col gap-3 relative"
     :class="[subtitle && 'w-full']"
   >
-    <div 
+    <div
       :class="[clickable && 'hover:bg-surface-400 cursor-pointer transform-gpu hover:scale-110']"
       class="flex items-center duration-user-defined justify-center h-48px w-48px bg-surface-600 rounded-4px text-text-title"
     >
       <slot />
     </div>
-    
+
     <div class="flex flex-col ">
       <title-text
         :text="title"

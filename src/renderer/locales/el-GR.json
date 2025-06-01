@@ -28,7 +28,7 @@
   "menu.utility.clear_queue": "Καθαρισμός ουράς",
   "menu.utility.clear_errored_and_deleted": "Καθαρισμός σφαλμάτων / διαγραμμένων",
   "menu.utility.refresh_all_metadata": "Ανανέωση όλων των μεταδεδομένων",
-  "menu.utility.refresh_window": "Ανανέωση παραθύρου",
+  "menu.utility.reload_window": "Ανανέωση παραθύρου",
   "menu.utility.check_for_updates": "Έλεγχος για ενημερώσεις",
   "menu.view": "Προβολή",
   "menu.view.zoom_in": "Μεγέθυνση",

@@ -100,7 +100,7 @@ const isCurrentTrackFavorited = computed(() => amethyst.player.getCurrentTrack()
           />
         </base-tooltip>
 
-        <!-- <icon
+      <!-- <icon
             icon="ic:round-playlist-add"
             class="h-5 w-5 opacity-75 hover:opacity-100"
           /> -->
