@@ -344,20 +344,43 @@ jobs:
         run: |
           echo "version=$(jq -r .version package.json)" >> $GITHUB_OUTPUT
 
+      - name: Download DMGs and calculate SHA256
+        id: hashes
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+
+          INTEL_URL="https://github.com/Geoxor/Amethyst/releases/download/v${VERSION}/Amethyst-${VERSION}.dmg"
+          ARM_URL="https://github.com/Geoxor/Amethyst/releases/download/v${VERSION}/Amethyst-${VERSION}-arm64.dmg"
+
+          curl -L -o amethyst-intel.dmg "$INTEL_URL"
+          curl -L -o amethyst-arm.dmg "$ARM_URL"
+
+          INTEL_SHA=$(shasum -a 256 amethyst-intel.dmg | awk '{print $1}')
+          ARM_SHA=$(shasum -a 256 amethyst-arm.dmg | awk '{print $1}')
+
+          echo "intel_sha=$INTEL_SHA" >> $GITHUB_OUTPUT
+          echo "arm_sha=$ARM_SHA" >> $GITHUB_OUTPUT
+
       - name: Clone Homebrew Tap Repo
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git clone https://github.com/Geoxor/homebrew-amethyst.git cask-repo
+          git config --global user.name "Geoxor"
+          git config --global user.email "34042825+Geoxor@users.noreply.github.com"
+          git clone https://Geoxor:${{ secrets.GEOXOR_PERSONAL_GITHUB_TOKEN }}@github.com/Geoxor/homebrew-amethyst.git cask-repo
 
-      - name: Update version in cask file
+      - name: Update version and SHA256s in cask
         run: |
-          cd cask-repo
-          sed -i 's/version "[0-9.]*"/version "${{ steps.version.outputs.version }}"/' Casks/a/amethyst-player.rb
+          cd cask-repo/Casks/a
 
-      - name: Commit and Push changes
+          # Replace version
+          sed -i 's/version "[0-9.]*"/version "${{ steps.version.outputs.version }}"/' amethyst-player.rb
+
+          # Replace ARM and Intel SHA blocks
+          sed -i '/on_arm do/,/end/ s|sha256 .*|sha256 "${{ steps.hashes.outputs.arm_sha }}"|' amethyst-player.rb
+          sed -i '/on_intel do/,/end/ s|sha256 .*|sha256 "${{ steps.hashes.outputs.intel_sha }}"|' amethyst-player.rb
+
+      - name: Commit and push changes
         run: |
           cd cask-repo
           git add Casks/a/amethyst-player.rb
-          git commit -m "chore: bump version to v${{ steps.version.outputs.version }}"
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/Geoxor/homebrew-amethyst.git HEAD:main
+          git commit -m "chore: bump version to v${{ steps.version.outputs.version }}" || echo "No changes to commit"
+          git push https://Geoxor:${{ secrets.GEOXOR_PERSONAL_GITHUB_TOKEN }}@github.com/Geoxor/homebrew-amethyst.git HEAD:main
