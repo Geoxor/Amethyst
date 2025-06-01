@@ -60,14 +60,19 @@ jobs:
 
   build-windows:
     needs: [test, lint]
-    name: Build Windows
+    name: Build Windows - ${{ matrix.arch }}
     runs-on: windows-latest
     permissions:
       contents: write
+    strategy:
+      matrix:
+        arch: [x64, arm64]
+
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20.17.0
@@ -76,17 +81,23 @@ jobs:
       - name: Install Dependencies
         run: yarn install
 
-      - name: Build Amethyst
-        run: yarn package
+      - name: Build Amethyst (${{ matrix.arch }})
+        run: |
+          yarn build
+          yarn run electron-builder --publish never --win --${{ matrix.arch }}
+
+      - name: Show output files
+        run: dir release\build /s /b
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: artifact-windows
+          name: artifact-windows-${{ matrix.arch }}
           path: |
             release/build/*.yml
             release/build/*.yaml
-            release/build/*.exe*
+            release/build/*.exe
+            release/build/*.exe.*
 
   build-macos:
     needs: [test, lint]
