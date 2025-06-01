@@ -5,6 +5,7 @@ import chokidar from "chokidar";
 import branchName from "current-git-branch";
 import type { Event } from "electron";
 import electron, { app, BrowserWindow, dialog, ipcMain, nativeImage, Notification, shell } from "electron";
+import electronUpdater from "electron-updater"
 import windowStateKeeper from "electron-window-state";
 import fs from "fs";
 import gitCommitInfo  from 'git-commit-info';
@@ -12,7 +13,6 @@ import os from "os";
 import path from "path";
 
 import { ALLOWED_AUDIO_EXTENSIONS } from "../shared/constants.js";
-import { sleep } from "../shared/logic.js";
 import type { FormatIcons, IRichPresenceInfo } from "./discord.js";
 import { Discord } from "./discord.js";
 import { getWindow, IS_DEV, store } from "./main.js";
@@ -39,10 +39,8 @@ export const icon = () => path.join(RESOURCES_PATH, "icon.png");
 export const checkForUpdatesAndInstall = async () => {
 	const autoUpdatesEnabled = store.get("autoUpdatesEnabled", true);
 	if (!autoUpdatesEnabled) return;
-	if (IS_DEV) return await sleep(2000);
-	const { autoUpdater } = await import("electron-updater");
-	autoUpdater.autoInstallOnAppQuit = false;
-	await autoUpdater.checkForUpdatesAndNotify();
+	electronUpdater.autoUpdater.autoInstallOnAppQuit = false;
+	await electronUpdater.autoUpdater.checkForUpdatesAndNotify();
 	return;
 };
 
