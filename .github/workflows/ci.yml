@@ -2,11 +2,6 @@ name: Build Amethyst
 
 on:
   push:
-    branches:
-      - master
-      - main
-      - 'v**'
-      - 'feat/**'
     paths-ignore:
       - "**/*.md"
       - 'src/renderer/locales/**'
