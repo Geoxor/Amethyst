@@ -1,4 +1,3 @@
-
 <script lang="ts" setup>
 import { Icon } from "@iconify/vue";
 import { useVModel } from "@vueuse/core";
@@ -97,7 +96,7 @@ const onMouseMove = (e: MouseEvent) => {
   if (!dragging.value) return;
   const deltaY = e.movementY;
   accumulatedDelta -= deltaY;
-  adjustValue()
+  adjustValue();
 };
 
 const onMouseDown = (e: MouseEvent) => {
@@ -111,7 +110,7 @@ const onMouseDown = (e: MouseEvent) => {
     modifier.value!.addEventListener("mouseup", () => document.exitPointerLock());
 
     currentIdx = props.range.indexOf(model.value || props.default);
-    
+
     dragging.value = true;
     accumulatedDelta = 0;
     initialValue = model.value;
@@ -133,18 +132,17 @@ const onTouchStart = (e: TouchEvent) => {
   const firstTouch = e.changedTouches[0];
   if (initialTouchX == 0) initialTouchX = firstTouch.clientY;
   initialValue = model.value;
-}
+};
 
 const onTouchMove = (e: TouchEvent) => {
   const firstTouch = e.changedTouches[0];
   accumulatedDelta = initialTouchX - firstTouch.clientY;
-  adjustValue()
-}
+  adjustValue();
+};
 
 const onTouchEnd = () => {
   initialTouchX = 0;
-}
-
+};
 
 const adjustValue = () => {
   const scale = props.max - props.min;
@@ -164,7 +162,7 @@ const adjustValue = () => {
     ),
     props.max,
   );
-}
+};
 
 const pop = ref(false);
 watch(model, () => {
@@ -201,21 +199,20 @@ const handleKeydown = (e: KeyboardEvent) => {
   const closeInput = () => isShowingInputElement.value = false;
   if (e.key == "Escape") closeInput();
 
-  if (e.key == 'ArrowUp') {
+  if (e.key == "ArrowUp") {
     model.value = Math.min(model.value + props.step, props.max);
     return;
   }
-  if (e.key == 'ArrowDown') {
+  if (e.key == "ArrowDown") {
     model.value = Math.max(model.value - props.step, props.min);
     return;
   }
 
   // Start inputif the user clicks enter, or if they already begun typing in a value
-  if (e.key == "Enter" || INPUT_BEGIN_KEYS.includes(e.key) && !isShowingInputElement.value) {
-    if(isShowingInputElement.value) {
-
+  if ((e.key == "Enter" || INPUT_BEGIN_KEYS.includes(e.key)) && !isShowingInputElement.value) {
+    if (isShowingInputElement.value) {
       // Check if input is a number
-      if (Number.isFinite(inputValue.value )) {
+      if (Number.isFinite(inputValue.value)) {
         // Clamp to min and max
         model.value = Math.min(props.max, Math.max(inputValue.value, props.min));
       };
@@ -224,8 +221,8 @@ const handleKeydown = (e: KeyboardEvent) => {
 
       // refocus on main element incase the user wants to press enter again and re-edit
       modifier.value?.focus();
-    } else {
-
+    }
+    else {
       isShowingInputElement.value = true;
 
       // Delay focusing because it takes some time to show the element first

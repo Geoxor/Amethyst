@@ -27,7 +27,7 @@ const CHANNEL_NAMES = [
   "Ltm",
   "Rtm",
   "Ltr",
-  "Rtr"
+  "Rtr",
 ];
 
 onMounted(() => {
@@ -40,14 +40,14 @@ onMounted(() => {
     return analyzer;
   });
 
-  let buffers = analyzers.map(analyzer => new Float32Array(analyzer.fftSize));
-  
-  watch(() => amethyst.state.settings.metering.decibelMeter.fftSize, value => {
-    analyzers.forEach(a => a.fftSize = value);
+  let buffers = analyzers.map((analyzer) => new Float32Array(analyzer.fftSize));
+
+  watch(() => amethyst.state.settings.metering.decibelMeter.fftSize, (value) => {
+    analyzers.forEach((a) => a.fftSize = value);
     buffers = analyzers.map(() => new Float32Array(value));
   });
 
-  watch(() => amethyst.state.window.isFocused, isFocused => {
+  watch(() => amethyst.state.window.isFocused, (isFocused) => {
     if (amethyst.state.settings.performance.pauseVisualsWhenUnfocused) {
       if (!isFocused) shouldStopRendering = true;
       else {
@@ -59,7 +59,7 @@ onMounted(() => {
 
   props.node.connect(splitter);
   analyzers.forEach((analyzer, i) => splitter.connect(analyzer, i, 0));
-  
+
   function draw() {
     buffers.forEach((buffer, i) => analyzers[i].getFloatTimeDomainData(buffer));
 
@@ -67,7 +67,7 @@ onMounted(() => {
     const sumOfSquares = Array.from({ length: CHANNELS }, () => 0);
 
     for (let i = 0; i < buffers[0].length; i++) {
-      const powers = buffers.map(buffer => buffer[i] ** 2);
+      const powers = buffers.map((buffer) => buffer[i] ** 2);
       powers.forEach((power, k) => {
         sumOfSquares[k] += power;
         peaks[k] = Math.max(peaks[k], power);
@@ -135,10 +135,10 @@ onUnmounted(() => shouldStopRendering = true);
 
 <style scoped>
 svg {
-	stroke-width: 4px;
+  stroke-width: 4px;
 }
 
 line {
-	stroke-dasharray: 0 128;
+  stroke-dasharray: 0 128;
 }
 </style>

@@ -25,7 +25,7 @@ export class Analytics {
   private lastClickedPlay: Record<string, number> = {};
 
   public constructor(public amethyst: Amethyst) {
-    amethyst.player.on("player:trackChange", track => {
+    amethyst.player.on("player:trackChange", (track) => {
       if (!track.uuid) return;
 
       // Check if trackAnalytics object is defined for this song hash
@@ -51,8 +51,8 @@ export class Analytics {
   // then give random songs of most played genres
   public getDiscoveryTracks() {
     const allLoadedTracks = this.amethyst.player.queue.getList();
-    const trackMap = new Map(allLoadedTracks.map(track => [track.uuid, track]));
-    let tracks = Object.keys(this.trackAnalytics.value).map(uuid => trackMap.get(uuid)!);
+    const trackMap = new Map(allLoadedTracks.map((track) => [track.uuid, track]));
+    let tracks = Object.keys(this.trackAnalytics.value).map((uuid) => trackMap.get(uuid)!);
 
     this.tracksBasedOnGenres.value.clear();
     this.tracksBasedOnFavorites.value.clear();
@@ -67,7 +67,7 @@ export class Analytics {
     for (const track of tracks) {
       if (!track) continue;
       if (track.getGenre() != null) {
-        track.getGenre()!.forEach(genre => {
+        track.getGenre()!.forEach((genre) => {
           if (!genres.includes(genre)) genres.push(genre);
           genreCounts[genre] = (genreCounts[genre] || 0) + 1;
         });
@@ -82,10 +82,10 @@ export class Analytics {
 
     const averageWeight = Object.values(genreWeights).reduce((a, b) => a + b, 0) / Object.keys(genreWeights).length;
     const genreScoreThreshold = averageWeight * 1.0;
-    
+
     const genreSet = new Set(genres);
     const existingAlbums = new Set(
-      Array.from(this.tracksBasedOnGenres.value.values()).map(t => t.getAlbum())
+      Array.from(this.tracksBasedOnGenres.value.values()).map((t) => t.getAlbum()),
     );
     const analyticsMap = this.trackAnalytics.value;
 
@@ -101,12 +101,12 @@ export class Analytics {
 
       const score = trackGenres.reduce(
         (sum, genre) => sum + (genreWeights[genre] || 0),
-        0
+        0,
       );
       if (score < genreScoreThreshold) continue;
 
       // Genre match + album not already added + no analytics
-      const hasMatchingGenre = trackGenres.some(g => genreSet.has(g));
+      const hasMatchingGenre = trackGenres.some((g) => genreSet.has(g));
       const album = it.getAlbum();
       const isAlreadyAdded = existingAlbums.has(album);
       const isInAnalytics = analyticsMap[it.uuid!] != null;

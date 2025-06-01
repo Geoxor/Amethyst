@@ -6,7 +6,7 @@ import type { Track } from "@/logic/track.js";
 import InspectorBar from "./InspectorBar.vue";
 
 const instance = {
-  state: reactive<{currentItem: Record<string, Track | AmethystAudioNode> | undefined, isVisible: boolean}>({
+  state: reactive<{ currentItem: Record<string, Track | AmethystAudioNode> | undefined; isVisible: boolean }>({
     currentItem: undefined,
     isVisible: false,
   }),
@@ -25,11 +25,11 @@ const instance = {
   },
   hide: () => {
     instance.state.isVisible = false;
-  }
+  },
 };
 
 export {
-  InspectorBar
+  InspectorBar,
 };
 
 export const useInspector = () => instance;

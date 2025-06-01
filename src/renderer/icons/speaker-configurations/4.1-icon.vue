@@ -1,4 +1,4 @@
-<script setup lang="ts"> 
+<script setup lang="ts">
 import { getThemeColorHex } from "@/logic/color";
 </script>
 

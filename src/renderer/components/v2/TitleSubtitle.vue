@@ -7,7 +7,7 @@ import { amethyst } from "@/amethyst.js";
 import BaseTooltip from "../BaseTooltip.vue";
 import SubtitleText from "./SubtitleText.vue";
 import TitleText from "./TitleText.vue";
-const props = defineProps<{ title?: string, platforms?: ("desktop" | "mobile" | "web")[], subtitle?: string; alignment?: "left" | "center" | "right", subtitleEllipses?: boolean, info?: string }>();
+const props = defineProps<{ title?: string; platforms?: ("desktop" | "mobile" | "web")[]; subtitle?: string; alignment?: "left" | "center" | "right"; subtitleEllipses?: boolean; info?: string }>();
 
 const titleRef = ref<HTMLDivElement>();
 const subtitleRef = ref<HTMLDivElement>();
@@ -63,9 +63,9 @@ onBeforeUnmount(() => {
         :text="$t('settings.info.tooltip')"
         placement="top"
       >
-        <Icon
+        <icon
           v-if="info"
-          icon="mdi:information-slab-box-outline"  
+          icon="mdi:information-slab-box-outline"
           class="min-w-4 min-h-4 text-inspector-color cursor-external-pointer"
           @click="() => {
             amethyst.openLink(info!);
@@ -79,24 +79,22 @@ onBeforeUnmount(() => {
         :text="`This setting is available on ${platform} only`"
         placement="top"
       >
-        <Icon
+        <icon
           v-if="platform == 'desktop'"
-          icon="ic:twotone-laptop"  
+          icon="ic:twotone-laptop"
           class="min-w-4 min-h-4"
         />
-        <Icon
+        <icon
           v-else-if="platform == 'mobile'"
-          icon="ic:twotone-smartphone"  
+          icon="ic:twotone-smartphone"
           class="min-w-4 min-h-4"
         />
-        <Icon
+        <icon
           v-else-if="platform == 'web'"
-          icon="ic:twotone-web"  
+          icon="ic:twotone-web"
           class="min-w-4 min-h-4"
         />
-        
       </base-tooltip>
-
     </div>
     <div
       v-if="!amethyst.state.settings.appearance.minimalistMode"

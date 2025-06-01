@@ -1,10 +1,10 @@
 import { SubsonicAPI } from "subsonic-api";
 
 export interface SubsonicServerOptions {
-  url: string,
-  type: "subsonic" | "generic" | "navidrome",
-  password: string,
-  username: string,
+  url: string;
+  type: "subsonic" | "generic" | "navidrome";
+  password: string;
+  username: string;
 }
 
 export const connectToSubsonicServer = async (options: SubsonicServerOptions) => {

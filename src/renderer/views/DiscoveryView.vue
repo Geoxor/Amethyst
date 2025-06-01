@@ -17,19 +17,19 @@ onMounted(() => {
     <div class="flex gap-2 mt-1 mr-2">
       <big-button
         class="flex gap-2"
-        icon="mdi:dice-5" 
+        icon="mdi:dice-5"
         @click="amethyst.analytics.getDiscoveryTracks()"
       />
       <big-button
         class="flex gap-2 w-full"
-        icon="ic:round-shuffle" 
+        icon="ic:round-shuffle"
         title="Just send it"
         description="I can't decide, play something random"
         @click="amethyst.player.playRandomTrack()"
       />
       <big-button
         class="flex gap-2 w-full"
-        icon="ic:twotone-favorite" 
+        icon="ic:twotone-favorite"
         :title="$t('route.favorites')"
         description="View your favorite saved songs"
         @click="$router.push({ name: 'favorites' })"
@@ -44,7 +44,7 @@ onMounted(() => {
 
       <big-button
         class="flex gap-2"
-        icon="ic:twotone-settings" 
+        icon="ic:twotone-settings"
         title="Settings"
         description="View your settings"
         @click="$router.push({ name: 'settings' })"

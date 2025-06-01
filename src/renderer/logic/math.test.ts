@@ -9,7 +9,7 @@ import {
   logParabolicSpectrum,
   logValueToPercentage,
   normalize8bit,
-  percentToLogValue
+  percentToLogValue,
 } from "@/logic/math.js";
 
 describe("getLogIndex", () => {

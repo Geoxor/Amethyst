@@ -14,7 +14,7 @@ import type { AmethystFilterNode } from ".";
 
 const props = defineProps<{ node: AmethystFilterNode }>();
 
-watch(() => props.node.frequencyPercent, percent => {
+watch(() => props.node.frequencyPercent, (percent) => {
   props.node.frequency = percentToLogValue(percent, props.node.MIN_FREQUENCY, props.node.MAX_FREQUENCY);
 });
 

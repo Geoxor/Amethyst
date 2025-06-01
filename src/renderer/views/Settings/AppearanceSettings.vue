@@ -13,7 +13,7 @@ import EmeraldDarkSkeleton from "@/themes/EmeraldDarkSkeleton.vue";
 import OnyxDarkSkeleton from "@/themes/OnyxDarkSkeleton.vue";
 import SapphireDarkSkeleton from "@/themes/SapphireDarkSkeleton.vue";
 
-const {appearance} = amethyst.state.settings;
+const { appearance } = amethyst.state.settings;
 </script>
 
 <template>
@@ -80,23 +80,26 @@ const {appearance} = amethyst.state.settings;
           icon="ic:twotone-colorize"
         >
           <toggle-switch
-            v-model="appearance.customColors.enabled" 
+            v-model="appearance.customColors.enabled"
           />
-          <template v-if=appearance.customColors.enabled #subsettings>
+          <template
+            v-if="appearance.customColors.enabled"
+            #subsettings
+          >
             <div class="p-2 grid grid-cols-2 sm:flex flex-wrap gap-2 ">
-              <color-input 
+              <color-input
                 v-model="appearance.customColors.colors.primary"
                 color-name="primary"
               />
-              <color-input 
+              <color-input
                 v-model="appearance.customColors.colors.accent"
                 color-name="accent"
               />
-              <color-input 
+              <color-input
                 v-model="appearance.customColors.colors.inspector"
                 color-name="inspector"
               />
-              <color-input 
+              <color-input
                 v-model="appearance.customColors.colors.alert"
                 color-name="alert"
               />
@@ -110,7 +113,7 @@ const {appearance} = amethyst.state.settings;
           icon="ic:twotone-palette"
         >
           <toggle-switch
-            v-model="appearance.coverBasedColors" 
+            v-model="appearance.coverBasedColors"
           />
         </settings-setting>
         <settings-setting
@@ -121,7 +124,7 @@ const {appearance} = amethyst.state.settings;
           icon="ic:twotone-brush"
         >
           <toggle-switch
-            v-model="appearance.coverBasedIconColors" 
+            v-model="appearance.coverBasedIconColors"
           />
         </settings-setting>
       </div>
@@ -134,7 +137,7 @@ const {appearance} = amethyst.state.settings;
     icon="ic:twotone-photo-size-select-actual"
   >
     <toggle-switch
-      v-model="appearance.ambientBackground.show" 
+      v-model="appearance.ambientBackground.show"
     />
     <template
       v-if="appearance.ambientBackground.show"
@@ -159,7 +162,7 @@ const {appearance} = amethyst.state.settings;
           icon="ic:twotone-rotate-90-degrees-ccw"
         >
           <toggle-switch
-            v-model="appearance.ambientBackground.spin" 
+            v-model="appearance.ambientBackground.spin"
           />
         </settings-setting>
         <settings-setting
@@ -232,7 +235,7 @@ const {appearance} = amethyst.state.settings;
           />
         </settings-setting>
       </div>
-    </template> 
+    </template>
   </settings-setting>
 
   <settings-setting
@@ -242,7 +245,7 @@ const {appearance} = amethyst.state.settings;
     icon="ic:twotone-computer"
   >
     <toggle-switch
-      v-model="appearance.desktopMode" 
+      v-model="appearance.desktopMode"
     />
   </settings-setting>
 
@@ -252,7 +255,7 @@ const {appearance} = amethyst.state.settings;
     icon="ic:twotone-view-list"
   >
     <toggle-switch
-      v-model="appearance.compactList" 
+      v-model="appearance.compactList"
     />
   </settings-setting>
 
@@ -262,7 +265,7 @@ const {appearance} = amethyst.state.settings;
     icon="ic:twotone-remove-red-eye"
   >
     <toggle-switch
-      v-model="appearance.neonMode" 
+      v-model="appearance.neonMode"
     />
   </settings-setting>
   <settings-setting
@@ -273,7 +276,7 @@ const {appearance} = amethyst.state.settings;
     icon="ic:twotone-skip-next"
   >
     <toggle-switch
-      v-model="appearance.showPlaybackControls" 
+      v-model="appearance.showPlaybackControls"
     />
   </settings-setting>
   <settings-setting
@@ -282,11 +285,11 @@ const {appearance} = amethyst.state.settings;
     icon="ic:twotone-remove-red-eye"
   >
     <toggle-switch
-      v-model="appearance.minimalistMode" 
+      v-model="appearance.minimalistMode"
     />
     <template
       v-if="appearance.minimalistMode"
-      #subsettings 
+      #subsettings
     >
       <div class="p-2 flex flex-col gap-2">
         <settings-setting
@@ -296,20 +299,20 @@ const {appearance} = amethyst.state.settings;
           icon="ic:twotone-format-strikethrough"
         >
           <toggle-switch
-            v-model="appearance.hideCategoryTitles" 
+            v-model="appearance.hideCategoryTitles"
           />
         </settings-setting>
       </div>
     </template>
   </settings-setting>
-  
+
   <settings-setting
     :title="$t('settings.appearance.cover_art.title')"
     :description="$t('settings.appearance.cover_art.description')"
     icon="ic:twotone-image"
   >
     <toggle-switch
-      v-model="appearance.showCoverArt" 
+      v-model="appearance.showCoverArt"
     />
   </settings-setting>
   <settings-setting
@@ -320,7 +323,7 @@ const {appearance} = amethyst.state.settings;
     icon="ic:twotone-bug-report"
   >
     <toggle-switch
-      v-model="appearance.showDebugStats" 
+      v-model="appearance.showDebugStats"
     />
   </settings-setting>
 </template>

@@ -1,5 +1,4 @@
-
-import 'virtual:uno.css';
+import "virtual:uno.css";
 import "vue-virtual-scroller/dist/vue-virtual-scroller.css";
 
 import { loadIcons } from "@iconify/vue";
@@ -114,7 +113,7 @@ loadIcons([
   "mdi:audio-input-xlr",
   "mdi:audio-video",
   "material-symbols:memory-alt-rounded",
-  "mdi:play"
+  "mdi:play",
 ]);
 
 import "@/amethyst.js";

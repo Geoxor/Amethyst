@@ -4,19 +4,19 @@ import { secondsToColinHuman, secondsToHuman } from "@shared/formating.js";
 import { useLocalStorage } from "@vueuse/core";
 import { ref, watch } from "vue";
 
-import {Amethyst,amethyst} from "@/amethyst.js";
+import { Amethyst, amethyst } from "@/amethyst.js";
 import { registerCommand } from "@/components/CommandPalette/registry.js";
 import { useInspector } from "@/components/Inspector/index.js";
 import { AmethystAudioNodeManager } from "@/logic/audioManager.js";
 import { EventEmitter } from "@/logic/eventEmitter.js";
-import type { PossibleSortingMethods} from "@/logic/queue.js";
+import type { PossibleSortingMethods } from "@/logic/queue.js";
 import { Queue } from "@/logic/queue.js";
 import { Track } from "@/logic/track.js";
 
 export enum LoopMode {
-	None,
-	All,
-	One,
+  None,
+  All,
+  One,
 }
 
 const playerEventMap = {
@@ -31,7 +31,7 @@ const playerEventMap = {
   "player:next": {} as Track,
   "player:previous": {} as Track,
   "player:trackChange": {} as Track,
-  "player:trackFinished": {} as { track?: Track, startTimestamp: number },
+  "player:trackFinished": {} as { track?: Track; startTimestamp: number },
 } as const;
 
 export type PlayerEvents = {
@@ -58,7 +58,7 @@ export class Player extends EventEmitter<PlayerEvents> {
   public queue = new Queue(this.amethyst);
 
   public input = new Audio();
-  public context = new AudioContext({latencyHint: "interactive", sampleRate: this.amethyst.state.settings.audio.resampleRate });
+  public context = new AudioContext({ latencyHint: "interactive", sampleRate: this.amethyst.state.settings.audio.resampleRate });
   public source = this.context.createMediaElementSource(this.input);
   public nodeManager: AmethystAudioNodeManager;
 
@@ -72,36 +72,36 @@ export class Player extends EventEmitter<PlayerEvents> {
     this.input.onended = () => this.next();
 
     this.nodeManager = new AmethystAudioNodeManager(this.source, this.context, this.amethyst);
-    
+
     // Set the volume on first load
     console.log(this.volumeStored.value);
-    
+
     this.nodeManager.master.post.gain.value = this.volumeStored.value;
 
-    watch(() => this.pitchSemitones.value, newPitch => {
+    watch(() => this.pitchSemitones.value, (newPitch) => {
       this.setPlaybackSpeed(newPitch);
-      this.emit("player:pitchChange", {track: this.getCurrentTrack(), playbackRate: newPitch});
+      this.emit("player:pitchChange", { track: this.getCurrentTrack(), playbackRate: newPitch });
     });
 
     amethyst.IS_DEV && this.showEventLogs();
 
-    registerCommand('command.player.pause', () => this.pause(), 'ic:round-pause');
-    registerCommand('command.player.resume', () => this.play(), 'ic:round-play-arrow');
-    registerCommand('command.player.skip_next', () => this.next(), 'ic:round-skip-next');
-    registerCommand('command.player.skip_previous', () => this.previous(), 'ic:round-skip-previous');
-    registerCommand('command.player.stop', () => this.stop(), 'ic:round-stop');
-    registerCommand('command.player.play_random', () => this.playRandomTrack(), 'ic:round-shuffle');
+    registerCommand("command.player.pause", () => this.pause(), "ic:round-pause");
+    registerCommand("command.player.resume", () => this.play(), "ic:round-play-arrow");
+    registerCommand("command.player.skip_next", () => this.next(), "ic:round-skip-next");
+    registerCommand("command.player.skip_previous", () => this.previous(), "ic:round-skip-previous");
+    registerCommand("command.player.stop", () => this.stop(), "ic:round-stop");
+    registerCommand("command.player.play_random", () => this.playRandomTrack(), "ic:round-shuffle");
 
-    registerCommand('command.track.toggle_favorite', () => this.getCurrentTrack()?.toggleFavorite(), 'ic:round-favorite');
-    registerCommand('command.track.export_cover_art', () => this.getCurrentTrack()?.exportCover(), 'ic:twotone-add-photo-alternate');
-    registerCommand('command.track.inspect', () => useInspector().inspectAndShow(this.getCurrentTrack()!), 'mdi:flask');
-    registerCommand('command.track.show_explorer', () => amethyst.showItem(this.getCurrentTrack()!.path), 'ic:twotone-pageview');
+    registerCommand("command.track.toggle_favorite", () => this.getCurrentTrack()?.toggleFavorite(), "ic:round-favorite");
+    registerCommand("command.track.export_cover_art", () => this.getCurrentTrack()?.exportCover(), "ic:twotone-add-photo-alternate");
+    registerCommand("command.track.inspect", () => useInspector().inspectAndShow(this.getCurrentTrack()!), "mdi:flask");
+    registerCommand("command.track.show_explorer", () => amethyst.showItem(this.getCurrentTrack()!.path), "ic:twotone-pageview");
   }
 
   private showEventLogs() {
     for (const event in playerEventMap) {
       this.on(event as keyof PlayerEvents, (e) => console.log(`%c[⚐ Player Event]%c ${event}`, "background-color: #6562ff; color: black; font-weight: bold;", "color:rgb(188, 187, 233);", e));
-    }  
+    }
   }
 
   public playRandomTrack = () => {
@@ -117,9 +117,9 @@ export class Player extends EventEmitter<PlayerEvents> {
   }
 
   public getFavorites() {
-    return this.queue.getList().filter(track => track.isFavorited);
+    return this.queue.getList().filter((track) => track.isFavorited);
   }
-  
+
   private async setPlayingTrack(track: Track) {
     this.timeStarted.value = Math.floor(Date.now() / 1000);
     this.input.src = ["mac", "linux"].includes(this.amethyst.getCurrentOperatingSystem()) ? `file://${track.path}` : track.path;
@@ -138,12 +138,12 @@ export class Player extends EventEmitter<PlayerEvents> {
       this.emit("player:currentTrackMetadataLoaded", track);
     }
   }
-  
+
   public getBufferSize() {
     return ~~(this.context.baseLatency * this.context.sampleRate);
   }
 
-  public async getLatency(){
+  public async getLatency() {
     return this.context.baseLatency * 1000;
   }
 
@@ -161,7 +161,7 @@ export class Player extends EventEmitter<PlayerEvents> {
     // Play the first track by default
     if (!this.currentTrack.value) {
       // Find the first non-errored track
-      const track = this.queue.getList().find(track => !track.hasErrored);
+      const track = this.queue.getList().find((track) => !track.hasErrored);
       track && this.setPlayingTrack(track);
       return;
     }
@@ -173,15 +173,15 @@ export class Player extends EventEmitter<PlayerEvents> {
   }
 
   public pause() {
-		this.input.pause();
+    this.input.pause();
     this.isPlaying.value = false;
     this.isPaused.value = true;
     this.isStopped.value = false;
     this.emit("player:pause", this.getCurrentTrack()!);
   }
 
-  public stop(){
-		this.input.pause();
+  public stop() {
+    this.input.pause();
     this.isPlaying.value = false;
     this.isPaused.value = false;
     this.isStopped.value = true;
@@ -273,29 +273,29 @@ export class Player extends EventEmitter<PlayerEvents> {
   public seekTo(time: number) {
     const track = this.getCurrentTrack();
     if (!track) return;
-		this.input.currentTime = time;
-    this.emit("player:seek", {track, seekedTo: this.input.currentTime});
-	}
+    this.input.currentTime = time;
+    this.emit("player:seek", { track, seekedTo: this.input.currentTime });
+  }
 
-	public seekForward(step = 5) {
-		this.seekTo(this.currentTime.value + step);
-	}
+  public seekForward(step = 5) {
+    this.seekTo(this.currentTime.value + step);
+  }
 
-	public seekBackward(step = 5) {
-		this.seekTo(this.currentTime.value - step);
-	}
+  public seekBackward(step = 5) {
+    this.seekTo(this.currentTime.value - step);
+  }
 
   public loopNone() {
-		this.loopMode.value = LoopMode.None;
-	};
+    this.loopMode.value = LoopMode.None;
+  };
 
-	public loopOne() {
-		this.loopMode.value = LoopMode.One;
-	};
+  public loopOne() {
+    this.loopMode.value = LoopMode.One;
+  };
 
-	public loopAll() {
-		this.loopMode.value = LoopMode.All;
-	};
+  public loopAll() {
+    this.loopMode.value = LoopMode.All;
+  };
 
   public get volume(): number {
     const clampedVolume = Math.max(this.minVolume, Math.min(this.maxVolume, this.volumeStored.value));
@@ -316,23 +316,23 @@ export class Player extends EventEmitter<PlayerEvents> {
     this.emit("player:volumeChange", dB);
   }
 
-  public mute(){
+  public mute() {
     this.setVolume(this.minDb);
   }
 
-	public volumeUp(dB = 1) {
-		this.setVolume(this.volume + dB);
-	}
+  public volumeUp(dB = 1) {
+    this.setVolume(this.volume + dB);
+  }
 
-	public volumeDown(dB = 1) {
-		this.setVolume(this.volume - dB);
-	}
+  public volumeDown(dB = 1) {
+    this.setVolume(this.volume - dB);
+  }
 
   public getCurrentTrack(): Track | undefined {
     return this.currentTrack.value;
   }
 
   public currentTimeFormatted(colinNotation?: boolean) {
-		return colinNotation ? secondsToColinHuman(this.currentTime.value) : secondsToHuman(this.currentTime.value);
-	}
+    return colinNotation ? secondsToColinHuman(this.currentTime.value) : secondsToHuman(this.currentTime.value);
+  }
 }

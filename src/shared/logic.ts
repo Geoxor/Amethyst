@@ -1,4 +1,4 @@
-export const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+export const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const removeEmptyObjects = (obj: Record<string, any>): Record<string, any> => {
   return Object.entries(obj).reduce((acc, [key, value]) => {
@@ -7,7 +7,8 @@ export const removeEmptyObjects = (obj: Record<string, any>): Record<string, any
       if (Object.keys(cleaned).length > 0) {
         acc[key] = cleaned;
       }
-    } else {
+    }
+    else {
       acc[key] = value;
     }
     return acc;

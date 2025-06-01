@@ -4,22 +4,22 @@ import { ref, watch } from "vue";
 import BaseSlider from "@/components/input/BaseSlider.vue";
 
 const props = defineProps<{
-  param: AudioParam,
-  min: number,
-  max: number,
-  step: number,
-  log?: boolean,
-  suffix: string,
+  param: AudioParam;
+  min: number;
+  max: number;
+  step: number;
+  log?: boolean;
+  suffix: string;
   digits: number;
 }>();
 
 const paramValue = ref(props.log ? log10(props.param.value) : props.param.value);
 
-watch(paramValue, newValue => {
+watch(paramValue, (newValue) => {
   props.param.value = props.log ? antilog10(newValue) : newValue;
 });
 
-watch(props.param, newParam => {
+watch(props.param, (newParam) => {
   paramValue.value = props.log ? log10(newParam.value) : newParam.value;
 });
 
@@ -39,7 +39,7 @@ function antilog10(value: number) {
 <template>
   <div class="flex gap-2 justify-between w-full">
     {{ (log ? antilog10(paramValue) : paramValue).toFixed(digits) }} {{ suffix }}
-    <base-slider 
+    <base-slider
       v-model="paramValue"
       class="w-24"
       type="range"

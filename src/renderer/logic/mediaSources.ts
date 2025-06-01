@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from "uuid";
-import type { Ref} from "vue";
+import type { Ref } from "vue";
 import { ref } from "vue";
 
-import {Amethyst} from "@/amethyst.js";
+import { Amethyst } from "@/amethyst.js";
 import { EventEmitter } from "@/logic/eventEmitter.js";
 
 export enum MediaSourceType {
@@ -14,7 +14,7 @@ export class MediaSourceManager {
   public mediaSources = ref<(MediaSource)[]>([]);
 
   public constructor(protected amethyst: Amethyst) {
-    this.amethyst.state.settings.mediaSources.saveMediaSources.forEach(savedSource => {
+    this.amethyst.state.settings.mediaSources.saveMediaSources.forEach((savedSource) => {
       if (savedSource.path) {
         // @ts-ignore
         this.mediaSources.value.push(new LocalMediaSource(this.amethyst, savedSource.path));
@@ -25,25 +25,25 @@ export class MediaSourceManager {
   public addLocalSource = async () => {
     const dialog = await this.amethyst.showOpenFolderDialog();
     // @ts-ignore
-    dialog.filePaths.forEach(path => {
+    dialog.filePaths.forEach((path) => {
       if (dialog.canceled || !path) return;
 
       // Avoid adding folders if they already exist
-      if (this.amethyst.state.settings.mediaSources.saveMediaSources.some(savedSource => savedSource.path == path)) return;
+      if (this.amethyst.state.settings.mediaSources.saveMediaSources.some((savedSource) => savedSource.path == path)) return;
 
       const mediaSource = new LocalMediaSource(this.amethyst, path);
 
       if (mediaSource.type && mediaSource.path) {
-        this.amethyst.state.settings.mediaSources.saveMediaSources.push({type: mediaSource.type, path: mediaSource.path, uuid: mediaSource.uuid});
+        this.amethyst.state.settings.mediaSources.saveMediaSources.push({ type: mediaSource.type, path: mediaSource.path, uuid: mediaSource.uuid });
         // @ts-ignore
         this.mediaSources.value.push(mediaSource);
       }
     });
   };
-  
+
   public removeMediaSource = async (mediaSource: MediaSource) => {
     const savedMediaSource = { type: mediaSource.type, path: mediaSource.path, uuid: mediaSource.uuid };
-    const index = this.mediaSources.value.findIndex(s => s.uuid == savedMediaSource.uuid);
+    const index = this.mediaSources.value.findIndex((s) => s.uuid == savedMediaSource.uuid);
     if (index == -1) return;
     mediaSource.unregister();
     this.amethyst.state.settings.mediaSources.saveMediaSources.splice(index, 1);
@@ -54,8 +54,8 @@ export class MediaSourceManager {
 export class MediaSource {
   public uuid: string = uuidv4();
   public type: MediaSourceType = MediaSourceType.Generic;
-  public totalTracks: Ref<number> = ref(0);  
-  public totalBytes: Ref<number> = ref(0);  
+  public totalTracks: Ref<number> = ref(0);
+  public totalBytes: Ref<number> = ref(0);
   public name: string = "generic";
 
   public constructor(protected amethyst: Amethyst, public path: string) {
@@ -70,13 +70,12 @@ export class MediaSource {
     throw new Error("Not implemented");
   }
 
-  public fetchMedia(){
+  public fetchMedia() {
     throw new Error("Not implemented");
   };
 }
 
 export class LocalMediaSource extends MediaSource {
-
   private watcher: FolderWatcher | FolderWatcherMobile;
 
   public constructor(protected amethyst: Amethyst, public path: string) {
@@ -87,14 +86,14 @@ export class LocalMediaSource extends MediaSource {
     this.totalTracks = ref(0);
     this.watcher = this.amethyst.getCurrentPlatform() === "mobile" ? new FolderWatcherMobile(this.path, this.uuid) : new FolderWatcher(this.path, this.uuid);
 
-    this.watcher.on("add", path => {
+    this.watcher.on("add", (path) => {
       this.amethyst.player.queue.add(path);
       this.amethyst.player.queue.fetchAsyncData();
       this.totalTracks.value++;
     });
 
-    this.watcher.on("unlink", path => {
-      const track = this.amethyst.player.queue.getList().find(t => t.path == path);
+    this.watcher.on("unlink", (path) => {
+      const track = this.amethyst.player.queue.getList().find((t) => t.path == path);
       if (!track) return;
       this.amethyst.player.queue.remove(track);
       this.totalTracks.value--;
@@ -115,7 +114,7 @@ export class LocalMediaSource extends MediaSource {
 
   public override async fetchMedia() {
     const audioFiles = await this.amethyst.readFilesFromPath(this.path);
-    audioFiles.forEach(path => this.amethyst.player.queue.add(path));
+    audioFiles.forEach((path) => this.amethyst.player.queue.add(path));
     this.totalTracks.value = audioFiles.length;
     await this.amethyst.player.queue.fetchAsyncData();
   }

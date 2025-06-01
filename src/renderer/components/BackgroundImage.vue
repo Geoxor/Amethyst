@@ -4,7 +4,7 @@ import CoverArt from "@/components/CoverArt.vue";
 import ShaderCanvas from "@/components/ShaderCanvas.vue";
 
 defineProps<{
-  ambientBackgroundImage?: string,
+  ambientBackgroundImage?: string;
 }>();
 
 </script>

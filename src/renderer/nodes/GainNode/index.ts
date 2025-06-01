@@ -4,7 +4,7 @@ import type { NodeProperties } from "@/logic/audioManager.js";
 
 import component from "./component.vue";
 
-interface GainNodeParameters extends NodeParameters{
+interface GainNodeParameters extends NodeParameters {
   gain: NumberNodeParameter;
 }
 
@@ -16,8 +16,8 @@ export class AmethystGainNode extends AmethystAudioNode {
     const post = context.createGain();
     super(pre, post, "AmethystGainNode", component, position);
     this.properties.icon = "ic:twotone-volume-up";
-    
-    this.gainNode = context.createGain();;
+
+    this.gainNode = context.createGain(); ;
     pre.connect(this.gainNode);
     this.gainNode.connect(post);
   }
@@ -31,7 +31,7 @@ export class AmethystGainNode extends AmethystAudioNode {
         min: -128,
         step: 0.1,
         current: this.gain,
-        unit: "dB"
+        unit: "dB",
       },
     };
   }
@@ -40,8 +40,8 @@ export class AmethystGainNode extends AmethystAudioNode {
     this.gain = parameters.gain.current;
   }
 
-  public get gain () {
-    return 20 * Math.log10( this.gainNode.gain.value);
+  public get gain() {
+    return 20 * Math.log10(this.gainNode.gain.value);
   }
 
   public set gain(dB: number) {

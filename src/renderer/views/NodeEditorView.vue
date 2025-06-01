@@ -17,14 +17,14 @@ import { getThemeColorHex } from "@/logic/color";
 import { AmethystFilterNode, AmethystGainNode, AmethystPannerNode, AmethystSpectrumNode } from "@/nodes";
 const dash = ref();
 const nodeEditor = ref();
-type NodeMenuOptions = Coords & {source?: AmethystAudioNode, target?: AmethystAudioNode};
+type NodeMenuOptions = Coords & { source?: AmethystAudioNode; target?: AmethystAudioNode };
 
 let resizeObserver: ResizeObserver;
 
 onMounted(() => {
   resizeObserver = new ResizeObserver(fitToView);
   resizeObserver.observe(nodeEditor.value);
-}); 
+});
 
 onUnmounted(() => {
   resizeObserver.disconnect();
@@ -35,7 +35,7 @@ const fitToView = () => dash.value.fitView();
 
 const elements = computed({
   get: () => [...amethyst.player.nodeManager.getNodeProperties(), ...amethyst.player.nodeManager.getNodeConnections()],
-  set: () => {}
+  set: () => {},
 });
 
 const getDashCoords = () => {
@@ -48,7 +48,7 @@ const getDashCoords = () => {
     return {
       x: 0,
       y: 0,
-      z: 0
+      z: 0,
     };
   }
 
@@ -63,7 +63,7 @@ const getDashCoords = () => {
     return {
       x: parseFloat(matrixValues![4]),
       y: parseFloat(matrixValues![5]),
-      z: 0
+      z: 0,
     };
   }
 
@@ -80,16 +80,16 @@ const getDashCoords = () => {
   return {
     x: 0,
     y: 0,
-    z: 0
+    z: 0,
   };
 };
 
-const computeNodePosition = ({x, y}: Coords) => {
-  const {x: dashX, y: dashY} = getDashCoords();
-  return { x: -dashX + x , y: -dashY + y };
+const computeNodePosition = ({ x, y }: Coords) => {
+  const { x: dashX, y: dashY } = getDashCoords();
+  return { x: -dashX + x, y: -dashY + y };
 };
 
-const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
+const nodeMenu = ({ x, y, source, target }: NodeMenuOptions) => [
   {
     title: "Open File",
     icon: "ic:twotone-file-open",
@@ -105,32 +105,32 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
     icon: "ic:twotone-plus",
     action: () => {
       amethyst.player.nodeManager.addNode(new AmethystFilterNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })),
-      source && target && [source, target]);
-    }
+        source && target && [source, target]);
+    },
   },
   {
-    title: "Add PannerNode", 
-    icon: "ic:twotone-plus", 
+    title: "Add PannerNode",
+    icon: "ic:twotone-plus",
     action: () => {
-      amethyst.player.nodeManager.addNode(new AmethystPannerNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })), 
-      source && target && [source, target]);
-    }
+      amethyst.player.nodeManager.addNode(new AmethystPannerNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })),
+        source && target && [source, target]);
+    },
   },
   {
-    title: "Add GainNode", 
-    icon: "ic:twotone-plus", 
+    title: "Add GainNode",
+    icon: "ic:twotone-plus",
     action: () => {
-      amethyst.player.nodeManager.addNode(new AmethystGainNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })), 
-      source && target && [source, target]);
-    }
+      amethyst.player.nodeManager.addNode(new AmethystGainNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })),
+        source && target && [source, target]);
+    },
   },
   {
-    title: "Add AmethystSpectrumNode", 
-    icon: "ic:twotone-plus", 
+    title: "Add AmethystSpectrumNode",
+    icon: "ic:twotone-plus",
     action: () => {
-      amethyst.player.nodeManager.addNode(new AmethystSpectrumNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })), 
-      source && target && [source, target]);
-    }
+      amethyst.player.nodeManager.addNode(new AmethystSpectrumNode(amethyst.player.nodeManager.context, computeNodePosition({ x, y })),
+        source && target && [source, target]);
+    },
   },
   {
     title: "Reset All",
@@ -140,28 +140,28 @@ const nodeMenu = ({x, y, source, target}: NodeMenuOptions) => [
   },
 ];
 
-const handleContextMenu = ({y, x}: MouseEvent) => {
-  useContextMenu().open({x, y}, nodeMenu({x, y}));
+const handleContextMenu = ({ y, x }: MouseEvent) => {
+  useContextMenu().open({ x, y }, nodeMenu({ x, y }));
 };
 
 const handleEdgeContextMenu = (e: EdgeMouseEvent) => {
-  const source = amethyst.player.nodeManager.nodes.value.find(node => node.properties.id === e.edge.source)!;
-  const target = amethyst.player.nodeManager.nodes.value.find(node => node.properties.id === e.edge.target)!;
+  const source = amethyst.player.nodeManager.nodes.value.find((node) => node.properties.id === e.edge.source)!;
+  const target = amethyst.player.nodeManager.nodes.value.find((node) => node.properties.id === e.edge.target)!;
 
-  const {x, y} = (e.event as MouseEvent);
-  useContextMenu().open({x, y}, [
-    {title: "Remove connection", icon: "ic:twotone-link-off", red: true, action: () => source.disconnectFrom(target)},
-    ...nodeMenu({x, y, source, target}),
+  const { x, y } = e.event as MouseEvent;
+  useContextMenu().open({ x, y }, [
+    { title: "Remove connection", icon: "ic:twotone-link-off", red: true, action: () => source.disconnectFrom(target) },
+    ...nodeMenu({ x, y, source, target }),
   ]);
 };
 
 const handleNodeDragStop = (e: NodeDragEvent) => {
-  amethyst.player.nodeManager.nodes.value.find(node => node.properties.id === e.node.id)?.updatePosition(e.node.position);
+  amethyst.player.nodeManager.nodes.value.find((node) => node.properties.id === e.node.id)?.updatePosition(e.node.position);
 };
 
 const handleConnect = (e: Connection) => {
-  const from = amethyst.player.nodeManager.nodes.value.find(node => node.properties.id === e.source);
-  const to = amethyst.player.nodeManager.nodes.value.find(node => node.properties.id === e.target);
+  const from = amethyst.player.nodeManager.nodes.value.find((node) => node.properties.id === e.source);
+  const to = amethyst.player.nodeManager.nodes.value.find((node) => node.properties.id === e.target);
 
   if (from && to) {
     from.connectTo(to);
@@ -169,19 +169,19 @@ const handleConnect = (e: Connection) => {
 };
 
 const handleOpenFile = async () => {
-  const result = await amethyst.showOpenFileDialog({filters: [{name: "Amethyst Node Graph", extensions: ["ang"]}]});
+  const result = await amethyst.showOpenFileDialog({ filters: [{ name: "Amethyst Node Graph", extensions: ["ang"] }] });
   if (result.canceled) return;
-  
+
   fetch("file://" + result.filePaths[0])
-    .then(response => response.blob())
-    .then(blob => {
+    .then((response) => response.blob())
+    .then((blob) => {
       return new Promise<ArrayBuffer>((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsArrayBuffer(blob);
         reader.onloadend = () => reader.result ? resolve(reader.result as ArrayBuffer) : reject("reader null");
       });
     })
-    .then(buffer => {
+    .then((buffer) => {
       const decoder = new TextDecoder("utf-8");
       const jsonString = decoder.decode(buffer);
 
@@ -197,7 +197,7 @@ const handleSaveFile = async () => {
   const serializedGraph = amethyst.player.nodeManager.serialize();
   const dialog = await amethyst.showSaveFileDialog({
     filters: [{ name: "Amethyst Node Graph", extensions: ["ang"] }],
-    defaultPath: amethyst.player.nodeManager.graphName.value || "untitled"
+    defaultPath: amethyst.player.nodeManager.graphName.value || "untitled",
   });
   if (dialog?.canceled || !dialog?.filePath) return;
 
@@ -211,7 +211,7 @@ const handleReset = () => {
 
 const removeSelectedNodes = dash.value?.getSelectedNodes.forEach((nodeElement: any) => {
   const node = amethyst.player.nodeManager.nodes.value
-    .find(node => node.properties.id === nodeElement.id);
+    .find((node) => node.properties.id === nodeElement.id);
 
   node && amethyst.player.nodeManager.removeNode(node);
 });
@@ -269,7 +269,7 @@ onKeyStroke("Delete", () => {
         tooltip-text="Save As"
         @click="handleSaveFile"
       />
-      
+
       <base-toolbar-splitter />
 
       <base-toolbar-button
@@ -308,16 +308,16 @@ onKeyStroke("Delete", () => {
       >
         <div v-bind="$attrs">
           <span
-              @click="useInspector().inspectAndShow(node)"
+            @click="useInspector().inspectAndShow(node)"
           >
-          <component
+            <component
               :is="node.component"
               :node="node"
               :class="[
-              useInspector().state.isVisible && (useInspector().state.currentItem == node as any) && 'currentlyInspecting',
-            ]"
-          />
-        </span>
+                useInspector().state.isVisible && (useInspector().state.currentItem == node as any) && 'currentlyInspecting',
+              ]"
+            />
+          </span>
         </div>
       </template>
     </vue-flow>
@@ -379,7 +379,7 @@ onKeyStroke("Delete", () => {
 .currentInspecting {
   @apply border-inspector-color;
 }
-  
+
 .vue-flow__edge {
   path {
     @apply stroke-surface-400 transition-colors;

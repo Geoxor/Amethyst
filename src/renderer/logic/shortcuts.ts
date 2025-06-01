@@ -1,4 +1,4 @@
-import type { UseKeyModifierReturn} from "@vueuse/core";
+import type { UseKeyModifierReturn } from "@vueuse/core";
 import { onKeyStroke, useKeyModifier, useLocalStorage } from "@vueuse/core";
 import { computed } from "vue";
 
@@ -8,7 +8,7 @@ export type ShortcutBindings = Record<string, [string[], (e: KeyboardEvent) => v
 export type CustomShortcutBindings = Record<string, string[]>;
 
 // Stops default HTML actions like scrolling when tapping space or seeking with pageup/down after clicking the seekbar
-window.addEventListener("keydown", function(e) {
+window.addEventListener("keydown", function (e) {
   switch (e.code) {
     case "PageDown":
     case "PageUp":
@@ -34,8 +34,8 @@ export class Shortcuts {
     // please name these keys in the following syntax
     // <noun>.<verb>.<name>
     "audio.play.pause": [[" "], () => {
-      amethyst.player.isPlaying.value ? amethyst.player.pause() : amethyst.player.play()
-    }], 
+      amethyst.player.isPlaying.value ? amethyst.player.pause() : amethyst.player.play();
+    }],
     "audio.next": [["ArrowDown"], () => {
       amethyst.player.skip();
     }],
@@ -59,7 +59,7 @@ export class Shortcuts {
     "interface.zoom.reset": [["0"], () => this.isCommandOrControlPressed.value && amethyst.zoom("reset")],
     "interface.reload": [["F5"], () => amethyst.reload()],
     "interface.navigate.settings": [[","], () => this.isCommandOrControlPressed.value && amethyst.openSettings()],
-    "interface.toggle.command_palette": [['k', 'p'], () => this.isCommandOrControlPressed.value && (amethyst.state.showCommandPalette.value = true)],
+    "interface.toggle.command_palette": [["k", "p"], () => this.isCommandOrControlPressed.value && (amethyst.state.showCommandPalette.value = true)],
   };
 
   public bindings = this.DEFAULT_BINDINGS;
@@ -82,8 +82,8 @@ export class Shortcuts {
 
       // Register the event for each key
       for (let j = 0; j < keys.length; j++)
-        onKeyStroke(keys[j], e => {
-          if (amethyst.state.showCommandPalette.value) return; 
+        onKeyStroke(keys[j], (e) => {
+          if (amethyst.state.showCommandPalette.value) return;
           e.stopPropagation();
           action(e);
         });

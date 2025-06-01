@@ -10,7 +10,7 @@ import GenericBlob from "./GenericBlob.vue";
     :title="$t('output_diagram.output.title')"
   >
     <icon
-      icon="ic:twotone-volume-up" 
+      icon="ic:twotone-volume-up"
       class="h-6 w-6 text-text-title"
     />
   </generic-blob>

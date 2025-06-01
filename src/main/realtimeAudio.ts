@@ -1,5 +1,5 @@
 import type { RtAudioDeviceInfo } from "audify";
-import pkg from 'audify';
+import pkg from "audify";
 const { RtAudio, RtAudioFormat } = pkg;
 
 import chalk from "chalk";
@@ -34,7 +34,7 @@ const startAudioStream = (device: RtAudioDeviceInfo, channels: number, bufferSiz
     finalSampleRate, // Sampling rate is 48kHz
     bufferSize, // Frame size is 1920 (40ms)
     "Amethyst", // The name of the stream (used for JACK Api)
-    (pcm => console.log(pcm.length)), // Input callback function, write every input pcm data to the output buffer
+    (pcm) => console.log(pcm.length), // Input callback function, write every input pcm data to the output buffer
     null, // Input callback function, write every input pcm data to the output buffer
   );
   rtAudio.start();
@@ -107,7 +107,8 @@ ipcMain.handle("audio-chunk", (_, [device, channels, bufferSize, sampleRate, arr
     try {
       rtAudio.write(chunkToWrite);
       audioBuffer = audioBuffer.subarray(bufferLengthExpected); // Remove written data
-    } catch (error) {
+    }
+    catch (error) {
       rtAudio.closeStream();
       console.log(error);
     }

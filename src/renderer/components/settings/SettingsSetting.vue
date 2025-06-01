@@ -9,7 +9,7 @@ import BaseTooltip from "../BaseTooltip.vue";
 import BaseKeyboardButton from "../input/BaseKeyboardButton.vue";
 import TitleSubtitle from "../v2/TitleSubtitle.vue";
 
-defineProps<{subsetting?:boolean, iconColor?: string, platforms?: ("desktop" | "mobile" | "web")[], title: string, shortcuts?: string[], description?: string, info?: string, warning?:string, icon: string }>();
+defineProps<{ subsetting?: boolean; iconColor?: string; platforms?: ("desktop" | "mobile" | "web")[]; title: string; shortcuts?: string[]; description?: string; info?: string; warning?: string; icon: string }>();
 
 const slots = useSlots();
 
@@ -18,7 +18,7 @@ const hasSubsetting = () => {
 };
 
 </script>
- 
+
 <template>
   <div
     v-if="!platforms || platforms.includes(amethyst.getCurrentPlatform())"

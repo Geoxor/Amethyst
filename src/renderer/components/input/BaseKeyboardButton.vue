@@ -5,20 +5,20 @@ import { onMounted, ref, watch } from "vue";
 
 import { amethyst } from "@/amethyst.js";
 const props = defineProps<{
-  button: KeyFilter,
+  button: KeyFilter;
 }>();
 
 const active = ref(false);
 
 onMounted(() => {
   if (props.button === "CTRL") {
-    watch(() => amethyst.shortcuts.isControlPressed.value, value => active.value = value);
+    watch(() => amethyst.shortcuts.isControlPressed.value, (value) => active.value = value);
   }
   else if (props.button === "SHIFT") {
-    watch(() => amethyst.shortcuts.isShiftPressed.value, value => active.value = value);
+    watch(() => amethyst.shortcuts.isShiftPressed.value, (value) => active.value = value);
   }
   else if (props.button === "ALT") {
-    watch(() => amethyst.shortcuts.isAltPressed.value, value => active.value = value);
+    watch(() => amethyst.shortcuts.isAltPressed.value, (value) => active.value = value);
   }
   else {
     // Deals with lowercase and uppercase
@@ -29,7 +29,7 @@ onMounted(() => {
   }
 
   // Fixes sticky buttons when a popup happens and we lose focus
-  watch(() => amethyst.state.window.isFocused, isFocused => {
+  watch(() => amethyst.state.window.isFocused, (isFocused) => {
     if (!isFocused) active.value = false;
   });
 });

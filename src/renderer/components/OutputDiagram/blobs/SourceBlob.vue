@@ -28,7 +28,7 @@ const updateMimeType = (track: Track) => {
 
 onMounted(() => {
   const currentTrack = amethyst.player.getCurrentTrack();
-  if (currentTrack) updateMimeType(currentTrack);;
+  if (currentTrack) updateMimeType(currentTrack); ;
   amethyst.player.on("player:trackChange", updateMimeType);
   amethyst.player.on("player:currentTrackMetadataLoaded", updateMimeType);
 });

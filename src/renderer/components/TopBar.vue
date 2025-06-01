@@ -22,7 +22,7 @@ import { registerCommand } from "./CommandPalette/registry";
 
 const min = ref(Number.POSITIVE_INFINITY);
 const max = ref(Number.NEGATIVE_INFINITY);
-const fpsCounter = useFps({every: 60});
+const fpsCounter = useFps({ every: 60 });
 const fps = ref(0);
 const tweenedFps = ref(0);
 const domSize = ref(0);
@@ -30,16 +30,16 @@ const latency = ref(0);
 const router = useRouter();
 
 const branchName = ref("Development");
-const commitHash = ref('unknown commit hash');
+const commitHash = ref("unknown commit hash");
 let clock: NodeJS.Timeout;
-    
+
 onMounted(() => {
   if (amethyst.IS_DEV) {
-    window.electron.ipcRenderer.invoke<{branchName: string, commitHash: string}>('get-branch-name').then(info => {
+    window.electron.ipcRenderer.invoke<{ branchName: string; commitHash: string }>("get-branch-name").then((info) => {
       branchName.value = info.branchName;
       commitHash.value = info.commitHash.substring(0, 7);
-    })
-  }    
+    });
+  }
 
   clock = setInterval(() => {
     if (amethyst.state.settings.appearance.showDebugStats) {
@@ -47,11 +47,10 @@ onMounted(() => {
       if (fps.value > max.value) max.value = fps.value;
       if (fps.value < min.value) min.value = fps.value;
       domSize.value = countDomElements();
-      amethyst.player.getLatency().then(l => latency.value = l);
+      amethyst.player.getLatency().then((l) => latency.value = l);
       // TODO: multiplatform support
-      smoothTween(tweenedFps.value, fpsCounter.value, 1000, (tweenedNumber => tweenedFps.value = Math.ceil(tweenedNumber)));
+      smoothTween(tweenedFps.value, fpsCounter.value, 1000, (tweenedNumber) => tweenedFps.value = Math.ceil(tweenedNumber));
     }
-
   }, 1000);
 });
 
@@ -64,7 +63,7 @@ const commandOrControlSymbol = computed(() => amethyst.getCurrentOperatingSystem
 const menuGroupRef = ref<{
   activeMenu: string | null;
 }>({
-  activeMenu: null
+  activeMenu: null,
 });
 
 const showHeart = ref(false);
@@ -76,15 +75,15 @@ const playEasterEggSound = () => {
   showHeart.value = true;
   const audioElement = document.createElement("audio");
   // @ts-ignore
-  audioElement.src = new URL(`/sounds/amethyst${randomIntInRange(1, 4)}.flac`, import.meta.url).toString();;
+  audioElement.src = new URL(`/sounds/amethyst${randomIntInRange(1, 4)}.flac`, import.meta.url).toString(); ;
   audioElement.volume = 0.33;
   audioElement.play();
   audioElement.remove();
-}
+};
 provide("menuGroupRef", menuGroupRef);
 
-registerCommand('menu.utility.refresh_all_metadata', () => amethyst.player.queue.fetchAsyncData(true), 'ic:round-refresh')
-registerCommand('menu.utility.check_for_updates', () => amethyst.checkForUpdates(), 'ic:twotone-update')
+registerCommand("menu.utility.refresh_all_metadata", () => amethyst.player.queue.fetchAsyncData(true), "ic:round-refresh");
+registerCommand("menu.utility.check_for_updates", () => amethyst.checkForUpdates(), "ic:twotone-update");
 </script>
 
 <template>
@@ -93,15 +92,22 @@ registerCommand('menu.utility.check_for_updates', () => amethyst.checkForUpdates
     :class="[amethyst.state.window.isFocused ? 'text-text-title' : 'text-text-subtitle', amethyst.getCurrentOperatingSystem() == 'mac' ? 'min-h-24px' : 'min-h-40px']"
   >
     <div
-        v-if="amethyst.getCurrentOperatingSystem() !== 'mac'"
-        class="flex no-drag h-full items-center"
+      v-if="amethyst.getCurrentOperatingSystem() !== 'mac'"
+      class="flex no-drag h-full items-center"
     >
       <div
         class="duration-user-defined logo w-52px h-full items-center active:scale-90 flex justify-center cursor-heart-pointer rounded-br-8px hover:bg-primary/10 hover:text-primary"
         @click="playEasterEggSound()"
       >
-        <amethyst-icon v-if="!showHeart" class="w-5 h-5" />
-        <icon v-else class="w-5 h-5 text-pink-700" icon="ic:twotone-favorite"/>
+        <amethyst-icon
+          v-if="!showHeart"
+          class="w-5 h-5"
+        />
+        <icon
+          v-else
+          class="w-5 h-5 text-pink-700"
+          icon="ic:twotone-favorite"
+        />
       </div>
       <menu-container :title="$t('menu.file')">
         <menu-option
@@ -144,7 +150,7 @@ registerCommand('menu.utility.check_for_updates', () => amethyst.checkForUpdates
           @click="amethyst.reload()"
         />
 
-        <menu-splitter 
+        <menu-splitter
           v-if="amethyst.getCurrentPlatform() == 'desktop'"
         />
         <menu-option
@@ -176,7 +182,7 @@ registerCommand('menu.utility.check_for_updates', () => amethyst.checkForUpdates
           :shortcuts="[commandOrControlSymbol, '0']"
           @click="amethyst.zoom('reset')"
         />
-        <menu-splitter 
+        <menu-splitter
           v-if="amethyst.getCurrentPlatform() == 'desktop'"
         />
         <menu-option
@@ -237,14 +243,14 @@ registerCommand('menu.utility.check_for_updates', () => amethyst.checkForUpdates
       />
       <base-chip
         v-if="amethyst.IS_DEV"
-       
+
         class="hover:underline no-drag cursor-pointer"
         :class="[
           amethyst.state.window.isFocused ? 'text-primary' : 'text-text-subtitle bg-text-subtitle/15',
         ]"
         @click="amethyst.openLink(`https://github.com/Geoxor/Amethyst/tree/${branchName}`)"
       >
-        {{ branchName }} ⚐ {{commitHash}}
+        {{ branchName }} ⚐ {{ commitHash }}
       </base-chip>
       <title-text
         class="opacity-50 font-normal"
@@ -255,7 +261,7 @@ registerCommand('menu.utility.check_for_updates', () => amethyst.checkForUpdates
     <div class="flex gap-1.25 h-6 items-center truncate font-aseprite whitespace-nowrap">
       <div
         v-if="amethyst.state.settings.appearance.showDebugStats"
-        class="w-min flex gap-1 justify-end no-drag" 
+        class="w-min flex gap-1 justify-end no-drag"
         @click="min = Number.POSITIVE_INFINITY; max = Number.NEGATIVE_INFINITY;"
       >
         <div class="hidden lg:inline font-aseprite text-primary-900/50">
@@ -263,7 +269,7 @@ registerCommand('menu.utility.check_for_updates', () => amethyst.checkForUpdates
           {{ amethyst.player.getBufferSize() }}<span class="text-primary-900/25">smp</span>
           {{ latency.toFixed(2) }}<span class="text-primary-900/25">ms</span>
         </div>
-        <div 
+        <div
           :class="[
             fps < 30 && 'text-rose-500',
             fps >= 30 && fps < max && 'text-yellow-300',
@@ -274,12 +280,12 @@ registerCommand('menu.utility.check_for_updates', () => amethyst.checkForUpdates
           {{ tweenedFps }}fps
         </div>
       </div>
-    
+
       <update-button
         v-if="amethyst.state.window.updateReady"
         @click="amethyst.performWindowAction('close')"
       />
-        
+
       <control-buttons
         v-if="amethyst.getCurrentPlatform() == 'desktop' && amethyst.getCurrentOperatingSystem() != 'mac'"
         :is-maximized="amethyst.state.window.isMaximized"

@@ -6,7 +6,7 @@ import { computed } from "vue";
 import { amethyst } from "@/amethyst.js";
 import { useContextMenu } from "@/components/ContextMenu";
 import type { PossibleSortingMethods } from "@/logic/queue";
-import { type Track,trackContextMenuOptions } from "@/logic/track";
+import { type Track, trackContextMenuOptions } from "@/logic/track";
 import type { IContextMenuOption } from "@/state";
 
 import CoverArt from "./CoverArt.vue";
@@ -41,9 +41,9 @@ const isHoldingControl = amethyst.shortcuts.isControlPressed;
 
 const ITEM_HEIGHT = amethyst.state.settings.appearance.compactList ? 32 : 40;
 
-// Context Menu options for this component 
-const handleTrackContextMenu = ({x, y}: MouseEvent, track: Track) => {
-  useContextMenu().open({x, y}, trackContextMenuOptions(track));
+// Context Menu options for this component
+const handleTrackContextMenu = ({ x, y }: MouseEvent, track: Track) => {
+  useContextMenu().open({ x, y }, trackContextMenuOptions(track));
 };
 
 const columns = amethyst.state.settings.columns;
@@ -51,7 +51,7 @@ const columns = amethyst.state.settings.columns;
 const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
   const contextMenu = useContextMenu();
 
-  const columnOptions: {key: keyof typeof amethyst.state.settings.columns, title: string}[] = [
+  const columnOptions: { key: keyof typeof amethyst.state.settings.columns; title: string }[] = [
     { key: "cover", title: "queue.column.cover" },
     { key: "diskNumber", title: "track.metadata.disk_number" },
     { key: "trackNumber", title: "track.metadata.track_number" },
@@ -60,13 +60,13 @@ const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
     { key: "artist", title: "track.metadata.artist" },
     { key: "location", title: "queue.column.location" },
     { key: "album", title: "track.metadata.album" },
-    { key: "genre", title: "track.metadata.genre"},
-    { key: "barcode", title: "track.metadata.barcode"},
+    { key: "genre", title: "track.metadata.genre" },
+    { key: "barcode", title: "track.metadata.barcode" },
     { key: "year", title: "track.metadata.year" },
-    { key: "label", title: "track.metadata.label"},
-    { key: "isrc", title: "track.metadata.isrc"},
-    { key: "copyright", title: "track.metadata.copyright"},
-    { key: "bpm", title: "track.metadata.bpm"},
+    { key: "label", title: "track.metadata.label" },
+    { key: "isrc", title: "track.metadata.isrc" },
+    { key: "copyright", title: "track.metadata.copyright" },
+    { key: "bpm", title: "track.metadata.bpm" },
     { key: "duration", title: "track.metadata.duration" },
     { key: "container", title: "track.audio_properties.container" },
     { key: "favorite", title: "queue.column.favorite" },
@@ -89,8 +89,8 @@ const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
 
 <template>
   <div
-class="text-13px text-text-title min-h-0 flex flex-col text-left relative select-none "
-    >
+    class="text-13px text-text-title min-h-0 flex flex-col text-left relative select-none "
+  >
     <div
       class="flex text-left font-weight-user-defined sticky top-0 bg-surface-900 py-2 px-2 columnHeader min-h-36px"
       :class="[amethyst.player.queue.currentSortingDirection.value]"
@@ -435,7 +435,7 @@ class="text-13px text-text-title min-h-0 flex flex-col text-left relative select
             v-if="columns.cover"
             class="flex-none w-[32px] h-[24px]"
           >
-            <loading-icon 
+            <loading-icon
               v-if="item.isLoading"
             />
             <icon
@@ -568,7 +568,7 @@ class="text-13px text-text-title min-h-0 flex flex-col text-left relative select
             <span v-if="item.getBPM()">{{ item.getBPM() }}</span>
             <not-applicable-text v-else />
           </div>
-          
+
           <div
             v-if="columns.duration"
             class="flex-none w-[80px]"

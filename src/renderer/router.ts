@@ -22,19 +22,19 @@ const routes: RouteRecordRaw[] = [
       { path: "/keybinds", name: "settings.keybinds", component: () => import("@/views/Settings/KeybindSettings.vue") },
       { path: "/integration", name: "settings.integrations", component: () => import("@/views/Settings/IntegrationSettings.vue") },
       { path: "/application", name: "settings.application", component: () => import("@/views/Settings/ApplicationSettings.vue") },
-    ]
+    ],
   },
 ];
 
-  // @ts-ignore
-if (import.meta.env.DEV) routes.push({ path: "/playground", name: "playground", component: () => import("@/views/PlaygroundView.vue") })
+// @ts-ignore
+if (import.meta.env.DEV) routes.push({ path: "/playground", name: "playground", component: () => import("@/views/PlaygroundView.vue") });
 
 const registerRoute = (route: RouteRecordRaw) => {
   if (!route.name) return;
-  if (route.name == 'now-playing') return;
-  registerCommand(`command.router.go.${route.name?.toString().replaceAll('-', "_")}`, () => router.push({name: route.name}), 'ic:twotone-navigation');
+  if (route.name == "now-playing") return;
+  registerCommand(`command.router.go.${route.name?.toString().replaceAll("-", "_")}`, () => router.push({ name: route.name }), "ic:twotone-navigation");
   if (route.children) route.children.forEach(registerRoute);
-}
+};
 
 routes.forEach(registerRoute);
 
@@ -45,10 +45,9 @@ export const router = createRouter({
 
 let lastSettingsRoute = "settings.appearance";
 
-router.beforeEach(guard => {
+router.beforeEach((guard) => {
   const routeName = guard.name!.toString();
 
   if (routeName == "settings") router.push({ name: lastSettingsRoute });
   if (routeName.startsWith("settings.")) lastSettingsRoute = routeName;
 });
-

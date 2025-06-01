@@ -1,7 +1,7 @@
 <script lang="ts" setup>
-import {computed,onBeforeUnmount, onMounted, ref} from "vue";
+import { computed, onBeforeUnmount, onMounted, ref } from "vue";
 
-import {type Direction} from ".";
+import { type Direction } from ".";
 
 const emit = defineEmits<{
   (e: "reset"): void;
@@ -59,7 +59,8 @@ onBeforeUnmount(() => {
 const cursorClass = computed(() => {
   if (props.direction === "horizontal") {
     return "handle-horizontal";
-  } else {
+  }
+  else {
     return "handle-vertical";
   }
 });
@@ -67,7 +68,8 @@ const cursorClass = computed(() => {
 const handlePositionClass = computed(() => {
   if (props.direction === "horizontal") {
     return "handle-position-horizontal";
-  } else {
+  }
+  else {
     return "handle-position-vertical";
   }
 });

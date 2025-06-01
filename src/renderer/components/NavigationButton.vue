@@ -6,7 +6,7 @@ import { useRoute, useRouter } from "vue-router";
 import { amethyst } from "@/amethyst.js";
 
 import BaseTooltip from "./BaseTooltip.vue";
-const props = defineProps<{ icon: any, routeName: string, mobile?: boolean}>();
+const props = defineProps<{ icon: any; routeName: string; mobile?: boolean }>();
 const route = useRoute();
 const isActive = computed(() => route.name?.toString().startsWith(props.routeName) || props.routeName === route.name);
 const router = useRouter();
@@ -21,7 +21,6 @@ const router = useRouter();
       mobile && 'w-full',
     ]"
   >
-        
     <button
       :class="[
         isActive && 'active',
