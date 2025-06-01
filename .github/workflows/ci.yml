@@ -17,7 +17,7 @@ on:
       
 jobs:
   test:
-    name: Test
+    name: Run unit tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -90,6 +90,7 @@ jobs:
             release/build/*.yml
             release/build/*.yaml
             release/build/*.exe*
+  
   build-macos:
     needs: [test, lint]
     name: Build MacOS
@@ -288,7 +289,7 @@ jobs:
   publish-releases:
     if: startsWith(github.ref, 'refs/tags/v')
     needs: [build-windows, build-macos, build-linux, build-android]
-    name: Publish Releases
+    name: Publish releases
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -303,3 +304,30 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "*"
+
+  update-download-links:
+    needs: [publish-releases]
+    name: Update download links
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.17.0
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Update download links
+        run: yarn update-download-links
+
+      - name: Commit and push changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md LOCALE_COVERAGE.md
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update download links to latest release"
+          git push
