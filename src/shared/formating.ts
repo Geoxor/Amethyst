@@ -17,7 +17,7 @@ export const bitrateToHuman = (bitrate: number): string => {
 
 // Turns seconds from 80 to 1:20
 export const secondsToHuman = (time: number): string => {
-  return prettyMilliseconds(time * 1000,{secondsDecimalDigits: 0});
+  return prettyMilliseconds(time * 1000, { secondsDecimalDigits: 0 });
 };
 
 export const secondsToColinHuman = (time: number): string => {

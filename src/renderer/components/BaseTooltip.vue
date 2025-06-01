@@ -3,9 +3,9 @@ import type { Placement } from "@floating-ui/core";
 
 import BasePopover from "@/components/BasePopover.vue";
 defineProps<{
-	text?: string
-	placement?: Placement
-	borderless?: boolean
+  text?: string;
+  placement?: Placement;
+  borderless?: boolean;
 }>();
 </script>
 

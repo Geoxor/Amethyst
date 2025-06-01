@@ -2,7 +2,7 @@ import { bitrateToHuman, bytesToHuman, secondsToColinHuman, secondsToHuman } fro
 import type { IMetadata, LoadState } from "@shared/types.js";
 import { LoadStatus } from "@shared/types.js";
 import FileSaver from "file-saver";
-import { md5 } from 'js-md5';
+import { md5 } from "js-md5";
 import mime from "mime-types";
 import * as mm from "music-metadata";
 import { MusicBrainzApi } from "musicbrainz-api";
@@ -15,9 +15,9 @@ import { saveArrayBufferToFile } from "@/logic/dom.js";
 import { convertDfpwm } from "@/logic/encoding.js";
 
 const mbApi = new MusicBrainzApi({
-    appName: "Amethyst",
-    appVersion: "2.0.7",
-    appContactInfo: "todo@example.com",
+  appName: "Amethyst",
+  appVersion: "2.0.7",
+  appContactInfo: "todo@example.com",
 });
 
 export const trackContextMenuOptions = (track: Track) => ([
@@ -26,12 +26,12 @@ export const trackContextMenuOptions = (track: Track) => ([
   { title: "Favorite", icon: "ic:twotone-favorite", action: () => track.toggleFavorite() },
   { title: "Encode to .dfpwm...", icon: "ic:twotone-qr-code", action: async () => {
     saveArrayBufferToFile(
-      await convertDfpwm(await track.getArrayBuffer()), 
+      await convertDfpwm(await track.getArrayBuffer()),
       {
-        filename: track.getFilenameWithoutExtension(), 
-        extension: "dfpwm"
-    });
-  }},
+        filename: track.getFilenameWithoutExtension(),
+        extension: "dfpwm",
+      });
+  } },
   { title: "Show in Explorer...", icon: "ic:twotone-pageview", action: () => amethyst.showItem(track.path) },
   { title: "Export cover...", icon: "ic:twotone-add-photo-alternate", action: () => track.exportCover() },
   { title: "Reload metadata", icon: "mdi:flask", action: () => track.fetchAsyncData(true) },
@@ -44,7 +44,7 @@ export const trackContextMenuOptions = (track: Track) => ([
  */
 export class Track {
   public metadata: LoadState<IMetadata> = { state: LoadStatus.Loading, data: undefined };
-  public cover: { state: LoadStatus, data: string | undefined } = { state: LoadStatus.Loading, data: undefined };
+  public cover: { state: LoadStatus; data: string | undefined } = { state: LoadStatus.Loading, data: undefined };
   public isLoading = ref(false);
   public isLoaded = ref(false);
   public hasErrored = ref(false);
@@ -68,7 +68,8 @@ export class Track {
     this.isFavorited = !this.isFavorited;
     if (this.isFavorited) {
       favoriteTracks.value.push(this.uuid!);
-    } else {
+    }
+    else {
       favoriteTracks.value.splice(favoriteTracks.value.indexOf(this.uuid!), 1);
     }
   }
@@ -82,7 +83,8 @@ export class Track {
     try {
       await window.fs.stat(this.getCachePath(true));
       return true;
-    } catch (error) {
+    }
+    catch (error) {
       return false;
     }
   }
@@ -91,7 +93,8 @@ export class Track {
     const data = await window.fs.readFile(this.getCachePath(true), "utf8");
     try {
       return await JSON.parse(data.trim());
-    } catch (error) {
+    }
+    catch (error) {
       if (error instanceof SyntaxError) {
         console.log("Fixing malformed metadata cache file due to interruption during I/O operation");
         await this.fetchAsyncData(true);
@@ -176,7 +179,8 @@ export class Track {
       this.metadata.state = LoadStatus.Loaded;
       this.generateHash();
       return this.metadata.data;
-    } catch (error) {
+    }
+    catch (error) {
       console.log(error, this.absolutePath);
       return;
     }
@@ -204,13 +208,12 @@ export class Track {
 
     const artist = this.metadata.data?.common.artist ?? "";
     const album = this.metadata.data?.common.album ?? "";
-    
+
     const result = await mbApi.search("release", {
-      query: `artist:${artist} ${album}`
+      query: `artist:${artist} ${album}`,
     });
 
-    if (result.count > 0)
-    {
+    if (result.count > 0) {
       for (const release of result.releases) {
         for (const media of release.media) {
           // make sure it's an digital album
@@ -223,7 +226,8 @@ export class Track {
                   return;
                 }
               }
-            } catch(_) {}
+            }
+            catch (_) {}
           }
         }
       }
@@ -254,10 +258,10 @@ export class Track {
     if (force && this.amethyst.getCurrentPlatform() == "desktop") {
       window.fs.writeFile(this.getCachePath(true), JSON.stringify({
         cover,
-        metadata
-      }, null, 2)).catch((error => {
+        metadata,
+      }, null, 2)).catch((error) => {
         console.error("Failed to write metadata cache file, did you delete the 'Metadata Cache' folder?", error);
-      }));
+      });
     }
 
     this.isLoading.value = false;
@@ -306,45 +310,59 @@ export class Track {
   public getTitle() {
     return this.getMetadata()?.common.title;
   }
+
   public getTrackNumber() {
     return this.getMetadata()?.common.track.no;
   }
-  public getBarcode(){
+
+  public getBarcode() {
     return this.getMetadata()?.common.barcode;
   }
-  public getLabel(){
+
+  public getLabel() {
     return this.getMetadata()?.common.label;
   }
-  public getISRC(){
+
+  public getISRC() {
     return this.getMetadata()?.common.isrc;
   }
-  public getCopyright(){
+
+  public getCopyright() {
     return this.getMetadata()?.common.copyright;
   }
+
   public getGenre() {
     return this.getMetadata()?.common.genre?.sort();
   }
+
   public getGenreFormatted() {
     return this.getGenre()?.join(", ");
   }
+
   public getBPM() {
     return this.getMetadata()?.common.bpm;
   }
+
   public getDiskNumber() {
     return this.getMetadata()?.common.disk.no;
   }
+
   public getYear() {
     return this.getMetadata()?.common.year;
   }
+
   public getContainer() {
     return this.getMetadata()?.format.container;
   }
+
   public getCodec() {
     return this.getMetadata()?.format.codec;
   }
+
   public getBitrate() {
     return this.getMetadata()?.format.bitrate;
   }
+
   public getBitsPerSample() {
     return this.getMetadata()?.format.bitsPerSample;
   }
@@ -352,6 +370,7 @@ export class Track {
   public getBitsPerSampleFormatted() {
     return this.getBitsPerSample() ? `${this.getBitsPerSample()} bit` : undefined;
   }
+
   public getSampleRate() {
     return this.getMetadata()?.format.sampleRate;
   }
@@ -363,13 +382,16 @@ export class Track {
   public getFilesize() {
     return this.getMetadata()?.size;
   }
+
   public getArtists() {
     return this.getMetadata()?.common.artists;
   }
+
   public getAlbum() {
     return this.getMetadata()?.common.album;
   }
-  public getDuration(){
+
+  public getDuration() {
     return this.getMetadata()?.format.duration;
   }
 
@@ -380,6 +402,7 @@ export class Track {
   public getDurationSeconds() {
     return this.getDuration() || 0;
   };
+
   /**
    * @returns The number of channels
    * @example 2, 4, 6 || 2
@@ -448,5 +471,4 @@ export class Track {
   public getDurationFormatted(colinNotation?: boolean) {
     return colinNotation ? secondsToColinHuman(~~this.getDurationSeconds()) : secondsToHuman(~~this.getDurationSeconds());
   };
-
 }

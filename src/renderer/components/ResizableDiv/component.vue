@@ -1,10 +1,10 @@
 <script lang="ts" setup>
-import {useLocalStorage} from "@vueuse/core";
-import type { Ref} from "vue";
-import {onMounted, ref} from "vue";
-import {computed} from "vue";
+import { useLocalStorage } from "@vueuse/core";
+import type { Ref } from "vue";
+import { onMounted, ref } from "vue";
+import { computed } from "vue";
 
-import {type Direction, getResizeDirection,type ResizeSide} from ".";
+import { type Direction, getResizeDirection, type ResizeSide } from ".";
 import ResizeHandle from "./ResizeHandle.vue";
 
 const props = defineProps<{
@@ -24,14 +24,15 @@ const delta = ref(0);
 const storedSize = useLocalStorage<string | null>(`${props.name}-size`, null);
 
 const isCentered = computed(
-    () => props.side === "centerHorizontal" || props.side === "centerVertical"
+  () => props.side === "centerHorizontal" || props.side === "centerVertical",
 );
 
 function reapplySize() {
   let size: string;
   if (storedSize.value != null) {
     size = storedSize.value + "px";
-  } else {
+  }
+  else {
     size = props.defaultSize || "100%";
   }
 
@@ -39,7 +40,8 @@ function reapplySize() {
 
   if (direction.value === "horizontal") {
     resizableDiv.value.style.height = size;
-  } else {
+  }
+  else {
     resizableDiv.value.style.width = size;
   }
 }
@@ -60,8 +62,8 @@ function reapplyPosition() {
       break;
     case "centerHorizontal":
     case "centerVertical":
-      resizableDiv.value.style.flexDirection =
-          props.side === "centerHorizontal" ? "column" : "row";
+      resizableDiv.value.style.flexDirection
+          = props.side === "centerHorizontal" ? "column" : "row";
       resizableDiv.value.style.justifyContent = "center";
       resizableDiv.value.style.alignItems = "center";
       break;
@@ -75,9 +77,9 @@ onMounted(() => {
 
 function startResizing() {
   storedSize.value = (
-      direction.value === "horizontal"
-          ? resizableDiv.value.clientHeight
-          : resizableDiv.value.clientWidth
+    direction.value === "horizontal"
+      ? resizableDiv.value.clientHeight
+      : resizableDiv.value.clientWidth
   ).toString();
   delta.value = 0;
 
@@ -88,13 +90,16 @@ function resize(passedDelta: number, handlePosition?: string) {
   if (isCentered.value) {
     if (handlePosition === "start") {
       delta.value = -passedDelta * 2;
-    } else if (handlePosition === "end") {
+    }
+    else if (handlePosition === "end") {
       delta.value = passedDelta * 2;
     }
-  } else {
+  }
+  else {
     if (props.side == "left" || props.side == "top") {
       delta.value = -passedDelta;
-    } else {
+    }
+    else {
       delta.value = passedDelta;
     }
   }

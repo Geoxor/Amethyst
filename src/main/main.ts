@@ -9,11 +9,10 @@
 import "./realtimeAudio.js";
 import "./drag-drop.js";
 
-import {app, Menu, shell } from "electron";
+import { app, Menu, shell } from "electron";
 import Store from "electron-store";
 
 import { checkForUpdatesAndInstall, MainWindow } from "./mainWindow.js";
-
 
 export const store = new Store();
 
@@ -23,7 +22,7 @@ export const getWindow = () => mainWindow;
 
 export const IS_DEV = process.env.NODE_ENV === "development" || process.env.DEBUG_PROD === "true";
 if (process.env.NODE_ENV === "production")
-  import("source-map-support").then(smc => smc.install());
+  import("source-map-support").then((smc) => smc.install());
 
 app.setAppUserModelId("Amethyst");
 app.commandLine.appendSwitch("js-flags", "--max-old-space-size=1536");
@@ -35,12 +34,12 @@ if (!app.requestSingleInstanceLock()) {
 else {
   app.whenReady()
     .then(() => {
-
       const useVsync = store.get("useVsync", true);
       if (useVsync) {
         app.commandLine.removeSwitch("disable-frame-rate-limit");
         console.log("Vsync enabled");
-      } else {
+      }
+      else {
         app.commandLine.appendSwitch("disable-frame-rate-limit");
         console.log("Vsync disabled");
       }
@@ -58,7 +57,7 @@ else {
                 toolTip: "",
                 click: async () => {
                   mainWindow.window.webContents.send("check-for-updates");
-                }
+                },
               },
               { type: "separator" },
               {
@@ -67,7 +66,7 @@ else {
                 accelerator: "Cmd+,",
                 click: async () => {
                   mainWindow.window.webContents.send("open-settings-native");
-                }
+                },
               },
               { type: "separator" },
               { role: "services" },
@@ -76,7 +75,7 @@ else {
               { role: "hideOthers" },
               { role: "unhide" },
               { type: "separator" },
-              { role: "quit" }
+              { role: "quit" },
             ],
           },
           {
@@ -88,7 +87,7 @@ else {
                 accelerator: "Cmd+O",
                 click: async () => {
                   mainWindow.window.webContents.send("open-file-native");
-                }
+                },
               },
               {
                 label: "Open folder",
@@ -96,8 +95,8 @@ else {
                 accelerator: "Cmd+Shift+O",
                 click: async () => {
                   mainWindow.window.webContents.send("open-folder-native");
-                }
-              }
+                },
+              },
             ],
           },
           {
@@ -109,7 +108,7 @@ else {
                 accelerator: "Cmd+Shift+Z",
                 click: async () => {
                   mainWindow.window.webContents.send("clear-queue-native");
-                }
+                },
               },
               {
                 label: "Reload queue",
@@ -117,8 +116,8 @@ else {
                 accelerator: "Cmd+Alt+R",
                 click: async () => {
                   mainWindow.window.webContents.send("reload-queue-native");
-                }
-              }
+                },
+              },
             ],
           },
           {
@@ -136,38 +135,39 @@ else {
             ],
           },
           {
-            role: 'help',
+            role: "help",
             submenu: [
               {
-                label: 'Guides...',
+                label: "Guides...",
                 click: async () => {
-                  await shell.openExternal("https://amethyst.geoxor.moe/guides/showcase")
-                }
+                  await shell.openExternal("https://amethyst.geoxor.moe/guides/showcase");
+                },
               },
               {
-                label: 'User Manual...',
+                label: "User Manual...",
                 click: async () => {
-                  await shell.openExternal("https://amethyst.geoxor.moe/user-manual/keyboard-shortcuts")
-                }
+                  await shell.openExternal("https://amethyst.geoxor.moe/user-manual/keyboard-shortcuts");
+                },
               },
               {
-                label: 'Github Repository...',
+                label: "Github Repository...",
                 click: async () => {
-                  await shell.openExternal("https://github.com/geoxor/amethyst")
-                }
+                  await shell.openExternal("https://github.com/geoxor/amethyst");
+                },
               },
               {
-                label: 'Discord Server...',
+                label: "Discord Server...",
                 click: async () => {
-                  await shell.openExternal("https://discord.gg/geoxor")
-                }
-              }
-            ]
-          }
+                  await shell.openExternal("https://discord.gg/geoxor");
+                },
+              },
+            ],
+          },
         ]));
-      } else {
+      }
+      else {
         // Disables default zoom shortcuts because we remove the default menu actions
-        Menu.setApplicationMenu(Menu.buildFromTemplate([ {
+        Menu.setApplicationMenu(Menu.buildFromTemplate([{
           label: "View",
           submenu: [
             { role: "reload" },
@@ -180,7 +180,7 @@ else {
             { type: "separator" },
             { role: "togglefullscreen" },
           ],
-        },]));
+        }]));
       }
 
       app.on("window-all-closed", () => {
@@ -194,13 +194,12 @@ else {
         // Someone tried to run a second instance, we should focus our window.
         if (mainWindow.window.isMinimized())
           mainWindow.window.restore();
-          console.log(argv);
+        console.log(argv);
         mainWindow.playAudio(argv[3]);
         mainWindow.window.focus();
       });
 
       mainWindow.show();
-
     }).catch();
 }
 

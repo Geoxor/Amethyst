@@ -9,12 +9,12 @@ import { normalize8bit } from "@/logic/math";
 import { SpectrumBarShader } from "@/shaders/components/SpectrumBarShader";
 
 const props = defineProps<{
-  node: AudioNode,
-  accentColor: { r: number, g: number, b: number},
-  fftSize: number,
-  smoothing: number,
-  bars: number,
-  paused?: boolean,
+  node: AudioNode;
+  accentColor: { r: number; g: number; b: number };
+  fftSize: number;
+  smoothing: number;
+  bars: number;
+  paused?: boolean;
 }>();
 
 const context = props.node.context;
@@ -32,9 +32,9 @@ amethyst.state.on("theme:change", () => {
   setTimeout(() => {
     const accentColor = getThemeColorRgb("--accent");
     uniformData.u_color.value.set(
-        normalize8bit(accentColor[0]),
-        normalize8bit(accentColor[1]),
-        normalize8bit(accentColor[2])
+      normalize8bit(accentColor[0]),
+      normalize8bit(accentColor[1]),
+      normalize8bit(accentColor[2]),
     );
   }, 100);
 });
@@ -48,12 +48,12 @@ analyser.maxDecibels = -0;
 analyser.minDecibels = -128;
 
 const uniformData = {
-  u_color: {value: new THREE.Vector3(
-        normalize8bit(props.accentColor.r),
-        normalize8bit(props.accentColor.g),
-        normalize8bit(props.accentColor.b)
-    )},
-  u_amplitudes: {value: new Float32Array(props.bars)},
+  u_color: { value: new THREE.Vector3(
+    normalize8bit(props.accentColor.r),
+    normalize8bit(props.accentColor.g),
+    normalize8bit(props.accentColor.b),
+  ) },
+  u_amplitudes: { value: new Float32Array(props.bars) },
 };
 
 const render = (uniforms: Record<string, any>) => {

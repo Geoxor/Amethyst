@@ -12,24 +12,24 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="w-full py-2 pl-4 pr-2 text-text-title">
+  <div class="w-full py-2 pl-4 pr-2 text-text-title ">
     <route-header :title="$t('route.discovery')" />
     <div class="flex gap-2 mt-1 mr-2">
       <big-button
         class="flex gap-2"
-        icon="mdi:dice-5" 
+        icon="mdi:dice-5"
         @click="amethyst.analytics.getDiscoveryTracks()"
       />
       <big-button
         class="flex gap-2 w-full"
-        icon="ic:round-shuffle" 
+        icon="ic:round-shuffle"
         title="Just send it"
         description="I can't decide, play something random"
         @click="amethyst.player.playRandomTrack()"
       />
       <big-button
         class="flex gap-2 w-full"
-        icon="ic:twotone-favorite" 
+        icon="ic:twotone-favorite"
         :title="$t('route.favorites')"
         description="View your favorite saved songs"
         @click="$router.push({ name: 'favorites' })"
@@ -44,19 +44,20 @@ onMounted(() => {
 
       <big-button
         class="flex gap-2"
-        icon="ic:twotone-settings" 
+        icon="ic:twotone-settings"
         title="Settings"
         description="View your settings"
         @click="$router.push({ name: 'settings' })"
       />
     </div>
-    <div class="flex flex-col overflow-y-auto pb-32 gap-2 h-full">
+    <div class="flex flex-col overflow-y-auto gap-2 h-full pb-56">
       <discovery-feed
         :title="$t('discovery.for_you.title')"
         :subtitle="$t('discovery.for_you.description')"
         :tracks="amethyst.analytics.tracksBasedOnGenres.value"
       />
       <discovery-feed
+        v-if="amethyst.analytics.tracksBasedOnFavorites.value.size > 0"
         :title="$t('discovery.favorites.title')"
         :subtitle="$t('discovery.favorites.description')"
         :tracks="amethyst.analytics.tracksBasedOnFavorites.value"

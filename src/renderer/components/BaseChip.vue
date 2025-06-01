@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
-defineProps<{ icon?: any, color?: string }>();
+defineProps<{ icon?: any; color?: string }>();
 </script>
 
 <template>

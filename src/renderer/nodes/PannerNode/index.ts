@@ -34,7 +34,7 @@ export class AmethystPannerNode extends AmethystAudioNode {
         type: "number",
         min: -180,
         current: this.pan,
-        unit: "°"
+        unit: "°",
       },
     };
   }
@@ -43,14 +43,14 @@ export class AmethystPannerNode extends AmethystAudioNode {
     this.pan = parameters.pan.current;
   }
 
-  public get pan () {
-    return map(this.panner.pan.value, -1, 1,-180, 180) ;
+  public get pan() {
+    return map(this.panner.pan.value, -1, 1, -180, 180);
   }
 
   public set pan(value: number) {
-    this.panner.pan.value = map(value, -180, 180, -1, 1,);
+    this.panner.pan.value = map(value, -180, 180, -1, 1);
   }
- 
+
   public getDisplayValue() {
     return this.pan.toFixed(2);
   }

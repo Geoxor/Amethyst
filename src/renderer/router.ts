@@ -1,12 +1,13 @@
 import type { RouteRecordRaw } from "vue-router";
 import { createRouter, createWebHashHistory } from "vue-router";
 
+import { registerCommand } from "./components/CommandPalette/registry.js";
+
 const routes: RouteRecordRaw[] = [
   { path: "/", redirect: { name: "queue" } },
   { path: "/now-playing", name: "now-playing", component: () => import("@/views/NowPlayingView.vue") },
   { path: "/node-editor", name: "node-editor", component: () => import("@/views/NodeEditorView.vue") },
   { path: "/queue", name: "queue", component: () => import("@/views/QueueView.vue") },
-  { path: "/playground", name: "playground", component: () => import("@/views/PlaygroundView.vue") },
   { path: "/favorites", name: "favorites", component: () => import("@/views/FavoritesView.vue") },
   { path: "/discovery", name: "discovery", component: () => import("@/views/DiscoveryView.vue") },
   { path: "/audio-monitor", name: "audio-monitor", component: () => import("@/views/AudioMonitorView.vue") },
@@ -21,9 +22,21 @@ const routes: RouteRecordRaw[] = [
       { path: "/keybinds", name: "settings.keybinds", component: () => import("@/views/Settings/KeybindSettings.vue") },
       { path: "/integration", name: "settings.integrations", component: () => import("@/views/Settings/IntegrationSettings.vue") },
       { path: "/application", name: "settings.application", component: () => import("@/views/Settings/ApplicationSettings.vue") },
-    ]
+    ],
   },
 ];
+
+// @ts-ignore
+if (import.meta.env.DEV) routes.push({ path: "/playground", name: "playground", component: () => import("@/views/PlaygroundView.vue") });
+
+const registerRoute = (route: RouteRecordRaw) => {
+  if (!route.name) return;
+  if (route.name == "now-playing") return;
+  registerCommand(`command.router.go.${route.name?.toString().replaceAll("-", "_")}`, () => router.push({ name: route.name }), "ic:twotone-navigation");
+  if (route.children) route.children.forEach(registerRoute);
+};
+
+routes.forEach(registerRoute);
 
 export const router = createRouter({
   history: createWebHashHistory(),
@@ -32,7 +45,7 @@ export const router = createRouter({
 
 let lastSettingsRoute = "settings.appearance";
 
-router.beforeEach(guard => {
+router.beforeEach((guard) => {
   const routeName = guard.name!.toString();
 
   if (routeName == "settings") router.push({ name: lastSettingsRoute });

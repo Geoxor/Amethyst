@@ -12,7 +12,7 @@ const props = defineProps<{ node: AudioNode }>();
 
 const MINIMUM_LUFS = -20;
 
-const 
+const
   shortTerm = ref(MINIMUM_LUFS),
   momentary = ref(MINIMUM_LUFS),
   integrated = ref(MINIMUM_LUFS),
@@ -21,15 +21,14 @@ const
   integratedMax = ref(MINIMUM_LUFS);
 
 onMounted(() => {
-
   const loudnessMeter = new LoudnessMeter({
     source: props.node,
     // @ts-ignore
-    workerUri: new URL("../../workers/needlesWorker.js", import.meta.url).toString()
+    workerUri: new URL("../../workers/needlesWorker.js", import.meta.url).toString(),
   });
 
-  const handleData = (event: { data: { mode: any; value: any; }}) => {
-    let {mode, value} = event.data;
+  const handleData = (event: { data: { mode: any; value: any } }) => {
+    let { mode, value } = event.data;
     let refToUpdate: Ref<number>;
     let maxRef: Ref<number>;
 
@@ -51,8 +50,8 @@ onMounted(() => {
     }
 
     value = infinityClamp(value, MINIMUM_LUFS);
-    smoothTween(refToUpdate.value, value, 100, (tweenedNumber => refToUpdate.value = tweenedNumber));
-    maxRef.value < value && smoothTween (maxRef.value, value, 25, (tweenedNumber => maxRef.value = tweenedNumber));
+    smoothTween(refToUpdate.value, value, 100, (tweenedNumber) => refToUpdate.value = tweenedNumber);
+    maxRef.value < value && smoothTween (maxRef.value, value, 25, (tweenedNumber) => maxRef.value = tweenedNumber);
   };
 
   loudnessMeter.on("dataavailable", handleData);
@@ -71,7 +70,7 @@ onMounted(() => {
   });
   amethyst.player.on("player:pause", () => loudnessMeter.pause());
 
-  watch(() => amethyst.state.window.isFocused, isFocused => {
+  watch(() => amethyst.state.window.isFocused, (isFocused) => {
     if (amethyst.state.settings.performance.pauseVisualsWhenUnfocused) {
       if (!isFocused) loudnessMeter.pause();
       else loudnessMeter.resume();

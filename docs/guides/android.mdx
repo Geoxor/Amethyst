@@ -14,26 +14,35 @@ title: "Android"
     
     Install [Adoptium JavaJDK 21](https://adoptium.net/temurin/releases/?version=21&os=any&arch=any)
 
-    Make sure to enable "Add JAVA_HOME to PATH" during installation.
+
+    <Warning>
+      Make sure to enable `Add JAVA_HOME to PATH` during installation.
+    </Warning>
 
     #### MacOS
 
     ```bash
     brew install openjdk@21
-    ```
-
-    ```bash
     sudo ln -sfn /opt/homebrew/opt/openjdk@21/libexec/openjdk.jdk /Library/Java/JavaVirtualMachines/openjdk-21.jdk
-    ```
-
-    ```bash
     echo 'export PATH="/opt/homebrew/opt/openjdk@21/bin:$PATH"' >> ~/.zshrc
     ```
 
     #### Linux
-    - Fedora: `dnf install java-21-openjdk`
-    - Arch: `pacman -s jdk21-openjdk`
-    - Debian: `apt install openjdk-21-jre-headless`
+    <CodeGroup>
+
+      ```bash arch
+      pacman -s jdk21-openjdk
+      ```
+
+      ```bash debian
+      apt install openjdk-21-jre-headless
+      ```
+
+      ```bash fedora
+      dnf install java-21-openjdk
+      ```
+
+    </CodeGroup>
   </Step>
 
   <Step title="Third Step" icon='android'>
@@ -48,9 +57,6 @@ title: "Android"
 
     ```powershell
     C:\Users\$USER\AppData\Local\Android\Sdk\emulator
-    ```
-    
-    ```powershell
     C:\Users\$USER\AppData\Local\Android\Sdk\platform-tools
     ```
   </Step>

@@ -3,7 +3,7 @@ import { amethyst } from "@/amethyst.js";
 import BaseInput from "@/components/BaseInput.vue";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
-const {integrations} = amethyst.state.settings;
+const { integrations } = amethyst.state.settings;
 </script>
 
 <template>
@@ -17,7 +17,7 @@ const {integrations} = amethyst.state.settings;
   >
     <toggle-switch v-model="integrations.discord.enabled" />
   </settings-setting>
-  
+
   <settings-setting
     title="Last.fm"
     info="https://www.last.fm/about/trackmymusic"
@@ -27,7 +27,10 @@ const {integrations} = amethyst.state.settings;
   >
     <toggle-switch v-model="integrations.lastFm.enabled" />
 
-    <template v-if="integrations.lastFm.enabled" #subsettings>
+    <template
+      v-if="integrations.lastFm.enabled"
+      #subsettings
+    >
       <div class="p-2 flex flex-col gap-2">
         <settings-setting
           :title="$t('settings.lastfm.username.title')"
@@ -46,7 +49,6 @@ const {integrations} = amethyst.state.settings;
           :description="$t('settings.lastfm.password.description')"
           subsetting
           icon="ic:baseline-key"
-
         >
           <base-input
             v-model="integrations.lastFm.password"

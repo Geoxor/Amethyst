@@ -3,7 +3,7 @@ import { Icon } from "@iconify/vue";
 
 import BaseTooltip from "./BaseTooltip.vue";
 
-defineProps<{ tooltipText?: string, active?: boolean, icon?: string, text?: string }>();
+defineProps<{ tooltipText?: string; active?: boolean; icon?: string; text?: string }>();
 </script>
 
 <template>

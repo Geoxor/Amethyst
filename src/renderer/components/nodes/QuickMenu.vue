@@ -5,7 +5,7 @@ import { amethyst } from "@/amethyst.js";
 import type { AmethystAudioNode } from "@/logic/audio";
 
 import { useInspector } from "../Inspector";
-const props = defineProps<{node: AmethystAudioNode}>();
+const props = defineProps<{ node: AmethystAudioNode }>();
 
 const handleNodeRemove = () => {
   amethyst.player.nodeManager.removeNode(props.node);

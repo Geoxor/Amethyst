@@ -2,7 +2,7 @@
 import { amethyst } from "@/amethyst.js";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
-const {behavior} = amethyst.state.settings;
+const { behavior } = amethyst.state.settings;
 
 </script>
 
@@ -13,7 +13,7 @@ const {behavior} = amethyst.state.settings;
     :title="$t('settings.fetch_metadata_on_startup.title')"
   >
     <toggle-switch
-      v-model="behavior.fetchMetadataOnStartup" 
+      v-model="behavior.fetchMetadataOnStartup"
     />
   </settings-setting>
   <settings-setting
@@ -22,7 +22,7 @@ const {behavior} = amethyst.state.settings;
     :title="$t('settings.autoplay_on_startup.title')"
   >
     <toggle-switch
-      v-model="behavior.autoPlayOnStartup" 
+      v-model="behavior.autoPlayOnStartup"
     />
   </settings-setting>
 </template>

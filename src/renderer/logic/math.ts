@@ -9,7 +9,7 @@ export const normalize8bit = (value: number): number => {
 
 export const logParabolicSpectrum = (
   dataArray: Uint8Array,
-  outputLength: number
+  outputLength: number,
 ): Float32Array => {
   const maxIndex = dataArray.length - 1;
   const result = new Float32Array(outputLength);
@@ -42,7 +42,7 @@ export const logParabolicSpectrum = (
 
 export const linearSpectrum = (
   dataArray: Uint8Array,
-  outputLength: number
+  outputLength: number,
 ): Float32Array => {
   const inputLength = dataArray.length - 1;
   const result = new Float32Array(outputLength);
@@ -69,11 +69,13 @@ export const linearSpectrum = (
 /**
  * https://en.wikipedia.org/wiki/Fisher%E2%80%93Yates_shuffle
  * Fast shuffle method
- * @param array 
+ * @param array
  * @returns array
  */
 export const fisherYatesShuffle = <T>(array: T[]): T[] => {
-  let m = array.length; let t; let i;
+  let m = array.length;
+  let t;
+  let i;
   while (m) {
     i = ~~(Math.random() * m--);
 
@@ -86,7 +88,7 @@ export const fisherYatesShuffle = <T>(array: T[]): T[] => {
 
 /**
  * Turn's an array of arrays into a flat array of all items
- * @param array 
+ * @param array
  * @returns array
  */
 export const flattenArray = <T>(array: T[]): T[] => {

@@ -6,9 +6,9 @@ import TitleText from "../v2/TitleText.vue";
 
 const props = defineProps<{ title: string }>();
 const menuGroupRef = inject<{ value: {
-  activeMenu: string | null
-} }>("menuGroupRef", {
-  value: { activeMenu: null } 
+  activeMenu: string | null;
+}; }>("menuGroupRef", {
+  value: { activeMenu: null },
 });
 
 const menuContainer = ref<HTMLElement>();
@@ -21,33 +21,33 @@ const onMouseEnter = () => {
   if (menuGroupRef.value.activeMenu) menuGroupRef.value.activeMenu = props.title;
 };
 
-const onClick = () => {  
-  if (menuGroupRef.value.activeMenu === props.title) 
+const onClick = () => {
+  if (menuGroupRef.value.activeMenu === props.title)
     menuGroupRef.value.activeMenu = null;
-  else 
+  else
     menuGroupRef.value.activeMenu = props.title;
 };
 
 onClickOutside(
   menuContainer,
   () => {
-    if (menuGroupRef.value.activeMenu === props.title) 
+    if (menuGroupRef.value.activeMenu === props.title)
       menuGroupRef.value.activeMenu = null;
   },
-  { ignore: [menuContainer] }
+  { ignore: [menuContainer] },
 );
 
 </script>
 
 <template>
-  <div 
+  <div
     ref="menuContainer"
     class="menu relative h-full no-drag"
     @mouseenter="onMouseEnter"
   >
     <div
       :class="isShowing && 'text-accent bg-surface-600'"
-      class="hover:text-accent hover:bg-surface-600 cursor-default flex rounded-b-8px items-center mt-0.25 px-3 h-full duration-user-defined" 
+      class="hover:text-accent hover:bg-surface-600 cursor-default flex rounded-b-8px items-center mt-0.25 px-3 h-full duration-user-defined"
       @click.stop="onClick"
     >
       <title-text :text="title" />

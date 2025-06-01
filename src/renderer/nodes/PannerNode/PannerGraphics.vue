@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps<{pan: number}>();
+defineProps<{ pan: number }>();
 
 </script>
 

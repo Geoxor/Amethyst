@@ -38,7 +38,7 @@ const maxTrackTitleWidth = ref(0);
 watch(() => [
   amethyst.state.settings.appearance.showCoverArt,
   amethyst.state.settings.metering.decibelMeter.show,
-  amethyst.state.settings.metering.decibelMeter.separatePrePost
+  amethyst.state.settings.metering.decibelMeter.separatePrePost,
 ], () => updateTitleSpacing(playbackControlsWidth));
 
 const updateTitleSpacing = (newParentWidth: number) => {
@@ -55,7 +55,7 @@ const updateTitleSpacing = (newParentWidth: number) => {
 
 onMounted(() => {
   const parent = trackTitles.value!.parentElement!;
-  resizeObserver = new ResizeObserver(e => updateTitleSpacing(e[0].borderBoxSize[0].inlineSize));
+  resizeObserver = new ResizeObserver((e) => updateTitleSpacing(e[0].borderBoxSize[0].inlineSize));
   parent && resizeObserver.observe(parent);
 });
 
@@ -66,7 +66,7 @@ const handleContextCoverMenu = ({ x, y }: MouseEvent) => {
     {
       title: "Inspect",
       icon: "mdi:flask",
-      action: () => amethyst.player.getCurrentTrack() && useInspector().inspectAndShow(amethyst.player.getCurrentTrack()!)
+      action: () => amethyst.player.getCurrentTrack() && useInspector().inspectAndShow(amethyst.player.getCurrentTrack()!),
     },
     { title: "Export cover...", icon: "ic:twotone-add-photo-alternate", action: () => amethyst.player.getCurrentTrack()?.exportCover() },
     amethyst.state.window.isShowingBigCover
@@ -100,10 +100,10 @@ const handleVolumeMouseScroll = (e: WheelEvent) => {
     delta > 0 ? amethyst.player.volumeDown(normalTuneStep) : amethyst.player.volumeUp(normalTuneStep);
 };
 
-const editMeterContextMenuOption = (name :string) => [{ 
-  title: `Edit ${name}`, 
-  icon: "ic:twotone-edit", 
-  action: () => router.push({ name: "settings.metering" }) 
+const editMeterContextMenuOption = (name: string) => [{
+  title: `Edit ${name}`,
+  icon: "ic:twotone-edit",
+  action: () => router.push({ name: "settings.metering" }),
 }];
 
 </script>
@@ -160,7 +160,7 @@ const editMeterContextMenuOption = (name :string) => [{
     >
       <div class="flex relative items-center h-16 gap-2 p-2 w-full">
         <Transition name="slide">
-          <div 
+          <div
             v-if="amethyst.state.showOutputDiagram.value"
             class="flex gap-4 truncate items-center flex-col h-48 w-full bg-playback-controls-background absolute bottom-40px rounded-8px -z-5 left-0"
           >
@@ -217,7 +217,7 @@ const editMeterContextMenuOption = (name :string) => [{
           @contextmenu="handleContextCoverMenu"
           @click="amethyst.player.getCurrentTrack()?.cover.state === LoadStatus.Loaded && (amethyst.state.window.isShowingBigCover = !amethyst.state.window.isShowingBigCover)"
         />
-            
+
         <div
           ref="trackTitles"
           :style="`max-width: ${maxTrackTitleWidth}px;`"

@@ -17,20 +17,21 @@ const closeLanguageDropdown = () => {
 onClickOutside(languageDropdown, () => closeLanguageDropdown());
 
 const convertLocaleToLanguage = (locale: string) => {
-    const [languageCode, countryCode] = locale.split("-");
+  const [languageCode, countryCode] = locale.split("-");
 
-    const languageName = iso6391.getName(languageCode);
+  const languageName = iso6391.getName(languageCode);
 
-    if (languageName && countryCode) {
-      return `${languageName} (${countryCode})`;
-    } else {
-      return "Unknown";
-    }
+  if (languageName && countryCode) {
+    return `${languageName} (${countryCode})`;
+  }
+  else {
+    return "Unknown";
+  }
 };
 
 // For production we need to get the meta url
 const flagURL = (name: string) => {
-    // @ts-ignore
+  // @ts-ignore
   return new URL(`/icons/flags/${name}.svg`, import.meta.url).toString();
 };
 
@@ -51,7 +52,7 @@ const flagURL = (name: string) => {
     {{ convertLocaleToLanguage($i18n.locale) }}
     <icon
       icon="ic:round-chevron-left"
-      class="w-5 h-5 -rotate-90 transform-gpu" 
+      class="w-5 h-5 -rotate-90 transform-gpu"
     />
     <transition name="slide">
       <menu

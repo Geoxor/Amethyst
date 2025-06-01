@@ -4,7 +4,7 @@ import { onMounted, onUnmounted, watch } from "vue";
 import { amethyst } from "@/amethyst.js";
 import { getThemeColorHex } from "@/logic/color";
 
-const props = defineProps<{ node: AudioNode, width: number, height: number }>();
+const props = defineProps<{ node: AudioNode; width: number; height: number }>();
 const randomId = Date.now();
 let canvasCtx: CanvasRenderingContext2D;
 let shouldStopRendering = false;
@@ -33,7 +33,7 @@ onMounted(() => {
   let bufferX = new Float32Array(analyzerX.fftSize);
   let bufferY = new Float32Array(analyzerY.fftSize);
 
-	watch(() => amethyst.state.settings.metering.vectorscope.fftSize, value => {
+  watch(() => amethyst.state.settings.metering.vectorscope.fftSize, (value) => {
     analyzerX.fftSize = value;
     analyzerY.fftSize = value;
     bufferX = new Float32Array(value);
@@ -47,7 +47,7 @@ onMounted(() => {
 
   let lastPosition = [props.width / 2, props.height / 2];
 
-  watch(() => amethyst.state.window.isFocused, isFocused => {
+  watch(() => amethyst.state.window.isFocused, (isFocused) => {
     if (amethyst.state.settings.performance.pauseVisualsWhenUnfocused) {
       if (!isFocused) shouldStopRendering = true;
       else {
@@ -97,6 +97,6 @@ onUnmounted(() => shouldStopRendering = true);
 
 <style scoped lang="postcss">
 .lissajous {
-	@apply rotate-45 scale-70;
+  @apply rotate-45 scale-70;
 }
 </style>

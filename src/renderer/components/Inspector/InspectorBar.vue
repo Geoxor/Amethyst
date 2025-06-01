@@ -51,7 +51,6 @@ onUnmounted(() => {
 });
 
 function cloneWithoutPicture(obj: Record<string, any>): Record<string, any> {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { picture, ...rest } = obj;
   return { ...rest };
 }
@@ -214,7 +213,7 @@ const filteredMetadata = computed(() => {
           :key="picture.data.byteLength"
           class="flex flex-col gap-2 py-1 last:border-none"
         >
-          <cover-art 
+          <cover-art
             class="w-auto h-full rounded-4px"
             :url="inspector.state.currentItem.getCoverByFace(i)"
             @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
@@ -279,7 +278,7 @@ const filteredMetadata = computed(() => {
           {{ $t('track.metadata.refresh') }}
         </button>
       </section>
-      
+
       <section audio-properties>
         <h1>
           <icon
@@ -288,7 +287,7 @@ const filteredMetadata = computed(() => {
           />
           {{ $t('track.audio_properties') }}
         </h1>
-        
+
         <li>
           <h1>{{ $t('track.audio_properties.hash') }}</h1>
           <p> {{ inspector.state.currentItem.uuid }}</p>
@@ -322,7 +321,7 @@ const filteredMetadata = computed(() => {
           <p> {{ inspector.state.currentItem.getSampleRate() }} Hz</p>
         </li>
       </section>
-      
+
       <section file-information>
         <h1 class="">
           <icon
@@ -351,7 +350,7 @@ const filteredMetadata = computed(() => {
           />
         </button>
       </section>
-      
+
       <section state>
         <h1>
           <icon
@@ -405,7 +404,7 @@ section {
     @apply text-accent;
   }
 
-  & > h1, 
+  & > h1,
   & > h2 {
     @apply pb-2 flex gap-2 items-center whitespace-pre;
   }

@@ -2,7 +2,7 @@
 import type { AmethystPlatforms } from "@/amethyst.js";
 import BaseChip from "@/components/BaseChip.vue";
 
-defineProps<{ text: string, description?: string, warning?: string, icon?: any, platforms?: AmethystPlatforms[] }>();
+defineProps<{ text: string; description?: string; warning?: string; icon?: any; platforms?: AmethystPlatforms[] }>();
 </script>
 
 <template>
@@ -43,7 +43,7 @@ defineProps<{ text: string, description?: string, warning?: string, icon?: any, 
     <div
       v-if="$slots['default']"
       class="px-3"
-    >   
+    >
       <div class="bg-surface-1000 p-3 flex flex-col gap-2 rounded-b-4px">
         <slot />
       </div>
