@@ -5,7 +5,7 @@ on:
     branches:
       - master
       - main
-      - 'v*'
+      - 'v**'
       - 'feat/**'
     paths-ignore:
       - "**/*.md"
