@@ -271,7 +271,7 @@ jobs:
           git config user.name "GitHub Actions"
           sed -i -E "s/pkgver=.*/pkgver=$PKG_VERSION/g" PKGBUILD
           sed -i -E "s/pkgver = .*/pkgver = $PKG_VERSION/g" .SRCINFO
-          git switch -c master
+          git switch -c master && git fetch && rebase origin/master
           git add PKGBUILD .SRCINFO
           git commit -m "Update to $PKG_VERSION (Git ref: $COMMIT_LONGHASH)"
           git push origin master
