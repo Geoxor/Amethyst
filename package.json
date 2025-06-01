@@ -32,11 +32,12 @@
     "test": "vitest",
     "clean": "git reset --hard && git clean -f && rimraf ./release",
     "docs": "cd ./docs && npx mintlify dev",
-    "gen:all": "concurrently -p none \"yarn gen:scoop\" \"yarn gen:winget\" \"yarn gen:aur\"",
+    "gen:all": "concurrently -p none \"yarn update-download-links\" \"yarn gen:scoop\" \"yarn gen:winget\" \"yarn gen:aur\" ",
     "gen:scoop": "yarn tsx ./scripts/generate_scoop_manifest.ts",
     "gen:winget": "yarn tsx ./scripts/generate_winget_manifest.ts",
     "gen:aur": "yarn tsx ./scripts/generate_aur_manifest.ts",
     "gen:locales": "yarn tsx ./scripts/sync_locale_keys.ts",
+    "update-download-links": "yarn tsx ./scripts/update_download_links.ts",
     "gen:android-icons": "npx @capacitor/assets generate --android --androidProject src/android --iconBackgroundColor '#101119' --iconBackgroundColorDark '#101119' --splashBackgroundColor '#101119' --splashBackgroundColorDark '#101119'",
     "test:browser": "vitest --workspace=vitest.workspace.ts"
   },
