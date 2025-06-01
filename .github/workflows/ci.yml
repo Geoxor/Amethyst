@@ -177,7 +177,14 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: artifact-linux-${{ matrix.target }}-${{ matrix.arch }}
-          path: release/build/*-${{ matrix.arch }}.${{ matrix.target }}
+          path: |
+            release/build/*.yml
+            release/build/*.yaml
+            release/build/*.AppImage
+            release/build/*.rpm
+            release/build/*.deb
+            release/build/*.pacman
+            release/build/*.snap
 
   build-android:
     needs: [test, lint]
