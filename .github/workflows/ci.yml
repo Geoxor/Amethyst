@@ -122,13 +122,17 @@ jobs:
 
   build-linux:
     needs: [test, lint]
-    name: Build Linux - ${{ matrix.target }}
+    name: Build Linux - ${{ matrix.target }} - ${{ matrix.arch }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
     strategy:
       matrix:
-        target: [appimage, deb, snap, rpm, pacman]
+        target: [AppImage, deb, snap, rpm, pacman]
+        arch: [x64, arm64]
+        exclude:
+          - target: snap
+            arch: arm64  # Snapcraft doesn't support cross-compiling to ARM well without emulation
 
     steps:
       - uses: actions/checkout@v4
@@ -164,16 +168,16 @@ jobs:
       - name: Install Node.js Dependencies
         run: yarn install
 
-      - name: Build Amethyst for ${{ matrix.target }}
+      - name: Build Amethyst for ${{ matrix.target }} - ${{ matrix.arch }}
         run: |
           yarn build
-          yarn run electron-builder --publish never --linux ${{ matrix.target }}
+          yarn run electron-builder --publish never --linux ${{ matrix.target }} --${{ matrix.arch }}
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: artifact-linux-${{ matrix.target }}
-          path: release/build/*.${{ matrix.target }}
+          name: artifact-linux-${{ matrix.target }}-${{ matrix.arch }}
+          path: release/build/*-${{ matrix.arch }}.${{ matrix.target }}
 
   build-android:
     needs: [test, lint]
