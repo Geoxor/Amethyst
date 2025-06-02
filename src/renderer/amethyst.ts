@@ -385,25 +385,27 @@ export class Amethyst extends AmethystBackend {
   }
 
   private handleLastfm() {
-    this.player.on("player:trackFinished", (data) => {
-      if (amethyst.lastfm.isScrobblingEnabled()) {
-        const currentTitle = data.track?.getTitleFormatted();
-        const currentArtist = data.track?.getArtistsFormatted();
-        if (currentTitle != null && currentArtist != null) {
-          amethyst.lastfm.scrobble(data.startTimestamp, currentTitle, currentArtist);
+    if (this.state.settings.integrations.lastFm.enabled) {
+      this.player.on("player:trackFinished", (data) => {
+        if (amethyst.lastfm.isScrobblingEnabled()) {
+          const currentTitle = data.track?.getTitleFormatted();
+          const currentArtist = data.track?.getArtistsFormatted();
+          if (currentTitle != null && currentArtist != null) {
+            amethyst.lastfm.scrobble(data.startTimestamp, currentTitle, currentArtist);
+          }
         }
-      }
-    });
+      });
 
-    this.player.on("player:trackChange", (track: Track) => {
-      const currentTitle = track?.getTitleFormatted();
-      const currentArtist = track?.getArtistsFormatted();
-      const currentDuration = Math.fround(track?.getDurationSeconds() ?? 0);
-      const musicBrainzTrackId = track?.metadata.data?.common.musicbrainz_trackid;
-      if (currentTitle != null && currentArtist != null && currentDuration > 0) {
-        amethyst.lastfm.updateNowPlaying(currentTitle, currentArtist, currentDuration, musicBrainzTrackId);
-      }
-    });
+      this.player.on("player:trackChange", (track: Track) => {
+        const currentTitle = track?.getTitleFormatted();
+        const currentArtist = track?.getArtistsFormatted();
+        const currentDuration = Math.fround(track?.getDurationSeconds() ?? 0);
+        const musicBrainzTrackId = track?.metadata.data?.common.musicbrainz_trackid;
+        if (currentTitle != null && currentArtist != null && currentDuration > 0) {
+          amethyst.lastfm.updateNowPlaying(currentTitle, currentArtist, currentDuration, musicBrainzTrackId);
+        }
+      });
+    }
   }
 
   private showEventLogs() {
