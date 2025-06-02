@@ -14,13 +14,24 @@
   "navigation": {
     "dropdowns": [
       {
+        "dropdown": "Home",
+        "description": "Welcome to Amethyst",
+        "icon": "stars",
+        "groups": [
+          {
+            "group": "Introduction",
+            "pages": ["overview", "showcase", "features"]
+          }
+        ]
+      },
+      {
         "dropdown": "Guides",
         "description": "Procedures and development",
         "icon": "book",
         "groups": [
           {
             "group": "Installation",
-            "pages": ["guides/installation", "guides/showcase"]
+            "pages": ["guides/installation"]
           },
           {
             "group": "Development",
@@ -83,7 +94,6 @@
         ]
       }
     ],
-    
     "global": {
       "anchors": [
         {
