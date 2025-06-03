@@ -10,6 +10,9 @@
   "icons": {
     "library": "fontawesome"
   },
+  "contextual": {
+    "options": ["copy", "view", "chatgpt", "claude"]
+  },
   "favicon": "/favicon.svg",
   "navigation": {
     "dropdowns": [
