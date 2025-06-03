@@ -1,7 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/ScoopInstaller/Scoop/master/schema.json",
   "version": "2.1.7",
-  "description": "Amethyst is an Electron-based audio player with a node-based audio routing system, the main goal of this project is to make a music player in Typescript that has pro-level features as most DAWs / DAEs, while also providing useful tools and customizability to the end-user to deal with audio.",
+  "description": "Typescript media player",
   "license": "MIT",
   "homepage": "https://github.com/Geoxor/amethyst",
   "architecture": {
