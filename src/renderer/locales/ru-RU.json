@@ -132,7 +132,7 @@
   "settings.appearance.ambient_background.opacity.title": "Непрозрачность",
   "settings.appearance.ambient_background.opacity.description": "Степень видимости фонового изображения в приложении",
   "settings.appearance.ambient_background.blur_strength.title": "Сила размытия",
-  "settings.appearance.ambient_background.blur_strength.description": "Степень размытия в пикселях",
+  "settings.appearance.ambient_background.blur_strength.description": "Степень размытия в пикселях (px)",
   "settings.appearance.ambient_background.zoom.title": "Масштаб",
   "settings.appearance.ambient_background.zoom.description": "Настройка масштабирования фонового изображения, чтобы оно занимало весь экран",
   "settings.appearance.ambient_background.blending_mode.title": "Режим наложения",
