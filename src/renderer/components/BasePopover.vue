@@ -6,10 +6,10 @@ import { nextTick } from "vue";
 import { computed, onMounted, ref } from "vue";
 
 const props = defineProps<{
-	open?: boolean
-	openOnHover?: boolean
-	showArrow?: boolean
-	placement?: Placement
+  open?: boolean;
+  openOnHover?: boolean;
+  showArrow?: boolean;
+  placement?: Placement;
 }>();
 
 const popover = ref() as Ref<HTMLElement>;
@@ -17,43 +17,43 @@ const arrowElement = ref() as Ref<HTMLElement>;
 const target = computed(() => popover.value.previousElementSibling!);
 
 const middleware = computed(() => {
-	const enabled = [offset(8), shift()];
-	if (props.showArrow) enabled.push(arrow({ element: arrowElement.value }));
-	return enabled;
+  const enabled = [offset(8), shift()];
+  if (props.showArrow) enabled.push(arrow({ element: arrowElement.value }));
+  return enabled;
 });
 
 async function updatePosition() {
-	const { x, y, middlewareData, placement } = await computePosition(target.value, popover.value, {
-		placement: props.placement,
-		middleware: middleware.value,
-	});
+  const { x, y, middlewareData, placement } = await computePosition(target.value, popover.value, {
+    placement: props.placement,
+    middleware: middleware.value,
+  });
 
-    popover.value && Object.assign(popover.value.style, {
-      left: `${x}px`,
-      top: `${y}px`,
+  popover.value && Object.assign(popover.value.style, {
+    left: `${x}px`,
+    top: `${y}px`,
+  });
+
+  if (props.showArrow) {
+    const staticSide = {
+      top: "bottom",
+      right: "left",
+      bottom: "top",
+      left: "right",
+    }[placement.split("-")[0]];
+    const { x: arrowX, y: arrowY } = middlewareData.arrow!;
+    Object.assign(arrowElement.value?.style, {
+      left: arrowX != null ? `${arrowX}px` : "",
+      top: arrowY != null ? `${arrowY}px` : "",
+      right: "",
+      bottom: "",
+      [staticSide!]: "-0.25em",
     });
-
-	if (props.showArrow) {
-		const staticSide = {
-			top: "bottom",
-			right: "left",
-			bottom: "top",
-			left: "right",
-		}[placement.split("-")[0]];
-		const { x: arrowX, y: arrowY } = middlewareData.arrow!;
-		Object.assign(arrowElement.value?.style, {
-			left: arrowX != null ? `${arrowX}px` : "",
-			top: arrowY != null ? `${arrowY}px` : "",
-			right: "",
-			bottom: "",
-			[staticSide!]: "-0.25em",
-		});
-	}
+  }
 }
 
-onMounted(async() => {
-	target.value.classList.add("target");
-	updatePosition();
+onMounted(async () => {
+  target.value.classList.add("target");
+  updatePosition();
 });
 
 </script>

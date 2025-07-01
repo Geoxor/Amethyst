@@ -22,20 +22,20 @@ const tweenedFps = ref(-1);
 const appMetrics = ref<Electron.ProcessMetric[]>([]);
 
 onMounted(() => {
-  const fpsCounter = useFps({every: 30});
+  const fpsCounter = useFps({ every: 30 });
   setInterval(() => {
     currentFps.value = fpsCounter.value;
     if (currentFps.value > maxFps.value) maxFps.value = currentFps.value;
     if (currentFps.value < minFps.value) minFps.value = currentFps.value;
-    amethyst.player.getLatency().then(l => audioLatency.value = l);
-    smoothTween(tweenedFps.value, fpsCounter.value, 1000, (tweenedNumber => tweenedFps.value = ~~tweenedNumber));
-    window.electron.ipcRenderer.invoke<Electron.ProcessMetric[]>("get-app-metrics").then(data => {
+    amethyst.player.getLatency().then((l) => audioLatency.value = l);
+    smoothTween(tweenedFps.value, fpsCounter.value, 1000, (tweenedNumber) => tweenedFps.value = ~~tweenedNumber);
+    window.electron.ipcRenderer.invoke<Electron.ProcessMetric[]>("get-app-metrics").then((data) => {
       appMetrics.value = data;
     });
   }, 1000);
 });
 
-const {performance} = amethyst.state.settings;
+const { performance } = amethyst.state.settings;
 </script>
 
 <template>
@@ -95,7 +95,7 @@ const {performance} = amethyst.state.settings;
     :platforms="['desktop']"
   >
     <toggle-switch
-      v-model="performance.useVsync" 
+      v-model="performance.useVsync"
       @change="handleToggleVsync"
     />
   </settings-setting>
@@ -107,7 +107,7 @@ const {performance} = amethyst.state.settings;
     :title="$t('settings.pause_visuals.title')"
   >
     <toggle-switch
-      v-model="performance.pauseVisualsWhenUnfocused" 
+      v-model="performance.pauseVisualsWhenUnfocused"
     />
   </settings-setting>
 </template>

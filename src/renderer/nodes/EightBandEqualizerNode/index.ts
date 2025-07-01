@@ -6,7 +6,7 @@ import type { NodeProperties } from "@/logic/audioManager";
 import component from "./component.vue";
 
 export class AmethystEightBandEqualizerNode extends AmethystAudioNode {
-  // Used to remember the state for onMounted state 
+  // Used to remember the state for onMounted state
   // for the slider
   // The typecasting is a small hack because this is passed into a reactive object as markRaw()
   public frequencyPercent = ref(100) as unknown as number;
@@ -17,13 +17,13 @@ export class AmethystEightBandEqualizerNode extends AmethystAudioNode {
   public constructor(context: AudioContext, position: NodeProperties["position"]) {
     const pre = context.createGain();
     const post = context.createGain();
-    super(pre, post,"AmethystEightBandEqualizerNode", component, position);
+    super(pre, post, "AmethystEightBandEqualizerNode", component, position);
     this.properties.icon = "ic:twotone-filter-list";
 
     for (let i = 0; i < 8; i++) {
       const eq = context.createBiquadFilter();
       eq.type = "peaking";
-      eq.frequency.value = 20 * Math.pow(2, i); 
+      eq.frequency.value = 20 * Math.pow(2, i);
       eq.gain.value = 0;
       eq.Q.value = 1;
       this.filters.push(eq);
@@ -34,12 +34,11 @@ export class AmethystEightBandEqualizerNode extends AmethystAudioNode {
     for (let i = 0; i < this.filters.length - 1; i++) {
       this.filters[i].connect(this.filters[i + 1]);
     }
-    
-    this.filters[this.filters.length - 1].connect(post);
 
+    this.filters[this.filters.length - 1].connect(post);
   }
 
-  public override reset(){
+  public override reset() {
     this.filters.forEach((filter, i) => {
       filter.type = "peaking";
       filter.frequency.value = 1000 * Math.pow(2, i);
@@ -53,7 +52,7 @@ export class AmethystEightBandEqualizerNode extends AmethystAudioNode {
   }
 
   public setFrequency(idx: number, freq: number) {
-    return this.getFrequency(idx).value = freq;;
+    return this.getFrequency(idx).value = freq; ;
   }
 
   public calculateFrequencies(canvas: HTMLCanvasElement): Float32Array {

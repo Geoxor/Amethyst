@@ -10,12 +10,12 @@ import { linearSpectrum, logParabolicSpectrum, normalize8bit } from "@/logic/mat
 import { SpectrogramShader } from "@/shaders/components/SpectrogramShader";
 
 const props = defineProps<{
-  node: AudioNode,
-  accentColor: { r: number, g: number, b: number},
-  fftSize: number,
-  smoothing: number,
-  scrollSpeed: number,
-  paused?: boolean,
+  node: AudioNode;
+  accentColor: { r: number; g: number; b: number };
+  fftSize: number;
+  smoothing: number;
+  scrollSpeed: number;
+  paused?: boolean;
 }>();
 
 const context = props.node.context;
@@ -54,7 +54,7 @@ amethyst.state.on("theme:change", () => {
     setNormalizedColorVector(uniformData.u_color2.value, "--inspector-color");
     setNormalizedColorVector(uniformData.u_color3.value, "--primary");
     setNormalizedColorVector(uniformData.u_color4.value, "--alert-color");
-  }, 100)
+  }, 100);
 });
 
 function getNormalizedColorVector(cssVarName: string) {

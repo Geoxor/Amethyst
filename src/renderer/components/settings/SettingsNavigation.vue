@@ -66,7 +66,6 @@ defineProps<{
     icon="ic:twotone-keyboard"
   /> -->
   <settings-category
-    v-if="amethyst.getCurrentPlatform() == 'desktop'" 
     route-name="settings.integrations"
     :title="$t('settings.integrations.title')"
     :active="false"

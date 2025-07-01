@@ -11,7 +11,7 @@ defineProps<{ node: AmethystGainNode }>();
     :node="node"
     :title="$t('node.gain.title')"
   >
-    <draggable-modifier-input 
+    <draggable-modifier-input
       v-model="node.gain"
       :step="node.getParameters().gain.step"
       :max="node.getParameters().gain.max"

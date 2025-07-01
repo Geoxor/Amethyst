@@ -12,7 +12,10 @@ import RouteHeader from "@/components/v2/RouteHeader.vue";
     :class="[amethyst.getCurrentPlatform() == 'mobile' ? 'px-2 pb-48' : 'px-4']"
   >
     <route-header :title="$t('route.audio_monitor')" />
-    <div class="flex gap-2 h-full" :class="[amethyst.getCurrentPlatform() == 'mobile' && 'flex-col']">
+    <div
+      class="flex gap-2 h-full"
+      :class="[amethyst.getCurrentPlatform() == 'mobile' && 'flex-col']"
+    >
       <div class="sm:w-min">
         <decibel-meter
           :key="amethyst.player.nodeManager.getNodeConnectionsString()"

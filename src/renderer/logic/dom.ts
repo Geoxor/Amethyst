@@ -3,7 +3,7 @@
  */
 export const countDomElements = () => document.getElementsByTagName("*").length;
 
-export const saveArrayBufferToFile = (arrayBuffer: ArrayBuffer, options: { filename: string, extension: string }) => {
+export const saveArrayBufferToFile = (arrayBuffer: ArrayBuffer, options: { filename: string; extension: string }) => {
   const blob = new Blob([arrayBuffer], { type: "application/octet-stream" });
   const url = URL.createObjectURL(blob);
 
@@ -21,7 +21,7 @@ export const saveArrayBufferToFile = (arrayBuffer: ArrayBuffer, options: { filen
 /**
  * Animates smoothly from a start number to the desired number within a given timeframe Δ and calls back with the tweened number at that time
  */
-export const smoothTween = ( startValue: number, endValue: number, delta: number, callback: (tweenedNumber: number) => void) => {
+export const smoothTween = (startValue: number, endValue: number, delta: number, callback: (tweenedNumber: number) => void) => {
   let startTime: number | undefined;
 
   function update(currentTime: number) {
@@ -30,7 +30,8 @@ export const smoothTween = ( startValue: number, endValue: number, delta: number
 
     if (elapsedTime >= delta) {
       callback(endValue);
-    } else {
+    }
+    else {
       const progress = elapsedTime / delta;
       const easedValue = startValue + (endValue - startValue) * progress;
       callback(easedValue);

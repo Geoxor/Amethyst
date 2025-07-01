@@ -9,7 +9,7 @@ const coverage = fs.readFileSync(coveragePath, "utf-8");
 
 const newReadme = readme.replace(
   /<!-- START LOCALE_COVERAGE -->([\s\S]*?)<!-- END LOCALE_COVERAGE -->/,
-  `<!-- START LOCALE_COVERAGE -->\n${coverage.trim()}\n<!-- END LOCALE_COVERAGE -->`
+  `<!-- START LOCALE_COVERAGE -->\n${coverage.trim()}\n<!-- END LOCALE_COVERAGE -->`,
 );
 
 fs.writeFileSync(readmePath, newReadme);

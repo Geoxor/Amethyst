@@ -7,7 +7,7 @@ import DropdownInput from "@/components/v2/DropdownInput.vue";
 import SliderInput from "@/components/v2/SliderInput.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 import { SPECTRUM_TYPES } from "@/logic/settings.js";
-const {metering} = amethyst.state.settings;
+const { metering } = amethyst.state.settings;
 </script>
 
 <template>
@@ -18,7 +18,7 @@ const {metering} = amethyst.state.settings;
   >
     <toggle-switch v-model="metering.decibelMeter.show" />
     <template
-      v-if="metering.decibelMeter.show" 
+      v-if="metering.decibelMeter.show"
       #subsettings
     >
       <div class="p-2 flex flex-col gap-2">
@@ -94,7 +94,7 @@ const {metering} = amethyst.state.settings;
     <toggle-switch v-model="metering.vectorscope.show" />
     <template
       v-if="metering.vectorscope.show"
-      #subsettings 
+      #subsettings
     >
       <div class="p-2 flex flex-col gap-2">
         <settings-setting
@@ -149,7 +149,7 @@ const {metering} = amethyst.state.settings;
       :options="SPECTRUM_TYPES"
     />
     <template
-      v-if="metering.spectrum.show" 
+      v-if="metering.spectrum.show"
       #subsettings
     >
       <div
@@ -254,7 +254,7 @@ const {metering} = amethyst.state.settings;
             :step="0.05"
             suffix="edf"
           />
-          <!-- EDF = Exponential Distance Falloff (had to put something into suffix I guess xD) -->
+        <!-- EDF = Exponential Distance Falloff (had to put something into suffix I guess xD) -->
         </settings-setting>
       </div>
       <div

@@ -1,4 +1,3 @@
-
 <template>
   <svg
     width="16"

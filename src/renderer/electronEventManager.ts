@@ -6,7 +6,7 @@ export class ElectronEventManager {
   public APPDATA_PATH = "";
 
   public constructor(public state: State) {
-    this.ipc.invoke<string>("get-appdata-path").then(path => this.APPDATA_PATH = path);
+    this.ipc.invoke<string>("get-appdata-path").then((path) => this.APPDATA_PATH = path);
   }
 
   public logPrint = (messages: any[]) => this.ipc.invoke("log-print", [messages]);
@@ -15,15 +15,15 @@ export class ElectronEventManager {
 
   public getCpuUsage = () => this.ipc.invoke("percent-cpu-usage");
 
-  public openFileDialog = () => this.ipc.invoke<{canceled: boolean, filePath: string}>("open-file-dialog");
+  public openFileDialog = () => this.ipc.invoke<{ canceled: boolean; filePath: string }>("open-file-dialog");
 
   public showOpenFolderDialog = () => this.ipc.invoke("open-folder-dialog");
 
-  public showSaveDialog = () => this.ipc.invoke<{canceled: boolean, filePath: string}>("show-save-dialog");
+  public showSaveDialog = () => this.ipc.invoke<{ canceled: boolean; filePath: string }>("show-save-dialog");
 
   public checkForUpdates = () => this.ipc.invoke("check-for-updates");
 
-  public testNotification = (name: string) => this.ipc.invoke("test-notification",[name]);
+  public testNotification = (name: string) => this.ipc.invoke("test-notification", [name]);
 
   public open = (url: string) => this.ipc.invoke("open-external", [url]);
 
@@ -35,5 +35,4 @@ export class ElectronEventManager {
   public clearRichPresence = () => this.ipc.invoke("clear-rich-presence");
 
   public showDevTools = () => this.ipc.invoke("dev-tools");
-
 }

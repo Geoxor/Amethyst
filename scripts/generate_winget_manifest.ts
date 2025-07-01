@@ -6,9 +6,9 @@ const { version, license } = packageJson;
 
 try {
   fs.statSync("./manifests/winget/");
-  
-} catch (error) {
-  fs.mkdirSync("./manifests/winget/", {recursive: true});
+}
+catch (error) {
+  fs.mkdirSync("./manifests/winget/", { recursive: true });
 }
 fs.writeFileSync("./manifests/winget/Geoxor.Amethyst.installer.yaml", `
 # Automatically updated by generate_winget_manifest.ts

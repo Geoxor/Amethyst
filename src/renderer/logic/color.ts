@@ -15,8 +15,8 @@ export const hexToRgb = (hex: string) => {
   const r = (bigint >> 16) & 255;
   const g = (bigint >> 8) & 255;
   const b = bigint & 255;
-  return {r, g, b};
-}
+  return { r, g, b };
+};
 
 /**
  * Gets a css variable value and returns it as hex color string.
@@ -38,7 +38,7 @@ export const getThemeColorRgb = (variableName: string): [number, number, number]
   return [parseInt(r), parseInt(g), parseInt(b)];
 };
 
-export const getThemeColor = (variableName: string): {r: number, g: number, b: number} => {
+export const getThemeColor = (variableName: string): { r: number; g: number; b: number } => {
   const [r, g, b] = getThemeColorRgb(variableName);
-  return {r, g, b};
+  return { r, g, b };
 };

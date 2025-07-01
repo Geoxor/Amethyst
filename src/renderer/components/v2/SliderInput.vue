@@ -4,7 +4,7 @@ import { useVModel } from "@vueuse/core";
 
 import BaseChip from "../BaseChip.vue";
 
-const props = defineProps<{ modelValue: number, step: number, prefix?: string, suffix: string, max: number, min: number}>();
+const props = defineProps<{ modelValue: number; step: number; prefix?: string; suffix: string; max: number; min: number }>();
 const emits = defineEmits(["update:modelValue"]);
 const value = useVModel(props, "modelValue", emits);
 

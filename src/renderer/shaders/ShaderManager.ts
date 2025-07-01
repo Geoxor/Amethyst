@@ -1,21 +1,21 @@
-import {amethyst} from "@/amethyst.js";
+import { amethyst } from "@/amethyst.js";
 
 export class ShaderManager {
-
   private shaders: Map<string, string>;
 
   public constructor() {
     this.shaders = new Map();
-    //@ts-ignore
-    const shaderModules = import.meta.glob<{ default: {name: string, glsl: string} }>("@/shaders/builtin/*.ts", {eager: true});
+    // @ts-ignore
+    const shaderModules = import.meta.glob<{ default: { name: string; glsl: string } }>("@/shaders/builtin/*.ts", { eager: true });
     Object.entries(shaderModules).forEach(([path, module]) => {
       try {
-        //@ts-ignore
+        // @ts-ignore
         const shader = module.default;
         if (!shader) throw new Error("Shader module did not export a default export");
         if (!shader.name || !shader.glsl) throw new Error("Shader module did not export a name or glsl property");
         this.registerBuiltinShader(shader.name, shader.glsl);
-      } catch (error) {
+      }
+      catch (error) {
         console.error(`Failed to load shader ${path}: ${error}`);
       }
     });

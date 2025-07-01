@@ -4,7 +4,7 @@ import { onMounted, onUnmounted, watch } from "vue";
 import { amethyst } from "@/amethyst.js";
 import { getThemeColorHex } from "@/logic/color";
 
-const props = defineProps<{ node: AudioNode, width: number, height: number }>();
+const props = defineProps<{ node: AudioNode; width: number; height: number }>();
 const randomId = Date.now();
 
 let canvas: CanvasRenderingContext2D;
@@ -24,7 +24,7 @@ onMounted(() => {
   });
 
   canvas.lineWidth = amethyst.state.settings.metering.oscilloscope.lineThickness;
-  
+
   watch(() => amethyst.state.settings.metering.oscilloscope.lineThickness, () => {
     canvas.lineWidth = amethyst.state.settings.metering.oscilloscope.lineThickness;
   });
@@ -50,7 +50,7 @@ onMounted(() => {
 
   props.node.connect(oscilloscopeAnalyzer);
 
-  watch(() => amethyst.state.window.isFocused, isFocused => {
+  watch(() => amethyst.state.window.isFocused, (isFocused) => {
     if (amethyst.state.settings.performance.pauseVisualsWhenUnfocused) {
       if (!isFocused) shouldStopRendering = true;
       else {
@@ -61,7 +61,6 @@ onMounted(() => {
   });
 
   function draw() {
-
     oscilloscopeAnalyzer.getByteTimeDomainData(oscilloscopeBuffer);
     segmentWidth = props.width / oscilloscopeAnalyzer.frequencyBinCount;
 

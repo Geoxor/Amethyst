@@ -4,7 +4,7 @@ import type { Track } from "@/logic/track";
 import TrackCard from "./TrackCard.vue";
 import TitleSubtitle from "./v2/TitleSubtitle.vue";
 
-const props = defineProps<{title: string, subtitle: string, tracks: Set<Track>}>();
+const props = defineProps<{ title: string; subtitle: string; tracks: Set<Track> }>();
 </script>
 
 <template>

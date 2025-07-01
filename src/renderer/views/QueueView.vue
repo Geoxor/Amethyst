@@ -31,7 +31,10 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="py-2 pl-4 pr-2 flex  flex-col" :class="[amethyst.getCurrentPlatform() == 'mobile' ? 'px-2' : 'px-4']">
+  <div
+    class="py-2 pl-4 pr-2 flex  flex-col"
+    :class="[amethyst.getCurrentPlatform() == 'mobile' ? 'px-2' : 'px-4']"
+  >
     <route-header :title="$t('route.queue')">
       <search-input v-model="filterText" />
     </route-header>

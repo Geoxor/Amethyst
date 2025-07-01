@@ -1,18 +1,18 @@
 import type { Coords } from "@shared/types.js";
 import type { Position as SourcePosition } from "@vue-flow/core";
 import { useLocalStorage } from "@vueuse/core";
-import type { Ref} from "vue";
+import type { Ref } from "vue";
 import { ref } from "vue";
 
 import type { Amethyst } from "@/amethyst.js";
 import type { AmethystAudioNode } from "@/logic/audio.js";
-import {   AmethystFilterNode,
-AmethystGainNode,
+import { AmethystFilterNode,
+  AmethystGainNode,
   AmethystInputNode,
   AmethystMasterNode,
   AmethystOutputNode,
   AmethystPannerNode,
-  AmethystSpectrumNode, } from "@/nodes/index.js";
+  AmethystSpectrumNode } from "@/nodes/index.js";
 
 const audioNodes: Record<string, any> = {
   AmethystGainNode,
@@ -25,12 +25,12 @@ const audioNodes: Record<string, any> = {
 };
 
 export interface NodeProperties {
-  name: string,
-  id: string,
-  type: `custom-${string}`,
-  position: Coords,
-  sourcePosition: SourcePosition,
-  icon: string,
+  name: string;
+  id: string;
+  type: `custom-${string}`;
+  position: Coords;
+  sourcePosition: SourcePosition;
+  icon: string;
 };
 
 export interface Position {
@@ -49,7 +49,7 @@ export interface Node {
   id: string;
   position: Position;
   connections: Connection[];
-  paramaters?: {[key: string]: any};
+  paramaters?: { [key: string]: any };
 }
 
 export interface NodeGraph {
@@ -71,11 +71,11 @@ export class AmethystAudioNodeManager {
     this.init();
 
     // Load previous node graph if there was one
-    this.graphPath.value && this.fetchGraph(this.graphPath.value); 
+    this.graphPath.value && this.fetchGraph(this.graphPath.value);
   }
 
-  public init () {
-    this.nodes.value.forEach(node => node.disconnect());
+  public init() {
+    this.nodes.value.forEach((node) => node.disconnect());
     this.nodes.value = [];
 
     this.input = new AmethystInputNode(this.inputAudio, { x: 0, y: 0 });
@@ -104,7 +104,7 @@ export class AmethystAudioNodeManager {
     this.nodes.value.push(this.output);
   }
 
-  public reset () {
+  public reset() {
     this.graphName.value = "";
     this.graphPath.value = "";
     this.init();
@@ -112,15 +112,15 @@ export class AmethystAudioNodeManager {
 
   private fetchGraph(path: string) {
     fetch(path)
-      .then(response => response.blob())
-      .then(blob => {
+      .then((response) => response.blob())
+      .then((blob) => {
         return new Promise<ArrayBuffer>((resolve, reject) => {
           const reader = new FileReader();
           reader.readAsArrayBuffer(blob);
           reader.onloadend = () => reader.result ? resolve(reader.result as ArrayBuffer) : reject("reader null");
         });
       })
-      .then(buffer => {
+      .then((buffer) => {
         const decoder = new TextDecoder("utf-8");
         const jsonString = decoder.decode(buffer);
 
@@ -130,10 +130,10 @@ export class AmethystAudioNodeManager {
   }
 
   public loadGraph(graph: NodeGraph, path: string) {
-    this.nodes.value.forEach(node => node.disconnect());
+    this.nodes.value.forEach((node) => node.disconnect());
 
     this.nodes.value = [];
-    graph.nodes.forEach(node => {
+    graph.nodes.forEach((node) => {
       let nodeInstance: AmethystAudioNode | null = null;
       switch (node.name) {
         case "AmethystInputNode":
@@ -153,8 +153,8 @@ export class AmethystAudioNodeManager {
           break;
       }
 
-      if (!nodeInstance) return; 
-    
+      if (!nodeInstance) return;
+
       // overwrite the id to the .ang file
       nodeInstance.properties.id = node.id;
       // apply parameters from json to the node
@@ -171,19 +171,19 @@ export class AmethystAudioNodeManager {
     // Do this after so we make sure all nodes exist because they get loaded
     // in a random order and that may cause them to not connect because
     // they don't exist yet
-    this.nodes.value.forEach(node => node.autoConnectFromEdges());
+    this.nodes.value.forEach((node) => node.autoConnectFromEdges());
   }
 
   public serialize() {
     const nodeGraph: NodeGraph = {
       version: 1,
-      nodes: this.nodes.value.map(node => ({
+      nodes: this.nodes.value.map((node) => ({
         name: node.properties.name,
         id: node.properties.id,
         position: node.properties.position,
         connections: node.connections,
         paramaters: node.getParameters(),
-      }))
+      })),
     };
 
     return JSON.stringify(nodeGraph, null, 2);
@@ -192,7 +192,7 @@ export class AmethystAudioNodeManager {
   public removeNode(node: AmethystAudioNode) {
     if (!node.isRemovable) return;
     node.disconnect();
-    this.nodes.value.splice(this.nodes.value.findIndex(n => n.properties.id === node.properties.id), 1);
+    this.nodes.value.splice(this.nodes.value.findIndex((n) => n.properties.id === node.properties.id), 1);
   }
 
   public addNode(node: AmethystAudioNode, betweenNodes?: [AmethystAudioNode, AmethystAudioNode]) {
@@ -208,23 +208,23 @@ export class AmethystAudioNodeManager {
 
       node.connectTo(target);
     }
-    
+
     this.nodes.value.push(node);
   }
 
   public getNodeProperties() {
-    return this.nodes.value.map(node => node.properties);
+    return this.nodes.value.map((node) => node.properties);
   }
 
   public getNodeComponents() {
-    return this.nodes.value.map(node => node.component);
+    return this.nodes.value.map((node) => node.component);
   }
 
   public getNodeConnections() {
     const allConnections: Connection[] = [];
 
-    this.nodes.value.forEach(node => {
-      node.connections.forEach(connection => allConnections.push(connection));
+    this.nodes.value.forEach((node) => {
+      node.connections.forEach((connection) => allConnections.push(connection));
     });
 
     return allConnections;

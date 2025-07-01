@@ -10,7 +10,7 @@ test("BaseToolbarButton.vue", async () => {
       active: true,
       icon: "line-md:loading-twotone-loop",
       text: "toolbar text",
-    }
+    },
   });
   await expect.element(result.baseElement).toBeInTheDocument();
 });

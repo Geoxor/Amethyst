@@ -19,11 +19,11 @@ function updateLocaleKeys(targetLocalePath: string, defaultLocale: Record<string
   const targetLocale = readJsonFile(targetLocalePath);
 
   // Find missing keys in the target locale
-  const missingKeys = Object.keys(defaultLocale).filter(key => !(key in targetLocale));
+  const missingKeys = Object.keys(defaultLocale).filter((key) => !(key in targetLocale));
 
   if (missingKeys.length > 0) {
     // Add missing keys to the target locale
-    missingKeys.forEach(key => {
+    missingKeys.forEach((key) => {
       targetLocale[key] = defaultLocale[key];
     });
 
@@ -38,10 +38,10 @@ function synchronizeLocalesWithDefault(): void {
   const defaultLocale = readJsonFile(defaultLocaleFile);
 
   // Read all locale files in the locales folder
-  const localeFiles = fs.readdirSync(localesFolder).filter(file => file.endsWith(".json"));
+  const localeFiles = fs.readdirSync(localesFolder).filter((file) => file.endsWith(".json"));
 
   // Update each locale file
-  localeFiles.forEach(localeFile => {
+  localeFiles.forEach((localeFile) => {
     const localeFilePath = path.join(localesFolder, localeFile);
 
     // Skip the default locale file

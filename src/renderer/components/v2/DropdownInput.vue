@@ -12,7 +12,7 @@ const closedropdown = () => {
 
 onClickOutside(dropdown, () => closedropdown());
 
-const props = defineProps<{ modelValue?: number | string, prefix?: string, suffix?: string, options: (string | number)[]}>();
+const props = defineProps<{ modelValue?: number | string; prefix?: string; suffix?: string; options: (string | number)[] }>();
 const emits = defineEmits(["update:modelValue"]);
 const value = useVModel(props, "modelValue", emits);
 
@@ -29,7 +29,7 @@ const value = useVModel(props, "modelValue", emits);
     </p>
     <icon
       icon="ic:round-chevron-left"
-      class="w-5 h-5 -rotate-90 transform-gpu" 
+      class="w-5 h-5 -rotate-90 transform-gpu"
     />
     <transition name="slide">
       <menu

@@ -2,7 +2,7 @@
 import { useVModel as useModelValue } from "@vueuse/core";
 
 import { amethyst } from "@/amethyst.js";
-const props = defineProps<{modelValue: boolean}>();
+const props = defineProps<{ modelValue: boolean }>();
 const emits = defineEmits(["update:modelValue", "change"]);
 const value = useModelValue(props, "modelValue", emits);
 </script>

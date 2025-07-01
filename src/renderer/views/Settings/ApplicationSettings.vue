@@ -13,7 +13,7 @@ const handleToggleAutostart = () => {
   window.electron.ipcRenderer.invoke("set-autostart", [application.autoStart]);
 };
 
-const {application} = amethyst.state.settings;
+const { application } = amethyst.state.settings;
 
 </script>
 
@@ -25,7 +25,7 @@ const {application} = amethyst.state.settings;
     :description="$t('settings.auto_update.description')"
   >
     <toggle-switch
-      v-model="application.autoUpdatesEnabled" 
+      v-model="application.autoUpdatesEnabled"
       @change="handleToggleAutoUpdates"
     />
   </settings-setting>
@@ -36,7 +36,7 @@ const {application} = amethyst.state.settings;
     icon="ic:twotone-rocket-launch"
   >
     <toggle-switch
-      v-model="application.autoStart" 
+      v-model="application.autoStart"
       @change="handleToggleAutostart"
     />
   </settings-setting>

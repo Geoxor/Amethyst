@@ -18,7 +18,7 @@ const currentAudioDevice = computed(() => amethyst.state.settings.audio.outputDe
 
 const audioLatency = ref(-1);
 onMounted(() => {
-  amethyst.player.getLatency().then(l => audioLatency.value = l);
+  amethyst.player.getLatency().then((l) => audioLatency.value = l);
 });
 
 </script>

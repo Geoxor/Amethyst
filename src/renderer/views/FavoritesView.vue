@@ -15,15 +15,21 @@ const filterText = useLocalStorage("filterTextFavorites", "");
 
 <template>
   <div class="flex flex-col gap-2 w-full py-2 pl-4 pr-2 text-text-title">
-    <route-header :title="$t('route.favorites')" >
+    <route-header :title="$t('route.favorites')">
       <search-input v-model="filterText" />
     </route-header>
 
-    <header v-if="amethyst.player.getFavorites().length == 0" class=" opacity-50 text-primary-1000">
-      {{$t('favorites.no_favorites')}} 
+    <header
+      v-if="amethyst.player.getFavorites().length == 0"
+      class=" opacity-50 text-primary-1000"
+    >
+      {{ $t('favorites.no_favorites') }}
     </header>
 
-    <div v-else class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12 gap-2 overflow-y-auto p-2 pb-32">
+    <div
+      v-else
+      class="grid grid-cols-3 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-8 xl:grid-cols-10 2xl:grid-cols-12 gap-2 overflow-y-auto p-2 pb-32"
+    >
       <track-card
         v-for="track of amethyst.player.queue.searchTracks(filterText, amethyst.player.getFavorites())"
         :key="track.path"

@@ -5,16 +5,14 @@ on:
     paths-ignore:
       - "**/*.md"
       - 'src/renderer/locales/**'
-      - 'scripts/localizationStatus.js'
   pull_request:
     paths-ignore:
       - "**/*.md"
       - 'src/renderer/locales/**'
-      - 'scripts/localizationStatus.js'
       
 jobs:
   test:
-    name: Test
+    name: Run unit tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -59,6 +57,7 @@ jobs:
         run: yarn lint
 
   build-windows:
+    needs: [test, lint]
     name: Build Windows
     runs-on: windows-latest
     permissions:
@@ -86,8 +85,9 @@ jobs:
             release/build/*.yml
             release/build/*.yaml
             release/build/*.exe*
-
+  
   build-macos:
+    needs: [test, lint]
     name: Build MacOS
     runs-on: macos-latest
     permissions:
@@ -119,32 +119,62 @@ jobs:
             release/build/*.zip.*
 
   build-linux:
-    name: Build Linux
+    needs: [test, lint]
+    name: Build Linux - ${{ matrix.target }} - ${{ matrix.arch }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
+    strategy:
+      matrix:
+        target: [AppImage, deb, snap, rpm, pacman]
+        arch: [x64, arm64]
+        exclude:
+          - target: snap
+            arch: arm64  # Snapcraft doesn't support cross-compiling to ARM well without emulation
+
     steps:
       - uses: actions/checkout@v4
         with:
           submodules: recursive
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20.17.0
           cache: "yarn"
 
-      - name: Install linux dependencies
-        run: sudo apt update && sudo apt install libvips libvips-dev libvips-tools rpm snapd libarchive-tools && sudo snap install snapcraft --classic && sudo snap install multipass --beta --classic
+      - name: Install common Linux dependencies
+        run: |
+          sudo apt update
+          sudo apt install -y libvips libvips-dev libvips-tools libarchive-tools
 
-      - name: Install Dependencies
+      - name: Install target-specific dependencies
+        run: |
+          case "${{ matrix.target }}" in
+            snap)
+              sudo apt install -y snapd
+              sudo snap install snapcraft --classic
+              sudo snap install multipass --beta --classic
+              ;;
+            rpm)
+              sudo apt install -y rpm
+              ;;
+            pacman)
+              sudo apt install -y fakeroot
+              ;;
+          esac
+
+      - name: Install Node.js Dependencies
         run: yarn install
 
-      - name: Build Amethyst
-        run: yarn package
+      - name: Build Amethyst for ${{ matrix.target }} - ${{ matrix.arch }}
+        run: |
+          yarn build
+          yarn run electron-builder --publish never --linux ${{ matrix.target }} --${{ matrix.arch }}
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: artifact-linux
+          name: artifact-linux-${{ matrix.target }}-${{ matrix.arch }}
           path: |
             release/build/*.yml
             release/build/*.yaml
@@ -155,6 +185,7 @@ jobs:
             release/build/*.snap
 
   build-android:
+    needs: [test, lint]
     name: Build Android
     runs-on: ubuntu-latest
     env:
@@ -238,11 +269,7 @@ jobs:
           COMMIT_SHORTHASH=$(echo $COMMIT_LONGHASH | cut -c1-7)
           git clone ssh://aur@aur.archlinux.org/amethyst-player-git.git
           cd amethyst-player-git
-          if git show-ref --quiet refs/heads/master; then
-            git checkout master
-          else
-            git switch -c master
-          fi
+          git checkout master
           PKG_REVISION=$(grep -oP 'pkgver=v.*r\K.*' PKGBUILD | grep -oP "\d+" | head -n 1)
           PKG_NEXT_REVISION=$((PKG_REVISION + 1))
           PKG_VERSION=v${PACKAGE_VERSION}.r${PKG_NEXT_REVISION}.g${COMMIT_SHORTHASH}
@@ -252,12 +279,12 @@ jobs:
           sed -i -E "s/pkgver = .*/pkgver = $PKG_VERSION/g" .SRCINFO
           git add PKGBUILD .SRCINFO
           git commit -m "Update to $PKG_VERSION (Git ref: $COMMIT_LONGHASH)"
-          git push origin master
+          git push origin HEAD:refs/heads/master
 
   publish-releases:
     if: startsWith(github.ref, 'refs/tags/v')
     needs: [build-windows, build-macos, build-linux, build-android]
-    name: Publish Releases
+    name: Publish releases
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -272,3 +299,88 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: "*"
+
+  update-download-links:
+    needs: [publish-releases]
+    name: Update download links
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20.17.0
+          cache: "yarn"
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Update download links
+        run: yarn update-download-links
+
+      - name: Commit and push changes as Geoxor
+        env:
+          GITHUB_TOKEN: ${{ secrets.GEOXOR_PERSONAL_GITHUB_TOKEN }}
+        run: |
+          git config user.name "Geoxor"
+          git config user.email "34042825+Geoxor@users.noreply.github.com"
+          git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
+          git add .
+          git diff --quiet && git diff --staged --quiet || git commit -m "chore: update download links to latest release"
+          git push
+
+  update-homebrew-cask:
+    needs: [publish-releases]
+    name: Update homebrew cask
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Amethyst repo
+        uses: actions/checkout@v4
+
+      - name: Read version from package.json
+        id: version
+        run: |
+          echo "version=$(jq -r .version package.json)" >> $GITHUB_OUTPUT
+
+      - name: Download DMGs and calculate SHA256
+        id: hashes
+        run: |
+          VERSION=${{ steps.version.outputs.version }}
+
+          INTEL_URL="https://github.com/Geoxor/Amethyst/releases/download/v${VERSION}/Amethyst-${VERSION}.dmg"
+          ARM_URL="https://github.com/Geoxor/Amethyst/releases/download/v${VERSION}/Amethyst-${VERSION}-arm64.dmg"
+
+          curl -L -o amethyst-intel.dmg "$INTEL_URL"
+          curl -L -o amethyst-arm.dmg "$ARM_URL"
+
+          INTEL_SHA=$(shasum -a 256 amethyst-intel.dmg | awk '{print $1}')
+          ARM_SHA=$(shasum -a 256 amethyst-arm.dmg | awk '{print $1}')
+
+          echo "intel_sha=$INTEL_SHA" >> $GITHUB_OUTPUT
+          echo "arm_sha=$ARM_SHA" >> $GITHUB_OUTPUT
+
+      - name: Clone Homebrew Tap Repo
+        run: |
+          git config --global user.name "Geoxor"
+          git config --global user.email "34042825+Geoxor@users.noreply.github.com"
+          git clone https://Geoxor:${{ secrets.GEOXOR_PERSONAL_GITHUB_TOKEN }}@github.com/Geoxor/homebrew-amethyst.git cask-repo
+
+      - name: Update version and SHA256s in cask
+        run: |
+          cd cask-repo/Casks/a
+
+          # Replace version
+          sed -i 's/version "[0-9.]*"/version "${{ steps.version.outputs.version }}"/' amethyst-player.rb
+
+          # Replace ARM and Intel SHA blocks
+          sed -i '/on_arm do/,/end/ s|sha256 .*|sha256 "${{ steps.hashes.outputs.arm_sha }}"|' amethyst-player.rb
+          sed -i '/on_intel do/,/end/ s|sha256 .*|sha256 "${{ steps.hashes.outputs.intel_sha }}"|' amethyst-player.rb
+
+      - name: Commit and push changes
+        run: |
+          cd cask-repo
+          git add Casks/a/amethyst-player.rb
+          git commit -m "chore: bump version to v${{ steps.version.outputs.version }}" || echo "No changes to commit"
+          git push https://Geoxor:${{ secrets.GEOXOR_PERSONAL_GITHUB_TOKEN }}@github.com/Geoxor/homebrew-amethyst.git HEAD:main
