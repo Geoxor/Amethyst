@@ -4,7 +4,7 @@ import { Background, BackgroundVariant } from "@vue-flow/additional-components";
 import type { Connection, EdgeMouseEvent, NodeDragEvent } from "@vue-flow/core";
 import { VueFlow } from "@vue-flow/core";
 import { onKeyStroke } from "@vueuse/core";
-import { computed, onMounted, onUnmounted, ref } from "vue";
+import { computed, nextTick, onMounted, onUnmounted, ref } from "vue";
 
 import { amethyst } from "@/amethyst.js";
 import BaseToolbar from "@/components/BaseToolbar.vue";
@@ -270,8 +270,24 @@ const handleOpenRewFile = async () => {
           }
         }
       });
+
+
+      nextTick(() => {
+        organizeNodes()  
+      })
+
     });
 };
+
+const organizeNodes = () => {
+  const GAP = 8;
+  let offsetX = 0;
+
+  amethyst.player.nodeManager.nodes.value.forEach(node => {
+    const {width} = node.getNodeDimensions();
+    node.updatePosition({x: offsetX += width + GAP, y: 0})
+  })
+}
 
 const handleSaveFile = async () => {
   const serializedGraph = amethyst.player.nodeManager.serialize();
@@ -289,12 +305,14 @@ const handleReset = () => {
   amethyst.player.setVolume(amethyst.player.volume);
 };
 
-const removeSelectedNodes = dash.value?.getSelectedNodes.forEach((nodeElement: any) => {
-  const node = amethyst.player.nodeManager.nodes.value
-    .find((node) => node.properties.id === nodeElement.id);
+const removeSelectedNodes = () => {
+  dash.value?.getSelectedNodes.forEach((nodeElement: any) => {
+    const node = amethyst.player.nodeManager.nodes.value
+      .find((node) => node.properties.id === nodeElement.id);
 
-  node && amethyst.player.nodeManager.removeNode(node);
-});
+    node && amethyst.player.nodeManager.removeNode(node);
+  });
+}
 
 onKeyStroke("Delete", () => {
   removeSelectedNodes();
@@ -324,6 +342,11 @@ onKeyStroke("Delete", () => {
         @keydown.stop
       >
 
+      <base-toolbar-button
+        icon="ic:twotone-fit-screen"
+        tooltip-text="organize nodes"
+        @click="organizeNodes"
+      />
       <base-toolbar-button
         icon="ic:twotone-fit-screen"
         tooltip-text="Fit to View"
