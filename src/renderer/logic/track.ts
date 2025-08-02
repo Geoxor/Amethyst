@@ -235,21 +235,17 @@ export class Track {
         query: queryString,
       });
 
-      if (!result.count)
-        return;
+      if (!result.count) return;
 
       const [topResult] = result.releases;
       muid = topResult.id;
     }
 
     try {
-      const response = await (await fetch(`https://coverartarchive.org/release/${muid}/front-500`));
-      if (response.ok)
-        this.coverUrl = response.url;
+      const response = await fetch(`https://coverartarchive.org/release/${muid}/front-500`);
+      if (response.ok) this.coverUrl = response.url;
     }
-    catch (error) {
-      console.log("Error fetching cover art:", error);
-    }
+    catch {}
   };
 
   /**
