@@ -214,14 +214,16 @@ export class Track {
 
       // If missing artist or album, try parsing filename
       if (!artist || !album) {
-        const filename = this.path?.split(/[/\\]/).pop() || "";
-        const match = filename.match(/^(.+?)\s*-\s*(.+?)(?:\.[^.]+)?$/);
-        if (match) {
-          artist = artist || match[1].trim();
-          album = album || match[2].trim();
+        const fileWithExt = this.absolutePath?.split(/[/\\]/).pop() ?? "";
+        const fname = fileWithExt.replace(/\.[^/.]+$/, "");
+
+        if (fname.includes(" - ")) {
+          const [left, right] = fname.split(" - ");
+          artist ||= left.trim();
+          album ||= right.trim();
         }
-        else if (!album && filename) {
-          album = filename.replace(/\.[^.]+$/, "");
+        else {
+          album ||= fname;
         }
       }
 
