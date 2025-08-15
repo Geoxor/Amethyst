@@ -206,32 +206,46 @@ export class Track {
       return;
     }
 
-    const artist = this.metadata.data?.common.artist ?? "";
-    const album = this.metadata.data?.common.album ?? "";
+    let muid = this.metadata.data?.common.musicbrainz_albumid ?? "";
 
-    const result = await mbApi.search("release", {
-      query: `artist:${artist} ${album}`,
-    });
+    if (!muid) {
+      let artist = this.metadata.data?.common.artist ?? "";
+      let album = this.metadata.data?.common.album ?? this.metadata.data?.common.title ?? "";
 
-    if (result.count > 0) {
-      for (const release of result.releases) {
-        for (const media of release.media) {
-          // make sure it's an digital album
-          if (media.format?.includes("Digital Media")) {
-            try {
-              const response = await (await fetch(`https://coverartarchive.org/release/${release.id}`)).json();
-              for (const cover of response["images"]) {
-                if (cover["front"]) {
-                  this.coverUrl = cover["thumbnails"]["large"].replace("http://", "https://");
-                  return;
-                }
-              }
-            }
-            catch (_) {}
-          }
+      // If missing artist or album, try parsing filename
+      if (!artist || !album) {
+        const fileWithExt = this.absolutePath?.split(/[/\\]/).pop() ?? "";
+        const fname = fileWithExt.replace(/\.[^/.]+$/, "");
+
+        if (fname.includes(" - ")) {
+          const [left, right] = fname.split(" - ");
+          artist ||= left.trim();
+          album ||= right.trim();
+        }
+        else {
+          album ||= fname;
         }
       }
+
+      let queryString = `release:${album}`;
+      if (artist)
+        queryString = `artist:${artist} AND ${queryString}`;
+
+      const result = await mbApi.search("release", {
+        query: queryString,
+      });
+
+      if (!result.count) return;
+
+      const [topResult] = result.releases;
+      muid = topResult.id;
     }
+
+    try {
+      const response = await fetch(`https://coverartarchive.org/release/${muid}/front-500`);
+      if (response.ok) this.coverUrl = response.url;
+    }
+    catch {}
   };
 
   /**
