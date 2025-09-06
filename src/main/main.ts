@@ -6,7 +6,6 @@
  * When running `yarn build` or `yarn build:main`, this file is compiled to
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
-import "./realtimeAudio.js";
 import "./drag-drop.js";
 
 import { app, Menu, shell } from "electron";
@@ -33,7 +32,9 @@ if (!app.requestSingleInstanceLock()) {
 }
 else {
   app.whenReady()
-    .then(() => {
+    .then(async () => {
+      await import("./realtimeAudio.js");
+
       const useVsync = store.get("useVsync", true);
       if (useVsync) {
         app.commandLine.removeSwitch("disable-frame-rate-limit");
