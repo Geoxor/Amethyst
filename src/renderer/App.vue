@@ -168,22 +168,16 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
 
     <div
       v-if="amethyst.state.window.isShowingBigCover"
-      class=" select-none rounded-8px w-full sm:w-auto max-w-3/4 max-h-3/4 truncate absolute-xy z-50"
-      style="aspect-ratio: 1/1;"
+      class=" select-none rounded-8px w-full h-full truncate bg-black bg-opacity-75 flex items-center justify-center absolute-xy z-50"
+      @click="amethyst.state.window.isShowingBigCover = !amethyst.state.window.isShowingBigCover"
     >
       <cover-art
         :url="ambientBackgroundImage"
-        class="w-full drop-shadow-2xl z-30"
+        class="w-1/2.5 drop-shadow-2xl z-30 rounded-8px"
+        @click.stop
         @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
           { title: 'Export cover...', icon: 'ic:twotone-add-photo-alternate', action: () => amethyst.player.getCurrentTrack()?.exportCover() },
         ]);"
-        @click="amethyst.state.window.isShowingBigCover = !amethyst.state.window.isShowingBigCover"
-      />
-
-      <icon
-        icon="ic:twotone-close"
-        class="utilityButton absolute top-3 right-3 cursor-pointer"
-        @click="amethyst.state.window.isShowingBigCover = false"
       />
     </div>
 
