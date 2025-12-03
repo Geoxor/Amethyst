@@ -263,6 +263,16 @@ export class Track {
       cachedData = await this.fetchCache();
     }
 
+    // Generate analytics entry if it doesn't exist (reverse compatability with old versions)
+    const analytics = this.uuid ? this.amethyst.analytics.trackAnalytics.value[this.uuid] : undefined;
+    if (analytics && this.uuid) {
+      this.amethyst.analytics.trackAnalytics.value[this.uuid] = {
+        playCount: analytics.playCount || 0,
+        skipCount: analytics.skipCount || 0,
+        dateAdded: analytics.dateAdded || Date.now(),
+      };
+    }
+
     const [cover, metadata] = await Promise.all([this.fetchCover(force, cachedData.cover), this.fetchMetadata(force, cachedData.metadata)]);
 
     if (metadata) {
