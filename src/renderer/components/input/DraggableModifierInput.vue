@@ -195,8 +195,8 @@ const handleMouseScroll = (e: WheelEvent) => {
 };
 
 const handleKeydown = (e: KeyboardEvent) => {
-  const INPUT_BEGIN_KEYS = ["-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"];
   const closeInput = () => isShowingInputElement.value = false;
+  const openInput = () => isShowingInputElement.value = true;
   if (e.key == "Escape") closeInput();
 
   if (e.key == "ArrowUp") {
@@ -209,7 +209,7 @@ const handleKeydown = (e: KeyboardEvent) => {
   }
 
   // Start inputif the user clicks enter, or if they already begun typing in a value
-  if ((e.key == "Enter" || INPUT_BEGIN_KEYS.includes(e.key)) && !isShowingInputElement.value) {
+  if (e.key == "Enter") {
     if (isShowingInputElement.value) {
       // Check if input is a number
       if (Number.isFinite(inputValue.value)) {
@@ -223,7 +223,7 @@ const handleKeydown = (e: KeyboardEvent) => {
       modifier.value?.focus();
     }
     else {
-      isShowingInputElement.value = true;
+      openInput();
 
       // Delay focusing because it takes some time to show the element first
       nextTick(() => {
@@ -253,7 +253,7 @@ const handleKeydown = (e: KeyboardEvent) => {
       ref="inputElement"
       v-model.number="inputValue"
       size="5"
-      class="bg-transparent  text-center"
+      class="bg-transparent text-center"
     >
     <template v-else>
       <icon
