@@ -46,6 +46,15 @@ export class Analytics {
       if (Date.now() > this.lastClickedPlay[track.uuid] + 3000) {
         this.incrementPlayCount(track.uuid);
       }
+
+      // If user skips the track within the first half of the song's duration, increment skip count
+      const durationSeconds = track.getDurationSeconds() || 0;
+      const currentTime = amethyst.player.currentTime.value;
+
+      console.log("Current time:", currentTime, "Duration/2:", durationSeconds / 2);
+      if (currentTime < (durationSeconds / 2)) {
+        this.incrementSkipCount(track.uuid!);
+      }
     });
   }
 
@@ -133,5 +142,9 @@ export class Analytics {
   private incrementPlayCount(uuid: string) {
     this.lastClickedPlay[uuid] = Date.now();
     this.trackAnalytics.value[uuid].playCount++;
+  }
+
+  private incrementSkipCount(uuid: string) {
+    this.trackAnalytics.value[uuid].skipCount++;
   }
 }

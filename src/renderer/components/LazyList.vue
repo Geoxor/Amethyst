@@ -634,15 +634,17 @@ const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
           <div
             v-if="columns.playCount"
             class="flex-none w-[64px]"
+            :class="[amethyst.analytics.getAnalytics(item).playCount == 0 && 'opacity-33']"
           >
-            <span>{{ amethyst.analytics.getAnalytics(item).playCount }}</span>
+            <span>{{ amethyst.analytics.getAnalytics(item).playCount || 0 }}</span>
           </div>
 
           <div
             v-if="columns.skipCount"
             class="flex-none w-[64px]"
+            :class="[amethyst.analytics.getAnalytics(item).skipCount == 0 && 'opacity-33']"
           >
-            <span>{{ amethyst.analytics.getAnalytics(item).skipCount }}</span>
+            <span>{{ amethyst.analytics.getAnalytics(item).skipCount || 0 }}</span>
           </div>
 
           <div

@@ -314,10 +314,6 @@ const filteredMetadata = computed(() => {
         </h1>
 
         <li>
-          <h1>{{ $t('track.audio_properties.hash') }}</h1>
-          <p> {{ inspector.state.currentItem.uuid }}</p>
-        </li>
-        <li>
           <h1>{{ $t('track.audio_properties.channels') }}</h1>
           <p> {{ inspector.state.currentItem.getChannels() }}</p>
         </li>
@@ -364,6 +360,11 @@ const filteredMetadata = computed(() => {
           <h1>{{ $t('track.file.size') }}</h1>
           <p> {{ inspector.state.currentItem.getFilesizeFormatted() }}</p>
         </li>
+        <li>
+          <h1>{{ $t('track.file.hash') }}</h1>
+          <p> {{ inspector.state.currentItem.uuid }}</p>
+        </li>
+
         <button
           class="cursor-pointer"
           @click="amethyst.showItem(inspector.state.currentItem.path)"
@@ -417,21 +418,25 @@ const filteredMetadata = computed(() => {
 }
 
 section {
-  @apply flex flex-col gap-1 p-3;
+  @apply flex flex-col gap-1 p-3 ;
   /* border */
   @apply border-b-1 border-b-surface-600 border-t-transparent border-r-transparent border-l-transparent;
 
   & li {
-    @apply flex justify-between gap-2 items-center w-full;
+    @apply flex justify-between gap-2 items-center w-full ;
+  }
+
+  & h1 {
+    @apply text-text-subtitle text-13px font-normal ;
   }
 
   & > h1 {
-    @apply text-accent;
+    @apply text-accent ;
   }
 
   & > h1,
   & > h2 {
-    @apply pb-2 flex gap-2 items-center whitespace-pre;
+    @apply pb-2 flex gap-2 items-center whitespace-pre ;
   }
 
   & input,
