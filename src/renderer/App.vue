@@ -173,7 +173,8 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
     >
       <cover-art
         :url="ambientBackgroundImage"
-        class="w-1/2.5 drop-shadow-2xl z-30 rounded-8px"
+        class="w-auto max-w-1/2.5 max-h-1/1.5 drop-shadow-2xl z-30 rounded-8px"
+
         @click.stop
         @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
           { title: 'Export cover...', icon: 'ic:twotone-add-photo-alternate', action: () => amethyst.player.getCurrentTrack()?.exportCover() },
