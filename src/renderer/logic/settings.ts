@@ -257,7 +257,7 @@ export const createDefaultSettings = (platform: AmethystPlatforms): typeof DEFAU
       sampleRate: false,
       playCount: false,
       skipCount: false,
-      dateAdded: true,
+      dateAdded: false,
       barcode: false,
       label: false,
       isrc: false,
