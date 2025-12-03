@@ -243,7 +243,33 @@ export const createDefaultSettings = (platform: AmethystPlatforms): typeof DEFAU
     defaultSettings.metering.loudnessMeter.show = false;
     defaultSettings.metering.spectrum.show = false;
     defaultSettings.performance.pauseVisualsWhenUnfocused = true;
-    defaultSettings.columns = DEFAULT_COLUMN_SETTINGS.columns;
+    defaultSettings.columns = {
+      cover: true,
+      artist: true,
+      title: true,
+      diskNumber: false,
+      filename: false,
+      album: false,
+      year: false,
+      bitsPerSample: false,
+      genre: false,
+      bitrate: false,
+      sampleRate: false,
+      playCount: false,
+      skipCount: false,
+      dateAdded: false,
+      barcode: false,
+      label: false,
+      isrc: false,
+      copyright: false,
+      bpm: false,
+      duration: false,
+      trackNumber: false,
+      location: false,
+      container: false,
+      favorite: false,
+      size: false,
+    };
   }
   return defaultSettings;
 };
