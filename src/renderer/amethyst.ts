@@ -621,10 +621,7 @@ export class Amethyst extends AmethystBackend {
     const loadedSettings = await fetch(dialog.filePaths[0]);
     const parsedSettings = await loadedSettings.json();
 
-    Object.keys(amethyst.state.settings).forEach((key) => {
-      // @ts-ignore
-      amethyst.state.settings[key] = parsedSettings[key];
-    });
+    this.state.replaceSettings(parsedSettings);
   };
 
   public exportSettings = async () => {

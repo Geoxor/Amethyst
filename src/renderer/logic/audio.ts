@@ -5,6 +5,7 @@ import { markRaw } from "vue";
 
 import { amethyst } from "@/amethyst.js";
 import type { Connection, NodeProperties } from "@/logic/audioManager.js";
+import { C } from "vitest/dist/chunks/reporters.d.DG9VKi4m.js";
 
 export interface NodeParameter<T> {
   type: "number" | "string";
@@ -50,6 +51,15 @@ export class AmethystAudioNode {
 
   public getSlotName() {
     return `node-${this.properties.type}`;
+  }
+
+  public getNodeDimensions() {
+    const element = document.getElementById(`node-${this.properties.id}`) as HTMLDivElement
+    if (!element ) throw new Error("Failed to get width, node somehow does not have a UI element");
+
+    const {width, height} = element.getBoundingClientRect()
+
+    return {width, height}
   }
 
   public autoConnectFromEdges() {
