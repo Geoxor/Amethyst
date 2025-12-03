@@ -228,6 +228,10 @@ const filteredMetadata = computed(() => {
               </p>
             </li>
             <li class="flex justify-between gap-2">
+              <h1>{{ $t('track.metadata.cover.dimensions') }}</h1>
+              <p> {{ picture.width + "x" + picture.height }} </p>
+            </li>
+            <li class="flex justify-between gap-2">
               <h1>{{ $t('track.metadata.cover.format') }}</h1>
               <p> {{ picture.format }} </p>
             </li>
