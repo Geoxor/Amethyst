@@ -235,6 +235,10 @@ const filteredMetadata = computed(() => {
               <h1>{{ $t('track.metadata.cover.size') }}</h1>
               <p> {{ bytesToHuman(picture.data.byteLength || 0) }} </p>
             </li>
+            <li class="flex justify-between gap-2">
+              <h1>{{ $t('track.metadata.cover.dimensions') }}</h1>
+              <p> {{ picture.width + "x" + picture.height }} </p>
+            </li>
           </div>
         </div>
       </section>

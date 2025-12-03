@@ -270,6 +270,7 @@
   "track.metadata.cover.face": "Face",
   "track.metadata.cover.format": "Format",
   "track.metadata.cover.size": "Size",
+  "track.metadata.cover.dimensions": "Dimensions",
   "track.metadata.barcode": "Barcode",
   "track.metadata.label": "Label",
   "track.metadata.isrc": "ISRC",
