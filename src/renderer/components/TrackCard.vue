@@ -46,7 +46,7 @@ onMounted(() => {
   >
     <span class="relative w-inherit truncate rounded-8px transition-all duration-user-defined transform-gpu hover:scale-110">
       <h1
-        v-if="amethyst.analytics.getPlayCount(track)"
+        v-if="amethyst.analytics.getAnalytics(track).playCount"
         class="absolute flex items-center gap-0.5 top-0 font-weight-user-defined right-0 min-w-4 text-12px text-center p-1 z-5 rounded-bl-8px  text-black"
         :style="`background-color: ${color};`"
       >
@@ -55,7 +55,7 @@ onMounted(() => {
           icon="ic:twotone-refresh"
           class="w-4 h-4"
         />
-        {{ amethyst.analytics.getPlayCount(track) }}</h1>
+        {{ amethyst.analytics.getAnalytics(track).playCount }}</h1>
 
       <template v-if="amethyst.player.getCurrentTrack() == track">
         <icon

@@ -279,6 +279,31 @@ const filteredMetadata = computed(() => {
         </button>
       </section>
 
+      <section track-analytics>
+        <h1>
+          <icon
+            icon="ic:twotone-bar-chart"
+            class="h-5-w-5 min-w-5 min-h-5"
+          />
+          {{ $t('track.analytics') }}
+        </h1>
+
+        <li>
+          <h1>{{ $t('track.analytics.play_count') }}</h1>
+          <p> {{ amethyst.analytics.getAnalytics(inspector.state.currentItem).playCount }}</p>
+        </li>
+
+        <li>
+          <h1>{{ $t('track.analytics.skip_count') }}</h1>
+          <p> {{ amethyst.analytics.getAnalytics(inspector.state.currentItem).skipCount }}</p>
+        </li>
+
+        <li>
+          <h1>{{ $t('track.file.date_added') }}</h1>
+          <p> {{ new Date(amethyst.analytics.getAnalytics(inspector.state.currentItem).dateAdded).toLocaleDateString() }}</p>
+        </li>
+      </section>
+
       <section audio-properties>
         <h1>
           <icon

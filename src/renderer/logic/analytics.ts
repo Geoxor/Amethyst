@@ -8,6 +8,8 @@ import type { Track } from "@/logic/track.js";
 
 interface TrackAnalytics {
   playCount: number;
+  skipCount: number;
+  dateAdded: number;
 }
 
 const DISCOVERY_ITEMS_COUNT = 20;
@@ -20,6 +22,8 @@ export class Analytics {
 
   private emptyAnalytics = (): TrackAnalytics => ({
     playCount: 0,
+    skipCount: 0,
+    dateAdded: Date.now(),
   });
 
   private lastClickedPlay: Record<string, number> = {};
@@ -122,8 +126,8 @@ export class Analytics {
     this.tracksBasedOnRandom.value = new Set (fisherYatesShuffle(allLoadedTracks).slice(0, DISCOVERY_ITEMS_COUNT));
   }
 
-  public getPlayCount(track: Track): number {
-    return this.trackAnalytics.value[track.uuid!]?.playCount ?? 0;
+  public getAnalytics(track: Track): TrackAnalytics {
+    return this.trackAnalytics.value[track.uuid!] ?? this.emptyAnalytics();
   }
 
   private incrementPlayCount(uuid: string) {
