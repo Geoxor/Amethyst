@@ -8,6 +8,8 @@ import type { Track } from "@/logic/track.js";
 
 interface TrackAnalytics {
   playCount: number;
+  skipCount: number;
+  dateAdded: number;
 }
 
 const DISCOVERY_ITEMS_COUNT = 20;
@@ -20,6 +22,8 @@ export class Analytics {
 
   private emptyAnalytics = (): TrackAnalytics => ({
     playCount: 0,
+    skipCount: 0,
+    dateAdded: Date.now(),
   });
 
   private lastClickedPlay: Record<string, number> = {};
@@ -41,6 +45,15 @@ export class Analytics {
       // Check if 3 seconds have passed since the last time they played it to avoid spam incrementing
       if (Date.now() > this.lastClickedPlay[track.uuid] + 3000) {
         this.incrementPlayCount(track.uuid);
+      }
+
+      // If user skips the track within the first half of the song's duration, increment skip count
+      const durationSeconds = track.getDurationSeconds() || 0;
+      const currentTime = amethyst.player.currentTime.value;
+
+      console.log("Current time:", currentTime, "Duration/2:", durationSeconds / 2);
+      if (currentTime < (durationSeconds / 2)) {
+        this.incrementSkipCount(track.uuid!);
       }
     });
   }
@@ -122,12 +135,16 @@ export class Analytics {
     this.tracksBasedOnRandom.value = new Set (fisherYatesShuffle(allLoadedTracks).slice(0, DISCOVERY_ITEMS_COUNT));
   }
 
-  public getPlayCount(track: Track): number {
-    return this.trackAnalytics.value[track.uuid!]?.playCount ?? 0;
+  public getAnalytics(track: Track): TrackAnalytics {
+    return this.trackAnalytics.value[track.uuid!] ?? this.emptyAnalytics();
   }
 
   private incrementPlayCount(uuid: string) {
     this.lastClickedPlay[uuid] = Date.now();
     this.trackAnalytics.value[uuid].playCount++;
+  }
+
+  private incrementSkipCount(uuid: string) {
+    this.trackAnalytics.value[uuid].skipCount++;
   }
 }

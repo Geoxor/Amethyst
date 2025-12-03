@@ -4,7 +4,7 @@ import { useLocalStorage } from "@vueuse/core";
 import type { Ref } from "vue";
 import { ref } from "vue";
 
-import type { Amethyst } from "@/amethyst.js";
+import { type Amethyst, amethyst } from "@/amethyst.js";
 import { fisherYatesShuffle } from "@/logic/math.js";
 import { Track } from "@/logic/track.js";
 
@@ -19,6 +19,9 @@ const COMPARATORS_BY_METHOD = {
   filename: (a, b) => (a.getFilename()) > (b.getFilename()) ? 1 : -1,
   title: (a, b) => (a.getTitle() || "") > (b.getTitle() || "") ? 1 : -1,
   artist: (a, b) => (a.getArtistsFormatted() || "") > (b.getArtistsFormatted() || "") ? 1 : -1,
+  playCount: (a, b) => (amethyst.analytics.getAnalytics(a).playCount) > (amethyst.analytics.getAnalytics(b).playCount) ? 1 : -1,
+  skipCount: (a, b) => (amethyst.analytics.getAnalytics(a).skipCount) > (amethyst.analytics.getAnalytics(b).skipCount) ? 1 : -1,
+  dateAdded: (a, b) => (amethyst.analytics.getAnalytics(a).dateAdded) > (amethyst.analytics.getAnalytics(b).dateAdded) ? 1 : -1,
   album: (a, b) => (a.getAlbum() || "") > (b.getAlbum() || "") ? 1 : -1,
   year: (a, b) => (a.getYear() || 0) > (b.getYear() || 0) ? 1 : -1,
   duration: (a, b) => (a.getDurationSeconds()) > (b.getDurationSeconds()) ? 1 : -1,

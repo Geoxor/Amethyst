@@ -61,6 +61,9 @@ const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
     { key: "location", title: "queue.column.location" },
     { key: "album", title: "track.metadata.album" },
     { key: "genre", title: "track.metadata.genre" },
+    { key: "playCount", title: "track.analytics.play_count" },
+    { key: "skipCount", title: "track.analytics.skip_count" },
+    { key: "dateAdded", title: "track.analytics.date_added" },
     { key: "barcode", title: "track.metadata.barcode" },
     { key: "year", title: "track.metadata.year" },
     { key: "label", title: "track.metadata.label" },
@@ -313,6 +316,49 @@ const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
           class="chevron"
         />
       </div>
+
+      <div
+        v-if="columns.playCount"
+        class="flex-none w-[64px]"
+        :class="[currentShortMethod == 'playCount' && 'activeSort']"
+        @click="setCurrentSortedMethod('playCount')"
+      >
+        {{ $t('track.analytics.play_count') }}
+        <icon
+          v-if="currentShortMethod == 'playCount'"
+          icon="ic:round-chevron-left"
+          class="chevron"
+        />
+      </div>
+
+      <div
+        v-if="columns.skipCount"
+        class="flex-none w-[64px]"
+        :class="[currentShortMethod == 'skipCount' && 'activeSort']"
+        @click="setCurrentSortedMethod('skipCount')"
+      >
+        {{ $t('track.analytics.skip_count') }}
+        <icon
+          v-if="currentShortMethod == 'skipCount'"
+          icon="ic:round-chevron-left"
+          class="chevron"
+        />
+      </div>
+
+      <div
+        v-if="columns.dateAdded"
+        class="flex-none w-[128px]"
+        :class="[currentShortMethod == 'dateAdded' && 'activeSort']"
+        @click="setCurrentSortedMethod('dateAdded')"
+      >
+        {{ $t('track.analytics.date_added') }}
+        <icon
+          v-if="currentShortMethod == 'dateAdded'"
+          icon="ic:round-chevron-left"
+          class="chevron"
+        />
+      </div>
+
       <div
         v-if="columns.favorite"
         class="flex-none w-[70px]"
@@ -583,6 +629,29 @@ const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
           >
             <span v-if="item.getContainer()">{{ item.getContainer() }}</span>
             <not-applicable-text v-else />
+          </div>
+
+          <div
+            v-if="columns.playCount"
+            class="flex-none w-[64px]"
+            :class="[amethyst.analytics.getAnalytics(item).playCount == 0 && 'opacity-33']"
+          >
+            <span>{{ amethyst.analytics.getAnalytics(item).playCount || 0 }}</span>
+          </div>
+
+          <div
+            v-if="columns.skipCount"
+            class="flex-none w-[64px]"
+            :class="[amethyst.analytics.getAnalytics(item).skipCount == 0 && 'opacity-33']"
+          >
+            <span>{{ amethyst.analytics.getAnalytics(item).skipCount || 0 }}</span>
+          </div>
+
+          <div
+            v-if="columns.dateAdded"
+            class="flex-none w-[128px]"
+          >
+            <span>{{ new Date(amethyst.analytics.getAnalytics(item).dateAdded).toLocaleDateString() }}</span>
           </div>
 
           <div
