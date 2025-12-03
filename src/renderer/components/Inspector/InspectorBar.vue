@@ -299,7 +299,7 @@ const filteredMetadata = computed(() => {
         </li>
 
         <li>
-          <h1>{{ $t('track.file.date_added') }}</h1>
+          <h1>{{ $t('track.analytics.date_added') }}</h1>
           <p> {{ new Date(amethyst.analytics.getAnalytics(inspector.state.currentItem).dateAdded).toLocaleDateString() }}</p>
         </li>
       </section>
