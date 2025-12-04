@@ -286,30 +286,23 @@ const filteredMetadata = computed(() => {
         </button>
       </section>
 
-      <section track-analytics>
-        <h1>
-          <icon
-            icon="ic:twotone-bar-chart"
-            class="h-5-w-5 min-w-5 min-h-5"
-          />
-          {{ $t('track.analytics') }}
-        </h1>
-
-        <li>
-          <h1>{{ $t('track.analytics.play_count') }}</h1>
-          <p> {{ amethyst.analytics.getAnalytics(inspector.state.currentItem).playCount }}</p>
-        </li>
-
-        <li>
-          <h1>{{ $t('track.analytics.skip_count') }}</h1>
-          <p> {{ amethyst.analytics.getAnalytics(inspector.state.currentItem).skipCount }}</p>
-        </li>
-
-        <li>
-          <h1>{{ $t('track.analytics.date_added') }}</h1>
-          <p> {{ new Date(amethyst.analytics.getAnalytics(inspector.state.currentItem).dateAdded).toLocaleDateString() }}</p>
-        </li>
-      </section>
+      <inspector-section
+        title="track.analytics"
+        icon="ic:twotone-bar-chart"
+      >
+        <inspector-item
+          name="track.analytics.play_count"
+          :value="amethyst.analytics.getAnalytics(inspector.state.currentItem).playCount"
+        />
+        <inspector-item
+          name="track.analytics.skip_count"
+          :value="amethyst.analytics.getAnalytics(inspector.state.currentItem).skipCount"
+        />
+        <inspector-item
+          name="track.analytics.date_added"
+          :value="new Date(amethyst.analytics.getAnalytics(inspector.state.currentItem).dateAdded).toLocaleDateString()"
+        />
+      </inspector-section>
 
       <inspector-section
         title="track.audio_properties"
@@ -373,26 +366,22 @@ const filteredMetadata = computed(() => {
         </button>
       </inspector-section>
 
-      <section state>
-        <h1>
-          <icon
-            icon="ic:twotone-circle"
-            class="h-5-w-5 min-w-5 min-h-5"
-          />
-          {{ $t('track.state') }}
-        </h1>
-        <li>
-          <h1>{{ $t('track.state.errored') }}</h1>
-          <p> {{ inspector.state.currentItem.hasErrored ? "Yes" : "No" }}</p>
-        </li>
-        <li>
-          <h1>{{ $t('track.state.loaded') }}</h1>
-          <p> {{ inspector.state.currentItem.isLoaded ? "Yes" : "No" }}</p>
-        </li>
-        <li>
-          <h1>{{ $t('track.state.loading') }}</h1>
-          <p> {{ inspector.state.currentItem.isLoading ? "Yes" : "No" }}</p>
-        </li>
+      <inspector-section
+        title="track.state"
+        icon="ic:twotone-circle"
+      >
+        <inspector-item
+          name="track.file.name"
+          :value="inspector.state.currentItem.hasErrored ? 'Yes' : 'No'"
+        />
+        <inspector-item
+          name="track.file.size"
+          :value="inspector.state.currentItem.isLoaded ? 'Yes' : 'No'"
+        />
+        <inspector-item
+          name="track.file.hash"
+          :value="inspector.state.currentItem.isLoading ? 'Yes' : 'No'"
+        />
         <button
           class="cursor-pointer"
           @click="amethyst.showItem(inspector.state.currentItem.getCachePath())"
@@ -403,7 +392,7 @@ const filteredMetadata = computed(() => {
             class="h-5-w-5 min-w-5 min-h-5"
           />
         </button>
-      </section>
+      </inspector-section>
     </div>
   </div>
 </template>
