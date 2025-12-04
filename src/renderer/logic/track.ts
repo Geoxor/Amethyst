@@ -59,7 +59,7 @@ export class Track {
   }
 
   private generateHash() {
-    this.uuid = md5(`${this.getArtistsFormatted()}, ${this.getAlbum()}, ${this.getTitle()}`);
+    this.uuid = md5(`${this.getArtistsFormatted()}, ${this.getAlbum()}, ${this.getTitle()}, ${this.getFilename()}`);
     this.isFavorited = favoriteTracks.value.includes(this.uuid);
   }
 
