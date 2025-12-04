@@ -8,7 +8,7 @@ import { removeEmptyObjects } from "@shared/logic.js";
 import CoverArt from "../CoverArt.vue";
 import InspectorItem from "./InspectorItem.vue";
 import InspectorSection from "./InspectorSection.vue";
-
+import InspectorButton from "./InspectorButton.vue";
 const props = defineProps<{ track: Track }>();
 
 const filteredMetadata = computed(() => {
@@ -69,12 +69,11 @@ function cloneWithoutPicture(obj: Record<string, any>): Record<string, any> {
           <input :value="value">
         </template>
       </li>
-      <button
-        class="cursor-pointer"
+      <inspector-button
+        name="track.metadata.refresh"
+        icon="ic:twotone-refresh"
         @click="track.fetchAsyncData(true)"
-      >
-        {{ $t('track.metadata.refresh') }}
-      </button>
+      />
     </inspector-section>
 
     <inspector-section title="track.analytics" icon="ic:twotone-bar-chart">
@@ -97,32 +96,22 @@ function cloneWithoutPicture(obj: Record<string, any>): Record<string, any> {
       <inspector-item name="track.file.name" :value="track.getFilename()" />
       <inspector-item name="track.file.size" :value="track.getFilesizeFormatted()" />
       <inspector-item name="track.file.hash" :value="track.uuid" />
-      <button
-        class="cursor-pointer"
+      <inspector-button
+        name="track.show_file_in_file_explorer"
+        icon="ic:twotone-open-in-new"
         @click="amethyst.showItem(track.path)"
-      >
-        {{ $t('track.show_file_in_file_explorer') }}
-        <icon
-          icon="ic:twotone-open-in-new"
-          class="h-5-w-5 min-w-5 min-h-5"
-        />
-      </button>
+      />
     </inspector-section>
 
     <inspector-section title="track.state" icon="ic:twotone-circle">
       <inspector-item name="track.file.name" :value="track.hasErrored ? 'Yes' : 'No'" />
       <inspector-item name="track.file.size" :value="track.isLoaded ? 'Yes' : 'No'" />
       <inspector-item name="track.file.hash" :value="track.isLoading ? 'Yes' : 'No'" />
-      <button
-        class="cursor-pointer"
+      <inspector-button
+        name="track.show_amf_in_file_explorer"
+        icon="ic:twotone-open-in-new"
         @click="amethyst.showItem(track.getCachePath())"
-      >
-        {{ $t('track.show_amf_in_file_explorer') }}
-        <icon
-          icon="ic:twotone-open-in-new"
-          class="h-5-w-5 min-w-5 min-h-5"
-        />
-      </button>
+      />
     </inspector-section>
   </div>
 </template>
