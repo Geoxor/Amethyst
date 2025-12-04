@@ -3,8 +3,8 @@ import { Icon } from "@iconify/vue";
 import { bytesToHuman } from "@shared/formating";
 import { removeEmptyObjects } from "@shared/logic.js";
 import { computed, onMounted, onUnmounted, watch } from "vue";
-import { useRoute } from "vue-router";
 
+import { useRoute } from "vue-router";
 import { amethyst } from "@/amethyst.js";
 import LoadingIcon from "@/components/v2/LoadingIcon.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
@@ -19,6 +19,9 @@ import DraggableModifierInput from "../input/DraggableModifierInput.vue";
 import QuickMenu from "../nodes/QuickMenu.vue";
 import DropdownInput from "../v2/DropdownInput.vue";
 import { useInspector } from ".";
+
+import InspectorItem from "./InspectorItem.vue";
+import InspectorSection from "./InspectorSection.vue";
 
 const route = useRoute();
 
@@ -308,67 +311,56 @@ const filteredMetadata = computed(() => {
         </li>
       </section>
 
-      <section audio-properties>
-        <h1>
-          <icon
-            icon="ic:twotone-document-scanner"
-            class="h-5-w-5 min-w-5 min-h-5"
-          />
-          {{ $t('track.audio_properties') }}
-        </h1>
+      <inspector-section
+        title="track.audio_properties"
+        icon="ic:twotone-document-scanner"
+      >
+        <inspector-item
+          name="track.audio_properties.duration"
+          :value="inspector.state.currentItem.getChannels()"
+        />
+        <inspector-item
+          name="track.audio_properties.duration"
+          :value="inspector.state.currentItem.getDurationFormatted()"
+        />
+        <inspector-item
+          name="track.audio_properties.container"
+          :value="inspector.state.currentItem.getContainer()"
+        />
+        <inspector-item
+          name="track.audio_properties.codec"
+          :value="inspector.state.currentItem.getCodec()"
+        />
+        <inspector-item
+          name="track.audio_properties.bitrate"
+          :value="(((inspector.state.currentItem.getBitrate()) || 0) / 1000).toFixed(2) + ' Kbps'"
+        />
+        <inspector-item
+          name="track.audio_properties.bits_per_sample"
+          :value="inspector.state.currentItem.getBitsPerSample() + ' bit'"
+        />
+        <inspector-item
+          name="track.audio_properties.sample_rate"
+          :value="inspector.state.currentItem.getSampleRate() + ' Hz'"
+        />
+      </inspector-section>
 
-        <li>
-          <h1>{{ $t('track.audio_properties.channels') }}</h1>
-          <p> {{ inspector.state.currentItem.getChannels() }}</p>
-        </li>
-        <li>
-          <h1>{{ $t('track.audio_properties.duration') }}</h1>
-          <p> {{ inspector.state.currentItem.getDurationFormatted() }}</p>
-        </li>
-        <li>
-          <h1>{{ $t('track.audio_properties.container') }}</h1>
-          <p> {{ inspector.state.currentItem.getContainer() }}</p>
-        </li>
-        <li>
-          <h1>{{ $t('track.audio_properties.codec') }}</h1>
-          <p> {{ inspector.state.currentItem.getCodec() }}</p>
-        </li>
-        <li>
-          <h1>{{ $t('track.audio_properties.bitrate') }}</h1>
-          <p> {{ (((inspector.state.currentItem.getBitrate()) || 0) / 1000).toFixed(2) }} Kbps</p>
-        </li>
-        <li>
-          <h1>{{ $t('track.audio_properties.bits_per_sample') }}</h1>
-          <p> {{ inspector.state.currentItem.getBitsPerSample() }} bit</p>
-        </li>
-        <li>
-          <h1>{{ $t('track.audio_properties.sample_rate') }}</h1>
-          <p> {{ inspector.state.currentItem.getSampleRate() }} Hz</p>
-        </li>
-      </section>
-
-      <section file-information>
-        <h1 class="">
-          <icon
-            icon="ic:twotone-insert-drive-file"
-            class="h-5-w-5 min-w-5 min-h-5"
-          />
-          {{ $t('track.file_information') }}
-        </h1>
-
-        <li>
-          <h1>{{ $t('track.file.name') }}</h1>
-          <p> {{ inspector.state.currentItem.getFilename() }}</p>
-        </li>
-        <li>
-          <h1>{{ $t('track.file.size') }}</h1>
-          <p> {{ inspector.state.currentItem.getFilesizeFormatted() }}</p>
-        </li>
-        <li>
-          <h1>{{ $t('track.file.hash') }}</h1>
-          <p> {{ inspector.state.currentItem.uuid }}</p>
-        </li>
-
+      <inspector-section
+        title="track.file_information"
+        icon="ic:twotone-insert-drive-file"
+      >
+        <inspector-item
+          name="track.file.name"
+          :value="inspector.state.currentItem.getFilename()"
+        />
+        <inspector-item
+          name="track.file.size"
+          :value="inspector.state.currentItem.getFilesizeFormatted()"
+        />
+        <inspector-item
+          name="track.file.hash"
+          :value="inspector.state.currentItem.uuid"
+        />
         <button
           class="cursor-pointer"
           @click="amethyst.showItem(inspector.state.currentItem.path)"
@@ -379,7 +371,7 @@ const filteredMetadata = computed(() => {
             class="h-5-w-5 min-w-5 min-h-5"
           />
         </button>
-      </section>
+      </inspector-section>
 
       <section state>
         <h1>
@@ -416,7 +408,7 @@ const filteredMetadata = computed(() => {
   </div>
 </template>
 
-<style scoped lang="postcss">
+<style lang="postcss">
 .inspector {
   @apply text-text-title text-12px pt-44px transform-gpu -translate-y-40px rounded-tl-16px;
 }
