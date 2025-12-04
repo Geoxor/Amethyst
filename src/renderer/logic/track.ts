@@ -481,7 +481,7 @@ export class Track {
   };
 
   /**
-   * @returns The artist(s) (joined with a "&") from metadata and falls back to "uknown artist"
+   * @returns The artist(s) (joined with a "&") from metadata
    * @example "Daft Punk", "Virtual Riot & Panda Eyes",
    */
   public getArtistsFormatted() {
