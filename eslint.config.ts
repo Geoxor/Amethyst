@@ -57,7 +57,7 @@ export default typescriptEslint.config(
       }],
       "vue/max-attributes-per-line": ["warn", {
         singleline: {
-          max: 1,
+          max: 2,
         },
         multiline: {
           max: 1,

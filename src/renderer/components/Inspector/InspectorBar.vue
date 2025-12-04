@@ -1,27 +1,21 @@
 <script setup lang="ts">
 import { Icon } from "@iconify/vue";
-import { bytesToHuman } from "@shared/formating";
-import { removeEmptyObjects } from "@shared/logic.js";
 import { computed, onMounted, onUnmounted, watch } from "vue";
 
 import { useRoute } from "vue-router";
 import { amethyst } from "@/amethyst.js";
-import LoadingIcon from "@/components/v2/LoadingIcon.vue";
 import DbMeter from "@/components/visualizers/DbMeter.vue";
 import { AmethystAudioNode } from "@/logic/audio";
 import { Track } from "@/logic/track";
 import { AmethystOutputNode } from "@/nodes";
 
 import BaseChip from "../BaseChip.vue";
-import { useContextMenu } from "../ContextMenu";
-import CoverArt from "../CoverArt.vue";
 import DraggableModifierInput from "../input/DraggableModifierInput.vue";
 import QuickMenu from "../nodes/QuickMenu.vue";
 import DropdownInput from "../v2/DropdownInput.vue";
 import { useInspector } from ".";
 
-import InspectorItem from "./InspectorItem.vue";
-import InspectorSection from "./InspectorSection.vue";
+import TrackInspector from "./TrackInspector.vue";
 
 const route = useRoute();
 
@@ -51,17 +45,6 @@ onMounted(() => {
 
 onUnmounted(() => {
   amethyst.player.off("player:trackChange", handlePlay);
-});
-
-function cloneWithoutPicture(obj: Record<string, any>): Record<string, any> {
-  const { picture, ...rest } = obj;
-  return { ...rest };
-}
-
-const filteredMetadata = computed(() => {
-  const metadata = inspector.state.currentItem?.getMetadata()?.common;
-  if (!metadata) return {};
-  return removeEmptyObjects(cloneWithoutPicture(metadata));
 });
 
 </script>
@@ -194,206 +177,10 @@ const filteredMetadata = computed(() => {
       </section>
     </div>
 
-    <div
+    <track-inspector
       v-if="inspector.state.currentItem instanceof Track && inspector.state.currentItem"
-      class="pb-32 h-full overflow-y-auto"
-    >
-      <section covers>
-        <h1>
-          <icon
-            icon="ic:twotone-image"
-            class="h-5-w-5 min-w-5 min-h-5"
-          />
-          {{ $t('track.covers') }}
-          <loading-icon
-            v-if="!inspector.state.currentItem.isLoaded"
-            class="h-3 animate-spin w-3 min-h-3 min-w-3"
-          />
-        </h1>
-        <!-- FIXME: Cover art data will sometimes not show, even though metadata is loaded https://files.catbox.moe/jusams.png -->
-        <div
-          v-for="(picture, i) of inspector.state.currentItem.getMetadata()?.common.picture"
-          :key="picture.data.byteLength"
-          class="flex flex-col gap-2 py-1 last:border-none"
-        >
-          <cover-art
-            class="w-auto h-full rounded-4px"
-            :url="inspector.state.currentItem.getCoverByFace(i)"
-            @contextmenu="useContextMenu().open({x: $event.x, y: $event.y}, [
-              { title: 'Export cover...', icon: 'ic:twotone-add-photo-alternate', action: () => inspector.state.currentItem?.exportCover(i) },
-            ]);"
-          />
-          <div class="flex flex-col gap-1 w-full">
-            <li class="flex justify-between gap-2">
-              <h1>{{ $t('track.metadata.cover.face') }}</h1>
-              <p>
-                {{ picture.type === "Media (e.g. label side of CD)" ? 'Disc' : picture.type }}
-              </p>
-            </li>
-            <li class="flex justify-between gap-2">
-              <h1>{{ $t('track.metadata.cover.dimensions') }}</h1>
-              <p> {{ picture.width + "x" + picture.height }} </p>
-            </li>
-            <li class="flex justify-between gap-2">
-              <h1>{{ $t('track.metadata.cover.format') }}</h1>
-              <p> {{ picture.format }} </p>
-            </li>
-            <li class="flex justify-between gap-2">
-              <h1>{{ $t('track.metadata.cover.size') }}</h1>
-              <p> {{ bytesToHuman(picture.data.byteLength || 0) }} </p>
-            </li>
-          </div>
-        </div>
-      </section>
-
-      <section metadata>
-        <h1>
-          <icon
-            icon="ic:twotone-text-snippet"
-            class="h-5-w-5 min-w-5 min-h-5"
-          />
-          {{ $t('track.metadata') }}
-          <loading-icon
-            v-if="!inspector.state.currentItem.isLoaded"
-          />
-        </h1>
-
-        <li
-          v-for="(value, key) in filteredMetadata"
-          :key="key"
-        >
-          <template v-if="value.constructor === Object">
-            <div class="flex flex-col gap-1 justify-between w-full">
-              <li
-                v-for="(b, j) in value"
-                :key="j"
-              >
-                <h1>{{ key }} {{ j }}</h1>
-                <input :value="b">
-              </li>
-            </div>
-          </template>
-          <template v-else>
-            <h1>{{ key }}</h1>
-            <input :value="value">
-          </template>
-        </li>
-        <button
-          class="cursor-pointer"
-          @click="inspector.state.currentItem.fetchAsyncData(true)"
-        >
-          {{ $t('track.metadata.refresh') }}
-        </button>
-      </section>
-
-      <inspector-section
-        title="track.analytics"
-        icon="ic:twotone-bar-chart"
-      >
-        <inspector-item
-          name="track.analytics.play_count"
-          :value="amethyst.analytics.getAnalytics(inspector.state.currentItem).playCount"
-        />
-        <inspector-item
-          name="track.analytics.skip_count"
-          :value="amethyst.analytics.getAnalytics(inspector.state.currentItem).skipCount"
-        />
-        <inspector-item
-          name="track.analytics.date_added"
-          :value="new Date(amethyst.analytics.getAnalytics(inspector.state.currentItem).dateAdded).toLocaleDateString()"
-        />
-      </inspector-section>
-
-      <inspector-section
-        title="track.audio_properties"
-        icon="ic:twotone-document-scanner"
-      >
-        <inspector-item
-          name="track.audio_properties.duration"
-          :value="inspector.state.currentItem.getChannels()"
-        />
-        <inspector-item
-          name="track.audio_properties.duration"
-          :value="inspector.state.currentItem.getDurationFormatted()"
-        />
-        <inspector-item
-          name="track.audio_properties.container"
-          :value="inspector.state.currentItem.getContainer()"
-        />
-        <inspector-item
-          name="track.audio_properties.codec"
-          :value="inspector.state.currentItem.getCodec()"
-        />
-        <inspector-item
-          name="track.audio_properties.bitrate"
-          :value="(((inspector.state.currentItem.getBitrate()) || 0) / 1000).toFixed(2) + ' Kbps'"
-        />
-        <inspector-item
-          name="track.audio_properties.bits_per_sample"
-          :value="inspector.state.currentItem.getBitsPerSample() + ' bit'"
-        />
-        <inspector-item
-          name="track.audio_properties.sample_rate"
-          :value="inspector.state.currentItem.getSampleRate() + ' Hz'"
-        />
-      </inspector-section>
-
-      <inspector-section
-        title="track.file_information"
-        icon="ic:twotone-insert-drive-file"
-      >
-        <inspector-item
-          name="track.file.name"
-          :value="inspector.state.currentItem.getFilename()"
-        />
-        <inspector-item
-          name="track.file.size"
-          :value="inspector.state.currentItem.getFilesizeFormatted()"
-        />
-        <inspector-item
-          name="track.file.hash"
-          :value="inspector.state.currentItem.uuid"
-        />
-        <button
-          class="cursor-pointer"
-          @click="amethyst.showItem(inspector.state.currentItem.path)"
-        >
-          {{ $t('track.show_file_in_file_explorer') }}
-          <icon
-            icon="ic:twotone-open-in-new"
-            class="h-5-w-5 min-w-5 min-h-5"
-          />
-        </button>
-      </inspector-section>
-
-      <inspector-section
-        title="track.state"
-        icon="ic:twotone-circle"
-      >
-        <inspector-item
-          name="track.file.name"
-          :value="inspector.state.currentItem.hasErrored ? 'Yes' : 'No'"
-        />
-        <inspector-item
-          name="track.file.size"
-          :value="inspector.state.currentItem.isLoaded ? 'Yes' : 'No'"
-        />
-        <inspector-item
-          name="track.file.hash"
-          :value="inspector.state.currentItem.isLoading ? 'Yes' : 'No'"
-        />
-        <button
-          class="cursor-pointer"
-          @click="amethyst.showItem(inspector.state.currentItem.getCachePath())"
-        >
-          {{ $t('track.show_amf_in_file_explorer') }}
-          <icon
-            icon="ic:twotone-open-in-new"
-            class="h-5-w-5 min-w-5 min-h-5"
-          />
-        </button>
-      </inspector-section>
-    </div>
+      :track="inspector.state.currentItem"
+    />
   </div>
 </template>
 
