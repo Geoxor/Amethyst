@@ -1,4 +1,5 @@
 import type { Player } from "@/logic/player.js";
+import { Track } from "@/logic/track.js";
 
 export class MediaSession {
   public constructor(private player: Player) {
@@ -19,22 +20,24 @@ export class MediaSession {
     navigator.mediaSession.setActionHandler("stop", () => this.player.stop());
   }
 
+  private updateToNewTrack(track: Track) {
+    const coverUrl = track.getCover();
+
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: track.getTitleFormatted(),
+      artist: track.getArtistsFormatted(),
+      album: track.getAlbum(),
+      artwork: coverUrl ? [{ src: coverUrl, type: "" }] : undefined,
+    });
+  }
+
   private setEventListeners() {
     this.player.on("player:resume", () => navigator.mediaSession.playbackState = "playing");
     this.player.on("player:pause", () => navigator.mediaSession.playbackState = "paused");
     this.player.on("player:seek", ({ track, seekedTo }) => this.updatePositionState(track.getDuration(), seekedTo));
     this.player.on("player:pitchChange", ({ track }) => this.updatePositionState(track?.getDuration()));
     this.player.on("player:trackChange", async (track) => {
-      const coverUrl = track.getCover();
-      if (!coverUrl) return;
-
-      navigator.mediaSession.metadata = new MediaMetadata({
-        title: track.getTitleFormatted(),
-        artist: track.getArtistsFormatted(),
-        album: track.getAlbum(),
-        artwork: [{ src: coverUrl, type: "" }],
-      });
-
+      this.updateToNewTrack(track);
       this.updatePositionState(track.getDuration());
     });
   }
