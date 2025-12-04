@@ -21,6 +21,7 @@ function cloneWithoutPicture(obj: Record<string, any>): Record<string, any> {
   const { picture, ...rest } = obj;
   return { ...rest };
 }
+
 </script>
 
 <template>
