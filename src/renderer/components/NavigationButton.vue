@@ -21,6 +21,7 @@ const router = useRouter();
       mobile && 'w-full',
     ]"
   >
+    <!-- TODO: support mobile view refreshing -->
     <button
       :class="[
         isActive && 'active',
@@ -31,6 +32,7 @@ const router = useRouter();
       class="duration-user-defined items-center gap-2 transition-colors duration-user-defined flex relative disable-select no-drag"
       @touchstart="router.push({ name: routeName })"
       @mousedown="router.push({ name: routeName })"
+      @dblclick="amethyst.state.emit('view:refresh', '')"
     >
       <icon
         v-if="icon"
