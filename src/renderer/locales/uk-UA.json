@@ -48,7 +48,7 @@
   "output_diagram.audio_device.title": "Audio device",
   "output_diagram.output.title": "Output",
   "output_diagram.resampler.title": "Resampler",
-  "output_diagram.os_api.title": "ІПП", 
+  "output_diagram.os_api.title": "ІПП",
   "output_breakdown.title": "Output breakdown",
   "menu.file": "Файл",
   "menu.file.open_audio": "Відкрити аудіо...",
