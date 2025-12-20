@@ -21,12 +21,16 @@ const scrollToCurrentElement = (track?: Track) => {
 };
 
 const autoscroll = () => amethyst.state.followQueue.value && scrollToCurrentElement();
+const clearFilterText = () => filterText.value = "";
+
 watch(() => amethyst.state.followQueue.value, () => autoscroll());
 onMounted(() => {
   amethyst.player.on("player:trackChange", autoscroll);
+  amethyst.state.on("view:refresh", clearFilterText);
 });
 onUnmounted(() => {
   amethyst.player.off("player:trackChange", autoscroll);
+  amethyst.state.on("view:refresh", clearFilterText);
 });
 </script>
 

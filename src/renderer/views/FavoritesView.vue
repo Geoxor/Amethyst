@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useLocalStorage } from "@vueuse/core";
-import { computed, onMounted } from "vue";
+import { computed, onMounted, onUnmounted } from "vue";
 
 import { amethyst } from "@/amethyst.js";
 import TrackCard from "@/components/TrackCard.vue";
@@ -11,6 +11,14 @@ onMounted(() => {
 });
 
 const filterText = useLocalStorage("filterTextFavorites", "");
+const clearFilterText = () => filterText.value = "";
+
+onMounted(() => {
+  amethyst.state.on("view:refresh", clearFilterText);
+});
+onUnmounted(() => {
+  amethyst.state.off("view:refresh", clearFilterText);
+});
 </script>
 
 <template>
