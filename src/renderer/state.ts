@@ -6,39 +6,8 @@ import { reactive, ref, watch } from "vue";
 import { EventEmitter } from "@/logic/eventEmitter.js";
 import { createDefaultSettings } from "@/logic/settings.js";
 import { ShaderManager } from "@/shaders/ShaderManager.js";
-
+import {deepMerge} from "@/logic/settings.js"
 import { Amethyst } from "./amethyst.js";
-
-function deepMerge<T>(target: T, source: Partial<T>): T {
-  if (typeof target !== "object" || typeof source !== "object" || !target || !source) {
-    return source as T;
-  }
-
-  const result = Array.isArray(target) ? [...target] : { ...target };
-
-  for (const key in source) {
-    if (Object.prototype.hasOwnProperty.call(source, key)) {
-      const sourceVal = source[key];
-      const targetVal = (target as any)[key];
-
-      if (
-        sourceVal
-        && typeof sourceVal === "object"
-        && !Array.isArray(sourceVal)
-        && targetVal
-        && typeof targetVal === "object"
-        && !Array.isArray(targetVal)
-      ) {
-        (result as any)[key] = deepMerge(targetVal, sourceVal);
-      }
-      else {
-        (result as any)[key] = sourceVal;
-      }
-    }
-  }
-
-  return result as any;
-}
 
 export interface IContextMenuOption {
   title: string;
@@ -81,6 +50,11 @@ export class State extends EventEmitter<StateEvents> {
       },
     }).value,
   });
+
+  public replaceSettings = (newSettings: ReturnType<typeof createDefaultSettings>) => {
+    this.settings = reactive(deepMerge(this.settings, newSettings)); 
+    console.log("Replaced settings with imported settings", newSettings);
+  }
 
   public shaders = ref<ShaderManager>(new ShaderManager());
 

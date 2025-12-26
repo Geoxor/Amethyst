@@ -102,7 +102,7 @@
   "settings.audio.title": "Audio",
   "settings.audio.description": "Gérer les périphériques de sortie et les préréglages",
   "settings.media_sources.title": "Sources média",
-  "settings.media_sources.description": "Organiser les dossiers, se connecter aux serveurs, et plus encore",
+  "settings.media_sources.description": "organizer les dossiers, se connecter aux serveurs, et plus encore",
   "settings.keybinds.title": "Raccourcis clavier",
   "settings.keybinds.description": "Personnaliser les mappings clavier pour votre expérience",
   "settings.integrations.title": "Intégrations",

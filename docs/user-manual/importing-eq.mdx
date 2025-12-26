@@ -1,0 +1,48 @@
+---
+title: Importing from REW/AutoEQ
+icon: file-import
+---
+
+Amethyst supports importing EQ preset calibration text files from [Room EQ Wizard](https://www.roomeqwizard.com/) and [AutoEQ](https://github.com/jaakkopasanen/AutoEq) which are in the following format:
+
+```
+Equaliser: Generic
+Preamp: -6.00 dB
+Filter  1: ON  PK       Fc   25.00 Hz  Gain   0.00 dB  Q 10.000
+Filter  2: ON  PK       Fc   57.00 Hz  Gain  -2.60 dB  Q  4.130
+Filter  3: ON  PK       Fc   58.50 Hz  Gain   3.20 dB  Q  3.974
+Filter  4: ON  PK       Fc   60.80 Hz  Gain  -3.20 dB  Q  1.337
+Filter  5: ON  PK       Fc   130.0 Hz  Gain  -4.50 dB  Q  1.094
+Filter  6: ON  PK       Fc   213.0 Hz  Gain   3.10 dB  Q  4.139
+Filter  7: ON  PK       Fc   344.0 Hz  Gain  -3.30 dB  Q  1.588
+```
+
+<Steps>
+  <Step title="First Step">
+    Navigate to `Node Editor` > `Open REW/AutoEQ textfile`
+    
+    ![alt text](/images/{AB9ACE96-79E1-4A6E-859D-1D854E6DD234}.png)
+  </Step>
+  <Step title="Second step">
+    Select your calibration file
+
+    ![alt text](/images/{6C20F095-E422-4D69-AD96-7150E32DA987}.png)
+  </Step>
+  <Step title="Third step">
+    Filter nodes will be created
+
+    ![alt text](/images/{EA6EC73D-3BEC-4622-BB80-84BC2F8639F2}.png)
+
+    <Tip>
+      `SHIFT` + `Left Click` can be used to select multiple nodes to move them around
+    </Tip>
+
+    <Info>
+      The nodes will be pre-connected together but not to existing nodes, they will have to be connected manually
+    </Info>
+
+    <Note>
+      If certain filters are missing, it may be due to a syntax error in the calibration file or an unsupported filter type, Amethyst will skip invalid filters and parse the valid/supported ones
+    </Note>
+  </Step>
+</Steps>
