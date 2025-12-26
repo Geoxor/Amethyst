@@ -589,9 +589,9 @@ export class Amethyst extends AmethystBackend {
           this.isLoading.value = false;
           return console.error(error, "Dropped path is not a folder");
         };
-
-        await amethyst.player.queue.fetchAsyncData();
       }
+
+      await amethyst.player.queue.fetchAsyncData();
       this.isLoading.value = false;
     });
 
