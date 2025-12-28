@@ -298,6 +298,6 @@
   "track.state.errored": "Erronée",
   "track.state.loaded": "Chargé",
   "track.state.loading": "Chargement",
-  "track.show_file_in_file_explorer": "Montrer dans l'explorateur",
+  "track.show_file_in_file_explorer": "Afficher dans l'explorateur",
   "track.show_amf_in_file_explorer": "Afficher le .amf dans l'explorateur"
 }
