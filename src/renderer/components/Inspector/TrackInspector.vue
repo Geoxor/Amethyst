@@ -111,7 +111,7 @@ function cloneWithoutPicture(obj: Record<string, any>): Record<string, any> {
       <inspector-button
         name="track.show_amf_in_file_explorer"
         icon="ic:twotone-open-in-new"
-        @click="amethyst.showItem(track.getCachePath())"
+        @click="amethyst.showItem(track.getCachePath(true))"
       />
     </inspector-section>
   </div>
