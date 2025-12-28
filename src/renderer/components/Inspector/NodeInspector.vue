@@ -12,7 +12,7 @@ import DropdownInput from "../v2/DropdownInput.vue";
 </script>
 
 <template>
-  <div class="pb-32 h-full overflow-y-auto">
+  <div class="pb-42 h-full overflow-y-auto">
     <section controls>
       <h1>
         <icon
