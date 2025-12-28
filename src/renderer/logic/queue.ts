@@ -44,6 +44,8 @@ export type PossibleSortingMethods = keyof typeof COMPARATORS_BY_METHOD;
 export class Queue {
   private savedQueue = useLocalStorage<string[]>("queuev2", []);
   private list: Ref<Map<string, Track>> = ref(new Map());
+  private lastSearch = "";
+  private lastSearchList: Track[] = [];
 
   public totalSize = ref(0);
   public totalDuration = ref(0);
@@ -61,22 +63,11 @@ export class Queue {
   }
 
   public search(search: string) {
-    const words = search.split(" ");
-    let results = this.getList();
-
-    for (let i = 0; i < words.length; i++) {
-      const word = words[i].toLowerCase();
-      results = results
-        .filter((track) => word ? !track.hasErrored : track)
-        .filter((track) =>
-          track.getFilename().toLowerCase().includes(word)
-          || track.getArtistsFormatted()?.toLowerCase().includes(word)
-          || track.getTitle()?.toLowerCase().includes(word)
-          || track.getGenreFormatted()?.toLowerCase().includes(word)
-          || track.getAlbum()?.toLowerCase().includes(word));
-    }
-
-    return results;
+    const list = search.includes(this.lastSearch) ? this.lastSearchList : this.getList();
+    const searchedTracks = this.searchTracks(search, list);
+    this.lastSearchList = searchedTracks;
+    this.lastSearch = search;
+    return searchedTracks;
   }
 
   public searchTracks(search: string, tracks: Track[]) {
