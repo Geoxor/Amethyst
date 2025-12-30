@@ -43,7 +43,7 @@
   "discovery.random.title": "Случайно",
   "discovery.random.description": "Подборка случайных песен",
   "discovery.random_track.title": "Просто включи",
-  "discovery.random_track.description": "могу выбрать, включи что‑нибудь случайное",
+  "discovery.random_track.description": "Не могу выбрать, включи что‑нибудь случайное",
   "favorites.no_favorites": "У вас нет избранных треков ( ´•︵•` )",
   "output_diagram.title": "Диаграмма вывода",
   "output_diagram.source.title": "Источник",
