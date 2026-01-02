@@ -77,13 +77,13 @@ import { SubsonicMediaSource } from "@/logic/MediaSource/SubsonicMediaSource";
           icon="tabler:submarine"
         >
           <base-chip :color="source.isConnected ? 'good-color' : 'alert-color'">
-            {{ source.isConnected ? $t('settings.media_sources.connected') : $t('settings.media_sources.disconnected') }}
+            {{ source.isConnected ? $t('settings.media_sources.connected') : $t('settings.media_sources.disconnected') }} - {{ source.ping }}ms
           </base-chip>
 
           <base-chip
             v-if="source.isScanning"
             icon="line-md:loading-alt-loop"
-            color="alert-color"
+            color="warning-color"
           >
             {{ $t('settings.media_sources.server_scanning') }}
           </base-chip>

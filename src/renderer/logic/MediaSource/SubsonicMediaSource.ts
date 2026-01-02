@@ -11,6 +11,7 @@ export class SubsonicMediaSource extends MediaSource {
   public isConnected: Ref<boolean> = ref(false);
   public isScanning: Ref<boolean> = ref(false);
   public isSyncing: Ref<boolean> = ref(false);
+  public ping: Ref<number | null> = ref(null);
   public syncStatus: Ref<string> = ref("Idle");
   private shouldStopSync = false;
 
@@ -62,7 +63,9 @@ export class SubsonicMediaSource extends MediaSource {
   };
 
   public async getScanStatus() {
+    const start = performance.now();
     const response = await this.api.getScanStatus();
+    this.ping.value = Math.round(performance.now() - start);
     this.isScanning.value = response.scanStatus.scanning;
   }
 

@@ -7,6 +7,7 @@
   --inspector-color: 56, 189, 248;                        /* #38bdf8; */
   --alert-color: 244, 49, 141;                            /* #F4318D; */
   --good-color: 34, 197, 94;                              /* #22c55e; */
+  --warning-color: 255, 159, 67;                          /* #ff9f43; */
 
   --settings-setting-background: 20, 22, 33;              /* #141621 */
   --settings-subsetting-background: 16, 17, 25;           /* #101119 */
