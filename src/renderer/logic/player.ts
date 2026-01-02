@@ -122,7 +122,7 @@ export class Player extends EventEmitter<PlayerEvents> {
 
   private async setPlayingTrack(track: Track) {
     this.timeStarted.value = Math.floor(Date.now() / 1000);
-    this.input.src = ["mac", "linux"].includes(this.amethyst.getCurrentOperatingSystem()) ? `file://${track.path}` : track.path;
+    this.input.src = ["mac", "linux"].includes(this.amethyst.getCurrentOperatingSystem()) ? `file://${encodeURIComponent(track.path).replaceAll("%2F", "/")}` : track.path;
     this.input.preservesPitch = false;
     this.setPlaybackSpeed(this.pitchSemitones.value);
     this.currentTrack.value = track;
