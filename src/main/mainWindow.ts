@@ -139,7 +139,7 @@ export class MainWindow {
     const { default: sharp } = await import("sharp");
 
     return (
-      await sharp(cover).resize(resizeTo, resizeTo).webp().toBuffer()
+      await sharp(cover).pipelineColorspace("srgb").resize(resizeTo, resizeTo).webp().toBuffer()
     ).toString("base64");
   }
 
