@@ -13,6 +13,7 @@ import CoverArt from "./CoverArt.vue";
 import { useInspector } from "./Inspector";
 import NotApplicableText from "./NotApplicableText.vue";
 import LoadingIcon from "./v2/LoadingIcon.vue";
+import { MediaSourceType } from "@/logic/mediaSources";
 
 const currentShortMethod = useLocalStorage<PossibleSortingMethods>("currentShortMethod", "default");
 const filterText = useLocalStorage("filterText", "");
@@ -545,9 +546,20 @@ const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
             class="flex-none w-[70px] pl-4"
           >
             <icon
+              v-if="item.sourceType == MediaSourceType.LocalFolder"
               icon="ic:baseline-folder-open"
               class="h-4 w-4 cursor-pointer hover:text-text-title"
               @click.stop.prevent="amethyst.showItem(item.path)"
+            />
+            <icon
+              v-if="item.sourceType == MediaSourceType.Subsonic"
+              icon="tabler:submarine"
+              class="h-4 w-4"
+            />
+            <icon
+              v-else
+              icon="ic:twotone-question-mark"
+              class="h-4 w-4"
             />
           </div>
 

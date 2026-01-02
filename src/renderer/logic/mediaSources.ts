@@ -52,7 +52,6 @@ export class MediaSourceManager {
 
   public addSubsonicSource = async (url: string, username: string, password: string) => {
     const mediaSource = new SubsonicMediaSource(this.amethyst, "http://xnet-unraid.local:4533", "admin", "admin");
-    console.log(mediaSource);
 
     this.amethyst.state.settings.mediaSources.saveMediaSources.push({
       type: mediaSource.type,
@@ -117,18 +116,14 @@ export class SubsonicMediaSource extends MediaSource {
   }
 
   public override async fetchMedia() {
-    const { randomSongs } = await this.api.getRandomSongs({ size: 100000 });
-    console.log("fetching Subsonic media");
-    console.log(randomSongs);
+    const { randomSongs } = await this.api.getRandomSongs({ size: 10 });
 
     randomSongs.song?.forEach((song) => {
       const path = `${this.url}/rest/stream.view?id=${song.id}&u=${this.username}&p=${this.password}&p=demo&v=1.16.1&c=Amethyst`;
-      console.log("adding song from Subsonic:", path);
       const track = new Track(this.amethyst, path);
 
       track.sourceType = MediaSourceType.Subsonic;
       track.setTitle(song.title);
-      track.setDuration(song.duration ? song.duration * 1000 : 0);
 
       // low resolution cover art for performance
       song.coverArt && track.setCoverArt(`${this.url}/rest/getCoverArt.view?id=${song.coverArt}&u=${this.username}&p=${this.password}&size=128&v=1.16.1&c=Amethyst`);
@@ -136,6 +131,7 @@ export class SubsonicMediaSource extends MediaSource {
       song.artist && track.setArtists([song.artist]);
       song.size && track.setSize(song.size);
       song.bitRate && track.setBitRate(song.bitRate);
+      song.duration && track.setDuration(song.duration);
 
       track.isLoading.value = false;
       track.isLoaded.value = true;
