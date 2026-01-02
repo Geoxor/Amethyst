@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { amethyst } from "@/amethyst.js";
 import BaseChip from "@/components/BaseChip.vue";
+import BaseInput from "@/components/BaseInput.vue";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import ButtonInput from "@/components/v2/ButtonInput.vue";
 import { MediaSourceType } from "@/logic/mediaSources";
@@ -71,6 +72,11 @@ import { MediaSourceType } from "@/logic/mediaSources";
           :description="$t(source.type)"
           icon="tabler:submarine"
         >
+          <base-input
+            v-model="source.name"
+            type="username"
+            :placeholder="$t('settings.media_sources.name_placeholder')"
+          />
           <button-input
             icon="ic:twotone-delete"
             @click="amethyst.mediaSourceManager.removeMediaSource(source)"

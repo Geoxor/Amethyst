@@ -19,9 +19,14 @@ export class MediaSourceManager {
 
   public constructor(protected amethyst: Amethyst) {
     this.amethyst.state.settings.mediaSources.saveMediaSources.forEach((savedSource) => {
-      if (savedSource.path) {
+      if (savedSource.type == MediaSourceType.LocalFolder) {
         // @ts-ignore
         this.mediaSources.value.push(new LocalMediaSource(this.amethyst, savedSource.path));
+      }
+
+      if (savedSource.type == MediaSourceType.Subsonic) {
+        // @ts-ignore
+        this.mediaSources.value.push(new SubsonicMediaSource(this.amethyst, savedSource.url, savedSource.username, savedSource.password));
       }
     });
   }
@@ -45,9 +50,17 @@ export class MediaSourceManager {
     });
   };
 
-  public addSubsonicSource = async (url: string, apiKey: string) => {
-    const mediaSource = new SubsonicMediaSource(this.amethyst, url, apiKey);
+  public addSubsonicSource = async (url: string, username: string, password: string) => {
+    const mediaSource = new SubsonicMediaSource(this.amethyst, "http://xnet-unraid.local:4533", "admin", "admin");
     console.log(mediaSource);
+
+    this.amethyst.state.settings.mediaSources.saveMediaSources.push({
+      type: mediaSource.type,
+      url: mediaSource.url,
+      username: mediaSource.username,
+      password: mediaSource.password,
+    });
+    // @ts-ignore
     this.mediaSources.value.push(mediaSource);
   };
 
@@ -87,20 +100,11 @@ export class MediaSource {
 
 export class SubsonicMediaSource extends MediaSource {
   public api: SubsonicAPI;
-  public username: string;
-  public password: string;
-  public constructor(protected amethyst: Amethyst, public url: string, public apiKey: string) {
+  public constructor(protected amethyst: Amethyst, public url: string, public username: string, public password: string) {
     super(amethyst, url);
-
     this.type = MediaSourceType.Subsonic;
-
-    // temporary
-    this.url = "http://xnet-unraid.local:4533";
     this.name = this.url;
-    this.username = "admin";
-    this.password = "admin";
     this.totalTracks = ref(0);
-
     this.api = new SubsonicAPI({
       url: this.url,
       auth: {
