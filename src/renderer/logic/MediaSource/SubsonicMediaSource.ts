@@ -50,7 +50,7 @@ export class SubsonicMediaSource extends MediaSource {
     this.shouldStopSync = true;
   };
 
-  public testConnection = async (): Promise<boolean> => {
+  private testConnection = async (): Promise<boolean> => {
     try {
       const response = await this.api.ping();
       this.serverInformation = response;
@@ -125,5 +125,8 @@ export class SubsonicMediaSource extends MediaSource {
   }
 
   public override register() {
+  }
+
+  public override unregister() {
   }
 }

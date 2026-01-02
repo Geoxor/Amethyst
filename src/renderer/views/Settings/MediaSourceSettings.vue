@@ -93,8 +93,8 @@ import { SubsonicMediaSource } from "@/logic/MediaSource/SubsonicMediaSource";
           :description="`${$t(source.type)} - ${source.serverInformation ? source.serverInformation.version : $t('settings.media_sources.unknown_version')}`"
           icon="tabler:submarine"
         >
-          <base-chip :color="source.isConnected ? 'good-color' : 'alert-color'">
-            {{ source.isConnected ? $t('settings.media_sources.connected') : $t('settings.media_sources.disconnected') }} - {{ source.ping }}ms
+          <base-chip :color="source.isConnected ? 'good-color' : 'warning-color'">
+            {{ source.isConnected ? `${$t('settings.media_sources.connected')} - ${source.ping}ms` : $t('settings.media_sources.disconnected') }}
           </base-chip>
 
           <base-chip
@@ -145,12 +145,6 @@ import { SubsonicMediaSource } from "@/logic/MediaSource/SubsonicMediaSource";
             type="password"
             :placeholder="$t('settings.media_sources.password_placeholder')"
           /> -->
-
-          <button-input
-            icon="ic:twotone-refresh"
-            text="Test connection"
-            @click="source.testConnection()"
-          />
 
           <button-input
             icon="ic:twotone-delete"
