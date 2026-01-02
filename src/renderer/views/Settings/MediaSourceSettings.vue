@@ -5,6 +5,8 @@ import BaseInput from "@/components/BaseInput.vue";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import ButtonInput from "@/components/v2/ButtonInput.vue";
 import { MediaSourceType } from "@/logic/MediaSource";
+import { LocalMediaSource } from "@/logic/MediaSource/LocalMediaSource";
+import { SubsonicMediaSource } from "@/logic/MediaSource/SubsonicMediaSource";
 </script>
 
 <template>
@@ -19,12 +21,12 @@ import { MediaSourceType } from "@/logic/MediaSource";
       @click="amethyst.mediaSourceManager.addLocalSource"
     />
     <template
-      v-if="amethyst.mediaSourceManager.mediaSources.value.filter(s => s.type === MediaSourceType.LocalFolder).length > 0"
+      v-if="amethyst.mediaSourceManager.mediaSources.value.filter(s => s instanceof LocalMediaSource).length > 0"
       #subsettings
     >
       <div class="p-2 flex flex-col gap-2">
         <settings-setting
-          v-for="source of amethyst.mediaSourceManager.mediaSources.value.filter(s => s.type === MediaSourceType.LocalFolder)"
+          v-for="source of amethyst.mediaSourceManager.mediaSources.value.filter(s => s instanceof LocalMediaSource)"
           :key="source.path"
           subsetting
           :title="source.name"
@@ -34,6 +36,7 @@ import { MediaSourceType } from "@/logic/MediaSource";
           <base-chip>
             {{ source.totalTracks }} {{ $t('settings.media_sources.tracks') }}
           </base-chip>
+
           <button-input
             v-if="amethyst.getCurrentPlatform() == 'desktop'"
             :text="$t('settings.local_sources.view')"
@@ -61,23 +64,54 @@ import { MediaSourceType } from "@/logic/MediaSource";
       @click="amethyst.mediaSourceManager.addSubsonicSource('http://xnet-unraid.local:4533', 'admin', 'admin')"
     />
     <template
-      v-if="amethyst.mediaSourceManager.mediaSources.value.filter(s => s.type === MediaSourceType.Subsonic).length > 0"
+      v-if="amethyst.mediaSourceManager.mediaSources.value.filter(s => s instanceof SubsonicMediaSource).length > 0"
       #subsettings
     >
       <div class="p-2 flex flex-col gap-2">
         <settings-setting
-          v-for="source of amethyst.mediaSourceManager.mediaSources.value.filter(s => s.type === MediaSourceType.Subsonic)"
+          v-for="source of amethyst.mediaSourceManager.mediaSources.value.filter(s => s instanceof SubsonicMediaSource)"
           :key="source.path"
           subsetting
           :title="source.name"
-          :description="$t(source.type)"
+          :description="`${$t(source.type)} - v${source.serverInformation ? source.serverInformation.version : $t('settings.media_sources.unknown_version')}`"
           icon="tabler:submarine"
         >
           <base-chip :color="source.isConnected ? 'good-color' : 'alert-color'">
             {{ source.isConnected ? $t('settings.media_sources.connected') : $t('settings.media_sources.disconnected') }}
           </base-chip>
 
-          <base-input
+          <base-chip
+            v-if="source.isScanning"
+            icon="line-md:loading-alt-loop"
+            color="alert-color"
+          >
+            {{ $t('settings.media_sources.server_scanning') }}
+          </base-chip>
+
+          <base-chip
+            v-if="source.isSyncing"
+            icon="line-md:loading-twotone-loop"
+            color="alert-color"
+            class="min-w-[200px] justify-start! text-ellipsis overflow-hidden"
+          >
+            {{ $t('settings.media_sources.syncing_library') }} <br> {{ source.syncStatus }}
+          </base-chip>
+
+          <button-input
+            v-if="!source.isSyncing"
+            icon="ic:twotone-sync"
+            text="Sync"
+            @click="source.sync()"
+          />
+
+          <button-input
+            v-else
+            icon="ic:twotone-cancel"
+            text="Cancel sync"
+            @click="source.stopSync()"
+          />
+
+          <!-- <base-input
             v-model="(source).url"
             type="url"
             :placeholder="$t('settings.media_sources.url_placeholder')"
@@ -93,6 +127,12 @@ import { MediaSourceType } from "@/logic/MediaSource";
             v-model="source.password"
             type="password"
             :placeholder="$t('settings.media_sources.password_placeholder')"
+          /> -->
+
+          <button-input
+            icon="ic:twotone-refresh"
+            text="Test connection"
+            @click="source.testConnection()"
           />
 
           <button-input
