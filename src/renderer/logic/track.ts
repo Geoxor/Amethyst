@@ -62,9 +62,12 @@ export class Track {
   public title: string = "";
   public duration: number = 0;
   public album: string = "";
-  public artists: string[] = [];
+  public artists: string[] | undefined = undefined;
   public size: number = 0;
   public bitRate: number = 0;
+  public discNumber: number = 0;
+  public trackNumber: number = 0;
+  public year: number = 0;
 
   public constructor(private amethyst: Amethyst, public absolutePath: string) {
     this.path = absolutePath;
@@ -383,8 +386,20 @@ export class Track {
     this.bitRate = t;
   }
 
+  public setDiscNumber(t: number) {
+    this.discNumber = t;
+  }
+
+  public setTrackNumber(t: number) {
+    this.trackNumber = t;
+  }
+
+  public setYear(t: number) {
+    this.year = t;
+  }
+
   public getTrackNumber() {
-    return this.getMetadata()?.common.track.no;
+    return this.trackNumber || this.getMetadata()?.common.track.no;
   }
 
   public getBarcode() {
@@ -416,11 +431,11 @@ export class Track {
   }
 
   public getDiskNumber() {
-    return this.getMetadata()?.common.disk.no;
+    return this.discNumber || this.getMetadata()?.common.disk.no;
   }
 
   public getYear() {
-    return this.getMetadata()?.common.year;
+    return this.year || this.getMetadata()?.common.year;
   }
 
   public getContainer() {
