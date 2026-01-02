@@ -23,10 +23,10 @@ const mbApi = new MusicBrainzApi({
 });
 
 export const trackContextMenuOptions = (track: Track) => ([
-  { title: "Play", icon: "ic:round-play-arrow", action: () => amethyst.player.play(track) },
-  { title: "Inspect", icon: "mdi:flask", action: () => useInspector().inspectAndShow(track) },
-  { title: "Favorite", icon: "ic:twotone-favorite", action: () => track.toggleFavorite() },
-  { title: "Encode to .dfpwm...", icon: "ic:twotone-qr-code", action: async () => {
+  { title: "track.context_menu.play", icon: "ic:round-play-arrow", action: () => amethyst.player.play(track) },
+  { title: "track.context_menu.inspect", icon: "mdi:flask", action: () => useInspector().inspectAndShow(track) },
+  { title: "track.context_menu.favorite", icon: "ic:twotone-favorite", action: () => track.toggleFavorite() },
+  { title: "track.context_menu.encode_to_.dfpwm", icon: "ic:twotone-qr-code", action: async () => {
     saveArrayBufferToFile(
       await convertDfpwm(await track.getArrayBuffer()),
       {
@@ -34,11 +34,11 @@ export const trackContextMenuOptions = (track: Track) => ([
         extension: "dfpwm",
       });
   } },
-  { title: "Show in Explorer...", icon: "ic:twotone-pageview", action: () => amethyst.showItem(track.path) },
-  { title: "Export cover...", icon: "ic:twotone-add-photo-alternate", action: () => track.exportCover() },
-  { title: "Reload metadata", icon: "mdi:flask", action: () => track.fetchAsyncData(true) },
-  { title: "Remove from queue", icon: "ic:twotone-delete", red: true, action: () => amethyst.player.queue.remove(track) },
-  { title: "Delete from disk", icon: "ic:twotone-delete-forever", red: true, action: () => track.delete() },
+  { title: "track.context_menu.show_in_explorer", icon: "ic:twotone-pageview", action: () => amethyst.showItem(track.path) },
+  { title: "track.context_menu.export_cover", icon: "ic:twotone-add-photo-alternate", action: () => track.exportCover() },
+  { title: "track.context_menu.reload_metadata", icon: "mdi:flask", action: () => track.fetchAsyncData(true) },
+  { title: "track.context_menu.remove_from_queue", icon: "ic:twotone-delete", red: true, action: () => amethyst.player.queue.remove(track) },
+  { title: "track.context_menu.delete_from_disk", icon: "ic:twotone-delete-forever", red: true, action: () => track.delete() },
 ]);
 
 /**
