@@ -55,6 +55,7 @@ import { SubsonicMediaSource } from "@/logic/MediaSource/SubsonicMediaSource";
   <settings-setting
     :title="$t('settings.subsonic.title')"
     :description="$t('settings.subsonic.description')"
+    info="https://www.subsonic.org/pages/index.jsp"
     icon="tabler:submarine"
   >
     <button-input
