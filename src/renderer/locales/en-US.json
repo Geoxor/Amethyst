@@ -84,6 +84,8 @@
   "settings.subsonic.server_name": "Server name",
   "settings.media_sources.server_scanning": "Server is scanning for files",
   "settings.media_sources.syncing_library": "Syncing library",
+  "settings.subsonic.sync_all": "Sync all",
+  "settings.subsonic.stop_all_syncs": "Stop all syncs",
   "settings.subsonic.server_url": "Server URL",
   "settings.subsonic.username": "Username",
   "settings.subsonic.password": "Password",

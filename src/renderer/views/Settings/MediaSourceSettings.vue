@@ -56,12 +56,29 @@ import { SubsonicMediaSource } from "@/logic/MediaSource/SubsonicMediaSource";
     :title="$t('settings.subsonic.title')"
     :description="$t('settings.subsonic.description')"
     icon="tabler:submarine"
-    icon-color="#ffc91d"
   >
+    <button-input
+      :text="$t('settings.subsonic.sync_all')"
+      icon="ic:twotone-sync"
+      @click="amethyst.mediaSourceManager.mediaSources.value.forEach(source => { if (source instanceof SubsonicMediaSource) { source.sync(); } })"
+    />
+
+    <button-input
+      v-if=" amethyst.mediaSourceManager.mediaSources.value.filter(source => source instanceof SubsonicMediaSource && source.isSyncing).length > 0 "
+      :text="$t('settings.subsonic.stop_all_syncs')"
+      icon="ic:twotone-cancel"
+      @click="amethyst.mediaSourceManager.mediaSources.value.forEach(source => { if (source instanceof SubsonicMediaSource) { source.stopSync(); } })"
+    />
+
     <button-input
       :text="$t('settings.subsonic.add_server')"
       icon="ic:twotone-plus"
       @click="amethyst.mediaSourceManager.addSubsonicSource('http://xnet-unraid.local:4533', 'admin', 'admin')"
+    />
+    <button-input
+      :text="$t('settings.subsonic.demo')"
+      icon="ic:twotone-plus"
+      @click="amethyst.mediaSourceManager.addSubsonicSource('https://demo.navidrome.org/', 'demo', 'demo')"
     />
     <template
       v-if="amethyst.mediaSourceManager.mediaSources.value.filter(s => s instanceof SubsonicMediaSource).length > 0"
@@ -73,7 +90,7 @@ import { SubsonicMediaSource } from "@/logic/MediaSource/SubsonicMediaSource";
           :key="source.path"
           subsetting
           :title="source.name"
-          :description="`${$t(source.type)} - v${source.serverInformation ? source.serverInformation.version : $t('settings.media_sources.unknown_version')}`"
+          :description="`${$t(source.type)} - ${source.serverInformation ? source.serverInformation.version : $t('settings.media_sources.unknown_version')}`"
           icon="tabler:submarine"
         >
           <base-chip :color="source.isConnected ? 'good-color' : 'alert-color'">
