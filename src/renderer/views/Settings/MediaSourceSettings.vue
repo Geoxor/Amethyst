@@ -53,6 +53,7 @@ import { MediaSourceType } from "@/logic/mediaSources";
     :title="$t('settings.subsonic.title')"
     :description="$t('settings.subsonic.description')"
     icon="tabler:submarine"
+    icon-color="#ffc91d"
   >
     <button-input
       :text="$t('settings.subsonic.add_server')"
@@ -71,6 +72,7 @@ import { MediaSourceType } from "@/logic/mediaSources";
           :title="source.name"
           :description="$t(source.type)"
           icon="tabler:submarine"
+          icon-color="#ffc91d"
         >
           <base-input
             v-model="source.name"
