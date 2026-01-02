@@ -23,30 +23,30 @@ onMounted(() => {
       <big-button
         class="flex gap-2 w-full"
         icon="ic:round-shuffle"
-        title="Just send it"
-        description="I can't decide, play something random"
+        :title="$t('discovery.random_track.title')"
+        :description="$t('discovery.random_track.description')"
         @click="amethyst.player.playRandomTrack()"
       />
       <big-button
         class="flex gap-2 w-full"
         icon="ic:twotone-favorite"
         :title="$t('route.favorites')"
-        description="View your favorite saved songs"
+        :description="$t('route.favorites.description')"
         @click="$router.push({ name: 'favorites' })"
       />
       <big-button
         class="flex gap-2 w-1/2"
         icon="ic:twotone-menu-book"
         :title="$t('menu.about.user_manual')"
-        description="Open the user manual"
+        :description="$t('menu.about.user_manual.description')"
         @click="amethyst.openLink('https://amethyst.geoxor.moe/user-manual')"
       />
 
       <big-button
         class="flex gap-2"
         icon="ic:twotone-settings"
-        title="Settings"
-        description="View your settings"
+        :title="$t('route.settings')"
+        :description="$t('route.settings.description')"
         @click="$router.push({ name: 'settings' })"
       />
     </div>
