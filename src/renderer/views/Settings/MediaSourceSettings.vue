@@ -3,7 +3,7 @@ import { amethyst } from "@/amethyst.js";
 import BaseChip from "@/components/BaseChip.vue";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import ButtonInput from "@/components/v2/ButtonInput.vue";
-
+import { MediaSourceType } from "@/logic/mediaSources";
 </script>
 
 <template>
@@ -23,7 +23,7 @@ import ButtonInput from "@/components/v2/ButtonInput.vue";
     >
       <div class="p-2 flex flex-col gap-2">
         <settings-setting
-          v-for="source of amethyst.mediaSourceManager.mediaSources.value"
+          v-for="source of amethyst.mediaSourceManager.mediaSources.value.filter(s => s.type === MediaSourceType.LocalFolder)"
           :key="source.path"
           subsetting
           :title="source.name"
@@ -39,6 +39,38 @@ import ButtonInput from "@/components/v2/ButtonInput.vue";
             icon="ic:twotone-remove-red-eye"
             @click="amethyst.showItem(source.path)"
           />
+          <button-input
+            icon="ic:twotone-delete"
+            @click="amethyst.mediaSourceManager.removeMediaSource(source)"
+          />
+        </settings-setting>
+      </div>
+    </template>
+  </settings-setting>
+
+  <settings-setting
+    :title="$t('settings.subsonic.title')"
+    :description="$t('settings.subsonic.description')"
+    icon="tabler:submarine"
+  >
+    <button-input
+      :text="$t('settings.subsonic.add_server')"
+      icon="ic:twotone-plus"
+      @click="amethyst.mediaSourceManager.addSubsonicSource"
+    />
+    <template
+      v-if="amethyst.mediaSourceManager.mediaSources.value.length > 0"
+      #subsettings
+    >
+      <div class="p-2 flex flex-col gap-2">
+        <settings-setting
+          v-for="source of amethyst.mediaSourceManager.mediaSources.value.filter(s => s.type === MediaSourceType.Subsonic)"
+          :key="source.path"
+          subsetting
+          :title="source.name"
+          :description="$t(source.type)"
+          icon="tabler:submarine"
+        >
           <button-input
             icon="ic:twotone-delete"
             @click="amethyst.mediaSourceManager.removeMediaSource(source)"

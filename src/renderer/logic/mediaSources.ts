@@ -1,3 +1,4 @@
+import { SubsonicAPI } from "subsonic-api";
 import { v4 as uuidv4 } from "uuid";
 import type { Ref } from "vue";
 import { ref } from "vue";
@@ -5,8 +6,11 @@ import { ref } from "vue";
 import { Amethyst } from "@/amethyst.js";
 import { EventEmitter } from "@/logic/eventEmitter.js";
 
+import { Track } from "./track.js";
+
 export enum MediaSourceType {
   LocalFolder = "settings.media_source_type.local_folder",
+  Subsonic = "settings.media_source_type.subsonic",
   Generic = "settings.media_source_type.generic",
 }
 
@@ -41,6 +45,12 @@ export class MediaSourceManager {
     });
   };
 
+  public addSubsonicSource = async (url: string, apiKey: string) => {
+    const mediaSource = new SubsonicMediaSource(this.amethyst, url, apiKey);
+    console.log(mediaSource);
+    this.mediaSources.value.push(mediaSource);
+  };
+
   public removeMediaSource = async (mediaSource: MediaSource) => {
     const savedMediaSource = { type: mediaSource.type, path: mediaSource.path, uuid: mediaSource.uuid };
     const index = this.mediaSources.value.findIndex((s) => s.uuid == savedMediaSource.uuid);
@@ -59,7 +69,7 @@ export class MediaSource {
   public name: string = "generic";
 
   public constructor(protected amethyst: Amethyst, public path: string) {
-    this.fetchMedia();
+
   }
 
   public register() {
@@ -75,6 +85,66 @@ export class MediaSource {
   };
 }
 
+export class SubsonicMediaSource extends MediaSource {
+  public api: SubsonicAPI;
+  public username: string;
+  public password: string;
+  public constructor(protected amethyst: Amethyst, public url: string, public apiKey: string) {
+    super(amethyst, url);
+
+    this.type = MediaSourceType.Subsonic;
+
+    // temporary
+    this.url = "http://xnet-unraid.local:4533";
+    this.name = this.url;
+    this.username = "admin";
+    this.password = "admin";
+    this.totalTracks = ref(0);
+
+    this.api = new SubsonicAPI({
+      url: this.url,
+      auth: {
+        username: this.username,
+        password: this.password,
+      },
+    });
+
+    this.fetchMedia();
+  }
+
+  public override async fetchMedia() {
+    const { randomSongs } = await this.api.getRandomSongs({ size: 100000 });
+    console.log("fetching Subsonic media");
+    console.log(randomSongs);
+
+    randomSongs.song?.forEach((song) => {
+      const path = `${this.url}/rest/stream.view?id=${song.id}&u=${this.username}&p=${this.password}&p=demo&v=1.16.1&c=Amethyst`;
+      console.log("adding song from Subsonic:", path);
+      const track = new Track(this.amethyst, path);
+
+      track.sourceType = MediaSourceType.Subsonic;
+      track.setTitle(song.title);
+      track.setDuration(song.duration ? song.duration * 1000 : 0);
+
+      // low resolution cover art for performance
+      song.coverArt && track.setCoverArt(`${this.url}/rest/getCoverArt.view?id=${song.coverArt}&u=${this.username}&p=${this.password}&size=128&v=1.16.1&c=Amethyst`);
+      song.album && track.setAlbum(song.album);
+      song.artist && track.setArtists([song.artist]);
+      song.size && track.setSize(song.size);
+      song.bitRate && track.setBitRate(song.bitRate);
+
+      track.isLoading.value = false;
+      track.isLoaded.value = true;
+
+      this.amethyst.player.queue.add(track);
+    });
+  }
+
+  public override register() {
+
+  }
+}
+
 export class LocalMediaSource extends MediaSource {
   private watcher: FolderWatcher | FolderWatcherMobile;
 
@@ -87,7 +157,9 @@ export class LocalMediaSource extends MediaSource {
     this.watcher = this.amethyst.getCurrentPlatform() === "mobile" ? new FolderWatcherMobile(this.path, this.uuid) : new FolderWatcher(this.path, this.uuid);
 
     this.watcher.on("add", (path) => {
-      this.amethyst.player.queue.add(path);
+      const track = new Track(this.amethyst, path);
+      track.sourceType = MediaSourceType.LocalFolder;
+      this.amethyst.player.queue.add(track);
       this.amethyst.player.queue.fetchAsyncData();
       this.totalTracks.value++;
     });
@@ -95,9 +167,12 @@ export class LocalMediaSource extends MediaSource {
     this.watcher.on("unlink", (path) => {
       const track = this.amethyst.player.queue.getList().find((t) => t.path == path);
       if (!track) return;
+
       this.amethyst.player.queue.remove(track);
       this.totalTracks.value--;
     });
+
+    this.fetchMedia();
   }
 
   public override register() {

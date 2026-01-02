@@ -497,7 +497,7 @@ const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
             <cover-art
               v-else
               class="cover rounded-2px"
-              :url="item.isLoaded && item.getCover() ? item.getCover() : ''"
+              :url="item.getCover()"
             />
           </div>
 

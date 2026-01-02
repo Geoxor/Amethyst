@@ -14,23 +14,20 @@ import type { Track } from "@/logic/track";
 
 import BlobLine from "./BlobLine.vue";
 import GenericBlob from "./GenericBlob.vue";
+import { MediaSourceType } from "@/logic/mediaSources";
 const router = useRouter();
 
-const mimeType = ref("none");
-const sampleRate = ref(amethyst.player.context.sampleRate);
+const sourceType = ref(MediaSourceType.Generic);
 
-const updateMimeType = (track: Track) => {
-  const metadata = track.getMetadata();
-  if (!metadata) return;
-  mimeType.value = metadata.format.codec || "none";
-  sampleRate.value = metadata.format.sampleRate!;
+const updateSourceType = (track: Track) => {
+  sourceType.value = track.sourceType;
 };
 
 onMounted(() => {
   const currentTrack = amethyst.player.getCurrentTrack();
-  if (currentTrack) updateMimeType(currentTrack); ;
-  amethyst.player.on("player:trackChange", updateMimeType);
-  amethyst.player.on("player:currentTrackMetadataLoaded", updateMimeType);
+  if (currentTrack) updateSourceType(currentTrack); ;
+  amethyst.player.on("player:trackChange", updateSourceType);
+  amethyst.player.on("player:currentTrackMetadataLoaded", updateSourceType);
 });
 
 </script>
@@ -38,16 +35,21 @@ onMounted(() => {
 <template>
   <generic-blob
     :title="$t('output_diagram.source.title')"
-    :subtitle="`${mimeType}\n${sampleRate/1000}kHz`"
+    :subtitle="$t(sourceType)"
     clickable
     @click="router.push({ name: 'queue' })"
   >
-    <flac-logo v-if="mimeType == 'FLAC'" />
-    <mp3-logo v-else-if="mimeType == 'MPEG 1 Layer 3'" />
-    <opus-logo v-else-if="mimeType == 'Opus'" />
-    <ogg-logo v-else-if="mimeType == 'Vorbis I'" />
-    <windows-logo v-else-if="['PCM', 'non-PCM (65534)', 'IEEE_FLOAT'].includes(mimeType)" />
-    <aac-logo v-else-if="['AAC', 'MPEG-4/AAC'].includes(mimeType)" />
+    <icon
+      v-if="sourceType == MediaSourceType.LocalFolder"
+      class="h-6 w-6 text-text-title"
+      icon="ic:twotone-audio-file"
+    />
+    <icon
+      v-else-if="sourceType == MediaSourceType.Subsonic"
+      class="h-6 w-6 text-text-title"
+      icon="tabler:submarine"
+    />
+
     <icon
       v-else
       class="h-6 w-6 text-text-title"

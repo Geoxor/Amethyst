@@ -21,9 +21,7 @@ import CommandPalette from "./components/CommandPalette/CommandPalette.vue";
 const ambientBackgroundImage = ref("");
 
 const setAmbientCover = async (track: Track) => {
-  track.getCoverAsBlob()
-    .then((blob) => ambientBackgroundImage.value = URL.createObjectURL(blob))
-    .catch(() => ambientBackgroundImage.value = "");
+  ambientBackgroundImage.value = track.getCover() || "";
 };
 
 const fallbackToDefault = () => {

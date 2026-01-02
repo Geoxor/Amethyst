@@ -14,6 +14,8 @@ import { useInspector } from "@/components/Inspector/index.js";
 import { saveArrayBufferToFile } from "@/logic/dom.js";
 import { convertDfpwm } from "@/logic/encoding.js";
 
+import { MediaSourceType } from "./mediaSources.js";
+
 const mbApi = new MusicBrainzApi({
   appName: "Amethyst",
   appVersion: "2.0.7",
@@ -51,8 +53,18 @@ export class Track {
   public deleted: boolean = false;
   public isFavorited: boolean = false;
   public path: string;
-  public coverUrl: string = "";
   public uuid: string | undefined;
+
+  public sourceType: MediaSourceType = MediaSourceType.Generic;
+
+  // new stuff for refactoring
+  public coverUrl: string = "";
+  public title: string = "";
+  public duration: number = 0;
+  public album: string = "";
+  public artists: string[] = [];
+  public size: number = 0;
+  public bitRate: number = 0;
 
   public constructor(private amethyst: Amethyst, public absolutePath: string) {
     this.path = absolutePath;
@@ -283,6 +295,13 @@ export class Track {
       window.fs.writeFile(this.getCachePath(true), JSON.stringify({
         cover,
         metadata,
+        coverUrl: this.coverUrl,
+        title: this.title,
+        duration: this.duration,
+        album: this.album,
+        artists: this.artists,
+        size: this.size,
+        bitRate: this.bitRate,
       }, null, 2)).catch((error) => {
         console.error("Failed to write metadata cache file, did you delete the 'Metadata Cache' folder?", error);
       });
@@ -320,6 +339,7 @@ export class Track {
    * @throws Error message if the object hasn't loaded yet
    */
   public getCover() {
+    if (this.coverUrl !== "") return this.coverUrl;
     if (this.cover.state != LoadStatus.Loaded) return;
     return this.cover.data;
   };
@@ -332,7 +352,35 @@ export class Track {
   };
 
   public getTitle() {
-    return this.getMetadata()?.common.title;
+    return this.title || this.getMetadata()?.common.title;
+  }
+
+  public setTitle(t: string) {
+    this.title = t;
+  };
+
+  public setAlbum(t: string) {
+    this.album = t;
+  };
+
+  public setArtists(t: string[]) {
+    this.artists = t;
+  };
+
+  public setDuration(t: number) {
+    this.duration = t;
+  };
+
+  public setCoverArt(t: string) {
+    this.coverUrl = t;
+  }
+
+  public setSize(t: number) {
+    this.size = t;
+  }
+
+  public setBitRate(t: number) {
+    this.bitRate = t;
   }
 
   public getTrackNumber() {
@@ -384,7 +432,7 @@ export class Track {
   }
 
   public getBitrate() {
-    return this.getMetadata()?.format.bitrate;
+    return this.bitRate || this.getMetadata()?.format.bitrate;
   }
 
   public getBitsPerSample() {
@@ -404,19 +452,19 @@ export class Track {
   }
 
   public getFilesize() {
-    return this.getMetadata()?.size;
+    return this.size || this.getMetadata()?.size;
   }
 
   public getArtists() {
-    return this.getMetadata()?.common.artists;
+    return this.artists || this.getMetadata()?.common.artists;
   }
 
   public getAlbum() {
-    return this.getMetadata()?.common.album;
+    return this.album || this.getMetadata()?.common.album;
   }
 
   public getDuration() {
-    return this.getMetadata()?.format.duration;
+    return this.duration || this.getMetadata()?.format.duration;
   }
 
   /**
