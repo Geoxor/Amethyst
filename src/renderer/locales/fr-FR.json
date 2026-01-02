@@ -225,7 +225,7 @@
   "settings.reset.description": "Rétablit tous les paramètres aux valeurs par défaut d'usine (peut également aider à résoudre les problèmes / bugs)",
   "settings.reset.reset": "Réinitialiser",
   "settings.resampler_rate.title": "Taux de rééchantillonneur",
-  "settings.resampler_rate.description": "Rééchantillonner forcément les sources avant de les transmettre à la DSP Améthyste, si vous utilisez ASIO, ce paramètre changera le taux d'échantillonnage de votre interface, il devrait donc être réglé sur ce que votre système soit afin d'éviter de changer le taux d'échantillonnage tous les temps",
+  "settings.resampler_rate.description": "Rééchantillonner forcément les sources avant de les transmettre à la DSP Améthyste, si vous utilisez ASIO, ce paramètre changera le taux d'échantillonnage de votre interface, il devrait donc être réglé sur ce que votre système soit afin d'éviter de changer le taux d'échantillonnage tout le temps",
   "settings.resampler_rate.warning": "Actualisation requise",
   "settings.audio_driver.title": "Driver audio",
   "settings.audio_driver.description": "Sélectionnez le backend utilisé pour la sortie audio (par exemple, WASAPI, ASIO, DirectSound)",
@@ -303,6 +303,6 @@
   "track.state.errored": "Erronée",
   "track.state.loaded": "Chargé",
   "track.state.loading": "Chargement",
-  "track.show_file_in_file_explorer": "Montrer dans l'explorateur",
+  "track.show_file_in_file_explorer": "Afficher dans l'explorateur",
   "track.show_amf_in_file_explorer": "Afficher le .amf dans l'explorateur"
 }
