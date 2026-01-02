@@ -87,6 +87,8 @@
   "settings.subsonic.password": "Password",
   "settings.media_source_type.local_folder": "Local folder",
   "settings.media_sources.tracks": "Tracks",
+  "settings.media_sources.connected": "Connected",
+  "settings.media_sources.disconnected": "Disconnected",
   "settings.media_source_type.subsonic": "Subsonic server",
   "settings.media_source_type.generic": "Unknown source",
   "settings.appearance.title": "Appearance",

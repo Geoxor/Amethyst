@@ -1,5 +1,5 @@
 import { AmethystPlatforms } from "@/amethyst.js";
-import type { MediaSourceType } from "@/logic/mediaSources.js";
+import type { MediaSourceType } from "@/logic/MediaSource/index.js";
 
 export const VALID_SAMPLE_RATES = [
   4000,

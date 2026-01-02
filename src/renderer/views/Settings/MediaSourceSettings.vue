@@ -4,7 +4,7 @@ import BaseChip from "@/components/BaseChip.vue";
 import BaseInput from "@/components/BaseInput.vue";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import ButtonInput from "@/components/v2/ButtonInput.vue";
-import { MediaSourceType } from "@/logic/mediaSources";
+import { MediaSourceType } from "@/logic/MediaSource";
 </script>
 
 <template>
@@ -19,7 +19,7 @@ import { MediaSourceType } from "@/logic/mediaSources";
       @click="amethyst.mediaSourceManager.addLocalSource"
     />
     <template
-      v-if="amethyst.mediaSourceManager.mediaSources.value.length > 0"
+      v-if="amethyst.mediaSourceManager.mediaSources.value.filter(s => s.type === MediaSourceType.LocalFolder).length > 0"
       #subsettings
     >
       <div class="p-2 flex flex-col gap-2">
@@ -58,10 +58,10 @@ import { MediaSourceType } from "@/logic/mediaSources";
     <button-input
       :text="$t('settings.subsonic.add_server')"
       icon="ic:twotone-plus"
-      @click="amethyst.mediaSourceManager.addSubsonicSource"
+      @click="amethyst.mediaSourceManager.addSubsonicSource('http://xnet-unraid.local:4533', 'admin', 'admin')"
     />
     <template
-      v-if="amethyst.mediaSourceManager.mediaSources.value.length > 0"
+      v-if="amethyst.mediaSourceManager.mediaSources.value.filter(s => s.type === MediaSourceType.Subsonic).length > 0"
       #subsettings
     >
       <div class="p-2 flex flex-col gap-2">
@@ -72,13 +72,29 @@ import { MediaSourceType } from "@/logic/mediaSources";
           :title="source.name"
           :description="$t(source.type)"
           icon="tabler:submarine"
-          icon-color="#ffc91d"
         >
+          <base-chip :color="source.isConnected ? 'good-color' : 'alert-color'">
+            {{ source.isConnected ? $t('settings.media_sources.connected') : $t('settings.media_sources.disconnected') }}
+          </base-chip>
+
           <base-input
-            v-model="source.name"
-            type="username"
-            :placeholder="$t('settings.media_sources.name_placeholder')"
+            v-model="(source).url"
+            type="url"
+            :placeholder="$t('settings.media_sources.url_placeholder')"
           />
+
+          <base-input
+            v-model="source.username"
+            type="username"
+            :placeholder="$t('settings.media_sources.username_placeholder')"
+          />
+
+          <base-input
+            v-model="source.password"
+            type="password"
+            :placeholder="$t('settings.media_sources.password_placeholder')"
+          />
+
           <button-input
             icon="ic:twotone-delete"
             @click="amethyst.mediaSourceManager.removeMediaSource(source)"

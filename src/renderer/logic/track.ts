@@ -14,7 +14,7 @@ import { useInspector } from "@/components/Inspector/index.js";
 import { saveArrayBufferToFile } from "@/logic/dom.js";
 import { convertDfpwm } from "@/logic/encoding.js";
 
-import { MediaSourceType } from "./mediaSources.js";
+import { MediaSourceType } from "./MediaSource/index.js";
 
 const mbApi = new MusicBrainzApi({
   appName: "Amethyst",

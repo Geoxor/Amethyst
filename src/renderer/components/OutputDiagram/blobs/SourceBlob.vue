@@ -14,7 +14,7 @@ import type { Track } from "@/logic/track";
 
 import BlobLine from "./BlobLine.vue";
 import GenericBlob from "./GenericBlob.vue";
-import { MediaSourceType } from "@/logic/mediaSources";
+import { MediaSourceType } from "@/logic/MediaSource";
 const router = useRouter();
 
 const sourceType = ref(MediaSourceType.Generic);

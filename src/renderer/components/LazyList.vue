@@ -13,7 +13,7 @@ import CoverArt from "./CoverArt.vue";
 import { useInspector } from "./Inspector";
 import NotApplicableText from "./NotApplicableText.vue";
 import LoadingIcon from "./v2/LoadingIcon.vue";
-import { MediaSourceType } from "@/logic/mediaSources";
+import { MediaSourceType } from "@/logic/MediaSource";
 
 const currentShortMethod = useLocalStorage<PossibleSortingMethods>("currentShortMethod", "default");
 const filterText = useLocalStorage("filterText", "");
