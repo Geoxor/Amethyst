@@ -25,7 +25,7 @@ function cloneWithoutPicture(obj: Record<string, any>): Record<string, any> {
 </script>
 
 <template>
-  <div class="pb-32 h-full overflow-y-auto">
+  <div class="pb-42 h-full overflow-y-auto">
     <inspector-section title="track.covers" icon="ic:twotone-image">
       <!-- FIXME: Cover art data will sometimes not show, even though metadata is loaded https://files.catbox.moe/jusams.png -->
       <div
@@ -111,7 +111,7 @@ function cloneWithoutPicture(obj: Record<string, any>): Record<string, any> {
       <inspector-button
         name="track.show_amf_in_file_explorer"
         icon="ic:twotone-open-in-new"
-        @click="amethyst.showItem(track.getCachePath())"
+        @click="amethyst.showItem(track.getCachePath(true))"
       />
     </inspector-section>
   </div>
