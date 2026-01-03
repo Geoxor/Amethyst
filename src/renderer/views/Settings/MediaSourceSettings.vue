@@ -74,12 +74,12 @@ import { SubsonicMediaSource } from "@/logic/MediaSource/SubsonicMediaSource";
     <button-input
       :text="$t('settings.subsonic.add_server')"
       icon="ic:twotone-plus"
-      @click="amethyst.mediaSourceManager.addSubsonicSource('http://xnet-unraid.local:4533', 'admin', 'admin')"
+      @click="amethyst.mediaSourceManager.addSubsonicSource('', '', '')"
     />
     <button-input
       :text="$t('settings.subsonic.demo')"
       icon="ic:twotone-plus"
-      @click="amethyst.mediaSourceManager.addSubsonicSource('https://demo.navidrome.org/', 'demo', 'demo')"
+      @click="amethyst.mediaSourceManager.addSubsonicSource('', '', '')"
     />
     <template
       v-if="amethyst.mediaSourceManager.mediaSources.value.filter(s => s instanceof SubsonicMediaSource).length > 0"
@@ -94,6 +94,8 @@ import { SubsonicMediaSource } from "@/logic/MediaSource/SubsonicMediaSource";
           :description="`${$t(source.type)} - ${source.serverInformation ? source.serverInformation.version : $t('settings.media_sources.unknown_version')}`"
           icon="tabler:submarine"
         >
+          <div class="hidden w-40 h-24 bg-good-color/15 text-good-color bg-warning-color/15 text-warning-color " />
+
           <base-chip :color="source.isConnected ? 'good-color' : 'warning-color'">
             {{ source.isConnected ? `${$t('settings.media_sources.connected')} - ${source.ping}ms` : $t('settings.media_sources.disconnected') }}
           </base-chip>
@@ -151,6 +153,30 @@ import { SubsonicMediaSource } from "@/logic/MediaSource/SubsonicMediaSource";
             icon="ic:twotone-delete"
             @click="amethyst.mediaSourceManager.removeMediaSource(source)"
           />
+
+          <template
+            #subsettings
+          >
+            <div class="p-2 flex gap-2">
+              <base-input
+                v-model="(source).url"
+                type="url"
+                :placeholder="$t('settings.media_sources.url_placeholder')"
+              />
+
+              <base-input
+                v-model="source.username"
+                type="username"
+                :placeholder="$t('settings.media_sources.username_placeholder')"
+              />
+
+              <base-input
+                v-model="source.password"
+                type="password"
+                :placeholder="$t('settings.media_sources.password_placeholder')"
+              />
+            </div>
+          </template>
         </settings-setting>
       </div>
     </template>
