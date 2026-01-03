@@ -1097,6 +1097,11 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
+"@nyabsi/minimal-discord-rpc@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@nyabsi/minimal-discord-rpc/-/minimal-discord-rpc-1.0.0.tgz#d0e2e2776a677529b840d315e81d7849fc600db7"
+  integrity sha512-TK3MV/0BUeRsUQAtobAsl2Q71oqXaMeO1tlWnqoM2ow3Y66QVF1KZ+Ty8ggHPrECmG4xsaVuBXq0FQz0rmQU7w==
+
 "@one-ini/wasm@0.1.1":
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/@one-ini/wasm/-/wasm-0.1.1.tgz#6013659736c9dbfccc96e8a9c2b3de317df39323"
@@ -6820,11 +6825,6 @@ min-indent@^1.0.0, min-indent@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/min-indent/-/min-indent-1.0.1.tgz#a63f681673b30571fbe8bc25686ae746eefa9869"
   integrity sha512-I9jwMn07Sy/IwOj3zVkVik2JTvgpaykDZEigL6Rx6N9LbMywwUSMtxET+7lVoDLLd3O3IXwJwvuuns8UB/HeAg==
-
-minimal-discord-rpc@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/minimal-discord-rpc/-/minimal-discord-rpc-1.0.3.tgz#0d8111e34ea0044a8f18819bd566b2a4a878e89e"
-  integrity sha512-NOsnlrWrz2GqXnxUk9OjdOiMJvk/m1Edd3Trguq/b66RZU0muk7DqYDchvQgXuhT5zTFnXg1NFPa6py8bBnE4A==
 
 minimalistic-assert@^1.0.0, minimalistic-assert@^1.0.1:
   version "1.0.1"
