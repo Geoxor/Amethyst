@@ -1,4 +1,4 @@
-import { ActivityType, Client } from "minimal-discord-rpc";
+import { ActivityType, Client } from "@nyabsi/minimal-discord-rpc";
 
 import { APP_VERSION } from "./mainWindow.js";
 

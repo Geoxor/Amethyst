@@ -1,79 +1,10 @@
-import { v4 as uuidv4 } from "uuid";
-import type { Ref } from "vue";
 import { ref } from "vue";
 
 import { Amethyst } from "@/amethyst.js";
-import { EventEmitter } from "@/logic/eventEmitter.js";
+import { MediaSource, MediaSourceType } from "@/logic//MediaSource/index.js";
 
-export enum MediaSourceType {
-  LocalFolder = "settings.media_source_type.local_folder",
-  Generic = "settings.media_source_type.generic",
-}
-
-export class MediaSourceManager {
-  public mediaSources = ref<(MediaSource)[]>([]);
-
-  public constructor(protected amethyst: Amethyst) {
-    this.amethyst.state.settings.mediaSources.saveMediaSources.forEach((savedSource) => {
-      if (savedSource.path) {
-        // @ts-ignore
-        this.mediaSources.value.push(new LocalMediaSource(this.amethyst, savedSource.path));
-      }
-    });
-  }
-
-  public addLocalSource = async () => {
-    const dialog = await this.amethyst.showOpenFolderDialog();
-    // @ts-ignore
-    dialog.filePaths.forEach((path) => {
-      if (dialog.canceled || !path) return;
-
-      // Avoid adding folders if they already exist
-      if (this.amethyst.state.settings.mediaSources.saveMediaSources.some((savedSource) => savedSource.path == path)) return;
-
-      const mediaSource = new LocalMediaSource(this.amethyst, path);
-
-      if (mediaSource.type && mediaSource.path) {
-        this.amethyst.state.settings.mediaSources.saveMediaSources.push({ type: mediaSource.type, path: mediaSource.path, uuid: mediaSource.uuid });
-        // @ts-ignore
-        this.mediaSources.value.push(mediaSource);
-      }
-    });
-  };
-
-  public removeMediaSource = async (mediaSource: MediaSource) => {
-    const savedMediaSource = { type: mediaSource.type, path: mediaSource.path, uuid: mediaSource.uuid };
-    const index = this.mediaSources.value.findIndex((s) => s.uuid == savedMediaSource.uuid);
-    if (index == -1) return;
-    mediaSource.unregister();
-    this.amethyst.state.settings.mediaSources.saveMediaSources.splice(index, 1);
-    this.mediaSources.value.splice(index, 1);
-  };
-}
-
-export class MediaSource {
-  public uuid: string = uuidv4();
-  public type: MediaSourceType = MediaSourceType.Generic;
-  public totalTracks: Ref<number> = ref(0);
-  public totalBytes: Ref<number> = ref(0);
-  public name: string = "generic";
-
-  public constructor(protected amethyst: Amethyst, public path: string) {
-    this.fetchMedia();
-  }
-
-  public register() {
-    throw new Error("Not implemented");
-  }
-
-  public unregister() {
-    throw new Error("Not implemented");
-  }
-
-  public fetchMedia() {
-    throw new Error("Not implemented");
-  };
-}
+import { EventEmitter } from "../eventEmitter.js";
+import { Track } from "../track.js";
 
 export class LocalMediaSource extends MediaSource {
   private watcher: FolderWatcher | FolderWatcherMobile;
@@ -87,7 +18,9 @@ export class LocalMediaSource extends MediaSource {
     this.watcher = this.amethyst.getCurrentPlatform() === "mobile" ? new FolderWatcherMobile(this.path, this.uuid) : new FolderWatcher(this.path, this.uuid);
 
     this.watcher.on("add", (path) => {
-      this.amethyst.player.queue.add(path);
+      const track = new Track(this.amethyst, path);
+      track.sourceType = MediaSourceType.LocalFolder;
+      this.amethyst.player.queue.add(track);
       this.amethyst.player.queue.fetchAsyncData();
       this.totalTracks.value++;
     });
@@ -95,9 +28,12 @@ export class LocalMediaSource extends MediaSource {
     this.watcher.on("unlink", (path) => {
       const track = this.amethyst.player.queue.getList().find((t) => t.path == path);
       if (!track) return;
+
       this.amethyst.player.queue.remove(track);
       this.totalTracks.value--;
     });
+
+    this.fetchMedia();
   }
 
   public override register() {
@@ -119,7 +55,6 @@ export class LocalMediaSource extends MediaSource {
     await this.amethyst.player.queue.fetchAsyncData();
   }
 }
-
 class FolderWatcher extends EventEmitter<{
   add: string;
   unlink: string;
@@ -146,7 +81,6 @@ class FolderWatcher extends EventEmitter<{
     });
   }
 }
-
 class FolderWatcherMobile extends EventEmitter<{
   add: string;
   unlink: string;

@@ -19,6 +19,8 @@ export default defineConfig({
       "accent": cssVar("accent"),
       "inspectorColor": cssVar("inspector-color"),
       "alertColor": cssVar("alert-color"),
+      "warningColor": cssVar("warning-color"),
+      "goodColor": cssVar("good-color"),
       "settingsSettingBackground": cssVar("settings-setting-background"),
       "settingsSubsettingBackground": cssVar("settings-subsetting-background"),
       "playbackControlsBackground": cssVar("playback-controls-background"),

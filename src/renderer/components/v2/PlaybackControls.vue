@@ -215,7 +215,7 @@ const editMeterContextMenuOption = (name: string) => [{
           ]"
           :url="amethyst.player.getCurrentTrack()?.getCover()"
           @contextmenu="handleContextCoverMenu"
-          @click="amethyst.player.getCurrentTrack()?.cover.state === LoadStatus.Loaded && (amethyst.state.window.isShowingBigCover = !amethyst.state.window.isShowingBigCover)"
+          @click="amethyst.state.window.isShowingBigCover = !amethyst.state.window.isShowingBigCover"
         />
 
         <div
