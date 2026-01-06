@@ -40,6 +40,7 @@ export class SubsonicMediaSource extends MediaSource {
 
     setInterval(() => this.getScanStatus(), 1000);
     this.getScanStatus();
+    this.sync();
   }
 
   public sync = async (): Promise<void> => {

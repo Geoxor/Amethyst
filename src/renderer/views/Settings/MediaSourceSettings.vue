@@ -144,11 +144,6 @@ const showAddServerForm = ref(false);
           />
 
           <button-input
-            icon="ic:twotone-edit"
-            @click="amethyst.mediaSourceManager.removeMediaSource(source)"
-          />
-
-          <button-input
             icon="ic:twotone-delete"
             @click="amethyst.mediaSourceManager.removeMediaSource(source)"
           />
