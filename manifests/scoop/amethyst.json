@@ -1,25 +1,25 @@
 {
   "$schema": "https://raw.githubusercontent.com/ScoopInstaller/Scoop/master/schema.json",
-  "version": "2.1.7",
+  "version": "2.1.8",
   "description": "Typescript media player",
   "license": "MIT",
   "homepage": "https://github.com/Geoxor/amethyst",
   "architecture": {
     "64bit": {
-      "url": "https://github.com/Geoxor/Amethyst/releases/download/v2.1.7/Amethyst-Setup-2.1.7.exe",
+      "url": "https://github.com/Geoxor/Amethyst/releases/download/v2.1.8/Amethyst-Setup-2.1.8.exe",
       "extract_dir": "Files\\Amethyst"
     },
     "32bit": {
-      "url": "https://github.com/Geoxor/Amethyst/releases/download/v2.1.7/Amethyst-Setup-2.1.7.exe",
+      "url": "https://github.com/Geoxor/Amethyst/releases/download/v2.1.8/Amethyst-Setup-2.1.8.exe",
       "extract_dir": "Files\\Amethyst"
     }
   },
   "pre_install": [
-    "Invoke-ExternalCommand \"$dir\\Amethyst-Setup-2.1.7.exe\" | Out-Null",
+    "Invoke-ExternalCommand \"$dir\\Amethyst-Setup-2.1.8.exe\" | Out-Null",
     "info 'Amethyst has been installed'"
   ],
   "post_install": [
-    "Remove-Item \"$dir\\Amethyst-Setup-2.1.7.exe\""
+    "Remove-Item \"$dir\\Amethyst-Setup-2.1.8.exe\""
   ],
   "uninstaller": {
     "script": "Invoke-ExternalCommand \"C:\\Users\\$env:username\\AppData\\Local\\Programs\\amethyst\\Uninstall Amethyst.exe\" | Out-Null"

@@ -2,7 +2,7 @@
 # Maintainer: Geoxor <geoxor123@outlook.com>
 appname=amethyst
 pkgname=$appname-player
-pkgver=2.1.7
+pkgver=2.1.8
 pkgrel=1
 pkgdesc="Typescript media player"
 arch=('x86_64')
