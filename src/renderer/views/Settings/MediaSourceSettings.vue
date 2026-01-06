@@ -85,9 +85,9 @@ const showAddServerForm = ref(false);
     <base-form
       v-if="showAddServerForm"
       :form-data="{
-        url: { name: 'Server URL', placeholder: 'https://your.server:4533', value: '' },
-        username: { name: 'Username', value: '' },
-        password: { name: 'Password', value: '' },
+        url: { name: 'Server URL', value: '', placeholder: 'https://your.server:4533', type: 'url' },
+        username: { name: 'Username', value: '', type: 'text' },
+        password: { name: 'Password', value: '', type: 'password' },
       }"
       @cancel="showAddServerForm = false"
       @submit="form => amethyst.mediaSourceManager.addSubsonicSource(form.url.value, form.username.value, form.password.value)"
@@ -141,6 +141,11 @@ const showAddServerForm = ref(false);
             icon="ic:twotone-cancel"
             text="Cancel sync"
             @click="source.stopSync()"
+          />
+
+          <button-input
+            icon="ic:twotone-edit"
+            @click="amethyst.mediaSourceManager.removeMediaSource(source)"
           />
 
           <button-input

@@ -70,6 +70,8 @@ export class SubsonicMediaSource extends MediaSource {
   }
 
   public override async fetchMedia() {
+    if (this.isSyncing.value) return;
+
     this.isSyncing.value = true;
     this.syncStatus.value = "Starting sync...";
 

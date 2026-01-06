@@ -5,10 +5,13 @@ import BaseInput from "./BaseInput.vue";
 import { onKeyStroke } from "@vueuse/core";
 import BaseOverlay from "./BaseOverlay.vue";
 
+export type FieldType = "text" | "password" | "url" | "number";
+
 export type FormField = {
   name: string;
   value: string;
   placeholder?: string;
+  type?: FieldType;
 };
 
 const props = defineProps<{
@@ -49,7 +52,7 @@ onKeyStroke("Escape", () => emits("cancel"));
         <label for="fname">{{ field.name }}</label>
         <base-input
           v-model="field.value"
-          type="text"
+          :type="field.type"
           :name="key"
           class="max-w-full"
           :placeholder="field.placeholder || field.name"
