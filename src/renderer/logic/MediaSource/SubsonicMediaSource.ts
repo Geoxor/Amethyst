@@ -52,7 +52,7 @@ export class SubsonicMediaSource extends MediaSource {
 
     setInterval(() => this.getScanStatus(), 1000);
     this.getScanStatus();
-    // this.sync();
+    this.sync();
     this.fetchFavoriteSongs();
   }
 
