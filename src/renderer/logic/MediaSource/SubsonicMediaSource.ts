@@ -31,6 +31,18 @@ export class SubsonicMediaSource extends MediaSource {
     this.initialize();
   }
 
+  public fetchFavoriteSongs() {
+    this.api.getStarred()
+      .then((response) => response.starred?.song || [])
+      .then((songs) => {
+        songs.forEach((song) => {
+          const track = this.createTrackFromSubsonicSong(song);
+          track.setIsFavorite(true);
+          this.amethyst.player.queue.add(track);
+        });
+      });
+  }
+
   private async initialize() {
     this.isConnected.value = await this.testConnection();
     if (!this.isConnected.value) {
@@ -41,6 +53,7 @@ export class SubsonicMediaSource extends MediaSource {
     setInterval(() => this.getScanStatus(), 1000);
     this.getScanStatus();
     this.sync();
+    this.fetchFavoriteSongs();
   }
 
   public sync = async (): Promise<void> => {
