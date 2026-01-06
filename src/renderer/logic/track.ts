@@ -71,6 +71,7 @@ export class Track {
   public bitRate: number = 0;
   public discNumber: number = 0;
   public trackNumber: number = 0;
+  public mimeType: string = "";
   public year: number = 0;
 
   public constructor(private amethyst: Amethyst, public absolutePath: string) {
@@ -430,6 +431,10 @@ export class Track {
     this.isFavorited = t;
   }
 
+  public setMimeType(t: string) {
+    this.mimeType = t;
+  }
+
   public getTrackNumber() {
     return this.trackNumber || this.getMetadata()?.common.track.no;
   }
@@ -471,7 +476,7 @@ export class Track {
   }
 
   public getContainer() {
-    return this.getMetadata()?.format.container;
+    return this.mimeType || this.getMetadata()?.format.container;
   }
 
   public getCodec() {

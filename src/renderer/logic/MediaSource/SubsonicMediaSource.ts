@@ -135,6 +135,7 @@ export class SubsonicMediaSource extends MediaSource {
     song.size && track.setSize(song.size);
     song.bitRate && track.setBitRate(song.bitRate * 1000);
     song.duration && track.setDuration(song.duration);
+    song.contentType && track.setMimeType(song.contentType);
     song.discNumber && track.setDiscNumber(song.discNumber);
     song.track && track.setTrackNumber(song.track);
     song.year && track.setYear(song.year);
