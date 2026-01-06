@@ -20,6 +20,7 @@ import { State } from "@/state.js";
 
 import { registerCommand } from "./components/CommandPalette/registry.js";
 import { getThemeColorHex } from "./logic/color.js";
+import { MediaSourceType } from "./logic/MediaSource/index.js";
 import { MediaSourceManager } from "./logic/MediaSource/MediaSourceManager.js";
 import { router } from "./router.js";
 
@@ -460,15 +461,16 @@ export class Amethyst extends AmethystBackend {
     const updateRichPresence = async (track: Track) => {
       const sendData = () => {
         const args = [
-          track.getArtistsFormatted() && track.getTitleFormatted() ? `${track.getTitleFormatted()}` : track.getFilename(),
-          `${track.getArtistsFormatted()} -  ${track.getAlbum()}`,
+          track.getArtists() && track.getTitle() ? `${track.getTitle()}` : track.getFilename(),
+          `${track.getArtists()} -  ${track.getAlbum()}`,
           start.toString(),
           (track.getDurationSeconds() as number).toString(),
-          track.coverUrl,
+          track.sourceType != MediaSourceType.Subsonic && track.coverUrl,
           track.metadata.data?.format.container?.toLowerCase() || "unknown format",
           isPaused ? "yes" : "no",
         ];
         window.electron.ipcRenderer.invoke("update-rich-presence", [args]);
+        if (this.IS_DEV) console.log(`%c[⚐ Discord RPC]%c Updated RPC status`, "background-color: #7289da; color: black; font-weight: bold;", "color: #ffffff;", args);
       };
 
       richPresenceTimer && clearInterval(richPresenceTimer);
@@ -482,7 +484,6 @@ export class Amethyst extends AmethystBackend {
       await currentTrack?.fetchAlbumCoverUrl();
       if (!currentTrack) return;
       await updateRichPresence(currentTrack);
-      if (this.IS_DEV) console.log(`%c[⚐ Discord RPC]%c Updated RPC status`, "background-color: #7289da; color: black; font-weight: bold;", "color: #ffffff;");
     };
 
     if (this.state.settings.integrations.discord.enabled) {
@@ -497,7 +498,7 @@ export class Amethyst extends AmethystBackend {
         seekDuringPause = false;
         isPaused = false;
         trackNameBeforePause = "";
-        if (track.metadata.data?.format.container) {
+        if (track.isLoaded) {
           this.IS_DEV && console.log("Metadata is loaded so we can update the rich presence");
           updateWithCurrentTrack();
         }
