@@ -25,7 +25,9 @@ const mbApi = new MusicBrainzApi({
 export const trackContextMenuOptions = (track: Track) => ([
   { title: "track.context_menu.play", icon: "ic:round-play-arrow", action: () => amethyst.player.play(track) },
   { title: "track.context_menu.inspect", icon: "mdi:flask", action: () => useInspector().inspectAndShow(track) },
-  { title: "track.context_menu.favorite", icon: "ic:twotone-favorite", action: () => track.toggleFavorite() },
+  track.isFavorited
+    ? { title: "track.context_menu.unfavorite", icon: "ic:twotone-favorite-border", action: () => track.toggleFavorite() }
+    : { title: "track.context_menu.favorite", icon: "ic:twotone-favorite", action: () => track.toggleFavorite() },
   { title: "track.context_menu.encode_to_.dfpwm", icon: "ic:twotone-qr-code", action: async () => {
     saveArrayBufferToFile(
       await convertDfpwm(await track.getArrayBuffer()),
@@ -55,7 +57,7 @@ export class Track {
   public path: string;
   public uuid: string | undefined;
 
-  public sourceType: MediaSourceType = MediaSourceType.Generic;
+  public sourceType: MediaSourceType = MediaSourceType.Local;
 
   // new stuff for refactoring
   public coverUrl: string = "";
@@ -77,7 +79,7 @@ export class Track {
   }
 
   private generateHash() {
-    this.uuid = md5(this.sourceType == MediaSourceType.Generic ? `${this.getArtistsFormatted()}, ${this.getAlbum()}, ${this.getTitle()}, ${this.getFilename()}` : this.path);
+    this.uuid = md5(this.sourceType == MediaSourceType.Local ? `${this.getArtistsFormatted()}, ${this.getAlbum()}, ${this.getTitle()}, ${this.getFilename()}` : this.path);
     this.isFavorited = favoriteTracks.value.includes(this.uuid);
   }
 
@@ -109,7 +111,7 @@ export class Track {
   }
 
   public getCachePath(absolute?: boolean) {
-    const amfPath = window.path.join(this.amethyst.APPDATA_PATH || "", "/amethyst/Metadata Cache", this.getFilename() + ".amf");
+    const amfPath = window.path.join(this.amethyst.APPDATA_PATH || "", "/amethyst/Metadata Cache", (this.sourceType == MediaSourceType.Subsonic ? this.subsonicTrackId! : this.getFilename()) + ".amf");
     return absolute ? amfPath : `file://${amfPath}`;
   }
 
@@ -154,6 +156,8 @@ export class Track {
    * Reads track metadata from disk
    */
   private async readMetadata() {
+    if (this.sourceType == MediaSourceType.Subsonic) return;
+
     switch (this.amethyst.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<IMetadata>("get-metadata", [this.absolutePath]);
@@ -169,6 +173,8 @@ export class Track {
   }
 
   private async readCover() {
+    if (this.sourceType == MediaSourceType.Subsonic) return;
+
     switch (this.amethyst.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<string>("get-cover", [this.absolutePath]);
@@ -307,27 +313,30 @@ export class Track {
       };
     }
 
-    const [cover, metadata] = await Promise.all([this.fetchCover(force, cachedData.cover), this.fetchMetadata(force, cachedData.metadata)]);
+    if (this.sourceType != MediaSourceType.Subsonic) {
+      const [cover, metadata] = await Promise.all([this.fetchCover(force, cachedData.cover), this.fetchMetadata(force, cachedData.metadata)]);
 
-    if (metadata) {
-      metadata.common.picture = [];
-    }
+      if (metadata) {
+        metadata.common.picture = [];
+      }
 
-    if (force && this.amethyst.getCurrentPlatform() == "desktop") {
-      window.fs.writeFile(this.getCachePath(true), JSON.stringify({
-        cover,
-        metadata,
-        coverUrl: this.coverUrl,
-        title: this.title,
-        duration: this.duration,
-        album: this.album,
-        artists: this.artists,
-        size: this.size,
-        bitRate: this.bitRate,
-      }, null, 2)).catch((error) => {
-        console.error("Failed to write metadata cache file, did you delete the 'Metadata Cache' folder?", error);
-      });
-    }
+      if (force && this.amethyst.getCurrentPlatform() == "desktop") {
+        window.fs.writeFile(this.getCachePath(true), JSON.stringify({
+          cover,
+          metadata,
+          sourceType: this.sourceType,
+          coverUrl: this.coverUrl,
+          title: this.title,
+          duration: this.duration,
+          album: this.album,
+          artists: this.artists,
+          size: this.size,
+          bitRate: this.bitRate,
+        }, null, 2)).catch((error) => {
+          console.error("Failed to write metadata cache file, did you delete the 'Metadata Cache' folder?", error);
+        });
+      }
+    };
 
     this.isLoading.value = false;
     this.isLoaded.value = true;
