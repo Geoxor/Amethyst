@@ -36,7 +36,8 @@
   "command.track.export_cover_art": "Export cover art of current track",
   "command.track.inspect": "Inspect current track",
   "command.track.show_explorer": "Show current track in file system",
-  
+  "form.submit": "Submit",
+  "form.cancel": "Cancel",
   "discovery.for_you.title": "For you",
   "discovery.for_you.description": "Songs you have not heard yet",
   "discovery.favorites.title": "Favorites",
@@ -88,6 +89,7 @@
   "settings.subsonic.add_server": "Add server",
   "settings.subsonic.server_name": "Server name",
   "settings.media_sources.server_scanning": "Server is scanning for files",
+  "settings.media_sources.unknown_version": "Unknown version",
   "settings.media_sources.syncing_library": "Syncing library",
   "settings.subsonic.sync_all": "Sync all",
   "settings.subsonic.stop_all_syncs": "Stop all syncs",

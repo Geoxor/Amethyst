@@ -2,11 +2,16 @@
 import { amethyst } from "@/amethyst.js";
 import BaseChip from "@/components/BaseChip.vue";
 import BaseInput from "@/components/BaseInput.vue";
+import BaseForm from "@/components/BaseForm.vue";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import ButtonInput from "@/components/v2/ButtonInput.vue";
 import { MediaSourceType } from "@/logic/MediaSource";
 import { LocalMediaSource } from "@/logic/MediaSource/LocalMediaSource";
 import { SubsonicMediaSource } from "@/logic/MediaSource/SubsonicMediaSource";
+import { ref } from "vue";
+
+const showAddServerForm = ref(false);
+
 </script>
 
 <template>
@@ -74,13 +79,20 @@ import { SubsonicMediaSource } from "@/logic/MediaSource/SubsonicMediaSource";
     <button-input
       :text="$t('settings.subsonic.add_server')"
       icon="ic:twotone-plus"
-      @click="amethyst.mediaSourceManager.addSubsonicSource('', '', '')"
+      @click="showAddServerForm = true"
     />
-    <button-input
-      :text="$t('settings.subsonic.demo')"
-      icon="ic:twotone-plus"
-      @click="amethyst.mediaSourceManager.addSubsonicSource('', '', '')"
+
+    <base-form
+      v-if="showAddServerForm"
+      :form-data="{
+        url: { name: 'Server URL', placeholder: 'https://your.server:4533', value: '' },
+        username: { name: 'Username', value: '' },
+        password: { name: 'Password', value: '' },
+      }"
+      @cancel="showAddServerForm = false"
+      @submit="form => amethyst.mediaSourceManager.addSubsonicSource(form.url.value, form.username.value, form.password.value)"
     />
+
     <template
       v-if="amethyst.mediaSourceManager.mediaSources.value.filter(s => s instanceof SubsonicMediaSource).length > 0"
       #subsettings
@@ -131,52 +143,10 @@ import { SubsonicMediaSource } from "@/logic/MediaSource/SubsonicMediaSource";
             @click="source.stopSync()"
           />
 
-          <!-- <base-input
-            v-model="(source).url"
-            type="url"
-            :placeholder="$t('settings.media_sources.url_placeholder')"
-          />
-
-          <base-input
-            v-model="source.username"
-            type="username"
-            :placeholder="$t('settings.media_sources.username_placeholder')"
-          />
-
-          <base-input
-            v-model="source.password"
-            type="password"
-            :placeholder="$t('settings.media_sources.password_placeholder')"
-          /> -->
-
           <button-input
             icon="ic:twotone-delete"
             @click="amethyst.mediaSourceManager.removeMediaSource(source)"
           />
-
-          <template
-            #subsettings
-          >
-            <div class="p-2 flex gap-2">
-              <base-input
-                v-model="(source).url"
-                type="url"
-                :placeholder="$t('settings.media_sources.url_placeholder')"
-              />
-
-              <base-input
-                v-model="source.username"
-                type="username"
-                :placeholder="$t('settings.media_sources.username_placeholder')"
-              />
-
-              <base-input
-                v-model="source.password"
-                type="password"
-                :placeholder="$t('settings.media_sources.password_placeholder')"
-              />
-            </div>
-          </template>
         </settings-setting>
       </div>
     </template>
