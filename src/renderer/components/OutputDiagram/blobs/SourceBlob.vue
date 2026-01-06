@@ -17,7 +17,7 @@ import GenericBlob from "./GenericBlob.vue";
 import { MediaSourceType } from "@/logic/MediaSource";
 const router = useRouter();
 
-const sourceType = ref(MediaSourceType.Generic);
+const sourceType = ref(MediaSourceType.Local);
 
 const updateSourceType = (track: Track) => {
   sourceType.value = track.sourceType;

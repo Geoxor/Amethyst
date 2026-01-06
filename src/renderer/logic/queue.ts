@@ -8,6 +8,8 @@ import { type Amethyst, amethyst } from "@/amethyst.js";
 import { fisherYatesShuffle } from "@/logic/math.js";
 import { Track } from "@/logic/track.js";
 
+import { MediaSourceType } from "./MediaSource/index.js";
+
 const COMPARATORS_BY_METHOD = {
   default: () => 0,
   trackNumber: (a, b) => {
@@ -44,7 +46,7 @@ const COMPARATORS_BY_METHOD = {
 export type PossibleSortingMethods = keyof typeof COMPARATORS_BY_METHOD;
 
 export class Queue {
-  private savedQueue = useLocalStorage<string[]>("queuev2", []);
+  private savedQueue = useLocalStorage<{ path: string; type: MediaSourceType }[]>("queuev2", []);
   private list: Ref<Map<string, Track>> = ref(new Map());
   private lastSearch = "";
   private lastSearchList: Track[] = [];
@@ -55,9 +57,19 @@ export class Queue {
   public currentSortingDirection: Ref<"ascending" | "descending"> = ref("ascending");
 
   public constructor(private amethyst: Amethyst, paths?: string[]) {
-    paths
-      ? this.add(paths)
-      : this.add(this.savedQueue.value);
+    if (paths) this.add(paths);
+    else {
+      // load saved queue from local storage
+      this.savedQueue.value.forEach((item) => {
+        const track = new Track(this.amethyst, item.path);
+
+        if (item.type == MediaSourceType.Subsonic) {
+          track.sourceType = MediaSourceType.Subsonic;
+        }
+
+        this.add(track);
+      });
+    }
   }
 
   public getList() {
@@ -112,7 +124,7 @@ export class Queue {
    * Saves the current queue to local storage for persistance
    */
   private syncLocalStorage() {
-    this.savedQueue.value = this.getList().map((t) => t.absolutePath);
+    this.savedQueue.value = this.getList().map((t) => ({ path: t.absolutePath, type: t.sourceType }));
   }
 
   /**

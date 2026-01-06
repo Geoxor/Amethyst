@@ -320,24 +320,22 @@ export class Track {
       if (metadata) {
         metadata.common.picture = [];
       }
-
-      if (force && this.amethyst.getCurrentPlatform() == "desktop") {
-        window.fs.writeFile(this.getCachePath(true), JSON.stringify({
-          cover,
-          metadata,
-          sourceType: this.sourceType,
-          coverUrl: this.coverUrl,
-          title: this.title,
-          duration: this.duration,
-          album: this.album,
-          artists: this.artists,
-          size: this.size,
-          bitRate: this.bitRate,
-        }, null, 2)).catch((error) => {
-          console.error("Failed to write metadata cache file, did you delete the 'Metadata Cache' folder?", error);
-        });
-      }
     };
+
+    if (force && this.amethyst.getCurrentPlatform() == "desktop") {
+      window.fs.writeFile(this.getCachePath(true), JSON.stringify({
+        sourceType: this.sourceType,
+        coverUrl: this.coverUrl,
+        title: this.title,
+        duration: this.duration,
+        album: this.album,
+        artists: this.artists,
+        size: this.size,
+        bitRate: this.bitRate,
+      }, null, 2)).catch((error) => {
+        console.error("Failed to write metadata cache file, did you delete the 'Metadata Cache' folder?", error);
+      });
+    }
 
     this.isLoading.value = false;
     this.isLoaded.value = true;
