@@ -1,5 +1,5 @@
 import { AmethystPlatforms } from "@/amethyst.js";
-import type { MediaSourceType } from "@/logic/mediaSources.js";
+import type { MediaSourceType } from "@/logic/MediaSource/index.js";
 
 export const VALID_SAMPLE_RATES = [
   4000,
@@ -174,7 +174,7 @@ const DEFAULT_INTEGRATION_SETTINGS = {
 
 const DEFAULT_MEDIA_SOURCE_SETTINGS = {
   mediaSources: {
-    saveMediaSources: [{}] as { type: MediaSourceType; path: string; uuid: string }[],
+    saveMediaSources: [{}] as { type: MediaSourceType; path?: string; uuid?: string; url?: string; username?: string; password?: string }[],
   },
 };
 

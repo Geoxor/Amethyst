@@ -14,6 +14,8 @@ import { useInspector } from "@/components/Inspector/index.js";
 import { saveArrayBufferToFile } from "@/logic/dom.js";
 import { convertDfpwm } from "@/logic/encoding.js";
 
+import { MediaSourceType } from "./MediaSource/index.js";
+
 const mbApi = new MusicBrainzApi({
   appName: "Amethyst",
   appVersion: "2.0.7",
@@ -21,10 +23,12 @@ const mbApi = new MusicBrainzApi({
 });
 
 export const trackContextMenuOptions = (track: Track) => ([
-  { title: "Play", icon: "ic:round-play-arrow", action: () => amethyst.player.play(track) },
-  { title: "Inspect", icon: "mdi:flask", action: () => useInspector().inspectAndShow(track) },
-  { title: "Favorite", icon: "ic:twotone-favorite", action: () => track.toggleFavorite() },
-  { title: "Encode to .dfpwm...", icon: "ic:twotone-qr-code", action: async () => {
+  { title: "track.context_menu.play", icon: "ic:round-play-arrow", action: () => amethyst.player.play(track) },
+  { title: "track.context_menu.inspect", icon: "mdi:flask", action: () => useInspector().inspectAndShow(track) },
+  track.isFavorited
+    ? { title: "track.context_menu.unfavorite", icon: "ic:twotone-favorite-border", action: () => track.toggleFavorite() }
+    : { title: "track.context_menu.favorite", icon: "ic:twotone-favorite", action: () => track.toggleFavorite() },
+  { title: "track.context_menu.encode_to_.dfpwm", icon: "ic:twotone-qr-code", action: async () => {
     saveArrayBufferToFile(
       await convertDfpwm(await track.getArrayBuffer()),
       {
@@ -32,11 +36,11 @@ export const trackContextMenuOptions = (track: Track) => ([
         extension: "dfpwm",
       });
   } },
-  { title: "Show in Explorer...", icon: "ic:twotone-pageview", action: () => amethyst.showItem(track.path) },
-  { title: "Export cover...", icon: "ic:twotone-add-photo-alternate", action: () => track.exportCover() },
-  { title: "Reload metadata", icon: "mdi:flask", action: () => track.fetchAsyncData(true) },
-  { title: "Remove from queue", icon: "ic:twotone-delete", red: true, action: () => amethyst.player.queue.remove(track) },
-  { title: "Delete from disk", icon: "ic:twotone-delete-forever", red: true, action: () => track.delete() },
+  { title: "track.context_menu.show_in_explorer", icon: "ic:twotone-pageview", action: () => amethyst.showItem(track.path) },
+  { title: "track.context_menu.export_cover", icon: "ic:twotone-add-photo-alternate", action: () => track.exportCover() },
+  { title: "track.context_menu.reload_metadata", icon: "mdi:flask", action: () => track.fetchAsyncData(true) },
+  { title: "track.context_menu.remove_from_queue", icon: "ic:twotone-delete", red: true, action: () => amethyst.player.queue.remove(track) },
+  { title: "track.context_menu.delete_from_disk", icon: "ic:twotone-delete-forever", red: true, action: () => track.delete() },
 ]);
 
 /**
@@ -51,21 +55,53 @@ export class Track {
   public deleted: boolean = false;
   public isFavorited: boolean = false;
   public path: string;
-  public coverUrl: string = "";
   public uuid: string | undefined;
+
+  public sourceType: MediaSourceType = MediaSourceType.Local;
+
+  // new stuff for refactoring
+  public coverUrl: string = "";
+  public subsonicTrackId?: string = "";
+  public credentials?: { username: string; password: string; url: string };
+  public title: string = "";
+  public duration: number = 0;
+  public album: string = "";
+  public artists: string[] | undefined = undefined;
+  public size: number = 0;
+  public bitRate: number = 0;
+  public discNumber: number = 0;
+  public trackNumber: number = 0;
+  public year: number = 0;
 
   public constructor(private amethyst: Amethyst, public absolutePath: string) {
     this.path = absolutePath;
+    this.generateHash();
   }
 
   private generateHash() {
-    this.uuid = md5(`${this.getArtistsFormatted()}, ${this.getAlbum()}, ${this.getTitle()}, ${this.getFilename()}`);
+    this.uuid = md5(this.sourceType == MediaSourceType.Local ? `${this.getArtistsFormatted()}, ${this.getAlbum()}, ${this.getTitle()}, ${this.getFilename()}` : this.path);
     this.isFavorited = favoriteTracks.value.includes(this.uuid);
   }
 
   public toggleFavorite() {
     if (!this.isLoaded) return;
+
     this.isFavorited = !this.isFavorited;
+
+    if (this.sourceType == MediaSourceType.Subsonic) {
+      let url = "";
+      if (this.isFavorited) {
+        url = `${this.credentials!.url}/rest/star?id=${this.subsonicTrackId}&u=${this.credentials!.username}&p=${this.credentials!.password}&v=1.16.1&c=Amethyst`;
+      }
+      else {
+        url = `${this.credentials!.url}/rest/unstar?id=${this.subsonicTrackId}&u=${this.credentials!.username}&p=${this.credentials!.password}&v=1.16.1&c=Amethyst`;
+      }
+      fetch(url).catch((error) => {
+        console.error("Failed to toggle favorite status on Subsonic server:", error);
+      });
+    };
+
+    console.log(this.uuid);
     if (this.isFavorited) {
       favoriteTracks.value.push(this.uuid!);
     }
@@ -75,7 +111,7 @@ export class Track {
   }
 
   public getCachePath(absolute?: boolean) {
-    const amfPath = window.path.join(this.amethyst.APPDATA_PATH || "", "/amethyst/Metadata Cache", this.getFilename() + ".amf");
+    const amfPath = window.path.join(this.amethyst.APPDATA_PATH || "", "/amethyst/Metadata Cache", (this.sourceType == MediaSourceType.Subsonic ? this.subsonicTrackId! : this.getFilename()) + ".amf");
     return absolute ? amfPath : `file://${amfPath}`;
   }
 
@@ -120,6 +156,8 @@ export class Track {
    * Reads track metadata from disk
    */
   private async readMetadata() {
+    if (this.sourceType == MediaSourceType.Subsonic) return;
+
     switch (this.amethyst.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<IMetadata>("get-metadata", [this.absolutePath]);
@@ -135,6 +173,8 @@ export class Track {
   }
 
   private async readCover() {
+    if (this.sourceType == MediaSourceType.Subsonic) return;
+
     switch (this.amethyst.getCurrentPlatform()) {
       case "desktop":
         return window.electron.ipcRenderer.invoke<string>("get-cover", [this.absolutePath]);
@@ -273,20 +313,30 @@ export class Track {
       };
     }
 
-    const [cover, metadata] = await Promise.all([this.fetchCover(force, cachedData.cover), this.fetchMetadata(force, cachedData.metadata)]);
+    if (this.sourceType != MediaSourceType.Subsonic) {
+      const [cover, metadata] = await Promise.all([this.fetchCover(force, cachedData.cover), this.fetchMetadata(force, cachedData.metadata)]);
 
-    if (metadata) {
-      metadata.common.picture = [];
-    }
+      if (metadata) {
+        metadata.common.picture = [];
+      }
 
-    if (force && this.amethyst.getCurrentPlatform() == "desktop") {
-      window.fs.writeFile(this.getCachePath(true), JSON.stringify({
-        cover,
-        metadata,
-      }, null, 2)).catch((error) => {
-        console.error("Failed to write metadata cache file, did you delete the 'Metadata Cache' folder?", error);
-      });
-    }
+      if (force && this.amethyst.getCurrentPlatform() == "desktop") {
+        window.fs.writeFile(this.getCachePath(true), JSON.stringify({
+          cover,
+          metadata,
+          sourceType: this.sourceType,
+          coverUrl: this.coverUrl,
+          title: this.title,
+          duration: this.duration,
+          album: this.album,
+          artists: this.artists,
+          size: this.size,
+          bitRate: this.bitRate,
+        }, null, 2)).catch((error) => {
+          console.error("Failed to write metadata cache file, did you delete the 'Metadata Cache' folder?", error);
+        });
+      }
+    };
 
     this.isLoading.value = false;
     this.isLoaded.value = true;
@@ -320,6 +370,7 @@ export class Track {
    * @throws Error message if the object hasn't loaded yet
    */
   public getCover() {
+    if (this.coverUrl !== "") return this.coverUrl;
     if (this.cover.state != LoadStatus.Loaded) return;
     return this.cover.data;
   };
@@ -332,11 +383,55 @@ export class Track {
   };
 
   public getTitle() {
-    return this.getMetadata()?.common.title;
+    return this.title || this.getMetadata()?.common.title;
+  }
+
+  public setTitle(t: string) {
+    this.title = t;
+  };
+
+  public setAlbum(t: string) {
+    this.album = t;
+  };
+
+  public setArtists(t: string[]) {
+    this.artists = t;
+  };
+
+  public setDuration(t: number) {
+    this.duration = t;
+  };
+
+  public setCoverArt(t: string) {
+    this.coverUrl = t;
+  }
+
+  public setSize(t: number) {
+    this.size = t;
+  }
+
+  public setBitRate(t: number) {
+    this.bitRate = t;
+  }
+
+  public setDiscNumber(t: number) {
+    this.discNumber = t;
+  }
+
+  public setTrackNumber(t: number) {
+    this.trackNumber = t;
+  }
+
+  public setYear(t: number) {
+    this.year = t;
+  }
+
+  public setIsFavorite(t: boolean) {
+    this.isFavorited = t;
   }
 
   public getTrackNumber() {
-    return this.getMetadata()?.common.track.no;
+    return this.trackNumber || this.getMetadata()?.common.track.no;
   }
 
   public getBarcode() {
@@ -368,11 +463,11 @@ export class Track {
   }
 
   public getDiskNumber() {
-    return this.getMetadata()?.common.disk.no;
+    return this.discNumber || this.getMetadata()?.common.disk.no;
   }
 
   public getYear() {
-    return this.getMetadata()?.common.year;
+    return this.year || this.getMetadata()?.common.year;
   }
 
   public getContainer() {
@@ -384,7 +479,7 @@ export class Track {
   }
 
   public getBitrate() {
-    return this.getMetadata()?.format.bitrate;
+    return this.bitRate || this.getMetadata()?.format.bitrate;
   }
 
   public getBitsPerSample() {
@@ -404,19 +499,19 @@ export class Track {
   }
 
   public getFilesize() {
-    return this.getMetadata()?.size;
+    return this.size || this.getMetadata()?.size;
   }
 
   public getArtists() {
-    return this.getMetadata()?.common.artists;
+    return this.artists || this.getMetadata()?.common.artists;
   }
 
   public getAlbum() {
-    return this.getMetadata()?.common.album;
+    return this.album || this.getMetadata()?.common.album;
   }
 
   public getDuration() {
-    return this.getMetadata()?.format.duration;
+    return this.duration || this.getMetadata()?.format.duration;
   }
 
   /**

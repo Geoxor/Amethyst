@@ -13,7 +13,7 @@ const COMPARATORS_BY_METHOD = {
   trackNumber: (a, b) => {
     const diskNumberDiff = (a.getDiskNumber() ?? 1) - (b.getDiskNumber() ?? 1);
     if (diskNumberDiff !== 0) return diskNumberDiff;
-	// delegate to copy of album comparator if the two tracks are not in the same album
+    // delegate to copy of album comparator if the two tracks are not in the same album
     if (a.getAlbum() !== b.getAlbum()) return (a.getAlbum() || "") > (b.getAlbum() || "") ? 1 : -1;
     return (a.getTrackNumber() ?? 1) - (b.getTrackNumber() ?? 1);
   },

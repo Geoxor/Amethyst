@@ -85,7 +85,7 @@ document.addEventListener("keydown", console.log);
       >
       <div class="flex flex-col">
         <template v-if="filteredCommands.slice(0, NUMBER_OF_COMMANDS).length > 0">
-          <section
+          <button
             v-for="(command, i) in filteredCommands.slice(0, NUMBER_OF_COMMANDS)"
             :key="command.title"
             :class="[selectedCommand == i && 'active']"
@@ -97,7 +97,7 @@ document.addEventListener("keydown", console.log);
               :icon="command.icon"
             />
             <title-text :text="$t(command.title)" />
-          </section>
+          </button>
         </template>
         <title-text
           v-else
@@ -110,7 +110,7 @@ document.addEventListener("keydown", console.log);
 </template>
 
 <style scoped lang="postcss">
-section {
+button {
   @apply flex gap-2 items-center rounded-8px p-2 py-3 text-left focus:bg-accent/15 focus:text-accent active:bg-accent/15 active:text-accent hover:bg-primary/15 hover:text-primary;
   &.active {
     @apply bg-accent/15 text-accent;

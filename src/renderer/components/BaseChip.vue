@@ -11,10 +11,10 @@ defineProps<{ icon?: any; color?: string }>();
     <icon
       v-if="icon"
       :icon="icon"
-      class="w-4 h-4"
+      class="w-4 h-4 min-w-4 min-h-4"
     />
 
-    <p class="flex items-center  gap-1">
+    <p class="items-center gap-1 overflow-hidden text-ellipsis ">
       <slot />
     </p>
   </div>

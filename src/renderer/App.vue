@@ -10,6 +10,7 @@ import CoverArt from "@/components/CoverArt.vue";
 import { InspectorBar, useInspector } from "@/components/Inspector";
 import NavigationBar from "@/components/NavigationBar.vue";
 import NavigationButton from "@/components/NavigationButton.vue";
+import BaseOverlay from "@/components/BaseOverlay.vue";
 import TopBar from "@/components/TopBar.vue";
 import PlaybackControls from "@/components/v2/PlaybackControls.vue";
 import SpectrumAnalyzerComposite from "@/components/visualizers/SpectrumAnalyzerComposite.vue";
@@ -21,9 +22,7 @@ import CommandPalette from "./components/CommandPalette/CommandPalette.vue";
 const ambientBackgroundImage = ref("");
 
 const setAmbientCover = async (track: Track) => {
-  track.getCoverAsBlob()
-    .then((blob) => ambientBackgroundImage.value = URL.createObjectURL(blob))
-    .catch(() => ambientBackgroundImage.value = "");
+  ambientBackgroundImage.value = track.getCover() || "";
 };
 
 const fallbackToDefault = () => {
@@ -166,9 +165,8 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
       :ambient-background-image="ambientBackgroundImage"
     />
 
-    <div
+    <base-overlay
       v-if="amethyst.state.window.isShowingBigCover"
-      class=" select-none rounded-8px w-full h-full truncate bg-black bg-opacity-75 flex items-center justify-center absolute-xy z-50"
       @click="amethyst.state.window.isShowingBigCover = !amethyst.state.window.isShowingBigCover"
     >
       <cover-art
@@ -180,7 +178,7 @@ watch(() => amethyst.state.showBigSpectrum.value, () => {
           { title: 'Export cover...', icon: 'ic:twotone-add-photo-alternate', action: () => amethyst.player.getCurrentTrack()?.exportCover() },
         ]);"
       />
-    </div>
+    </base-overlay>
 
     <div
       v-if="amethyst.getCurrentPlatform() == 'web'"

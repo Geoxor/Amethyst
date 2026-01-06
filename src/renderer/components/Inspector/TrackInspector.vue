@@ -105,9 +105,9 @@ function cloneWithoutPicture(obj: Record<string, any>): Record<string, any> {
     </inspector-section>
 
     <inspector-section title="track.state" icon="ic:twotone-circle">
-      <inspector-item name="track.file.name" :value="track.hasErrored ? 'Yes' : 'No'" />
-      <inspector-item name="track.file.size" :value="track.isLoaded ? 'Yes' : 'No'" />
-      <inspector-item name="track.file.hash" :value="track.isLoading ? 'Yes' : 'No'" />
+      <inspector-item name="track.file.has_errored" :value="track.hasErrored ? 'Yes' : 'No'" />
+      <inspector-item name="track.file.is_loaded" :value="track.isLoaded ? 'Yes' : 'No'" />
+      <inspector-item name="track.file.is_loading" :value="track.isLoading ? 'Yes' : 'No'" />
       <inspector-button
         name="track.show_amf_in_file_explorer"
         icon="ic:twotone-open-in-new"

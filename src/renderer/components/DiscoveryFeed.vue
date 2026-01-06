@@ -13,14 +13,14 @@ const props = defineProps<{ title: string; subtitle: string; tracks: Set<Track> 
       :title="title"
       :subtitle="subtitle"
     />
-    <section class="flex gap-2 overflow-x-auto p-2">
+    <div class="flex gap-2 overflow-x-auto p-2">
       <track-card
         v-for="track of tracks"
         :key="track.path"
         class="w-32 h-48 min-w-32"
         :track="track"
       />
-    </section>
+    </div>
   </div>
 </template>
 
