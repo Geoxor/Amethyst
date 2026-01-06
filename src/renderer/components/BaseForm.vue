@@ -41,7 +41,7 @@ onKeyStroke("Escape", () => emits("cancel"));
 <template>
   <base-overlay @close="emits('cancel')">
     <form
-      class="bg-surface-800 rounded-16px flex flex-col p-4 gap-4 min-w-[400px]"
+      class="bg-surface-800 rounded-16px border-solid border-1px border-surface-500 flex flex-col p-2 gap-4 min-w-[400px]"
       @submit.prevent="handleSubmit"
     >
       <div
