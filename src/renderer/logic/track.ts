@@ -59,6 +59,8 @@ export class Track {
 
   // new stuff for refactoring
   public coverUrl: string = "";
+  public subsonicTrackId?: string = "";
+  public credentials?: { username: string; password: string; url: string };
   public title: string = "";
   public duration: number = 0;
   public album: string = "";
@@ -71,16 +73,33 @@ export class Track {
 
   public constructor(private amethyst: Amethyst, public absolutePath: string) {
     this.path = absolutePath;
+    this.generateHash();
   }
 
   private generateHash() {
-    this.uuid = md5(`${this.getArtistsFormatted()}, ${this.getAlbum()}, ${this.getTitle()}, ${this.getFilename()}`);
+    this.uuid = md5(this.sourceType == MediaSourceType.Generic ? `${this.getArtistsFormatted()}, ${this.getAlbum()}, ${this.getTitle()}, ${this.getFilename()}` : this.path);
     this.isFavorited = favoriteTracks.value.includes(this.uuid);
   }
 
   public toggleFavorite() {
     if (!this.isLoaded) return;
+
     this.isFavorited = !this.isFavorited;
+
+    if (this.sourceType == MediaSourceType.Subsonic) {
+      let url = "";
+      if (this.isFavorited) {
+        url = `${this.credentials!.url}/rest/star?id=${this.subsonicTrackId}&u=${this.credentials!.username}&p=${this.credentials!.password}&v=1.16.1&c=Amethyst`;
+      }
+      else {
+        url = `${this.credentials!.url}/rest/unstar?id=${this.subsonicTrackId}&u=${this.credentials!.username}&p=${this.credentials!.password}&v=1.16.1&c=Amethyst`;
+      }
+      fetch(url).catch((error) => {
+        console.error("Failed to toggle favorite status on Subsonic server:", error);
+      });
+    };
+
+    console.log(this.uuid);
     if (this.isFavorited) {
       favoriteTracks.value.push(this.uuid!);
     }
@@ -396,6 +415,10 @@ export class Track {
 
   public setYear(t: number) {
     this.year = t;
+  }
+
+  public setIsFavorite(t: boolean) {
+    this.isFavorited = t;
   }
 
   public getTrackNumber() {

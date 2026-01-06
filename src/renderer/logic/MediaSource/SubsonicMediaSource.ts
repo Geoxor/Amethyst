@@ -111,6 +111,8 @@ export class SubsonicMediaSource extends MediaSource {
     const track = new Track(this.amethyst, path);
 
     track.sourceType = MediaSourceType.Subsonic;
+    track.subsonicTrackId = song.id;
+    track.credentials = { username: this.username, password: this.password, url: this.url };
     track.setTitle(song.title);
 
     // low resolution cover art for performance
@@ -123,6 +125,7 @@ export class SubsonicMediaSource extends MediaSource {
     song.discNumber && track.setDiscNumber(song.discNumber);
     song.track && track.setTrackNumber(song.track);
     song.year && track.setYear(song.year);
+    song.starred && track.setIsFavorite(true);
 
     track.isLoading.value = false;
     track.isLoaded.value = true;
