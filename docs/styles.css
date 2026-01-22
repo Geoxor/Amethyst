@@ -1,0 +1,5 @@
+.rounded,
+.rounded-2xl,
+.rounded-xl {
+  border-radius: 8px;
+}

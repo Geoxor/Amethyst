@@ -61,7 +61,8 @@
           {
             "group": "General",
             "pages": [
-              "user-manual/keyboard-shortcuts"
+              "user-manual/keyboard-shortcuts",
+              "user-manual/importing-eq"
             ]
           },
           {
