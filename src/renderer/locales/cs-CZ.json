@@ -332,5 +332,14 @@
   "track.state.loaded": "Načtený",
   "track.state.loading": "Načítání",
   "track.show_file_in_file_explorer": "Zobrazit v prohlížeči",
-  "track.show_amf_in_file_explorer": "Zobrazit .amf v prohlížeči"
+  "track.show_amf_in_file_explorer": "Zobrazit .amf v prohlížeči",
+  "settings.jellyfin.title": "Jellyfin servers",
+  "settings.jellyfin.description": "Connect to Jellyfin servers to stream music directly from them",
+  "settings.jellyfin.add_server": "Add server",
+  "settings.jellyfin.sync_all": "Sync all",
+  "settings.jellyfin.stop_all_syncs": "Stop all syncs",
+  "settings.jellyfin.server_url": "Server URL",
+  "settings.jellyfin.username": "Username",
+  "settings.jellyfin.password": "Password",
+  "settings.media_source_type.jellyfin": "Jellyfin server"
 }

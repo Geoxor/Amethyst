@@ -59,10 +59,18 @@ export class Track {
 
   public sourceType: MediaSourceType = MediaSourceType.Local;
 
+  /**
+   * @returns Whether this track streams from a remote server (Subsonic/Jellyfin) rather than a local file
+   */
+  public isRemoteSource() {
+    return this.sourceType == MediaSourceType.Subsonic || this.sourceType == MediaSourceType.Jellyfin;
+  }
+
   // new stuff for refactoring
   public coverUrl: string = "";
   public subsonicTrackId?: string = "";
-  public credentials?: { username: string; password: string; url: string };
+  public jellyfinTrackId?: string = "";
+  public credentials?: { username?: string; password?: string; url: string; userId?: string; accessToken?: string };
   public title: string = "";
   public duration: number = 0;
   public album: string = "";
@@ -102,6 +110,13 @@ export class Track {
       });
     };
 
+    if (this.sourceType == MediaSourceType.Jellyfin) {
+      const url = `${this.credentials!.url}/UserFavoriteItems/${this.jellyfinTrackId}?userId=${this.credentials!.userId}&api_key=${this.credentials!.accessToken}`;
+      fetch(url, { method: this.isFavorited ? "POST" : "DELETE" }).catch((error) => {
+        console.error("Failed to toggle favorite status on Jellyfin server:", error);
+      });
+    };
+
     console.log(this.uuid);
     if (this.isFavorited) {
       favoriteTracks.value.push(this.uuid!);
@@ -112,7 +127,12 @@ export class Track {
   }
 
   public getCachePath(absolute?: boolean) {
-    const amfPath = window.path.join(this.amethyst.APPDATA_PATH || "", "/amethyst/Metadata Cache", (this.sourceType == MediaSourceType.Subsonic ? this.subsonicTrackId! : this.getFilename()) + ".amf");
+    const remoteTrackId = this.sourceType == MediaSourceType.Subsonic
+      ? this.subsonicTrackId
+      : this.sourceType == MediaSourceType.Jellyfin
+        ? this.jellyfinTrackId
+        : undefined;
+    const amfPath = window.path.join(this.amethyst.APPDATA_PATH || "", "/amethyst/Metadata Cache", (remoteTrackId ?? this.getFilename()) + ".amf");
     return absolute ? amfPath : `file://${amfPath}`;
   }
 
@@ -157,7 +177,7 @@ export class Track {
    * Reads track metadata from disk
    */
   private async readMetadata() {
-    if (this.sourceType == MediaSourceType.Subsonic) return;
+    if (this.sourceType == MediaSourceType.Subsonic || this.sourceType == MediaSourceType.Jellyfin) return;
 
     switch (this.amethyst.getCurrentPlatform()) {
       case "desktop":
@@ -174,7 +194,7 @@ export class Track {
   }
 
   private async readCover() {
-    if (this.sourceType == MediaSourceType.Subsonic) return;
+    if (this.sourceType == MediaSourceType.Subsonic || this.sourceType == MediaSourceType.Jellyfin) return;
 
     switch (this.amethyst.getCurrentPlatform()) {
       case "desktop":
@@ -314,7 +334,7 @@ export class Track {
       };
     }
 
-    if (this.sourceType != MediaSourceType.Subsonic) {
+    if (this.sourceType != MediaSourceType.Subsonic && this.sourceType != MediaSourceType.Jellyfin) {
       const [cover, metadata] = await Promise.all([this.fetchCover(force, cachedData.cover), this.fetchMetadata(force, cachedData.metadata)]);
 
       if (metadata) {

@@ -67,6 +67,10 @@ export class Queue {
           track.sourceType = MediaSourceType.Subsonic;
         }
 
+        if (item.type == MediaSourceType.Jellyfin) {
+          track.sourceType = MediaSourceType.Jellyfin;
+        }
+
         this.add(track);
       });
     }

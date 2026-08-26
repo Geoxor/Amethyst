@@ -6,11 +6,13 @@ import BaseForm from "@/components/BaseForm.vue";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import ButtonInput from "@/components/v2/ButtonInput.vue";
 import { MediaSourceType } from "@/logic/MediaSource";
+import { JellyfinMediaSource } from "@/logic/MediaSource/JellyfinMediaSource";
 import { LocalMediaSource } from "@/logic/MediaSource/LocalMediaSource";
 import { SubsonicMediaSource } from "@/logic/MediaSource/SubsonicMediaSource";
 import { ref } from "vue";
 
 const showAddServerForm = ref(false);
+const showAddJellyfinServerForm = ref(false);
 
 </script>
 
@@ -118,6 +120,91 @@ const showAddServerForm = ref(false);
             color="warning-color"
           >
             {{ $t('settings.media_sources.server_scanning') }}
+          </base-chip>
+
+          <base-chip
+            v-if="source.isSyncing"
+            icon="line-md:loading-twotone-loop"
+            color="alert-color"
+            class="min-w-[200px] justify-start! text-ellipsis overflow-hidden"
+          >
+            {{ $t('settings.media_sources.syncing_library') }} <br> {{ source.syncStatus }}
+          </base-chip>
+
+          <button-input
+            v-if="!source.isSyncing"
+            icon="ic:twotone-sync"
+            text="Sync"
+            @click="source.sync()"
+          />
+
+          <button-input
+            v-else
+            icon="ic:twotone-cancel"
+            text="Cancel sync"
+            @click="source.stopSync()"
+          />
+
+          <button-input
+            icon="ic:twotone-delete"
+            @click="amethyst.mediaSourceManager.removeMediaSource(source)"
+          />
+        </settings-setting>
+      </div>
+    </template>
+  </settings-setting>
+
+  <settings-setting
+    :title="$t('settings.jellyfin.title')"
+    :description="$t('settings.jellyfin.description')"
+    info="https://jellyfin.org/"
+    icon="simple-icons:jellyfin"
+  >
+    <button-input
+      :text="$t('settings.jellyfin.sync_all')"
+      icon="ic:twotone-sync"
+      @click="amethyst.mediaSourceManager.mediaSources.value.forEach(source => { if (source instanceof JellyfinMediaSource) { source.sync(); } })"
+    />
+
+    <button-input
+      v-if=" amethyst.mediaSourceManager.mediaSources.value.filter(source => source instanceof JellyfinMediaSource && source.isSyncing).length > 0 "
+      :text="$t('settings.jellyfin.stop_all_syncs')"
+      icon="ic:twotone-cancel"
+      @click="amethyst.mediaSourceManager.mediaSources.value.forEach(source => { if (source instanceof JellyfinMediaSource) { source.stopSync(); } })"
+    />
+
+    <button-input
+      :text="$t('settings.jellyfin.add_server')"
+      icon="ic:twotone-plus"
+      @click="showAddJellyfinServerForm = true"
+    />
+
+    <base-form
+      v-if="showAddJellyfinServerForm"
+      :form-data="{
+        url: { name: 'Server URL', value: '', placeholder: 'https://your.server:8096', type: 'url' },
+        username: { name: 'Username', value: '', type: 'text' },
+        password: { name: 'Password', value: '', type: 'password' },
+      }"
+      @cancel="showAddJellyfinServerForm = false"
+      @submit="form => amethyst.mediaSourceManager.addJellyfinSource(form.url.value, form.username.value, form.password.value)"
+    />
+
+    <template
+      v-if="amethyst.mediaSourceManager.mediaSources.value.filter(s => s instanceof JellyfinMediaSource).length > 0"
+      #subsettings
+    >
+      <div class="p-2 flex flex-col gap-2">
+        <settings-setting
+          v-for="source of amethyst.mediaSourceManager.mediaSources.value.filter(s => s instanceof JellyfinMediaSource)"
+          :key="source.path"
+          subsetting
+          :title="source.name"
+          :description="`${$t(source.type)} - ${source.serverInformation ? source.serverInformation.Version : $t('settings.media_sources.unknown_version')}`"
+          icon="simple-icons:jellyfin"
+        >
+          <base-chip :color="source.isConnected ? 'good-color' : 'warning-color'">
+            {{ source.isConnected ? `${$t('settings.media_sources.connected')} - ${source.ping}ms` : $t('settings.media_sources.disconnected') }}
           </base-chip>
 
           <base-chip

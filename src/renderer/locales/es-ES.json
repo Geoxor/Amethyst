@@ -332,5 +332,14 @@
   "track.state.loaded": "Cargados",
   "track.state.loading": "Cargando",
   "track.show_file_in_file_explorer": "Mostrar en explorador de archivo",
-  "track.show_amf_in_file_explorer": "Mostrar .amf en el explorador"
+  "track.show_amf_in_file_explorer": "Mostrar .amf en el explorador",
+  "settings.jellyfin.title": "Jellyfin servers",
+  "settings.jellyfin.description": "Connect to Jellyfin servers to stream music directly from them",
+  "settings.jellyfin.add_server": "Add server",
+  "settings.jellyfin.sync_all": "Sync all",
+  "settings.jellyfin.stop_all_syncs": "Stop all syncs",
+  "settings.jellyfin.server_url": "Server URL",
+  "settings.jellyfin.username": "Username",
+  "settings.jellyfin.password": "Password",
+  "settings.media_source_type.jellyfin": "Jellyfin server"
 }

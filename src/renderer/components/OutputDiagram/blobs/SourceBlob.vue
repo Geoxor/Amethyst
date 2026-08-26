@@ -49,6 +49,11 @@ onMounted(() => {
       class="h-6 w-6 text-text-title"
       icon="tabler:submarine"
     />
+    <icon
+      v-else-if="sourceType == MediaSourceType.Jellyfin"
+      class="h-6 w-6 text-text-title"
+      icon="simple-icons:jellyfin"
+    />
 
     <icon
       v-else
