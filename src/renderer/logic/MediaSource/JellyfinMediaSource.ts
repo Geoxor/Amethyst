@@ -27,10 +27,17 @@ interface JellyfinAuthenticationResult {
   User?: { Id?: string };
 }
 
+interface JellyfinMediaStream {
+  Type?: string;
+  SampleRate?: number;
+  BitDepth?: number;
+}
+
 interface JellyfinMediaSourceInfo {
   Size?: number;
   Bitrate?: number;
   Container?: string;
+  MediaStreams?: JellyfinMediaStream[];
 }
 
 interface JellyfinItem {
@@ -386,7 +393,7 @@ export class JellyfinMediaSource extends MediaSource {
         userId,
         includeItemTypes: "Audio",
         recursive: "true",
-        fields: "MediaSources",
+        fields: "MediaSources,MediaStreams",
         startIndex: String(startIndex),
         limit: String(PAGE_SIZE),
       });
@@ -502,6 +509,10 @@ export class JellyfinMediaSource extends MediaSource {
     mediaSource?.Size && track.setSize(mediaSource.Size);
     mediaSource?.Bitrate && track.setBitRate(mediaSource.Bitrate);
     mediaSource?.Container && track.setMimeType(mediaSource.Container);
+
+    const audioStream = mediaSource?.MediaStreams?.find((stream) => stream.Type == "Audio");
+    audioStream?.SampleRate && track.setSampleRate(audioStream.SampleRate);
+    audioStream?.BitDepth && track.setBitsPerSample(audioStream.BitDepth);
 
     item.RunTimeTicks && track.setDuration(item.RunTimeTicks / 10_000_000);
     item.ParentIndexNumber && track.setDiscNumber(item.ParentIndexNumber);

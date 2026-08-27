@@ -77,6 +77,8 @@ export class Track {
   public artists: string[] | undefined = undefined;
   public size: number = 0;
   public bitRate: number = 0;
+  public sampleRate: number = 0;
+  public bitsPerSample: number = 0;
   public discNumber: number = 0;
   public trackNumber: number = 0;
   public mimeType: string = "";
@@ -450,6 +452,14 @@ export class Track {
     this.bitRate = t;
   }
 
+  public setSampleRate(t: number) {
+    this.sampleRate = t;
+  }
+
+  public setBitsPerSample(t: number) {
+    this.bitsPerSample = t;
+  }
+
   public setDiscNumber(t: number) {
     this.discNumber = t;
   }
@@ -523,7 +533,7 @@ export class Track {
   }
 
   public getBitsPerSample() {
-    return this.getMetadata()?.format.bitsPerSample;
+    return this.bitsPerSample || this.getMetadata()?.format.bitsPerSample;
   }
 
   public getBitsPerSampleFormatted() {
@@ -531,7 +541,7 @@ export class Track {
   }
 
   public getSampleRate() {
-    return this.getMetadata()?.format.sampleRate;
+    return this.sampleRate || this.getMetadata()?.format.sampleRate;
   }
 
   public getSampleRateFormatted() {
