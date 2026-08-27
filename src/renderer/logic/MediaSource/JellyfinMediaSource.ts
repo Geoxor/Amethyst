@@ -308,6 +308,13 @@ export class JellyfinMediaSource extends MediaSource {
     track.path = this.buildStreamUrl(item.Id!);
     track.jellyfinTrackId = item.Id;
     track.credentials = { url: this.url, userId: this.userId, accessToken: this.accessToken };
+
+    // jellyfinTrackId/sourceType are only known by this point, so the hash the constructor
+    // computed (before either was set) needs recomputing - otherwise every track collides.
+    // Must run before populating track fields below: generateHash() also seeds isFavorited
+    // from the local favoriteTracks list, which the server's own starred flag should take priority over.
+    track.generateHash();
+
     track.setTitle(item.Name ?? "");
 
     item.ImageTags?.Primary && track.setCoverArt(this.buildImageUrl(item.Id!, item.ImageTags.Primary));
@@ -324,10 +331,6 @@ export class JellyfinMediaSource extends MediaSource {
     item.IndexNumber && track.setTrackNumber(item.IndexNumber);
     item.ProductionYear && track.setYear(item.ProductionYear);
     item.UserData?.IsFavorite && track.setIsFavorite(true);
-
-    // jellyfinTrackId/sourceType are only known by this point, so the hash the constructor
-    // computed (before either was set) needs recomputing - otherwise every track collides
-    track.generateHash();
   }
 
   // Lives alongside the per-track .amf metadata cache files, one JSON file per Jellyfin server
