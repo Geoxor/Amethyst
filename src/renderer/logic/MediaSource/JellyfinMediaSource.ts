@@ -1,17 +1,21 @@
 import { md5 } from "js-md5";
-import { Ref, ref } from "vue";
+import { v4 as uuidv4 } from "uuid";
+import { Ref, ref, watch } from "vue";
 
 import { Amethyst } from "@/amethyst.js";
 import { MediaSource, MediaSourceType } from "@/logic//MediaSource/index.js";
 
+import type { PlayerEvents } from "../player.js";
 import { Track } from "../track.js";
 
 const CLIENT_NAME = "Amethyst";
-const CLIENT_VERSION = "1.0.0";
 const PAGE_SIZE = 200;
 // Overlap applied to incremental syncs so a track saved right at the edge of the
 // previous sync's timestamp (clock skew, in-flight request) is never missed
 const INCREMENTAL_SYNC_OVERLAP_MS = 5 * 60 * 1000;
+// How often to report playback progress to Jellyfin while a track from this source is playing
+// 10sec seems to be the default for other clients so might as well use the same 😅
+const SCROBBLE_PROGRESS_INTERVAL_MS = 10 * 1000;
 
 interface JellyfinPublicSystemInfo {
   Version?: string;
@@ -62,18 +66,30 @@ export class JellyfinMediaSource extends MediaSource {
   public isSyncing: Ref<boolean> = ref(false);
   public ping: Ref<number | null> = ref(null);
   public syncStatus: Ref<string> = ref("Idle");
+  public isScrobblingEnabled: Ref<boolean>;
   private shouldStopSync = false;
   private userId: string | undefined;
   private accessToken: string = "";
   private lastSyncedAt = 0;
+  private scrobbleState: { track: Track; playSessionId: string } | undefined;
+  private scrobbleProgressTimer: ReturnType<typeof setInterval> | undefined;
+  private scrobbleUnsubscribers: (() => void)[] = [];
 
   public serverInformation: JellyfinPublicSystemInfo | undefined;
 
-  public constructor(protected amethyst: Amethyst, public url: string, public username: string, public password: string) {
+  public constructor(protected amethyst: Amethyst, public url: string, public username: string, public password: string, scrobble = true) {
     super(amethyst, url);
     this.type = MediaSourceType.Jellyfin;
     this.name = this.url;
+    this.isScrobblingEnabled = ref(scrobble);
 
+    // Persist toggling the switch in Settings back into the saved source entry
+    watch(this.isScrobblingEnabled, (enabled) => {
+      const saved = this.amethyst.state.settings.mediaSources.saveMediaSources.find((s) => s.type == MediaSourceType.Jellyfin && s.url == this.url);
+      if (saved) saved.scrobble = enabled;
+    });
+
+    this.setupScrobbling();
     this.initialize();
   }
 
@@ -115,9 +131,166 @@ export class JellyfinMediaSource extends MediaSource {
       `MediaBrowser Client="${encodeURIComponent(CLIENT_NAME)}"`,
       `Device="${encodeURIComponent(CLIENT_NAME)}"`,
       `DeviceId="${encodeURIComponent(this.uuid)}"`,
-      `Version="${encodeURIComponent(CLIENT_VERSION)}"`,
+      `Version="${encodeURIComponent(this.amethyst.VERSION)}"`,
       `Token="${encodeURIComponent(token)}"`,
     ].join(", ");
+  }
+
+  /**
+   * Reports playback of tracks from this source to Jellyfin (via the same Sessions/Playing
+   * endpoints real clients use), so PlayCount/LastPlayedDate on the server reflect what's
+   * actually being listened to. Wires into the player's existing events once for the lifetime
+   * of this source; each handler is a no-op unless scrobbling is enabled and the track in
+   * question actually belongs to this server.
+   */
+  private setupScrobbling() {
+    const player = this.amethyst.player;
+
+    const belongsToThisSource = (track?: Track): track is Track =>
+      !!track && track.sourceType == MediaSourceType.Jellyfin && track.credentials?.url == this.url;
+
+    const stopProgressTimer = () => {
+      if (this.scrobbleProgressTimer) {
+        clearInterval(this.scrobbleProgressTimer);
+        this.scrobbleProgressTimer = undefined;
+      }
+    };
+
+    const startProgressTimer = () => {
+      stopProgressTimer();
+      this.scrobbleProgressTimer = setInterval(() => {
+        if (!this.scrobbleState) return;
+        this.reportPlaybackProgress(this.scrobbleState.track, player.currentTime.value, player.isPaused.value, this.scrobbleState.playSessionId);
+      }, SCROBBLE_PROGRESS_INTERVAL_MS);
+    };
+
+    const stopScrobbling = (positionSeconds: number) => {
+      if (!this.scrobbleState) return;
+      const { track, playSessionId } = this.scrobbleState;
+      this.scrobbleState = undefined;
+      stopProgressTimer();
+      this.reportPlaybackStopped(track, positionSeconds, playSessionId);
+    };
+
+    const startScrobbling = (track: Track) => {
+      if (!this.isScrobblingEnabled.value || !belongsToThisSource(track)) return;
+
+      const playSessionId = uuidv4();
+      this.scrobbleState = { track, playSessionId };
+      this.reportPlaybackStart(track, playSessionId);
+      startProgressTimer();
+    };
+
+    const onTrackFinished = (payload: PlayerEvents["player:trackFinished"]) => {
+      if (this.scrobbleState && payload.track === this.scrobbleState.track) {
+        stopScrobbling(player.currentTime.value);
+      }
+    };
+
+    const onTrackChange = (track: PlayerEvents["player:trackChange"]) => {
+      if (this.scrobbleState && this.scrobbleState.track !== track) {
+        // Previous track never got a trackFinished (e.g. the user jumped straight to a
+        // different one) - close out its session before opening a new one.
+        stopScrobbling(player.currentTime.value);
+      }
+      startScrobbling(track);
+    };
+
+    const onPause = () => {
+      if (!this.scrobbleState) return;
+      stopProgressTimer();
+      this.reportPlaybackProgress(this.scrobbleState.track, player.currentTime.value, true, this.scrobbleState.playSessionId);
+    };
+
+    const onResume = () => {
+      if (!this.scrobbleState) return;
+      this.reportPlaybackProgress(this.scrobbleState.track, player.currentTime.value, false, this.scrobbleState.playSessionId);
+      startProgressTimer();
+    };
+
+    const onSeek = (payload: PlayerEvents["player:seek"]) => {
+      if (!this.scrobbleState) return;
+      this.reportPlaybackProgress(this.scrobbleState.track, payload.seekedTo, player.isPaused.value, this.scrobbleState.playSessionId);
+    };
+
+    const onStop = () => {
+      stopScrobbling(player.currentTime.value);
+    };
+
+    player.on("player:trackFinished", onTrackFinished);
+    player.on("player:trackChange", onTrackChange);
+    player.on("player:pause", onPause);
+    player.on("player:resume", onResume);
+    player.on("player:seek", onSeek);
+    player.on("player:stop", onStop);
+
+    this.scrobbleUnsubscribers.push(
+      () => player.off("player:trackFinished", onTrackFinished),
+      () => player.off("player:trackChange", onTrackChange),
+      () => player.off("player:pause", onPause),
+      () => player.off("player:resume", onResume),
+      () => player.off("player:seek", onSeek),
+      () => player.off("player:stop", onStop),
+    );
+  }
+
+  private async reportPlaybackStart(track: Track, playSessionId: string) {
+    if (!track.jellyfinTrackId) return;
+    try {
+      await fetch(`${this.url}/Sessions/Playing`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": this.authorizationHeader(this.accessToken) },
+        body: JSON.stringify({
+          ItemId: track.jellyfinTrackId,
+          PlaySessionId: playSessionId,
+          PositionTicks: 0,
+          IsPaused: false,
+          CanSeek: true,
+          PlayMethod: "DirectPlay",
+        }),
+      });
+    }
+    catch (error) {
+      console.error("Failed to report playback start to Jellyfin:", error);
+    }
+  }
+
+  private async reportPlaybackProgress(track: Track, positionSeconds: number, isPaused: boolean, playSessionId: string) {
+    if (!track.jellyfinTrackId) return;
+    try {
+      await fetch(`${this.url}/Sessions/Playing/Progress`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": this.authorizationHeader(this.accessToken) },
+        body: JSON.stringify({
+          ItemId: track.jellyfinTrackId,
+          PlaySessionId: playSessionId,
+          PositionTicks: Math.round(positionSeconds * 10_000_000),
+          IsPaused: isPaused,
+          PlayMethod: "DirectPlay",
+        }),
+      });
+    }
+    catch (error) {
+      console.error("Failed to report playback progress to Jellyfin:", error);
+    }
+  }
+
+  private async reportPlaybackStopped(track: Track, positionSeconds: number, playSessionId: string) {
+    if (!track.jellyfinTrackId) return;
+    try {
+      await fetch(`${this.url}/Sessions/Playing/Stopped`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Authorization": this.authorizationHeader(this.accessToken) },
+        body: JSON.stringify({
+          ItemId: track.jellyfinTrackId,
+          PlaySessionId: playSessionId,
+          PositionTicks: Math.round(positionSeconds * 10_000_000),
+        }),
+      });
+    }
+    catch (error) {
+      console.error("Failed to report playback stop to Jellyfin:", error);
+    }
   }
 
   private testConnection = async (): Promise<boolean> => {
@@ -361,6 +534,10 @@ export class JellyfinMediaSource extends MediaSource {
   }
 
   public override async unregister() {
+    this.scrobbleUnsubscribers.forEach((unsubscribe) => unsubscribe());
+    this.scrobbleUnsubscribers = [];
+    if (this.scrobbleProgressTimer) clearInterval(this.scrobbleProgressTimer);
+
     try {
       await window.fs.unlink(this.getCachePath());
     }

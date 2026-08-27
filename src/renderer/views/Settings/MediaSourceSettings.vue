@@ -5,6 +5,7 @@ import BaseInput from "@/components/BaseInput.vue";
 import BaseForm from "@/components/BaseForm.vue";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import ButtonInput from "@/components/v2/ButtonInput.vue";
+import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
 import { MediaSourceType } from "@/logic/MediaSource";
 import { JellyfinMediaSource } from "@/logic/MediaSource/JellyfinMediaSource";
 import { LocalMediaSource } from "@/logic/MediaSource/LocalMediaSource";
@@ -215,6 +216,11 @@ const showAddJellyfinServerForm = ref(false);
           >
             {{ $t('settings.media_sources.syncing_library') }} <br> {{ source.syncStatus }}
           </base-chip>
+
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-text-subtitle whitespace-nowrap">{{ $t('settings.jellyfin.scrobble') }}</span>
+            <toggle-switch v-model="source.isScrobblingEnabled" />
+          </div>
 
           <button-input
             v-if="!source.isSyncing"

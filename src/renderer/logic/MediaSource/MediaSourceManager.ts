@@ -23,7 +23,7 @@ export class MediaSourceManager {
 
       if (savedSource.type == MediaSourceType.Jellyfin) {
         // @ts-ignore
-        this.mediaSources.value.push(new JellyfinMediaSource(this.amethyst, savedSource.url, savedSource.username, savedSource.password));
+        this.mediaSources.value.push(new JellyfinMediaSource(this.amethyst, savedSource.url, savedSource.username, savedSource.password, savedSource.scrobble ?? true));
       }
     });
   }
@@ -60,14 +60,15 @@ export class MediaSourceManager {
     this.mediaSources.value.push(mediaSource);
   };
 
-  public addJellyfinSource = async (url: string, username: string, password: string) => {
-    const mediaSource = new JellyfinMediaSource(this.amethyst, url, username, password);
+  public addJellyfinSource = async (url: string, username: string, password: string, scrobble = true) => {
+    const mediaSource = new JellyfinMediaSource(this.amethyst, url, username, password, scrobble);
 
     this.amethyst.state.settings.mediaSources.saveMediaSources.push({
       type: mediaSource.type,
       url: mediaSource.url,
       username: mediaSource.username,
       password: mediaSource.password,
+      scrobble,
     });
     // @ts-ignore
     this.mediaSources.value.push(mediaSource);

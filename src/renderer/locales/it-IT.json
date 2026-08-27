@@ -341,5 +341,6 @@
   "settings.jellyfin.server_url": "Server URL",
   "settings.jellyfin.username": "Username",
   "settings.jellyfin.password": "Password",
-  "settings.media_source_type.jellyfin": "Jellyfin server"
+  "settings.media_source_type.jellyfin": "Jellyfin server",
+  "settings.jellyfin.scrobble": "Scrobble"
 }
