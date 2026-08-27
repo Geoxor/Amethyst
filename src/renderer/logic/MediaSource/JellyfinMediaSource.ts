@@ -249,6 +249,8 @@ export class JellyfinMediaSource extends MediaSource {
           PlayMethod: "DirectPlay",
         }),
       });
+
+      console.log(`%c[⚐ Jellyfin]%c Started scrobbling "${track.getTitleFormatted()}"`, "background-color: #00A4DC; color: black; font-weight: bold;", "color:rgb(150, 220, 255);");
     }
     catch (error) {
       console.error("Failed to report playback start to Jellyfin:", error);
@@ -287,6 +289,8 @@ export class JellyfinMediaSource extends MediaSource {
           PositionTicks: Math.round(positionSeconds * 10_000_000),
         }),
       });
+
+      console.log(`%c[⚐ Jellyfin]%c Stopped scrobbling "${track.getTitleFormatted()}" at ${Math.round(positionSeconds)}s`, "background-color: #00A4DC; color: black; font-weight: bold;", "color:rgb(150, 220, 255);");
     }
     catch (error) {
       console.error("Failed to report playback stop to Jellyfin:", error);
