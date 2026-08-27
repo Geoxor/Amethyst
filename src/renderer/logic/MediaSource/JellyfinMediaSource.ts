@@ -10,7 +10,7 @@ const CLIENT_NAME = "Amethyst";
 const CLIENT_VERSION = "1.0.0";
 const PAGE_SIZE = 200;
 // Overlap applied to incremental syncs so a track saved right at the edge of the
-// previous sync's timestamp (clock skew, in-flight request) is never missed.
+// previous sync's timestamp (clock skew, in-flight request) is never missed
 const INCREMENTAL_SYNC_OVERLAP_MS = 5 * 60 * 1000;
 
 interface JellyfinPublicSystemInfo {
@@ -324,6 +324,10 @@ export class JellyfinMediaSource extends MediaSource {
     item.IndexNumber && track.setTrackNumber(item.IndexNumber);
     item.ProductionYear && track.setYear(item.ProductionYear);
     item.UserData?.IsFavorite && track.setIsFavorite(true);
+
+    // jellyfinTrackId/sourceType are only known by this point, so the hash the constructor
+    // computed (before either was set) needs recomputing - otherwise every track collides
+    track.generateHash();
   }
 
   // Lives alongside the per-track .amf metadata cache files, one JSON file per Jellyfin server

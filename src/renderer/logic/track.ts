@@ -87,8 +87,25 @@ export class Track {
     this.generateHash();
   }
 
-  private generateHash() {
-    this.uuid = md5(this.sourceType == MediaSourceType.Local ? `${this.getArtistsFormatted()}, ${this.getAlbum()}, ${this.getTitle()}, ${this.getFilename()}` : this.path);
+  /**
+   * Recomputes this track's identity hash. Safe (and cheap) to call again once a media
+   * source has finished populating sourceType/subsonicTrackId/jellyfinTrackId on a freshly
+   * constructed or upserted track - the constructor's own call runs before those are set,
+   * so remote sources need a follow-up call once their real identity fields are known.
+   */
+  public generateHash() {
+    if (this.sourceType == MediaSourceType.Jellyfin && this.jellyfinTrackId) {
+      this.uuid = md5(`jellyfin:${this.jellyfinTrackId}`);
+    }
+    else if (this.sourceType == MediaSourceType.Subsonic && this.subsonicTrackId) {
+      this.uuid = md5(`subsonic:${this.subsonicTrackId}`);
+    }
+    else if (this.sourceType == MediaSourceType.Local) {
+      this.uuid = md5(`${this.getArtistsFormatted()}, ${this.getAlbum()}, ${this.getTitle()}, ${this.getFilename()}`);
+    }
+    else {
+      this.uuid = md5(this.path);
+    }
     this.isFavorited = favoriteTracks.value.includes(this.uuid);
   }
 

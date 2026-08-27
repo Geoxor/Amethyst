@@ -141,6 +141,12 @@ export class SubsonicMediaSource extends MediaSource {
     song.year && track.setYear(song.year);
     song.starred && track.setIsFavorite(true);
 
+    // subsonicTrackId/sourceType are only known by this point, so the hash the constructor
+    // computed (before either was set) needs recomputing - otherwise it falls back to hashing
+    // a URL that embeds the account password, which invalidates every track's identity the
+    // moment that password changes
+    track.generateHash();
+
     track.isLoading.value = false;
     track.isLoaded.value = true;
 
