@@ -466,7 +466,7 @@ export class Amethyst extends AmethystBackend {
           start.toString(),
           (track.getDurationSeconds() as number).toString(),
           track.sourceType != MediaSourceType.Subsonic && track.coverUrl,
-          track.metadata.data?.format.container?.toLowerCase() || "unknown format",
+          track.getContainer()?.toLowerCase() || "unknown format",
           isPaused ? "yes" : "no",
         ];
         window.electron.ipcRenderer.invoke("update-rich-presence", [args]);

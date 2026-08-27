@@ -332,5 +332,15 @@
   "track.state.loaded": "読み込み済み",
   "track.state.loading": "読み込み中",
   "track.show_file_in_file_explorer": "エクスプローラーで表示する",
-  "track.show_amf_in_file_explorer": ".amf をエクスプローラーで表示する"
+  "track.show_amf_in_file_explorer": ".amf をエクスプローラーで表示する",
+  "settings.jellyfin.title": "Jellyfin servers",
+  "settings.jellyfin.description": "Connect to Jellyfin servers to stream music directly from them",
+  "settings.jellyfin.add_server": "Add server",
+  "settings.jellyfin.sync_all": "Sync all",
+  "settings.jellyfin.stop_all_syncs": "Stop all syncs",
+  "settings.jellyfin.server_url": "Server URL",
+  "settings.jellyfin.username": "Username",
+  "settings.jellyfin.password": "Password",
+  "settings.media_source_type.jellyfin": "Jellyfin server",
+  "settings.jellyfin.scrobble": "Scrobble"
 }

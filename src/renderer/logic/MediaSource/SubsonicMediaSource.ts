@@ -126,6 +126,15 @@ export class SubsonicMediaSource extends MediaSource {
     track.sourceType = MediaSourceType.Subsonic;
     track.subsonicTrackId = song.id;
     track.credentials = { username: this.username, password: this.password, url: this.url };
+
+    // subsonicTrackId/sourceType are only known by this point, so the hash the constructor
+    // computed (before either was set) needs recomputing as otherwise it falls back to hashing
+    // a URL that embeds the account password, which invalidates every track's identity the
+    // moment that password changes. Must run before setIsFavorite below: generateHash() also
+    // seeds isFavorited from the local favoriteTracks list, which the server's own starred flag
+    // should take priority over.
+    track.generateHash();
+
     track.setTitle(song.title);
 
     // low resolution cover art for performance

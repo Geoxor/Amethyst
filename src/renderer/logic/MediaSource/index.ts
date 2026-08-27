@@ -7,6 +7,7 @@ import { Amethyst } from "@/amethyst.js";
 export enum MediaSourceType {
   LocalFolder = "settings.media_source_type.local_folder",
   Subsonic = "settings.media_source_type.subsonic",
+  Jellyfin = "settings.media_source_type.jellyfin",
   Local = "settings.media_source_type.local",
 }
 

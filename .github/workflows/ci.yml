@@ -20,7 +20,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.17.0
+          node-version: 24.20.0
           cache: "yarn"
 
       - name: Install gcc dependencies
@@ -44,7 +44,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.17.0
+          node-version: 24.20.0
           cache: "yarn"
 
       - name: Install gcc dependencies
@@ -68,7 +68,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.17.0
+          node-version: 24.20.0
           cache: "yarn"
 
       - name: Install Dependencies
@@ -98,7 +98,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.17.0
+          node-version: 24.20.0
           cache: "yarn"
 
       - name: Install Dependencies
@@ -139,7 +139,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.17.0
+          node-version: 24.20.0
           cache: "yarn"
 
       - name: Install common Linux dependencies
@@ -205,7 +205,7 @@ jobs:
           
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.17.0
+          node-version: 24.20.0
           cache: "yarn"
       
       - name: Reconstruct keystore from base64
@@ -310,7 +310,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20.17.0
+          node-version: 24.20.0
           cache: "yarn"
 
       - name: Install dependencies
