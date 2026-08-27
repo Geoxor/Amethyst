@@ -132,6 +132,11 @@ const showAddJellyfinServerForm = ref(false);
             {{ $t('settings.media_sources.syncing_library') }} <br> {{ source.syncStatus }}
           </base-chip>
 
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-text-subtitle whitespace-nowrap">{{ $t('settings.media_sources.send_cover_art_to_discord') }}</span>
+            <toggle-switch v-model="source.sendCoverArtToDiscord" />
+          </div>
+
           <button-input
             v-if="!source.isSyncing"
             icon="ic:twotone-sync"
@@ -220,6 +225,11 @@ const showAddJellyfinServerForm = ref(false);
           <div class="flex items-center gap-2">
             <span class="text-sm text-text-subtitle whitespace-nowrap">{{ $t('settings.jellyfin.scrobble') }}</span>
             <toggle-switch v-model="source.isScrobblingEnabled" />
+          </div>
+
+          <div class="flex items-center gap-2">
+            <span class="text-sm text-text-subtitle whitespace-nowrap">{{ $t('settings.media_sources.send_cover_art_to_discord') }}</span>
+            <toggle-switch v-model="source.sendCoverArtToDiscord" />
           </div>
 
           <button-input

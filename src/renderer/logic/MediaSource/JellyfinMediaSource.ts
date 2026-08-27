@@ -84,16 +84,22 @@ export class JellyfinMediaSource extends MediaSource {
 
   public serverInformation: JellyfinPublicSystemInfo | undefined;
 
-  public constructor(protected amethyst: Amethyst, public url: string, public username: string, public password: string, scrobble = true) {
+  public constructor(protected amethyst: Amethyst, public url: string, public username: string, public password: string, scrobble = true, sendCoverArtToDiscord = true) {
     super(amethyst, url);
     this.type = MediaSourceType.Jellyfin;
     this.name = this.url;
     this.isScrobblingEnabled = ref(scrobble);
+    this.sendCoverArtToDiscord = ref(sendCoverArtToDiscord);
 
     // Persist toggling the switch in Settings back into the saved source entry
     watch(this.isScrobblingEnabled, (enabled) => {
       const saved = this.amethyst.state.settings.mediaSources.saveMediaSources.find((s) => s.type == MediaSourceType.Jellyfin && s.url == this.url);
       if (saved) saved.scrobble = enabled;
+    });
+
+    watch(this.sendCoverArtToDiscord, (enabled) => {
+      const saved = this.amethyst.state.settings.mediaSources.saveMediaSources.find((s) => s.type == MediaSourceType.Jellyfin && s.url == this.url);
+      if (saved) saved.sendCoverArtToDiscord = enabled;
     });
 
     this.setupScrobbling();

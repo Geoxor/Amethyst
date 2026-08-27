@@ -1,5 +1,16 @@
+import type { DiscordRpcField } from "@shared/types.js";
+
 import { AmethystPlatforms } from "@/amethyst.js";
 import type { MediaSourceType } from "@/logic/MediaSource/index.js";
+
+export const DEFAULT_DISCORD_CLIENT_ID = "976036303156162570";
+
+export const DEFAULT_DISCORD_RPC_FIELDS: Record<"details" | "state" | "largeImageText" | "smallImageText", DiscordRpcField> = {
+  details: "Title",
+  state: "Artist - Album",
+  largeImageText: "Format",
+  smallImageText: "App Info",
+};
 
 export const VALID_SAMPLE_RATES = [
   4000,
@@ -161,6 +172,10 @@ const DEFAULT_INTEGRATION_SETTINGS = {
   integrations: {
     discord: {
       enabled: true,
+      clientId: DEFAULT_DISCORD_CLIENT_ID,
+      showCoverArt: true,
+      showFindSongButton: true,
+      fields: { ...DEFAULT_DISCORD_RPC_FIELDS },
     },
     lastFm: {
       enabled: false,
@@ -174,7 +189,7 @@ const DEFAULT_INTEGRATION_SETTINGS = {
 
 const DEFAULT_MEDIA_SOURCE_SETTINGS = {
   mediaSources: {
-    saveMediaSources: [{}] as { type: MediaSourceType; path?: string; uuid?: string; url?: string; username?: string; password?: string; scrobble?: boolean }[],
+    saveMediaSources: [{}] as { type: MediaSourceType; path?: string; uuid?: string; url?: string; username?: string; password?: string; scrobble?: boolean; sendCoverArtToDiscord?: boolean }[],
   },
 };
 
