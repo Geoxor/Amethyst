@@ -1,3 +1,4 @@
+import { md5 } from "js-md5";
 import { Ref, ref } from "vue";
 
 import { Amethyst } from "@/amethyst.js";
@@ -8,6 +9,9 @@ import { Track } from "../track.js";
 const CLIENT_NAME = "Amethyst";
 const CLIENT_VERSION = "1.0.0";
 const PAGE_SIZE = 200;
+// Overlap applied to incremental syncs so a track saved right at the edge of the
+// previous sync's timestamp (clock skew, in-flight request) is never missed.
+const INCREMENTAL_SYNC_OVERLAP_MS = 5 * 60 * 1000;
 
 interface JellyfinPublicSystemInfo {
   Version?: string;
@@ -44,6 +48,15 @@ interface JellyfinItemsResponse {
   TotalRecordCount?: number;
 }
 
+// Persisted across restarts so we can skip re-authenticating and re-walking the whole
+// library every time the app launches
+interface JellyfinCache {
+  accessToken: string;
+  userId: string;
+  items: JellyfinItem[];
+  lastSyncedAt: number;
+}
+
 export class JellyfinMediaSource extends MediaSource {
   public isConnected: Ref<boolean> = ref(false);
   public isSyncing: Ref<boolean> = ref(false);
@@ -52,6 +65,7 @@ export class JellyfinMediaSource extends MediaSource {
   private shouldStopSync = false;
   private userId: string | undefined;
   private accessToken: string = "";
+  private lastSyncedAt = 0;
 
   public serverInformation: JellyfinPublicSystemInfo | undefined;
 
@@ -70,13 +84,29 @@ export class JellyfinMediaSource extends MediaSource {
       return;
     }
 
+    const cache = await this.readCache();
+    if (cache) {
+      this.accessToken = cache.accessToken;
+      this.userId = cache.userId;
+      this.lastSyncedAt = cache.lastSyncedAt;
+      this.hydrateFromCache(cache.items);
+
+      if (await this.verifySession()) {
+        this.isConnected.value = true;
+        await this.sync(false);
+        return;
+      }
+    }
+
+    // No usable cached session - log in fresh. Anything hydrated from a stale cache above
+    // gets reconciled (not duplicated) by the full sync below, since it upserts by item id
     this.isConnected.value = await this.authenticate();
     if (!this.isConnected.value) {
       console.error("Failed to authenticate with Jellyfin server");
       return;
     }
 
-    this.sync();
+    await this.sync(true);
   }
 
   // Builds the "MediaBrowser" authorization scheme Jellyfin expects on every request
@@ -98,6 +128,20 @@ export class JellyfinMediaSource extends MediaSource {
       this.ping.value = Math.round(performance.now() - start);
       this.serverInformation = await response.json();
       return true;
+    }
+    catch (error) {
+      return false;
+    }
+  };
+
+  // Confirms a cached access token hasn't been revoked (password change, admin session kill, etc)
+  private verifySession = async (): Promise<boolean> => {
+    if (!this.accessToken || !this.userId) return false;
+    try {
+      const response = await fetch(`${this.url}/Users/${this.userId}`, {
+        headers: { Authorization: this.authorizationHeader(this.accessToken) },
+      });
+      return response.ok;
     }
     catch (error) {
       return false;
@@ -126,39 +170,53 @@ export class JellyfinMediaSource extends MediaSource {
     }
   };
 
-  public sync = async (): Promise<void> => {
-    await this.fetchMedia();
+  /**
+   * @param full Whether to walk the entire library (also reconciles deletions) or only ask
+   * the server for items touched since the last sync. Defaults to a full sync since that's
+   * what a user-triggered "Sync" button should mean; startup uses `sync(false)` when a valid
+   * cached session is available.
+   */
+  public sync = async (full = true): Promise<void> => {
+    await this.fetchMedia(full);
   };
 
   public stopSync = (): void => {
     this.shouldStopSync = true;
   };
 
-  public override async fetchMedia() {
+  public override async fetchMedia(full = true) {
     if (this.isSyncing.value || !this.userId) return;
+    const userId = this.userId;
 
     this.isSyncing.value = true;
-    this.syncStatus.value = "Starting sync...";
+    this.syncStatus.value = full ? "Starting full sync..." : "Checking for updates...";
 
-    // Jellyfin issues a fresh access token (and therefore a fresh stream url) every time we
-    // authenticate, so previously synced tracks from this server have to be replaced rather
-    // than deduplicated by path like local/subsonic sources are.
-    this.amethyst.player.queue.getList()
-      .filter((track) => track.sourceType == MediaSourceType.Jellyfin && (!track.credentials || track.credentials.url == this.url))
-      .forEach((track) => this.amethyst.player.queue.remove(track));
+    const existingById = new Map<string, Track>();
+    this.amethyst.player.queue.getList().forEach((track) => {
+      if (track.sourceType == MediaSourceType.Jellyfin && track.credentials?.url == this.url && track.jellyfinTrackId) {
+        existingById.set(track.jellyfinTrackId, track);
+      }
+    });
 
+    const seenIds = new Set<string>();
+    const fetchedItems: JellyfinItem[] = [];
+    const syncStartedAt = Date.now();
     let startIndex = 0;
     let totalCount = Infinity;
 
     while (startIndex < totalCount) {
       const params = new URLSearchParams({
-        userId: this.userId,
+        userId,
         includeItemTypes: "Audio",
         recursive: "true",
         fields: "MediaSources",
         startIndex: String(startIndex),
         limit: String(PAGE_SIZE),
       });
+
+      if (!full && this.lastSyncedAt) {
+        params.set("minDateLastSaved", new Date(this.lastSyncedAt - INCREMENTAL_SYNC_OVERLAP_MS).toISOString());
+      }
 
       const response = await fetch(`${this.url}/Items?${params}`, {
         headers: { Authorization: this.authorizationHeader(this.accessToken) },
@@ -172,8 +230,12 @@ export class JellyfinMediaSource extends MediaSource {
       if (items.length === 0) break;
 
       for (const item of items) {
+        if (!item.Id) continue;
+
         this.syncStatus.value = `Fetching track: ${item.Name}`;
-        this.amethyst.player.queue.add(this.createTrackFromJellyfinItem(item));
+        seenIds.add(item.Id);
+        fetchedItems.push(item);
+        this.upsertTrack(item, existingById);
 
         if (this.shouldStopSync) {
           this.shouldStopSync = false;
@@ -185,7 +247,42 @@ export class JellyfinMediaSource extends MediaSource {
       startIndex += PAGE_SIZE;
     }
 
+    if (full) {
+      // Anything that belonged to this source but wasn't seen in this walk was removed on the server
+      existingById.forEach((track, id) => {
+        if (!seenIds.has(id)) this.amethyst.player.queue.remove(track);
+      });
+      this.lastSyncedAt = syncStartedAt;
+      await this.writeCache({ accessToken: this.accessToken, userId, items: fetchedItems, lastSyncedAt: this.lastSyncedAt });
+    }
+    else {
+      // Incremental syncs only see recently touched items, so merge them into the cached
+      // full snapshot instead of replacing it outright.
+      const previousItems = (await this.readCache())?.items ?? [];
+      const merged = new Map(previousItems.filter((item) => item.Id).map((item) => [item.Id!, item]));
+      fetchedItems.forEach((item) => merged.set(item.Id!, item));
+      this.lastSyncedAt = syncStartedAt;
+      await this.writeCache({ accessToken: this.accessToken, userId, items: [...merged.values()], lastSyncedAt: this.lastSyncedAt });
+    }
+
     this.isSyncing.value = false;
+  }
+
+  private hydrateFromCache(items: JellyfinItem[]) {
+    items.forEach((item) => this.amethyst.player.queue.add(this.createTrackFromJellyfinItem(item)));
+  }
+
+  private upsertTrack(item: JellyfinItem, existingById: Map<string, Track>) {
+    const existing = item.Id ? existingById.get(item.Id) : undefined;
+    if (existing) {
+      // Re-add under the (possibly new) path so the queue's path->track index stays accurate
+      this.amethyst.player.queue.remove(existing);
+      this.applyItemToTrack(existing, item);
+      this.amethyst.player.queue.add(existing);
+    }
+    else {
+      this.amethyst.player.queue.add(this.createTrackFromJellyfinItem(item));
+    }
   }
 
   private buildStreamUrl(itemId: string) {
@@ -197,10 +294,18 @@ export class JellyfinMediaSource extends MediaSource {
   }
 
   private createTrackFromJellyfinItem(item: JellyfinItem): Track {
-    const path = this.buildStreamUrl(item.Id!);
-    const track = new Track(this.amethyst, path);
-
+    const track = new Track(this.amethyst, this.buildStreamUrl(item.Id!));
     track.sourceType = MediaSourceType.Jellyfin;
+    this.applyItemToTrack(track, item);
+
+    track.isLoading.value = false;
+    track.isLoaded.value = true;
+
+    return track;
+  }
+
+  private applyItemToTrack(track: Track, item: JellyfinItem) {
+    track.path = this.buildStreamUrl(item.Id!);
     track.jellyfinTrackId = item.Id;
     track.credentials = { url: this.url, userId: this.userId, accessToken: this.accessToken };
     track.setTitle(item.Name ?? "");
@@ -219,16 +324,39 @@ export class JellyfinMediaSource extends MediaSource {
     item.IndexNumber && track.setTrackNumber(item.IndexNumber);
     item.ProductionYear && track.setYear(item.ProductionYear);
     item.UserData?.IsFavorite && track.setIsFavorite(true);
+  }
 
-    track.isLoading.value = false;
-    track.isLoaded.value = true;
+  // Lives alongside the per-track .amf metadata cache files, one JSON file per Jellyfin server
+  private getCachePath() {
+    return window.path.join(this.amethyst.APPDATA_PATH || "", "/amethyst/Metadata Cache", `jellyfin-sync-${md5(this.url)}.amf`);
+  }
 
-    return track;
+  private async readCache(): Promise<JellyfinCache | null> {
+    try {
+      const raw = await window.fs.readFile(this.getCachePath(), "utf8");
+      return JSON.parse(raw) as JellyfinCache;
+    }
+    catch (error) {
+      return null;
+    }
+  }
+
+  private async writeCache(cache: JellyfinCache) {
+    try {
+      await window.fs.writeFile(this.getCachePath(), JSON.stringify(cache, null, 2));
+    }
+    catch (error) {
+      console.error("Failed to write Jellyfin sync cache file, did you delete the 'Metadata Cache' folder?", error);
+    }
   }
 
   public override register() {
   }
 
-  public override unregister() {
+  public override async unregister() {
+    try {
+      await window.fs.unlink(this.getCachePath());
+    }
+    catch (error) {}
   }
 }
