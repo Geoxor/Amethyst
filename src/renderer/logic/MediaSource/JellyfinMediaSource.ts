@@ -112,7 +112,7 @@ export class JellyfinMediaSource extends MediaSource {
       this.accessToken = cache.accessToken;
       this.userId = cache.userId;
       this.lastSyncedAt = cache.lastSyncedAt;
-      this.hydrateFromCache(cache.items);
+      await this.hydrateFromCache(cache.items);
 
       if (await this.verifySession()) {
         this.isConnected.value = true;
@@ -452,8 +452,14 @@ export class JellyfinMediaSource extends MediaSource {
     this.isSyncing.value = false;
   }
 
-  private hydrateFromCache(items: JellyfinItem[]) {
-    items.forEach((item) => this.amethyst.player.queue.add(this.createTrackFromJellyfinItem(item)));
+  // Batches and yields between chunks so hydrating a large cached library doesn't
+  // freeze the renderer's main thread for the whole loop in one synchronous turn
+  private async hydrateFromCache(items: JellyfinItem[]) {
+    for (let i = 0; i < items.length; i += PAGE_SIZE) {
+      const chunk = items.slice(i, i + PAGE_SIZE).map((item) => this.createTrackFromJellyfinItem(item));
+      await this.amethyst.player.queue.add(chunk);
+      await new Promise((resolve) => setTimeout(resolve, 0));
+    }
   }
 
   private upsertTrack(item: JellyfinItem, existingById: Map<string, Track>) {
