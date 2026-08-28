@@ -3,7 +3,7 @@ import { StatusBar } from "@capacitor/status-bar";
 import { NavigationBar } from "@hugotomazi/capacitor-navigation-bar";
 import messages from "@intlify/unplugin-vue-i18n/messages";
 import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants.js";
-import type { DiscordRpcField, IRichPresenceInfo } from "@shared/types.js";
+import { type DiscordRpcField, type IRichPresenceInfo, STATUS_DISPLAY_TYPE_VALUES } from "@shared/types.js";
 import { useLocalStorage } from "@vueuse/core";
 import type { OpenDialogReturnValue, SaveDialogReturnValue } from "electron";
 import { ref, watch } from "vue";
@@ -515,6 +515,7 @@ export class Amethyst extends AmethystBackend {
         const trackEnd = start + (track.getDurationSeconds() as number) * 1000;
 
         const info: IRichPresenceInfo = {
+          activityName: resolveField(discord.fields.activityName, track),
           details: resolveField(discord.fields.details, track),
           state: resolveField(discord.fields.state, track),
           largeImageKey: coverArtKey,
@@ -527,6 +528,7 @@ export class Amethyst extends AmethystBackend {
           buttonEnabled: discord.showFindSongButton,
           buttonLabel: "Find Song",
           buttonUrl: `https://www.youtube.com/results?search_query=${encodeURIComponent(track.getTitleFormatted())}`,
+          statusDisplayType: STATUS_DISPLAY_TYPE_VALUES[discord.statusDisplayType],
         };
 
         window.electron.ipcRenderer.invoke("update-rich-presence", [info]);

@@ -34,7 +34,17 @@ export const DISCORD_RPC_FIELD_OPTIONS = [
 
 export type DiscordRpcField = typeof DISCORD_RPC_FIELD_OPTIONS[number];
 
+export const DISCORD_STATUS_DISPLAY_TYPE_OPTIONS = ["Name", "State", "Details"] as const;
+export type DiscordStatusDisplayType = typeof DISCORD_STATUS_DISPLAY_TYPE_OPTIONS[number];
+
+export const STATUS_DISPLAY_TYPE_VALUES: Record<DiscordStatusDisplayType, number> = {
+  Name: 0,
+  State: 1,
+  Details: 2,
+};
+
 export interface IRichPresenceInfo {
+  activityName: string;
   details: string;
   state: string;
   largeImageKey: string;
@@ -48,4 +58,5 @@ export interface IRichPresenceInfo {
   buttonEnabled: boolean;
   buttonLabel: string;
   buttonUrl: string;
+  statusDisplayType: number;
 }

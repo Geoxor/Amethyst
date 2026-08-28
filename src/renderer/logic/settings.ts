@@ -1,16 +1,19 @@
-import type { DiscordRpcField } from "@shared/types.js";
+import type { DiscordRpcField, DiscordStatusDisplayType } from "@shared/types.js";
 
 import { AmethystPlatforms } from "@/amethyst.js";
 import type { MediaSourceType } from "@/logic/MediaSource/index.js";
 
 export const DEFAULT_DISCORD_CLIENT_ID = "976036303156162570";
 
-export const DEFAULT_DISCORD_RPC_FIELDS: Record<"details" | "state" | "largeImageText" | "smallImageText", DiscordRpcField> = {
+export const DEFAULT_DISCORD_RPC_FIELDS: Record<"activityName" | "details" | "state" | "largeImageText" | "smallImageText", DiscordRpcField> = {
+  activityName: "None",
   details: "Title",
   state: "Artist - Album",
   largeImageText: "Format",
   smallImageText: "App Info",
 };
+
+export const DEFAULT_DISCORD_STATUS_DISPLAY_TYPE: DiscordStatusDisplayType = "Details";
 
 export const VALID_SAMPLE_RATES = [
   4000,
@@ -175,6 +178,7 @@ const DEFAULT_INTEGRATION_SETTINGS = {
       clientId: DEFAULT_DISCORD_CLIENT_ID,
       showCoverArt: true,
       showFindSongButton: true,
+      statusDisplayType: DEFAULT_DISCORD_STATUS_DISPLAY_TYPE,
       fields: { ...DEFAULT_DISCORD_RPC_FIELDS },
     },
     lastFm: {
