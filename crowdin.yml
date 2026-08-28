@@ -3,5 +3,5 @@ skip_untranslated_strings: true
 bundles:
   - 2
 files:
-  - source: /src/renderer/locales/en-US.json
-    translation: /src/renderer/locales/%locale%.json
+  - source: /src/locales/en-US.json
+    translation: /src/locales/%locale%.json
