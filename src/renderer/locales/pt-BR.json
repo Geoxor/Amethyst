@@ -198,6 +198,8 @@
   "settings.launch_on_startup.description": "Abrir Amethyst automaticamente quando o seu sistema iniciar",
   "settings.language.title": "Linguagem",
   "settings.language.description": "Alterar a linguagem do aplicativo",
+  "settings.default_view.title": "Default view",
+  "settings.default_view.description": "The view Amethyst opens to on launch",
   "settings.fft_size.title": "Tamanho do FFT",
   "settings.fft_size.description": "Alterar o tamanho da janela do FFT, valores maiores resultam em dados de alta resolução ao custo de latência",
   "settings.line_thickness.title": "Line thickness",
