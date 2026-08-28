@@ -198,6 +198,8 @@
   "settings.launch_on_startup.description": "Uruchamiaj Amethyst wzraz z systemem",
   "settings.language.title": "Język",
   "settings.language.description": "Zmień język aplikacji",
+  "settings.default_view.title": "Default view",
+  "settings.default_view.description": "The view Amethyst opens to on launch",
   "settings.fft_size.title": "FFT size",
   "settings.fft_size.description": "Changes the FFT window size, bigger values result in higher resolution data but with more latency",
   "settings.line_thickness.title": "Line thickness",
