@@ -198,6 +198,8 @@
   "settings.launch_on_startup.description": "Ανοίγει το Amethyst όταν ξεκινά το σύστημά σου",
   "settings.language.title": "Γλώσσα",
   "settings.language.description": "Αλλαγή γλώσσας της εφαρμογής",
+  "settings.default_view.title": "Default view",
+  "settings.default_view.description": "The view Amethyst opens to on launch",
   "settings.fft_size.title": "Μέγεθος FFT",
   "settings.fft_size.description": "Μεγαλύτερες τιμές δίνουν καλύτερη ανάλυση αλλά και πιο αργή απόκριση",
   "settings.line_thickness.title": "Πάχος γραμμών",
