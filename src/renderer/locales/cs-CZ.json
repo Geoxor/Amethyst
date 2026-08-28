@@ -198,6 +198,8 @@
   "settings.launch_on_startup.description": "Spusit Amethyst při zapnutí systému",
   "settings.language.title": "Jazyk",
   "settings.language.description": "Změnit jazyk aplikace",
+  "settings.default_view.title": "Default view",
+  "settings.default_view.description": "The view Amethyst opens to on launch",
   "settings.fft_size.title": "FFT velikost",
   "settings.fft_size.description": "Změní velikost okn FFT, větší hodnoty mají ve výsledku větší rozlišení dat ale s větší latencí",
   "settings.line_thickness.title": "Tloušťka čáry",
