@@ -198,6 +198,8 @@
   "settings.launch_on_startup.description": "Запускать Amethyst при включении системы",
   "settings.language.title": "Язык",
   "settings.language.description": "Изменить язык приложения",
+  "settings.default_view.title": "Default view",
+  "settings.default_view.description": "The view Amethyst opens to on launch",
   "settings.fft_size.title": "Размер БПФ",
   "settings.fft_size.description": "Изменяет размер окна быстрого преобразования Фурье, большие значения приводят к получению данных с более высоким разрешением, но с большей задержкой",
   "settings.line_thickness.title": "Толщина линии",
