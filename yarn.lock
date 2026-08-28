@@ -1307,6 +1307,11 @@
   dependencies:
     defer-to-connect "^2.0.0"
 
+"@tauri-apps/api@^2.11.0", "@tauri-apps/api@^2.11.1":
+  version "2.11.1"
+  resolved "https://registry.yarnpkg.com/@tauri-apps/api/-/api-2.11.1.tgz#cd6b13fc26403ca095a02e39ecdbec8048d2872d"
+  integrity sha512-M2FPuYND2m+wh5hfW9ZpSdxMPdEJovPBWwoHJmwUpysTYNHaOkVFN419m/K0LIgjb/7KU2vBgsUepJWugQCvAA==
+
 "@tauri-apps/cli-darwin-arm64@2.11.4":
   version "2.11.4"
   resolved "https://registry.yarnpkg.com/@tauri-apps/cli-darwin-arm64/-/cli-darwin-arm64-2.11.4.tgz#2884e6f2e62318e4ca1db0d6d3be8380dcb6c542"
@@ -1378,6 +1383,13 @@
     "@tauri-apps/cli-win32-arm64-msvc" "2.11.4"
     "@tauri-apps/cli-win32-ia32-msvc" "2.11.4"
     "@tauri-apps/cli-win32-x64-msvc" "2.11.4"
+
+"@tauri-apps/plugin-opener@^2.5.4":
+  version "2.5.4"
+  resolved "https://registry.yarnpkg.com/@tauri-apps/plugin-opener/-/plugin-opener-2.5.4.tgz#b37883e4d36125b8c5a0c74f683395958a65bd7d"
+  integrity sha512-1HnPkb+AmgO29HBazm4uPLKB+r7zzcTBW1d0fyYp1uP+jwtpoiNDGKMMzz58SFp49nOIrxdE3aUJtT57lfO9CQ==
+  dependencies:
+    "@tauri-apps/api" "^2.11.0"
 
 "@testing-library/dom@^10.4.0":
   version "10.4.0"
