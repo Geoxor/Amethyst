@@ -198,6 +198,8 @@
   "settings.launch_on_startup.description": "Lancer Amethyst au démarrage du système",
   "settings.language.title": "Langue",
   "settings.language.description": "Changer la langue de l'application",
+  "settings.default_view.title": "Default view",
+  "settings.default_view.description": "The view Amethyst opens to on launch",
   "settings.fft_size.title": "Taille de la TFR (FFT)",
   "settings.fft_size.description": "Modifie la taille de la fenêtre de la Transformation de Fourier Rapide (Fast Fourier Transform). Des valeurs plus grandes donnent des données de résolution plus élevée, mais avec plus de latence",
   "settings.line_thickness.title": "Épaisseur des lignes",
