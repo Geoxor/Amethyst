@@ -198,6 +198,8 @@
   "settings.launch_on_startup.description": "Avaa Amethyst tietokoneen käynnistyessä",
   "settings.language.title": "Kieli",
   "settings.language.description": "Vaihda sovelluksen kieli",
+  "settings.default_view.title": "Default view",
+  "settings.default_view.description": "The view Amethyst opens to on launch",
   "settings.fft_size.title": "FFT-Koko",
   "settings.fft_size.description": "Muuttaa Fast Fourier Transform -ikkunan kokoa, suuremmat arvot johtavat korkeamman resoluution dataan mutta suuremmalla viiveellä",
   "settings.line_thickness.title": "Viivan paksuus",
