@@ -2,8 +2,10 @@
 import { amethyst } from "@/amethyst.js";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
 import ButtonInput from "@/components/v2/ButtonInput.vue";
+import DropdownInput from "@/components/v2/DropdownInput.vue";
 import LanguageDropdown from "@/components/v2/LanguageDropdown.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
+import { DEFAULT_VIEWS } from "@/logic/settings.js";
 
 const handleToggleAutoUpdates = () => {
   window.electron.ipcRenderer.invoke("set-autoupdates", [application.autoUpdatesEnabled]);
@@ -47,6 +49,16 @@ const { application } = amethyst.state.settings;
     :description="$t('settings.language.description')"
   >
     <language-dropdown />
+  </settings-setting>
+  <settings-setting
+    icon="ic:twotone-space-dashboard"
+    :title="$t('settings.default_view.title')"
+    :description="$t('settings.default_view.description')"
+  >
+    <dropdown-input
+      v-model="application.defaultView"
+      :options="DEFAULT_VIEWS"
+    />
   </settings-setting>
   <settings-setting
     icon="ic:twotone-file-upload"

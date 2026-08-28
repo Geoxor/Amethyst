@@ -2,9 +2,16 @@ import type { RouteRecordRaw } from "vue-router";
 import { createRouter, createWebHashHistory } from "vue-router";
 
 import { registerCommand } from "./components/CommandPalette/registry.js";
+import type { DEFAULT_VIEWS_STRING } from "./logic/settings.js";
+import { DEFAULT_VIEWS } from "./logic/settings.js";
+
+const getDefaultView = (): DEFAULT_VIEWS_STRING => {
+  const defaultView = JSON.parse(localStorage.getItem("settings") ?? "{}")?.application?.defaultView;
+  return DEFAULT_VIEWS.includes(defaultView) ? defaultView : "queue";
+};
 
 const routes: RouteRecordRaw[] = [
-  { path: "/", redirect: { name: "queue" } },
+  { path: "/", redirect: () => ({ name: getDefaultView() }) },
   { path: "/now-playing", name: "now-playing", component: () => import("@/views/NowPlayingView.vue") },
   { path: "/node-editor", name: "node-editor", component: () => import("@/views/NodeEditorView.vue") },
   { path: "/queue", name: "queue", component: () => import("@/views/QueueView.vue") },
