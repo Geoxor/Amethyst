@@ -36,3 +36,6 @@ npm-debug.log.*
 release
 dist
 resources/android/**/*
+
+# Rust
+target
