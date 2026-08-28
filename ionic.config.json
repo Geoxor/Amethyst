@@ -1,7 +1,0 @@
-{
-  "name": "amethyst",
-  "integrations": {
-    "capacitor": {}
-  },
-  "type": "custom"
-}
