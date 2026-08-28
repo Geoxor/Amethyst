@@ -198,6 +198,8 @@
   "settings.launch_on_startup.description": "システム起動時にAmethystを起動する",
   "settings.language.title": "言語",
   "settings.language.description": "アプリの言語を変更",
+  "settings.default_view.title": "Default view",
+  "settings.default_view.description": "The view Amethyst opens to on launch",
   "settings.fft_size.title": "FFTサイズ",
   "settings.fft_size.description": "FFTウィンドウのサイズ変更。大きいと高解像度だけど遅延が増えるよ",
   "settings.line_thickness.title": "線の太さ",
