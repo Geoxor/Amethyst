@@ -35,6 +35,64 @@
     ],
     "android": {
       "debugApplicationIdSuffix": ".debug"
-    }
+    },
+    "fileAssociations": [
+      {
+        "ext": [
+          "ang"
+        ],
+        "name": "Amethyst Node Graph",
+        "description": "Amethyst Node Graph",
+        "mimeType": "application/json",
+        "rank": "Owner",
+        "role": "Editor"
+      },
+      {
+        "ext": [
+          "acf"
+        ],
+        "name": "Amethyst Configuration File",
+        "description": "Amethyst Configuration File",
+        "mimeType": "application/json",
+        "rank": "Owner",
+        "role": "Editor"
+      },
+      {
+        "ext": [
+          "amf"
+        ],
+        "name": "Amethyst Metadata File",
+        "description": "Amethyst Metadata File",
+        "mimeType": "application/json",
+        "rank": "Owner",
+        "role": "Editor"
+      },
+      {
+        "ext": [
+          "ogg",
+          "ogv",
+          "oga",
+          "ogx",
+          "ogm",
+          "spx",
+          "wav",
+          "wave",
+          "m4a",
+          "m4b",
+          "m4p",
+          "m4r",
+          "m4v",
+          "3gp",
+          "flac",
+          "opus",
+          "aac",
+          "aiff",
+          "mp3",
+          "m4a"
+        ],
+        "rank": "Default",
+        "role": "Viewer"
+      }
+    ]
   }
 }
