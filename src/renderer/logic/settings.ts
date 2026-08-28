@@ -50,6 +50,16 @@ export const SPECTRUM_TYPES = [
 
 export type SPECTRUM_TYPES_STRING = "line" | "bars" | "spectrogram";
 
+export const DEFAULT_VIEWS = [
+  "queue",
+  "discovery",
+  "favorites",
+  "node-editor",
+  "audio-monitor",
+];
+
+export type DEFAULT_VIEWS_STRING = "queue" | "discovery" | "favorites" | "node-editor" | "audio-monitor";
+
 const DEFAULT_APPEARANCE_SETTINGS = {
   appearance: {
     animationDuration: 100,
@@ -206,6 +216,7 @@ const DEFAULT_APPLICATION_SETTINGS = {
     autoStart: false,
     autoUpdatesEnabled: true,
     language: "en-US",
+    defaultView: "queue" as DEFAULT_VIEWS_STRING,
   },
 };
 

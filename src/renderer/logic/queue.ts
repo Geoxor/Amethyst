@@ -59,8 +59,9 @@ export class Queue {
   public constructor(private amethyst: Amethyst, paths?: string[]) {
     if (paths) this.add(paths);
     else {
-      // load saved queue from local storage
-      this.savedQueue.value.forEach((item) => {
+      // load saved queue from local storage, built up front and added in one batch so
+      // restoring a large queue doesn't re-serialize the whole list to storage per track
+      const tracks = this.savedQueue.value.map((item) => {
         const track = new Track(this.amethyst, item.path);
 
         if (item.type == MediaSourceType.Subsonic) {
@@ -71,8 +72,10 @@ export class Queue {
           track.sourceType = MediaSourceType.Jellyfin;
         }
 
-        this.add(track);
+        return track;
       });
+
+      this.add(tracks);
     }
   }
 
@@ -151,16 +154,17 @@ export class Queue {
   }
 
   /**
-   * Adds a track to the queue
-   * @param item A filepath to the track
+   * Adds a track, or a batch of filepaths/tracks under a single localStorage sync, to the queue
+   * @param item A filepath, a track, or an array of either
    */
-  public async add(item: (string | string[]) | Track) {
+  public async add(item: (string | string[]) | Track | Track[]) {
     if (item instanceof Track) {
       this.list.value.set(item.path, item);
     }
     else if (item instanceof Array) {
-      const paths = Array.from(item);
-      paths.forEach((path) => this.list.value.set(path, new Track(this.amethyst, path)));
+      item.forEach((entry) => entry instanceof Track
+        ? this.list.value.set(entry.path, entry)
+        : this.list.value.set(entry, new Track(this.amethyst, entry)));
     }
     else if (typeof item === "string") {
       this.list.value.set(item, new Track(this.amethyst, item));
