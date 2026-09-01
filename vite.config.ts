@@ -16,6 +16,12 @@ export default defineConfig({
     UnoCSS(),
     vue(),
   ],
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src/"),
+      "@shared": path.resolve(__dirname, "./src/shared/"),
+    },
+  },
   clearScreen: false,
   server: {
     port: 6969,
