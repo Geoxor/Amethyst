@@ -1,17 +1,9 @@
 {
   "name": "amethyst",
   "author": "Geoxor <geoxor123@outlook.com>",
-  "productName": "Amethyst",
   "version": "2.1.8",
   "type": "module",
-  "main": "./release/dist/main/main.js",
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://raw.githubusercontent.com/Geoxor/amethyst/master/LICENSE"
-    }
-  ],
-  "description": "Typescript media player",
+  "private": true,
   "scripts": {
     "dev": "rimraf ./release && concurrently -p none \"yarn start:main\" \"yarn start:renderer\" ",
     "dev:android": "yarn build:renderer && concurrently -p none \"yarn start:renderer\" \"yarn cap run android\" ",
@@ -41,17 +33,6 @@
     "gen:android-icons": "npx @capacitor/assets generate --android --androidProject src/android --iconBackgroundColor '#101119' --iconBackgroundColorDark '#101119' --splashBackgroundColor '#101119' --splashBackgroundColorDark '#101119'",
     "test:browser": "vitest --workspace=vitest.workspace.ts"
   },
-  "electronmon": {
-    "patterns": [
-      "!src/android/**",
-      "!src/__tests__/**",
-      "!release/**",
-      "!**/*.amf",
-      "!src/renderer/**",
-      "!docs/**"
-    ],
-    "logLevel": "quiet"
-  },
   "lint-staged": {
     "*.{js,vue,ts}": [
       "cross-env NODE_ENV=development eslint --cache"
@@ -66,123 +47,6 @@
       "prettier --ignore-path .eslintignore --single-quote --write"
     ]
   },
-  "build": {
-    "productName": "Amethyst",
-    "appId": "org.Amethyst",
-    "asar": true,
-    "asarUnpack": "**\\*.{node,dll}",
-    "files": [
-      "./release/dist/**/*",
-      "!**/*.d.ts"
-    ],
-    "dmg": {
-      "contents": [
-        {
-          "x": 130,
-          "y": 220
-        },
-        {
-          "x": 410,
-          "y": 220,
-          "type": "link",
-          "path": "/Applications"
-        }
-      ]
-    },
-    "win": {
-      "artifactName": "${productName}-Setup-${version}.${ext}",
-      "target": [
-        {
-          "target": "nsis",
-          "arch": [
-            "x64"
-          ]
-        }
-      ]
-    },
-    "linux": {
-      "target": [
-        {
-          "target": "AppImage",
-          "arch": [
-            "x64",
-            "arm64"
-          ]
-        },
-        {
-          "target": "deb",
-          "arch": [
-            "x64",
-            "arm64"
-          ]
-        },
-        {
-          "target": "snap",
-          "arch": [
-            "x64"
-          ]
-        }
-      ],
-      "asarUnpack": [
-        "**/node_modules/sharp/**"
-      ],
-      "category": "Music",
-      "icon": "amethyst.png"
-    },
-    "deb": {
-      "depends": [
-        "libvips"
-      ]
-    },
-    "mac": {
-      "target": {
-        "target": "default",
-        "arch": [
-          "x64",
-          "arm64"
-        ]
-      },
-      "type": "distribution",
-      "hardenedRuntime": true,
-      "entitlements": "assets/entitlements.mac.plist",
-      "entitlementsInherit": "assets/entitlements.mac.plist",
-      "gatekeeperAssess": false
-    },
-    "directories": {
-      "output": "release/build",
-      "buildResources": "assets"
-    },
-    "extraResources": [
-      "assets/**/*",
-      "!assets/**/*.aseprite"
-    ],
-    "publish": {
-      "provider": "github",
-      "owner": "Geoxor",
-      "repo": "amethyst"
-    }
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Geoxor/amethyst"
-  },
-  "contributors": [
-    {
-      "name": "George Tsotsos",
-      "email": "geoxor123@outlook.com",
-      "url": "https://github.com/Geoxor"
-    }
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Geoxor/amethyst/issues"
-  },
-  "keywords": [
-    "electron",
-    "music-player",
-    "vue"
-  ],
-  "homepage": "https://github.com/Geoxor/amethyst#readme",
   "devDependencies": {
     "@babel/types": "^7.27.1",
     "@capacitor/action-sheet": "^7.0.1",
