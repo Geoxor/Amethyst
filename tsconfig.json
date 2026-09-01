@@ -1,43 +1,35 @@
 {
   "compilerOptions": {
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "target": "ES2021",
-    "module": "Node16",
-    "lib": [
-      "dom",
-      "ES2021"
-    ],
-    "declaration": true,
-    "declarationMap": true,
-    "jsx": "preserve",
-    "strict": true,
+    "useDefineForClassFields": true,
+    "target": "ES2020",
+    "module": "ESNext",
+    "typeRoots": ["node_modules/@types"],
+    "lib": ["DOM", "ES2020"],
+    "skipLibCheck": true,
     "pretty": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "allowJs": true,
+
     "paths": {
-      "@/*": [
-        "./src/renderer/*"
-      ],
-      "@shared/*": [
-        "./src/shared/*"
-      ],
-      // more path aliases here
+      "@/*": ["./src/renderer/*"],
+      "@shared/*": ["./src/shared/*"]
     },
-    "sourceMap": true,
-    "baseUrl": "./",
+
+    /* Linting */
+    "strict": true,
     "noUnusedLocals": false,
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "moduleResolution": "node16",
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "resolveJsonModule": true,
-    "allowJs": true,
-    "outDir": "release/app/dist"
+    "allowSyntheticDefaultImports": true
   },
-  "exclude": [
-    "test",
-    "release"
-  ]
+  "include": ["src/**/*"],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
