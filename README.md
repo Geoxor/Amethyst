@@ -1,5 +1,5 @@
- # <img src="https://github.com/Geoxor/Amethyst/raw/master/assets/icon.png?raw=true" alt="Amethyst icon" height="28" width="28"> Amethyst 
- 
+ # <img src="https://github.com/Geoxor/Amethyst/raw/master/assets/icon.png?raw=true" alt="Amethyst icon" height="28" width="28"> Amethyst
+
 
 
 <div>
@@ -30,12 +30,18 @@ Amethyst is an cross-platform audio player with a [node-based](https://en.wikipe
 
 ## 📝 Contributing
 
-NOTE: [nvm](https://github.com/nvm-sh/nvm) is suggested, so you can have multiple different versions of node.js installed simultaneously.
+### Prerequisites
+
+NOTE: [nvm](https://github.com/nvm-sh/nvm) is suggested,
+so you can manage and install different versions of Node.js.
 
 - Use `Node.js v24.20.0`
 - Use the `recommended extensions`
 - Have `libvips` installed for linux
 - Have `yarn` installed
+
+- [Rust & Cargo toolchain](https://rust-lang.org/learn/get-started/)
+- [Tauri setup](https://tauri.app/start/prerequisites/)
 
 ## ⌨️ Coding
 

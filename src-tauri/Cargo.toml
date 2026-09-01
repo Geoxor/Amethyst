@@ -1,0 +1,31 @@
+[package]
+name = "amethyst-player"
+version = "0.1.0"
+description = "A Tauri App"
+repository = "https://github.com/Geoxor/Amethyst"
+edition = "2024"
+
+[lib]
+name = "amethyst_player_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[dependencies.serde_json]
+version = "1.0"
+
+[dependencies.serde]
+version = "1.0"
+features = ["derive"]
+
+[dependencies.log]
+version = "0.4"
+
+[dependencies.tauri]
+version = "2.11.3"
+features = []
+
+[dependencies.tauri-plugin-log]
+version = "2"
+
+[build-dependencies.tauri-build]
+version = "2.6.3"
+features = []
