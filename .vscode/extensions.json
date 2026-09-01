@@ -7,6 +7,9 @@
     "wayou.vscode-todo-highlight",
     "vitest.explorer",
     "cpylua.language-postcss",
-    "antfu.iconify"
+    "antfu.iconify",
+    "Vue.volar",
+    "tauri-apps.tauri-vscode",
+    "rust-lang.rust-analyzer"
   ]
 }
