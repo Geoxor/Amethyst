@@ -1,3 +1,3 @@
-import viteConfig from "./src/renderer/vite.config";
+import viteConfig from "vite.config";
 
 export default viteConfig;
