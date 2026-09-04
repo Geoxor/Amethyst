@@ -558,7 +558,7 @@ const handleColumnContextMenu = ({ x, y }: MouseEvent) => {
             />
             <icon
               v-else-if="item.sourceType == MediaSourceType.Jellyfin"
-              icon="simple-icons:jellyfin"
+              icon="cbi:jellyfin"
               class="h-4 w-4"
             />
             <icon

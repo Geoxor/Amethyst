@@ -3,7 +3,6 @@ import { computed, onMounted, ref } from "vue";
 
 import { amethyst } from "@/amethyst.js";
 import SubtitleText from "@/components/v2/SubtitleText.vue";
-import TitleText from "@/components/v2/TitleText.vue";
 import icon10 from "@/icons/speaker-configurations/1.0-icon.vue";
 import icon20 from "@/icons/speaker-configurations/2.0-icon.vue";
 import icon40 from "@/icons/speaker-configurations/4.0-icon.vue";
@@ -25,7 +24,8 @@ onMounted(() => {
 
 <template>
   <div class="flex flex-col gap-3 w-full">
-    <title-text :text="$t('output_breakdown.title')" />
+    <subtitle-text :text="$t('output_breakdown.title')" class="uppercase" />
+
     <div class="flex gap-2">
       <div class="layout w-112px h-112px min-w-112px flex items-center justify-center bg-surface-1000 rounded-8px">
         <icon10 v-if="currentChannels == 1" />
