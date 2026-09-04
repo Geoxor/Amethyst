@@ -1097,10 +1097,10 @@
     mkdirp "^1.0.4"
     rimraf "^3.0.2"
 
-"@nyabsi/minimal-discord-rpc@^1.0.1":
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/@nyabsi/minimal-discord-rpc/-/minimal-discord-rpc-1.0.1.tgz#75d4abfceda03a36bc208ee74ec31d184ad7bc8e"
-  integrity sha512-TxiOS+R18lJA66e63Rq1LETx+HkRTROcrPFw1h+RBFoO7/BF6VdPGGzRv+V6mVhJE1xMxtPdtSQJgi8QnlgBBw==
+"@nyabsi/minimal-discord-rpc@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@nyabsi/minimal-discord-rpc/-/minimal-discord-rpc-1.0.2.tgz#c393445898b9882aa9bb9fe8aa70e2e2583161d5"
+  integrity sha512-WxYRSX83BB/9ga6FbRKyqXCK9sp2Y6AdhN+kyQRQJVFUt9Riubm7pnq0aoJebX+qouakR8+fHgT78mq/cKvpdw==
 
 "@one-ini/wasm@0.1.1":
   version "0.1.1"

@@ -1,4 +1,4 @@
-import "./analytics";
+import "./analytics.js";
 
 import { secondsToColinHuman, secondsToHuman } from "@shared/formating.js";
 import { useLocalStorage } from "@vueuse/core";
