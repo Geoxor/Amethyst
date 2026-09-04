@@ -1,36 +1,26 @@
-import { ActivityType, Client } from "@nyabsi/minimal-discord-rpc";
+import { ActivityType, Client, StatusDisplayType } from "@nyabsi/minimal-discord-rpc";
+import type { IRichPresenceInfo } from "@shared/types.js";
 
-import { APP_VERSION } from "./mainWindow.js";
-
-const DISCORD_CLIENT_ID = "976036303156162570";
-
-export type FormatIcons = "aiff" | "flac" | "mpeg" | "ogg" | "wave";
-
-export interface IRichPresenceInfo {
-  title: string;
-  album: string;
-  timestamps: {
-    start: number;
-    end: number;
-  };
-  coverUrl: string;
-  containerFormat: FormatIcons;
-  pauseStatus: string;
-}
+export const DEFAULT_DISCORD_CLIENT_ID = "976036303156162570";
 
 export class Discord {
-  private readonly client: Client;
+  private client: Client;
 
-  private readonly connected: Promise<boolean>;
+  private connected: Promise<boolean>;
 
   private destroyed: boolean;
 
-  constructor() {
-    this.client = new Client({ clientId: DISCORD_CLIENT_ID });
+  private clientId: string;
 
-    this.connected = this.connect();
+  constructor(clientId: string = DEFAULT_DISCORD_CLIENT_ID) {
+    this.clientId = clientId || DEFAULT_DISCORD_CLIENT_ID;
+    this.client = new Client({ clientId: this.clientId });
     this.destroyed = false;
+    this.bindEvents();
+    this.connected = this.connect();
+  }
 
+  private bindEvents(): void {
     this.client.on("ready", () => {
       // Do something when ready
     });
@@ -45,6 +35,22 @@ export class Discord {
     });
   }
 
+  /**
+   * Swaps the RPC client over to a different Discord application (client) id, e.g. when the
+   * user configures a custom one in settings. No-op if the id hasn't actually changed.
+   */
+  public setClientId(clientId: string): void {
+    const id = clientId || DEFAULT_DISCORD_CLIENT_ID;
+    if (id === this.clientId) return;
+
+    this.clientId = id;
+    this.client.destroy().catch(() => {});
+    this.client = new Client({ clientId: id });
+    this.destroyed = false;
+    this.bindEvents();
+    this.connected = this.connect();
+  }
+
   public clearRichPresence(): void {
     this.connected.then((check) => {
       if (check && !this.destroyed) {
@@ -57,30 +63,23 @@ export class Discord {
     this.connected.then((check) => {
       if (check && !this.destroyed) {
         this.client.setActivity({
+          name: info.activityName || undefined,
           type: ActivityType.Listening,
-          details: info.title.toString(),
-          state: info.album.toString(),
-          timestamps: info.pauseStatus == "yes"
-            ? {
-                start: info.timestamps.end,
-                end: info.timestamps.end,
-              }
-            : {
-                start: info.timestamps.start,
-                end: info.timestamps.end,
-              },
+          details: info.details || undefined,
+          state: info.state || undefined,
+          timestamps: info.timestamps,
           assets: {
-            large_image: info.coverUrl !== "" ? `${info.coverUrl}` : "audio_file",
-            large_text: info.pauseStatus == "yes" ? `Paused - ${info.containerFormat?.toUpperCase() || "Unknown Format"}` : info.containerFormat?.toUpperCase() || "Unknown Format",
-            small_image: "logo",
-            small_text: `Amethyst ${APP_VERSION}\n`,
+            large_image: info.largeImageKey || "audio_file",
+            large_text: info.largeImageText || undefined,
+            small_image: info.smallImageKey || undefined,
+            small_text: info.smallImageText || undefined,
           },
-          buttons: [
-            {
-              label: "Find Song",
-              url: `https://www.youtube.com/results?search_query=${encodeURIComponent(info.title.toString())}`,
-            },
-          ],
+          buttons: info.buttonEnabled && info.buttonUrl
+            ? [{ label: info.buttonLabel, url: info.buttonUrl }]
+            : undefined,
+          // Picks which of the app's own name/state/details fills the "{name}" slot in the compact
+          // status text shown in a member list/DM sidebar (e.g. "Listening to {this}").
+          status_display_type: StatusDisplayType[info.statusDisplayType],
         });
       }
     });

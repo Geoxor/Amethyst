@@ -18,12 +18,12 @@ export class MediaSourceManager {
 
       if (savedSource.type == MediaSourceType.Subsonic) {
         // @ts-ignore
-        this.mediaSources.value.push(new SubsonicMediaSource(this.amethyst, savedSource.url, savedSource.username, savedSource.password));
+        this.mediaSources.value.push(new SubsonicMediaSource(this.amethyst, savedSource.url, savedSource.username, savedSource.password, savedSource.sendCoverArtToDiscord ?? true));
       }
 
       if (savedSource.type == MediaSourceType.Jellyfin) {
         // @ts-ignore
-        this.mediaSources.value.push(new JellyfinMediaSource(this.amethyst, savedSource.url, savedSource.username, savedSource.password, savedSource.scrobble ?? true));
+        this.mediaSources.value.push(new JellyfinMediaSource(this.amethyst, savedSource.url, savedSource.username, savedSource.password, savedSource.scrobble ?? true, savedSource.sendCoverArtToDiscord ?? true));
       }
     });
   }

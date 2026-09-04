@@ -281,16 +281,18 @@ export class Track {
     return this.cover.data;
   };
 
-  public fetchAlbumCoverUrl = async () => {
-    if (this.coverUrl !== "") {
-      return;
-    }
-
+  /**
+   * Looks up a public cover art URL for this track via MusicBrainz/the Cover Art Archive.
+   * Doesn't touch `coverUrl` - purely resolves and returns, so callers decide what to do with it.
+   */
+  private async resolveMusicBrainzCoverUrl(): Promise<string> {
     let muid = this.metadata.data?.common.musicbrainz_albumid ?? "";
 
     if (!muid) {
-      let artist = this.metadata.data?.common.artist ?? "";
-      let album = this.metadata.data?.common.album ?? this.metadata.data?.common.title ?? "";
+      // Prefer the track's own fields (set directly by remote sources like Subsonic/Jellyfin,
+      // which never populate `metadata`) over raw tag metadata, falling back between the two.
+      let artist = this.getArtistsFormatted() ?? this.metadata.data?.common.artist ?? "";
+      let album = this.getAlbum() ?? this.metadata.data?.common.album ?? this.getTitle() ?? this.metadata.data?.common.title ?? "";
 
       // If missing artist or album, try parsing filename
       if (!artist || !album) {
@@ -315,7 +317,7 @@ export class Track {
         query: queryString,
       });
 
-      if (!result.count) return;
+      if (!result.count) return "";
 
       const [topResult] = result.releases;
       muid = topResult.id;
@@ -323,10 +325,36 @@ export class Track {
 
     try {
       const response = await fetch(`https://coverartarchive.org/release/${muid}/front-500`);
-      if (response.ok) this.coverUrl = response.url;
+      if (response.ok) return response.url;
     }
     catch {}
+
+    return "";
+  }
+
+  public fetchAlbumCoverUrl = async () => {
+    if (this.coverUrl !== "") return;
+    this.coverUrl = await this.resolveMusicBrainzCoverUrl();
   };
+
+  private musicBrainzCoverUrl: string = "";
+  private musicBrainzCoverUrlPromise?: Promise<string>;
+
+  /**
+   * Always resolves a MusicBrainz cover art URL for this track, regardless of whether
+   * `coverUrl` is already set from elsewhere (e.g. a Subsonic/Jellyfin server's own art).
+   * Used as a public fallback when a track's own source-provided art shouldn't be used.
+   */
+  public fetchMusicBrainzCoverUrl(): Promise<string> {
+    if (this.musicBrainzCoverUrl) return Promise.resolve(this.musicBrainzCoverUrl);
+    if (!this.musicBrainzCoverUrlPromise) {
+      this.musicBrainzCoverUrlPromise = this.resolveMusicBrainzCoverUrl().then((url) => {
+        this.musicBrainzCoverUrl = url;
+        return url;
+      });
+    }
+    return this.musicBrainzCoverUrlPromise;
+  }
 
   /**
    * Fetches all async data concurrently

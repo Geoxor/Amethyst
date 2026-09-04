@@ -1,5 +1,5 @@
 import SubsonicAPI, { Child, SubsonicBaseResponse } from "subsonic-api";
-import { Ref, ref } from "vue";
+import { Ref, ref, watch } from "vue";
 
 import { Amethyst } from "@/amethyst.js";
 import { MediaSource, MediaSourceType } from "@/logic//MediaSource/index.js";
@@ -16,16 +16,23 @@ export class SubsonicMediaSource extends MediaSource {
   private shouldStopSync = false;
 
   public serverInformation: SubsonicBaseResponse | undefined;
-  public constructor(protected amethyst: Amethyst, public url: string, public username: string, public password: string) {
+  public constructor(protected amethyst: Amethyst, public url: string, public username: string, public password: string, sendCoverArtToDiscord = true) {
     super(amethyst, url);
     this.type = MediaSourceType.Subsonic;
     this.name = this.url;
+    this.sendCoverArtToDiscord = ref(sendCoverArtToDiscord);
     this.api = new SubsonicAPI({
       url: this.url,
       auth: {
         username: this.username,
         password: this.password,
       },
+    });
+
+    // Persist toggling the switch in Settings back into the saved source entry
+    watch(this.sendCoverArtToDiscord, (enabled) => {
+      const saved = this.amethyst.state.settings.mediaSources.saveMediaSources.find((s) => s.type == MediaSourceType.Subsonic && s.url == this.url);
+      if (saved) saved.sendCoverArtToDiscord = enabled;
     });
 
     this.initialize();

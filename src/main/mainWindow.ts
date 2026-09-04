@@ -1,3 +1,4 @@
+import type { IRichPresenceInfo } from "@shared/types.js";
 import chalk from "chalk";
 import type { FSWatcher } from "chokidar";
 import chokidar from "chokidar";
@@ -12,7 +13,6 @@ import os from "os";
 import path from "path";
 
 import { ALLOWED_AUDIO_EXTENSIONS } from "../shared/constants.js";
-import type { FormatIcons, IRichPresenceInfo } from "./discord.js";
 import { Discord } from "./discord.js";
 import { getWindow, IS_DEV, store } from "./main.js";
 import { __dirname } from "./utility.js";
@@ -327,22 +327,12 @@ export class MainWindow {
         };
       },
 
-      "update-rich-presence": (_: Event, [args]: string[]) => {
-        const [title, album, start, end, cover, format, paused] = args;
-
-        const info: IRichPresenceInfo = {
-          title: title,
-          album: album,
-          timestamps: {
-            start: parseInt(start),
-            end: (parseInt(start) + parseInt(end) * 1000),
-          },
-          coverUrl: cover,
-          containerFormat: format as FormatIcons,
-          pauseStatus: paused,
-        };
-
+      "update-rich-presence": (_: Event, [info]: [IRichPresenceInfo]) => {
         this.discord.updateCurrentSong(info);
+      },
+
+      "set-discord-client-id": (_: Event, [clientId]: [string]) => {
+        this.discord.setClientId(clientId);
       },
 
       "set-vsync": (_: Event, [useVsync]: string[]) => {

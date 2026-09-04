@@ -17,6 +17,7 @@ export class MediaSource {
   public totalTracks: Ref<number> = ref(0);
   public totalBytes: Ref<number> = ref(0);
   public name: string = "generic";
+  public sendCoverArtToDiscord: Ref<boolean> = ref(false);
 
   public constructor(protected amethyst: Amethyst, public path: string) {
 

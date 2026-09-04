@@ -20,3 +20,37 @@ export interface IMetadata {
   common: ICommonTagsResult & { [key: string]: any };
   size: number;
 }
+
+export const DISCORD_RPC_FIELD_OPTIONS = [
+  "None",
+  "Title",
+  "Artist",
+  "Album",
+  "Artist - Album",
+  "Title - Artist",
+  "Format",
+  "App Info",
+] as const;
+
+export type DiscordRpcField = typeof DISCORD_RPC_FIELD_OPTIONS[number];
+
+export const DISCORD_STATUS_DISPLAY_TYPE_OPTIONS = ["Name", "State", "Details"] as const;
+export type DiscordStatusDisplayType = typeof DISCORD_STATUS_DISPLAY_TYPE_OPTIONS[number];
+
+export interface IRichPresenceInfo {
+  activityName: string;
+  details: string;
+  state: string;
+  largeImageKey: string;
+  largeImageText: string;
+  smallImageKey: string;
+  smallImageText: string;
+  timestamps: {
+    start: number;
+    end: number;
+  };
+  buttonEnabled: boolean;
+  buttonLabel: string;
+  buttonUrl: string;
+  statusDisplayType: DiscordStatusDisplayType;
+}

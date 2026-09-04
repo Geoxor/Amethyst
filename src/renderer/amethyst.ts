@@ -3,6 +3,7 @@ import { StatusBar } from "@capacitor/status-bar";
 import { NavigationBar } from "@hugotomazi/capacitor-navigation-bar";
 import messages from "@intlify/unplugin-vue-i18n/messages";
 import { ALLOWED_AUDIO_EXTENSIONS } from "@shared/constants.js";
+import type { DiscordRpcField, IRichPresenceInfo } from "@shared/types.js";
 import { useLocalStorage } from "@vueuse/core";
 import type { OpenDialogReturnValue, SaveDialogReturnValue } from "electron";
 import { ref, watch } from "vue";
@@ -453,24 +454,85 @@ export class Amethyst extends AmethystBackend {
     let seekDuringPause: boolean = false;
     let trackNameBeforePause: string;
 
+    const findMediaSourceForTrack = (track: Track) => {
+      return this.mediaSourceManager.mediaSources.value.find((source) => {
+        if (source.type !== track.sourceType) return false;
+        if (track.sourceType === MediaSourceType.LocalFolder) return track.path.startsWith(source.path);
+        return track.credentials?.url === source.path;
+      });
+    };
+
+    // Resolves which image key to send Discord: the track's own source-provided art if
+    // Discord-wide cover art is on and that specific media source allows sharing its art,
+    // otherwise falls back to a public MusicBrainz lookup, otherwise the static fallback asset.
+    const resolveCoverArtKey = async (track: Track): Promise<string> => {
+      const discord = this.state.settings.integrations.discord;
+      if (!discord.showCoverArt) return "audio_file";
+
+      const source = findMediaSourceForTrack(track);
+      const sourceAllowsCoverArt = source?.sendCoverArtToDiscord ?? true;
+
+      if (sourceAllowsCoverArt) {
+        await track.fetchAlbumCoverUrl();
+        if (track.coverUrl) return track.coverUrl;
+      }
+
+      const musicBrainzCoverUrl = await track.fetchMusicBrainzCoverUrl();
+      return musicBrainzCoverUrl || "audio_file";
+    };
+
+    const resolveField = (field: DiscordRpcField, track: Track): string => {
+      const title = track.getTitleFormatted();
+      const artist = track.getArtistsFormatted() || "Unknown Artist";
+      const album = track.getAlbum() || "Unknown Album";
+      const format = track.getContainer()?.toUpperCase() || "Unknown Format";
+
+      switch (field) {
+        case "Title": return title;
+        case "Artist": return artist;
+        case "Album": return album;
+        case "Artist - Album": return `${artist} - ${album}`;
+        case "Title - Artist": return `${title} - ${artist}`;
+        case "Format": return format;
+        case "App Info": return `Amethyst ${this.VERSION}`;
+        case "None":
+        default: return "";
+      }
+    };
+
     const clearRichPresence = () => {
       richPresenceTimer && clearInterval(richPresenceTimer);
       window.electron.ipcRenderer.invoke("clear-rich-presence");
     };
 
-    const updateRichPresence = async (track: Track) => {
+    const updateRichPresence = async (track: Track, coverArtKey: string) => {
       const sendData = () => {
-        const args = [
-          track.getArtists() && track.getTitle() ? `${track.getTitle()}` : track.getFilename(),
-          `${track.getArtists()} -  ${track.getAlbum()}`,
-          start.toString(),
-          (track.getDurationSeconds() as number).toString(),
-          track.sourceType != MediaSourceType.Subsonic && track.coverUrl,
-          track.getContainer()?.toLowerCase() || "unknown format",
-          isPaused ? "yes" : "no",
-        ];
-        window.electron.ipcRenderer.invoke("update-rich-presence", [args]);
-        if (this.IS_DEV) console.log(`%c[⚐ Discord RPC]%c Updated RPC status`, "background-color: #7289da; color: black; font-weight: bold;", "color: #ffffff;", args);
+        const discord = this.state.settings.integrations.discord;
+
+        let largeImageText = resolveField(discord.fields.largeImageText, track);
+        if (isPaused) largeImageText = largeImageText ? `Paused - ${largeImageText}` : "Paused";
+
+        const trackEnd = start + (track.getDurationSeconds() as number) * 1000;
+
+        const info: IRichPresenceInfo = {
+          activityName: resolveField(discord.fields.activityName, track),
+          details: resolveField(discord.fields.details, track),
+          state: resolveField(discord.fields.state, track),
+          largeImageKey: coverArtKey,
+          largeImageText,
+          smallImageKey: "logo",
+          smallImageText: resolveField(discord.fields.smallImageText, track),
+          timestamps: isPaused
+            ? { start: trackEnd, end: trackEnd }
+            : { start, end: trackEnd },
+          buttonEnabled: discord.showFindSongButton,
+          buttonLabel: "Find Song",
+          buttonUrl: `https://www.youtube.com/results?search_query=${encodeURIComponent(track.getTitleFormatted())}`,
+          statusDisplayType: discord.statusDisplayType,
+        };
+
+        window.electron.ipcRenderer.invoke("update-rich-presence", [info]);
+        if (this.IS_DEV) console.log(`%c[⚐ Discord RPC]%c Updated RPC status`, "background-color: #7289da; color: black; font-weight: bold;", "color: #ffffff;", info);
       };
 
       richPresenceTimer && clearInterval(richPresenceTimer);
@@ -481,10 +543,14 @@ export class Amethyst extends AmethystBackend {
     const updateWithCurrentTrack = async () => {
       if (this.getCurrentPlatform() == "mobile") return;
       const currentTrack = this.player.getCurrentTrack();
-      await currentTrack?.fetchAlbumCoverUrl();
       if (!currentTrack) return;
-      await updateRichPresence(currentTrack);
+      const coverArtKey = await resolveCoverArtKey(currentTrack);
+      await updateRichPresence(currentTrack, coverArtKey);
     };
+
+    watch(() => this.state.settings.integrations.discord.clientId, (clientId) => {
+      window.electron.ipcRenderer.invoke("set-discord-client-id", [clientId]);
+    }, { immediate: true });
 
     if (this.state.settings.integrations.discord.enabled) {
       this.player.on("player:trackChange", async (track) => {

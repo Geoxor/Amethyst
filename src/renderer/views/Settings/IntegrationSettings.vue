@@ -1,9 +1,18 @@
 <script setup lang="ts">
+import { DISCORD_RPC_FIELD_OPTIONS, DISCORD_STATUS_DISPLAY_TYPE_OPTIONS } from "@shared/types.js";
+
 import { amethyst } from "@/amethyst.js";
 import BaseInput from "@/components/BaseInput.vue";
 import SettingsSetting from "@/components/settings/SettingsSetting.vue";
+import ButtonInput from "@/components/v2/ButtonInput.vue";
+import DropdownInput from "@/components/v2/DropdownInput.vue";
 import ToggleSwitch from "@/components/v2/ToggleSwitch.vue";
+import { DEFAULT_DISCORD_CLIENT_ID, DEFAULT_DISCORD_RPC_FIELDS, DEFAULT_DISCORD_STATUS_DISPLAY_TYPE } from "@/logic/settings.js";
+
 const { integrations } = amethyst.state.settings;
+
+const FIELD_OPTIONS = [...DISCORD_RPC_FIELD_OPTIONS];
+const STATUS_DISPLAY_TYPE_OPTIONS = [...DISCORD_STATUS_DISPLAY_TYPE_OPTIONS];
 </script>
 
 <template>
@@ -16,6 +25,139 @@ const { integrations } = amethyst.state.settings;
     icon-color="#5865F2"
   >
     <toggle-switch v-model="integrations.discord.enabled" />
+
+    <template
+      v-if="integrations.discord.enabled"
+      #subsettings
+    >
+      <div class="p-2 flex flex-col gap-2">
+        <settings-setting
+          :title="$t('settings.discord_rpc.client_id.title')"
+          :description="$t('settings.discord_rpc.client_id.description')"
+          subsetting
+          icon="ic:baseline-tag"
+        >
+          <base-input
+            v-model="integrations.discord.clientId"
+            type="text"
+            :placeholder="DEFAULT_DISCORD_CLIENT_ID"
+          />
+          <button-input
+            icon="ic:twotone-restore"
+            @click="integrations.discord.clientId = DEFAULT_DISCORD_CLIENT_ID"
+          />
+        </settings-setting>
+
+        <settings-setting
+          :title="$t('settings.discord_rpc.find_song_button.title')"
+          :description="$t('settings.discord_rpc.find_song_button.description')"
+          subsetting
+          icon="ic:twotone-search"
+        >
+          <toggle-switch v-model="integrations.discord.showFindSongButton" />
+        </settings-setting>
+
+        <settings-setting
+          :title="$t('settings.discord_rpc.cover_art.title')"
+          :description="$t('settings.discord_rpc.cover_art.description')"
+          subsetting
+          icon="ic:twotone-image"
+        >
+          <toggle-switch v-model="integrations.discord.showCoverArt" />
+        </settings-setting>
+
+        <settings-setting
+          :title="$t('settings.discord_rpc.fields.activity_name.title')"
+          :description="$t('settings.discord_rpc.fields.activity_name.description')"
+          subsetting
+          icon="ic:twotone-text-fields"
+        >
+          <dropdown-input
+            v-model="integrations.discord.fields.activityName"
+            :options="FIELD_OPTIONS"
+          />
+          <button-input
+            icon="ic:twotone-restore"
+            @click="integrations.discord.fields.activityName = DEFAULT_DISCORD_RPC_FIELDS.activityName"
+          />
+        </settings-setting>
+        <settings-setting
+          :title="$t('settings.discord_rpc.status_display_type.title')"
+          :description="$t('settings.discord_rpc.status_display_type.description')"
+          subsetting
+          icon="ic:twotone-text-fields"
+        >
+          <dropdown-input
+            v-model="integrations.discord.statusDisplayType"
+            :options="STATUS_DISPLAY_TYPE_OPTIONS"
+          />
+          <button-input
+            icon="ic:twotone-restore"
+            @click="integrations.discord.statusDisplayType = DEFAULT_DISCORD_STATUS_DISPLAY_TYPE"
+          />
+        </settings-setting>
+        <settings-setting
+          :title="$t('settings.discord_rpc.fields.details.title')"
+          :description="$t('settings.discord_rpc.fields.details.description')"
+          subsetting
+          icon="ic:twotone-text-fields"
+        >
+          <dropdown-input
+            v-model="integrations.discord.fields.details"
+            :options="FIELD_OPTIONS"
+          />
+          <button-input
+            icon="ic:twotone-restore"
+            @click="integrations.discord.fields.details = DEFAULT_DISCORD_RPC_FIELDS.details"
+          />
+        </settings-setting>
+        <settings-setting
+          :title="$t('settings.discord_rpc.fields.state.title')"
+          :description="$t('settings.discord_rpc.fields.state.description')"
+          subsetting
+          icon="ic:twotone-text-fields"
+        >
+          <dropdown-input
+            v-model="integrations.discord.fields.state"
+            :options="FIELD_OPTIONS"
+          />
+          <button-input
+            icon="ic:twotone-restore"
+            @click="integrations.discord.fields.state = DEFAULT_DISCORD_RPC_FIELDS.state"
+          />
+        </settings-setting>
+        <settings-setting
+          :title="$t('settings.discord_rpc.fields.large_image_text.title')"
+          :description="$t('settings.discord_rpc.fields.large_image_text.description')"
+          subsetting
+          icon="ic:twotone-text-fields"
+        >
+          <dropdown-input
+            v-model="integrations.discord.fields.largeImageText"
+            :options="FIELD_OPTIONS"
+          />
+          <button-input
+            icon="ic:twotone-restore"
+            @click="integrations.discord.fields.largeImageText = DEFAULT_DISCORD_RPC_FIELDS.largeImageText"
+          />
+        </settings-setting>
+        <settings-setting
+          :title="$t('settings.discord_rpc.fields.small_image_text.title')"
+          :description="$t('settings.discord_rpc.fields.small_image_text.description')"
+          subsetting
+          icon="ic:twotone-text-fields"
+        >
+          <dropdown-input
+            v-model="integrations.discord.fields.smallImageText"
+            :options="FIELD_OPTIONS"
+          />
+          <button-input
+            icon="ic:twotone-restore"
+            @click="integrations.discord.fields.smallImageText = DEFAULT_DISCORD_RPC_FIELDS.smallImageText"
+          />
+        </settings-setting>
+      </div>
+    </template>
   </settings-setting>
 
   <settings-setting
