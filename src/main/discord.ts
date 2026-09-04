@@ -1,4 +1,4 @@
-import { ActivityType, Client } from "@nyabsi/minimal-discord-rpc";
+import { ActivityType, Client, StatusDisplayType } from "@nyabsi/minimal-discord-rpc";
 import type { IRichPresenceInfo } from "@shared/types.js";
 
 export const DEFAULT_DISCORD_CLIENT_ID = "976036303156162570";
@@ -63,11 +63,6 @@ export class Discord {
     this.connected.then((check) => {
       if (check && !this.destroyed) {
         this.client.setActivity({
-          // `name` isn't in this library's Activity type, but it exists in the Discord API.
-          // It's what fills the "{name}" in "Listening to {name}" on the MAIN activity card
-          // (and everywhere else Discord shows the activity's name),
-          // so leaving it unset (empty string -> undefined) falls back to Discord's own default,
-          // the app's registered name ("Amethyst").
           name: info.activityName || undefined,
           type: ActivityType.Listening,
           details: info.details || undefined,
@@ -82,12 +77,10 @@ export class Discord {
           buttons: info.buttonEnabled && info.buttonUrl
             ? [{ label: info.buttonLabel, url: info.buttonUrl }]
             : undefined,
-          // `status_display_type` isn't in this library's Activity type, but it exists in the Discord API.
-          // It picks which of the app's own name/state/details fills the "{name}" slot in the compact status text shown in
-          // a member list/DM sidebar (e.g. "Listening to {this}"), without renaming the activity
-          // itself the way overriding `name` would (that also changes the main activity card).
-          status_display_type: info.statusDisplayType,
-        } as any);
+          // Picks which of the app's own name/state/details fills the "{name}" slot in the compact
+          // status text shown in a member list/DM sidebar (e.g. "Listening to {this}").
+          status_display_type: StatusDisplayType[info.statusDisplayType],
+        });
       }
     });
   }
