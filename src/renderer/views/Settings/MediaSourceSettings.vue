@@ -164,7 +164,7 @@ const showAddJellyfinServerForm = ref(false);
     :title="$t('settings.jellyfin.title')"
     :description="$t('settings.jellyfin.description')"
     info="https://jellyfin.org/"
-    icon="simple-icons:jellyfin"
+    icon="cbi:jellyfin"
   >
     <button-input
       :text="$t('settings.jellyfin.sync_all')"
@@ -207,7 +207,7 @@ const showAddJellyfinServerForm = ref(false);
           subsetting
           :title="source.name"
           :description="`${$t(source.type)} - ${source.serverInformation ? source.serverInformation.Version : $t('settings.media_sources.unknown_version')}`"
-          icon="simple-icons:jellyfin"
+          icon="cbi:jellyfin"
         >
           <base-chip :color="source.isConnected ? 'good-color' : 'warning-color'">
             {{ source.isConnected ? `${$t('settings.media_sources.connected')} - ${source.ping}ms` : $t('settings.media_sources.disconnected') }}
