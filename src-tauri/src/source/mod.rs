@@ -11,7 +11,6 @@ pub mod subsonic;
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
 pub struct MediaSource {
     pub uuid: Uuid,
     pub name: Option<String>,
@@ -21,6 +20,7 @@ pub struct MediaSource {
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(rename_all = "camelCase")]
+#[serde(tag = "type")]
 pub enum MediaSourceData {
     Local(local::Local),
     Jellyfin(jellyfin::Jellyfin),
