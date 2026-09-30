@@ -1,8 +1,11 @@
 use std::collections::HashSet;
 use std::fs::{self, File};
-use std::io::{ErrorKind as IoErrorKind, Result as IoResult};
+use std::io::{Error as IoError, ErrorKind as IoErrorKind, Result as IoResult};
 use std::path::Path;
+use std::sync::Mutex;
 
+use diesel::{Connection, SqliteConnection};
+use diesel_migrations::{EmbeddedMigrations, MigrationHarness, embed_migrations};
 use tauri::Manager;
 
 use crate::settings::Settings;
@@ -12,6 +15,9 @@ mod db;
 mod settings;
 mod source;
 
+const DATABASE_MIGRATIONS: EmbeddedMigrations = embed_migrations!("migrations");
+
+const DATABASE_FILE: &'static str = "database.sqlite3";
 const SETTINGS_FILE: &'static str = "settings.json";
 const SOURCE_DIRECTORY: &'static str = "sources";
 
@@ -37,6 +43,7 @@ fn init(app: &mut tauri::App) -> std::result::Result<(), Box<dyn std::error::Err
 
     app.manage(load_config(&config_path)?);
     app.manage(load_sources(&config_path)?);
+    app.manage(Mutex::new(setup_database(&config_path)?));
     Ok(())
 }
 
@@ -75,4 +82,21 @@ fn load_sources<P: AsRef<Path>>(config_dir: &P) -> IoResult<HashSet<MediaSource>
         }
     }
     Ok(sources)
+}
+
+fn setup_database<P: AsRef<Path>>(config_dir: &P) -> IoResult<SqliteConnection> {
+    let database_path = config_dir.as_ref().join(DATABASE_FILE);
+    let database_url = database_path.to_str().ok_or(IoError::new(
+        IoErrorKind::InvalidFilename,
+        "failed to convert path to string",
+    ))?;
+
+    let mut connection = SqliteConnection::establish(&database_url)
+        .map_err(|error| IoError::new(IoErrorKind::Other, error))?;
+
+    connection
+        .run_pending_migrations(DATABASE_MIGRATIONS)
+        .map_err(|error| IoError::new(IoErrorKind::Other, error))?;
+
+    Ok(connection)
 }
