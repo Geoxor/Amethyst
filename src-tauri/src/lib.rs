@@ -8,6 +8,7 @@ use tauri::Manager;
 use crate::settings::Settings;
 use crate::source::MediaSource;
 
+mod db;
 mod settings;
 mod source;
 

@@ -1,0 +1,16 @@
+DROP INDEX IF EXISTS idx_track_files_track_id;
+DROP TABLE IF EXISTS favorites;
+DROP TABLE IF EXISTS playback_history;
+DROP TABLE IF EXISTS playback_reason;
+DROP TABLE IF EXISTS album_tracks;
+DROP TABLE IF EXISTS track_genres;
+DROP TABLE IF EXISTS track_artists;
+DROP TABLE IF EXISTS album_genres;
+DROP TABLE IF EXISTS album_artists;
+DROP TABLE IF EXISTS track_files;
+DROP TABLE IF EXISTS codecs;
+DROP TABLE IF EXISTS containers;
+DROP TABLE IF EXISTS tracks;
+DROP TABLE IF EXISTS genres;
+DROP TABLE IF EXISTS albums;
+DROP TABLE IF EXISTS artists;
