@@ -9,15 +9,20 @@ edition = "2024"
 name = "amethyst_player_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
+[dependencies.diesel]
+version = "2.3.13"
+default-features = false
+features = ["returning_clauses_for_sqlite_3_35", "sqlite"]
+
+[dependencies.log]
+version = "0.4"
+
 [dependencies.serde_json]
 version = "1.0"
 
 [dependencies.serde]
 version = "1.0"
 features = ["derive"]
-
-[dependencies.log]
-version = "0.4"
 
 [dependencies.tauri]
 version = "2.11.3"
