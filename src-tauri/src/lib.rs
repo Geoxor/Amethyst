@@ -30,16 +30,17 @@ fn init(app: &mut tauri::App) -> std::result::Result<(), Box<dyn std::error::Err
 
     let config_path = app.path().app_config_dir()?;
     std::fs::create_dir_all(&config_path)?;
-    let settings = load_config(&config_path.join(SETTINGS_FILE))?;
+    let settings = load_config(&config_path)?;
     app.manage(settings);
     Ok(())
 }
 
-fn load_config<P: AsRef<Path>>(path: &P) -> IoResult<Settings> {
-    let file = match File::open(path) {
+fn load_config<P: AsRef<Path>>(config_dir: &P) -> IoResult<Settings> {
+    let path = config_dir.as_ref().join(SETTINGS_FILE);
+    let file = match File::open(&path) {
         Ok(file) => file,
         Err(err) if err.kind().eq(&IoErrorKind::NotFound) => {
-            let new_file = File::create(path)?;
+            let new_file = File::create(&path)?;
             let default_settings = Settings::default();
             serde_json::to_writer_pretty(new_file, &default_settings)?;
             return Ok(default_settings);
