@@ -7,6 +7,7 @@ use tauri::Manager;
 use crate::settings::Settings;
 
 mod settings;
+mod source;
 
 const SETTINGS_FILE: &'static str = "settings.json";
 

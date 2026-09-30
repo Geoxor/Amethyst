@@ -26,6 +26,11 @@ features = []
 [dependencies.tauri-plugin-log]
 version = "2"
 
+[dependencies.uuid]
+version = "1.26.1"
+default-features = false
+features = ["serde", "v4"]
+
 [build-dependencies.tauri-build]
 version = "2.6.3"
 features = []

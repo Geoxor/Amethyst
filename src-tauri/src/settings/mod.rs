@@ -12,7 +12,6 @@ pub struct Settings {
     pub metering: Metering,
     pub audio: Audio,
     pub integrations: Integrations,
-    pub media_sources: Vec<MediaSource>,
     pub keybinds: Keybinds,
     pub application: Application,
     pub columns: Columns,
@@ -227,33 +226,6 @@ pub struct LastFm {
     username: String,
     password: String,
     session_key: String,
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-pub struct MediaSource {
-    uuid: String,
-    data: MediaSourceData,
-}
-
-#[derive(Clone, Debug, Deserialize, Serialize)]
-#[serde(rename_all = "camelCase")]
-#[serde(tag = "type")]
-pub enum MediaSourceData {
-    Local {
-        path: String,
-    },
-    Jeyllyfin {
-        url: String,
-        username: String,
-        password: String,
-        scrobble: bool,
-    },
-    Subsonic {
-        url: String,
-        username: String,
-        password: String,
-    },
 }
 
 #[derive(Clone, Debug, Default, Deserialize, Serialize)]
