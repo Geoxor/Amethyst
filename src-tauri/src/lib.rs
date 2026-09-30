@@ -30,6 +30,7 @@ fn init(app: &mut tauri::App) -> std::result::Result<(), Box<dyn std::error::Err
     let config_path = app.path().app_config_dir()?;
     std::fs::create_dir_all(&config_path)?;
     let settings = load_config(&config_path.join(SETTINGS_FILE))?;
+    app.manage(settings);
     Ok(())
 }
 
